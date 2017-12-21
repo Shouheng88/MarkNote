@@ -1,6 +1,9 @@
 package org.polaric.colorful;
 
 class Util {
-    static final String LOG_TAG = "Colorful";
-    static final String PREFERENCE_KEY = "COLORFUL_PREF_KEY";
+    static final String LOG_TAG = "colorful";
+
+    static final String PREFERENCE_KEY = "colorful_pref_key";
+
+    static final String SPLIT = ":";
 }
