@@ -7,6 +7,7 @@ import android.view.View;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.ActivityMainBinding;
 import me.shouheng.notepal.databinding.ActivityMainNavHeaderBinding;
+import me.shouheng.notepal.intro.IntroActivity;
 
 public class MainActivity extends CommonActivity<ActivityMainBinding> {
 
@@ -24,6 +25,9 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> {
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {
+
+        IntroActivity.launchIfNecessary(this);
+
         initHeaderView();
     }
 

@@ -3,4 +3,13 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <!--region introduction-->
+    <color name="intro_color_1">#222222</color>
+    <color name="intro_color_2">#f44336</color>
+    <color name="intro_color_3">#8BC34A</color>
+    <color name="intro_color_4">#2196f3</color>
+    <color name="intro_color_5">#9C27B0</color>
+    <!--endregion introduction-->
+
 </resources>

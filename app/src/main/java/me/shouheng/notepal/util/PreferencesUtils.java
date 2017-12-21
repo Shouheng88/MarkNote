@@ -16,6 +16,8 @@ public class PreferencesUtils {
     private final String PRIMARY_COLOR = "primary_color";
     private final String ACCENT_COLOR = "accent_color";
 
+    private final String TOUR_ACTIVITY_SHOWED = "TOUR_ACTIVITY_SHOWED";
+
     private static PreferencesUtils sInstance;
 
     private static SharedPreferences mPreferences;
@@ -67,43 +69,53 @@ public class PreferencesUtils {
         putStringValue(ACCENT_COLOR, accentColor.getAccentName());
     }
 
-    protected String getStringValue(String key, String defaultValue) {
+    public void setTourActivityShowed(boolean showed) {
+        putBooleanValue(TOUR_ACTIVITY_SHOWED, showed);
+    }
+
+    public boolean isTourActivityShowed() {
+        return getBooleanValue(TOUR_ACTIVITY_SHOWED, false);
+    }
+    
+    // region the setters & getters
+    private String getStringValue(String key, String defaultValue) {
         return mPreferences.getString(key, defaultValue);
     }
 
-    protected void putStringValue(String key, String value) {
+    private void putStringValue(String key, String value) {
         mPreferences.edit().putString(key, value).apply();
     }
 
-    protected int getIntValue(String key, int defaultValue) {
+    private int getIntValue(String key, int defaultValue) {
         return mPreferences.getInt(key, defaultValue);
     }
 
-    protected void putIntValue(String key, int value) {
+    private void putIntValue(String key, int value) {
         mPreferences.edit().putInt(key, value).apply();
     }
 
-    protected long getLongValue(String key, long defaultValue) {
+    private long getLongValue(String key, long defaultValue) {
         return mPreferences.getLong(key, defaultValue);
     }
 
-    protected void putLongValue(String key, long value) {
+    private void putLongValue(String key, long value) {
         mPreferences.edit().putLong(key, value).apply();
     }
 
-    protected boolean getBooleanValue(String key, boolean defaultValue) {
+    private boolean getBooleanValue(String key, boolean defaultValue) {
         return mPreferences.getBoolean(key, defaultValue);
     }
 
-    protected void putBooleanValue(String key, boolean value) {
+    private void putBooleanValue(String key, boolean value) {
         mPreferences.edit().putBoolean(key, value).apply();
     }
 
-    protected void putStringSetValue(String key, Set<String> stringSet) {
+    private void putStringSetValue(String key, Set<String> stringSet) {
         mPreferences.edit().putStringSet(key, stringSet).apply();
     }
 
-    protected Set<String> getStringSetValue(String key, Set<String> defaultStringSet) {
+    private Set<String> getStringSetValue(String key, Set<String> defaultStringSet) {
         return mPreferences.getStringSet(key, defaultStringSet);
     }
+    // endregion
 }
