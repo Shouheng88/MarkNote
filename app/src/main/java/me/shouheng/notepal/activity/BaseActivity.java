@@ -1,5 +1,6 @@
-package me.shouheng.notepal.base;
+package me.shouheng.notepal.activity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -9,9 +10,8 @@ import com.crashlytics.android.Crashlytics;
 import io.fabric.sdk.android.Fabric;
 
 /**
- * Created by wang shouheng on 2017/12/21.
- */
-
+ * Created by wang shouheng on 2017/12/21.*/
+@SuppressLint("Registered")
 public class BaseActivity extends AppCompatActivity{
 
     @Override
