@@ -9,21 +9,21 @@ import android.util.Log;
 
 public class Colorful {
 
-    // region 【与主题配置相关的全局变量】
     private static ThemeDelegate delegate;
-    private static ThemeColor primaryColor = Defaults.primaryColor;
-    private static AccentColor accentColor = Defaults.accentColor;
-    private static boolean isTranslucent = Defaults.trans;
-    private static boolean isDark = Defaults.darkTheme;
-    private static String themeString;
-    // endregion
 
-    /* 配置信息初始化，要么从SharedPreferences中进行读取，要么使用默认的配置 */
+    private static ThemeColor primaryColor = Defaults.primaryColor;
+
+    private static AccentColor accentColor = Defaults.accentColor;
+
+    private static boolean isTranslucent = Defaults.trans;
+
+    private static boolean isDark = Defaults.darkTheme;
+
+    private static String themeString;
+
     public static void init(Context context) {
-        /* 从SharedPreferences中获取之前设置的主题色等信息 */
         themeString = PreferenceManager.getDefaultSharedPreferences(context).getString(Util.PREFERENCE_KEY, null);
 
-        /* 如果之前没有设置过，就使用默认的主题颜色等 */
         if (themeString == null) {
             primaryColor = Defaults.primaryColor;
             accentColor = Defaults.accentColor;
@@ -31,100 +31,83 @@ public class Colorful {
             isDark = Defaults.darkTheme;
             themeString = generateThemeString();
         } else {
-            /* 之前定义过主题颜色，从字符串中将定义的主题颜色解析成相应的java对象 */
-            String [] colors = themeString.split(":");
+            String [] colors = themeString.split(Util.SPLIT);
             isDark = Boolean.parseBoolean(colors[0]);
             isTranslucent = Boolean.parseBoolean(colors[1]);
             primaryColor = Colorful.ThemeColor.getByPrimaryName(colors[2]);
             accentColor = Colorful.AccentColor.getByAccentName(colors[3]);
         }
 
-        /* 使用上面得到的数据初始化ThemeDelegate对象，然后将解析得到的资源等信息应用到程序中 */
         delegate = new ThemeDelegate(context, primaryColor, accentColor, isTranslucent, isDark);
     }
 
-    /* 将主题配置应用到程序中 */
     public static void applyTheme(@NonNull Activity activity) {
         applyTheme(activity, true);
     }
 
-    /* 将主题配置应用到程序中 */
     public static void applyTheme(@NonNull Activity activity, boolean overrideBase) {
-        /* 根据传入的参数决定是否要重写主题配置 */
         if (overrideBase) activity.setTheme(getThemeDelegate().getStyleResBase());
-        /* 将委托中解析出的主要色彩和强调色彩的style资源应用到程序中 */
         activity.getTheme().applyStyle(getThemeDelegate().getStyleResPrimary(), true);
         activity.getTheme().applyStyle(getThemeDelegate().getStyleResAccent(), true);
     }
 
-    /* 将主题的配置信息写入到SharedPreferences中 */
     private static void writeValues(Context context) {
         PreferenceManager.getDefaultSharedPreferences(context).edit().putString(Util.PREFERENCE_KEY, generateThemeString()).apply();
     }
 
-    /* 生成主题字符串，用于存储到SharedPreferences中，然后再进行解析得到配置信息 */
     private static String generateThemeString() {
-        return isDark + ":" + isTranslucent + ":" + primaryColor.getPrimaryName() + ":" + accentColor.getAccentName();
+        return isDark + Util.SPLIT + isTranslucent + Util.SPLIT + primaryColor.getPrimaryName() + Util.SPLIT + accentColor.getAccentName();
     }
 
-    /* 获取得到的委托对象信息，该类在init方法中进行获取 */
     public static ThemeDelegate getThemeDelegate() {
         if (delegate == null) Log.e(Util.LOG_TAG, "getThemeDelegate() called before init(Context). Call Colorful.init(Context) in your application class");
         return delegate;
     }
 
-    /* 获取从SharedPreferences中读取出的配置字符串 */
     public static String getThemeString() {
         return themeString;
     }
 
-    /* 获取Config对象，该对象用于获取当前的主题配置信息，即获取Config外部类的字段信息 */
     public static Config config(Context context) {
         return new Config(context);
     }
 
-    /* 返回默认的主题配置信息，默认字段在该类内部定义 */
     public static Defaults defaults() {
         return new Defaults();
     }
 
-    // region 【主题配置类】
     public enum ThemeColor {
         GREEN(R.color.md_green_500, R.color.md_green_700, "primary_green", "#4CAF50"),
-        RED(R.color.theme_red, R.color.md_red_700, "primary_red", "#db4437"),
-        PINK(R.color.theme_pink, R.color.md_pink_300, "primary_pink", "#fb7299"),
+        RED(R.color.theme_red, R.color.md_red_700, "primary_red", "#DB4437"),
+        PINK(R.color.theme_pink, R.color.md_pink_300, "primary_pink", "#FB7299"),
         BLUE(R.color.md_indigo_500, R.color.md_indigo_700, "primary_blue", "#3F51B5"),
         TEAL(R.color.md_teal_500, R.color.md_teal_700, "primary_teal", "#009688"),
-        ORANGE(R.color.theme_orange, R.color.md_orange_700, "primary_orange", "#d98100"),
+        ORANGE(R.color.theme_orange, R.color.md_orange_700, "primary_orange", "#D98100"),
         DEEP_PURPLE(R.color.md_deep_purple_500, R.color.md_deep_purple_700, "primary_deep_purple", "#673AB7"),
-        LIGHT_BLUE(R.color.theme_light_blue, R.color.theme_light_blue_dark, "primary_light_blue", "#617fde"),
+        LIGHT_BLUE(R.color.theme_light_blue, R.color.theme_light_blue_dark, "primary_light_blue", "#617FDE"),
         BROWN(R.color.md_brown_500, R.color.md_brown_700, "primary_brown", "#795548"),
         BLUE_GREY(R.color.md_blue_grey_500, R.color.md_blue_grey_700, "primary_blue_grey", "#607D8B"),
-        WHITE(R.color.theme_white, R.color.md_grey_400, "primary_white", "#d9d9d9"),
-        BLACK(R.color.theme_black, R.color.theme_black_dark, "primary_black", "#272b35"),
-        LIGHT_GREEN(R.color.theme_light_green, R.color.theme_light_green_dark, "primary_light_green", "#06ce90"),
+        WHITE(R.color.theme_white, R.color.md_grey_400, "primary_white", "#D9D9D9"),
+        BLACK(R.color.theme_black, R.color.theme_black_dark, "primary_black", "#272B35"),
+        LIGHT_GREEN(R.color.theme_light_green, R.color.theme_light_green_dark, "primary_light_green", "#06CE90"),
 
         OLD_1(R.color.theme_old_1, R.color.theme_old_1_dark, "primary_old_1", "#049372"),
-        OLD_2(R.color.theme_old_2, R.color.theme_old_2_dark, "primary_old_2", "#c0392b"),
+        OLD_2(R.color.theme_old_2, R.color.theme_old_2_dark, "primary_old_2", "#C0392B"),
         OLD_3(R.color.theme_old_3, R.color.theme_old_3_dark, "primary_old_3", "#674172"),
-        OLD_4(R.color.theme_old_4, R.color.theme_old_4_dark, "primary_old_4", "#7d59b6"),
-        OLD_5(R.color.theme_old_5, R.color.theme_old_5_dark, "primary_old_5", "#1098a5"),
+        OLD_4(R.color.theme_old_4, R.color.theme_old_4_dark, "primary_old_4", "#7D59B6"),
+        OLD_5(R.color.theme_old_5, R.color.theme_old_5_dark, "primary_old_5", "#1098A5"),
         OLD_6(R.color.theme_old_6, R.color.theme_old_6_dark, "primary_old_6", "#3A539B"),
-        OLD_7(R.color.theme_old_7, R.color.theme_old_7_dark, "primary_old_7", "#00634c"),
-        OLD_8(R.color.theme_old_8, R.color.theme_old_8_dark, "primary_old_8", "#34495e"),
-        OLD_9(R.color.theme_old_9, R.color.theme_old_9_dark, "primary_old_9", "#95a5a6"),
-        OLD_10(R.color.theme_old_10, R.color.theme_old_10_dark, "primary_old_10", "#2574a9");
+        OLD_7(R.color.theme_old_7, R.color.theme_old_7_dark, "primary_old_7", "#00634C"),
+        OLD_8(R.color.theme_old_8, R.color.theme_old_8_dark, "primary_old_8", "#34495E"),
+        OLD_9(R.color.theme_old_9, R.color.theme_old_9_dark, "primary_old_9", "#95A5A6"),
+        OLD_10(R.color.theme_old_10, R.color.theme_old_10_dark, "primary_old_10", "#2574A9");
 
-        /* 主题色的资源的颜色资源的id，用于获取对应的颜色 */
         @ColorRes private int colorRes;
 
-        /* 主题色对应的dark版本的颜色的资源id，用于获取对应的颜色 */
         @ColorRes private int darkColorRes;
 
-        /* 即在style资源中的名称 */
         private String primaryName;
 
-        /* 颜色的名称 */
         private String colorName;
 
         ThemeColor(@ColorRes int colorRes, @ColorRes int darkColorRes, String primaryName, String colorName) {
@@ -224,7 +207,7 @@ public class Colorful {
         LIME_400(R.color.md_lime_A400, "accent_lime_400", "#C6FF00"),
         LIME_700(R.color.md_lime_A700, "accent_lime_700", "#AEEA00"),
 
-        YELLOW_100(R.color.md_yellow_A100, "accent_yellow_100", "#FFFF82"),
+        YELLOW_100(R.color.md_yellow_A100, "accent_yellow_100", "#FFFF8D"),
         YELLOW_200(R.color.md_yellow_A200, "accent_yellow_200", "#FFFF00"),
         YELLOW_400(R.color.md_yellow_A400, "accent_yellow_400", "#FFEA00"),
         YELLOW_700(R.color.md_yellow_A700, "accent_yellow_700", "#FFD600"),
@@ -242,7 +225,7 @@ public class Colorful {
         DEEP_ORANGE_100(R.color.md_deep_orange_A100, "accent_deep_orange_100", "#FF9E80"),
         DEEP_ORANGE_200(R.color.md_deep_orange_A200, "accent_deep_orange_200", "#FF6E40"),
         DEEP_ORANGE_400(R.color.md_deep_orange_A400, "accent_deep_orange_400", "#FF3D00"),
-        DEEP_ORANGE_700(R.color.md_deep_orange_A700, "accent_deep_orange_700", "#DD2600"),
+        DEEP_ORANGE_700(R.color.md_deep_orange_A700, "accent_deep_orange_700", "#DD2C00"),
 
         BROWN_200(R.color.md_brown_200, "accent_brown_200", "#BCAAA4"),
         BROWN_300(R.color.md_brown_300, "accent_brown_300", "#A1887F"),
@@ -256,13 +239,10 @@ public class Colorful {
         BLUE_GREY_300(R.color.md_blue_grey_300, "accent_blue_grey_300", "#90A4AE"),
         BLUE_GREY_400(R.color.md_blue_grey_400, "accent_blue_grey_400", "#78909C");
 
-        /* 颜色资源的id，用于获取对应的颜色 */
         @ColorRes private int colorRes;
 
-        /* 颜色资源对应的style的名称 */
         private String accentName;
 
-        /* 颜色资源的名称 */
         private String colorName;
 
         AccentColor(@ColorRes int colorRes, String accentName, String colorName) {
@@ -305,9 +285,13 @@ public class Colorful {
     }
 
     public static class Defaults {
+
         private static ThemeColor primaryColor = ThemeColor.GREEN;
+
         private static AccentColor accentColor = AccentColor.GREEN_700;
+
         private static boolean trans = false;
+
         private static boolean darkTheme = false;
 
         public Defaults primaryColor(ThemeColor primary) {
@@ -332,6 +316,7 @@ public class Colorful {
     }
 
     public static class Config {
+
         private Context context;
 
         private Config(Context context) {
@@ -364,5 +349,4 @@ public class Colorful {
             delegate = new ThemeDelegate(context, primaryColor, accentColor, isTranslucent, isDark);
         }
     }
-    // endregion
 }
