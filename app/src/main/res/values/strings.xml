@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">NotePal</string>
+
+    <!--region introduction-->
+    <string name="show_introduction_again">再次显示用户导引页？</string>
+    <string name="intro_1_title">intro 1 title</string>
+    <string name="intro_1_description">intro 1 description</string>
+    <string name="intro_2_title">intro 2 title</string>
+    <string name="intro_2_description">intro 2 description</string>
+    <string name="intro_3_title">intro 3 title</string>
+    <string name="intro_3_description">intro 3 description</string>
+    <string name="intro_4_title">intro 4 title</string>
+    <string name="intro_4_description">intro 4 description</string>
+    <string name="intro_5_title">intro 5 title</string>
+    <string name="intro_5_description">intro 5 description</string>
+    <string name="intro_6_title">intro 6 title</string>
+    <string name="intro_6_description">intro 6 description</string>
+    <!--endregion introduction-->
+
 </resources>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--region introduction-->
+    <dimen name="intro_top_padding">32dp</dimen>
+    <dimen name="intro_bottom_padding">24dp</dimen>
+    <dimen name="intro_side_padding">64dp</dimen>
+    <!--endregion -->
+
+</resources>
