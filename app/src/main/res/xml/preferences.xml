@@ -1,4 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <me.shouheng.notepal.widget.ThemedPreferenceCategory
+        android:title="Test title">
+
+        <Preference android:title="Preference"
+            android:key="Preference"
+            android:summary="Preference"/>
+
+        <CheckBoxPreference android:title="Preference"
+            android:key="CheckBoxPreference"
+            android:summary="Preference"/>
+
+        <EditTextPreference android:title="Preference"
+            android:key="EditTextPreference"
+            android:summary="Preference"/>
+
+        <ListPreference android:title="Preference"
+            android:key="ListPreference"
+            android:summary="Preference"/>
+
+        <MultiSelectListPreference android:title="Preference"
+            android:key="MultiSelectListPreference"
+            android:summary="Preference"/>
+
+        <SwitchPreference android:title="Preference"
+            android:key="SwitchPreference"
+            android:summary="Preference"/>
+
+    </me.shouheng.notepal.widget.ThemedPreferenceCategory>
+
 </PreferenceScreen>
