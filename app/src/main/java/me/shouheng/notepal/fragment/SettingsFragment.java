@@ -9,7 +9,7 @@ import me.shouheng.notepal.R;
  * Created by wang shouheng on 2017/12/21.
  */
 
-public class SettingFragment extends PreferenceFragment {
+public class SettingsFragment extends PreferenceFragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
