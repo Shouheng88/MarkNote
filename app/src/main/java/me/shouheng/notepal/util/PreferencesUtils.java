@@ -16,7 +16,8 @@ public class PreferencesUtils {
     private final String PRIMARY_COLOR = "primary_color";
     private final String ACCENT_COLOR = "accent_color";
 
-    private final String TOUR_ACTIVITY_SHOWED = "TOUR_ACTIVITY_SHOWED";
+    private final String TOUR_ACTIVITY_SHOWED = "tour_activity_showed";
+    private final String COLORED_NAVIGATION_BAR = "colored_navigation_bar";
 
     private static PreferencesUtils sInstance;
 
@@ -76,7 +77,15 @@ public class PreferencesUtils {
     public boolean isTourActivityShowed() {
         return getBooleanValue(TOUR_ACTIVITY_SHOWED, false);
     }
-    
+
+    public void setColoredNavigationBar(boolean coloredNavigationBar) {
+        putBooleanValue(COLORED_NAVIGATION_BAR, coloredNavigationBar);
+    }
+
+    public boolean isColoredNavigationBar() {
+        return getBooleanValue(TOUR_ACTIVITY_SHOWED, false);
+    }
+
     // region the setters & getters
     private String getStringValue(String key, String defaultValue) {
         return mPreferences.getString(key, defaultValue);
