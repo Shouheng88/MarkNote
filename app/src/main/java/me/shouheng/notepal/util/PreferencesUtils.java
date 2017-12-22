@@ -6,7 +6,10 @@ import android.preference.PreferenceManager;
 
 import org.polaric.colorful.Colorful;
 
+import java.util.Calendar;
 import java.util.Set;
+
+import me.shouheng.notepal.PalmApp;
 
 /**
  * Created by Wang Shouheng on 2017/12/5. */
@@ -18,6 +21,7 @@ public class PreferencesUtils {
 
     private final String TOUR_ACTIVITY_SHOWED = "tour_activity_showed";
     private final String COLORED_NAVIGATION_BAR = "colored_navigation_bar";
+    private final String FIRST_DAY_OF_WEEK = "first_day_of_week";
 
     private static PreferencesUtils sInstance;
 
@@ -83,8 +87,95 @@ public class PreferencesUtils {
     }
 
     public boolean isColoredNavigationBar() {
-        return getBooleanValue(TOUR_ACTIVITY_SHOWED, false);
+        return getBooleanValue(COLORED_NAVIGATION_BAR, false);
     }
+
+    public void setFirstDayOfWeek(int firstDay){
+        putIntValue(FIRST_DAY_OF_WEEK, firstDay);
+    }
+
+    public int getFirstDayOfWeek(){
+        return getIntValue(FIRST_DAY_OF_WEEK, Calendar.SUNDAY);
+    }
+
+    // region notification
+    private final String ALLOW_WAKE_LOCK = "allow_wake_lock";
+    private final String LIGHT_COLOR = "light_color";
+    private final String ALLOW_VIBRATE = "allow_vibrate";
+    private final String SNOOZE_DURATION = "snooze_duration";
+    private final String NOTIFICATION_RINGTONE = "notification_ringtone";
+
+    public void setAllowWakeLock(boolean allowWakeLock){
+        putBooleanValue(ALLOW_WAKE_LOCK, allowWakeLock);
+    }
+
+    public boolean getAllowWakeLock(){
+        return getBooleanValue(ALLOW_WAKE_LOCK, false);
+    }
+
+    public void setLightColor(int lightColor){
+        // 通知灯的颜色：0->绿色, 1->红色, 2->黄色, 3->蓝色, 4->白色
+        putIntValue(LIGHT_COLOR, lightColor);
+    }
+
+    public int getLightColor(){
+        return getIntValue(LIGHT_COLOR, 0);
+    }
+
+    public void setAllowVibrate(boolean allowVibrate){
+        putBooleanValue(ALLOW_VIBRATE, allowVibrate);
+    }
+
+    public boolean isVibrateAllowed(){
+        return getBooleanValue(ALLOW_VIBRATE, true);
+    }
+
+    public void setSnoozeDuration(int duration){
+        putIntValue(SNOOZE_DURATION, duration);
+    }
+
+    public int getSnoozeDuration(){
+        return getIntValue(SNOOZE_DURATION, 5);
+    }
+
+    public void setNotificationRingtone(String notificationRingtone){
+        putStringValue(NOTIFICATION_RINGTONE, notificationRingtone);
+    }
+
+    public String getNotificationRingtone(){
+        return getStringValue(NOTIFICATION_RINGTONE, null);
+    }
+    // endregion
+
+    // region notes and notebooks
+    private final String DEFAULT_NOTE_COLOR = "default_note_color";
+    private final String NOTE_FILE_EXTENSION = "note_file_extension";
+    private final String DEFAULT_NOTEBOOK_COLOR = "default_notebook_color";
+
+    public void setDefaultNotebookColor(int color) {
+        putIntValue(DEFAULT_NOTEBOOK_COLOR, color);
+    }
+
+    public int getDefaultNotebookColor() {
+        return getIntValue(DEFAULT_NOTEBOOK_COLOR, ColorUtils.primaryColor(PalmApp.getContext()));
+    }
+
+    public void setDefaultNoteColor(int color) {
+        putIntValue(DEFAULT_NOTE_COLOR, color);
+    }
+
+    public int getDefaultNoteColor() {
+        return getIntValue(DEFAULT_NOTE_COLOR, ColorUtils.primaryColor(PalmApp.getContext()));
+    }
+
+    public String getNoteFileExtension() {
+        return getStringValue(NOTE_FILE_EXTENSION, ".md");
+    }
+
+    public void setNoteFileExtension(String extension) {
+        putStringValue(NOTE_FILE_EXTENSION, extension);
+    }
+    // endregion
 
     // region the setters & getters
     private String getStringValue(String key, String defaultValue) {

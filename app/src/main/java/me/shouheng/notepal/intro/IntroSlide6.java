@@ -16,7 +16,7 @@ public class IntroSlide6 extends IntroFragment {
 		background.setBackgroundResource(R.color.intro_color_1);
 		title.setText(R.string.intro_6_title);
 		image.setVisibility(View.GONE);
-		imageSmall.setImageResource(R.drawable.gplus);
+		imageSmall.setImageResource(R.drawable.ic_google_plus);
 		imageSmall.setVisibility(View.VISIBLE);
 		imageSmall.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_VIEW);

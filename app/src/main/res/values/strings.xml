@@ -17,4 +17,67 @@
     <string name="intro_6_description">intro 6 description</string>
     <!--endregion introduction-->
 
+    <!--region alarm-->
+    <string name="pick_alarm_type">选择闹钟类型</string>
+    <string name="one_shot">一次</string>
+    <string name="every_day">每天</string>
+    <string name="every_weekday">每周工作日(周一至周五)</string>
+    <string name="every_weekend">每周周末(周六、周日)</string>
+    <string name="custom_by_week">按周自定义</string>
+    <string name="custom_by_month">按月自定义</string>
+    <string name="clear_reminder">清除提醒</string>
+    <string name="day_concat">,</string>
+    <string name="from">从</string>
+    <string name="to">到</string>
+    <string name="at">在</string>
+    <string name="until">直到</string>
+    <!--endregion-->
+
+    <!--region fab items-->
+    <string name="fab_opt_note">笔记</string>
+    <string name="fab_opt_capture">拍照</string>
+    <string name="fab_opt_file">文件</string>
+    <string name="fab_opt_draft">手写</string>
+    <string name="fab_opt_link">链接</string>
+    <string name="fab_opt_record">录音</string>
+    <string name="fab_opt_notice">提醒</string>
+    <string name="fab_mind_snagging">小纸条</string>
+    <!--endregion-->
+
+    <!--region model name-->
+    <string name="model_name_none">None</string>
+    <string name="model_name_note">笔记</string>
+    <string name="model_name_notebook">笔记本</string>
+    <string name="model_name_alarm">闹钟</string>
+    <string name="model_name_attachment">附件</string>
+    <string name="model_name_location">位置</string>
+    <string name="model_name_mind_snagging">小纸条</string>
+    <string name="model_name_timeline">时间线</string>
+    <!--endregion-->
+
+    <!--region operation-->
+    <string name="operation_none">None</string>
+    <string name="operation_added">添加</string>
+    <string name="operation_modified">修改</string>
+    <string name="operation_deleted">删除</string>
+    <string name="operation_completed">完成</string>
+    <string name="operation_trashed">移到垃圾箱</string>
+    <string name="operation_recover">恢复</string>
+    <string name="operation_archived">归档</string>
+    <string name="operation_synced">同步</string>
+    <string name="operation_uncompleted">设置未完成</string>
+    <!--endregion-->
+
+    <!--region feedback-->
+    <string name="feedback_types">反馈类型</string>
+    <string name="feedback_abrupt_crash">意外崩溃</string>
+    <string name="feedback_function_improvement">功能改善</string>
+    <string name="feedback_function_requirement">功能需求</string>
+    <string name="feedback_email_to_find_you">可以联系到你的邮箱</string>
+    <string name="feedback_details">详情</string>
+    <string name="feedback_connect_email_required">需要联系邮箱</string>
+    <string name="feedback_details_required">需要详情信息</string>
+    <string name="feedback_illegal_email_format">邮箱格式不合法</string>
+    <!--endregion-->
+
 </resources>
