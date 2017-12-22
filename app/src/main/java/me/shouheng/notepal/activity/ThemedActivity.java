@@ -49,6 +49,11 @@ public class ThemedActivity extends ColorfulActivity {
                 .translucent(false)
                 .dark(PreferencesUtils.getInstance(this).isDarkTheme())
                 .apply();
+        if (PreferencesUtils.getInstance(this).isColoredNavigationBar()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                getWindow().setNavigationBarColor(ColorUtils.primaryColor(this));
+            }
+        }
     }
 
     public void reUpdateTheme(){
