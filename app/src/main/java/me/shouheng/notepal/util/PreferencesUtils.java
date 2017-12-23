@@ -35,9 +35,9 @@ public class PreferencesUtils {
     static {
         defaultFabOrders = new LinkedList<>();
         defaultFabOrders.add(FabSortItem.NOTE);
+        defaultFabOrders.add(FabSortItem.NOTEBOOK);
         defaultFabOrders.add(FabSortItem.MIND_SNAGGING);
         defaultFabOrders.add(FabSortItem.NOTICE);
-        defaultFabOrders.add(FabSortItem.FILE);
         defaultFabOrders.add(FabSortItem.CAPTURE);
     }
 

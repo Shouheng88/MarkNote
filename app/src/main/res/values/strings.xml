@@ -3,6 +3,7 @@
 
     <!--region common text-->
     <string name="text_settings">设置</string>
+    <string name="text_add_more">添加&#8230;</string>
     <!--endregion-->
 
     <!--region drawer menu-->
@@ -49,6 +50,7 @@
 
     <!--region fab items-->
     <string name="fab_opt_note">笔记</string>
+    <string name="fab_opt_notebook">笔记本</string>
     <string name="fab_opt_capture">拍照</string>
     <string name="fab_opt_file">文件</string>
     <string name="fab_opt_draft">手写</string>
@@ -112,6 +114,12 @@
     <string name="setting_feedback_sub">帮助开发者把程序做得更好</string>
     <string name="setting_about">关于程序</string>
     <string name="setting_about_sub">与程序有关的详细信息</string>
+    <!--endregion-->
+
+    <!--region recycler view capture-->
+    <string name="capture_empty_list">要截取的列表为空</string>
+    <string name="capture_list">列表截图</string>
+    <string name="capture_capturing">正在截取&#8230;</string>
     <!--endregion-->
 
 </resources>
