@@ -29,6 +29,7 @@ public class PreferencesUtils {
     private final String FIRST_DAY_OF_WEEK = "first_day_of_week";
 
     private final String FAB_SORT_RESULT = "fab_sort_result";
+    private final String LIST_ANIMATION = "list_animation";
 
     public static List<FabSortItem> defaultFabOrders;
 
@@ -134,6 +135,13 @@ public class PreferencesUtils {
         putStringSetValue(FAB_SORT_RESULT, set);
     }
 
+    public void enableListAnimation(boolean enable){
+        putBooleanValue(LIST_ANIMATION, enable);
+    }
+
+    public boolean listAnimationEnabled() {
+        return getBooleanValue(LIST_ANIMATION, true);
+    }
 
     // region notification
     private final String ALLOW_WAKE_LOCK = "allow_wake_lock";
