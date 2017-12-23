@@ -1,6 +1,16 @@
 <resources>
     <string name="app_name">NotePal</string>
 
+    <!--region drawer menu-->
+    <string name="drawer_menu_notes">笔记信息</string>
+    <string name="drawer_menu_minds">小纸条</string>
+    <string name="drawer_menu_notices">提醒信息</string>
+    <string name="drawer_menu_setting">设置</string>
+    <string name="drawer_menu_trash">废纸篓</string>
+    <string name="drawer_menu_archive">归档</string>
+    <string name="drawer_menu_sync">数据同步</string>
+    <!--endregion-->
+
     <!--region introduction-->
     <string name="show_introduction_again">再次显示用户导引页？</string>
     <string name="intro_1_title">intro 1 title</string>
