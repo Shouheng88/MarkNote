@@ -147,6 +147,11 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> {
         return getCurrentFragment() instanceof NotesFragment;
     }
 
+    private boolean isDashboard() {
+        Fragment currentFragment = getCurrentFragment();
+        return currentFragment instanceof NotesFragment;
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -160,8 +165,20 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> {
 
     @Override
     public void onBackPressed() {
-        if (getBinding().drawerLayout.isDrawerOpen(GravityCompat.START)){
-            getBinding().drawerLayout.closeDrawer(GravityCompat.START);
+        if (isDashboard()){
+            if (getBinding().drawerLayout.isDrawerOpen(GravityCompat.START)){
+                getBinding().drawerLayout.closeDrawer(GravityCompat.START);
+            } else {
+                if (isNotesFragment()){
+                    if (getBinding().menu.isOpened()) {
+                        getBinding().menu.close(true);
+                        return;
+                    }
+                    super.onBackPressed();
+                } else {
+                    toNotesFragment();
+                }
+            }
         } else {
             super.onBackPressed();
         }
