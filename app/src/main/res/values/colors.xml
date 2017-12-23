@@ -12,4 +12,9 @@
     <color name="intro_color_5">#9C27B0</color>
     <!--endregion introduction-->
 
+    <color name="black20">#33000000</color>
+    <color name="black38">#61000000</color>
+    <color name="black54">#8A000000</color>
+    <color name="black87">#D8000000</color>
+
 </resources>
