@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -49,6 +50,10 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> {
         initDrawerMenu();
 
         toNotesFragment();
+    }
+
+    public void setDrawerLayoutLocked(boolean lockDrawer){
+        getBinding().drawerLayout.setDrawerLockMode(lockDrawer ? DrawerLayout.LOCK_MODE_LOCKED_CLOSED : DrawerLayout.LOCK_MODE_UNLOCKED);
     }
 
     private void initHeaderView() {
@@ -135,7 +140,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> {
 
     private void toNotesFragment() {
         if (isNotesFragment()) return;
-        FragmentHelper.replace(this, NotesFragment.newInstance(), R.id.fragment_container);
+        FragmentHelper.replace(this, NotesFragment.newInstance(null), R.id.fragment_container);
         new Handler().postDelayed(() -> getBinding().nav.getMenu().findItem(R.id.nav_notes).setChecked(true), 300);
     }
 
