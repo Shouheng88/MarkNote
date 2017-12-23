@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:fab="http://schemas.android.com/tools">
+    xmlns:fab="http://schemas.android.com/apk/res-auto">
 
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/drawer_layout"
@@ -40,7 +40,6 @@
                     fab:menu_shadowXOffset="1dp"
                     fab:menu_shadowYOffset="1dp"
                     fab:menu_colorNormal="@color/colorPrimary"
-                    fab:menu_colorPressed="@color/colorPrimaryLight"
                     fab:menu_colorRipple="#99FFFFFF"
                     fab:menu_animationDelayPerItem="50"
                     fab:menu_icon="@drawable/fab_add"
@@ -73,7 +72,7 @@
                         android:layout_height="wrap_content"
                         fab:menu_colorRipple="#99FFFFFF"
                         fab:fab_label=" "
-                        fab:fab_size="mini" />
+                        app:fab_size="mini" />
 
                     <com.github.clans.fab.FloatingActionButton
                         android:id="@+id/fab2"
