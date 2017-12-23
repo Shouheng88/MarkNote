@@ -104,4 +104,14 @@
     <string name="setting_accent_color_sub">设置主界面及其他组件所需的强调色</string>
     <!--endregion-->
 
+    <!--region other settings-->
+    <string name="setting_others">其他设置</string>
+    <string name="setting_support_development">支持开发者</string>
+    <string name="setting_support_development_sub">你的支持将被用来向程序中增加新的特性</string>
+    <string name="setting_feedback">信息反馈</string>
+    <string name="setting_feedback_sub">帮助开发者把程序做得更好</string>
+    <string name="setting_about">关于程序</string>
+    <string name="setting_about_sub">与程序有关的详细信息</string>
+    <!--endregion-->
+
 </resources>
