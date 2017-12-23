@@ -6,10 +6,15 @@ import android.preference.PreferenceManager;
 
 import org.polaric.colorful.Colorful;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 import me.shouheng.notepal.PalmApp;
+import me.shouheng.notepal.model.enums.FabSortItem;
 
 /**
  * Created by Wang Shouheng on 2017/12/5. */
@@ -22,6 +27,19 @@ public class PreferencesUtils {
     private final String TOUR_ACTIVITY_SHOWED = "tour_activity_showed";
     private final String COLORED_NAVIGATION_BAR = "colored_navigation_bar";
     private final String FIRST_DAY_OF_WEEK = "first_day_of_week";
+
+    private final String FAB_SORT_RESULT = "fab_sort_result";
+
+    public static List<FabSortItem> defaultFabOrders;
+
+    static {
+        defaultFabOrders = new LinkedList<>();
+        defaultFabOrders.add(FabSortItem.NOTE);
+        defaultFabOrders.add(FabSortItem.MIND_SNAGGING);
+        defaultFabOrders.add(FabSortItem.NOTICE);
+        defaultFabOrders.add(FabSortItem.FILE);
+        defaultFabOrders.add(FabSortItem.CAPTURE);
+    }
 
     private static PreferencesUtils sInstance;
 
@@ -97,6 +115,25 @@ public class PreferencesUtils {
     public int getFirstDayOfWeek(){
         return getIntValue(FIRST_DAY_OF_WEEK, Calendar.SUNDAY);
     }
+
+    public List<FabSortItem> getFabSortResult(){
+        Set<String> set = getStringSetValue(FAB_SORT_RESULT, new HashSet<String>());
+        if (set.isEmpty()) return defaultFabOrders;
+        List<FabSortItem> fabSortItems = new ArrayList<>();
+        for (String setting : set) {
+            fabSortItems.add(FabSortItem.valueOf(setting));
+        }
+        return fabSortItems;
+    }
+
+    public void setFabSortResult(List<FabSortItem> fabSortItems){
+        Set<String> set = new HashSet<>();
+        for (FabSortItem fabSortItem : fabSortItems) {
+            set.add(fabSortItem.name());
+        }
+        putStringSetValue(FAB_SORT_RESULT, set);
+    }
+
 
     // region notification
     private final String ALLOW_WAKE_LOCK = "allow_wake_lock";

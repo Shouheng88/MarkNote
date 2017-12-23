@@ -1,6 +1,7 @@
 package me.shouheng.notepal.activity;
 
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -9,12 +10,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.util.List;
+
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.ActivityMainBinding;
 import me.shouheng.notepal.databinding.ActivityMainNavHeaderBinding;
 import me.shouheng.notepal.fragment.NotesFragment;
 import me.shouheng.notepal.intro.IntroActivity;
+import me.shouheng.notepal.model.enums.FabSortItem;
+import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.FragmentHelper;
+import me.shouheng.notepal.util.LogUtils;
+import me.shouheng.notepal.util.PreferencesUtils;
 
 public class MainActivity extends CommonActivity<ActivityMainBinding> {
 
@@ -30,12 +37,14 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> {
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {
-
         IntroActivity.launchIfNecessary(this);
 
         configToolbar();
 
         initHeaderView();
+
+        initFloatButtons();
+        initFabSortItems();
 
         initDrawerMenu();
 
@@ -47,6 +56,44 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> {
         ActivityMainNavHeaderBinding headerBinding = DataBindingUtil.bind(header);
         header.setOnClickListener(v -> {});
         header.setOnLongClickListener(v -> true);
+    }
+
+    private void initFloatButtons() {
+        getBinding().menu.setMenuButtonColorNormal(accentColor());
+        getBinding().menu.setMenuButtonColorPressed(accentColor());
+
+        getBinding().fab1.setColorNormal(accentColor());
+        getBinding().fab2.setColorNormal(accentColor());
+        getBinding().fab3.setColorNormal(accentColor());
+        getBinding().fab4.setColorNormal(accentColor());
+        getBinding().fab5.setColorNormal(accentColor());
+
+        getBinding().fab1.setColorPressed(accentColor());
+        getBinding().fab2.setColorPressed(accentColor());
+        getBinding().fab3.setColorPressed(accentColor());
+        getBinding().fab4.setColorPressed(accentColor());
+        getBinding().fab5.setColorPressed(accentColor());
+    }
+
+    private void initFabSortItems() {
+        try {
+            List<FabSortItem> fabSortItems = PreferencesUtils.getInstance(this).getFabSortResult();
+
+            getBinding().fab1.setImageDrawable(ColorUtils.tintDrawable(getResources().getDrawable(fabSortItems.get(0).iconRes), Color.WHITE));
+            getBinding().fab2.setImageDrawable(ColorUtils.tintDrawable(getResources().getDrawable(fabSortItems.get(1).iconRes), Color.WHITE));
+            getBinding().fab3.setImageDrawable(ColorUtils.tintDrawable(getResources().getDrawable(fabSortItems.get(2).iconRes), Color.WHITE));
+            getBinding().fab4.setImageDrawable(ColorUtils.tintDrawable(getResources().getDrawable(fabSortItems.get(3).iconRes), Color.WHITE));
+            getBinding().fab5.setImageDrawable(ColorUtils.tintDrawable(getResources().getDrawable(fabSortItems.get(4).iconRes), Color.WHITE));
+
+            getBinding().fab1.setLabelText(getString(fabSortItems.get(0).nameRes));
+            getBinding().fab2.setLabelText(getString(fabSortItems.get(1).nameRes));
+            getBinding().fab3.setLabelText(getString(fabSortItems.get(2).nameRes));
+            getBinding().fab4.setLabelText(getString(fabSortItems.get(3).nameRes));
+            getBinding().fab5.setLabelText(getString(fabSortItems.get(4).nameRes));
+        } catch (Exception e) {
+            LogUtils.d("initFabSortItems, error occurred : " + e);
+            PreferencesUtils.getInstance(this).setFabSortResult(PreferencesUtils.defaultFabOrders);
+        }
     }
 
     private void configToolbar() {
