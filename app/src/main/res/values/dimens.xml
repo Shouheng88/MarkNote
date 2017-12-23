@@ -7,4 +7,6 @@
     <dimen name="intro_side_padding">64dp</dimen>
     <!--endregion -->
 
+    <dimen name="empty_view_size">120dp</dimen>
+
 </resources>
