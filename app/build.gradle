@@ -75,6 +75,8 @@ dependencies {
         transitive = true
     }
 
+    implementation 'com.facebook.stetho:stetho:1.5.0'
+
     compile project(path: ':colorful')
     compile project(path: ':photoview')
     compile project(path: ':markdown-editor')
