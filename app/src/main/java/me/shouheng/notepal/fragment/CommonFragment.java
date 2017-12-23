@@ -31,7 +31,7 @@ public abstract class CommonFragment<T extends ViewDataBinding> extends Fragment
             throw new AssertionError("Subclass must provide a valid layout resource id");
         }
 
-        binding = DataBindingUtil.inflate(inflater, getLayoutResId(), container, true);
+        binding = DataBindingUtil.inflate(inflater, getLayoutResId(), container, false);
 
         doCreateView(savedInstanceState);
 

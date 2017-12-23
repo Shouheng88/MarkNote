@@ -3,6 +3,7 @@ package me.shouheng.notepal.activity;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -11,7 +12,9 @@ import android.view.View;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.ActivityMainBinding;
 import me.shouheng.notepal.databinding.ActivityMainNavHeaderBinding;
+import me.shouheng.notepal.fragment.NotesFragment;
 import me.shouheng.notepal.intro.IntroActivity;
+import me.shouheng.notepal.util.FragmentHelper;
 
 public class MainActivity extends CommonActivity<ActivityMainBinding> {
 
@@ -35,6 +38,8 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> {
         initHeaderView();
 
         initDrawerMenu();
+
+        toNotesFragment();
     }
 
     private void initHeaderView() {
@@ -74,8 +79,25 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> {
                 case R.id.nav_settings:
                     startActivity(SettingsActivity.class);
                     break;
+                case R.id.nav_notes:
+                    toNotesFragment();
+                    break;
             }
         }, 500);
+    }
+
+    private void toNotesFragment() {
+        if (isNotesFragment()) return;
+        FragmentHelper.replace(this, NotesFragment.newInstance(), R.id.fragment_container);
+        new Handler().postDelayed(() -> getBinding().nav.getMenu().findItem(R.id.nav_notes).setChecked(true), 300);
+    }
+
+    private Fragment getCurrentFragment(){
+        return getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+    }
+
+    private boolean isNotesFragment(){
+        return getCurrentFragment() instanceof NotesFragment;
     }
 
     @Override
