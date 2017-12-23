@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">NotePal</string>
 
+    <!--region common text-->
+    <string name="text_settings">设置</string>
+    <!--endregion-->
+
     <!--region drawer menu-->
     <string name="drawer_menu_notes">笔记信息</string>
     <string name="drawer_menu_minds">小纸条</string>

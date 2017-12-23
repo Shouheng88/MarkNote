@@ -1,6 +1,8 @@
 package me.shouheng.notepal.activity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
@@ -42,5 +44,9 @@ public abstract class CommonActivity<T extends ViewDataBinding> extends ThemedAc
 
     protected final T getBinding() {
         return binding;
+    }
+
+    protected <M extends Activity> void startActivity(Class<M> activityClass) {
+        startActivity(new Intent(this, activityClass));
     }
 }
