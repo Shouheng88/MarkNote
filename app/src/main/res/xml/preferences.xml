@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <me.shouheng.notepal.widget.ThemedPreferenceCategory
+    <PreferenceCategory
         android:title="Test title">
 
         <Preference android:title="Preference"
@@ -28,6 +28,23 @@
             android:key="SwitchPreference"
             android:summary="Preference"/>
 
-    </me.shouheng.notepal.widget.ThemedPreferenceCategory>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/setting_theme">
+
+        <CheckBoxPreference
+            android:key="is_dark_theme"
+            android:title="@string/setting_dark_theme"
+            android:summary="@string/setting_dark_theme_sub"/>
+
+        <me.shouheng.notepal.widget.ColorPreference
+            android:title="@string/setting_primary_color"
+            android:summary="@string/setting_primary_color_sub"/>
+
+        <me.shouheng.notepal.widget.ColorPreference
+            android:title="@string/setting_accent_color"
+            android:summary="@string/setting_accent_color_sub"/>
+
+    </PreferenceCategory>
 
 </PreferenceScreen>
