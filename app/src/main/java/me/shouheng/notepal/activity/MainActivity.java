@@ -26,6 +26,8 @@ import me.shouheng.notepal.util.PreferencesUtils;
 
 public class MainActivity extends CommonActivity<ActivityMainBinding> {
 
+    private PreferencesUtils preferencesUtils;
+
     @Override
     protected int getLayoutResId() {
         return R.layout.activity_main;
@@ -38,6 +40,8 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> {
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {
+        preferencesUtils = PreferencesUtils.getInstance(this);
+
         IntroActivity.launchIfNecessary(this);
 
         configToolbar();
@@ -78,11 +82,27 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> {
         getBinding().fab3.setColorPressed(accentColor());
         getBinding().fab4.setColorPressed(accentColor());
         getBinding().fab5.setColorPressed(accentColor());
+
+        View.OnClickListener onFabClickListener = v -> {
+            switch (v.getId()) {
+                case R.id.fab1:resolveFabClick(0);break;
+                case R.id.fab2:resolveFabClick(1);break;
+                case R.id.fab3:resolveFabClick(2);break;
+                case R.id.fab4:resolveFabClick(3);break;
+                case R.id.fab5:resolveFabClick(4);break;
+            }
+        };
+
+        getBinding().fab1.setOnClickListener(onFabClickListener);
+        getBinding().fab2.setOnClickListener(onFabClickListener);
+        getBinding().fab3.setOnClickListener(onFabClickListener);
+        getBinding().fab4.setOnClickListener(onFabClickListener);
+        getBinding().fab5.setOnClickListener(onFabClickListener);
     }
 
     private void initFabSortItems() {
         try {
-            List<FabSortItem> fabSortItems = PreferencesUtils.getInstance(this).getFabSortResult();
+            List<FabSortItem> fabSortItems = preferencesUtils.getFabSortResult();
 
             getBinding().fab1.setImageDrawable(ColorUtils.tintDrawable(getResources().getDrawable(fabSortItems.get(0).iconRes), Color.WHITE));
             getBinding().fab2.setImageDrawable(ColorUtils.tintDrawable(getResources().getDrawable(fabSortItems.get(1).iconRes), Color.WHITE));
@@ -98,6 +118,14 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> {
         } catch (Exception e) {
             LogUtils.d("initFabSortItems, error occurred : " + e);
             PreferencesUtils.getInstance(this).setFabSortResult(PreferencesUtils.defaultFabOrders);
+        }
+    }
+
+    private void resolveFabClick(int index) {
+        FabSortItem fabSortItem = preferencesUtils.getFabSortResult().get(index);
+        switch (fabSortItem) {
+            case NOTE:
+                break;
         }
     }
 
