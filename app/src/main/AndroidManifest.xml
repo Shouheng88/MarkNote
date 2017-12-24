@@ -48,6 +48,8 @@
 
         <activity android:name=".activity.SettingsActivity"/>
 
+        <activity android:name=".activity.FabSortActivity" />
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="aa14224ea2102fef301d211dac552635f37b1f9e" />
