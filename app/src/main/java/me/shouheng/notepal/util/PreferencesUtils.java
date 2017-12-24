@@ -3,12 +3,11 @@ package me.shouheng.notepal.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 
 import org.polaric.colorful.Colorful;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -29,6 +28,7 @@ public class PreferencesUtils {
     private final String FIRST_DAY_OF_WEEK = "first_day_of_week";
 
     private final String FAB_SORT_RESULT = "fab_sort_result";
+    private final String FAB_SORT_SPLIT = ":";
     private final String LIST_ANIMATION = "list_animation";
 
     public static List<FabSortItem> defaultFabOrders;
@@ -118,21 +118,30 @@ public class PreferencesUtils {
     }
 
     public List<FabSortItem> getFabSortResult(){
-        Set<String> set = getStringSetValue(FAB_SORT_RESULT, new HashSet<String>());
-        if (set.isEmpty()) return defaultFabOrders;
-        List<FabSortItem> fabSortItems = new ArrayList<>();
-        for (String setting : set) {
-            fabSortItems.add(FabSortItem.valueOf(setting));
+        String fabStr = getStringValue(FAB_SORT_RESULT, null);
+        if (!TextUtils.isEmpty(fabStr)) {
+            String[] fabs = fabStr.split(FAB_SORT_SPLIT);
+            List<FabSortItem> fabSortItems = new LinkedList<>();
+            for (String fab : fabs) {
+                fabSortItems.add(FabSortItem.valueOf(fab));
+            }
+            return fabSortItems;
+        } else {
+            return defaultFabOrders;
         }
-        return fabSortItems;
     }
 
     public void setFabSortResult(List<FabSortItem> fabSortItems){
-        Set<String> set = new HashSet<>();
-        for (FabSortItem fabSortItem : fabSortItems) {
-            set.add(fabSortItem.name());
+        int size = fabSortItems.size();
+        StringBuilder fabStr = new StringBuilder();
+        for (int i=0;i<size;i++) {
+            if (size == size - 1) {
+                fabStr.append(fabSortItems.get(i).name());
+            } else {
+                fabStr.append(fabSortItems.get(i).name()).append(FAB_SORT_SPLIT);
+            }
         }
-        putStringSetValue(FAB_SORT_RESULT, set);
+        putStringValue(FAB_SORT_RESULT, fabStr.toString());
     }
 
     public void enableListAnimation(boolean enable){

@@ -47,7 +47,7 @@ public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
         actionBar.setTitle(R.string.drawer_menu_notes);
         actionBar.setDisplayHomeAsUpEnabled(true);
         if (notebook != null) actionBar.setSubtitle(notebook.getTitle());
-        if (isTopStack) actionBar.setHomeAsUpIndicator(R.drawable.ic_main_menu_white);
+        if (isTopStack) actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_white);
     }
 
     private void handleArguments() {

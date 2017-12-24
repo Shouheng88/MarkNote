@@ -1,5 +1,6 @@
 package me.shouheng.notepal.activity;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -25,6 +26,8 @@ import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.PreferencesUtils;
 
 public class MainActivity extends CommonActivity<ActivityMainBinding> {
+
+    private final int REQUEST_FAB_SORT = 0x0001;
 
     private PreferencesUtils preferencesUtils;
 
@@ -70,6 +73,10 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> {
     private void initFloatButtons() {
         getBinding().menu.setMenuButtonColorNormal(accentColor());
         getBinding().menu.setMenuButtonColorPressed(accentColor());
+        getBinding().menu.setOnMenuButtonLongClickListener(v -> {
+            startActivityForResult(FabSortActivity.class, REQUEST_FAB_SORT);
+            return false;
+        });
 
         getBinding().fab1.setColorNormal(accentColor());
         getBinding().fab2.setColorNormal(accentColor());
@@ -133,7 +140,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_main_menu_white);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white);
         if (!isDarkTheme()) toolbar.setPopupTheme(R.style.AppTheme_PopupOverlay);
     }
 
@@ -194,6 +201,18 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> {
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_FAB_SORT:
+                if (resultCode == RESULT_OK) {
+                    initFabSortItems();
+                }
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

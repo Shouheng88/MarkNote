@@ -49,4 +49,8 @@ public abstract class CommonActivity<T extends ViewDataBinding> extends ThemedAc
     protected <M extends Activity> void startActivity(Class<M> activityClass) {
         startActivity(new Intent(this, activityClass));
     }
+
+    protected <M extends Activity> void startActivityForResult(Class<M> activityClass, int requestCode) {
+        startActivityForResult(new Intent(this, activityClass), requestCode);
+    }
 }
