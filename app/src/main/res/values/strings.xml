@@ -65,6 +65,11 @@
     <string name="fab_sort_save_successfully">成功保存浮动菜单的设置</string>
     <!--endregion-->
 
+    <!--region content activity-->
+    <string name="content_failed_to_parse_intent">无法解析的意图</string>
+    <string name="content_no_such_note">没有找到该笔记</string>
+    <!--endregion-->
+
     <!--region alarm-->
     <string name="pick_alarm_type">选择闹钟类型</string>
     <string name="one_shot">一次</string>
