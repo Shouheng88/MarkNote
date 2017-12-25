@@ -2,33 +2,35 @@
     <string name="app_name">NotePal</string>
 
     <!--region common text-->
-    <string name="text_settings">设置</string>
     <string name="text_add_more">添加&#8230;</string>
-    <string name="text_more">更多</string>
-    <string name="text_send">发送</string>
-    <string name="text_share">分享</string>
     <string name="text_about">关于</string>
-    <string name="text_search">搜索</string>
-    <string name="text_save">保存</string>
-    <string name="text_clear">清除</string>
-    <string name="text_delete">删除</string>
-    <string name="text_delete_still">仍然删除</string>
-    <string name="text_give_up">放弃</string>
-    <string name="text_reset">重置</string>
     <string name="text_accept">接受</string>
-    <string name="text_undo">撤销</string>
-    <string name="text_tips">提示</string>
-    <string name="text_preview">预览</string>
-    <string name="text_pick">选择</string>
-    <string name="text_print">打印</string>
-    <string name="text_warning">警告</string>
-    <string name="text_edit">编辑</string>
+    <string name="text_clear">清除</string>
     <string name="text_copy">复制</string>
     <string name="text_content">内容</string>
     <string name="text_comments">备注</string>
     <string name="text_create_new">新建</string>
     <string name="text_comment">备注</string>
     <string name="text_cancel">取消</string>
+    <string name="text_delete">删除</string>
+    <string name="text_delete_still">仍然删除</string>
+    <string name="text_edit">编辑</string>
+    <string name="text_give_up">放弃</string>
+    <string name="text_more">更多</string>
+    <string name="text_pick">选择</string>
+    <string name="text_preview">预览</string>
+    <string name="text_print">打印</string>
+    <string name="text_reset">重置</string>
+    <string name="text_send">发送</string>
+    <string name="text_settings">设置</string>
+    <string name="text_share">分享</string>
+    <string name="text_search">搜索</string>
+    <string name="text_save_or_discard">保存还是放弃所做的修改？</string>
+    <string name="text_save_successfully">保存成功</string>
+    <string name="text_save">保存</string>
+    <string name="text_tips">提示</string>
+    <string name="text_undo">撤销</string>
+    <string name="text_warning">警告</string>
     <!--endregion-->
 
     <!--region drawer menu-->
