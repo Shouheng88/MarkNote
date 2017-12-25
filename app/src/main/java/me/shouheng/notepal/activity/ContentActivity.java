@@ -58,6 +58,16 @@ public class ContentActivity extends CommonActivity<ActivityContentBinding> impl
         fragment.startActivityForResult(intent, requestCode);
     }
 
+    public static void startNoteEditForResult(Activity activity, @NonNull Note note, Integer position, @NonNull Integer requestCode){
+        Intent intent = new Intent(activity, ContentActivity.class);
+        intent.putExtra(EXTRA_MODEL, (Serializable) note);
+        intent.putExtra(EXTRA_POSITION, position);
+        intent.putExtra(EXTRA_REQUEST_CODE, requestCode);
+        intent.putExtra(EXTRA_START_TYPE, VALUE_START_EDIT);
+        intent.putExtra(EXTRA_FRAGMENT, VALUE_FRAGMENT_NOTE);
+        activity.startActivityForResult(intent, requestCode);
+    }
+
     public static void startNoteViewForResult(Activity activity, @NonNull Note note, Integer position, @NonNull Integer requestCode){
         Intent intent = new Intent(activity, ContentActivity.class);
         intent.putExtra(EXTRA_MODEL, (Serializable) note);

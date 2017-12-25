@@ -28,6 +28,7 @@
     <string name="text_comments">备注</string>
     <string name="text_create_new">新建</string>
     <string name="text_comment">备注</string>
+    <string name="text_cancel">取消</string>
     <!--endregion-->
 
     <!--region drawer menu-->
@@ -159,5 +160,28 @@
     <string name="capture_list">列表截图</string>
     <string name="capture_capturing">正在截取&#8230;</string>
     <!--endregion-->
+
+    <!--region permission-->
+    <string name="permission_setting_permission">Permission Setting</string>
+    <string name="permission_storage_permission">storage permission</string>
+    <string name="permission_location_permission">location permission</string>
+    <string name="permission_microphone_permission">microphone permission</string>
+    <string name="permission_phone_permission">phone permission</string>
+    <string name="permission_sms_permission">sms permission</string>
+    <string name="permission_sensor_permission">sensors permission</string>
+    <string name="permission_contacts_permission">contacts permission</string>
+    <string name="permission_camera_permission">camera permission</string>
+    <string name="permission_calendar_permission">calendar permission</string>
+    <string name="permission_set_permission_in_setting">Set the %s in settings.</string>
+    <string name="permission_permission_denied_try_after">Permission denied. Please try again after grant the permission.</string>
+    <string name="setting_permission">设置权限</string>
+    <string name="set_permission_in_setting">打开"设置"，轻触"权限"，将"%s"设置为打开，并再次尝试.</string>
+    <string name="storage_permission">存储空间权限</string>
+    <string name="phone_permission">电话权限</string>
+    <string name="microphone_permission">麦克风权限</string>
+    <string name="to_set">去设置</string>
+    <string name="permission_denied_try_again_after_set">请授予程序权限后再次尝试</string>
+    <string name="check_network_availability">检查网络连接是否可用</string>
+    <!--endregion permission-->
 
 </resources>

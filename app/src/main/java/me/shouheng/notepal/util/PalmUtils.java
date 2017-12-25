@@ -1,5 +1,8 @@
 package me.shouheng.notepal.util;
 
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Build;
 
 /**
@@ -48,5 +51,16 @@ public class PalmUtils {
      * @return true->above API 23 */
     public static boolean isMarshmallow() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
+    }
+
+    public static String getPackageName(Context ctx){
+        PackageInfo info;
+        try {
+            info = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), 0);
+            return info.packageName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

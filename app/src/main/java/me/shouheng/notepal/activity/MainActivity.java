@@ -19,15 +19,20 @@ import me.shouheng.notepal.databinding.ActivityMainBinding;
 import me.shouheng.notepal.databinding.ActivityMainNavHeaderBinding;
 import me.shouheng.notepal.fragment.NotesFragment;
 import me.shouheng.notepal.intro.IntroActivity;
+import me.shouheng.notepal.model.ModelFactory;
+import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.model.enums.FabSortItem;
 import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.FragmentHelper;
 import me.shouheng.notepal.util.LogUtils;
+import me.shouheng.notepal.util.PermissionUtils;
 import me.shouheng.notepal.util.PreferencesUtils;
 
 public class MainActivity extends CommonActivity<ActivityMainBinding> {
 
     private final int REQUEST_FAB_SORT = 0x0001;
+
+    private final int REQUEST_ADD_NOTE = 0x0002;
 
     private PreferencesUtils preferencesUtils;
 
@@ -132,6 +137,10 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> {
         FabSortItem fabSortItem = preferencesUtils.getFabSortResult().get(index);
         switch (fabSortItem) {
             case NOTE:
+                PermissionUtils.checkStoragePermission(this, () -> {
+                    Note note = ModelFactory.getNote(this);
+                    ContentActivity.startNoteEditForResult(this, note, null, REQUEST_ADD_NOTE);
+                });
                 break;
         }
     }
