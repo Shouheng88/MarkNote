@@ -14,6 +14,7 @@ import com.afollestad.materialdialogs.color.ColorChooserDialog.ColorCallback;
 import java.io.Serializable;
 
 import me.shouheng.notepal.R;
+import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.databinding.ActivityContentBinding;
 import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.provider.NotesStore;
@@ -24,57 +25,43 @@ import me.shouheng.notepal.util.ToastUtils;
 
 public class ContentActivity extends CommonActivity<ActivityContentBinding> implements ColorCallback {
 
-    private final static String EXTRA_MODEL = "extra_model";
-    private final static String EXTRA_CODE = "extra_code";
-
-    private final static String EXTRA_POSITION = "extra_position";
-
-    private final static String EXTRA_REQUEST_CODE = "extra_request_code";
-
-    private final static String EXTRA_START_TYPE = "extra_start_type";
-    private final static String VALUE_START_VIEW = "value_start_view";
-    private final static String VALUE_START_EDIT = "value_start_edit";
-
-    private final static String EXTRA_FRAGMENT = "extra_fragment";
-    private final static String VALUE_FRAGMENT_NOTE = "value_fragment_note";
-
     public static void startNoteEditForResult(Fragment fragment, @NonNull Note note, Integer position, @NonNull Integer requestCode){
         Intent intent = new Intent(fragment.getContext(), ContentActivity.class);
-        intent.putExtra(EXTRA_MODEL, (Serializable) note);
-        intent.putExtra(EXTRA_POSITION, position);
-        intent.putExtra(EXTRA_REQUEST_CODE, requestCode);
-        intent.putExtra(EXTRA_START_TYPE, VALUE_START_EDIT);
-        intent.putExtra(EXTRA_FRAGMENT, VALUE_FRAGMENT_NOTE);
+        intent.putExtra(Constants.EXTRA_MODEL, (Serializable) note);
+        intent.putExtra(Constants.EXTRA_POSITION, position);
+        intent.putExtra(Constants.EXTRA_REQUEST_CODE, requestCode);
+        intent.putExtra(Constants.EXTRA_START_TYPE, Constants.VALUE_START_EDIT);
+        intent.putExtra(Constants.EXTRA_FRAGMENT, Constants.VALUE_FRAGMENT_NOTE);
         fragment.startActivityForResult(intent, requestCode);
     }
 
     public static void startNoteViewForResult(Fragment fragment, @NonNull Note note, Integer position, @NonNull Integer requestCode){
         Intent intent = new Intent(fragment.getContext(), ContentActivity.class);
-        intent.putExtra(EXTRA_MODEL, (Serializable) note);
-        intent.putExtra(EXTRA_POSITION, position);
-        intent.putExtra(EXTRA_REQUEST_CODE, requestCode);
-        intent.putExtra(EXTRA_START_TYPE, VALUE_START_VIEW);
-        intent.putExtra(EXTRA_FRAGMENT, VALUE_FRAGMENT_NOTE);
+        intent.putExtra(Constants.EXTRA_MODEL, (Serializable) note);
+        intent.putExtra(Constants.EXTRA_POSITION, position);
+        intent.putExtra(Constants.EXTRA_REQUEST_CODE, requestCode);
+        intent.putExtra(Constants.EXTRA_START_TYPE, Constants.VALUE_START_VIEW);
+        intent.putExtra(Constants.EXTRA_FRAGMENT, Constants.VALUE_FRAGMENT_NOTE);
         fragment.startActivityForResult(intent, requestCode);
     }
 
     public static void startNoteEditForResult(Activity activity, @NonNull Note note, Integer position, @NonNull Integer requestCode){
         Intent intent = new Intent(activity, ContentActivity.class);
-        intent.putExtra(EXTRA_MODEL, (Serializable) note);
-        intent.putExtra(EXTRA_POSITION, position);
-        intent.putExtra(EXTRA_REQUEST_CODE, requestCode);
-        intent.putExtra(EXTRA_START_TYPE, VALUE_START_EDIT);
-        intent.putExtra(EXTRA_FRAGMENT, VALUE_FRAGMENT_NOTE);
+        intent.putExtra(Constants.EXTRA_MODEL, (Serializable) note);
+        intent.putExtra(Constants.EXTRA_POSITION, position);
+        intent.putExtra(Constants.EXTRA_REQUEST_CODE, requestCode);
+        intent.putExtra(Constants.EXTRA_START_TYPE, Constants.VALUE_START_EDIT);
+        intent.putExtra(Constants.EXTRA_FRAGMENT, Constants.VALUE_FRAGMENT_NOTE);
         activity.startActivityForResult(intent, requestCode);
     }
 
     public static void startNoteViewForResult(Activity activity, @NonNull Note note, Integer position, @NonNull Integer requestCode){
         Intent intent = new Intent(activity, ContentActivity.class);
-        intent.putExtra(EXTRA_MODEL, (Serializable) note);
-        intent.putExtra(EXTRA_POSITION, position);
-        intent.putExtra(EXTRA_REQUEST_CODE, requestCode);
-        intent.putExtra(EXTRA_START_TYPE, VALUE_START_VIEW);
-        intent.putExtra(EXTRA_FRAGMENT, VALUE_FRAGMENT_NOTE);
+        intent.putExtra(Constants.EXTRA_MODEL, (Serializable) note);
+        intent.putExtra(Constants.EXTRA_POSITION, position);
+        intent.putExtra(Constants.EXTRA_REQUEST_CODE, requestCode);
+        intent.putExtra(Constants.EXTRA_START_TYPE, Constants.VALUE_START_VIEW);
+        intent.putExtra(Constants.EXTRA_FRAGMENT, Constants.VALUE_FRAGMENT_NOTE);
         activity.startActivityForResult(intent, requestCode);
     }
 
@@ -90,14 +77,14 @@ public class ContentActivity extends CommonActivity<ActivityContentBinding> impl
 
     private void handleIntent() {
         Intent intent = getIntent();
-        if (intent == null || !intent.hasExtra(EXTRA_FRAGMENT)) {
+        if (intent == null || !intent.hasExtra(Constants.EXTRA_FRAGMENT)) {
             ToastUtils.makeToast(this, R.string.content_failed_to_parse_intent);
             LogUtils.d("Faile to handle intent : " + intent);
             finish();
             return;
         }
-        switch (intent.getStringExtra(EXTRA_FRAGMENT)) {
-            case VALUE_FRAGMENT_NOTE:
+        switch (intent.getStringExtra(Constants.EXTRA_FRAGMENT)) {
+            case Constants.VALUE_FRAGMENT_NOTE:
                 handleNoteIntent();
                 break;
             default:
@@ -109,27 +96,27 @@ public class ContentActivity extends CommonActivity<ActivityContentBinding> impl
 
     private void handleNoteIntent() {
         Intent intent = getIntent();
-        if (intent.hasExtra(EXTRA_MODEL)) {
-            if (!(intent.getSerializableExtra(EXTRA_MODEL) instanceof Note)) {
+        if (intent.hasExtra(Constants.EXTRA_MODEL)) {
+            if (!(intent.getSerializableExtra(Constants.EXTRA_MODEL) instanceof Note)) {
                 ToastUtils.makeToast(this, R.string.content_failed_to_parse_intent);
                 LogUtils.d("Failed to resolve note intent : " + intent);
                 finish();
                 return;
             }
-            Note note = (Note) intent.getSerializableExtra(EXTRA_MODEL);
-            int position = intent.getIntExtra(EXTRA_POSITION, -1);
-            int requestCode = intent.getIntExtra(EXTRA_REQUEST_CODE, -1);
+            Note note = (Note) intent.getSerializableExtra(Constants.EXTRA_MODEL);
+            int position = intent.getIntExtra(Constants.EXTRA_POSITION, -1);
+            int requestCode = intent.getIntExtra(Constants.EXTRA_REQUEST_CODE, -1);
             toNoteFragment(note,
                     position == -1 ? null : position,
                     requestCode == -1 ? null : requestCode,
-                    VALUE_START_EDIT.equals(intent.getStringExtra(EXTRA_START_TYPE)));
+                    Constants.VALUE_START_EDIT.equals(intent.getStringExtra(Constants.EXTRA_START_TYPE)));
         }
 
         // The case below mainly used for the intent from shortcut
-        if (intent.hasExtra(EXTRA_CODE)) {
-            long code = intent.getLongExtra(EXTRA_CODE, -1);
-            int position = intent.getIntExtra(EXTRA_POSITION, -1);
-            int requestCode = intent.getIntExtra(EXTRA_REQUEST_CODE, -1);
+        if (intent.hasExtra(Constants.EXTRA_CODE)) {
+            long code = intent.getLongExtra(Constants.EXTRA_CODE, -1);
+            int position = intent.getIntExtra(Constants.EXTRA_POSITION, -1);
+            int requestCode = intent.getIntExtra(Constants.EXTRA_REQUEST_CODE, -1);
             Note note = NotesStore.getInstance(this).get(code);
             if (note == null){
                 ToastUtils.makeToast(this, R.string.content_no_such_note);
@@ -140,7 +127,7 @@ public class ContentActivity extends CommonActivity<ActivityContentBinding> impl
             toNoteFragment(note,
                     position == -1 ? null : position,
                     requestCode == -1 ? null : requestCode,
-                    VALUE_START_EDIT.equals(intent.getStringExtra(EXTRA_START_TYPE)));
+                    Constants.VALUE_START_EDIT.equals(intent.getStringExtra(Constants.EXTRA_START_TYPE)));
         }
     }
 
