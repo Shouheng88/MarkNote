@@ -38,6 +38,10 @@ public abstract class CommonFragment<T extends ViewDataBinding> extends Fragment
         return binding.getRoot();
     }
 
+    protected View getRoot() {
+        return binding.getRoot();
+    }
+
     protected final T getBinding() {
         return binding;
     }

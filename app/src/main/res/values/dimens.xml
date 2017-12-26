@@ -9,4 +9,10 @@
 
     <dimen name="empty_view_size">120dp</dimen>
 
+    <!--region note-->
+    <dimen name="note_bottom_menu_height">48dp</dimen>
+    <dimen name="note_bottom_menu_height_double">96dp</dimen>
+    <dimen name="note_center_options_height">45dp</dimen>
+    <!--endregion-->
+
 </resources>

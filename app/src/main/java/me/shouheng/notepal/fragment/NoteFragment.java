@@ -1,46 +1,34 @@
 package me.shouheng.notepal.fragment;
 
-import android.app.Dialog;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
-import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
+import com.baidu.location.BDLocation;
 import com.balysv.materialmenu.MaterialMenuDrawable;
 
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.ContentActivity;
 import me.shouheng.notepal.config.Constants;
+import me.shouheng.notepal.databinding.FragmentNoteBinding;
 import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.model.Location;
 import me.shouheng.notepal.model.ModelFactory;
@@ -53,26 +41,20 @@ import me.shouheng.notepal.provider.LocationsStore;
 import me.shouheng.notepal.provider.NotebookStore;
 import me.shouheng.notepal.provider.NotesStore;
 import me.shouheng.notepal.util.ColorUtils;
+import me.shouheng.notepal.util.FileHelper;
 import me.shouheng.notepal.util.LogUtils;
+import me.shouheng.notepal.util.ModelHelper;
+import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.widget.FlowLayout;
-import my.shouheng.palmmarkdown.MarkdownEditor;
 import my.shouheng.palmmarkdown.dialog.LinkInputDialog;
 import my.shouheng.palmmarkdown.dialog.TableInputDialog;
 import my.shouheng.palmmarkdown.tools.MarkdownEffect;
 
 /**
  * Created by wangshouheng on 2017/5/12.*/
-public class NoteFragment extends BaseModelFragment<Note> {
+public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
 
-    private EditText etTitle;
-    private MarkdownEditor markdownEditor;
-
-    private DrawerLayout drawerLayout;
-    private ImageView ivEnableFormat;
-    private RelativeLayout rlBottomEditor, rlBottom;
-    private FlowLayout flLabels;
-    private TextView tvLocationInfo, tvSetAs, tvPurpose, tvNotebook;
     private MaterialMenuDrawable materialMenu;
 
     private Note note;
@@ -82,6 +64,8 @@ public class NoteFragment extends BaseModelFragment<Note> {
     private File file;
     private File tempFile;
     private Notebook notebook;
+
+    private PreferencesUtils preferencesUtils;
 
     public static NoteFragment newInstance(Note note, Integer position, Integer requestCode){
         Bundle arg = new Bundle();
@@ -94,22 +78,39 @@ public class NoteFragment extends BaseModelFragment<Note> {
         return fragment;
     }
 
-    private void prepareValues(){
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.fragment_note;
+    }
+
+    @Override
+    protected void doCreateView(Bundle savedInstanceState) {
+        preferencesUtils = PreferencesUtils.getInstance(getContext());
+
+        handleArguments();
+
+        configToolbar();
+
+        configMain();
+
+        configDrawer();
+    }
+
+    private void handleArguments() {
         Bundle arguments = getArguments();
-        if (arguments.containsKey(Constants.EXTRA_MODEL)){
+
+        if (arguments != null && arguments.containsKey(Constants.EXTRA_MODEL)){
             note = (Note) arguments.getSerializable(Constants.EXTRA_MODEL);
         }
 
-        // 当笔记实体没有被找到的时候，关闭活动并且弹出通知提示
         if (note == null)  {
-            getActivity().finish();
-            ToastUtils.makeToast(getContext(), R.string.no_such_note);
+            if (getActivity() != null) getActivity().finish();
+            ToastUtils.makeToast(getContext(), R.string.note_no_such_note);
         }
 
         noteFile = AttachmentsStore.getInstance(getContext()).get(note.getContentCode());
         location = LocationsStore.getInstance(getContext()).getLocation(note);
         notebook = NotebookStore.getInstance(getContext()).get(note.getParentCode());
-        purpose = PurposeStore.getInstance(getContext()).get(note.getPurposeCode());
 
         if (noteFile != null) {
             try {
@@ -117,137 +118,109 @@ public class NoteFragment extends BaseModelFragment<Note> {
                 String content = FileUtils.readFileToString(file, "utf-8");
                 note.setContent(content);
             } catch (IOException e) {
-                ToastUtils.makeToast(getContext(), R.string.failed_to_read_file);
+                ToastUtils.makeToast(getContext(), R.string.note_failed_to_read_file);
             }
         } else {
-            tempFile = FileHelper.createNewAttachmentFile(getContext(), PreferUtils.getInstance(getContext()).getNoteFileExtension());
+            tempFile = FileHelper.createNewAttachmentFile(getContext(), preferencesUtils.getNoteFileExtension());
             note.setContent("");
         }
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        prepareValues();
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_note, container, false);
-
-        Toolbar toolbar = rootView.findViewById(R.id.toolbar);
+    private void configToolbar() {
         materialMenu = new MaterialMenuDrawable(getContext(), primaryColor(), MaterialMenuDrawable.Stroke.THIN);
         materialMenu.setIconState(MaterialMenuDrawable.IconState.ARROW);
-        toolbar.setNavigationIcon(materialMenu);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        getBinding().main.toolbar.setNavigationIcon(materialMenu);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(getBinding().main.toolbar);
         ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setTitle("");
-        setStatusBarColor(isDarkTheme() ? getResources().getColor(R.color.dark_theme_foreground) : getResources().getColor(R.color.md_grey_500));
+        setStatusBarColor(getResources().getColor(isDarkTheme() ? R.color.dark_theme_foreground : R.color.md_grey_500));
+    }
 
-        TextWatcher textWatcher = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+    private void configMain() {
+        getBinding().main.etTitle.setText(TextUtils.isEmpty(note.getTitle()) ? "" : note.getTitle());
+        getBinding().main.etTitle.addTextChangedListener(textWatcher);
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+        getBinding().main.etContent.setText(note.getContent());
+        getBinding().main.etContent.addTextChangedListener(textWatcher);
 
-            @Override
-            public void afterTextChanged(Editable s) {
-                setContentChanged();
-            }
-        };
+        if (notebook != null) getBinding().main.tvFolder.setText(notebook.getTitle());
+        getBinding().main.llFolder.setOnClickListener(v -> showNotebookPicker());
 
-        etTitle = (EditText) rootView.findViewById(R.id.et_title);
-        etTitle.setText(TextUtils.isEmpty(note.getTitle()) ? "" : note.getTitle());
-        etTitle.addTextChangedListener(textWatcher);
-
-        markdownEditor = (MarkdownEditor) rootView.findViewById(R.id.et_content);
-        markdownEditor.setText(note.getContent());
-        markdownEditor.addTextChangedListener(textWatcher);
-
-        tvNotebook = (TextView) rootView.findViewById(R.id.tv_folder);
-        if (notebook != null) tvNotebook.setText(notebook.getTitle());
-        rootView.findViewById(R.id.ll_folder).setOnClickListener(v -> showNotebookPicker());
-
-        rlBottom = rootView.findViewById(R.id.rl_bottom);
-        rlBottomEditor = rootView.findViewById(R.id.rl_bottom_editors);
-        rlBottomEditor.setVisibility(View.GONE);
+        getBinding().main.rlBottomEditors.setVisibility(View.GONE);
 
         int[] ids = new int[] {R.id.iv_h1, R.id.iv_h2, R.id.iv_h3, R.id.iv_h4, R.id.iv_h5, R.id.iv_h6,
                 R.id.iv_bold, R.id.iv_italic, R.id.iv_stroke, R.id.iv_format_list, R.id.iv_number_list,
                 R.id.iv_line, R.id.iv_code, R.id.iv_xml, R.id.iv_quote,
                 R.id.iv_insert_picture, R.id.iv_insert_link, R.id.iv_insert_table,
                 R.id.iv_redo, R.id.iv_undo};
-        for (int id : ids) {
-            rootView.findViewById(id).setOnClickListener(this::addEffect);
-        }
+        for (int id : ids) getRoot().findViewById(id).setOnClickListener(this::addEffect);
 
-        ivEnableFormat = rootView.findViewById(R.id.iv_enable_format);
-        ivEnableFormat.setOnClickListener(v -> switchFormat());
-
-        drawerLayout = rootView.findViewById(R.id.drawer_layout);
-        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-        Toolbar drawerToolbar = rootView.findViewById(R.id.drawer_toolbar);
-        drawerToolbar.setNavigationOnClickListener(v -> drawerLayout.closeDrawer(GravityCompat.END));
-        if (isDarkTheme()){
-            drawerToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
-            rootView.findViewById(R.id.drawer).setBackgroundColor(getResources().getColor(R.color.dark_theme_background));
-            drawerToolbar.setBackgroundColor(getResources().getColor(R.color.dark_theme_background));
-        }
-
-        ((TextView) rootView.findViewById(R.id.tv_time_info)).setText(ModelHelper.getTimeInfo(note));
-
-        flLabels = rootView.findViewById(R.id.fl_labels);
-        flLabels.setOnClickListener(v -> showTagsEditDialog());
-        rootView.findViewById(R.id.tv_add_labels).setOnClickListener(v -> showTagEditDialog());
-        addTagsToLayout(note.getTags());
-
-        tvLocationInfo = rootView.findViewById(R.id.tv_location_info);
-        rootView.findViewById(R.id.tv_add_location).setOnClickListener(v -> tryToLocate());
-        showLocationInfo();
-
-        rootView.findViewById(R.id.tv_copy_link).setOnClickListener(v -> ModelHelper.copyLink(getActivity(), note));
-
-        rootView.findViewById(R.id.tv_copy_text).setOnClickListener(v -> {
-            note.setContent(markdownEditor.getText().toString());
-            ModelHelper.copyToClipboard(getActivity(), markdownEditor.getText().toString());
-        });
-
-        rootView.findViewById(R.id.tv_add_to_home_screen).setOnClickListener(v -> addShortcut());
-
-        rootView.findViewById(R.id.tv_statistics).setOnClickListener(v -> showStatisticsDialog());
-
-        tvSetAs = rootView.findViewById(R.id.tv_attach_to_class);
-        tvSetAs.setOnClickListener(v -> showClassPicker());
-        Clazz clazz = ClassesStore.getInstance(getActivity()).get(note.getClassCode());
-        if (clazz != null) {
-            showNoteAttachInfo(clazz);
-        }
-
-        tvPurpose = rootView.findViewById(R.id.tv_set_as_purpose);
-        showPurposeInfo(purpose, tvPurpose);
-        tvPurpose.setOnClickListener(v -> showPurposePicker());
-
-        return rootView;
+        getBinding().main.ivEnableFormat.setOnClickListener(v -> switchFormat());
     }
 
+    private void configDrawer() {
+        getBinding().drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+
+        getBinding().drawer.drawerToolbar.setNavigationOnClickListener(v ->
+                getBinding().drawerLayout.closeDrawer(GravityCompat.END));
+        if (isDarkTheme()){
+            getBinding().drawer.drawerToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+            getBinding().drawer.getRoot().setBackgroundColor(getResources().getColor(R.color.dark_theme_background));
+            getBinding().drawer.drawerToolbar.setBackgroundColor(getResources().getColor(R.color.dark_theme_background));
+        }
+
+        getBinding().drawer.tvTimeInfo.setText(ModelHelper.getTimeInfo(note));
+
+        getBinding().drawer.flLabels.setOnClickListener(v -> showTagsEditDialog());
+        getBinding().drawer.tvAddLabels.setOnClickListener(v -> showTagEditDialog());
+        addTagsToLayout(note.getTags());
+
+        getBinding().drawer.tvAddLocation.setOnClickListener(v -> tryToLocate());
+        showLocationInfo();
+
+        getBinding().drawer.tvCopyLink.setOnClickListener(v -> ModelHelper.copyLink(getActivity(), note));
+
+        getBinding().drawer.tvCopyText.setOnClickListener(v -> {
+            note.setContent(getBinding().main.etContent.getText().toString());
+            ModelHelper.copyToClipboard(getActivity(), getBinding().main.etContent.getText().toString());
+        });
+
+        getBinding().drawer.tvAddToHomeScreen.setOnClickListener(v -> addShortcut());
+
+        getBinding().drawer.tvStatistics.setOnClickListener(v -> showStatisticsDialog());
+    }
+
+    private TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            setContentChanged();
+        }
+    };
+
+    private void showStatisticsDialog(){}
+
     private void showNotebookPicker() {
-        NotebookPickerDialog.newInstance(getContext())
-                .setOnItemSelectedListener((dialog, notebook1, position) -> {
-                    note.setParentCode(notebook1.getCode());
-                    tvNotebook.setText(notebook1.getTitle());
-                    tvNotebook.setTextColor(notebook1.getColor());
-                    setContentChanged();
-                    dialog.dismiss();
-                })
-                .show(getFragmentManager(), "NOTEBOOK_PICKER");
+//        NotebookPickerDialog.newInstance(getContext())
+//                .setOnItemSelectedListener((dialog, notebook1, position) -> {
+//                    note.setParentCode(notebook1.getCode());
+//                    tvNotebook.setText(notebook1.getTitle());
+//                    tvNotebook.setTextColor(notebook1.getColor());
+//                    setContentChanged();
+//                    dialog.dismiss();
+//                })
+//                .show(getFragmentManager(), "NOTEBOOK_PICKER");
     }
 
     @Override
     protected FlowLayout getTagsLayout() {
-        return flLabels;
+        return getBinding().drawer.flLabels;
     }
 
     @Override
@@ -263,37 +236,20 @@ public class NoteFragment extends BaseModelFragment<Note> {
     }
 
     @Override
-    protected void onGetPurpose(Purpose purpose) {
-        super.onGetPurpose(purpose);
-        note.setPurposeCode(purpose.getCode());
-        setContentChanged();
-        showPurposeInfo(purpose, tvPurpose);
-    }
-
-    @Override
     protected void onGetLocation(BDLocation bdLocation) {
-        super.onGetLocation(bdLocation);
         if (bdLocation != null && !TextUtils.isEmpty(bdLocation.getCity())){
-            if (location != null){
-                location.setLongitude(bdLocation.getLongitude());
-                location.setLatitude(bdLocation.getLatitude());
-                location.setCountry(bdLocation.getCountry());
-                location.setProvince(bdLocation.getProvince());
-                location.setCity(bdLocation.getCity());
-                location.setDistrict(bdLocation.getDistrict());
-                LocationsStore.getInstance(getContext()).update(location);
-            } else {
-                location = ModelFactory.getLocation(getContext());
-                location.setLongitude(bdLocation.getLongitude());
-                location.setLatitude(bdLocation.getLatitude());
-                location.setCountry(bdLocation.getCountry());
-                location.setProvince(bdLocation.getProvince());
-                location.setCity(bdLocation.getCity());
-                location.setDistrict(bdLocation.getDistrict());
-                location.setModelCode(note.getCode());
-                location.setModelType(ModelType.NOTE);
-                LocationsStore.getInstance(getContext()).saveModel(location);
-            }
+            boolean isNew;
+            location = (isNew = location == null) ? ModelFactory.getLocation(getContext()) : location;
+            location.setLongitude(bdLocation.getLongitude());
+            location.setLatitude(bdLocation.getLatitude());
+            location.setCountry(bdLocation.getCountry());
+            location.setProvince(bdLocation.getProvince());
+            location.setCity(bdLocation.getCity());
+            location.setDistrict(bdLocation.getDistrict());
+            location.setModelCode(note.getCode());
+            location.setModelType(ModelType.NOTE);
+            if (isNew) LocationsStore.getInstance(getContext()).update(location);
+            else LocationsStore.getInstance(getContext()).saveModel(location);
             showLocationInfo();
         } else {
             ToastUtils.makeToast(getContext(), R.string.failed_to_get_location);
@@ -301,56 +257,17 @@ public class NoteFragment extends BaseModelFragment<Note> {
     }
 
     private void showLocationInfo(){
-        if (location != null) {
-            String strLocation = location.getCountry() + "|" + location.getProvince() + "|" + location.getCity() + "|" + location.getDistrict();
-            tvLocationInfo.setVisibility(View.VISIBLE);
-            tvLocationInfo.setText(strLocation);
-        }
-    }
-
-    @Override
-    protected void onGetClassAttached(Clazz clazz) {
-        super.onGetClassAttached(clazz);
-        setContentChanged();
-        note.setClassCode(clazz.getCode());
-        showNoteAttachInfo(clazz);
-    }
-
-    @Override
-    protected void onFailedToGetClassAttached() {
-        super.onFailedToGetClassAttached();
-        ToastUtils.makeToast(getActivity(), R.string.no_class_specified);
-    }
-
-    private void showNoteAttachInfo(final Clazz clazz) {
-        int clsColor = clazz.getColor();
-
-        String clsTitle = clazz.getTitle();
-        SpannableString spTitle = new SpannableString(clsTitle);
-        spTitle.setSpan(new ClickableSpan() {
-            @Override
-            public void onClick(View widget) {
-                // 单击时跳转到课程信息浏览界面
-                ContentActivity.startClassForResult(NoteFragment.this, clazz.getCode(), 0, 1);
-            }
-        }, 0, clsTitle.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spTitle.setSpan(new ColorSpan(clsColor, Color.TRANSPARENT, false), 0, clsTitle.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-        String clsSuffix = getString(R.string.note_of);
-
-        SpannableStringBuilder sb = new SpannableStringBuilder();
-        sb.append(spTitle);
-        sb.append(clsSuffix);
-
-        tvSetAs.setMovementMethod(LinkMovementMethod.getInstance());
-        tvSetAs.setText(sb);
+        if (location == null) return;
+        String strLocation = location.getCountry() + "|" + location.getProvince() + "|" + location.getCity() + "|" + location.getDistrict();
+        getBinding().drawer.tvLocationInfo.setVisibility(View.VISIBLE);
+        getBinding().drawer.tvLocationInfo.setText(strLocation);
     }
 
     private void addEffect(View v) {
         MarkdownEffect effect = null;
         switch (v.getId()){
-            case R.id.iv_undo:markdownEditor.undo();break;
-            case R.id.iv_redo:markdownEditor.redo();break;
+            case R.id.iv_undo:getBinding().main.etContent.undo();break;
+            case R.id.iv_redo:getBinding().main.etContent.redo();break;
             case R.id.iv_h1:effect = MarkdownEffect.H1;break;
             case R.id.iv_h2:effect = MarkdownEffect.H2;break;
             case R.id.iv_h3:effect = MarkdownEffect.H3;break;
@@ -367,121 +284,55 @@ public class NoteFragment extends BaseModelFragment<Note> {
             case R.id.iv_line:effect = MarkdownEffect.H_LINE;break;
             case R.id.iv_xml:effect = MarkdownEffect.XML;break;
             case R.id.iv_insert_picture:
-                showAttachmentPicker();
+//                showAttachmentPicker();
                 break;
             case R.id.iv_insert_link: {
-                LinkInputDialog.getInstance((title, link) -> markdownEditor.setEffect(MarkdownEffect.LINK, title, link)).show(getFragmentManager(), "LINK INPUT");
+                LinkInputDialog.getInstance((title, link) -> getBinding().main.etContent.setEffect(MarkdownEffect.LINK, title, link))
+                        .show(getFragmentManager(), "LINK INPUT");
             } break;
             case R.id.iv_insert_table: {
                 TableInputDialog.getInstance((rowsStr, colsStr) -> {
                     int rows, cols;
-
-                    try {rows = TextUtils.isEmpty(rowsStr) ? 3 : Integer.parseInt(rowsStr);
-                    } catch (NumberFormatException e) {rows = 3;}
-
-                    try {cols = TextUtils.isEmpty(colsStr) ? 3 : Integer.parseInt(colsStr);
-                    } catch (NumberFormatException e) {cols = 3;}
-
-                    markdownEditor.setEffect(MarkdownEffect.TABLE, rows, cols);
+                    try {rows = TextUtils.isEmpty(rowsStr) ? 3 : Integer.parseInt(rowsStr);}
+                    catch (NumberFormatException e) {rows = 3;}
+                    try {cols = TextUtils.isEmpty(colsStr) ? 3 : Integer.parseInt(colsStr);}
+                    catch (NumberFormatException e) {cols = 3;}
+                    getBinding().main.etContent.setEffect(MarkdownEffect.TABLE, rows, cols);
                 }).show(getFragmentManager(), "TABLE INPUT");
             } break;
         }
-        if (effect != null) markdownEditor.setEffect(effect);
+        if (effect != null) getBinding().main.etContent.setEffect(effect);
     }
 
     private void switchFormat() {
-        if (rlBottomEditor.getVisibility() == View.VISIBLE) {
-            rlBottomEditor.setVisibility(View.GONE);
-            ivEnableFormat.setImageDrawable(ColorUtils.tintDrawable(
+        if (getBinding().main.rlBottomEditors.getVisibility() == View.VISIBLE) {
+            getBinding().main.rlBottomEditors.setVisibility(View.GONE);
+            getBinding().main.ivEnableFormat.setImageDrawable(ColorUtils.tintDrawable(
                     getResources().getDrawable(R.drawable.ic_text_format_black_24dp), Color.WHITE));
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT, ivEnableFormat.getHeight());
+                    ViewGroup.LayoutParams.MATCH_PARENT, getBinding().main.ivEnableFormat.getHeight());
             params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-            rlBottom.setLayoutParams(params);
+            getBinding().main.rlBottom.setLayoutParams(params);
         } else {
-            rlBottomEditor.setVisibility(View.VISIBLE);
-            ivEnableFormat.setImageDrawable(ColorUtils.tintDrawable(
+            getBinding().main.rlBottomEditors.setVisibility(View.VISIBLE);
+            getBinding().main.ivEnableFormat.setImageDrawable(ColorUtils.tintDrawable(
                     getResources().getDrawable(R.drawable.ic_text_format_black_24dp), primaryColor()));
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT, ivEnableFormat.getHeight() * 2);
+                    ViewGroup.LayoutParams.MATCH_PARENT, getBinding().main.ivEnableFormat.getHeight() * 2);
             params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-            rlBottom.setLayoutParams(params);
+            getBinding().main.rlBottom.setLayoutParams(params);
         }
     }
 
-    @Override
-    protected void onFailedGetAttachment(Attachment attachment) {
-        ToastUtils.makeToast(getContext(), R.string.failed_to_save_attachment);
-    }
-
-    @Override
-    protected void onGetAttachment(Attachment attachment) {
-        markdownEditor.setEffect(MarkdownEffect.IMAGE, "image" , attachment.getUri().toString());
-        // 将添加的附件保存到附件数据库中
-        attachment.setModelCode(note.getCode());
-        attachment.setModelType(ModelType.NOTE);
-        AttachmentsStore.getInstance(getContext()).saveModel(attachment);
-    }
-
-    @Override
-    protected void personalizeAttachmentPicker(AttachmentPickerDialog attachmentPickerDialog) {
-        attachmentPickerDialog.setVideoVisible(false);
-        attachmentPickerDialog.setAlbumVisible(true);
-        attachmentPickerDialog.setFilesVisible(false);
-        attachmentPickerDialog.setRecordVisible(false);
-        attachmentPickerDialog.setAddLinkVisible(true);
-        attachmentPickerDialog.setOnAddNetUriSelectedListener(() -> addImageLink());
-    }
-
     private void addImageLink() {
-        LinkInputDialog.getInstance((title, link) -> markdownEditor.setEffect(MarkdownEffect.IMAGE, title, link)).show(getFragmentManager(), "Link Image");
+        LinkInputDialog.getInstance((title, link) -> getBinding().main.etContent.setEffect(MarkdownEffect.IMAGE, title, link))
+                .show(getFragmentManager(), "Link Image");
     }
-
-    @Override
-    protected String getStatisticsToShow() {
-        return ModelHelper.getStatistics(getActivity(), note, new ArrayList<Model>());
-    }
-
-    private View.OnClickListener onSetAsClickListener = v -> setAs();
-
-    private void setAs(){
-        View rootView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_set_assignment_type_picker_layout, null, false);
-
-        final Dialog dialog = new AlertDialog.Builder(getActivity())
-                .setTitle(R.string.associate_to_class)
-                .setView(rootView)
-                .setPositiveButton(R.string.cancel, null)
-                .create();
-        dialog.show();
-
-        View.OnClickListener onItemClickListener = v -> {
-            switch (v.getId()){
-//                    case R.id.tv_set_as_task:
-//                        assignment.setType(AssignmentType.TASK);
-//                        SearchActivity.startActivityForClass(AssignmentFragment.this, REQUEST_CODE_FOR_CLASS);
-//                        if (dialog.isShowing()){
-//                            dialog.dismiss();
-//                        }
-//                        break;
-//                    case R.id.tv_set_as_exam:
-//                        assignment.setType(AssignmentType.EXAM);
-//                        SearchActivity.startActivityForClass(AssignmentFragment.this, REQUEST_CODE_FOR_CLASS);
-//                        if (dialog.isShowing()){
-//                            dialog.dismiss();
-//                        }
-//                        break;
-            }
-        };
-
-        rootView.findViewById(R.id.tv_set_as_exam).setOnClickListener(onItemClickListener);
-        rootView.findViewById(R.id.tv_set_as_task).setOnClickListener(onItemClickListener);
-    }
-    // endregion
 
     @Override
     protected boolean checkInputInfo() {
-        if (TextUtils.isEmpty(etTitle.getText().toString())) {
-            ToastUtils.makeToast(getContext(), String.format(getString(R.string.title_required), getString(R.string.notes)));
+        if (TextUtils.isEmpty(getBinding().main.etTitle.getText().toString())) {
+            ToastUtils.makeToast(getContext(), R.string.title_required);
             return false;
         }
         return true;
@@ -501,10 +352,9 @@ public class NoteFragment extends BaseModelFragment<Note> {
     protected void beforeSaveOrUpdate() {
         super.beforeSaveOrUpdate();
 
-        // 保存笔记对应的文件
-        if (noteFile == null) { // 如果笔记文件为空，说明之前没有添加过该文件
+        if (noteFile == null) {
             try {
-                FileUtils.writeStringToFile(tempFile, markdownEditor.getText().toString(), "utf-8");
+                FileUtils.writeStringToFile(tempFile, getBinding().main.etContent.getText().toString(), "utf-8");
             } catch (IOException e) {
                 LogUtils.d("onClick: " + e);
             }
@@ -516,27 +366,23 @@ public class NoteFragment extends BaseModelFragment<Note> {
             noteFile.setLength(noteFile.getLength());
             AttachmentsStore.getInstance(getContext()).saveModel(noteFile);
         } else {
-            try { // 将内容重新写入到文件当中，不要从笔记对象上取值
-                FileUtils.writeStringToFile(file, markdownEditor.getText().toString(), "utf-8", false);
+            try {
+                FileUtils.writeStringToFile(file, getBinding().main.etContent.getText().toString(), "utf-8", false);
             } catch (IOException e) {
                 LogUtils.d("onClick: " + e);
             }
         }
 
-        // 将笔记对应的文件附件的编号设置为笔记的内容编号
         note.setContentCode(noteFile.getCode());
-        note.setTitle(etTitle.getText().toString());
+        note.setTitle(getBinding().main.etTitle.getText().toString());
     }
 
     @Override
     protected void afterSaveOrUpdate() {
         super.afterSaveOrUpdate();
         materialMenu.animateIconState(MaterialMenuDrawable.IconState.ARROW);
-        // 更新笔记的内容到content字段上，该字段用于在返回的碎片中重新展示编辑的内容
-        String content = markdownEditor.getText().toString();
-        if (TextUtils.isEmpty(content)) {
-            content = "  "; // 不要使用空字符串，防止在浏览界面中去读取文件中的内容
-        }
+        String content = getBinding().main.etContent.getText().toString();
+        if (TextUtils.isEmpty(content)) content = "  ";
         note.setContent(content);
     }
 
@@ -551,7 +397,7 @@ public class NoteFragment extends BaseModelFragment<Note> {
     }
 
     @Override
-    protected void setContentChanged(){
+    protected void setContentChanged() {
         if (!isContentChanged()) {
             super.setContentChanged();
             materialMenu.animateIconState(MaterialMenuDrawable.IconState.CHECK);
@@ -582,37 +428,21 @@ public class NoteFragment extends BaseModelFragment<Note> {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
-                // 如果内容发生变化就进行保存，否则退出
-                if (isContentChanged()) {
-                    saveOrUpdateData();
-                } else {
-                    setResult();
-                }
+                if (isContentChanged()) saveOrUpdateData();
+                else setResult();
                 break;
             case R.id.action_more:
-                drawerLayout.openDrawer(GravityCompat.END, true);
+                getBinding().drawerLayout.openDrawer(GravityCompat.END, true);
                 break;
             case R.id.action_preview:
-                note.setTitle(TextUtils.isEmpty(etTitle.getText().toString()) ?
-                        "" : etTitle.getText().toString());
-                String content = markdownEditor.getText().toString();
-                if (TextUtils.isEmpty(content)) {
-                    content = "  "; // 不要使用空字符串，防止在浏览界面中去读取文件中的内容
-                }
+                note.setTitle(TextUtils.isEmpty(getBinding().main.etTitle.getText().toString()) ? "" :
+                        getBinding().main.etTitle.getText().toString());
+                String content = getBinding().main.etContent.getText().toString();
+                if (TextUtils.isEmpty(content)) content = "  ";
                 note.setContent(content);
                 ContentActivity.startNoteViewForResult(this, note, null, 0);
                 break;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    public void onBackPressed() {
-        onBack();
     }
 }

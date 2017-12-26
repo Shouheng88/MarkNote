@@ -3,15 +3,21 @@ package me.shouheng.notepal.fragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.databinding.ViewDataBinding;
+import android.os.Bundle;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
+import com.baidu.location.BDLocation;
 
 import me.shouheng.notepal.R;
+import me.shouheng.notepal.activity.CommonActivity;
 import me.shouheng.notepal.activity.ContentActivity;
 import me.shouheng.notepal.config.Constants;
+import me.shouheng.notepal.manager.LocationManager;
 import me.shouheng.notepal.model.Model;
 import me.shouheng.notepal.provider.BaseStore;
+import me.shouheng.notepal.util.NetworkUtils;
+import me.shouheng.notepal.util.PermissionUtils;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.widget.FlowLayout;
 
@@ -20,10 +26,12 @@ import me.shouheng.notepal.widget.FlowLayout;
  * Created by wangshouheng on 2017/9/3.*/
 public abstract class BaseModelFragment<T extends Model, V extends ViewDataBinding> extends CommonFragment<V> {
 
+    // region edit structure
     private Boolean isNewModel;
-    private boolean contentChanged;
-    private boolean savedOrUpdated;
 
+    private boolean contentChanged;
+
+    private boolean savedOrUpdated;
 
     protected abstract boolean checkInputInfo();
 
@@ -55,15 +63,10 @@ public abstract class BaseModelFragment<T extends Model, V extends ViewDataBindi
     }
 
     protected boolean saveOrUpdateData() {
-        // 需要对输入的信息进行校验
-        if (!checkInputInfo()){
-            return false;
-        }
+        if (!checkInputInfo()) return false;
 
-        // 在持久化之前进行的操作
         beforeSaveOrUpdate();
 
-        // 进行持久化操作
         if (isNewModel()){
             saveModel();
         } else {
@@ -71,35 +74,30 @@ public abstract class BaseModelFragment<T extends Model, V extends ViewDataBindi
         }
         ToastUtils.makeToast(getContext(), R.string.text_save_successfully);
 
-        // 重置页面内的编辑信息
         resetEditState();
 
-        // 完成了持久化之后的其他操作
         afterSaveOrUpdate();
+
         return true;
     }
 
     private void resetEditState() {
-        // 清除标记信息
         contentChanged = false;
         savedOrUpdated = true;
-        // 保存完毕之后该数据实体就不是最新的了
         isNewModel = false;
     }
 
     protected void setResult() {
-        // 没有更新过信息，直接返回
         if (!savedOrUpdated) {
 //            super.onBackPressed();
         }
 
-        // 信息更新过，根据需要决定是否将更新的信息返回到上一层
-        if (getArguments().containsKey(Constants.EXTRA_REQUEST_CODE)){
+        Bundle args = getArguments();
+        if (args != null && args.containsKey(Constants.EXTRA_REQUEST_CODE)){
             Intent intent = new Intent();
             intent.putExtra(Constants.EXTRA_MODEL, getModel());
-            if (getArguments().containsKey(Constants.EXTRA_POSITION)){
-                intent.putExtra(Constants.EXTRA_POSITION,
-                        getArguments().getInt(Constants.EXTRA_POSITION, 0));
+            if (args.containsKey(Constants.EXTRA_POSITION)){
+                intent.putExtra(Constants.EXTRA_POSITION, args.getInt(Constants.EXTRA_POSITION, 0));
             }
             getActivity().setResult(Activity.RESULT_OK, intent);
             getActivity().finish();
@@ -119,22 +117,18 @@ public abstract class BaseModelFragment<T extends Model, V extends ViewDataBindi
                         if (!checkInputInfo()){
                             return;
                         }
-                        // 更新或者插入数据
                         saveOrUpdateData();
-                        // 返回信息给上一层
                         setResult();
                     })
 //                    .onNegative((materialDialog, dialogAction) -> BaseModelFragment.super.onBackPressed())
                     .show();
         } else {
-            // 如果不加这个，保存完了数据，再调用这个方法就不会把结果传回了
             setResult();
         }
     }
+    // endregion
 
-
-
-    /*右侧抽屉相关的方法*/
+    // region drawer
     protected void addShortcut(){
         if (isNewModel()) {
             new MaterialDialog.Builder(getContext())
@@ -168,8 +162,9 @@ public abstract class BaseModelFragment<T extends Model, V extends ViewDataBindi
                 .cancelButton(R.string.text_cancel)
                 .show();
     }
+    // endregion
 
-    /*标签相关*/
+    // region tags
     protected void showTagEditDialog() {
 //        SimpleEditDialog.newInstance("", tag -> {
 //            if (TextUtils.isEmpty(tag)){
@@ -256,4 +251,24 @@ public abstract class BaseModelFragment<T extends Model, V extends ViewDataBindi
 //        // 将标签添加到布局中
 //        getTagsLayout().addView(tvLabel);
     }
+    // endregion
+
+    // region location
+    protected void tryToLocate() {
+        if (!NetworkUtils.isNetworkAvailable(getActivity())){
+            ToastUtils.makeToast(getActivity(), R.string.check_network_availability);
+            return;
+        }
+        if (getActivity() != null) {
+            PermissionUtils.checkLocationPermission((CommonActivity) getActivity(), this::locate);
+        }
+    }
+
+    private void locate(){
+        ToastUtils.makeToast(getContext(), R.string.trying_to_get_location);
+        LocationManager.getInstance(getContext()).locate(this::onGetLocation);
+    }
+
+    protected void onGetLocation(BDLocation bdLocation) {}
+    // endregion
 }
