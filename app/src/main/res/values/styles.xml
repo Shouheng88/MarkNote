@@ -15,4 +15,9 @@
     <style name="AppTheme.AppBarOverlay" parent="@style/ThemeOverlay.AppCompat.Dark" />
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="style_note_bottom_button">
+        <item name="android:padding">12dp</item>
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+        <item name="android:tint">@color/white</item>
+    </style>
 </resources>

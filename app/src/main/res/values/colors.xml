@@ -17,4 +17,21 @@
     <color name="black54">#8A000000</color>
     <color name="black87">#D8000000</color>
 
+    <color name="ripple_color">#ffeeeeee</color>
+
+    <color name="white_divider_color">#22ffffff</color>
+    <color name="black_divider_color">#08000000</color>
+
+    <color name="dark_theme_background">#2e2e2e</color>
+    <color name="dark_theme_foreground">#3f3f3f</color>
+    <color name="light_theme_background">#fafafa</color>
+
+    <color name="note_bottom_editors">#525D63</color>
+
+    <color name="time_line_color">#BDBDBD</color>
+
+    <color name="light_theme_text_color">#424242</color>
+    <color name="light_theme_sub_text_color">#757575</color>
+    <color name="light_theme_image_tint_color">#737373</color>
+    <color name="dark_theme_image_tint_color">#bdbdbd</color>
 </resources>

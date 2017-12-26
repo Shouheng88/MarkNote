@@ -4,9 +4,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.text.TextUtils;
 
 import me.shouheng.notepal.model.Location;
+import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.model.enums.ModelType;
+import me.shouheng.notepal.model.enums.Status;
 import me.shouheng.notepal.provider.schema.LocationSchema;
 
 /**
@@ -58,5 +61,28 @@ public class LocationsStore extends BaseStore<Location> {
         values.put(LocationSchema.DISTRICT, model.getDistrict());
         values.put(LocationSchema.MODEL_CODE, model.getModelCode());
         values.put(LocationSchema.MODEL_TYPE, model.getModelType().id);
+    }
+
+    private synchronized Location getLocation(String whereSQL){
+        Cursor cursor = null;
+        Location location = null;
+        SQLiteDatabase database = getWritableDatabase();
+        try {
+            cursor = database.rawQuery(" SELECT * FROM " + tableName +
+                            " WHERE " + LocationSchema.USER_ID + " = ? "
+                            + (TextUtils.isEmpty(whereSQL) ? "" : " AND " + whereSQL)
+                            + " AND " + LocationSchema.STATUS + " = " + Status.NORMAL.id,
+                    new String[]{String.valueOf(userId)});
+            location = get(cursor);
+        } finally {
+            closeCursor(cursor);
+            closeDatabase(database);
+        }
+        return location;
+    }
+
+    public synchronized Location getLocation(Note note) {
+        return getLocation(LocationSchema.MODEL_CODE + " = " + note.getCode()
+                + " AND " + LocationSchema.MODEL_TYPE + " = " + ModelType.NOTE.id);
     }
 }

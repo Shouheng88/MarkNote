@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <include layout="@layout/layout_toolbar"/>
+        <include layout="@layout/layout_toolbar" android:visibility="gone"/>
 
         <FrameLayout
             android:id="@+id/fragment_container"

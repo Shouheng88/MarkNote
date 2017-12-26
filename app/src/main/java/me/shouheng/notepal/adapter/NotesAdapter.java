@@ -6,6 +6,7 @@ import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import me.shouheng.notepal.R;
@@ -16,10 +17,17 @@ import me.shouheng.notepal.model.Notebook;
  * Created by wang shouheng on 2017/12/23.*/
 public class NotesAdapter extends BaseMultiItemQuickAdapter<NotesAdapter.MultiItem, BaseViewHolder> {
 
-    public NotesAdapter(Context context, List data) {
+    private Context context;
+
+    public NotesAdapter(Context context, List<NotesAdapter.MultiItem> data) {
         super(data);
+        this.context = context;
         addItemType(MultiItem.ITEM_TYPE_NOTE, R.layout.item_note);
         addItemType(MultiItem.ITEM_TYPE_NOTEBOOK, R.layout.item_note);
+    }
+
+    public static List<NotesAdapter.MultiItem> setupDatas(List<Notebook> notebooks, List<Note> notes) {
+        return new ArrayList<>();
     }
 
     @Override

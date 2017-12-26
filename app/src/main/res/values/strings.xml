@@ -3,19 +3,32 @@
 
     <!--region common text-->
     <string name="text_add_more">添加&#8230;</string>
+    <string name="text_add_to_home_screen">添加到手机主屏</string>
     <string name="text_about">关于</string>
     <string name="text_accept">接受</string>
+    <string name="text_add_labels">添加标签</string>
+    <string name="text_add_location">添加位置</string>
     <string name="text_clear">清除</string>
+    <string name="text_copy_text">复制文本</string>
+    <string name="text_content_was_copied_to_clipboard">内容已复制到粘贴板</string>
+    <string name="text_cannot_get_link_of_not_synced_item">无法获取未同步的项目的链接</string>
     <string name="text_copy">复制</string>
     <string name="text_content">内容</string>
     <string name="text_comments">备注</string>
+    <string name="text_copy_link">复制链接</string>
     <string name="text_create_new">新建</string>
     <string name="text_comment">备注</string>
     <string name="text_cancel">取消</string>
+    <string name="text_created_time">创建时间</string>
     <string name="text_delete">删除</string>
     <string name="text_delete_still">仍然删除</string>
     <string name="text_edit">编辑</string>
+    <string name="text_failed_to_get_location">获取位置信息失败</string>
     <string name="text_give_up">放弃</string>
+    <string name="text_illegal_label">标签中不允许添加分号(;)</string>
+    <string name="copy_link">复制链接</string>
+    <string name="text_last_modified_time">最后更新时间</string>
+    <string name="text_last_sync_time">上次同步时间</string>
     <string name="text_more">更多</string>
     <string name="text_pick">选择</string>
     <string name="text_preview">预览</string>
@@ -28,9 +41,19 @@
     <string name="text_save_or_discard">保存还是放弃所做的修改？</string>
     <string name="text_save_successfully">保存成功</string>
     <string name="text_save">保存</string>
+    <string name="text_statistic">数据统计</string>
+    <string name="text_save_and_retry_to_add_shortcut">项目未保存，无法添加快捷方式，保存并再次尝试？</string>
     <string name="text_tips">提示</string>
+    <string name="text_total_labels_too_long">标签总长度超出范围</string>
+    <string name="text_trying_to_get_location">正在尝试获取位置信息&#8230;</string>
     <string name="text_undo">撤销</string>
     <string name="text_warning">警告</string>
+    <string name="failed_to_get_location">获取位置信息失败</string>
+    <string name="trying_to_get_location">正在尝试获取位置信息&#8230;</string>
+    <string name="content_was_copied_to_clipboard">内容已复制到粘贴板</string>
+    <string name="share_message_chooser">选择分享方式</string>
+    <string name="cannot_get_link_of_not_synced_item">无法获取未同步的项目的链接</string>
+    <string name="title_required">标题不能为空</string>
     <!--endregion-->
 
     <!--region drawer menu-->
@@ -71,6 +94,26 @@
     <!--region content activity-->
     <string name="content_failed_to_parse_intent">无法解析的意图</string>
     <string name="content_no_such_note">没有找到该笔记</string>
+    <!--endregion-->
+
+    <!--region note-->
+    <string name="note_note_title">笔记标题</string>
+    <string name="note_write_down_what_you_want">写下此刻的想法&#8230;</string>
+    <string name="note_image_view_cover_desc">Cover</string>
+    <string name="note_failed_to_read_file">读取文件内容失败</string>
+    <string name="note_failed_to_get_note_content">读取笔记内容失败</string>
+    <string name="note_no_such_note">没有找到该笔记</string>
+    <!--endregion-->
+
+    <!--region attachment-->
+    <string name="failed_to_create_file">创建文件失败</string>
+    <string name="storage_not_available">存储空间不可用</string>
+    <string name="failed_to_save_attachment">保存附件失败</string>
+    <string name="failed_to_record">录制音频失败</string>
+    <string name="no_available_application_to_resolve_intent">没有找到可以打开的应用</string>
+    <string name="arrive_max_attachments_number">已经达到能够加入的附件的最大数量</string>
+    <string name="recording">正在录制音频&#8230;</string>
+    <string name="recorded">录制完成</string>
     <!--endregion-->
 
     <!--region alarm-->

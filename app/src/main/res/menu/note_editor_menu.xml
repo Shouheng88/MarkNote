@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/action_preview"
+        android:title="@string/text_preview"
+        android:icon="@drawable/ic_visibility_black_24dp"
+        app:showAsAction="always"/>
+
+    <item android:id="@+id/action_more"
+        android:title="@string/text_more"
+        android:icon="@drawable/ic_more_vert_black"
+        app:showAsAction="always"/>
+
+
+</menu>
