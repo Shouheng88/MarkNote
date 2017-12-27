@@ -10,8 +10,10 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 
+import com.afollestad.materialdialogs.color.ColorChooserDialog;
 import com.crashlytics.android.Crashlytics;
 
 import io.fabric.sdk.android.Fabric;
@@ -23,7 +25,7 @@ import me.shouheng.notepal.util.ToastUtils;
 /**
  * Created by wang shouheng on 2017/12/21.*/
 @SuppressLint("Registered")
-public abstract class CommonActivity<T extends ViewDataBinding> extends ThemedActivity {
+public abstract class CommonActivity<T extends ViewDataBinding> extends ThemedActivity implements ColorChooserDialog.ColorCallback {
 
     private T binding;
 
@@ -104,4 +106,10 @@ public abstract class CommonActivity<T extends ViewDataBinding> extends ThemedAc
                 .create()
                 .show();
     }
+
+    @Override
+    public void onColorSelection(@NonNull ColorChooserDialog dialog, int selectedColor) {}
+
+    @Override
+    public void onColorChooserDismissed(@NonNull ColorChooserDialog dialog) {}
 }
