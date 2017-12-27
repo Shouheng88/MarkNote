@@ -4,6 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
@@ -13,12 +17,16 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.CommonActivity;
 import me.shouheng.notepal.activity.ContentActivity;
 import me.shouheng.notepal.config.Constants;
+import me.shouheng.notepal.config.TextLength;
+import me.shouheng.notepal.dialog.SimpleEditDialog;
 import me.shouheng.notepal.manager.LocationManager;
 import me.shouheng.notepal.model.Model;
 import me.shouheng.notepal.provider.BaseStore;
 import me.shouheng.notepal.util.NetworkUtils;
 import me.shouheng.notepal.util.PermissionUtils;
+import me.shouheng.notepal.util.ShortcutHelper;
 import me.shouheng.notepal.util.ToastUtils;
+import me.shouheng.notepal.util.ViewUtils;
 import me.shouheng.notepal.widget.FlowLayout;
 
 
@@ -88,9 +96,7 @@ public abstract class BaseModelFragment<T extends Model, V extends ViewDataBindi
     }
 
     protected void setResult() {
-        if (!savedOrUpdated) {
-//            super.onBackPressed();
-        }
+        if (!savedOrUpdated) getActivity().onBackPressed();
 
         Bundle args = getArguments();
         if (args != null && args.containsKey(Constants.EXTRA_REQUEST_CODE)){
@@ -102,7 +108,7 @@ public abstract class BaseModelFragment<T extends Model, V extends ViewDataBindi
             getActivity().setResult(Activity.RESULT_OK, intent);
             getActivity().finish();
         } else {
-//            super.onBackPressed();
+            getActivity().onBackPressed();
         }
     }
 
@@ -120,7 +126,7 @@ public abstract class BaseModelFragment<T extends Model, V extends ViewDataBindi
                         saveOrUpdateData();
                         setResult();
                     })
-//                    .onNegative((materialDialog, dialogAction) -> BaseModelFragment.super.onBackPressed())
+                    .onNegative((materialDialog, dialogAction) -> getActivity().onBackPressed())
                     .show();
         } else {
             setResult();
@@ -133,19 +139,17 @@ public abstract class BaseModelFragment<T extends Model, V extends ViewDataBindi
         if (isNewModel()) {
             new MaterialDialog.Builder(getContext())
                     .title(R.string.text_tips)
-//                    .content(R.string.text_save_and_retry_to_add_shortcut)
-//                    .positiveText(R.string.text_save_and_retry)
+                    .content(R.string.text_save_and_retry_to_add_shortcut)
+                    .positiveText(R.string.text_save_and_retry)
                     .negativeText(R.string.text_give_up)
                     .onPositive((materialDialog, dialogAction) -> {
-//                        // 保存数据
-//                        if (!saveOrUpdateData()) return;
-//                        // 添加快捷方式
-//                        ShortcutHelper.addShortcut(getContext(), getModel());
-//                        ToastUtils.makeToast(getContext(), R.string.successfully_add_shortcut);
+                        if (!saveOrUpdateData()) return;
+                        ShortcutHelper.addShortcut(getContext(), getModel());
+                        ToastUtils.makeToast(getContext(), R.string.successfully_add_shortcut);
                     }).show();
         } else {
-//            ShortcutHelper.addShortcut(getActivity().getApplicationContext(), getModel());
-//            ToastUtils.makeToast(getContext(), R.string.successfully_add_shortcut);
+            ShortcutHelper.addShortcut(getActivity().getApplicationContext(), getModel());
+            ToastUtils.makeToast(getContext(), R.string.successfully_add_shortcut);
         }
     }
 
@@ -157,7 +161,7 @@ public abstract class BaseModelFragment<T extends Model, V extends ViewDataBindi
                 .preselect(primaryColor())
                 .accentMode(false)
                 .titleSub(titleRes)
-//                .backButton(R.string.text_back)
+                .backButton(R.string.text_back)
                 .doneButton(R.string.done_label)
                 .cancelButton(R.string.text_cancel)
                 .show();
@@ -166,45 +170,35 @@ public abstract class BaseModelFragment<T extends Model, V extends ViewDataBindi
 
     // region tags
     protected void showTagEditDialog() {
-//        SimpleEditDialog.newInstance("", tag -> {
-//            if (TextUtils.isEmpty(tag)){
-//                return;
-//            }
-//            if (tag.indexOf(';') != -1){
-//                ToastUtils.makeToast(getContext(), R.string.illegal_label);
-//                return;
-//            }
-//
-//            // 获取标签
-//            String tags = getTags();
-//
-//            tags = tags == null ? "" : tags;
-//            tags = tags + tag + ";";
-//            if (tags.length() > TextLength.LABELS_TOTAL_LENGTH.length) {
-//                ToastUtils.makeToast(getContext(), R.string.total_labels_too_long);
-//                return;
-//            }
-//
-//            // 回调标签
-//            onGetTags(tags);
-//
-//            addTagToLayout(tag);
-//        }).setMaxLength(TextLength.LABEL_TEXT_LENGTH.length).show(getFragmentManager(), "SHOW_ADD_LABELS_DIALOG");
+        SimpleEditDialog.newInstance("", tag -> {
+            if (TextUtils.isEmpty(tag)) return;
+
+            if (tag.indexOf(';') != -1) {
+                ToastUtils.makeToast(getContext(), R.string.text_illegal_label);
+                return;
+            }
+
+            String tags = (TextUtils.isEmpty(getTags()) ? "" : getTags()) + tag + ";";
+            if (tags.length() > TextLength.LABELS_TOTAL_LENGTH.length) {
+                ToastUtils.makeToast(getContext(), R.string.text_total_labels_too_long);
+                return;
+            }
+
+            onGetTags(tags);
+
+            addTagToLayout(tag);
+        }).setMaxLength(TextLength.LABEL_TEXT_LENGTH.length).show(getFragmentManager(), "SHOW_ADD_LABELS_DIALOG");
     }
 
     protected void showTagsEditDialog() {
-//        SimpleEditDialog.newInstance(getTags() == null ? "" : getTags(),
-//                content -> {
-//                    content = content == null ? "" : content;
-//                    if (!content.endsWith(";")){
-//                        content = content + ";";
-//                    }
-//
-//                    // 回调标签
-//                    onGetTags(content);
-//
-//                    addTagsToLayout(content);
-//                }).setMaxLength(TextLength.LABELS_TOTAL_LENGTH.length).show(getFragmentManager(), "SHOW_LABELS_LAYOUT");
+        SimpleEditDialog.newInstance(TextUtils.isEmpty(getTags()) ? "" : getTags(), content -> {
+            content = TextUtils.isEmpty(content) ? "" : content;
+            if (!content.endsWith(";")) content = content + ";";
+
+            onGetTags(content);
+
+            addTagsToLayout(content);
+        }).setMaxLength(TextLength.LABELS_TOTAL_LENGTH.length).show(getFragmentManager(), "TAGS_EDITOR");
     }
 
     protected FlowLayout getTagsLayout(){
@@ -218,38 +212,28 @@ public abstract class BaseModelFragment<T extends Model, V extends ViewDataBindi
     protected void onGetTags(String tags) {}
 
     protected void addTagsToLayout(String stringTags){
-        if (getTagsLayout() == null) {
-            return;
-        }
-
+        if (getTagsLayout() == null) return;
         getTagsLayout().removeAllViews();
-        if (stringTags == null){
-            return;
-        }
+        if (TextUtils.isEmpty(stringTags)) return;
         String[] tags = stringTags.split(";");
-        for (String tag : tags){
-            addTagToLayout(tag);
-        }
+        for (String tag : tags) addTagToLayout(tag);
     }
 
     protected void addTagToLayout(String tag){
-//        if (getTagsLayout() == null) {
-//            return;
-//        }
-//
-//        // 设置显示标签的控件
-//        TextView tvLabel = new TextView(getContext());
-//        int margin = ViewUtils.dp2Px(getContext(), 2f);
-//        tvLabel.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-//        ViewGroup.MarginLayoutParams params = new ViewGroup.MarginLayoutParams(tvLabel.getLayoutParams());
-//        params.setMargins(margin, margin, margin, margin);
-//        tvLabel.setLayoutParams(params);
-//        tvLabel.setPadding(ViewUtils.dp2Px(getContext(), 5f), 0, DisplayUtils.dp2Px(getContext(), 5f), 0);
-//        tvLabel.setBackgroundResource(R.drawable.label_background);
-//        tvLabel.setText(tag);
-//
-//        // 将标签添加到布局中
-//        getTagsLayout().addView(tvLabel);
+        if (getTagsLayout() == null) return;
+
+        int margin = ViewUtils.dp2Px(getContext(), 2f);
+        int padding = ViewUtils.dp2Px(getContext(), 5f);
+        TextView tvLabel = new TextView(getContext());
+        tvLabel.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        ViewGroup.MarginLayoutParams params = new ViewGroup.MarginLayoutParams(tvLabel.getLayoutParams());
+        params.setMargins(margin, margin, margin, margin);
+        tvLabel.setLayoutParams(params);
+        tvLabel.setPadding(padding, 0, padding, 0);
+        tvLabel.setBackgroundResource(R.drawable.label_background);
+        tvLabel.setText(tag);
+
+        getTagsLayout().addView(tvLabel);
     }
     // endregion
 
