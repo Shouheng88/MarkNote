@@ -286,6 +286,7 @@
                         android:lines="1"
                         android:singleLine="true"
                         tools:text="我的第一个笔记本"
+                        android:text="@string/note_default_notebook"
                         android:textStyle="bold" />
 
                 </LinearLayout>

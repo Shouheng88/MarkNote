@@ -152,7 +152,7 @@ public class ContentActivity extends CommonActivity<ActivityContentBinding> impl
     public void onBackPressed() {
         Fragment currentFragment = getCurrentFragment();
         if (currentFragment instanceof CommonFragment){
-            ((CommonFragment) currentFragment).onBackpressed();
+            ((CommonFragment) currentFragment).onBackPressed();
         }
     }
 }

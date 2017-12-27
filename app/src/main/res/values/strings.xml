@@ -113,6 +113,7 @@
         <item quantity="one">%d 个笔记</item>
         <item quantity="other">%d 个笔记</item>
     </plurals>
+    <string name="note_default_notebook">默认笔记本</string>
     <!--endregion-->
 
     <!--region attachment-->
@@ -188,6 +189,11 @@
     <string name="feedback_connect_email_required">需要联系邮箱</string>
     <string name="feedback_details_required">需要详情信息</string>
     <string name="feedback_illegal_email_format">邮箱格式不合法</string>
+    <!--endregion-->
+
+    <!--region picker-->
+    <string name="pick_notebook">选择笔记本</string>
+    <string name="no_notebook_available">没有可用的笔记本</string>
     <!--endregion-->
 
     <!--region theme settings-->

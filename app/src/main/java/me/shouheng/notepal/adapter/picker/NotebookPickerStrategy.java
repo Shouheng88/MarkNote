@@ -9,7 +9,7 @@ import me.shouheng.notepal.util.ColorUtils;
 
 /**
  * Created by wangshouheng on 2017/10/5.*/
-public class NotebookPickerStrategy implements ModelsPickerStrategy<Notebook>{
+public class NotebookPickerStrategy implements ModelsPickerStrategy<Notebook> {
 
     private Context context;
 
@@ -26,7 +26,8 @@ public class NotebookPickerStrategy implements ModelsPickerStrategy<Notebook>{
 
     @Override
     public String getSubTitle(Notebook notebook) {
-        return context.getResources().getQuantityString(R.plurals.notes_count, notebook.getCount(), notebook.getCount());
+        return context.getResources().getQuantityString(
+                R.plurals.notes_count, notebook.getCount(), notebook.getCount());
     }
 
     @Override
@@ -37,8 +38,7 @@ public class NotebookPickerStrategy implements ModelsPickerStrategy<Notebook>{
     private Drawable notebookDrawable(Notebook notebook) {
         if (notebookDrawable == null) {
             notebookDrawable = ColorUtils.tintDrawable(
-                    context.getResources().getDrawable(R.drawable.ic_folder_black_24dp),
-                    notebook.getColor());
+                    context.getResources().getDrawable(R.drawable.ic_folder_black_24dp), notebook.getColor());
         }
         return notebookDrawable;
     }

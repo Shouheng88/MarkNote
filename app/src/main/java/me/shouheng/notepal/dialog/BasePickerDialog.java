@@ -18,23 +18,26 @@ import me.shouheng.notepal.widget.EmptyView;
 import me.shouheng.notepal.widget.tools.CustomItemAnimator;
 import me.shouheng.notepal.widget.tools.DividerItemDecoration;
 
-
 /**
  * Created by wangshouheng on 2017/10/5.*/
 public abstract class BasePickerDialog<T extends Model> extends DialogFragment {
 
     private ModelsPickerAdapter<T> modelsPickerAdapter;
+
     private View dialogView;
+
     private EmptySupportRecyclerView mRecyclerView;
 
     private OnItemSelectedListener<T> onItemSelectedListener;
+
     protected OnNewModelCreatedListener<T> onNewModelCreatedListener;
 
     protected abstract ModelsPickerAdapter<T> prepareAdapter();
 
     @NonNull @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_models_picker_layout_new, null, false);
+        dialogView = LayoutInflater.from(getContext()).inflate(
+                R.layout.dialog_models_picker_layout, null, false);
 
         EmptyView emptyView = dialogView.findViewById(R.id.iv_empty);
 
@@ -56,7 +59,8 @@ public abstract class BasePickerDialog<T extends Model> extends DialogFragment {
 
     protected ModelsPickerAdapter<T> getAdapter() {
         if (modelsPickerAdapter == null) modelsPickerAdapter = prepareAdapter();
-        modelsPickerAdapter.setOnItemSelectedListener((item, position) -> onItemSelectedListener.onItemSelected(BasePickerDialog.this, item, position));
+        modelsPickerAdapter.setOnItemClickListener((adapter, view, position) -> onItemSelectedListener.onItemSelected(
+                BasePickerDialog.this, modelsPickerAdapter.getItem(position), position));
         return modelsPickerAdapter;
     }
 
@@ -66,17 +70,6 @@ public abstract class BasePickerDialog<T extends Model> extends DialogFragment {
 
     protected EmptySupportRecyclerView getRecyclerView() {
         return mRecyclerView;
-    }
-
-    public void addItemToEnd(T item) {
-        getAdapter().addItemToEnd(item);
-        int position = getAdapter().getEndPosition();
-        mRecyclerView.smoothScrollToPosition(position == 0 ? 0 : position - 1);
-    }
-
-    public void addItemToPosition(T item, int position) {
-        getAdapter().addItemToPosition(item, position);
-        mRecyclerView.smoothScrollToPosition(position);
     }
 
     public BasePickerDialog<T> setOnItemSelectedListener(OnItemSelectedListener<T> onItemSelectedListener) {
