@@ -43,6 +43,7 @@
     <string name="text_save">保存</string>
     <string name="text_statistic">数据统计</string>
     <string name="text_save_and_retry_to_add_shortcut">项目未保存，无法添加快捷方式，保存并再次尝试？</string>
+    <string name="text_save_and_retry">保存并再次尝试</string>
     <string name="text_tips">提示</string>
     <string name="text_total_labels_too_long">标签总长度超出范围</string>
     <string name="text_trying_to_get_location">正在尝试获取位置信息&#8230;</string>
@@ -54,6 +55,11 @@
     <string name="share_message_chooser">选择分享方式</string>
     <string name="cannot_get_link_of_not_synced_item">无法获取未同步的项目的链接</string>
     <string name="title_required">标题不能为空</string>
+    <string name="successfully_add_shortcut">成功添加快捷方式</string>
+    <string name="text_login">登录</string>
+    <string name="text_register">注册</string>
+    <string name="text_confirm">确定</string>
+    <string name="text_back">返回</string>
     <!--endregion-->
 
     <!--region drawer menu-->
@@ -103,6 +109,10 @@
     <string name="note_failed_to_read_file">读取文件内容失败</string>
     <string name="note_failed_to_get_note_content">读取笔记内容失败</string>
     <string name="note_no_such_note">没有找到该笔记</string>
+    <plurals name="notes_count">
+        <item quantity="one">%d 个笔记</item>
+        <item quantity="other">%d 个笔记</item>
+    </plurals>
     <!--endregion-->
 
     <!--region attachment-->

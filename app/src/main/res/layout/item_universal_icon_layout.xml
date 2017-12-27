@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:foreground="@drawable/ripple"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/iv_icon"
+        tools:src="@drawable/ic_announcement_grey_24dp"
+        android:padding="13dp"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp" />
+
+    <ImageView
+        android:id="@+id/iv_more"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        tools:src="@drawable/ic_more_vert_black"
+        android:layout_alignParentEnd="true"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp"
+        android:layout_width="40dp"
+        android:layout_height="60dp" />
+
+    <LinearLayout
+        android:layout_toStartOf="@id/iv_more"
+        android:layout_toEndOf="@id/iv_icon"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:orientation="vertical"
+        android:layout_centerVertical="true"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tv_title"
+            android:gravity="bottom"
+            android:textSize="16sp"
+            android:ellipsize="end"
+            android:textStyle="bold"
+            tools:text="标题Title\nTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_sub_title"
+            android:ellipsize="end"
+            android:textSize="14sp"
+            tools:text="副标题subTitle"
+            android:layout_marginTop="2dp"
+            android:maxLength="@integer/sub_content_length"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</RelativeLayout>

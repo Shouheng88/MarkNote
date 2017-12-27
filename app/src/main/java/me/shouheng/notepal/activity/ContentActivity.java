@@ -16,6 +16,7 @@ import java.io.Serializable;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.databinding.ActivityContentBinding;
+import me.shouheng.notepal.fragment.CommonFragment;
 import me.shouheng.notepal.fragment.NoteFragment;
 import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.provider.NotesStore;
@@ -138,13 +139,20 @@ public class ContentActivity extends CommonActivity<ActivityContentBinding> impl
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
-
-    @Override
     public void onColorSelection(@NonNull ColorChooserDialog colorChooserDialog, @ColorInt int i) {}
 
     @Override
     public void onColorChooserDismissed(@NonNull ColorChooserDialog colorChooserDialog) {}
+
+    private Fragment getCurrentFragment() {
+        return getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Fragment currentFragment = getCurrentFragment();
+        if (currentFragment instanceof CommonFragment){
+            ((CommonFragment) currentFragment).onBackpressed();
+        }
+    }
 }

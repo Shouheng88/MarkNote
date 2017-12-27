@@ -24,4 +24,7 @@ public class Constants {
     public final static String MIME_TYPE_VIDEO_EXTENSION = ".mp4";
     public final static String MIME_TYPE_SKETCH_EXTENSION = ".png";
     public final static String MIME_TYPE_CONTACT_EXTENSION = ".vcf";
+
+    public final static String ACTION_SHORTCUT = "ACTION_SHORTCUT";
+    public final static String ACTION_NOTIFICATION = "ACTION_NOTIFICATION";
 }
