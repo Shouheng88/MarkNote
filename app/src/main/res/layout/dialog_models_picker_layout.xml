@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:paddingBottom="4dp"
+    android:paddingTop="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout android:id="@+id/l1"
+        android:layout_width="match_parent"
+        android:layout_height="350dp">
+
+        <me.shouheng.notepal.widget.EmptyView
+            android:id="@+id/iv_empty"
+            android:layout_gravity="center"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <me.shouheng.notepal.widget.EmptySupportRecyclerView
+            android:id="@+id/rv_models"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

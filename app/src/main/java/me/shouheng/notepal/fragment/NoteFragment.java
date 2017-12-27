@@ -29,6 +29,7 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.ContentActivity;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.databinding.FragmentNoteBinding;
+import me.shouheng.notepal.dialog.NotebookPickerDialog;
 import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.model.Location;
 import me.shouheng.notepal.model.ModelFactory;
@@ -139,6 +140,7 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
 
     private void configMain() {
         getBinding().main.etTitle.setText(TextUtils.isEmpty(note.getTitle()) ? "" : note.getTitle());
+        getBinding().main.etTitle.setTextColor(primaryColor());
         getBinding().main.etTitle.addTextChangedListener(textWatcher);
 
         getBinding().main.etContent.setText(note.getContent());
@@ -207,15 +209,15 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
     private void showStatisticsDialog(){}
 
     private void showNotebookPicker() {
-//        NotebookPickerDialog.newInstance(getContext())
-//                .setOnItemSelectedListener((dialog, notebook1, position) -> {
-//                    note.setParentCode(notebook1.getCode());
-//                    tvNotebook.setText(notebook1.getTitle());
-//                    tvNotebook.setTextColor(notebook1.getColor());
-//                    setContentChanged();
-//                    dialog.dismiss();
-//                })
-//                .show(getFragmentManager(), "NOTEBOOK_PICKER");
+        NotebookPickerDialog.newInstance()
+                .setOnItemSelectedListener((dialog, notebook1, position) -> {
+                    note.setParentCode(notebook1.getCode());
+                    getBinding().main.tvFolder.setText(notebook1.getTitle());
+                    getBinding().main.tvFolder.setTextColor(notebook1.getColor());
+                    setContentChanged();
+                    dialog.dismiss();
+                })
+                .show(getFragmentManager(), "NOTEBOOK_PICKER");
     }
 
     @Override
@@ -444,5 +446,10 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+
     }
 }

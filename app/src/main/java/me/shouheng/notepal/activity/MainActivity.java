@@ -134,6 +134,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> {
     }
 
     private void resolveFabClick(int index) {
+        getBinding().menu.close(true);
         FabSortItem fabSortItem = preferencesUtils.getFabSortResult().get(index);
         switch (fabSortItem) {
             case NOTE:

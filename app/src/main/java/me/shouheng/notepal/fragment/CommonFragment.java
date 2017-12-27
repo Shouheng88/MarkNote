@@ -65,7 +65,7 @@ public abstract class CommonFragment<T extends ViewDataBinding> extends Fragment
         return ColorUtils.accentColor(getContext());
     }
 
-    public void onBackpressed() {
+    public void onBackPressed() {
         getActivity().onBackPressed();
     }
 }

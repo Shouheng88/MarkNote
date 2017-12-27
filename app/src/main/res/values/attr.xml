@@ -17,6 +17,7 @@
         <attr name="sub_title" format="string"/>
         <attr name="sub_title_size" format="dimension|reference"/>
         <attr name="empty_image" format="reference"/>
+        <attr name="tint_drawable" format="boolean" />
     </declare-styleable>
 
 </resources>

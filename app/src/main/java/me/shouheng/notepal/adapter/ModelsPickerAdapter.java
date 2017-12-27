@@ -19,8 +19,9 @@ public class ModelsPickerAdapter<T extends Model> extends BaseQuickAdapter<T, Ba
     @NonNull
     private ModelsPickerStrategy<T> modelsPickerStrategy;
 
-    public ModelsPickerAdapter(@Nullable List<T> data) {
+    public ModelsPickerAdapter(@Nullable List<T> data, @NonNull ModelsPickerStrategy<T> modelsPickerStrategy) {
         super(R.layout.item_universal_icon_layout, data);
+        this.modelsPickerStrategy = modelsPickerStrategy;
     }
 
     @Override
