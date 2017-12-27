@@ -5,6 +5,7 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -12,16 +13,21 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.afollestad.materialdialogs.color.ColorChooserDialog;
+
 import java.util.List;
 
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.ActivityMainBinding;
 import me.shouheng.notepal.databinding.ActivityMainNavHeaderBinding;
+import me.shouheng.notepal.dialog.NotebookEditDialog;
 import me.shouheng.notepal.fragment.NotesFragment;
 import me.shouheng.notepal.intro.IntroActivity;
 import me.shouheng.notepal.model.ModelFactory;
 import me.shouheng.notepal.model.Note;
+import me.shouheng.notepal.model.Notebook;
 import me.shouheng.notepal.model.enums.FabSortItem;
+import me.shouheng.notepal.provider.NotebookStore;
 import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.FragmentHelper;
 import me.shouheng.notepal.util.LogUtils;
@@ -35,6 +41,8 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> {
     private final int REQUEST_ADD_NOTE = 0x0002;
 
     private PreferencesUtils preferencesUtils;
+
+    private NotebookEditDialog notebookEditDialog;
 
     @Override
     protected int getLayoutResId() {
@@ -143,7 +151,21 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> {
                     ContentActivity.startNoteEditForResult(this, note, null, REQUEST_ADD_NOTE);
                 });
                 break;
+            case NOTEBOOK:
+                editNotebook();
+                break;
         }
+    }
+
+    private void editNotebook() {
+        Notebook notebook = ModelFactory.getNotebook(this);
+        notebookEditDialog = NotebookEditDialog.newInstance(this, notebook, (notebookName, notebookColor) -> {
+            notebook.setTitle(notebookName);
+            notebook.setColor(notebookColor);
+            notebook.setCount(0);
+            NotebookStore.getInstance(this).saveModel(notebook);
+        });
+        notebookEditDialog.show(getSupportFragmentManager(), "NotebookEditDialog");
     }
 
     private void configToolbar() {
@@ -244,5 +266,10 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> {
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public void onColorSelection(@NonNull ColorChooserDialog dialog, int selectedColor) {
+        notebookEditDialog.updateUIBySelectedColor(selectedColor);
     }
 }

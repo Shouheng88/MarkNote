@@ -60,6 +60,8 @@
     <string name="text_register">注册</string>
     <string name="text_confirm">确定</string>
     <string name="text_back">返回</string>
+    <string name="text_color">颜色</string>
+    <string name="text_portrait">图标</string>
     <!--endregion-->
 
     <!--region drawer menu-->
@@ -114,6 +116,9 @@
         <item quantity="other">%d 个笔记</item>
     </plurals>
     <string name="note_default_notebook">默认笔记本</string>
+    <string name="edit_notebook">编辑笔记本</string>
+    <string name="notebook_name">笔记本名称</string>
+    <string name="pick_notebook_color">选择笔记本的颜色</string>
     <!--endregion-->
 
     <!--region attachment-->
