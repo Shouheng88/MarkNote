@@ -1,5 +1,6 @@
 package me.shouheng.notepal.fragment;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -29,6 +30,7 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.ContentActivity;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.databinding.FragmentNoteBinding;
+import me.shouheng.notepal.dialog.AttachmentPickerDialog;
 import me.shouheng.notepal.dialog.NotebookPickerDialog;
 import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.model.Location;
@@ -67,6 +69,8 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
     private Notebook notebook;
 
     private PreferencesUtils preferencesUtils;
+
+    private AttachmentPickerDialog attachmentPickerDialog;
 
     public static NoteFragment newInstance(Note note, Integer position, Integer requestCode){
         Bundle arg = new Bundle();
@@ -286,11 +290,12 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
             case R.id.iv_line:effect = MarkdownEffect.H_LINE;break;
             case R.id.iv_xml:effect = MarkdownEffect.XML;break;
             case R.id.iv_insert_picture:
-//                showAttachmentPicker();
+                showAttachmentPicker();
                 break;
             case R.id.iv_insert_link: {
-                LinkInputDialog.getInstance((title, link) -> getBinding().main.etContent.setEffect(MarkdownEffect.LINK, title, link))
-                        .show(getFragmentManager(), "LINK INPUT");
+                LinkInputDialog.getInstance(
+                        (title, link) -> getBinding().main.etContent.setEffect(MarkdownEffect.LINK, title, link)
+                ).show(getFragmentManager(), "LINK INPUT");
             } break;
             case R.id.iv_insert_table: {
                 TableInputDialog.getInstance((rowsStr, colsStr) -> {
@@ -332,6 +337,33 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
     }
 
     @Override
+    protected AttachmentPickerDialog getAttachmentPickerDialog() {
+        return attachmentPickerDialog;
+    }
+
+    private void showAttachmentPicker() {
+        attachmentPickerDialog = new AttachmentPickerDialog.Builder(this)
+                .setRecordVisible(false)
+                .setVideoVisible(false)
+                .setOnAddNetUriSelectedListener(this::addImageLink)
+                .build();
+        attachmentPickerDialog.show(getFragmentManager(), "Attachment picker");
+    }
+
+    @Override
+    protected void onFailedGetAttachment(Attachment attachment) {
+        ToastUtils.makeToast(getContext(), R.string.failed_to_save_attachment);
+    }
+
+    @Override
+    protected void onGetAttachment(Attachment attachment) {
+        getBinding().main.etContent.setEffect(MarkdownEffect.IMAGE, "image" , attachment.getUri().toString());
+        attachment.setModelCode(note.getCode());
+        attachment.setModelType(ModelType.NOTE);
+        AttachmentsStore.getInstance(getContext()).saveModel(attachment);
+    }
+
+    @Override
     protected boolean checkInputInfo() {
         if (TextUtils.isEmpty(getBinding().main.etTitle.getText().toString())) {
             ToastUtils.makeToast(getContext(), R.string.title_required);
@@ -352,8 +384,6 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
 
     @Override
     protected void beforeSaveOrUpdate() {
-        super.beforeSaveOrUpdate();
-
         if (noteFile == null) {
             try {
                 FileUtils.writeStringToFile(tempFile, getBinding().main.etContent.getText().toString(), "utf-8");
@@ -449,7 +479,12 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
     }
 
     @Override
-    public void onBackPressed() {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
+    @Override
+    public void onBackPressed() {
+        onBack();
     }
 }

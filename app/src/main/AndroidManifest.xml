@@ -87,6 +87,8 @@
 
         <activity android:name=".activity.FabSortActivity" />
 
+        <activity android:name=".activity.SketchActivity" />
+
         <activity
             android:name=".activity.ContentActivity"
             android:exported="true" />

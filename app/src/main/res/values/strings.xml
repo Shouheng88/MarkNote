@@ -148,6 +148,23 @@
     <string name="until">直到</string>
     <!--endregion-->
 
+    <!--region attachment-->
+    <string name="album">相册</string>
+    <string name="net_link">网络链接</string>
+    <string name="file">文件</string>
+    <string name="create">创建</string>
+    <string name="take_a_photo">拍摄照片</string>
+    <string name="sound_record">录制音频</string>
+    <string name="take_video">录制视频</string>
+    <string name="sketch">手写</string>
+
+    <string name="activity_not_found_to_resolve">没有找到可用的程序</string>
+    <string name="use_to_open">用&#8230;打开</string>
+    <string name="information">信息</string>
+    <string name="failed_when_play_audio">播放音频时出现错误</string>
+    <string name="failed_to_resolve_intent">没有找到可用的应用</string>
+    <!--endregion-->
+
     <!--region fab items-->
     <string name="fab_opt_note">笔记</string>
     <string name="fab_opt_notebook">笔记本</string>
@@ -249,5 +266,13 @@
     <string name="permission_denied_try_again_after_set">请授予程序权限后再次尝试</string>
     <string name="check_network_availability">检查网络连接是否可用</string>
     <!--endregion permission-->
+
+    <!--region sketch-->
+    <string name="confirm_to_clear_bitmap">确认全部擦除？</string>
+    <string name="stroke">线宽</string>
+    <string name="opacity">透明度</string>
+    <string name="saturation">饱和度</string>
+    <string name="file_not_exist">文件不存在</string>
+    <!--endregion-->
 
 </resources>

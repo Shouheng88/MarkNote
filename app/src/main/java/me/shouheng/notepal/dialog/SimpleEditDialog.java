@@ -1,5 +1,6 @@
 package me.shouheng.notepal.dialog;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,6 +21,7 @@ import me.shouheng.notepal.util.ColorUtils;
 
 /**
  * Created by wangshouheng on 2017/3/15. */
+@SuppressLint("ValidFragment")
 public class SimpleEditDialog extends DialogFragment {
 
     private OnAcceptListener onAcceptListener;

@@ -286,9 +286,9 @@ public class Colorful {
 
     public static class Defaults {
 
-        private static ThemeColor primaryColor = ThemeColor.LIGHT_BLUE;
+        private static ThemeColor primaryColor = ThemeColor.GREEN;
 
-        private static AccentColor accentColor = AccentColor.LIGHT_BLUE_400;
+        private static AccentColor accentColor = AccentColor.GREEN_700;
 
         private static boolean trans = false;
 
