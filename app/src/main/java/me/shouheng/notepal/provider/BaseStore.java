@@ -312,6 +312,6 @@ public abstract class BaseStore<T extends Model> {
     private T getModel(Cursor cursor) {
         T model = StoreHelper.getBaseModel(cursor, entityClass);
         fillModel(model, cursor);
-        return null;
+        return model;
     }
 }

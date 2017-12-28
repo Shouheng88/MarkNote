@@ -18,6 +18,7 @@ import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.databinding.ActivityContentBinding;
 import me.shouheng.notepal.fragment.CommonFragment;
 import me.shouheng.notepal.fragment.NoteFragment;
+import me.shouheng.notepal.fragment.NoteViewFragment;
 import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.provider.NotesStore;
 import me.shouheng.notepal.util.FragmentHelper;
@@ -134,7 +135,7 @@ public class ContentActivity extends CommonActivity<ActivityContentBinding> impl
     }
 
     private void toNoteFragment(Note note, @Nullable Integer position, @Nullable Integer requestCode, boolean isEdit){
-        Fragment fragment = isEdit ? NoteFragment.newInstance(note, position, requestCode) : null;
+        Fragment fragment = isEdit ? NoteFragment.newInstance(note, position, requestCode) : NoteViewFragment.newInstance(note, position, requestCode);
         FragmentHelper.replace(this, fragment, R.id.fragment_container);
     }
 

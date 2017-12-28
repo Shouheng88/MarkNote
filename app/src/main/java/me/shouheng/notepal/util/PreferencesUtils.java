@@ -26,6 +26,7 @@ public class PreferencesUtils {
     private final String TOUR_ACTIVITY_SHOWED = "tour_activity_showed";
     private final String COLORED_NAVIGATION_BAR = "colored_navigation_bar";
     private final String FIRST_DAY_OF_WEEK = "first_day_of_week";
+    private final String VIDEO_SIZE_LIMIT = "VIDEO_SIZE_LIMIT";
 
     private final String FAB_SORT_RESULT = "fab_sort_result";
     private final String FAB_SORT_SPLIT = ":";
@@ -69,6 +70,7 @@ public class PreferencesUtils {
         mPreferences.unregisterOnSharedPreferenceChangeListener(listener);
     }
 
+    // region theme
     public void setDarkTheme(boolean isDarkTheme) {
         putBooleanValue(IS_DARK_THEME, isDarkTheme);
     }
@@ -92,7 +94,9 @@ public class PreferencesUtils {
     public void setAccentColor(Colorful.AccentColor accentColor){
         putStringValue(ACCENT_COLOR, accentColor.getAccentName());
     }
+    // endregion
 
+    // region preferences
     public void setTourActivityShowed(boolean showed) {
         putBooleanValue(TOUR_ACTIVITY_SHOWED, showed);
     }
@@ -151,6 +155,15 @@ public class PreferencesUtils {
     public boolean listAnimationEnabled() {
         return getBooleanValue(LIST_ANIMATION, true);
     }
+
+    public void setVideoSizeLimit(int limit){
+        putIntValue(VIDEO_SIZE_LIMIT, limit);
+    }
+
+    public int getVideoSizeLimit(){
+        return getIntValue(VIDEO_SIZE_LIMIT, 10);
+    }
+    // endregion
 
     // region notification
     private final String ALLOW_WAKE_LOCK = "allow_wake_lock";

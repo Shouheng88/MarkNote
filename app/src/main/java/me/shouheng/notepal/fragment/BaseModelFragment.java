@@ -3,6 +3,7 @@ package me.shouheng.notepal.fragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.databinding.ViewDataBinding;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.ViewGroup;
@@ -13,16 +14,26 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
 import com.baidu.location.BDLocation;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.CommonActivity;
 import me.shouheng.notepal.activity.ContentActivity;
+import me.shouheng.notepal.async.AttachmentTask;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.config.TextLength;
+import me.shouheng.notepal.dialog.AttachmentPickerDialog;
 import me.shouheng.notepal.dialog.SimpleEditDialog;
+import me.shouheng.notepal.listener.OnAttachingFileListener;
 import me.shouheng.notepal.manager.LocationManager;
+import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.model.Model;
+import me.shouheng.notepal.model.ModelFactory;
 import me.shouheng.notepal.provider.BaseStore;
+import me.shouheng.notepal.util.FileHelper;
 import me.shouheng.notepal.util.NetworkUtils;
+import me.shouheng.notepal.util.PalmUtils;
 import me.shouheng.notepal.util.PermissionUtils;
 import me.shouheng.notepal.util.ShortcutHelper;
 import me.shouheng.notepal.util.ToastUtils;
@@ -32,7 +43,7 @@ import me.shouheng.notepal.widget.FlowLayout;
 
 /**
  * Created by wangshouheng on 2017/9/3.*/
-public abstract class BaseModelFragment<T extends Model, V extends ViewDataBinding> extends CommonFragment<V> {
+public abstract class BaseModelFragment<T extends Model, V extends ViewDataBinding> extends CommonFragment<V> implements OnAttachingFileListener {
 
     // region edit structure
     private Boolean isNewModel;
@@ -96,7 +107,11 @@ public abstract class BaseModelFragment<T extends Model, V extends ViewDataBindi
     }
 
     protected void setResult() {
-        if (!savedOrUpdated) getActivity().onBackPressed();
+        assert getActivity() != null;
+        CommonActivity activity = (CommonActivity) getActivity();
+        if (!savedOrUpdated) {
+            activity.superOnBackPressed();
+        }
 
         Bundle args = getArguments();
         if (args != null && args.containsKey(Constants.EXTRA_REQUEST_CODE)){
@@ -106,13 +121,15 @@ public abstract class BaseModelFragment<T extends Model, V extends ViewDataBindi
                 intent.putExtra(Constants.EXTRA_POSITION, args.getInt(Constants.EXTRA_POSITION, 0));
             }
             getActivity().setResult(Activity.RESULT_OK, intent);
-            getActivity().finish();
+            activity.superOnBackPressed();
         } else {
-            getActivity().onBackPressed();
+            activity.superOnBackPressed();
         }
     }
 
-    protected void onBack(){
+    protected void onBack() {
+        assert getActivity() != null;
+        CommonActivity activity = (CommonActivity) getActivity();
         if (isContentChanged()){
             new MaterialDialog.Builder(getContext())
                     .title(R.string.text_tips)
@@ -126,7 +143,7 @@ public abstract class BaseModelFragment<T extends Model, V extends ViewDataBindi
                         saveOrUpdateData();
                         setResult();
                     })
-                    .onNegative((materialDialog, dialogAction) -> getActivity().onBackPressed())
+                    .onNegative((materialDialog, dialogAction) -> activity.superOnBackPressed())
                     .show();
         } else {
             setResult();
@@ -248,11 +265,100 @@ public abstract class BaseModelFragment<T extends Model, V extends ViewDataBindi
         }
     }
 
-    private void locate(){
+    private void locate() {
         ToastUtils.makeToast(getContext(), R.string.trying_to_get_location);
         LocationManager.getInstance(getContext()).locate(this::onGetLocation);
     }
 
     protected void onGetLocation(BDLocation bdLocation) {}
+    // endregion
+
+    // region attachment
+    protected AttachmentPickerDialog getAttachmentPickerDialog() {
+        return null;
+    }
+
+    protected void onGetAttachment(Attachment attachment) {}
+
+    protected void onFailedGetAttachment(Attachment attachment) {}
+
+    @Override
+    public void onAttachingFileErrorOccurred(Attachment attachment) {
+        onFailedGetAttachment(attachment);
+    }
+
+    @Override
+    public void onAttachingFileFinished(Attachment attachment) {
+        onGetAttachment(attachment);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case AttachmentPickerDialog.REQUEST_TAKE_PHOTO:
+                if (resultCode == Activity.RESULT_OK){
+                    Attachment photo = ModelFactory.getAttachment(getContext());
+                    Uri photoUri = getAttachmentPickerDialog().getAttachmentUri();
+                    photo.setUri(photoUri);
+                    photo.setMineType(Constants.MIME_TYPE_IMAGE);
+                    photo.setPath(getAttachmentPickerDialog().getFilePath());
+                    onGetAttachment(photo);
+                }
+                break;
+            case AttachmentPickerDialog.REQUEST_SELECT_IMAGE:
+                if (resultCode == Activity.RESULT_OK){
+                    List<Uri> uris = new ArrayList<>();
+                    if (PalmUtils.isJellyBean() && data.getClipData() != null) {
+                        for (int i = 0; i < data.getClipData().getItemCount(); i++) {
+                            uris.add(data.getClipData().getItemAt(i).getUri());
+                        }
+                    } else {
+                        uris.add(data.getData());
+                    }
+                    for (Uri uri : uris) {
+                        String name = FileHelper.getNameFromUri(getActivity(), uri);
+                        new AttachmentTask(this, uri, name, this).execute();
+                    }
+                }
+                break;
+            case AttachmentPickerDialog.REQUEST_TAKE_VIDEO:
+                if (resultCode == Activity.RESULT_OK){
+                    Attachment video = ModelFactory.getAttachment(getContext());
+                    Uri videoUri = data.getData();
+                    video.setUri(videoUri);
+                    video.setMineType(Constants.MIME_TYPE_VIDEO);
+                    video.setPath(getAttachmentPickerDialog().getFilePath());
+                    onGetAttachment(video);
+                }
+                break;
+            case AttachmentPickerDialog.REQUEST_FILES:
+                if (resultCode == Activity.RESULT_OK){
+                    List<Uri> uris = new ArrayList<>();
+                    if (PalmUtils.isJellyBean() && data.getClipData() != null) {
+                        for (int i = 0; i < data.getClipData().getItemCount(); i++) {
+                            uris.add(data.getClipData().getItemAt(i).getUri());
+                        }
+                    } else {
+                        uris.add(data.getData());
+                    }
+                    for (Uri uri : uris) {
+                        String name = FileHelper.getNameFromUri(getActivity(), uri);
+                        new AttachmentTask(this, uri, name, this).execute();
+                    }
+                }
+                break;
+            case AttachmentPickerDialog.REQUEST_SKETCH:
+                if (resultCode == Activity.RESULT_OK){
+                    Attachment sketch = ModelFactory.getAttachment(getContext());
+                    Uri sketchUri = getAttachmentPickerDialog().getAttachmentUri();
+                    sketch.setUri(sketchUri);
+                    sketch.setMineType(Constants.MIME_TYPE_SKETCH);
+                    sketch.setPath(getAttachmentPickerDialog().getFilePath());
+                    onGetAttachment(sketch);
+                }
+                break;
+        }
+    }
     // endregion
 }

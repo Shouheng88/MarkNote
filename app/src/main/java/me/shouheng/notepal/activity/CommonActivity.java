@@ -112,4 +112,8 @@ public abstract class CommonActivity<T extends ViewDataBinding> extends ThemedAc
 
     @Override
     public void onColorChooserDismissed(@NonNull ColorChooserDialog dialog) {}
+
+    public void superOnBackPressed() {
+        super.onBackPressed();
+    }
 }
