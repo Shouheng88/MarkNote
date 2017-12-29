@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<notices>
+    <notice>
+        <name>Apache Commons IO</name>
+        <url>http://commons.apache.org/io/</url>
+        <copyright>Copyright 2002-2012 The Apache Software Foundation</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>PhotoView</name>
+        <url>https://github.com/chrisbanes/PhotoView</url>
+        <copyright>Copyright 2011, 2012 Chris Banes.</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>Material Dialog</name>
+        <url>https://github.com/afollestad/material-dialogs</url>
+        <copyright>Copyright (c) 2014-2016 Aidan Michael Follestad</copyright>
+        <license>MIT License</license>
+    </notice>
+    <notice>
+        <name>Glide</name>
+        <url>https://github.com/bumptech/glide</url>
+        <copyright>Copyright 2014 Google, Inc. All rights reserved.</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>Retrofit</name>
+        <url>https://github.com/square/retrofit</url>
+        <copyright>Copyright 2013 Square, Inc.</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>RxAndroid</name>
+        <url>https://github.com/ReactiveX/RxAndroid</url>
+        <copyright>Copyright 2015 The RxAndroid authors</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>Hello Charts</name>
+        <url>https://github.com/lecho/hellocharts-android</url>
+        <copyright>Copyright 2014 Leszek Wach</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>Android Week View</name>
+        <url>https://github.com/alamkanak/Android-Week-View</url>
+        <copyright>Copyright 2014 Raquib-ul-Alam</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>Android Holo ColorPicker</name>
+        <url>https://github.com/LarsWerkman/HoloColorPicker</url>
+        <copyright>Copyright 2012 Lars Werkman</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>Floating Action Button</name>
+        <url>https://github.com/Clans/FloatingActionButton</url>
+        <copyright>Copyright 2015 Dmytro Tarianyk</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>Date Time Picker</name>
+        <url>https://github.com/flavienlaurent/datetimepicker</url>
+        <copyright>Copyright 2013 Flavien Laurent (DatePicker) edisonw (TimePicker)</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>Pull Back Layout</name>
+        <url>https://github.com/LarsWerkman/HoloColorPicker</url>
+        <copyright>Copyright (c) 2015 XiNGRZ &lt;xxx@oxo.ooo&gt;</copyright>
+        <license>MIT License</license>
+    </notice>
+    <notice>
+        <name>LicensesDialog</name>
+        <url>http://psdev.de</url>
+        <copyright>Copyright 2013 Philip Schiffer &lt;admin@psdev.de&gt;</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+</notices>

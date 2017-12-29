@@ -89,6 +89,8 @@
 
         <activity android:name=".activity.SketchActivity" />
 
+        <activity android:name=".activity.GalleryActivity" />
+
         <activity
             android:name=".activity.ContentActivity"
             android:exported="true" />

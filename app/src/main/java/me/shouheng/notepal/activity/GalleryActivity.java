@@ -89,6 +89,8 @@ public class GalleryActivity extends CommonActivity<ActivityGalleryBinding> impl
         getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_toolbar_shade));
         getSupportActionBar().setTitle(title);
         getSupportActionBar().setSubtitle(clickedImage + 1 + "/" + attachments.size());
+
+        setStatusBarColor(getResources().getColor(R.color.md_black_1000));
     }
 
     private void configViews() {
