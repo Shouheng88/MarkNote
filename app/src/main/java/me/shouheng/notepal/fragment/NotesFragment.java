@@ -1,5 +1,7 @@
 package me.shouheng.notepal.fragment;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -126,6 +128,10 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
         adapter.setNewData(getMultiItems());
     }
 
+    public Notebook getNotebook() {
+        return notebook;
+    }
+
     @Override
     public void onActivityCreated(@android.support.annotation.Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -169,5 +175,17 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
         if (getActivity() != null && getActivity() instanceof MainActivity) {
             ((MainActivity) getActivity()).setDrawerLayoutLocked(!isTopStack);
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_CODE_FOR_NOTE_VIEW:
+                if (resultCode == Activity.RESULT_OK) {
+                    reload();
+                }
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
