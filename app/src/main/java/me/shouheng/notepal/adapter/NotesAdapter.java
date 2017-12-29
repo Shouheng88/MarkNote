@@ -12,6 +12,8 @@ import java.util.List;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.model.Notebook;
+import me.shouheng.notepal.util.ColorUtils;
+import me.shouheng.notepal.util.TimeUtils;
 
 /**
  * Created by wang shouheng on 2017/12/23.*/
@@ -19,11 +21,15 @@ public class NotesAdapter extends BaseMultiItemQuickAdapter<NotesAdapter.MultiIt
 
     private Context context;
 
+    private int accentColor;
+
     public NotesAdapter(Context context, List<NotesAdapter.MultiItem> data) {
         super(data);
         this.context = context;
         addItemType(MultiItem.ITEM_TYPE_NOTE, R.layout.item_note);
         addItemType(MultiItem.ITEM_TYPE_NOTEBOOK, R.layout.item_note);
+
+        accentColor = ColorUtils.accentColor(context);
     }
 
     public static List<NotesAdapter.MultiItem> setupDatas(List<Notebook> notebooks, List<Note> notes) {
@@ -42,21 +48,44 @@ public class NotesAdapter extends BaseMultiItemQuickAdapter<NotesAdapter.MultiIt
         }
     }
 
-    private void convertNote(BaseViewHolder helper, Note note) {}
+    private void convertNote(BaseViewHolder helper, Note note) {
+        helper.setText(R.id.tv_note_title, note.getTitle());
+        helper.setText(R.id.tv_added_time, TimeUtils.getLongDateTime(context, note.getAddedTime()));
+        helper.setImageDrawable(R.id.iv_icon, ColorUtils.tintDrawable(
+                context.getResources().getDrawable(R.drawable.ic_doc_text_alpha), accentColor));
+    }
 
-    private void convertNotebook(BaseViewHolder helper, Notebook notebookm) {}
+    private void convertNotebook(BaseViewHolder helper, Notebook notebook) {
+        int nbColor = notebook.getColor();
+        helper.setText(R.id.tv_note_title, notebook.getTitle());
+        String str = context.getResources().getQuantityString(R.plurals.notes_count,
+                notebook.getCount(), notebook.getCount());
+        helper.setText(R.id.tv_added_time, str);
+        helper.setImageDrawable(R.id.iv_icon, ColorUtils.tintDrawable(
+                context.getResources().getDrawable(R.drawable.ic_folder_black_24dp), nbColor));
+    }
 
     public static class MultiItem implements MultiItemEntity {
 
-        static final int ITEM_TYPE_NOTE = 0;
+        public static final int ITEM_TYPE_NOTE = 0;
 
-        static final int ITEM_TYPE_NOTEBOOK = 1;
+        public static final int ITEM_TYPE_NOTEBOOK = 1;
 
-        int itemType;
+        public int itemType;
 
-        Note note;
+        public Note note;
 
-        Notebook notebook;
+        public Notebook notebook;
+
+        public MultiItem(Note note) {
+            this.note = note;
+            this.itemType = ITEM_TYPE_NOTE;
+        }
+
+        public MultiItem(Notebook notebook) {
+            this.notebook = notebook;
+            this.itemType = ITEM_TYPE_NOTEBOOK;
+        }
 
         @Override
         public int getItemType() {
