@@ -197,7 +197,7 @@ public class NotebookStore extends BaseStore<Notebook> {
         return " (SELECT COUNT(*) FROM " + NoteSchema.TABLE_NAME + " AS t1 "
                 + " WHERE t1." + NoteSchema.TREE_PATH + " LIKE " + tableName + "." + NotebookSchema.TREE_PATH + "||'%'"
                 + " AND t1." + NoteSchema.USER_ID + " = " + userId
-                + " AND t1." + NoteSchema.STATUS + " = " + (status == null ? Status.NORMAL.id : Status.ARCHIVED.id) + " ) "
+                + " AND t1." + NoteSchema.STATUS + " = " + (status == null ? Status.NORMAL.id : status.id) + " ) "
                 + " AS " + NotebookSchema.COUNT;
     }
 }
