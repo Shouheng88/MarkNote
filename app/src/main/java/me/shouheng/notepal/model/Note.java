@@ -26,14 +26,8 @@ public class Note extends Model implements Parcelable {
     @Column(name = "content_code")
     private long contentCode;
 
-    @Column(name = "class_code")
-    private long classCode;
-
     @Column(name = "tags")
     private String tags;
-
-    @Column(name = "purpose_code")
-    private long purposeCode;
 
     // region Android端字段，不计入数据库
 
@@ -65,8 +59,6 @@ public class Note extends Model implements Parcelable {
         setContent(in.readString());
         setContentCode(in.readLong());
         setTags(in.readString());
-        setClassCode(in.readLong());
-        setPurposeCode(in.readLong());
     }
 
     public static final Creator<Note> CREATOR = new Creator<Note>() {
@@ -121,22 +113,6 @@ public class Note extends Model implements Parcelable {
         this.tags = tags;
     }
 
-    public long getClassCode() {
-        return classCode;
-    }
-
-    public void setClassCode(long classCode) {
-        this.classCode = classCode;
-    }
-
-    public long getPurposeCode() {
-        return purposeCode;
-    }
-
-    public void setPurposeCode(long purposeCode) {
-        this.purposeCode = purposeCode;
-    }
-
     @Override
     public String toString() {
         return "Note{" +
@@ -144,9 +120,7 @@ public class Note extends Model implements Parcelable {
                 ", treePath='" + treePath + '\'' +
                 ", title='" + title + '\'' +
                 ", contentCode=" + contentCode +
-                ", classCode=" + classCode +
                 ", tags='" + tags + '\'' +
-                ", purposeCode=" + purposeCode +
                 ", content='" + content + '\'' +
                 "} " + super.toString();
     }
@@ -171,7 +145,5 @@ public class Note extends Model implements Parcelable {
         dest.writeString(getContent());
         dest.writeLong(getContentCode());
         dest.writeString(getTags());
-        dest.writeLong(getClassCode());
-        dest.writeLong(getPurposeCode());
     }
 }
