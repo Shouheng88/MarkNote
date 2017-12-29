@@ -216,6 +216,7 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
         NotebookPickerDialog.newInstance()
                 .setOnItemSelectedListener((dialog, notebook1, position) -> {
                     note.setParentCode(notebook1.getCode());
+                    note.setTreePath(notebook1.getTreePath());
                     getBinding().main.tvFolder.setText(notebook1.getTitle());
                     getBinding().main.tvFolder.setTextColor(notebook1.getColor());
                     setContentChanged();
