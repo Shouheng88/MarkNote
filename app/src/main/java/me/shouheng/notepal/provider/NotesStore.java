@@ -42,8 +42,6 @@ public class NotesStore extends BaseStore<Note> {
         note.setTitle(cursor.getString(cursor.getColumnIndex(NoteSchema.TITLE)));
         note.setContentCode(cursor.getLong(cursor.getColumnIndex(NoteSchema.CONTENT_CODE)));
         note.setTags(cursor.getString(cursor.getColumnIndex(NoteSchema.TAGS)));
-        note.setPurposeCode(cursor.getLong(cursor.getColumnIndex(NoteSchema.PURPOSE_CODE)));
-        note.setClassCode(cursor.getLong(cursor.getColumnIndex(NoteSchema.CLASS_CODE)));
         note.setTreePath(cursor.getString(cursor.getColumnIndex(NoteSchema.TREE_PATH)));
     }
 
@@ -53,8 +51,6 @@ public class NotesStore extends BaseStore<Note> {
         values.put(NoteSchema.TITLE, note.getTitle());
         values.put(NoteSchema.CONTENT_CODE, note.getContentCode());
         values.put(NoteSchema.TAGS, note.getTags());
-        values.put(NoteSchema.PURPOSE_CODE, note.getPurposeCode());
-        values.put(NoteSchema.CLASS_CODE, note.getClassCode());
         values.put(NoteSchema.TREE_PATH, note.getTreePath());
     }
 }

@@ -8,7 +8,5 @@ public interface NoteSchema extends BaseSchema {
     String TITLE = "title";
     String CONTENT_CODE = "content_code";
     String TAGS = "tags";
-    String CLASS_CODE = "class_code";
-    String PURPOSE_CODE = "purpose_code";
     String TREE_PATH = "tree_path";
 }
