@@ -26,7 +26,6 @@ import me.shouheng.notepal.adapter.AttachmentPagerAdapter;
 import me.shouheng.notepal.databinding.ActivityGalleryBinding;
 import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.util.FileHelper;
-import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.SystemUiVisibilityUtil;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.util.ViewUtils;
@@ -34,9 +33,6 @@ import me.shouheng.notepal.widget.tools.DepthPageTransformer;
 import ooo.oxo.library.widget.PullBackLayout;
 
 public class GalleryActivity extends CommonActivity<ActivityGalleryBinding> implements PullBackLayout.Callback {
-
-    private AttachmentPagerAdapter adapter;
-    private PreferencesUtils preferences;
 
     private boolean fullScreenMode;
     private ColorDrawable mBackground;
@@ -57,8 +53,6 @@ public class GalleryActivity extends CommonActivity<ActivityGalleryBinding> impl
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {
-        preferences = PreferencesUtils.getInstance(this);
-
         handleIntent(savedInstanceState);
 
         configToolbar();
@@ -107,7 +101,7 @@ public class GalleryActivity extends CommonActivity<ActivityGalleryBinding> impl
             }
         });
 
-        adapter = new AttachmentPagerAdapter(getSupportFragmentManager(), attachments);
+        AttachmentPagerAdapter adapter = new AttachmentPagerAdapter(getSupportFragmentManager(), attachments);
         getBinding().viewPager.setAdapter(adapter);
         getBinding().viewPager.setCurrentItem(clickedImage);
         getBinding().viewPager.setPageTransformer(true, new DepthPageTransformer());
