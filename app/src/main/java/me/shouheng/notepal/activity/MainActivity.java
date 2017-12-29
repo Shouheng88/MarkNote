@@ -9,9 +9,13 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
+import android.widget.RelativeLayout;
 
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
 
@@ -33,6 +37,9 @@ import me.shouheng.notepal.util.FragmentHelper;
 import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.PermissionUtils;
 import me.shouheng.notepal.util.PreferencesUtils;
+import me.shouheng.notepal.widget.tools.CustomRecyclerScrollViewListener;
+
+import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
 
 public class MainActivity extends CommonActivity<ActivityMainBinding> {
 
@@ -43,6 +50,8 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> {
     private PreferencesUtils preferencesUtils;
 
     private NotebookEditDialog notebookEditDialog;
+
+    private RecyclerView.OnScrollListener onScrollListener;
 
     @Override
     protected int getLayoutResId() {
@@ -118,6 +127,28 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> {
         getBinding().fab3.setOnClickListener(onFabClickListener);
         getBinding().fab4.setOnClickListener(onFabClickListener);
         getBinding().fab5.setOnClickListener(onFabClickListener);
+
+        onScrollListener = new CustomRecyclerScrollViewListener() {
+            @Override
+            public void show() {
+                getBinding().menu.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
+            }
+
+            @Override
+            public void hide() {
+                RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) getBinding().menu.getLayoutParams();
+                int fabMargin = lp.bottomMargin;
+                getBinding().menu.animate().translationY(getBinding().menu.getHeight()+fabMargin).setInterpolator(new AccelerateInterpolator(2.0f)).start();
+            }
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                LogUtils.d("onScrollStateChanged: ");
+                if (newState == SCROLL_STATE_IDLE){
+                    LogUtils.d("onScrollStateChanged: SCROLL_STATE_IDLE");
+                }
+            }
+        };
     }
 
     private void initFabSortItems() {
@@ -164,6 +195,10 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> {
             notebook.setColor(notebookColor);
             notebook.setCount(0);
             NotebookStore.getInstance(this).saveModel(notebook);
+            Fragment fragment = getCurrentFragment();
+            if (fragment != null && fragment instanceof NotesFragment) {
+                ((NotesFragment) fragment).reload();
+            }
         });
         notebookEditDialog.show(getSupportFragmentManager(), "NotebookEditDialog");
     }
@@ -207,7 +242,9 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> {
 
     private void toNotesFragment() {
         if (isNotesFragment()) return;
-        FragmentHelper.replace(this, NotesFragment.newInstance(null), R.id.fragment_container);
+        NotesFragment notesFragment = NotesFragment.newInstance(null);
+        notesFragment.setScrollListener(onScrollListener);
+        FragmentHelper.replace(this, notesFragment, R.id.fragment_container);
         new Handler().postDelayed(() -> getBinding().nav.getMenu().findItem(R.id.nav_notes).setChecked(true), 300);
     }
 
