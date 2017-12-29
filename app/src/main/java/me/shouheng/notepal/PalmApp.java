@@ -2,6 +2,8 @@ package me.shouheng.notepal;
 
 import android.app.Application;
 
+import com.facebook.stetho.Stetho;
+
 import org.polaric.colorful.Colorful;
 
 
@@ -22,5 +24,7 @@ public class PalmApp extends Application{
         mInstance = this;
 
         Colorful.init(this);
+
+        Stetho.initializeWithDefaults(this);
     }
 }
