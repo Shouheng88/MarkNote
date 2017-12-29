@@ -120,13 +120,14 @@ public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
 
     public void setScrollListener(RecyclerView.OnScrollListener scrollListener) {
         this.scrollListener = scrollListener;
-        if (getBinding().rvNotes != null) {
-            getBinding().rvNotes.addOnScrollListener(scrollListener);
-        }
     }
 
     public void setOnNotebookSelectedListener(OnNotebookSelectedListener onNotebookSelectedListener) {
         this.onNotebookSelectedListener = onNotebookSelectedListener;
+    }
+
+    public void reload() {
+        adapter.setNewData(getMultiItems());
     }
 
     @Override
