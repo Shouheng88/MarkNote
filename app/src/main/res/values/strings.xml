@@ -119,6 +119,7 @@
     <string name="edit_notebook">编辑笔记本</string>
     <string name="notebook_name">笔记本名称</string>
     <string name="pick_notebook_color">选择笔记本的颜色</string>
+    <string name="notes_list_empty">笔记列表为空</string>
     <!--endregion-->
 
     <!--region attachment-->
@@ -273,6 +274,12 @@
     <string name="opacity">透明度</string>
     <string name="saturation">饱和度</string>
     <string name="file_not_exist">文件不存在</string>
+    <!--endregion-->
+
+    <!--region capture-->
+    <string name="empty_list_to_capture">要截取的列表为空</string>
+    <string name="list_quick_capture">列表截图</string>
+    <string name="capturing">正在截取&#8230;</string>
     <!--endregion-->
 
 </resources>

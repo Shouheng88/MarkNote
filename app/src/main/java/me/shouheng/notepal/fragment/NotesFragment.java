@@ -27,7 +27,7 @@ import me.shouheng.notepal.widget.tools.CustomItemAnimator;
 import me.shouheng.notepal.widget.tools.DividerItemDecoration;
 
 
-public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
+public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
 
     private final static String ARG_NOTEBOOK = "arg_notebook";
 
@@ -153,7 +153,7 @@ public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
                     return true;
                 }
             case R.id.action_capture:
-//                createScreenCapture(mRecyclerView);
+                createScreenCapture(getBinding().rvNotes);
                 break;
         }
         return super.onOptionsItemSelected(item);

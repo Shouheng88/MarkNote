@@ -43,7 +43,7 @@ import me.shouheng.notepal.widget.FlowLayout;
 
 /**
  * Created by wangshouheng on 2017/9/3.*/
-public abstract class BaseModelFragment<T extends Model, V extends ViewDataBinding> extends CommonFragment<V> implements OnAttachingFileListener {
+public abstract class BaseModelFragment<T extends Model, V extends ViewDataBinding> extends BaseFragment<V> implements OnAttachingFileListener {
 
     // region edit structure
     private Boolean isNewModel;
