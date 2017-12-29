@@ -179,6 +179,11 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
             case NOTE:
                 PermissionUtils.checkStoragePermission(this, () -> {
                     Note note = ModelFactory.getNote(this);
+                    Notebook notebook;
+                    if (isNotesFragment() && (notebook = ((NotesFragment) getCurrentFragment()).getNotebook()) != null) {
+                        note.setParentCode(notebook.getCode());
+                        note.setTreePath(notebook.getTreePath() + "|" + note.getCode());
+                    }
                     ContentActivity.startNoteEditForResult(this, note, null, REQUEST_ADD_NOTE);
                 });
                 break;
@@ -194,6 +199,12 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
             notebook.setTitle(notebookName);
             notebook.setColor(notebookColor);
             notebook.setCount(0);
+            notebook.setTreePath(String.valueOf(notebook.getCode()));
+            Notebook parent;
+            if (isNotesFragment() && (parent = ((NotesFragment) getCurrentFragment()).getNotebook()) != null) {
+                notebook.setParentCode(parent.getCode());
+                notebook.setTreePath(parent.getTreePath() + "|" + notebook.getCode());
+            }
             NotebookStore.getInstance(this).saveModel(notebook);
             Fragment fragment = getCurrentFragment();
             if (fragment != null && fragment instanceof NotesFragment) {
@@ -277,12 +288,17 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case REQUEST_FAB_SORT:
-                if (resultCode == RESULT_OK) {
+        if (resultCode == RESULT_OK){
+            switch (requestCode) {
+                case REQUEST_FAB_SORT:
                     initFabSortItems();
-                }
-                break;
+                    break;
+                case REQUEST_ADD_NOTE:
+                    if (isNotesFragment()) {
+                        ((NotesFragment) getCurrentFragment()).reload();
+                    }
+                    break;
+            }
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

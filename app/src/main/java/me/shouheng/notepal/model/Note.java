@@ -55,6 +55,7 @@ public class Note extends Model implements Parcelable {
         setStatus(Status.getStatusById(in.readInt()));
 
         setParentCode(in.readLong());
+        setTreePath(in.readString());
         setTitle(in.readString());
         setContent(in.readString());
         setContentCode(in.readLong());
@@ -141,6 +142,7 @@ public class Note extends Model implements Parcelable {
         dest.writeInt(getStatus().id);
 
         dest.writeLong(getParentCode());
+        dest.writeString(getTreePath());
         dest.writeString(getTitle());
         dest.writeString(getContent());
         dest.writeLong(getContentCode());
