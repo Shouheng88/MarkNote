@@ -22,6 +22,7 @@ import me.shouheng.notepal.databinding.FragmentNotesBinding;
 import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.model.Notebook;
 import me.shouheng.notepal.provider.helper.NotebookHelper;
+import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.widget.tools.CustomItemAnimator;
 import me.shouheng.notepal.widget.tools.DividerItemDecoration;
 
@@ -36,7 +37,6 @@ public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
     private boolean isTopStack = true;
 
     private RecyclerView.OnScrollListener scrollListener;
-    private OnNotebookSelectedListener onNotebookSelectedListener;
 
     private NotesAdapter adapter;
 
@@ -74,8 +74,8 @@ public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setTitle(R.string.drawer_menu_notes);
         actionBar.setDisplayHomeAsUpEnabled(true);
-        if (notebook != null) actionBar.setSubtitle(notebook.getTitle());
-        if (isTopStack) actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_white);
+        actionBar.setSubtitle(notebook == null ? null : notebook.getTitle());
+        actionBar.setHomeAsUpIndicator(isTopStack ? R.drawable.ic_menu_white : R.drawable.ic_arrow_back_white_24dp);
     }
 
     private void configNotesList() {
@@ -85,8 +85,8 @@ public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
             if (item.itemType == NotesAdapter.MultiItem.ITEM_TYPE_NOTE) {
                 ContentActivity.startNoteViewForResult(NotesFragment.this, item.note, null, REQUEST_CODE_FOR_NOTE_VIEW);
             } else if (item.itemType == NotesAdapter.MultiItem.ITEM_TYPE_NOTEBOOK) {
-                if (onNotebookSelectedListener != null) {
-                    onNotebookSelectedListener.onNotebookSelected(item.notebook);
+                if (getActivity() != null && getActivity() instanceof OnNotebookSelectedListener) {
+                    ((OnNotebookSelectedListener) getActivity()).onNotebookSelected(item.notebook);
                 }
             }
         });
@@ -122,10 +122,6 @@ public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
         this.scrollListener = scrollListener;
     }
 
-    public void setOnNotebookSelectedListener(OnNotebookSelectedListener onNotebookSelectedListener) {
-        this.onNotebookSelectedListener = onNotebookSelectedListener;
-    }
-
     public void reload() {
         adapter.setNewData(getMultiItems());
     }
@@ -148,6 +144,14 @@ public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                LogUtils.d("onOptionsItemSelected");
+                if (isTopStack) {
+                    return super.onOptionsItemSelected(item);
+                } else {
+                    getActivity().onBackPressed();
+                    return true;
+                }
             case R.id.action_capture:
 //                createScreenCapture(mRecyclerView);
                 break;
@@ -157,5 +161,13 @@ public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
 
     public interface OnNotebookSelectedListener {
         void onNotebookSelected(Notebook notebook);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (getActivity() != null && getActivity() instanceof MainActivity) {
+            ((MainActivity) getActivity()).setDrawerLayoutLocked(!isTopStack);
+        }
     }
 }

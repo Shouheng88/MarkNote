@@ -41,7 +41,7 @@ import me.shouheng.notepal.widget.tools.CustomRecyclerScrollViewListener;
 
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
 
-public class MainActivity extends CommonActivity<ActivityMainBinding> {
+public class MainActivity extends CommonActivity<ActivityMainBinding> implements NotesFragment.OnNotebookSelectedListener {
 
     private final int REQUEST_FAB_SORT = 0x0001;
 
@@ -265,7 +265,10 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home: {
-                getBinding().drawerLayout.openDrawer(GravityCompat.START);
+                Fragment fragment = getCurrentFragment();
+                if (!fragment.onOptionsItemSelected(item)) {
+                    getBinding().drawerLayout.openDrawer(GravityCompat.START);
+                }
                 return true;
             }
         }
@@ -308,5 +311,12 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> {
     @Override
     public void onColorSelection(@NonNull ColorChooserDialog dialog, int selectedColor) {
         notebookEditDialog.updateUIBySelectedColor(selectedColor);
+    }
+
+    @Override
+    public void onNotebookSelected(Notebook notebook) {
+        NotesFragment notesFragment = NotesFragment.newInstance(notebook);
+        notesFragment.setScrollListener(onScrollListener);
+        FragmentHelper.replaceWithCallback(this, notesFragment, R.id.fragment_container);
     }
 }
