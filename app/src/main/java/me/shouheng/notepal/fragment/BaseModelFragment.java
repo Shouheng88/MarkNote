@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
-import com.baidu.location.BDLocation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +27,7 @@ import me.shouheng.notepal.dialog.SimpleEditDialog;
 import me.shouheng.notepal.listener.OnAttachingFileListener;
 import me.shouheng.notepal.manager.LocationManager;
 import me.shouheng.notepal.model.Attachment;
+import me.shouheng.notepal.model.Location;
 import me.shouheng.notepal.model.Model;
 import me.shouheng.notepal.model.ModelFactory;
 import me.shouheng.notepal.provider.BaseStore;
@@ -261,16 +261,29 @@ public abstract class BaseModelFragment<T extends Model, V extends ViewDataBindi
             return;
         }
         if (getActivity() != null) {
-            PermissionUtils.checkLocationPermission((CommonActivity) getActivity(), this::locate);
+            PermissionUtils.checkLocationPermission((CommonActivity) getActivity(), this::baiduLocate);
         }
     }
 
-    private void locate() {
+    private void baiduLocate() {
         ToastUtils.makeToast(getContext(), R.string.trying_to_get_location);
-        LocationManager.getInstance(getContext()).locate(this::onGetLocation);
+        LocationManager.getInstance(getContext()).locate(bdLocation -> {
+            if (bdLocation != null && !TextUtils.isEmpty(bdLocation.getCity())){
+                Location location = ModelFactory.getLocation(getContext());
+                location.setLongitude(bdLocation.getLongitude());
+                location.setLatitude(bdLocation.getLatitude());
+                location.setCountry(bdLocation.getCountry());
+                location.setProvince(bdLocation.getProvince());
+                location.setCity(bdLocation.getCity());
+                location.setDistrict(bdLocation.getDistrict());
+                onGetLocation(location);
+            } else {
+                ToastUtils.makeToast(getContext(), R.string.failed_to_get_location);
+            }
+        });
     }
 
-    protected void onGetLocation(BDLocation bdLocation) {}
+    protected void onGetLocation(Location location) {}
     // endregion
 
     // region attachment

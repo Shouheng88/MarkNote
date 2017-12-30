@@ -18,7 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import com.baidu.location.BDLocation;
 import com.balysv.materialmenu.MaterialMenuDrawable;
 
 import org.apache.commons.io.FileUtils;
@@ -243,24 +242,11 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
     }
 
     @Override
-    protected void onGetLocation(BDLocation bdLocation) {
-        if (bdLocation != null && !TextUtils.isEmpty(bdLocation.getCity())){
-            boolean isNew;
-            location = (isNew = location == null) ? ModelFactory.getLocation(getContext()) : location;
-            location.setLongitude(bdLocation.getLongitude());
-            location.setLatitude(bdLocation.getLatitude());
-            location.setCountry(bdLocation.getCountry());
-            location.setProvince(bdLocation.getProvince());
-            location.setCity(bdLocation.getCity());
-            location.setDistrict(bdLocation.getDistrict());
-            location.setModelCode(note.getCode());
-            location.setModelType(ModelType.NOTE);
-            if (isNew) LocationsStore.getInstance(getContext()).update(location);
-            else LocationsStore.getInstance(getContext()).saveModel(location);
-            showLocationInfo();
-        } else {
-            ToastUtils.makeToast(getContext(), R.string.failed_to_get_location);
-        }
+    protected void onGetLocation(Location location) {
+        location.setModelCode(note.getCode());
+        location.setModelType(ModelType.NOTE);
+        LocationsStore.getInstance(getContext()).saveModel(location);
+        showLocationInfo();
     }
 
     private void showLocationInfo(){
