@@ -16,6 +16,12 @@ public class FragmentHelper {
         transaction.replace(containerId, fragment).commit();
     }
 
+    public static void replace(AppCompatActivity activity, android.app.Fragment fragment, @IdRes int containerId) {
+        android.app.FragmentManager fragmentManager = activity.getFragmentManager();
+        android.app.FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(containerId, fragment).commit();
+    }
+
     public static void replaceWithCallback(AppCompatActivity activity, Fragment fragment, @IdRes int containerId) {
         FragmentManager fragmentManager = activity.getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();

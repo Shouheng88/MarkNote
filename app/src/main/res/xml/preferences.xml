@@ -38,10 +38,14 @@
             android:summary="@string/setting_dark_theme_sub"/>
 
         <me.shouheng.notepal.widget.ColorPreference
+            android:key="primary_color"
+            android:persistent="false"
             android:title="@string/setting_primary_color"
             android:summary="@string/setting_primary_color_sub"/>
 
         <me.shouheng.notepal.widget.ColorPreference
+            android:key="accent_color"
+            android:persistent="false"
             android:title="@string/setting_accent_color"
             android:summary="@string/setting_accent_color_sub"/>
 

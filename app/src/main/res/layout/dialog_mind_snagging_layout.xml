@@ -1,45 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:paddingTop="16dp"
-        android:paddingBottom="8dp"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <me.shouheng.notepal.widget.SquareImageView
-            android:id="@+id/siv"
-            android:visibility="gone"
+        <LinearLayout
+            android:orientation="vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/iv"
-            android:visibility="gone"
-            android:background="#ccc"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:src="@drawable/fab_add" />
+            <me.shouheng.notepal.widget.SquareImageView
+                android:id="@+id/siv"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-        <android.support.v7.widget.AppCompatEditText
-            android:id="@+id/et"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxLines="6"
-            android:maxLength="250" />
+            <ImageView
+                android:id="@+id/iv"
+                android:visibility="gone"
+                android:background="#ccc"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@drawable/fab_add" />
 
-        <TextView
-            android:id="@+id/tv"
-            android:layout_gravity="end"
-            android:textColor="@color/colorAccent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="6"
+                android:maxLength="250" />
 
-        <include android:id="@+id/bottom" layout="@layout/dialog_bottom_buttons_layout"/>
+            <TextView
+                android:id="@+id/tv"
+                android:layout_gravity="end"
+                android:textColor="@color/colorAccent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
-    </LinearLayout>
+            <include android:id="@+id/bottom" layout="@layout/dialog_bottom_buttons_layout"/>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </layout>
