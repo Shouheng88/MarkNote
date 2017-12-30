@@ -24,4 +24,14 @@
         <attr name="max_length" format="integer"/>
     </declare-styleable>
 
+    <declare-styleable name="SupportImageView">
+        <attr name="dark_theme_tint" format="color|reference" />
+        <attr name="light_theme_tint" format="color|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="SupportTextView">
+        <attr name="dark_theme_text_color" format="color|reference" />
+        <attr name="light_theme_text_color" format="color|reference" />
+    </declare-styleable>
+
 </resources>

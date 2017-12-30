@@ -62,6 +62,7 @@
     <string name="text_back">返回</string>
     <string name="text_color">颜色</string>
     <string name="text_portrait">图标</string>
+    <string name="set_successfully">设置成功</string>
     <!--endregion-->
 
     <!--region drawer menu-->
@@ -232,6 +233,10 @@
     <string name="setting_primary_color_sub">应用到整个程序的主要色彩</string>
     <string name="setting_accent_color">强调色调</string>
     <string name="setting_accent_color_sub">设置主界面及其他组件所需的强调色</string>
+
+    <string name="select_accent_color">选择强调色彩</string>
+    <string name="my_youth">青春风暴</string>
+    <string name="noble">庄重典雅</string>
     <!--endregion-->
 
     <!--region other settings-->

@@ -16,6 +16,10 @@
     <dimen name="small_spacing">8dp</dimen>
     <dimen name="sub_small_spacing">5dp</dimen>
 
+    <dimen name="card_corner_radius">1dp</dimen>
+    <dimen name="card_elevation">5dp</dimen>
+    <dimen name="card_spacing">10dp</dimen>
+
     <!--region note-->
     <dimen name="note_bottom_menu_height">48dp</dimen>
     <dimen name="note_bottom_menu_height_double">96dp</dimen>

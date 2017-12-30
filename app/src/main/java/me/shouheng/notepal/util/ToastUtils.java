@@ -1,6 +1,5 @@
 package me.shouheng.notepal.util;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.annotation.StringRes;
 import android.widget.Toast;
@@ -8,8 +7,6 @@ import android.widget.Toast;
 /**
  * Created by wangshouheng on 2017/2/25. */
 public class ToastUtils {
-
-    private static ProgressDialog progressDialog;
 
     private static Toast toast;
 
@@ -27,20 +24,5 @@ public class ToastUtils {
         }
         toast.setText(msgRes);
         toast.show();
-    }
-
-    public static void showProgress(Context context, String msg) {
-        ProgressDialog progressDialog = new ProgressDialog(context.getApplicationContext());
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.setMessage(msg);
-        progressDialog.show();
-        ToastUtils.progressDialog = progressDialog;
-    }
-
-    public static void hideProgress() {
-        if (progressDialog != null) {
-            progressDialog.dismiss();
-            progressDialog = null;
-        }
     }
 }
