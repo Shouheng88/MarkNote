@@ -9,10 +9,25 @@
 
     <dimen name="empty_view_size">120dp</dimen>
 
+    <dimen name="big_spacing">24dp</dimen>
+    <dimen name="sub_big_spacing">20dp</dimen>
+    <dimen name="medium_spacing">16dp</dimen>
+    <dimen name="sub_medium_spacing">10dp</dimen>
+    <dimen name="small_spacing">8dp</dimen>
+    <dimen name="sub_small_spacing">5dp</dimen>
+
     <!--region note-->
     <dimen name="note_bottom_menu_height">48dp</dimen>
     <dimen name="note_bottom_menu_height_double">96dp</dimen>
     <dimen name="note_center_options_height">45dp</dimen>
+    <!--endregion-->
+
+    <!--region snagging-->
+    <dimen name="bottom_nav_height">56dp</dimen>
+    <dimen name="item_height">80dp</dimen>
+    <dimen name="item_image_height">64dp</dimen>
+    <dimen name="primary_margin">16dp</dimen>
+    <dimen name="body_text_size">16sp</dimen>
     <!--endregion-->
 
 </resources>

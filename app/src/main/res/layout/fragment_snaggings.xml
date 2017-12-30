@@ -1,0 +1,23 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <me.shouheng.notepal.widget.EmptyView
+            android:id="@+id/iv_empty"
+            android:layout_centerInParent="true"
+            app:empty_image="@drawable/ic_lightbulb_outline_black_24dp"
+            app:tint_drawable="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <me.shouheng.notepal.widget.EmptySupportRecyclerView
+            android:id="@+id/rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </RelativeLayout>
+
+</layout>

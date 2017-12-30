@@ -47,11 +47,11 @@ public class AttachmentPickerDialog extends DialogFragment {
 
     private OnAddNetUriSelectedListener onAddNetUriSelectedListener;
 
-    public final static int REQUEST_TAKE_PHOTO = 0x10;
-    public final static int REQUEST_SELECT_IMAGE = 0x11;
-    public final static int REQUEST_TAKE_VIDEO = 0x12;
-    public final static int REQUEST_FILES = 0x13;
-    public final static int REQUEST_SKETCH = 0x14;
+    public final static int REQUEST_TAKE_PHOTO = 0x1000;
+    public final static int REQUEST_SELECT_IMAGE = 0x1100;
+    public final static int REQUEST_TAKE_VIDEO = 0x1200;
+    public final static int REQUEST_FILES = 0x1300;
+    public final static int REQUEST_SKETCH = 0x1400;
 
     @SuppressLint("ValidFragment")
     public AttachmentPickerDialog(Builder builder) {
@@ -201,11 +201,16 @@ public class AttachmentPickerDialog extends DialogFragment {
             return;
         }
         attachmentUri = FileHelper.getAttachmentUriFromFile(getContext(), file);
-        Intent intent = new Intent(mFragment.getContext(), SketchActivity.class);
-        filePath = file.getPath();
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, filePath);
         if (mFragment != null){
+            Intent intent = new Intent(mFragment.getContext(), SketchActivity.class);
+            filePath = file.getPath();
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, filePath);
             mFragment.startActivityForResult(intent, REQUEST_SKETCH);
+        } else {
+            Intent intent = new Intent(getContext(), SketchActivity.class);
+            filePath = file.getPath();
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, filePath);
+            getActivity().startActivityForResult(intent, REQUEST_SKETCH);
         }
         dismiss();
     }

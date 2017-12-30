@@ -1,6 +1,7 @@
 package me.shouheng.notepal.fragment;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.databinding.ViewDataBinding;
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +10,10 @@ import java.io.File;
 
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.CommonActivity;
+import me.shouheng.notepal.dialog.AttachmentPickerDialog;
+import me.shouheng.notepal.listener.OnAttachingFileListener;
+import me.shouheng.notepal.model.Attachment;
+import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.util.FileHelper;
 import me.shouheng.notepal.util.PermissionUtils;
 import me.shouheng.notepal.util.ScreenShotHelper;
@@ -18,7 +23,7 @@ import me.shouheng.notepal.util.tools.Invoker;
 
 /**
  * Created by wang shouheng on 2017/12/29.*/
-public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFragment<V> {
+public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFragment<V> implements OnAttachingFileListener  {
 
     // region capture
     protected void createScreenCapture(final RecyclerView recyclerView) {
@@ -92,6 +97,33 @@ public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFrag
     }
 
     protected void onGetScreenCutFile(File file) {}
+    // endregion
+
+    // region attachment
+    protected AttachmentPickerDialog getAttachmentPickerDialog() {
+        return null;
+    }
+
+    protected void onGetAttachment(Attachment attachment) {}
+
+    protected void onFailedGetAttachment(Attachment attachment) {}
+
+    @Override
+    public void onAttachingFileErrorOccurred(Attachment attachment) {
+        onFailedGetAttachment(attachment);
+    }
+
+    @Override
+    public void onAttachingFileFinished(Attachment attachment) {
+        onGetAttachment(attachment);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        AttachmentHelper.resolveResult(this, getAttachmentPickerDialog(), requestCode,
+                resultCode, data, BaseFragment.this::onGetAttachment);
+        super.onActivityResult(requestCode, resultCode, data);
+    }
     // endregion
 
 }
