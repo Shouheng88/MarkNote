@@ -63,7 +63,7 @@ public class LocationsStore extends BaseStore<Location> {
         values.put(LocationSchema.MODEL_TYPE, model.getModelType().id);
     }
 
-    private synchronized Location getLocation(String whereSQL){
+    private synchronized Location getLocation(String whereSQL, String orderSQL){
         Cursor cursor = null;
         Location location = null;
         SQLiteDatabase database = getWritableDatabase();
@@ -71,7 +71,8 @@ public class LocationsStore extends BaseStore<Location> {
             cursor = database.rawQuery(" SELECT * FROM " + tableName +
                             " WHERE " + LocationSchema.USER_ID + " = ? "
                             + (TextUtils.isEmpty(whereSQL) ? "" : " AND " + whereSQL)
-                            + " AND " + LocationSchema.STATUS + " = " + Status.NORMAL.id,
+                            + " AND " + LocationSchema.STATUS + " = " + Status.NORMAL.id
+                            + (TextUtils.isEmpty(orderSQL) ? "" : " ORDER BY " + orderSQL),
                     new String[]{String.valueOf(userId)});
             location = get(cursor);
         } finally {
@@ -83,6 +84,7 @@ public class LocationsStore extends BaseStore<Location> {
 
     public synchronized Location getLocation(Note note) {
         return getLocation(LocationSchema.MODEL_CODE + " = " + note.getCode()
-                + " AND " + LocationSchema.MODEL_TYPE + " = " + ModelType.NOTE.id);
+                + " AND " + LocationSchema.MODEL_TYPE + " = " + ModelType.NOTE.id,
+                LocationSchema.ADDED_TIME + " DESC ");
     }
 }
