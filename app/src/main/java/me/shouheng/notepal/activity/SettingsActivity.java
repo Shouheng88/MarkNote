@@ -73,7 +73,7 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> im
     @Override
     public void onPreferenceClick(String key) {
         switch (key) {
-            case SettingsFragment.PRIMARY_COLOR:
+            case PreferencesUtils.PRIMARY_COLOR:
                 FragmentHelper.replaceWithCallback(this,
                         PrimaryPickerFragment.newInstance(), R.id.fragment_container);
                 break;

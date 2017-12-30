@@ -17,11 +17,7 @@ import me.shouheng.notepal.widget.ColorPreference;
  * Created by wang shouheng on 2017/12/21.*/
 public class SettingsFragment extends PreferenceFragment {
 
-    private final static String IS_DARK_THEME = "is_dark_theme";
-    public final static String PRIMARY_COLOR = "primary_color";
-    private final static String ACCENT_COLOR = "accent_color";
-
-    private CheckBoxPreference isDarkTheme;
+    private CheckBoxPreference isDarkTheme, coloredNavigationBar;
 
     private ColorPreference primaryColor, accentColor;
 
@@ -35,9 +31,10 @@ public class SettingsFragment extends PreferenceFragment {
 
         addPreferencesFromResource(R.xml.preferences);
 
-        isDarkTheme = (CheckBoxPreference) findPreference(IS_DARK_THEME);
-        primaryColor = (ColorPreference) findPreference(PRIMARY_COLOR);
-        accentColor = (ColorPreference) findPreference(ACCENT_COLOR);
+        isDarkTheme = (CheckBoxPreference) findPreference(PreferencesUtils.IS_DARK_THEME);
+        primaryColor = (ColorPreference) findPreference(PreferencesUtils.PRIMARY_COLOR);
+        accentColor = (ColorPreference) findPreference(PreferencesUtils.ACCENT_COLOR);
+        coloredNavigationBar = (CheckBoxPreference) findPreference(PreferencesUtils.COLORED_NAVIGATION_BAR);
 
         setPreferenceClickListeners();
     }
@@ -49,12 +46,16 @@ public class SettingsFragment extends PreferenceFragment {
         });
         primaryColor.setOnPreferenceClickListener(preference -> {
             if (getActivity() != null && getActivity() instanceof OnPreferenceClickListener) {
-                ((OnPreferenceClickListener) getActivity()).onPreferenceClick(PRIMARY_COLOR);
+                ((OnPreferenceClickListener) getActivity()).onPreferenceClick(PreferencesUtils.PRIMARY_COLOR);
             }
             return true;
         });
         accentColor.setOnPreferenceClickListener(preference -> {
             showAccentColorPicker();
+            return true;
+        });
+        coloredNavigationBar.setOnPreferenceClickListener(preference -> {
+            ((ThemedActivity) getActivity()).updateTheme();
             return true;
         });
     }
