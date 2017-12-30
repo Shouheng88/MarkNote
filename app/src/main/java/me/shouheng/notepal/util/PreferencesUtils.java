@@ -19,12 +19,12 @@ import me.shouheng.notepal.model.enums.FabSortItem;
  * Created by Wang Shouheng on 2017/12/5. */
 public class PreferencesUtils {
 
-    private final String IS_DARK_THEME = "is_dark_theme";
-    private final String PRIMARY_COLOR = "primary_color";
-    private final String ACCENT_COLOR = "accent_color";
+    public final static String IS_DARK_THEME = "is_dark_theme";
+    public final static String PRIMARY_COLOR = "primary_color";
+    public final static String ACCENT_COLOR = "accent_color";
+    public final static String COLORED_NAVIGATION_BAR = "colored_navigation_bar";
 
     private final String TOUR_ACTIVITY_SHOWED = "tour_activity_showed";
-    private final String COLORED_NAVIGATION_BAR = "colored_navigation_bar";
     private final String FIRST_DAY_OF_WEEK = "first_day_of_week";
     private final String VIDEO_SIZE_LIMIT = "VIDEO_SIZE_LIMIT";
 

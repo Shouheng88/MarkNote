@@ -237,6 +237,9 @@
     <string name="select_accent_color">选择强调色彩</string>
     <string name="my_youth">青春风暴</string>
     <string name="noble">庄重典雅</string>
+
+    <string name="setting_colored_navigation_bar">彩色导航栏</string>
+    <string name="setting_colored_navigation_bar_sub">切换导航栏颜色</string>
     <!--endregion-->
 
     <!--region other settings-->

@@ -19,6 +19,8 @@ public class Colorful {
 
     private static boolean isDark = Defaults.darkTheme;
 
+    private static boolean isColoredNavigation = Defaults.isColoredNavigation;
+
     private static String themeString;
 
     public static void init(Context context) {
@@ -29,6 +31,7 @@ public class Colorful {
             accentColor = Defaults.accentColor;
             isTranslucent = Defaults.trans;
             isDark = Defaults.darkTheme;
+            isColoredNavigation = Defaults.isColoredNavigation;
             themeString = generateThemeString();
         } else {
             String [] colors = themeString.split(Util.SPLIT);
@@ -36,6 +39,7 @@ public class Colorful {
             isTranslucent = Boolean.parseBoolean(colors[1]);
             primaryColor = Colorful.ThemeColor.getByPrimaryName(colors[2]);
             accentColor = Colorful.AccentColor.getByAccentName(colors[3]);
+            isColoredNavigation = Boolean.parseBoolean(colors[4]);
         }
 
         delegate = new ThemeDelegate(context, primaryColor, accentColor, isTranslucent, isDark);
@@ -52,15 +56,23 @@ public class Colorful {
     }
 
     private static void writeValues(Context context) {
-        PreferenceManager.getDefaultSharedPreferences(context).edit().putString(Util.PREFERENCE_KEY, generateThemeString()).apply();
+        PreferenceManager.getDefaultSharedPreferences(context).edit().putString(
+                Util.PREFERENCE_KEY, generateThemeString()).apply();
     }
 
     private static String generateThemeString() {
-        return isDark + Util.SPLIT + isTranslucent + Util.SPLIT + primaryColor.getPrimaryName() + Util.SPLIT + accentColor.getAccentName();
+        return isDark + Util.SPLIT
+                + isTranslucent + Util.SPLIT
+                + primaryColor.getPrimaryName() + Util.SPLIT
+                + accentColor.getAccentName() + Util.SPLIT
+                + isColoredNavigation;
     }
 
     public static ThemeDelegate getThemeDelegate() {
-        if (delegate == null) Log.e(Util.LOG_TAG, "getThemeDelegate() called before init(Context). Call Colorful.init(Context) in your application class");
+        if (delegate == null) {
+            Log.e(Util.LOG_TAG, "getThemeDelegate() called before init(Context)." +
+                    " Call Colorful.init(Context) in your application class");
+        }
         return delegate;
     }
 
@@ -294,6 +306,8 @@ public class Colorful {
 
         private static boolean darkTheme = false;
 
+        private static boolean isColoredNavigation = false;
+
         public Defaults primaryColor(ThemeColor primary) {
             primaryColor = primary;
             return this;
@@ -311,6 +325,11 @@ public class Colorful {
 
         public Defaults dark(boolean dark) {
             darkTheme = dark;
+            return this;
+        }
+
+        public Defaults coloredNavigation(boolean colored) {
+            isColoredNavigation = colored;
             return this;
         }
     }
@@ -335,6 +354,11 @@ public class Colorful {
 
         public Config translucent(boolean translucent) {
             isTranslucent = translucent;
+            return this;
+        }
+
+        public Config coloredNavigationBar(boolean colored) {
+            isColoredNavigation = colored;
             return this;
         }
 

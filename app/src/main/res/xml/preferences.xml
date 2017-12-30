@@ -49,6 +49,11 @@
             android:title="@string/setting_accent_color"
             android:summary="@string/setting_accent_color_sub"/>
 
+        <CheckBoxPreference
+            android:key="colored_navigation_bar"
+            android:title="@string/setting_colored_navigation_bar"
+            android:summary="@string/setting_colored_navigation_bar_sub"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/setting_others">

@@ -14,11 +14,14 @@ public class ThemeDelegate {
 
     private boolean dark;
 
-    @StyleRes private int styleResPrimary;
+    @StyleRes
+    private int styleResPrimary;
 
-    @StyleRes private int styleResAccent;
+    @StyleRes
+    private int styleResAccent;
 
-    @StyleRes private int styleResBase;
+    @StyleRes
+    private int styleResBase;
 
     ThemeDelegate(Context context, Colorful.ThemeColor primary, Colorful.AccentColor accent, boolean translucent, boolean dark) {
         this.primaryColor = primary;

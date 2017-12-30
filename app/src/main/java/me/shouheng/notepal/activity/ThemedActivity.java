@@ -48,17 +48,26 @@ public class ThemedActivity extends ColorfulActivity {
                 .accentColor(ColorUtils.getAccentColor(this))
                 .translucent(false)
                 .dark(PreferencesUtils.getInstance(this).isDarkTheme())
+                .coloredNavigationBar(PreferencesUtils.getInstance(this).isColoredNavigationBar())
                 .apply();
-        if (PreferencesUtils.getInstance(this).isColoredNavigationBar()) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                getWindow().setNavigationBarColor(ColorUtils.primaryColor(this));
-            }
-        }
+        updateNavigationBar();
     }
 
     public void reUpdateTheme(){
         updateTheme();
         this.recreate();
+    }
+
+    public void updateNavigationBar() {
+        if (PreferencesUtils.getInstance(this).isColoredNavigationBar()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                getWindow().setNavigationBarColor(ColorUtils.primaryColor(this));
+            }
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                getWindow().setNavigationBarColor(Color.BLACK);
+            }
+        }
     }
 
     public void setTranslucentStatusBar() {
