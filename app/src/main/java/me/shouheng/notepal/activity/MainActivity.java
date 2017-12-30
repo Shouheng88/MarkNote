@@ -19,29 +19,42 @@ import android.widget.RelativeLayout;
 
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
 
+import java.util.Arrays;
 import java.util.List;
 
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.ActivityMainBinding;
 import me.shouheng.notepal.databinding.ActivityMainNavHeaderBinding;
+import me.shouheng.notepal.dialog.AttachmentPickerDialog;
+import me.shouheng.notepal.dialog.MindSnaggingDialog;
 import me.shouheng.notepal.dialog.NotebookEditDialog;
 import me.shouheng.notepal.fragment.NotesFragment;
+import me.shouheng.notepal.fragment.SnaggingsFragment;
 import me.shouheng.notepal.intro.IntroActivity;
+import me.shouheng.notepal.listener.OnAttachingFileListener;
+import me.shouheng.notepal.model.Attachment;
+import me.shouheng.notepal.model.MindSnagging;
 import me.shouheng.notepal.model.ModelFactory;
 import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.model.Notebook;
 import me.shouheng.notepal.model.enums.FabSortItem;
+import me.shouheng.notepal.model.enums.ModelType;
+import me.shouheng.notepal.provider.AttachmentsStore;
+import me.shouheng.notepal.provider.MindSnaggingStore;
 import me.shouheng.notepal.provider.NotebookStore;
+import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.FragmentHelper;
 import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.PermissionUtils;
 import me.shouheng.notepal.util.PreferencesUtils;
+import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.widget.tools.CustomRecyclerScrollViewListener;
 
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
 
-public class MainActivity extends CommonActivity<ActivityMainBinding> implements NotesFragment.OnNotebookSelectedListener {
+public class MainActivity extends CommonActivity<ActivityMainBinding> implements
+        NotesFragment.OnNotebookSelectedListener, OnAttachingFileListener {
 
     private final int REQUEST_FAB_SORT = 0x0001;
 
@@ -52,6 +65,10 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     private NotebookEditDialog notebookEditDialog;
 
     private RecyclerView.OnScrollListener onScrollListener;
+
+    private MindSnaggingDialog mindSnaggingDialog;
+
+    private AttachmentPickerDialog attachmentPickerDialog;
 
     @Override
     protected int getLayoutResId() {
@@ -81,10 +98,6 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         toNotesFragment();
     }
 
-    public void setDrawerLayoutLocked(boolean lockDrawer){
-        getBinding().drawerLayout.setDrawerLockMode(lockDrawer ? DrawerLayout.LOCK_MODE_LOCKED_CLOSED : DrawerLayout.LOCK_MODE_UNLOCKED);
-    }
-
     private void initHeaderView() {
         View header = getBinding().nav.inflateHeaderView(R.layout.activity_main_nav_header);
         ActivityMainNavHeaderBinding headerBinding = DataBindingUtil.bind(header);
@@ -92,6 +105,15 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         header.setOnLongClickListener(v -> true);
     }
 
+    private void configToolbar() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white);
+        if (!isDarkTheme()) toolbar.setPopupTheme(R.style.AppTheme_PopupOverlay);
+    }
+
+    // region fab
     private void initFloatButtons() {
         getBinding().menu.setMenuButtonColorNormal(accentColor());
         getBinding().menu.setMenuButtonColorPressed(accentColor());
@@ -190,6 +212,9 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
             case NOTEBOOK:
                 editNotebook();
                 break;
+            case MIND_SNAGGING:
+                editMindSnagging();
+                break;
         }
     }
 
@@ -214,12 +239,51 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         notebookEditDialog.show(getSupportFragmentManager(), "NotebookEditDialog");
     }
 
-    private void configToolbar() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white);
-        if (!isDarkTheme()) toolbar.setPopupTheme(R.style.AppTheme_PopupOverlay);
+    private void editMindSnagging() {
+        mindSnaggingDialog = new MindSnaggingDialog.Builder()
+                .setMindSnagging(ModelFactory.getMindSnagging(this))
+                .setOnAddAttachmentListener(mindSnagging -> showAttachmentPicker())
+                .setOnAttachmentClickListener(attachment -> AttachmentHelper.resolveClickEvent(
+                        this, attachment, Arrays.asList(attachment), ""))
+                .setOnConfirmListener(this::saveMindSnagging)
+                .build();
+        mindSnaggingDialog.show(getSupportFragmentManager(), "mind snagging");
+    }
+
+    private void saveMindSnagging(MindSnagging mindSnagging, Attachment attachment) {
+        if (attachment != null && AttachmentsStore.getInstance(this).isNewModel(attachment.getCode())) {
+            attachment.setModelCode(mindSnagging.getCode());
+            attachment.setModelType(ModelType.MIND_SNAGGING);
+            AttachmentsStore.getInstance(this).saveModel(attachment);
+        }
+
+        if (MindSnaggingStore.getInstance(this).isNewModel(mindSnagging.getCode())) {
+            MindSnaggingStore.getInstance(this).saveModel(mindSnagging);
+        } else {
+            MindSnaggingStore.getInstance(this).update(mindSnagging);
+        }
+
+        ToastUtils.makeToast(this, R.string.text_save_successfully);
+
+        Fragment fragment = getCurrentFragment();
+        if (fragment instanceof SnaggingsFragment) {
+            ((SnaggingsFragment) fragment).addSnagging(mindSnagging);
+        }
+    }
+
+    private void showAttachmentPicker() {
+        attachmentPickerDialog = new AttachmentPickerDialog.Builder()
+                .setAddLinkVisible(false)
+                .setRecordVisible(false)
+                .setVideoVisible(false)
+                .build();
+        attachmentPickerDialog.show(getSupportFragmentManager(), "Attachment picker");
+    }
+    // endregion
+
+    // region drawer
+    public void setDrawerLayoutLocked(boolean lockDrawer){
+        getBinding().drawerLayout.setDrawerLockMode(lockDrawer ? DrawerLayout.LOCK_MODE_LOCKED_CLOSED : DrawerLayout.LOCK_MODE_UNLOCKED);
     }
 
     private void initDrawerMenu() {
@@ -247,6 +311,9 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                 case R.id.nav_notes:
                     toNotesFragment();
                     break;
+                case R.id.nav_minds:
+                    toSnaggingsFragment();
+                    break;
             }
         }, 500);
     }
@@ -257,6 +324,14 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         notesFragment.setScrollListener(onScrollListener);
         FragmentHelper.replace(this, notesFragment, R.id.fragment_container);
         new Handler().postDelayed(() -> getBinding().nav.getMenu().findItem(R.id.nav_notes).setChecked(true), 300);
+    }
+
+    private void toSnaggingsFragment() {
+        if (getCurrentFragment() instanceof SnaggingsFragment) return;
+        SnaggingsFragment snaggingsFragment = SnaggingsFragment.newInstance();
+        snaggingsFragment.setScrollListener(onScrollListener);
+        FragmentHelper.replace(this, snaggingsFragment, R.id.fragment_container);
+        new Handler().postDelayed(() -> getBinding().nav.getMenu().findItem(R.id.nav_minds).setChecked(true), 300);
     }
 
     private Fragment getCurrentFragment(){
@@ -271,6 +346,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         Fragment currentFragment = getCurrentFragment();
         return currentFragment instanceof NotesFragment;
     }
+    // endregion
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -288,6 +364,8 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        AttachmentHelper.resolveResult(this, attachmentPickerDialog, requestCode,
+                resultCode, data, attachment -> mindSnaggingDialog.setAttachment(attachment));
         if (resultCode == RESULT_OK){
             switch (requestCode) {
                 case REQUEST_FAB_SORT:
@@ -334,5 +412,15 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         NotesFragment notesFragment = NotesFragment.newInstance(notebook);
         notesFragment.setScrollListener(onScrollListener);
         FragmentHelper.replaceWithCallback(this, notesFragment, R.id.fragment_container);
+    }
+
+    @Override
+    public void onAttachingFileErrorOccurred(Attachment attachment) {
+        ToastUtils.makeToast(this, R.string.failed_to_save_attachment);
+    }
+
+    @Override
+    public void onAttachingFileFinished(Attachment attachment) {
+        mindSnaggingDialog.setAttachment(attachment);
     }
 }

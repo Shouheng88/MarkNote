@@ -131,6 +131,11 @@
     <string name="arrive_max_attachments_number">已经达到能够加入的附件的最大数量</string>
     <string name="recording">正在录制音频&#8230;</string>
     <string name="recorded">录制完成</string>
+    <string name="add_attachment">添加附件</string>
+    <!--endregion-->
+
+    <!--region mind snagging-->
+    <string name="edit_mind_snagging">编辑小纸条</string>
     <!--endregion-->
 
     <!--region alarm-->

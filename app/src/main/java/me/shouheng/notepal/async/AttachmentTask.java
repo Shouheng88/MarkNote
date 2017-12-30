@@ -1,9 +1,9 @@
 package me.shouheng.notepal.async;
 
+import android.app.Activity;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 
 import java.lang.ref.WeakReference;
 
@@ -15,22 +15,23 @@ import me.shouheng.notepal.util.FileHelper;
 
 public class AttachmentTask extends AsyncTask<Void, Void, Attachment> {
 
-    private final WeakReference<Fragment> mFragmentWeakReference;
+    private WeakReference<Fragment> mFragmentWeakReference;
+
+    private WeakReference<Activity> mActivityWeakReference;
 
     private OnAttachingFileListener mOnAttachingFileListener;
 
     private Uri uri;
 
-    private String fileName;
-
-    public AttachmentTask(Fragment mFragment, Uri uri, OnAttachingFileListener mOnAttachingFileListener) {
-        this(mFragment, uri, null, mOnAttachingFileListener);
-    }
-
     public AttachmentTask(Fragment mFragment, Uri uri, String fileName, OnAttachingFileListener mOnAttachingFileListener) {
         mFragmentWeakReference = new WeakReference<>(mFragment);
         this.uri = uri;
-        this.fileName = TextUtils.isEmpty(fileName) ? "" : fileName;
+        this.mOnAttachingFileListener = mOnAttachingFileListener;
+    }
+
+    public AttachmentTask(Activity activity, Uri uri, String fileName, OnAttachingFileListener mOnAttachingFileListener) {
+        mActivityWeakReference = new WeakReference<>(activity);
+        this.uri = uri;
         this.mOnAttachingFileListener = mOnAttachingFileListener;
     }
 
@@ -41,7 +42,8 @@ public class AttachmentTask extends AsyncTask<Void, Void, Attachment> {
 
     @Override
     protected void onPostExecute(Attachment mAttachment) {
-        if (isAlive()) {
+        if ((mFragmentWeakReference != null && isAlive(mFragmentWeakReference.get()))
+                || (mActivityWeakReference != null && isAlive(mActivityWeakReference.get()))) {
             if (mAttachment != null) {
                 mOnAttachingFileListener.onAttachingFileFinished(mAttachment);
             } else {
@@ -54,11 +56,14 @@ public class AttachmentTask extends AsyncTask<Void, Void, Attachment> {
         }
     }
 
-    private boolean isAlive() {
-        return mFragmentWeakReference != null
-                && mFragmentWeakReference.get() != null
-                && mFragmentWeakReference.get().isAdded()
-                && mFragmentWeakReference.get().getActivity() != null
-                && !mFragmentWeakReference.get().getActivity().isFinishing();
+    private boolean isAlive(Fragment fragment) {
+        return fragment != null
+                && fragment.isAdded()
+                && fragment.getActivity() != null
+                && !fragment.getActivity().isFinishing();
+    }
+
+    private boolean isAlive(Activity activity) {
+        return activity != null && !activity.isFinishing();
     }
 }

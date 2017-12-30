@@ -22,16 +22,14 @@ import java.util.List;
 
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.ContentActivity;
-import me.shouheng.notepal.activity.GalleryActivity;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.databinding.FragmentNoteViewBinding;
 import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.model.ModelFactory;
 import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.provider.AttachmentsStore;
+import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.util.ColorUtils;
-import me.shouheng.notepal.util.FileHelper;
-import me.shouheng.notepal.util.IntentChecker;
 import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.ModelHelper;
 import me.shouheng.notepal.util.PrintUtils;
@@ -121,46 +119,9 @@ public class NoteViewFragment extends CommonFragment<FragmentNoteViewBinding> {
                 attachments.add(attachment);
                 if (u.equals(url)) clickedAttachment = attachment;
             }
-            resolveAttachmentClickEvent(clickedAttachment, attachments, note.getTitle());
+            AttachmentHelper.resolveClickEvent(getContext(),
+                    clickedAttachment, attachments, note.getTitle());
         });
-    }
-
-    protected void resolveAttachmentClickEvent(Attachment attachment, List<Attachment> attachments, String galleryTitle) {
-        switch (attachment.getMineType()) {
-            case Constants.MIME_TYPE_FILES: {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setDataAndType(attachment.getUri(), FileHelper.getMimeType(getContext(), attachment.getUri()));
-                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-                if (IntentChecker.isAvailable(getActivity().getApplicationContext(), intent, null)) {
-                    startActivity(intent);
-                } else {
-                    ToastUtils.makeToast(getContext(), R.string.activity_not_found_to_resolve);
-                }
-                break;
-            }
-            case Constants.MIME_TYPE_IMAGE:
-            case Constants.MIME_TYPE_SKETCH:
-            case Constants.MIME_TYPE_VIDEO: {
-                int clickedImage = 0;
-                ArrayList<Attachment> images = new ArrayList<>();
-                for (Attachment mAttachment : attachments) {
-                    if (Constants.MIME_TYPE_IMAGE.equals(mAttachment.getMineType())
-                            || Constants.MIME_TYPE_SKETCH.equals(mAttachment.getMineType())
-                            || Constants.MIME_TYPE_VIDEO.equals(mAttachment.getMineType())) {
-                        images.add(mAttachment);
-                        if (mAttachment.equals(attachment)) {
-                            clickedImage = images.size() - 1;
-                        }
-                    }
-                }
-                Intent intent = new Intent(getActivity(), GalleryActivity.class);
-                intent.putExtra(GalleryActivity.EXTRA_GALLERY_TITLE, galleryTitle);
-                intent.putParcelableArrayListExtra(GalleryActivity.EXTRA_GALLERY_IMAGES, images);
-                intent.putExtra(GalleryActivity.EXTRA_GALLERY_CLICKED_IMAGE, clickedImage);
-                startActivity(intent);
-                break;
-            }
-        }
     }
 
     private void refreshLayout(boolean reload){
