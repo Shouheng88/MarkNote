@@ -29,6 +29,9 @@ public class Note extends Model implements Parcelable {
     @Column(name = "tags")
     private String tags;
 
+    @Column(name = "preview_code")
+    private long previewCode;
+
     // region Android端字段，不计入数据库
 
     private String content;
@@ -60,6 +63,7 @@ public class Note extends Model implements Parcelable {
         setContent(in.readString());
         setContentCode(in.readLong());
         setTags(in.readString());
+        setPreviewCode(in.readLong());
     }
 
     public static final Creator<Note> CREATOR = new Creator<Note>() {
@@ -114,6 +118,14 @@ public class Note extends Model implements Parcelable {
         this.tags = tags;
     }
 
+    public void setPreviewCode(long previewCode) {
+        this.previewCode = previewCode;
+    }
+
+    public long getPreviewCode() {
+        return previewCode;
+    }
+
     @Override
     public String toString() {
         return "Note{" +
@@ -122,6 +134,7 @@ public class Note extends Model implements Parcelable {
                 ", title='" + title + '\'' +
                 ", contentCode=" + contentCode +
                 ", tags='" + tags + '\'' +
+                ", previewCode=" + previewCode +
                 ", content='" + content + '\'' +
                 "} " + super.toString();
     }
@@ -147,5 +160,6 @@ public class Note extends Model implements Parcelable {
         dest.writeString(getContent());
         dest.writeLong(getContentCode());
         dest.writeString(getTags());
+        dest.writeLong(getPreviewCode());
     }
 }

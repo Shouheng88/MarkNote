@@ -2,6 +2,7 @@ package me.shouheng.notepal.fragment;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.GravityCompat;
@@ -19,12 +20,14 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.balysv.materialmenu.MaterialMenuDrawable;
+import com.bumptech.glide.Glide;
 
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
 
+import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.ContentActivity;
 import me.shouheng.notepal.config.Constants;
@@ -61,17 +64,19 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
 
     private Note note;
     private Location location;
-    private Attachment noteFile;
+    private Attachment noteFile, previewImage;
 
     private File file;
     private File tempFile;
     private Notebook notebook;
 
+    private AttachmentPickerType attachmentPickerType;
+
     private PreferencesUtils preferencesUtils;
 
     private AttachmentPickerDialog attachmentPickerDialog;
 
-    public static NoteFragment newInstance(Note note, Integer position, Integer requestCode){
+    public static NoteFragment newInstance(Note note, Integer position, Integer requestCode) {
         Bundle arg = new Bundle();
         if (note == null) throw new IllegalArgumentException("Note cannot be null");
         arg.putSerializable(Constants.EXTRA_MODEL, note);
@@ -113,6 +118,7 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
         }
 
         noteFile = AttachmentsStore.getInstance(getContext()).get(note.getContentCode());
+        previewImage = AttachmentsStore.getInstance(getContext()).get(note.getPreviewCode());
         location = LocationsStore.getInstance(getContext()).getLocation(note);
         notebook = NotebookStore.getInstance(getContext()).get(note.getParentCode());
 
@@ -194,6 +200,9 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
         getBinding().drawer.tvAddToHomeScreen.setOnClickListener(v -> addShortcut());
 
         getBinding().drawer.tvStatistics.setOnClickListener(v -> showStatisticsDialog());
+
+        getBinding().drawer.ivAddPreview.setOnClickListener(v -> showAttachmentPicker(AttachmentPickerType.PREVIEW_IMAGE));
+        loadPreviewImage();
     }
 
     private TextWatcher textWatcher = new TextWatcher() {
@@ -277,7 +286,7 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
             case R.id.iv_line:effect = MarkdownEffect.H_LINE;break;
             case R.id.iv_xml:effect = MarkdownEffect.XML;break;
             case R.id.iv_insert_picture:
-                showAttachmentPicker();
+                showAttachmentPicker(AttachmentPickerType.CONTENT_IMAGE);
                 break;
             case R.id.iv_insert_link: {
                 LinkInputDialog.getInstance(
@@ -328,10 +337,13 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
         return attachmentPickerDialog;
     }
 
-    private void showAttachmentPicker() {
+    private void showAttachmentPicker(AttachmentPickerType attachmentPickerType) {
+        this.attachmentPickerType = attachmentPickerType;
         attachmentPickerDialog = new AttachmentPickerDialog.Builder(this)
                 .setRecordVisible(false)
                 .setVideoVisible(false)
+                .setAddLinkVisible(attachmentPickerType != AttachmentPickerType.PREVIEW_IMAGE)
+                .setFilesVisible(attachmentPickerType != AttachmentPickerType.PREVIEW_IMAGE)
                 .setOnAddNetUriSelectedListener(this::addImageLink)
                 .build();
         attachmentPickerDialog.show(getFragmentManager(), "Attachment picker");
@@ -344,10 +356,28 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
 
     @Override
     protected void onGetAttachment(Attachment attachment) {
-        getBinding().main.etContent.setEffect(MarkdownEffect.IMAGE, "image" , attachment.getUri().toString());
         attachment.setModelCode(note.getCode());
         attachment.setModelType(ModelType.NOTE);
         AttachmentsStore.getInstance(getContext()).saveModel(attachment);
+
+        if (attachmentPickerType == AttachmentPickerType.PREVIEW_IMAGE) {
+            previewImage = attachment;
+            setContentChanged();
+            loadPreviewImage();
+        } else {
+            getBinding().main.etContent.setEffect(MarkdownEffect.IMAGE, "image" , attachment.getUri().toString());
+        }
+    }
+
+    private void loadPreviewImage() {
+        if (previewImage == null) return;
+        note.setPreviewCode(previewImage.getCode());
+        Uri thumbnailUri = FileHelper.getThumbnailUri(getContext(), previewImage.getUri());
+        Glide.with(PalmApp.getContext())
+                .load(thumbnailUri)
+                .centerCrop()
+                .crossFade()
+                .into(getBinding().drawer.ivPreview);
     }
 
     @Override
@@ -473,5 +503,9 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
     @Override
     public void onBackPressed() {
         onBack();
+    }
+
+    private enum AttachmentPickerType {
+        PREVIEW_IMAGE, CONTENT_IMAGE;
     }
 }
