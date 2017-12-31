@@ -89,7 +89,8 @@
 
         <activity android:name=".activity.SketchActivity" />
 
-        <activity android:name=".activity.GalleryActivity" />
+        <activity android:name=".activity.GalleryActivity"
+            android:theme="@style/PictureViewTheme" />
 
         <activity
             android:name=".activity.ContentActivity"
