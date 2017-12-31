@@ -43,6 +43,7 @@ public class NotesStore extends BaseStore<Note> {
         note.setContentCode(cursor.getLong(cursor.getColumnIndex(NoteSchema.CONTENT_CODE)));
         note.setTags(cursor.getString(cursor.getColumnIndex(NoteSchema.TAGS)));
         note.setTreePath(cursor.getString(cursor.getColumnIndex(NoteSchema.TREE_PATH)));
+        note.setPreviewCode(cursor.getLong(cursor.getColumnIndex(NoteSchema.PREVIEW_CODE)));
     }
 
     @Override
@@ -52,5 +53,6 @@ public class NotesStore extends BaseStore<Note> {
         values.put(NoteSchema.CONTENT_CODE, note.getContentCode());
         values.put(NoteSchema.TAGS, note.getTags());
         values.put(NoteSchema.TREE_PATH, note.getTreePath());
+        values.put(NoteSchema.PREVIEW_CODE, note.getPreviewCode());
     }
 }
