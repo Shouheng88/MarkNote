@@ -1,10 +1,15 @@
 package me.shouheng.notepal.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,9 +26,13 @@ import me.shouheng.notepal.provider.AttachmentsStore;
 import me.shouheng.notepal.provider.MindSnaggingStore;
 import me.shouheng.notepal.provider.schema.MindSnaggingSchema;
 import me.shouheng.notepal.util.AttachmentHelper;
+import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.ToastUtils;
+import me.shouheng.notepal.util.ViewUtils;
+import me.shouheng.notepal.util.enums.MindSnaggingListType;
 import me.shouheng.notepal.widget.tools.CustomItemAnimator;
 import me.shouheng.notepal.widget.tools.DividerItemDecoration;
+import me.shouheng.notepal.widget.tools.SpaceItemDecoration;
 
 /**
  * Created by Wang Shouheng on 2017/12/30.*/
@@ -36,6 +45,10 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
     private MindSnaggingDialog snaggingDialog;
 
     private AttachmentPickerDialog attachmentPickerDialog;
+
+    private MindSnaggingListType mindSnaggingListType;
+
+    private PreferencesUtils preferencesUtils;
 
     public static SnaggingsFragment newInstance() {
         Bundle args = new Bundle();
@@ -51,6 +64,8 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {
+        preferencesUtils = PreferencesUtils.getInstance(getContext());
+
         configToolbar();
 
         configSnaggings();
@@ -63,15 +78,32 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
     }
 
     private void configSnaggings() {
-        adapter = new MindSnaggingAdapter(getContext(), getSnaggings());
+        mindSnaggingListType = preferencesUtils.getMindSnaggingListType();
+
+        adapter = new MindSnaggingAdapter(getContext(), mindSnaggingListType, getSnaggings());
         adapter.setOnItemClickListener((adapter1, view, position) -> showEditor(position));
 
-        getBinding().rv.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST, isDarkTheme()));
         getBinding().rv.setItemAnimator(new CustomItemAnimator());
-        getBinding().rv.setLayoutManager(new LinearLayoutManager(getContext()));
-        if (scrollListener != null) getBinding().rv.addOnScrollListener(scrollListener);
         getBinding().rv.setEmptyView(getBinding().ivEmpty);
         getBinding().rv.setAdapter(adapter);
+        if (scrollListener != null) getBinding().rv.addOnScrollListener(scrollListener);
+
+        switch (mindSnaggingListType) {
+            case ONE_COL:configForOneCol();break;
+            case TWO_COLS:configForTwoCols();break;
+        }
+    }
+
+    private void configForOneCol() {
+        getBinding().rv.addItemDecoration(new DividerItemDecoration(getContext(),
+                DividerItemDecoration.VERTICAL_LIST, isDarkTheme()));
+        getBinding().rv.setLayoutManager(new LinearLayoutManager(getContext()));
+    }
+
+    private void configForTwoCols() {
+        int dp4 = ViewUtils.dp2Px(getContext(), 4);
+        getBinding().rv.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        getBinding().rv.addItemDecoration(new SpaceItemDecoration(dp4, dp4, dp4, dp4));
     }
 
     private void showEditor(int position) {
@@ -101,6 +133,44 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        menu.findItem(R.id.action_list_type).setIcon(mindSnaggingListType == MindSnaggingListType.ONE_COL ?
+                R.drawable.ic_view_stream_white_24dp : R.drawable.ic_view_module_white_24dp);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.mind_snaggings, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_list_type:
+                preferencesUtils.setMindSnaggingListType(getListTypeToSwitch());
+                getActivity().invalidateOptionsMenu();
+                if (getActivity() instanceof OnSnagginsInteractListener) {
+                    ((OnSnagginsInteractListener) getActivity()).onListTypeChanged(mindSnaggingListType);
+                }
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private MindSnaggingListType getListTypeToSwitch() {
+        mindSnaggingListType = mindSnaggingListType == MindSnaggingListType.ONE_COL ?
+                MindSnaggingListType.TWO_COLS : MindSnaggingListType.ONE_COL;
+        return mindSnaggingListType;
+    }
+
+    @Override
     protected AttachmentPickerDialog getAttachmentPickerDialog() {
         return attachmentPickerDialog;
     }
@@ -126,5 +196,9 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
                 .setVideoVisible(false)
                 .build();
         attachmentPickerDialog.show(getFragmentManager(), "Attachment picker");
+    }
+
+    public interface OnSnagginsInteractListener {
+        void onListTypeChanged(MindSnaggingListType listType);
     }
 }

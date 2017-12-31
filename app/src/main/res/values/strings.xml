@@ -137,6 +137,8 @@
 
     <!--region mind snagging-->
     <string name="edit_mind_snagging">编辑小纸条</string>
+
+    <string name="mind_snaggings_list_type">列表显示方式</string>
     <!--endregion-->
 
     <!--region alarm-->
