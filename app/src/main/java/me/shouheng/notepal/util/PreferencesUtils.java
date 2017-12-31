@@ -14,6 +14,7 @@ import java.util.Set;
 
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.model.enums.FabSortItem;
+import me.shouheng.notepal.util.enums.MindSnaggingListType;
 
 /**
  * Created by Wang Shouheng on 2017/12/5. */
@@ -31,6 +32,8 @@ public class PreferencesUtils {
     private final String FAB_SORT_RESULT = "fab_sort_result";
     private final String FAB_SORT_SPLIT = ":";
     private final String LIST_ANIMATION = "list_animation";
+
+    private final String MIND_SNAGGINGS_LIST_TYPE = "mind_snaggings_list_type";
 
     public static List<FabSortItem> defaultFabOrders;
 
@@ -163,6 +166,15 @@ public class PreferencesUtils {
     public int getVideoSizeLimit(){
         return getIntValue(VIDEO_SIZE_LIMIT, 10);
     }
+
+    public MindSnaggingListType getMindSnaggingListType() {
+        return MindSnaggingListType.getTypeById(getIntValue(MIND_SNAGGINGS_LIST_TYPE, 0));
+    }
+
+    public void setMindSnaggingListType(MindSnaggingListType type) {
+        putIntValue(MIND_SNAGGINGS_LIST_TYPE, type.id);
+    }
+
     // endregion
 
     // region notification

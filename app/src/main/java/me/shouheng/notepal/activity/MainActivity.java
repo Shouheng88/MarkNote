@@ -30,6 +30,7 @@ import me.shouheng.notepal.dialog.MindSnaggingDialog;
 import me.shouheng.notepal.dialog.NotebookEditDialog;
 import me.shouheng.notepal.fragment.NotesFragment;
 import me.shouheng.notepal.fragment.SnaggingsFragment;
+import me.shouheng.notepal.fragment.SnaggingsFragment.OnSnagginsInteractListener;
 import me.shouheng.notepal.intro.IntroActivity;
 import me.shouheng.notepal.listener.OnAttachingFileListener;
 import me.shouheng.notepal.model.Attachment;
@@ -49,12 +50,13 @@ import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.PermissionUtils;
 import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.ToastUtils;
+import me.shouheng.notepal.util.enums.MindSnaggingListType;
 import me.shouheng.notepal.widget.tools.CustomRecyclerScrollViewListener;
 
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
 
 public class MainActivity extends CommonActivity<ActivityMainBinding> implements
-        NotesFragment.OnNotebookSelectedListener, OnAttachingFileListener {
+        NotesFragment.OnNotebookSelectedListener, OnAttachingFileListener, OnSnagginsInteractListener {
 
     private final int REQUEST_FAB_SORT = 0x0001;
 
@@ -66,6 +68,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
 
     private RecyclerView.OnScrollListener onScrollListener;
 
+    // TODO bug when reopen the activity
     private MindSnaggingDialog mindSnaggingDialog;
 
     private AttachmentPickerDialog attachmentPickerDialog;
@@ -312,7 +315,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                     toNotesFragment();
                     break;
                 case R.id.nav_minds:
-                    toSnaggingsFragment();
+                    toSnaggingsFragment(true);
                     break;
             }
         }, 500);
@@ -326,8 +329,8 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         new Handler().postDelayed(() -> getBinding().nav.getMenu().findItem(R.id.nav_notes).setChecked(true), 300);
     }
 
-    private void toSnaggingsFragment() {
-        if (getCurrentFragment() instanceof SnaggingsFragment) return;
+    private void toSnaggingsFragment(boolean checkDuplicate) {
+        if (checkDuplicate && getCurrentFragment() instanceof SnaggingsFragment) return;
         SnaggingsFragment snaggingsFragment = SnaggingsFragment.newInstance();
         snaggingsFragment.setScrollListener(onScrollListener);
         FragmentHelper.replace(this, snaggingsFragment, R.id.fragment_container);
@@ -422,5 +425,10 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     @Override
     public void onAttachingFileFinished(Attachment attachment) {
         mindSnaggingDialog.setAttachment(attachment);
+    }
+
+    @Override
+    public void onListTypeChanged(MindSnaggingListType listType) {
+        toSnaggingsFragment(false);
     }
 }
