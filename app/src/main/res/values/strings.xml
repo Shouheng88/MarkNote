@@ -327,4 +327,42 @@
     <string name="capturing">正在截取&#8230;</string>
     <!--endregion-->
 
+    <!--region user info-->
+    <string name="user_info">用户信息</string>
+    <string name="school">学校|公司</string>
+    <string name="major">专业|职位</string>
+    <string name="timeline">时间线</string>
+    <string name="not_login_click_to_login">未登录·点击登录</string>
+    <string name="login_and_get_storage">登录以获取云存储空间</string>
+    <string name="school_day_begin">入学年份</string>
+    <string name="storage_left_monthly">本月剩余存储容量</string>
+    <string name="storage_left_and_click_grant_tips">剩余%dMB,点击获取更多存储空间</string>
+    <string name="my_purposes">我的目标</string>
+    <string name="not_login_try_after_login">未登录，请登录后再次尝试</string>
+    <string name="my_mind_snagging">我的小纸条</string>
+    <string name="mind_snagging_detail">记住自己的一闪而过的、游离的想法</string>
+    <string name="purpose_detail">%d个目标在执行</string>
+    <string name="timeline_detail">最近都做了什么</string>
+    <string name="statistic">数据统计</string>
+    <string name="statistic_of_this_week">本周的数据统计</string>
+    <string name="assignment_completed_this_seven_days">最近7天完成的任务数据</string>
+    <string name="logout">退出登录</string>
+
+    <string name="please_input_account">请输入邮箱</string>
+    <string name="please_input_password">请输入密码</string>
+    <string name="please_input_password_again">请再次输入密码</string>
+    <string name="forget_password">忘记密码</string>
+    <string name="weibo">微博</string>
+    <string name="weixin">微信</string>
+    <string name="qq">QQ</string>
+    <string name="use_account_and_password_when_register">使用注册时填写的账号和密码登录</string>
+    <string name="login">登录</string>
+    <string name="register">注册</string>
+    <string name="confirm">确定</string>
+    <string name="cancel">取消</string>
+    <string name="back">返回</string>
+    <string name="use_social_accounts">使用社交账号登录</string>
+    <string name="register_palm_college">注册 PalmCollege</string>
+    <!--endregion-->
+
 </resources>

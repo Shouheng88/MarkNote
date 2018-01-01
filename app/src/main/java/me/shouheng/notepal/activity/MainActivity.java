@@ -62,6 +62,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     private final int REQUEST_ADD_NOTE = 0x0002;
     private final int REQUSET_ARCHIVE = 0x0003;
     private final int REQUEST_TRASH = 0x0004;
+    private final int REQUEST_USER_INFO = 0x0005;
 
     private PreferencesUtils preferencesUtils;
 
@@ -107,6 +108,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         ActivityMainNavHeaderBinding headerBinding = DataBindingUtil.bind(header);
         header.setOnClickListener(v -> {});
         header.setOnLongClickListener(v -> true);
+        header.setOnClickListener(view -> startActivityForResult(UserInfoActivity.class, REQUEST_USER_INFO));
     }
 
     private void configToolbar() {
@@ -291,7 +293,8 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
 
     // region drawer
     public void setDrawerLayoutLocked(boolean lockDrawer){
-        getBinding().drawerLayout.setDrawerLockMode(lockDrawer ? DrawerLayout.LOCK_MODE_LOCKED_CLOSED : DrawerLayout.LOCK_MODE_UNLOCKED);
+        getBinding().drawerLayout.setDrawerLockMode(lockDrawer ?
+                DrawerLayout.LOCK_MODE_LOCKED_CLOSED : DrawerLayout.LOCK_MODE_UNLOCKED);
     }
 
     private void initDrawerMenu() {

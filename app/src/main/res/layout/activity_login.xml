@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        tools:context=".activity.LoginActivity"
+        tools:ignore="MergeRootFrame">
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+            <android.support.design.widget.CollapsingToolbarLayout
+                app:expandedTitleGravity="center_horizontal"
+                android:id="@+id/toolbar_layout"
+                app:title="@string/app_name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:toolbarId="@+id/toolbar">
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/detail_toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+            </android.support.design.widget.CollapsingToolbarLayout>
+
+        </android.support.design.widget.AppBarLayout>
+
+        <android.support.v4.widget.NestedScrollView
+            android:background="@color/md_grey_800"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="@string/use_account_and_password_when_register"
+                    android:textSize="15sp"
+                    android:textColor="#A0FFFFFF"
+                    android:layout_margin="25dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <LinearLayout
+                    android:weightSum="7"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_weight="5"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/in_account"
+                            android:inputType="textEmailAddress"
+                            android:imeOptions="actionUnspecified"
+                            android:singleLine="true"
+                            android:maxLines="1"
+                            android:textSize="17sp"
+                            android:padding="10dp"
+                            android:hint="@string/please_input_account"
+                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:weightSum="7"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_weight="5"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/in_password"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:imeOptions="actionUnspecified"
+                            android:inputType="textPassword"
+                            android:textSize="17sp"
+                            android:padding="10dp"
+                            android:hint="@string/please_input_password"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:weightSum="5"
+                    android:gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <me.shouheng.notepal.widget.UIRippleButton
+                        android:id="@+id/btn_login"
+                        android:text="@string/login"
+                        android:textColor="@android:color/white"
+                        android:textSize="15sp"
+                        android:background="@color/colorPrimary"
+                        app:ripple_color = "#90FFFFFF"
+                        app:color_unpressed="@color/colorPrimary"
+                        app:ripple_duration="400"
+                        app:shape_type="rectangle"
+                        android:layout_weight="3"
+                        android:layout_height="40dp"
+                        android:layout_width="0dp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/login_forget"
+                        android:layout_marginStart="40dp"
+                        android:layout_marginEnd="40dp"
+                        android:gravity="center"
+                        android:text="@string/forget_password"
+                        android:textColor="@color/white"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"/>
+
+                    <TextView
+                        android:id="@+id/register"
+                        android:gravity="center"
+                        android:layout_marginStart="40dp"
+                        android:layout_marginEnd="40dp"
+                        android:text="@string/register"
+                        android:textColor="@color/white"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"/>
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:visibility="gone"
+                    android:layout_marginTop="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp">
+
+                    <TextView
+                        android:id="@+id/use_social"
+                        android:textSize="15sp"
+                        android:textColor="#A0FFFFFF"
+                        android:gravity="center"
+                        android:layout_centerInParent="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent" />
+
+                    <View
+                        android:background="#ccc"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_centerVertical="true"
+                        android:layout_toStartOf="@id/use_social"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp" />
+
+                    <View
+                        android:background="#ccc"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@id/use_social"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp" />
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:visibility="gone"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <!--<com.google.android.gms.common.SignInButton-->
+                        <!--android:id="@+id/sign_in_button"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content" />-->
+
+                    <!--<Button-->
+                        <!--android:id="@+id/btn_sign_out"-->
+                        <!--android:text="Google Sign Out"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content" />-->
+
+                    <!--<com.facebook.login.widget.LoginButton-->
+                        <!--android:id="@+id/login_button"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_gravity="center_horizontal"-->
+                        <!--android:layout_marginTop="30dp"-->
+                        <!--android:layout_marginBottom="30dp" />-->
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:visibility="gone"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <me.shouheng.notepal.widget.UIRippleButton
+                        android:id="@+id/wexin"
+                        android:onClick="onClick"
+                        android:background="@color/md_green_500"
+                        android:gravity="center"
+                        android:textSize="16sp"
+                        android:textColor="#A0FFFFFF"
+                        android:layout_margin="5dp"
+                        app:ripple_color = "@color/md_green_200"
+                        app:color_unpressed="@color/md_green_500"
+                        app:ripple_duration="400"
+                        app:shape_type="rectangle"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp" />
+
+                    <me.shouheng.notepal.widget.UIRippleButton
+                        android:id="@+id/qq"
+                        android:onClick="onClick"
+                        android:background="@color/md_blue_500"
+                        android:gravity="center"
+                        android:textSize="16sp"
+                        android:textColor="#A0FFFFFF"
+                        android:layout_margin="5dp"
+                        app:ripple_color = "@color/md_blue_200"
+                        app:color_unpressed="@color/md_blue_500"
+                        app:ripple_duration="400"
+                        app:shape_type="rectangle"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp" />
+
+                    <me.shouheng.notepal.widget.UIRippleButton
+                        android:id="@+id/weibo"
+                        android:onClick="onClick"
+                        android:background="@color/md_orange_500"
+                        android:gravity="center"
+                        android:textSize="16sp"
+                        app:ripple_color = "@color/md_orange_200"
+                        app:color_unpressed="@color/md_orange_500"
+                        app:ripple_duration="400"
+                        app:shape_type="rectangle"
+                        android:textColor="#A0FFFFFF"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+
+    </android.support.design.widget.CoordinatorLayout>
+
+</layout>

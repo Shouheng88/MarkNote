@@ -22,9 +22,10 @@ import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 
 import me.shouheng.notepal.R;
+import me.shouheng.notepal.widget.themed.SupportImageView;
 
 
-public class CircleImageView extends AppCompatImageView {
+public class CircleImageView extends SupportImageView {
 
     private static final ScaleType SCALE_TYPE = ScaleType.CENTER_CROP;
 
