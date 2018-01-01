@@ -6,7 +6,6 @@ import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import me.shouheng.notepal.R;
@@ -32,10 +31,6 @@ public class NotesAdapter extends BaseMultiItemQuickAdapter<NotesAdapter.MultiIt
 
         accentColor = ColorUtils.accentColor(context);
         isDarkTheme = ColorUtils.isDarkTheme(context);
-    }
-
-    public static List<NotesAdapter.MultiItem> setupDatas(List<Notebook> notebooks, List<Note> notes) {
-        return new ArrayList<>();
     }
 
     @Override
