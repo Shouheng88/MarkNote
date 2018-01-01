@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
+            <me.shouheng.notepal.widget.themed.SupportImageView
                 android:id="@+id/iv_more"
                 android:src="@drawable/ic_more_vert_black"
                 android:background="?attr/selectableItemBackgroundBorderless"
@@ -42,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <TextView
+                <me.shouheng.notepal.widget.themed.SupportTextView
                     android:id="@+id/text_view_title"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

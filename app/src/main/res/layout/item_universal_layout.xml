@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:paddingTop="@dimen/small_spacing"
     android:paddingBottom="@dimen/small_spacing"
     android:paddingLeft="@dimen/primary_margin"
@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <TextView
+        <me.shouheng.notepal.widget.themed.SupportTextView
             android:id="@+id/text_view_title"
             android:layout_above="@id/tv_added_time"
             android:layout_width="match_parent"
@@ -33,6 +33,7 @@
             android:gravity="center_vertical"
             android:lineSpacingMultiplier="1.2"
             android:maxLines="2"
+            tools:text="This is the title of mind snagging."
             android:textColor="@color/light_theme_sub_text_color"
             android:textSize="@dimen/body_text_size" />
 
