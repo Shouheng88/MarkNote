@@ -96,6 +96,10 @@
             android:name=".activity.ContentActivity"
             android:exported="true" />
 
+        <activity android:name=".activity.ArchiveActivity" />
+
+        <activity android:name=".activity.TrashedActivity" />
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="aa14224ea2102fef301d211dac552635f37b1f9e" />

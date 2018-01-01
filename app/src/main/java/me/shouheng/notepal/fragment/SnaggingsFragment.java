@@ -14,6 +14,8 @@ import android.view.MenuItem;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.MindSnaggingAdapter;
 import me.shouheng.notepal.databinding.FragmentSnaggingsBinding;
@@ -22,6 +24,7 @@ import me.shouheng.notepal.dialog.MindSnaggingDialog;
 import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.model.MindSnagging;
 import me.shouheng.notepal.model.enums.ModelType;
+import me.shouheng.notepal.model.enums.Status;
 import me.shouheng.notepal.provider.AttachmentsStore;
 import me.shouheng.notepal.provider.MindSnaggingStore;
 import me.shouheng.notepal.provider.schema.MindSnaggingSchema;
@@ -38,6 +41,8 @@ import me.shouheng.notepal.widget.tools.SpaceItemDecoration;
  * Created by Wang Shouheng on 2017/12/30.*/
 public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
 
+    private final static String ARG_STATUS = "arg_status";
+
     private RecyclerView.OnScrollListener scrollListener;
 
     private MindSnaggingAdapter adapter;
@@ -53,6 +58,14 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
     public static SnaggingsFragment newInstance() {
         Bundle args = new Bundle();
         SnaggingsFragment fragment = new SnaggingsFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static SnaggingsFragment newInstance(@Nonnull Status status) {
+        Bundle args = new Bundle();
+        SnaggingsFragment fragment = new SnaggingsFragment();
+        args.putSerializable(ARG_STATUS, status);
         fragment.setArguments(args);
         return fragment;
     }
@@ -119,8 +132,16 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
     }
 
     private List<MindSnagging> getSnaggings() {
-        return MindSnaggingStore.getInstance(getContext()).get(null,
-                MindSnaggingSchema.ADDED_TIME + " DESC ");
+        MindSnaggingStore store = MindSnaggingStore.getInstance(getContext());
+        if (getArguments() == null || !getArguments().containsKey(ARG_STATUS)) {
+            return store.get(null, MindSnaggingSchema.ADDED_TIME + " DESC ");
+        }
+        Status status = (Status) getArguments().get(ARG_STATUS);
+        return status == Status.ARCHIVED ?
+                store.getArchived(null, MindSnaggingSchema.ADDED_TIME + " DESC ") :
+                status == Status.TRASHED ?
+                        store.getTrashed(null, MindSnaggingSchema.ADDED_TIME + " DESC ") :
+                        store.get(null, MindSnaggingSchema.ADDED_TIME + " DESC ");
     }
 
     public void addSnagging(MindSnagging snagging) {
