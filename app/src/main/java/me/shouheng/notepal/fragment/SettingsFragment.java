@@ -4,10 +4,7 @@ import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.PreferenceFragment;
 
-import com.afollestad.materialdialogs.color.ColorChooserDialog;
-
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.activity.SettingsActivity;
 import me.shouheng.notepal.activity.ThemedActivity;
 import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.PreferencesUtils;
@@ -19,7 +16,7 @@ public class SettingsFragment extends PreferenceFragment {
 
     private CheckBoxPreference isDarkTheme, coloredNavigationBar;
 
-    private ColorPreference primaryColor, accentColor;
+    private ColorPreference primaryColor, accentColor, noteColor, notebookColor;
 
     private PreferencesUtils preferencesUtils;
 
@@ -36,6 +33,9 @@ public class SettingsFragment extends PreferenceFragment {
         accentColor = (ColorPreference) findPreference(PreferencesUtils.ACCENT_COLOR);
         coloredNavigationBar = (CheckBoxPreference) findPreference(PreferencesUtils.COLORED_NAVIGATION_BAR);
 
+        noteColor = (ColorPreference) findPreference(PreferencesUtils.DEFAULT_NOTE_COLOR);
+        notebookColor = (ColorPreference) findPreference(PreferencesUtils.DEFAULT_NOTEBOOK_COLOR);
+
         setPreferenceClickListeners();
     }
 
@@ -51,26 +51,28 @@ public class SettingsFragment extends PreferenceFragment {
             return true;
         });
         accentColor.setOnPreferenceClickListener(preference -> {
-            showAccentColorPicker();
+            if (getActivity() != null && getActivity() instanceof OnPreferenceClickListener) {
+                ((OnPreferenceClickListener) getActivity()).onPreferenceClick(PreferencesUtils.DEFAULT_NOTEBOOK_COLOR);
+            }
             return true;
         });
         coloredNavigationBar.setOnPreferenceClickListener(preference -> {
             ((ThemedActivity) getActivity()).updateTheme();
             return true;
         });
-    }
 
-    private void showAccentColorPicker() {
-        new ColorChooserDialog.Builder((SettingsActivity) getActivity(), R.string.select_accent_color)
-                .allowUserColorInput(false)
-                .preselect(ColorUtils.accentColor(getActivity()))
-                .allowUserColorInputAlpha(false)
-                .titleSub(R.string.select_accent_color)
-                .accentMode(true)
-                .backButton(R.string.text_back)
-                .doneButton(R.string.done_label)
-                .cancelButton(R.string.text_cancel)
-                .show();
+        notebookColor.setOnPreferenceClickListener(preference -> {
+            if (getActivity() != null && getActivity() instanceof OnPreferenceClickListener) {
+                ((OnPreferenceClickListener) getActivity()).onPreferenceClick(PreferencesUtils.DEFAULT_NOTEBOOK_COLOR);
+            }
+            return true;
+        });
+        noteColor.setOnPreferenceClickListener(preference -> {
+            if (getActivity() != null && getActivity() instanceof OnPreferenceClickListener) {
+                ((OnPreferenceClickListener) getActivity()).onPreferenceClick(PreferencesUtils.DEFAULT_NOTE_COLOR);
+            }
+            return true;
+        });
     }
 
     private void updateThemeSettings() {

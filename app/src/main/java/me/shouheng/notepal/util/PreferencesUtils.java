@@ -227,9 +227,9 @@ public class PreferencesUtils {
     // endregion
 
     // region notes and notebooks
-    private final String DEFAULT_NOTE_COLOR = "default_note_color";
-    private final String NOTE_FILE_EXTENSION = "note_file_extension";
-    private final String DEFAULT_NOTEBOOK_COLOR = "default_notebook_color";
+    public static final String DEFAULT_NOTE_COLOR = "default_note_color";
+    public static final String NOTE_FILE_EXTENSION = "note_file_extension";
+    public static final String DEFAULT_NOTEBOOK_COLOR = "default_notebook_color";
 
     public void setDefaultNotebookColor(int color) {
         putIntValue(DEFAULT_NOTEBOOK_COLOR, color);

@@ -228,6 +228,16 @@
     <string name="no_notebook_available">没有可用的笔记本</string>
     <!--endregion-->
 
+    <!--region note settings-->
+    <string name="setting_note">笔记设置</string>
+    <string name="setting_default_note_file_extension">笔记的默认文件拓展名</string>
+    <string name="setting_default_note_file_extension_sub">创建的笔记文件的默认拓展名</string>
+    <string name="setting_default_note_color">笔记的默认颜色</string>
+    <string name="setting_set_default_note_color">设置笔记的默认颜色</string>
+    <string name="setting_default_notebook_color">笔记本的默认颜色</string>
+    <string name="setting_set_default_notebook_color">设置笔记本的默认颜色</string>
+    <!--endregion-->
+
     <!--region theme settings-->
     <string name="setting_theme">应用主题</string>
     <string name="setting_dark_theme">夜间主题</string>
