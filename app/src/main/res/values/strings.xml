@@ -64,6 +64,7 @@
     <string name="text_portrait">图标</string>
     <string name="set_successfully">设置成功</string>
     <string name="items">类目</string>
+    <string name="text_other_ways">其他方式</string>
     <!--endregion-->
 
     <!--region drawer menu-->
@@ -248,11 +249,19 @@
     <string name="setting_accent_color_sub">设置主界面及其他组件所需的强调色</string>
 
     <string name="select_accent_color">选择强调色彩</string>
-    <string name="my_youth">青春风暴</string>
-    <string name="noble">庄重典雅</string>
+    <string name="my_youth">活力</string>
+    <string name="noble">质朴</string>
 
     <string name="setting_colored_navigation_bar">彩色导航栏</string>
     <string name="setting_colored_navigation_bar_sub">切换导航栏颜色</string>
+    <!--endregion-->
+
+    <!--region help settings-->
+    <string name="setting_help">帮助</string>
+    <string name="setting_online_user_guide">用户手册</string>
+    <string name="setting_online_user_guide_sub">获取用户使用手册</string>
+    <string name="setting_user_intro">用户导引</string>
+    <string name="setting_user_intro_sub">再次显示用户导引</string>
     <!--endregion-->
 
     <!--region other settings-->
@@ -263,6 +272,16 @@
     <string name="setting_feedback_sub">帮助开发者把程序做得更好</string>
     <string name="setting_about">关于程序</string>
     <string name="setting_about_sub">与程序有关的详细信息</string>
+
+    <string name="feedback">反馈</string>
+    <string name="abrupt_crash">意外崩溃</string>
+    <string name="function_improvement">功能改善</string>
+    <string name="function_requirement">功能需求</string>
+    <string name="email_to_find_you">可以联系到你的邮箱</string>
+    <string name="details">详情</string>
+    <string name="connect_email_required">需要联系邮箱</string>
+    <string name="details_required">需要详情信息</string>
+    <string name="illegal_email_format">邮箱格式不合法</string>
     <!--endregion-->
 
     <!--region recycler view capture-->
