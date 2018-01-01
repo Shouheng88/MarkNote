@@ -3,6 +3,7 @@ package me.shouheng.notepal.activity;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
@@ -23,6 +24,10 @@ import me.shouheng.notepal.util.ToastUtils;
 public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> implements
         SettingsFragment.OnPreferenceClickListener, OnThemeSelectedListener {
 
+    private String keyForColor;
+
+    private PreferencesUtils preferencesUtils;
+
     @Override
     protected int getLayoutResId() {
         return R.layout.activity_settings;
@@ -30,6 +35,8 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> im
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {
+        preferencesUtils = PreferencesUtils.getInstance(this);
+
         configToolbar();
 
         configFragment();
@@ -59,7 +66,17 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> im
 
     @Override
     public void onColorSelection(@NonNull ColorChooserDialog dialog, int selectedColor) {
-        setupTheme(dialog, selectedColor);
+        switch (keyForColor) {
+            case PreferencesUtils.ACCENT_COLOR:
+                setupTheme(dialog, selectedColor);
+                break;
+            case PreferencesUtils.DEFAULT_NOTE_COLOR:
+                preferencesUtils.setDefaultNoteColor(selectedColor);
+                break;
+            case PreferencesUtils.DEFAULT_NOTEBOOK_COLOR:
+                preferencesUtils.setDefaultNotebookColor(selectedColor);
+                break;
+        }
     }
 
     private void setupTheme(@NonNull ColorChooserDialog colorChooserDialog, @ColorInt int i) {
@@ -72,10 +89,20 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> im
 
     @Override
     public void onPreferenceClick(String key) {
+        keyForColor = key;
         switch (key) {
             case PreferencesUtils.PRIMARY_COLOR:
                 FragmentHelper.replaceWithCallback(this,
                         PrimaryPickerFragment.newInstance(), R.id.fragment_container);
+                break;
+            case PreferencesUtils.DEFAULT_NOTE_COLOR:
+                showPrimaryColorPicker(R.string.setting_set_default_note_color);
+                break;
+            case PreferencesUtils.DEFAULT_NOTEBOOK_COLOR:
+                showPrimaryColorPicker(R.string.setting_set_default_notebook_color);
+                break;
+            case PreferencesUtils.ACCENT_COLOR:
+                showAccentColorPicker();
                 break;
         }
     }
@@ -83,5 +110,29 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> im
     @Override
     public void onThemeSelected(Colorful.ThemeColor themeColor) {
         getBinding().bar.findViewById(R.id.toolbar).setBackgroundColor(primaryColor());
+    }
+
+    private void showPrimaryColorPicker(@StringRes int titleRes) {
+        new ColorChooserDialog.Builder(this, titleRes)
+                .preselect(ColorUtils.primaryColor(this))
+                .accentMode(false)
+                .titleSub(titleRes)
+                .backButton(R.string.text_back)
+                .doneButton(R.string.done_label)
+                .cancelButton(R.string.text_cancel)
+                .show();
+    }
+
+    private void showAccentColorPicker() {
+        new ColorChooserDialog.Builder(this, R.string.select_accent_color)
+                .allowUserColorInput(false)
+                .preselect(ColorUtils.accentColor(this))
+                .allowUserColorInputAlpha(false)
+                .titleSub(R.string.select_accent_color)
+                .accentMode(true)
+                .backButton(R.string.text_back)
+                .doneButton(R.string.done_label)
+                .cancelButton(R.string.text_cancel)
+                .show();
     }
 }
