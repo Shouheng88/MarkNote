@@ -125,6 +125,10 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
             startActivityForResult(FabSortActivity.class, REQUEST_FAB_SORT);
             return false;
         });
+        getBinding().menu.setOnMenuToggleListener(opened -> getBinding().rlMenuContainer.setVisibility(opened ? View.VISIBLE : View.GONE));
+        getBinding().rlMenuContainer.setOnClickListener(view -> {
+            getBinding().menu.close(true);
+        });
 
         getBinding().fab1.setColorNormal(accentColor());
         getBinding().fab2.setColorNormal(accentColor());
