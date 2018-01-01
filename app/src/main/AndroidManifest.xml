@@ -100,6 +100,10 @@
 
         <activity android:name=".activity.TrashedActivity" />
 
+        <activity android:name=".activity.UserInfoActivity" />
+
+        <activity android:name=".activity.LoginActivity" />
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="aa14224ea2102fef301d211dac552635f37b1f9e" />

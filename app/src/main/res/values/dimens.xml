@@ -16,11 +16,22 @@
     <dimen name="small_spacing">8dp</dimen>
     <dimen name="sub_small_spacing">5dp</dimen>
 
+    <dimen name="big_text">25sp</dimen>
+    <dimen name="sub_big_text">18sp</dimen>
+    <dimen name="medium_text">16sp</dimen>
+    <dimen name="sub_medium_text">14sp</dimen>
+    <dimen name="medium_small_text">10sp</dimen>
+    <dimen name="small_text">8sp</dimen>
+
     <dimen name="card_corner_radius">1dp</dimen>
     <dimen name="card_elevation">5dp</dimen>
     <dimen name="card_spacing">10dp</dimen>
 
+    <dimen name="icon_width_height">24dp</dimen>
+
     <dimen name="archive_toolbar_top_margin">24dp</dimen>
+
+    <dimen name="ui_radius">2dp</dimen>
 
     <!--region note-->
     <dimen name="note_bottom_menu_height">48dp</dimen>
