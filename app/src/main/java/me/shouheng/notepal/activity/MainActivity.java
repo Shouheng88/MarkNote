@@ -56,11 +56,12 @@ import me.shouheng.notepal.widget.tools.CustomRecyclerScrollViewListener;
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
 
 public class MainActivity extends CommonActivity<ActivityMainBinding> implements
-        NotesFragment.OnNotebookSelectedListener, OnAttachingFileListener, OnSnagginsInteractListener {
+        NotesFragment.OnNotesInteractListener, OnAttachingFileListener, OnSnagginsInteractListener {
 
     private final int REQUEST_FAB_SORT = 0x0001;
-
     private final int REQUEST_ADD_NOTE = 0x0002;
+    private final int REQUSET_ARCHIVE = 0x0003;
+    private final int REQUEST_TRASH = 0x0004;
 
     private PreferencesUtils preferencesUtils;
 
@@ -317,6 +318,12 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                 case R.id.nav_minds:
                     toSnaggingsFragment(true);
                     break;
+                case R.id.nav_archive:
+                    startActivityForResult(ArchiveActivity.class, REQUSET_ARCHIVE);
+                    break;
+                case R.id.nav_trash:
+                    startActivityForResult(TrashedActivity.class, REQUEST_TRASH);
+                    break;
             }
         }, 500);
     }
@@ -378,6 +385,10 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                     if (isNotesFragment()) {
                         ((NotesFragment) getCurrentFragment()).reload();
                     }
+                    break;
+                case REQUEST_TRASH:
+                    break;
+                case REQUSET_ARCHIVE:
                     break;
             }
         }

@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import me.shouheng.notepal.R;
@@ -23,7 +24,10 @@ import me.shouheng.notepal.adapter.NotesAdapter;
 import me.shouheng.notepal.databinding.FragmentNotesBinding;
 import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.model.Notebook;
+import me.shouheng.notepal.model.enums.Status;
+import me.shouheng.notepal.provider.helper.ArchiveHelper;
 import me.shouheng.notepal.provider.helper.NotebookHelper;
+import me.shouheng.notepal.provider.helper.TrashHelper;
 import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.widget.tools.CustomItemAnimator;
 import me.shouheng.notepal.widget.tools.DividerItemDecoration;
@@ -32,6 +36,7 @@ import me.shouheng.notepal.widget.tools.DividerItemDecoration;
 public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
 
     private final static String ARG_NOTEBOOK = "arg_notebook";
+    private final static String ARG_STATUS = "arg_status";
 
     private final static int REQUEST_CODE_FOR_NOTE_VIEW = 0x0010;
 
@@ -45,6 +50,15 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
     public static NotesFragment newInstance(@Nullable Notebook notebook) {
         Bundle args = new Bundle();
         if (notebook != null) args.putSerializable(ARG_NOTEBOOK, notebook);
+        NotesFragment fragment = new NotesFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static NotesFragment newInstance(@Nullable Notebook notebook, @Nonnull Status status) {
+        Bundle args = new Bundle();
+        if (notebook != null) args.putSerializable(ARG_NOTEBOOK, notebook);
+        args.putSerializable(ARG_STATUS, status);
         NotesFragment fragment = new NotesFragment();
         fragment.setArguments(args);
         return fragment;
@@ -87,8 +101,8 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
             if (item.itemType == NotesAdapter.MultiItem.ITEM_TYPE_NOTE) {
                 ContentActivity.startNoteViewForResult(NotesFragment.this, item.note, null, REQUEST_CODE_FOR_NOTE_VIEW);
             } else if (item.itemType == NotesAdapter.MultiItem.ITEM_TYPE_NOTEBOOK) {
-                if (getActivity() != null && getActivity() instanceof OnNotebookSelectedListener) {
-                    ((OnNotebookSelectedListener) getActivity()).onNotebookSelected(item.notebook);
+                if (getActivity() != null && getActivity() instanceof OnNotesInteractListener) {
+                    ((OnNotesInteractListener) getActivity()).onNotebookSelected(item.notebook);
                 }
             }
         });
@@ -114,10 +128,15 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
     }
 
     private List getNotesAndNotebooks() {
-        List data = new LinkedList();
-        data.addAll(NotebookHelper.getNotebooks(getContext(), notebook));
-        data.addAll(NotebookHelper.getNotes(getContext(), notebook));
-        return data;
+        if (getArguments() == null || !getArguments().containsKey(ARG_STATUS)) {
+            return NotebookHelper.getNotesAndNotebooks(getContext(), notebook);
+        }
+        Status status = (Status) getArguments().get(ARG_STATUS);
+        return status == Status.ARCHIVED ?
+                ArchiveHelper.getNotebooksAndNotes(getContext(), notebook) :
+                status == Status.TRASHED ?
+                        TrashHelper.getNotebooksAndNotes(getContext(), notebook) :
+                        NotebookHelper.getNotesAndNotebooks(getContext(), notebook);
     }
 
     public void setScrollListener(RecyclerView.OnScrollListener scrollListener) {
@@ -165,10 +184,6 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
         return super.onOptionsItemSelected(item);
     }
 
-    public interface OnNotebookSelectedListener {
-        void onNotebookSelected(Notebook notebook);
-    }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -187,5 +202,9 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
                 break;
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public interface OnNotesInteractListener {
+        void onNotebookSelected(Notebook notebook);
     }
 }

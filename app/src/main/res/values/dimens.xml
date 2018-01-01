@@ -20,6 +20,8 @@
     <dimen name="card_elevation">5dp</dimen>
     <dimen name="card_spacing">10dp</dimen>
 
+    <dimen name="archive_toolbar_top_margin">24dp</dimen>
+
     <!--region note-->
     <dimen name="note_bottom_menu_height">48dp</dimen>
     <dimen name="note_bottom_menu_height_double">96dp</dimen>

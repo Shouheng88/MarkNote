@@ -2,6 +2,7 @@ package me.shouheng.notepal.provider.helper;
 
 import android.content.Context;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import me.shouheng.notepal.model.Note;
@@ -52,5 +53,12 @@ public class NotebookHelper {
                         " ( " + NoteSchema.PARENT_CODE + " IS NULL OR " + NoteSchema.PARENT_CODE + " = 0 ) " :
                         " ( " + NoteSchema.PARENT_CODE  + " = " + notebook.getCode() +" ) ",
                 NoteSchema.ADDED_TIME + " DESC ");
+    }
+
+    public static List getNotesAndNotebooks(Context context, Notebook notebook) {
+        List data = new LinkedList();
+        data.addAll(NotebookHelper.getNotebooks(context, notebook));
+        data.addAll(NotebookHelper.getNotes(context, notebook));
+        return data;
     }
 }

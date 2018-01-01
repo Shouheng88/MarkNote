@@ -63,6 +63,7 @@
     <string name="text_color">颜色</string>
     <string name="text_portrait">图标</string>
     <string name="set_successfully">设置成功</string>
+    <string name="items">类目</string>
     <!--endregion-->
 
     <!--region drawer menu-->
