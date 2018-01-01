@@ -22,6 +22,7 @@ public class NotesAdapter extends BaseMultiItemQuickAdapter<NotesAdapter.MultiIt
     private Context context;
 
     private int accentColor;
+    private boolean isDarkTheme;
 
     public NotesAdapter(Context context, List<NotesAdapter.MultiItem> data) {
         super(data);
@@ -30,6 +31,7 @@ public class NotesAdapter extends BaseMultiItemQuickAdapter<NotesAdapter.MultiIt
         addItemType(MultiItem.ITEM_TYPE_NOTEBOOK, R.layout.item_note);
 
         accentColor = ColorUtils.accentColor(context);
+        isDarkTheme = ColorUtils.isDarkTheme(context);
     }
 
     public static List<NotesAdapter.MultiItem> setupDatas(List<Notebook> notebooks, List<Note> notes) {
@@ -38,6 +40,7 @@ public class NotesAdapter extends BaseMultiItemQuickAdapter<NotesAdapter.MultiIt
 
     @Override
     protected void convert(BaseViewHolder helper, MultiItem item) {
+        if (isDarkTheme) helper.itemView.setBackgroundResource(R.color.dark_theme_foreground);
         switch (helper.getItemViewType()) {
             case MultiItem.ITEM_TYPE_NOTE:
                 convertNote(helper, item.note);
