@@ -11,6 +11,10 @@
         app:showAsAction="never"/>
 
     <item app:showAsAction="never"
+        android:title="@string/note_capture_note"
+        android:id="@+id/capture"/>
+
+    <item app:showAsAction="never"
         android:title="@string/text_print"
         android:id="@+id/print"/>
 

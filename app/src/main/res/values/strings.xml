@@ -127,6 +127,7 @@
     <string name="pick_notebook_color">选择笔记本的颜色</string>
     <string name="notes_list_empty">笔记列表为空</string>
     <string name="move_to_another_notebook">移动到其他笔记本</string>
+    <string name="note_capture_note">笔记截图</string>
     <!--endregion-->
 
     <!--region attachment-->
