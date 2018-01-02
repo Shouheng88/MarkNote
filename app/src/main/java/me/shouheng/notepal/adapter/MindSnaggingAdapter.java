@@ -49,5 +49,6 @@ public class MindSnaggingAdapter extends BaseQuickAdapter<MindSnagging, BaseView
         }
         helper.setText(R.id.text_view_title, mindSnagging.getContent());
         helper.setText(R.id.tv_added_time, TimeUtils.getPrettyTime(mindSnagging.getAddedTime()));
+        helper.addOnClickListener(R.id.iv_more);
     }
 }

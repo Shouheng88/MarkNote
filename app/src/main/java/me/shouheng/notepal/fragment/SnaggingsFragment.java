@@ -5,11 +5,13 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import java.util.Arrays;
 import java.util.List;
@@ -95,6 +97,13 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
 
         adapter = new MindSnaggingAdapter(getContext(), mindSnaggingListType, getSnaggings());
         adapter.setOnItemClickListener((adapter1, view, position) -> showEditor(position));
+        adapter.setOnItemChildClickListener((adapter, view, position) -> {
+            switch (view.getId()) {
+                case R.id.iv_more:
+                    popMoreMenu(view);
+                    break;
+            }
+        });
 
         getBinding().rv.setItemAnimator(new CustomItemAnimator());
         getBinding().rv.setEmptyView(getBinding().ivEmpty);
@@ -106,6 +115,27 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
             case TWO_COLS:configForTwoCols();break;
         }
     }
+
+    private void popMoreMenu(View v) {
+        PopupMenu popupM = new PopupMenu(getContext(), v);
+        popupM.inflate(R.menu.pop_menu);
+        popupM.getMenu().findItem(R.id.action_move).setVisible(false);
+        popupM.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()){
+                case R.id.action_trash:
+                    break;
+                case R.id.action_archive:
+                    break;
+                case R.id.action_move:
+                    break;
+                case R.id.action_edit:
+                    break;
+            }
+            return true;
+        });
+        popupM.show();
+    }
+
 
     private void configForOneCol() {
         getBinding().rv.addItemDecoration(new DividerItemDecoration(getContext(),
