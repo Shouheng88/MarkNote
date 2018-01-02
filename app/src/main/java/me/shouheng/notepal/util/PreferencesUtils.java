@@ -13,7 +13,9 @@ import java.util.List;
 import java.util.Set;
 
 import me.shouheng.notepal.PalmApp;
+import me.shouheng.notepal.R;
 import me.shouheng.notepal.model.enums.FabSortItem;
+import me.shouheng.notepal.model.enums.Operation;
 import me.shouheng.notepal.util.enums.MindSnaggingListType;
 
 /**
@@ -168,7 +170,7 @@ public class PreferencesUtils {
     }
 
     public MindSnaggingListType getMindSnaggingListType() {
-        return MindSnaggingListType.getTypeById(getIntValue(MIND_SNAGGINGS_LIST_TYPE, 0));
+        return MindSnaggingListType.getTypeById(getIntValue(MIND_SNAGGINGS_LIST_TYPE, MindSnaggingListType.TWO_COLS.id));
     }
 
     public void setMindSnaggingListType(MindSnaggingListType type) {
@@ -253,6 +255,33 @@ public class PreferencesUtils {
 
     public void setNoteFileExtension(String extension) {
         putStringValue(NOTE_FILE_EXTENSION, extension);
+    }
+    // endregion
+
+    // region time line color
+    private final String OPERATION_COLOR = "OPERATION_COLOR";
+
+    public int getTimeLineColor(Operation operation) {
+        return getIntValue(OPERATION_COLOR + operation.name(), defaultTimeLineColor(operation));
+    }
+
+    private int defaultTimeLineColor(Operation operation) {
+        switch (operation) {
+            case DELETE: return PalmApp.getContext().getResources().getColor(R.color.md_red_500);
+            case TRASH: return PalmApp.getContext().getResources().getColor(R.color.md_deep_orange_500);
+            case ARCHIVE: return PalmApp.getContext().getResources().getColor(R.color.md_pink_500);
+            case COMPLETE: return PalmApp.getContext().getResources().getColor(R.color.md_purple_500);
+            case SYNCED: return PalmApp.getContext().getResources().getColor(R.color.md_light_green_900);
+            case ADD: return PalmApp.getContext().getResources().getColor(R.color.md_green_500);
+            case UPDATE: return PalmApp.getContext().getResources().getColor(R.color.md_light_green_700);
+            case INCOMPLETE: return PalmApp.getContext().getResources().getColor(R.color.md_blue_500);
+            case RECOVER: return PalmApp.getContext().getResources().getColor(R.color.md_light_blue_600);
+        }
+        return ColorUtils.accentColor(PalmApp.getContext());
+    }
+
+    public void setTimeLineColor(Operation operation, int color) {
+        putIntValue(OPERATION_COLOR + operation.name(), color);
     }
     // endregion
 

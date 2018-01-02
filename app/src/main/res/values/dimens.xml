@@ -47,4 +47,8 @@
     <dimen name="body_text_size">16sp</dimen>
     <!--endregion-->
 
+    <dimen name="timeline_dot_size">16dp</dimen>
+    <dimen name="timeline_line_size">2dp</dimen>
+    <dimen name="timeline_padding_top">20dp</dimen>
+
 </resources>

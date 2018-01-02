@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <me.shouheng.notepal.widget.EmptyView
+                android:id="@+id/iv_empty"
+                android:layout_centerInParent="true"
+                app:empty_image="@drawable/ic_timeline_black_24dp"
+                app:tint_drawable="true"
+                app:title="@string/no_activity_in_timeline"
+                app:sub_title="@string/activities_on_app_will_display_here"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <me.shouheng.notepal.widget.EmptySupportRecyclerView
+                android:id="@+id/rv"
+                android:layout_below="@id/toolbar_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </RelativeLayout>
+
+        <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+            android:id="@+id/mpb"
+            app:mpb_progressStyle="horizontal"
+            style="@style/Widget.MaterialProgressBar.ProgressBar.Horizontal"
+            android:indeterminate="true"
+            android:visibility="gone"
+            app:mpb_useIntrinsicPadding="false"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true" />
+
+    </RelativeLayout>
+
+</layout>

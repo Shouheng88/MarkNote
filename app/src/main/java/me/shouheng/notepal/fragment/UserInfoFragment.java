@@ -53,7 +53,11 @@ public class UserInfoFragment extends CommonFragment<FragmentUserInfoBinding> {
         getBinding().llMajor.setOnClickListener(v -> showMajorEditor());
     }
 
-    private void toTimeLine() {}
+    private void toTimeLine() {
+        if (getActivity() != null && getActivity() instanceof OnItemSelectedListener) {
+            ((OnItemSelectedListener) getActivity()).onTimelineSelected();
+        }
+    }
 
     private void configStatistics() {
 //        getBinding().lcv.setLineChartData();
@@ -93,9 +97,7 @@ public class UserInfoFragment extends CommonFragment<FragmentUserInfoBinding> {
     public void onResume() {
         super.onResume();
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setTitle(R.string.user_info);
-        }
+        actionBar.setTitle(R.string.user_info);
     }
 
     @Override
@@ -107,5 +109,9 @@ public class UserInfoFragment extends CommonFragment<FragmentUserInfoBinding> {
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public interface OnItemSelectedListener {
+        void onTimelineSelected();
     }
 }
