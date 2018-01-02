@@ -3,6 +3,8 @@ package me.shouheng.notepal.fragment;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.PreferenceFragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
@@ -114,6 +116,13 @@ public class SettingsFragment extends PreferenceFragment {
     private void updateThemeSettings() {
         ColorUtils.forceUpdateThemeStatus(getActivity());
         ((ThemedActivity) getActivity()).reUpdateTheme();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        actionBar.setTitle(R.string.text_settings);
     }
 
     public interface OnPreferenceClickListener {

@@ -48,4 +48,12 @@
         </attr>
     </declare-styleable>
 
+    <declare-styleable name="Timeline">
+        <attr name="atom_size" format="dimension" />
+        <attr name="line_size" format="dimension" />
+        <attr name="start_line" format="color|reference" />
+        <attr name="finish_line" format="color|reference" />
+        <attr name="atom" format="color|reference" />
+    </declare-styleable>
+
 </resources>

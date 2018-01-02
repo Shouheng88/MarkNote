@@ -7,10 +7,11 @@ import android.view.MenuItem;
 
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.ActivityUserInfoBinding;
+import me.shouheng.notepal.fragment.TimeLineFragment;
 import me.shouheng.notepal.fragment.UserInfoFragment;
 import me.shouheng.notepal.util.FragmentHelper;
 
-public class UserInfoActivity extends CommonActivity<ActivityUserInfoBinding> {
+public class UserInfoActivity extends CommonActivity<ActivityUserInfoBinding> implements UserInfoFragment.OnItemSelectedListener {
 
     @Override
     protected int getLayoutResId() {
@@ -45,5 +46,10 @@ public class UserInfoActivity extends CommonActivity<ActivityUserInfoBinding> {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onTimelineSelected() {
+        FragmentHelper.replaceWithCallback(this, new TimeLineFragment(), R.id.fragment_container);
     }
 }

@@ -39,7 +39,7 @@ public class SupportImageView extends android.support.v7.widget.AppCompatImageVi
         attr.recycle();
 
         int tintColor = ColorUtils.isDarkTheme(getContext()) ? darkThemeTintColor : lightThemeTintColor;
-        setImageDrawable(ColorUtils.tintDrawable(getDrawable(), tintColor));
+        if (getDrawable() != null) setImageDrawable(ColorUtils.tintDrawable(getDrawable(), tintColor));
     }
 
     public int getLightThemeTintColor() {
@@ -60,6 +60,6 @@ public class SupportImageView extends android.support.v7.widget.AppCompatImageVi
 
     public void setTheme(boolean isDarkTheme) {
         int tintColor = isDarkTheme ? darkThemeTintColor : lightThemeTintColor;
-        setImageDrawable(ColorUtils.tintDrawable(getDrawable(), tintColor));
+        if (getDrawable() != null) setImageDrawable(ColorUtils.tintDrawable(getDrawable(), tintColor));
     }
 }
