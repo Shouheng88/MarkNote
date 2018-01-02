@@ -64,16 +64,16 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     private final int REQUEST_TRASH = 0x0004;
     private final int REQUEST_USER_INFO = 0x0005;
 
+    private long onBackPressed;
+
     private PreferencesUtils preferencesUtils;
-
-    private NotebookEditDialog notebookEditDialog;
-
-    private RecyclerView.OnScrollListener onScrollListener;
 
     // TODO bug when reopen the activity
     private MindSnaggingDialog mindSnaggingDialog;
-
+    private NotebookEditDialog notebookEditDialog;
     private AttachmentPickerDialog attachmentPickerDialog;
+
+    private RecyclerView.OnScrollListener onScrollListener;
 
     @Override
     protected int getLayoutResId() {
@@ -361,7 +361,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
 
     private boolean isDashboard() {
         Fragment currentFragment = getCurrentFragment();
-        return currentFragment instanceof NotesFragment;
+        return currentFragment instanceof NotesFragment || currentFragment instanceof SnaggingsFragment;
     }
     // endregion
 
@@ -408,12 +408,12 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
             if (getBinding().drawerLayout.isDrawerOpen(GravityCompat.START)){
                 getBinding().drawerLayout.closeDrawer(GravityCompat.START);
             } else {
-                if (isNotesFragment()){
-                    if (getBinding().menu.isOpened()) {
-                        getBinding().menu.close(true);
-                        return;
-                    }
-                    super.onBackPressed();
+                if (getBinding().menu.isOpened()) {
+                    getBinding().menu.close(true);
+                    return;
+                }
+                if (isNotesFragment()) {
+                    againExit();
                 } else {
                     toNotesFragment();
                 }
@@ -421,6 +421,17 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         } else {
             super.onBackPressed();
         }
+    }
+
+    private void againExit() {
+        long TIME_INTERVAL_BACK = 2000;
+        if (onBackPressed + TIME_INTERVAL_BACK > System.currentTimeMillis()) {
+            super.onBackPressed();
+            return;
+        } else {
+            ToastUtils.makeToast(this, R.string.text_tab_again_exit);
+        }
+        onBackPressed = System.currentTimeMillis();
     }
 
     @Override
