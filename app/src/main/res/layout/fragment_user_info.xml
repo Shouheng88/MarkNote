@@ -353,7 +353,7 @@
                         android:src="@drawable/ic_power_settings_new_black_24dp"
                         style="@style/ProfilesCardItemIconStyle"/>
 
-                    <TextView
+                    <me.shouheng.notepal.widget.themed.SupportTextView
                         android:id="@+id/tv_logout"
                         android:text="@string/logout"
                         style="@style/ProfileTitleStyle"
