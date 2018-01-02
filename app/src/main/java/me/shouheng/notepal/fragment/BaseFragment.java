@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.databinding.ViewDataBinding;
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
+import android.webkit.WebView;
 
 import java.io.File;
 
@@ -82,6 +83,40 @@ public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFrag
                     Bitmap bitmap = ScreenShotHelper.shotRecyclerView(recyclerView, itemHeight);
                     return FileHelper.saveImageToGallery(getContext(), bitmap, true, file);
                 }
+                @Override
+                public void onAfter(boolean b) {
+                    pd.dismiss();
+                    if (b) {
+                        ToastUtils.makeToast(getActivity(), R.string.text_save_successfully);
+                        onGetScreenCutFile(file);
+                    } else {
+                        ToastUtils.makeToast(getActivity(), R.string.failed_to_create_file);
+                    }
+                }
+            }).start();
+        });
+    }
+
+    // todo bug
+    protected void createWebCapture(WebView webView) {
+        assert getActivity() != null;
+        PermissionUtils.checkStoragePermission((CommonActivity) getActivity(), () -> {
+            final ProgressDialog pd = new ProgressDialog(getContext());
+            pd.setTitle(R.string.capturing);
+            final File file = null;
+            new Invoker(new Callback(){
+                @Override
+                public void onBefore() {
+                    pd.setCancelable(false);
+                    pd.show();
+                }
+
+                @Override
+                public boolean onRun() {
+                    Bitmap bitmap = ScreenShotHelper.shotWebView(webView);
+                    return FileHelper.saveImageToGallery(getContext(), bitmap, true, file);
+                }
+
                 @Override
                 public void onAfter(boolean b) {
                     pd.dismiss();

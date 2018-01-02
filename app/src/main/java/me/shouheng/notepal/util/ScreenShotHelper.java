@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.LruCache;
 import android.view.View;
+import android.webkit.WebView;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -212,5 +213,16 @@ public class ScreenShotHelper {
         }
 
         return bigBitmap;
+    }
+
+    public static Bitmap shotWebView(WebView mWebView) {
+        float scale = mWebView.getScale();
+        Log.e("scale:", scale + "");
+        int width = mWebView.getWidth();
+        int height = (int) (mWebView.getContentHeight() * scale + 0.5);
+        Bitmap longImage = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+        Canvas canvas = new Canvas(longImage);
+        mWebView.draw(canvas);
+        return longImage;
     }
 }

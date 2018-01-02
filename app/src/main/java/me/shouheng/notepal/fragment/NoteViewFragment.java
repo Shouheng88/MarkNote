@@ -37,7 +37,7 @@ import me.shouheng.notepal.util.ToastUtils;
 
 /**
  * Created by wangshouheng on 2017/5/13.*/
-public class NoteViewFragment extends CommonFragment<FragmentNoteViewBinding> {
+public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
 
     private final int REQUEST_FOR_EDIT = 0x01;
 
@@ -170,6 +170,9 @@ public class NoteViewFragment extends CommonFragment<FragmentNoteViewBinding> {
                 break;
             case R.id.action_share:
                 ModelHelper.share(getContext(), note.getTitle(), content, new ArrayList<>());
+                break;
+            case R.id.capture:
+                createWebCapture(getBinding().mdView);
                 break;
             case R.id.print:
                 PrintUtils.print(getContext(), getBinding().mdView, note);
