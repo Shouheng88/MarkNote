@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -106,6 +108,18 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
                 }
             }
         });
+        adapter.setOnItemChildClickListener((adapter, view, position) -> {
+            NotesAdapter.MultiItem item = (NotesAdapter.MultiItem) adapter.getData().get(position);
+            switch (view.getId()) {
+                case R.id.iv_more:
+                    if (item.itemType == NotesAdapter.MultiItem.ITEM_TYPE_NOTE) {
+                        popNoteMenu(view);
+                    } else if (item.itemType == NotesAdapter.MultiItem.ITEM_TYPE_NOTEBOOK) {
+                        popNotebookMenu(view);
+                    }
+                    break;
+            }
+        });
 
         getBinding().rvNotes.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST, isDarkTheme()));
         getBinding().rvNotes.setItemAnimator(new CustomItemAnimator());
@@ -113,6 +127,44 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
         if (scrollListener != null) getBinding().rvNotes.addOnScrollListener(scrollListener);
         getBinding().rvNotes.setEmptyView(getBinding().ivEmpty);
         getBinding().rvNotes.setAdapter(adapter);
+    }
+
+    private void popNoteMenu(View v) {
+        PopupMenu popupM = new PopupMenu(getContext(), v);
+        popupM.inflate(R.menu.pop_menu);
+        popupM.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()){
+                case R.id.action_trash:
+                    break;
+                case R.id.action_archive:
+                    break;
+                case R.id.action_move:
+                    break;
+                case R.id.action_edit:
+                    break;
+            }
+            return true;
+        });
+        popupM.show();
+    }
+
+    private void popNotebookMenu(View v) {
+        PopupMenu popupM = new PopupMenu(getContext(), v);
+        popupM.inflate(R.menu.pop_menu);
+        popupM.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()){
+                case R.id.action_trash:
+                    break;
+                case R.id.action_archive:
+                    break;
+                case R.id.action_move:
+                    break;
+                case R.id.action_edit:
+                    break;
+            }
+            return true;
+        });
+        popupM.show();
     }
 
     private List<NotesAdapter.MultiItem> getMultiItems() {

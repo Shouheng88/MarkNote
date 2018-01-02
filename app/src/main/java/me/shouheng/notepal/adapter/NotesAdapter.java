@@ -44,6 +44,7 @@ public class NotesAdapter extends BaseMultiItemQuickAdapter<NotesAdapter.MultiIt
                 convertNotebook(helper, item.notebook);
                 break;
         }
+        helper.addOnClickListener(R.id.iv_more);
     }
 
     private void convertNote(BaseViewHolder helper, Note note) {

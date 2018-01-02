@@ -65,6 +65,8 @@
     <string name="set_successfully">设置成功</string>
     <string name="items">类目</string>
     <string name="text_other_ways">其他方式</string>
+    <string name="text_trash">放进垃圾箱</string>
+    <string name="text_archived">归档</string>
     <!--endregion-->
 
     <!--region drawer menu-->
@@ -123,6 +125,7 @@
     <string name="notebook_name">笔记本名称</string>
     <string name="pick_notebook_color">选择笔记本的颜色</string>
     <string name="notes_list_empty">笔记列表为空</string>
+    <string name="move_to_another_notebook">移动到其他笔记本</string>
     <!--endregion-->
 
     <!--region attachment-->
