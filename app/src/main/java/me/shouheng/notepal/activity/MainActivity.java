@@ -413,7 +413,11 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                     return;
                 }
                 if (isNotesFragment()) {
-                    againExit();
+                    if (((NotesFragment) getCurrentFragment()).isTopStack()) {
+                        againExit();
+                    } else {
+                        super.onBackPressed();
+                    }
                 } else {
                     toNotesFragment();
                 }

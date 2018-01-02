@@ -203,6 +203,10 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
         return notebook;
     }
 
+    public boolean isTopStack() {
+        return isTopStack;
+    }
+
     @Override
     public void onActivityCreated(@android.support.annotation.Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
