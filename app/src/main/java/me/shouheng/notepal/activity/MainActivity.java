@@ -60,7 +60,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
 
     private final int REQUEST_FAB_SORT = 0x0001;
     private final int REQUEST_ADD_NOTE = 0x0002;
-    private final int REQUSET_ARCHIVE = 0x0003;
+    private final int REQUEST_ARCHIVE = 0x0003;
     private final int REQUEST_TRASH = 0x0004;
     private final int REQUEST_USER_INFO = 0x0005;
 
@@ -326,7 +326,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                     toSnaggingsFragment(true);
                     break;
                 case R.id.nav_archive:
-                    startActivityForResult(ArchiveActivity.class, REQUSET_ARCHIVE);
+                    startActivityForResult(ArchiveActivity.class, REQUEST_ARCHIVE);
                     break;
                 case R.id.nav_trash:
                     startActivityForResult(TrashedActivity.class, REQUEST_TRASH);
@@ -395,7 +395,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                     break;
                 case REQUEST_TRASH:
                     break;
-                case REQUSET_ARCHIVE:
+                case REQUEST_ARCHIVE:
                     break;
             }
         }
