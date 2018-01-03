@@ -7,8 +7,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ActionMode;
 import android.text.TextUtils;
-import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -184,7 +184,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_find:
-                getActivity().startActionMode(new ActionModeCallback());
+                ((AppCompatActivity) getActivity()).startSupportActionMode(new ActionModeCallback());
                 break;
             case R.id.action_edit:
                 ContentActivity.startNoteEditForResult(this, note, null, REQUEST_FOR_EDIT);
@@ -221,7 +221,6 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
 
         @Override
         public void onDestroyActionMode(ActionMode actionMode) {
-
         }
     }
 
