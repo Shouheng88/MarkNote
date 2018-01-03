@@ -198,6 +198,22 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
             case R.id.print:
                 PrintUtils.print(getContext(), getBinding().mdView, note);
                 break;
+                // todo let the setting affect
+            case R.id.font_cursive:
+                getBinding().mdView.getSettings().setCursiveFontFamily("cursive");
+                break;
+            case R.id.font_fantasy:
+                getBinding().mdView.getSettings().setFantasyFontFamily("fantasy");
+                break;
+            case R.id.font_fixed:
+                getBinding().mdView.getSettings().setFixedFontFamily("monospace");
+                break;
+            case R.id.font_sans_serif:
+                getBinding().mdView.getSettings().setSansSerifFontFamily("sans-serif");
+                break;
+            case R.id.font_serif:
+                getBinding().mdView.getSettings().setSerifFontFamily("sans-serif");
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

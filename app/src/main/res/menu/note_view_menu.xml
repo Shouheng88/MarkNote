@@ -16,6 +16,24 @@
         android:title="@string/text_edit"
         app:showAsAction="never"/>
 
+    <item android:id="@+id/action_fonts"
+        android:title="@string/text_font">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item android:id="@+id/font_cursive"
+                    android:title="cursive" />
+                <item android:id="@+id/font_fantasy"
+                    android:title="fantasy" />
+                <item android:id="@+id/font_fixed"
+                    android:title="fixed" />
+                <item android:id="@+id/font_sans_serif"
+                    android:title="sansserif" />
+                <item android:id="@+id/font_serif"
+                    android:title="seriffont" />
+            </group>
+        </menu>
+    </item>
+
     <item android:id="@+id/action_share"
         android:title="@string/text_share"
         app:showAsAction="never"/>
