@@ -7,7 +7,6 @@ import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.LruCache;
 import android.view.View;
 import android.webkit.WebView;
@@ -215,14 +214,23 @@ public class ScreenShotHelper {
         return bigBitmap;
     }
 
-    public static Bitmap shotWebView(WebView mWebView) {
-        float scale = mWebView.getScale();
-        Log.e("scale:", scale + "");
-        int width = mWebView.getWidth();
-        int height = (int) (mWebView.getContentHeight() * scale + 0.5);
-        Bitmap longImage = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
-        Canvas canvas = new Canvas(longImage);
-        mWebView.draw(canvas);
-        return longImage;
+    public static Bitmap shotWebView(WebView webView) {
+        webView.measure(View.MeasureSpec.makeMeasureSpec(
+                View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+        webView.layout(0, 0, webView.getMeasuredWidth(),
+                webView.getMeasuredHeight());
+        webView.setDrawingCacheEnabled(true);
+        webView.buildDrawingCache();
+
+        Bitmap bm = Bitmap.createBitmap(webView.getMeasuredWidth(),
+                webView.getMeasuredHeight(), Bitmap.Config.RGB_565);
+
+        Canvas bigcanvas = new Canvas(bm);
+        Paint paint = new Paint();
+        int iHeight = bm.getHeight();
+        bigcanvas.drawBitmap(bm, 0, iHeight, paint);
+        webView.draw(bigcanvas);
+        return  bm;
     }
 }
