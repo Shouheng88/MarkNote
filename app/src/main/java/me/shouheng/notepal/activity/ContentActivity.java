@@ -1,12 +1,14 @@
 package me.shouheng.notepal.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.View;
 
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
 import com.afollestad.materialdialogs.color.ColorChooserDialog.ColorCallback;
@@ -28,44 +30,45 @@ import me.shouheng.notepal.util.ToastUtils;
 
 public class ContentActivity extends CommonActivity<ActivityContentBinding> implements ColorCallback {
 
+    private final static String EXTRA_HAS_TOOLBAR = "extra_has_toolbar";
+
+    private boolean hasToolbar = false;
+
     public static void startNoteEditForResult(Fragment fragment, @NonNull Note note, Integer position, @NonNull Integer requestCode){
-        Intent intent = new Intent(fragment.getContext(), ContentActivity.class);
-        intent.putExtra(Constants.EXTRA_MODEL, (Serializable) note);
-        intent.putExtra(Constants.EXTRA_POSITION, position);
-        intent.putExtra(Constants.EXTRA_REQUEST_CODE, requestCode);
-        intent.putExtra(Constants.EXTRA_START_TYPE, Constants.VALUE_START_EDIT);
-        intent.putExtra(Constants.EXTRA_FRAGMENT, Constants.VALUE_FRAGMENT_NOTE);
-        fragment.startActivityForResult(intent, requestCode);
+        fragment.startActivityForResult(getNoteEditIntent(fragment.getContext(), note, position, requestCode), requestCode);
     }
 
     public static void startNoteViewForResult(Fragment fragment, @NonNull Note note, Integer position, @NonNull Integer requestCode){
-        Intent intent = new Intent(fragment.getContext(), ContentActivity.class);
+        fragment.startActivityForResult(getNoteViewIntent(fragment.getContext(), note, position, requestCode), requestCode);
+    }
+
+    public static void startNoteEditForResult(Activity activity, @NonNull Note note, Integer position, @NonNull Integer requestCode){
+        activity.startActivityForResult(getNoteEditIntent(activity, note, position, requestCode), requestCode);
+    }
+
+    public static void startNoteViewForResult(Activity activity, @NonNull Note note, Integer position, @NonNull Integer requestCode){
+        activity.startActivityForResult(getNoteViewIntent(activity, note, position, requestCode), requestCode);
+    }
+
+    private static Intent getNoteViewIntent(Context context, @NonNull Note note, Integer position, @NonNull Integer requestCode) {
+        Intent intent = new Intent(context, ContentActivity.class);
         intent.putExtra(Constants.EXTRA_MODEL, (Serializable) note);
         intent.putExtra(Constants.EXTRA_POSITION, position);
         intent.putExtra(Constants.EXTRA_REQUEST_CODE, requestCode);
         intent.putExtra(Constants.EXTRA_START_TYPE, Constants.VALUE_START_VIEW);
         intent.putExtra(Constants.EXTRA_FRAGMENT, Constants.VALUE_FRAGMENT_NOTE);
-        fragment.startActivityForResult(intent, requestCode);
+        intent.putExtra(EXTRA_HAS_TOOLBAR, true);
+        return intent;
     }
 
-    public static void startNoteEditForResult(Activity activity, @NonNull Note note, Integer position, @NonNull Integer requestCode){
-        Intent intent = new Intent(activity, ContentActivity.class);
+    private static Intent getNoteEditIntent(Context context, @NonNull Note note, Integer position, @NonNull Integer requestCode) {
+        Intent intent = new Intent(context, ContentActivity.class);
         intent.putExtra(Constants.EXTRA_MODEL, (Serializable) note);
         intent.putExtra(Constants.EXTRA_POSITION, position);
         intent.putExtra(Constants.EXTRA_REQUEST_CODE, requestCode);
         intent.putExtra(Constants.EXTRA_START_TYPE, Constants.VALUE_START_EDIT);
         intent.putExtra(Constants.EXTRA_FRAGMENT, Constants.VALUE_FRAGMENT_NOTE);
-        activity.startActivityForResult(intent, requestCode);
-    }
-
-    public static void startNoteViewForResult(Activity activity, @NonNull Note note, Integer position, @NonNull Integer requestCode){
-        Intent intent = new Intent(activity, ContentActivity.class);
-        intent.putExtra(Constants.EXTRA_MODEL, (Serializable) note);
-        intent.putExtra(Constants.EXTRA_POSITION, position);
-        intent.putExtra(Constants.EXTRA_REQUEST_CODE, requestCode);
-        intent.putExtra(Constants.EXTRA_START_TYPE, Constants.VALUE_START_VIEW);
-        intent.putExtra(Constants.EXTRA_FRAGMENT, Constants.VALUE_FRAGMENT_NOTE);
-        activity.startActivityForResult(intent, requestCode);
+        return intent;
     }
 
     @Override
@@ -76,6 +79,8 @@ public class ContentActivity extends CommonActivity<ActivityContentBinding> impl
     @Override
     protected void doCreateView(Bundle savedInstanceState) {
         handleIntent();
+
+        configToolbar();
     }
 
     private void handleIntent() {
@@ -94,6 +99,14 @@ public class ContentActivity extends CommonActivity<ActivityContentBinding> impl
                 ToastUtils.makeToast(this, R.string.content_failed_to_parse_intent);
                 finish();
                 break;
+        }
+    }
+
+    private void configToolbar() {
+        Intent intent = getIntent();
+        if (intent.hasExtra(EXTRA_HAS_TOOLBAR) && intent.getBooleanExtra(EXTRA_HAS_TOOLBAR, false)) {
+            getBinding().bar.setVisibility(View.VISIBLE);
+            setSupportActionBar(getBinding().bar.findViewById(R.id.toolbar));
         }
     }
 

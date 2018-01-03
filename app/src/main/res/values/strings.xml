@@ -23,6 +23,9 @@
     <string name="text_delete">删除</string>
     <string name="text_delete_still">仍然删除</string>
     <string name="text_edit">编辑</string>
+    <string name="text_find">查找</string>
+    <string name="text_next">下一个</string>
+    <string name="text_last">上一个</string>
     <string name="text_failed_to_get_location">获取位置信息失败</string>
     <string name="text_give_up">放弃</string>
     <string name="text_illegal_label">标签中不允许添加分号(;)</string>
