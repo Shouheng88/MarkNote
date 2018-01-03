@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -103,7 +104,6 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
     }
 
     private void configToolbar() {
-        ((AppCompatActivity) getActivity()).setSupportActionBar(getBinding().toolbar);
         final ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
         if (ab != null) ab.setDisplayHomeAsUpEnabled(false);
         if (!isDarkTheme()) getBinding().toolbar.setPopupTheme(R.style.AppTheme_PopupOverlay);
@@ -183,6 +183,9 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
+            case R.id.action_find:
+                getActivity().startActionMode(new ActionModeCallback());
+                break;
             case R.id.action_edit:
                 ContentActivity.startNoteEditForResult(this, note, null, REQUEST_FOR_EDIT);
                 break;
@@ -197,6 +200,29 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private class ActionModeCallback implements ActionMode.Callback {
+        @Override
+        public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+            actionMode.getMenuInflater().inflate(R.menu.note_find_action, menu);
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+            return false;
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode actionMode) {
+
+        }
     }
 
     @Override
