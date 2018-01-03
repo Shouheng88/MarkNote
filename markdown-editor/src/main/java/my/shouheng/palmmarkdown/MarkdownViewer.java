@@ -2,6 +2,7 @@ package my.shouheng.palmmarkdown;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
@@ -17,9 +18,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import my.shouheng.palmmarkdown.tools.GenieUtils;
+
 /**
  * Created by wangshouheng on 2017/6/29. */
-public class MarkdownViewer extends WebView{
+public class MarkdownViewer extends WebView {
 
     private static final String TAG = "MarkdownViewer";
 
@@ -28,7 +31,15 @@ public class MarkdownViewer extends WebView{
 
     private OnLoadingFinishListener mLoadingFinishListener;
     private OnImageClickedListener onImageClickedListener;
+    private OnAttachmentClickedListener onAttachmentClickedListener;
 
+    private static final String VIDEO_MIME_TYPE = "video/*";
+    private static final String SCHEME_HTTPS = "https";
+    private static final String SCHEME_HTTP = "http";
+    private static final String PDF_MIME_TYPE = "application/pdf";
+    private static final String _3GP = ".3gp";
+    private static final String _MP4 = ".mp4";
+    private static final String _PDF = ".pdf";
 
     public MarkdownViewer(Context context) {
         super(context);
@@ -90,6 +101,9 @@ public class MarkdownViewer extends WebView{
         this.onImageClickedListener = onImageClickedListener;
     }
 
+    public void setOnAttachmentClickedListener(OnAttachmentClickedListener onAttachmentClickedListener) {
+        this.onAttachmentClickedListener = onAttachmentClickedListener;
+    }
 
     private String readJS(String fileName) {
         try {
@@ -125,26 +139,51 @@ public class MarkdownViewer extends WebView{
 
         @Override
         public final void onReceivedError(WebView webView, int i, String str, String str2) {
-            new StringBuilder("onReceivedError :errorCode:")
-                    .append(i)
-                    .append("description:")
-                    .append(str)
-                    .append("failingUrl")
-                    .append(str2);
+            Log.e(TAG, "onReceivedError :errorCode:" + i + "description:" + str + "failingUrl" + str2);
         }
 
         @Override
         public final boolean shouldOverrideUrlLoading(WebView webView, String url) {
+            Log.d(TAG, "shouldOverrideUrlLoading: " + url);
             if (!TextUtils.isEmpty(url)){
-                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-                CustomTabsIntent customTabsIntent = builder
-                        .setToolbarColor(primaryColor)
-                        .setSecondaryToolbarColor(primaryDark)
-                        .build();
-                customTabsIntent.launchUrl(webView.getContext(), Uri.parse(url));
+                Uri uri = Uri.parse(url);
+                // open the http or https link
+                if (SCHEME_HTTPS.equalsIgnoreCase(uri.getScheme())
+                        || SCHEME_HTTP.equalsIgnoreCase(uri.getScheme())) {
+                    CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                    CustomTabsIntent customTabsIntent = builder
+                            .setToolbarColor(primaryColor)
+                            .setSecondaryToolbarColor(primaryDark)
+                            .build();
+                    customTabsIntent.launchUrl(webView.getContext(), Uri.parse(url));
+                }
+                // open the resources
+                if (url.endsWith(_3GP) || url.endsWith(_MP4)) {
+                    startActivity(uri, VIDEO_MIME_TYPE);
+                    return true;
+                } else if (url.endsWith(_PDF)) {
+                    startActivity(uri, PDF_MIME_TYPE);
+                    return true;
+                } else {
+                    startActivity(uri);
+                    return true;
+                }
             }
             return true;
         }
+    }
+
+    private void startActivity(Uri uri) {
+        if (onAttachmentClickedListener != null) {
+            onAttachmentClickedListener.onAttachmentClicked(uri);
+        }
+    }
+
+    private void startActivity(Uri uri, String mimeType) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.setDataAndType(uri, mimeType);
+        GenieUtils.startActivityFailSafe(getContext(), intent);
     }
 
     private final class JavaScriptInterface {
@@ -168,5 +207,9 @@ public class MarkdownViewer extends WebView{
 
     public interface OnLoadingFinishListener {
         void onLoadingFinish();
+    }
+
+    public interface OnAttachmentClickedListener {
+        void onAttachmentClicked(Uri uri);
     }
 }

@@ -365,8 +365,19 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
             setContentChanged();
             loadPreviewImage();
         } else {
-            getBinding().main.etContent.setEffect(MarkdownEffect.IMAGE, "image" , attachment.getUri().toString());
+            if (Constants.MIME_TYPE_IMAGE.equalsIgnoreCase(attachment.getMineType())) {
+                getBinding().main.etContent.setEffect(MarkdownEffect.IMAGE, "image" , attachment.getUri().toString());
+            } else {
+                getBinding().main.etContent.setEffect(MarkdownEffect.LINK, getAttachmentTitle(attachment.getPath()), attachment.getUri().toString());
+            }
         }
+    }
+
+    private String getAttachmentTitle(String path) {
+        if (!TextUtils.isEmpty(path) && path.contains("/")) {
+            return path.substring(path.lastIndexOf('/') + 1, path.length());
+        }
+        return getString(R.string.text_attachment);
     }
 
     private void loadPreviewImage() {

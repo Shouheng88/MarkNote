@@ -30,10 +30,12 @@ import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.provider.AttachmentsStore;
 import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.util.ColorUtils;
+import me.shouheng.notepal.util.IntentChecker;
 import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.ModelHelper;
 import me.shouheng.notepal.util.PrintUtils;
 import me.shouheng.notepal.util.ToastUtils;
+import my.shouheng.palmmarkdown.dialog.OpenResolver;
 
 /**
  * Created by wangshouheng on 2017/5/13.*/
@@ -122,6 +124,22 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
             AttachmentHelper.resolveClickEvent(getContext(),
                     clickedAttachment, attachments, note.getTitle());
         });
+        getBinding().mdView.setOnAttachmentClickedListener(uri -> {
+            OpenResolver.newInstance(mimeType -> {
+                startActivity(uri, mimeType.mimeType);
+            }).show(getFragmentManager(), "open resolver");
+        });
+    }
+
+    private void startActivity(Uri uri, String mimeType) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.setDataAndType(uri, mimeType);
+        if (IntentChecker.isAvailable(getContext(), intent, null)) {
+            startActivity(intent);
+        } else {
+            ToastUtils.makeToast(getContext(), R.string.activity_not_found_to_resolve);
+        }
     }
 
     private void refreshLayout(boolean reload){
