@@ -97,7 +97,6 @@ public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFrag
         });
     }
 
-    // todo bug
     protected void createWebCapture(WebView webView) {
         assert getActivity() != null;
         PermissionUtils.checkStoragePermission((CommonActivity) getActivity(), () -> {
