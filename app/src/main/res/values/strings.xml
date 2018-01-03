@@ -19,6 +19,7 @@
     <string name="text_create_new">新建</string>
     <string name="text_comment">备注</string>
     <string name="text_cancel">取消</string>
+    <string name="text_close">关闭</string>
     <string name="text_created_time">创建时间</string>
     <string name="text_delete">删除</string>
     <string name="text_delete_still">仍然删除</string>

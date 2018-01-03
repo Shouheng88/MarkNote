@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
+import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -177,15 +178,14 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.note_view_menu, menu);
+        MenuItem searchItem = menu.findItem(R.id.action_find);
+        initSearchView((SearchView) searchItem.getActionView());
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.action_find:
-                ((AppCompatActivity) getActivity()).startSupportActionMode(new ActionModeCallback());
-                break;
             case R.id.action_edit:
                 ContentActivity.startNoteEditForResult(this, note, null, REQUEST_FOR_EDIT);
                 break;
@@ -202,6 +202,25 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
         return super.onOptionsItemSelected(item);
     }
 
+    private void initSearchView(SearchView searchView) {
+        if (searchView != null) {
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    getBinding().mdView.findAllAsync(query);
+                    ((AppCompatActivity) getActivity()).startSupportActionMode(new ActionModeCallback());
+                    return true;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    return false;
+                }
+            });
+        }
+    }
+
     private class ActionModeCallback implements ActionMode.Callback {
         @Override
         public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
@@ -216,11 +235,23 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
 
         @Override
         public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
-            return false;
+            switch (menuItem.getItemId()) {
+                case R.id.action_close:
+                    actionMode.finish();
+                    break;
+                case R.id.action_next:
+                    getBinding().mdView.findNext(true);
+                    break;
+                case R.id.action_last:
+                    getBinding().mdView.findNext(false);
+                    break;
+            }
+            return true;
         }
 
         @Override
         public void onDestroyActionMode(ActionMode actionMode) {
+            getBinding().mdView.clearMatches();
         }
     }
 
