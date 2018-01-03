@@ -3,9 +3,22 @@
 
     <!--BASIC THEME START-->
     <style name="Colorful.Light" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item></style>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="android:windowActionModeOverlay">true</item>
+    </style>
     <style name="Colorful.Dark" parent="Theme.AppCompat.NoActionBar">
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item></style>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="android:windowActionModeOverlay">true</item>
+        <!--<item name="actionModeStyle">@style/ActionModeDark</item>-->
+        <!--<item name="android:actionModeStyle">@style/ActionModeDark</item>-->
+    </style>
+
+    <style name="ActionModeDark" parent="Widget.AppCompat.ActionMode">
+        <item name="android:background">@color/dark_theme_foreground</item>
+        <item name="background">@color/dark_theme_foreground</item>
+    </style>
     <!--BASIC THEME END-->
 
     <!--Palm College Theme Start-->

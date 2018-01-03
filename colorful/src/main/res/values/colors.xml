@@ -38,8 +38,10 @@
     <color name="theme_old_10">#2574a9</color>
     <color name="theme_old_10_dark">#216897</color>
     <!--My Study Life Item Color End-->
-    
-    
+
+    <color name="dark_theme_background">#2e2e2e</color>
+    <color name="dark_theme_foreground">#3f3f3f</color>
+
     <!-- google's material design colours from    
     http://www.google.com/design/spec/style/color.html#color-ui-color-palette -->
     
