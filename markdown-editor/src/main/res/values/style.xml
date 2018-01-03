@@ -3,7 +3,6 @@
 
     <style name="OpenResolver">
         <item name="android:drawablePadding">13dp</item>
-        <item name="android:drawableTint">#bbb</item>
         <item name="android:paddingStart">13dp</item>
         <item name="android:background">?attr/selectableItemBackground</item>
         <item name="android:textSize">16sp</item>
