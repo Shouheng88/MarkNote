@@ -17,6 +17,7 @@
         app:showAsAction="never"/>
 
     <item android:id="@+id/action_fonts"
+        android:visible="false"
         android:title="@string/text_font">
         <menu>
             <group>
