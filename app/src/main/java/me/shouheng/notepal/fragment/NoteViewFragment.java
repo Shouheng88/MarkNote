@@ -198,7 +198,6 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
             case R.id.print:
                 PrintUtils.print(getContext(), getBinding().mdView, note);
                 break;
-                // todo let the setting affect
             case R.id.font_cursive:
                 getBinding().mdView.getSettings().setCursiveFontFamily("cursive");
                 break;
