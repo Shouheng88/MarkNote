@@ -3,11 +3,10 @@
     android:layout_width="32dp"
     android:layout_height="32dp">
 
-    <ImageView
+    <me.shouheng.notepal.widget.CircleImageView
         android:id="@+id/color_view"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:layout_gravity="center"
-        android:scaleType="fitXY" />
+        android:layout_gravity="center" />
 
 </FrameLayout>

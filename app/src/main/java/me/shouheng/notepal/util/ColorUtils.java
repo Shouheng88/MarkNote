@@ -88,4 +88,12 @@ public class ColorUtils {
         blue = (int) (blue * a + 0.5);
         return 0xff << 24 | red << 16 | green << 8 | blue;
     }
+
+    public static int parseColor(String colorHex, int defaultValue) {
+        try {
+            return Color.parseColor(colorHex);
+        } catch (Exception e) {
+            return defaultValue;
+        }
+    }
 }

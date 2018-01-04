@@ -15,6 +15,7 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.ActivitySettingsBinding;
 import me.shouheng.notepal.fragment.PrimaryPickerFragment;
 import me.shouheng.notepal.fragment.SettingsFragment;
+import me.shouheng.notepal.listener.OnFragmentDestroyListener;
 import me.shouheng.notepal.listener.OnThemeSelectedListener;
 import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.FragmentHelper;
@@ -22,7 +23,7 @@ import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.ToastUtils;
 
 public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> implements
-        SettingsFragment.OnPreferenceClickListener, OnThemeSelectedListener {
+        SettingsFragment.OnPreferenceClickListener, OnThemeSelectedListener, OnFragmentDestroyListener {
 
     private String keyForColor;
 
@@ -69,12 +70,18 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> im
         switch (keyForColor) {
             case PreferencesUtils.ACCENT_COLOR:
                 setupTheme(dialog, selectedColor);
+                if (isSettingsFragment()) ((SettingsFragment) getCurrentFragment())
+                        .notifyAccentColorChanged(selectedColor);
                 break;
             case PreferencesUtils.DEFAULT_NOTE_COLOR:
                 preferencesUtils.setDefaultNoteColor(selectedColor);
+                if (isSettingsFragment()) ((SettingsFragment) getCurrentFragment())
+                        .notifyNoteColorChanged(selectedColor);
                 break;
             case PreferencesUtils.DEFAULT_NOTEBOOK_COLOR:
                 preferencesUtils.setDefaultNotebookColor(selectedColor);
+                if (isSettingsFragment()) ((SettingsFragment) getCurrentFragment())
+                        .notifyNotebookColorChanged(selectedColor);
                 break;
         }
     }
@@ -87,6 +94,14 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> im
         ToastUtils.makeToast(this, R.string.set_successfully);
     }
 
+    private boolean isSettingsFragment() {
+        return getCurrentFragment() instanceof SettingsFragment;
+    }
+
+    private android.app.Fragment getCurrentFragment() {
+        return getFragmentManager().findFragmentById(R.id.fragment_container);
+    }
+
     @Override
     public void onPreferenceClick(String key) {
         keyForColor = key;
@@ -96,10 +111,10 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> im
                         PrimaryPickerFragment.newInstance(), R.id.fragment_container);
                 break;
             case PreferencesUtils.DEFAULT_NOTE_COLOR:
-                showPrimaryColorPicker(R.string.setting_set_default_note_color);
+                showPrimaryColorPicker(R.string.setting_set_default_note_color, preferencesUtils.getDefaultNoteColor());
                 break;
             case PreferencesUtils.DEFAULT_NOTEBOOK_COLOR:
-                showPrimaryColorPicker(R.string.setting_set_default_notebook_color);
+                showPrimaryColorPicker(R.string.setting_set_default_notebook_color, preferencesUtils.getDefaultNotebookColor());
                 break;
             case PreferencesUtils.ACCENT_COLOR:
                 showAccentColorPicker();
@@ -110,11 +125,13 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> im
     @Override
     public void onThemeSelected(Colorful.ThemeColor themeColor) {
         getBinding().bar.findViewById(R.id.toolbar).setBackgroundColor(primaryColor());
+        if (isSettingsFragment()) ((SettingsFragment) getCurrentFragment())
+                .notifyPrimaryColorChanged(getResources().getColor(themeColor.getColorRes()));
     }
 
-    private void showPrimaryColorPicker(@StringRes int titleRes) {
+    private void showPrimaryColorPicker(@StringRes int titleRes, int defaultValue) {
         new ColorChooserDialog.Builder(this, titleRes)
-                .preselect(ColorUtils.primaryColor(this))
+                .preselect(defaultValue)
                 .accentMode(false)
                 .titleSub(titleRes)
                 .backButton(R.string.text_back)
@@ -134,5 +151,10 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> im
                 .doneButton(R.string.done_label)
                 .cancelButton(R.string.text_cancel)
                 .show();
+    }
+
+    @Override
+    public void onFragmentDestroy() {
+        getSupportActionBar().setTitle(R.string.text_settings);
     }
 }
