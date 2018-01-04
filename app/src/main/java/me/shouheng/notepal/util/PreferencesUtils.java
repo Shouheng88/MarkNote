@@ -34,6 +34,7 @@ public class PreferencesUtils {
     private final String FAB_SORT_RESULT = "fab_sort_result";
     private final String FAB_SORT_SPLIT = ":";
     private final String LIST_ANIMATION = "list_animation";
+    private final String SYSTEM_ANIMATION = "system_animation";
 
     private final String MIND_SNAGGINGS_LIST_TYPE = "mind_snaggings_list_type";
 
@@ -159,6 +160,14 @@ public class PreferencesUtils {
 
     public boolean listAnimationEnabled() {
         return getBooleanValue(LIST_ANIMATION, true);
+    }
+
+    public void enableSystemAnimation(boolean enable){
+        putBooleanValue(SYSTEM_ANIMATION, enable);
+    }
+
+    public boolean systemAnimationEnabled() {
+        return getBooleanValue(SYSTEM_ANIMATION, true);
     }
 
     public void setVideoSizeLimit(int limit){
