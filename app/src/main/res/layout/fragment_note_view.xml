@@ -22,18 +22,11 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <android.support.v4.widget.NestedScrollView
+        <my.shouheng.palmmarkdown.MarkdownViewer
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/nested_scroll_view"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-            <my.shouheng.palmmarkdown.MarkdownViewer
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/md_view" />
-
-        </android.support.v4.widget.NestedScrollView>
+            android:id="@+id/md_view"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
     </android.support.design.widget.CoordinatorLayout>
 
