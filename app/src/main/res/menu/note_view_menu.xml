@@ -19,7 +19,7 @@
     <item android:id="@+id/action_fonts"
         android:title="@string/text_font">
         <menu>
-            <group android:checkableBehavior="single">
+            <group>
                 <item android:id="@+id/font_cursive"
                     android:title="cursive" />
                 <item android:id="@+id/font_fantasy"
