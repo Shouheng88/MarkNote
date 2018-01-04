@@ -5,7 +5,6 @@ import android.content.res.TypedArray;
 import android.preference.Preference;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.ImageView;
 
 import me.shouheng.notepal.R;
 
@@ -14,8 +13,6 @@ import me.shouheng.notepal.R;
 public class ColorPreference extends Preference {
 
     private int value;
-
-    private boolean primary;
 
     public ColorPreference(Context context) {
         super(context);
@@ -34,7 +31,7 @@ public class ColorPreference extends Preference {
 
     private void initAttrs(AttributeSet attrs, int defStyle) {
         TypedArray a = getContext().getTheme().obtainStyledAttributes(attrs, R.styleable.ColorPreference, defStyle, defStyle);
-        primary = a.getBoolean(R.styleable.ColorPreference_primary, true);
+//        isPrimary = a.getBoolean(R.styleable.ColorPreference_primary, true);
         a.recycle();
         setWidgetLayoutResource(R.layout.widget_pref_color_layout);
     }
@@ -42,31 +39,17 @@ public class ColorPreference extends Preference {
     @Override
     protected void onBindView(View view) {
         super.onBindView(view);
-        ImageView previewView = view.findViewById(R.id.color_view);
-//        ColorUtils.setColorViewValue(previewView, value, false, colorShape);
+        CircleImageView previewView = view.findViewById(R.id.color_view);
+        previewView.setFillingCircleColor(getValue());
     }
 
     public void setValue(int value) {
         if (callChangeListener(value)) {
             this.value = value;
-            persistInt(value);
+            if (isPersistent()) {
+                persistInt(value);
+            }
             notifyChanged();
-        }
-    }
-
-    @Override
-    protected void onClick() {
-        super.onClick();
-        if (primary) {
-
-        }
-    }
-
-    @Override
-    protected void onAttachedToActivity() {
-        super.onAttachedToActivity();
-        if (primary) {
-//            ColorUtils.attach(getContext(), this, getFragmentTag());
         }
     }
 
@@ -78,10 +61,6 @@ public class ColorPreference extends Preference {
     @Override
     protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
         setValue(restoreValue ? getPersistedInt(0) : (Integer) defaultValue);
-    }
-
-    public String getFragmentTag() {
-        return "color_" + getKey();
     }
 
     public int getValue() {

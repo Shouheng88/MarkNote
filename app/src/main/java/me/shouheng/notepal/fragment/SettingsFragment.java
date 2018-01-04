@@ -3,8 +3,6 @@ package me.shouheng.notepal.fragment;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.PreferenceFragment;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
@@ -44,6 +42,8 @@ public class SettingsFragment extends PreferenceFragment {
         primaryColor = (ColorPreference) findPreference(PreferencesUtils.PRIMARY_COLOR);
         accentColor = (ColorPreference) findPreference(PreferencesUtils.ACCENT_COLOR);
         coloredNavigationBar = (CheckBoxPreference) findPreference(PreferencesUtils.COLORED_NAVIGATION_BAR);
+        primaryColor.setValue(ColorUtils.primaryColor(getActivity()));
+        accentColor.setValue(ColorUtils.accentColor(getActivity()));
 
         noteColor = (ColorPreference) findPreference(PreferencesUtils.DEFAULT_NOTE_COLOR);
         notebookColor = (ColorPreference) findPreference(PreferencesUtils.DEFAULT_NOTEBOOK_COLOR);
@@ -118,11 +118,20 @@ public class SettingsFragment extends PreferenceFragment {
         ((ThemedActivity) getActivity()).reUpdateTheme();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        actionBar.setTitle(R.string.text_settings);
+    public void notifyAccentColorChanged(int accentColor) {
+        this.accentColor.setValue(accentColor);
+    }
+
+    public void notifyPrimaryColorChanged(int primaryColor) {
+        this.primaryColor.setValue(primaryColor);
+    }
+
+    public void notifyNoteColorChanged(int noteColor) {
+        this.noteColor.setValue(noteColor);
+    }
+
+    public void notifyNotebookColorChanged(int notebookColor) {
+        this.notebookColor.setValue(notebookColor);
     }
 
     public interface OnPreferenceClickListener {

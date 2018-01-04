@@ -11,6 +11,7 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.ThemedActivity;
 import me.shouheng.notepal.adapter.ThemesListAdapter;
 import me.shouheng.notepal.databinding.FragmentPrimaryPickerBinding;
+import me.shouheng.notepal.listener.OnFragmentDestroyListener;
 import me.shouheng.notepal.listener.OnThemeSelectedListener;
 import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.PreferencesUtils;
@@ -69,5 +70,13 @@ public class PrimaryPickerFragment extends BaseFragment<FragmentPrimaryPickerBin
         setStatusBarColor(ColorUtils.calStatusBarColor(primaryColor()));
 
         adapter.setSelectionChanged(themeColor);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (getActivity() instanceof OnFragmentDestroyListener) {
+            ((OnFragmentDestroyListener) getActivity()).onFragmentDestroy();
+        }
     }
 }
