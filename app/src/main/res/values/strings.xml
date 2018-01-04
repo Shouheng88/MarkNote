@@ -241,6 +241,14 @@
     <string name="no_notebook_available">没有可用的笔记本</string>
     <!--endregion-->
 
+    <!--region preference-->
+    <string name="setting_preference">用户偏好</string>
+    <string name="setting_system_animation">系统动画</string>
+    <string name="setting_system_animation_sub">在整个应用中启用系统动画</string>
+    <string name="setting_list_animation">列表动画</string>
+    <string name="setting_list_animation_sub">在整个应用中启用列表动画</string>
+    <!--endregion-->
+
     <!--region note settings-->
     <string name="setting_note">笔记设置</string>
     <string name="setting_default_note_file_extension">笔记的默认文件拓展名</string>
