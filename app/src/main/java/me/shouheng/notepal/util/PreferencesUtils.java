@@ -33,8 +33,6 @@ public class PreferencesUtils {
 
     private final String FAB_SORT_RESULT = "fab_sort_result";
     private final String FAB_SORT_SPLIT = ":";
-    private final String LIST_ANIMATION = "list_animation";
-    private final String SYSTEM_ANIMATION = "system_animation";
 
     private final String MIND_SNAGGINGS_LIST_TYPE = "mind_snaggings_list_type";
 
@@ -103,6 +101,9 @@ public class PreferencesUtils {
     // endregion
 
     // region preferences
+    private final String LIST_ANIMATION = "list_animation";
+    private final String SYSTEM_ANIMATION = "system_animation";
+
     public void setTourActivityShowed(boolean showed) {
         putBooleanValue(TOUR_ACTIVITY_SHOWED, showed);
     }
