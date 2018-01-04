@@ -203,6 +203,15 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
 
         getBinding().drawer.ivAddPreview.setOnClickListener(v -> showAttachmentPicker(AttachmentPickerType.PREVIEW_IMAGE));
         loadPreviewImage();
+
+        // todo add more features
+        getBinding().drawer.tvSettings.setOnClickListener(view -> {
+            String content = getBinding().main.etContent.getText().toString();
+            if (!TextUtils.isEmpty(content)) {
+                content = content.replace("\t", "    ");
+                getBinding().main.etContent.setText(content);
+            }
+        });
     }
 
     private TextWatcher textWatcher = new TextWatcher() {

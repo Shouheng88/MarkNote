@@ -166,7 +166,6 @@
                     android:drawablePadding="13dp"
                     android:paddingStart="13dp"
                     android:text="@string/text_settings"
-                    android:visibility="gone"
                     android:gravity="center_vertical"
                     android:layout_height="50dp" />
 

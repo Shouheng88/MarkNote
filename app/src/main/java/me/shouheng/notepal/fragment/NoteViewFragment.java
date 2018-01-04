@@ -220,6 +220,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
 
     private void initSearchView(SearchView searchView) {
         if (searchView != null) {
+            searchView.setQueryHint(getString(R.string.text_find_in_page));
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
                 @Override
