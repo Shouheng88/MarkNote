@@ -13,6 +13,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.chad.library.adapter.base.BaseViewHolder;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -199,6 +201,10 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.mind_snaggings, menu);
+        /**
+         * DISABLED FUNCTION REASON: the Glide in {@link MindSnaggingAdapter#convert(BaseViewHolder, Object)}
+         * must be called in the main thread. */
+//        inflater.inflate(R.menu.capture, menu);
     }
 
     @Override
@@ -210,6 +216,9 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
                 if (getActivity() instanceof OnSnagginsInteractListener) {
                     ((OnSnagginsInteractListener) getActivity()).onListTypeChanged(mindSnaggingListType);
                 }
+                break;
+            case R.id.action_capture:
+                createScreenCapture(getBinding().rv);
                 break;
         }
         return super.onOptionsItemSelected(item);
