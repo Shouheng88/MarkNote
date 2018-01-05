@@ -2,6 +2,8 @@ package me.shouheng.notepal.util;
 
 import android.text.TextUtils;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,6 +17,7 @@ public class StringUtils {
     private static final String SEP3 = "=";
     private static final Pattern VALID_EMAIL_ADDRESS_REGEX =
             Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+    private static final String DATE_FORMAT_EXPORT = "yyyy.MM.dd-HH.mm";
 
     public static String ListToString(List<?> list) {
         StringBuilder sb = new StringBuilder();
@@ -165,5 +168,10 @@ public class StringUtils {
             }
         }
         return sb.toString();
+    }
+
+    public static String getTimeFileName() {
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_EXPORT);
+        return sdf.format(Calendar.getInstance().getTime());
     }
 }

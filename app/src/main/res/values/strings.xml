@@ -254,8 +254,11 @@
     <!--region backup-->
     <string name="backup_to_external_storage">备份到手机外部存储空间</string>
     <string name="backup_to_external_storage_sub">备份在手机外部存储空间的数据在应用被卸载的时候不会被删除</string>
-    <string name="backup_no_backups_available">无可用备份</string>
+
+    <string name="backup_include_settings">包括设置（带密码）</string>
     <string name="backup_data_export_message">输入备份名称</string>
+    <string name="backup_data_export_name_empty">输入的名称为空，将使用默认名称</string>
+    <string name="backup_no_backups_available">无可用备份</string>
     <string name="backup_data_import_message">点击 -&gt; 还原\n长按 -&gt; 删除</string>
     <string name="backup_data_import_message_warning">警告：此操作将覆盖所有当前数据！</string>
     <string name="backup_data_export_completed">数据备份完成</string>
