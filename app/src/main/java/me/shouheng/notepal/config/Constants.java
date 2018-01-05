@@ -27,4 +27,6 @@ public class Constants {
 
     public final static String ACTION_SHORTCUT = "ACTION_SHORTCUT";
     public final static String ACTION_NOTIFICATION = "ACTION_NOTIFICATION";
+
+    public final static String ACTION_RESTART_APP = "action_restart_app";
 }

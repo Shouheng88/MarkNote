@@ -6,9 +6,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 /**
  * Created by wangshouheng on 2017/3/13. */
-class PalmDB extends SQLiteOpenHelper {
+public class PalmDB extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "PalmCollege.db";
+    public static final String DATABASE_NAME = "NotePal.db";
 
     private static final int VERSION = 1;
 
