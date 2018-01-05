@@ -35,6 +35,14 @@ public class FragmentHelper {
         transaction.replace(containerId, fragment).commit();
     }
 
+    public static void replaceWithCallback(AppCompatActivity activity, android.app.Fragment fragment, @IdRes int containerId) {
+        android.app.FragmentManager fragmentManager = activity.getFragmentManager();
+        android.app.FragmentTransaction transaction = fragmentManager.beginTransaction();
+        setCustomAnimations(transaction);
+        transaction.addToBackStack(null);
+        transaction.replace(containerId, fragment).commit();
+    }
+
     private static void setCustomAnimations(FragmentTransaction transaction) {
         if (!PreferencesUtils.getInstance(PalmApp.getContext()).systemAnimationEnabled()) return;
         transaction.setCustomAnimations(R.animator.slide_up, R.animator.slide_down, R.animator.slide_up, R.animator.slide_down);

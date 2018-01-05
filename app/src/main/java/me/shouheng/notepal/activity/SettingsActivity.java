@@ -14,6 +14,7 @@ import org.polaric.colorful.Colorful;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.ActivitySettingsBinding;
 import me.shouheng.notepal.fragment.PrimaryPickerFragment;
+import me.shouheng.notepal.fragment.SettingsBackup;
 import me.shouheng.notepal.fragment.SettingsFragment;
 import me.shouheng.notepal.listener.OnFragmentDestroyListener;
 import me.shouheng.notepal.listener.OnThemeSelectedListener;
@@ -118,6 +119,9 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> im
                 break;
             case PreferencesUtils.ACCENT_COLOR:
                 showAccentColorPicker();
+                break;
+            case SettingsFragment.KEY_DATA_BACKUP:
+                FragmentHelper.replaceWithCallback(this, new SettingsBackup(), R.id.fragment_container);
                 break;
         }
     }

@@ -241,12 +241,26 @@
     <string name="no_notebook_available">没有可用的笔记本</string>
     <!--endregion-->
 
-    <!--region preference-->
-    <string name="setting_preference">用户偏好</string>
+    <!--region universal-->
+    <string name="setting_preference">通用设置</string>
+    <string name="setting_backup">数据备份</string>
+    <string name="setting_backup_sub">导入或者导出程序数据</string>
     <string name="setting_system_animation">系统动画</string>
     <string name="setting_system_animation_sub">在整个应用中启用系统动画</string>
     <string name="setting_list_animation">列表动画</string>
     <string name="setting_list_animation_sub">在整个应用中启用列表动画</string>
+    <!--endregion-->
+
+    <!--region backup-->
+    <string name="backup_to_external_storage">备份到手机外部存储空间</string>
+    <string name="backup_to_external_storage_sub">备份在手机外部存储空间的数据在应用被卸载的时候不会被删除</string>
+    <string name="backup_no_backups_available">无可用备份</string>
+    <string name="backup_data_export_message">输入备份名称</string>
+    <string name="backup_data_import_message">点击 -&gt; 还原\n长按 -&gt; 删除</string>
+    <string name="backup_data_import_message_warning">警告：此操作将覆盖所有当前数据！</string>
+    <string name="backup_data_export_completed">数据备份完成</string>
+    <string name="backup_data_import_completed">数据导入完成</string>
+    <string name="backup_backup_existing">备份已存在，该备份将被覆盖</string>
     <!--endregion-->
 
     <!--region note settings-->

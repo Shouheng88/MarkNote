@@ -23,6 +23,7 @@ public class SettingsFragment extends PreferenceFragment {
     private final static String KEY_FEEDBACK = "feedback";
     private final static String KEY_USER_GUIDE = "user_guide";
     private final static String KEY_USER_INTRO = "user_intro";
+    public final static String KEY_DATA_BACKUP = "data_backup";
 
     private CheckBoxPreference isDarkTheme, coloredNavigationBar;
 
@@ -97,6 +98,13 @@ public class SettingsFragment extends PreferenceFragment {
         });
         findPreference(KEY_USER_INTRO).setOnPreferenceClickListener(preference -> {
             showIntroduction();
+            return true;
+        });
+
+        findPreference(KEY_DATA_BACKUP).setOnPreferenceClickListener(preference -> {
+            if (getActivity() != null && getActivity() instanceof OnPreferenceClickListener) {
+                ((OnPreferenceClickListener) getActivity()).onPreferenceClick(KEY_DATA_BACKUP);
+            }
             return true;
         });
     }
