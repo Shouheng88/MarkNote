@@ -118,6 +118,8 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
+        <service android:name=".async.DataBackupIntentService"/>
+
     </application>
 
 </manifest>

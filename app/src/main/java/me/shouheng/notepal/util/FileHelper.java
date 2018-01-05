@@ -14,7 +14,6 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
-import android.util.Log;
 import android.webkit.MimeTypeMap;
 
 import org.apache.commons.io.FileUtils;
@@ -43,7 +42,7 @@ import static java.lang.Long.parseLong;
  * Created by wangshouheng on 2017/4/7.*/
 public class FileHelper {
 
-    private static final String TAG = "FileHelper";
+    private static final String EXTERNAL_STORAGE_FOLDER = "NotePal";
 
     public static boolean isStorageWriteable() {
         boolean isExternalStorageAvailable;
@@ -87,7 +86,7 @@ public class FileHelper {
                 return cursor.getString(column_index);
             }
         } catch (Exception e) {
-            Log.e(TAG, "Error retrieving uri path", e);
+            LogUtils.e("Error retrieving uri path", e);
         } finally {
             if (cursor != null) {
                 cursor.close();
@@ -242,7 +241,7 @@ public class FileHelper {
                         fileName = cursor.getString(0);
                     }
                 } catch (Exception e) {
-                    Log.e(TAG, "Error managing diskk cache", e);
+                    LogUtils.e("Error managing diskk cache", e);
                 }
             } else {
                 fileName = uri.getLastPathSegment();
@@ -286,7 +285,7 @@ public class FileHelper {
             try {
                 moveFile(new File(uri.getPath()), f);
             } catch (IOException e) {
-                Log.e(TAG, "Can't move file " + uri.getPath());
+                LogUtils.e("Can't move file " + uri.getPath());
             }
         } else {
             f = FileHelper.createExternalStoragePrivateFile(mContext, uri, extension);
@@ -325,11 +324,11 @@ public class FileHelper {
                     os = new FileOutputStream(file);
                     copyFile(is, os);
                 } catch (FileNotFoundException e2) {
-                    Log.e(TAG, "Error writing " + file, e2);
+                    LogUtils.e("Error writing " + file, e2);
                     file = null;
                 }
             } catch (FileNotFoundException e2) {
-                Log.e(TAG, "Error writing " + file, e2);
+                LogUtils.e("Error writing " + file, e2);
                 file = null;
             }
         }
@@ -389,7 +388,7 @@ public class FileHelper {
         try {
             return copyFile(new FileInputStream(source), new FileOutputStream(destination));
         } catch (FileNotFoundException e) {
-            Log.e(TAG, "Error copying file", e);
+            LogUtils.e("Error copying file", e);
             return false;
         }
     }
@@ -406,7 +405,7 @@ public class FileHelper {
             os.close();
             res = true;
         } catch (IOException e) {
-            Log.e(TAG, "Error copying file", e);
+            LogUtils.e("Error copying file", e);
         }
         return res;
     }
@@ -428,7 +427,7 @@ public class FileHelper {
      * @param file 用于返回的保存的文件
      * @return 是否成功执行保存操作 */
     public static boolean saveImageToGallery(Context context, Bitmap bmp, boolean isPng, File file) {
-        Log.d(TAG, "saveImageToGallery: " + bmp);
+        LogUtils.d("saveImageToGallery: " + bmp);
         if (bmp == null) return false;
         File appDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), context.getString(R.string.app_name));
         if (!appDir.exists()) {
@@ -454,22 +453,62 @@ public class FileHelper {
             fos.flush();
             fos.close();
         } catch (FileNotFoundException e) {
-            Log.d(TAG, "saveImageToGallery: FileNotFoundException");
+            LogUtils.d("saveImageToGallery: FileNotFoundException");
             e.printStackTrace();
             return false;
         } catch (IOException e) {
-            Log.d(TAG, "saveImageToGallery: IOException");
+            LogUtils.d("saveImageToGallery: IOException");
             e.printStackTrace();
             return false;
         }
         try {
             MediaStore.Images.Media.insertImage(context.getContentResolver(), file.getAbsolutePath(), fileName, null);
         } catch (FileNotFoundException e) {
-            Log.d(TAG, "saveImageToGallery: FileNotFoundException MediaStore");
+            LogUtils.d("saveImageToGallery: FileNotFoundException MediaStore");
             e.printStackTrace();
             return false;
         }
         context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(appDir)));
         return true;
+    }
+
+    public static File getBackupDir(String backupName) {
+        File backupDir = new File(getExternalStoragePublicDir(), backupName);
+        if (!backupDir.exists()) backupDir.mkdirs();
+        return backupDir;
+    }
+
+    public static File getExternalStoragePublicDir() {
+        String path = Environment.getExternalStorageDirectory() + File.separator + EXTERNAL_STORAGE_FOLDER + File.separator;
+        File dir = new File(path);
+        if (!dir.exists()) dir.mkdirs();
+        return dir;
+    }
+
+    public static File getAttachmentDir(Context mContext) {
+        return mContext.getExternalFilesDir(null);
+    }
+
+    public static File copyToBackupDir(File backupDir, File file) {
+        if (!isStorageWriteable()) {
+            return null;
+        }
+        if (!backupDir.exists()) {
+            backupDir.mkdirs();
+        }
+        File destination = new File(backupDir, file.getName());
+        copyFile(file, destination);
+        return destination;
+    }
+
+    public static File getSharedPreferencesFile(Context mContext) {
+        File appData = mContext.getFilesDir().getParentFile();
+        String packageName = mContext.getApplicationContext().getPackageName();
+        return new File(appData
+                + System.getProperty("file.separator")
+                + "shared_prefs"
+                + System.getProperty("file.separator")
+                + packageName
+                + "_preferences.xml");
     }
 }

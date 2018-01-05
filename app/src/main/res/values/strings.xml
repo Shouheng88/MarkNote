@@ -75,6 +75,7 @@
     <string name="text_archived">归档</string>
     <string name="text_tab_again_exit">再按一次退出</string>
     <string name="text_attachment">附件</string>
+    <string name="working">正在执行&#8230;</string>
     <!--endregion-->
 
     <!--region drawer menu-->
