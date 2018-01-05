@@ -3,6 +3,12 @@
 
     <PreferenceCategory android:title="@string/setting_preference">
 
+        <Preference
+            android:key="data_backup"
+            android:persistent="false"
+            android:title="@string/setting_backup"
+            android:summary="@string/setting_backup_sub"/>
+
         <CheckBoxPreference
             android:key="list_animation"
             android:defaultValue="true"

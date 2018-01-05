@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference
+        android:key="backup_to_external_storage"
+        android:persistent="false"
+        android:title="@string/backup_to_external_storage"
+        android:summary="@string/backup_to_external_storage_sub"/>
+
+</PreferenceScreen>
