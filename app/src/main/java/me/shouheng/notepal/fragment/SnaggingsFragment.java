@@ -62,6 +62,7 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
     public static SnaggingsFragment newInstance() {
         Bundle args = new Bundle();
         SnaggingsFragment fragment = new SnaggingsFragment();
+        args.putSerializable(ARG_STATUS, Status.NORMAL);
         fragment.setArguments(args);
         return fragment;
     }
@@ -95,6 +96,8 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
     }
 
     private void configSnaggings() {
+        getBinding().ivEmpty.setSubTitle(getEmptySubTitle());
+
         mindSnaggingListType = preferencesUtils.getMindSnaggingListType();
 
         adapter = new MindSnaggingAdapter(getContext(), mindSnaggingListType, getSnaggings());
@@ -183,6 +186,21 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
 
     public void setScrollListener(RecyclerView.OnScrollListener scrollListener) {
         this.scrollListener = scrollListener;
+    }
+
+    private String getEmptySubTitle() {
+        if (getArguments() == null || !getArguments().containsKey(ARG_STATUS)) return null;
+        Status status = (Status) getArguments().get(ARG_STATUS);
+        if (status == null) return null;
+        switch (status) {
+            case NORMAL:
+                return getString(R.string.mind_snaggings_list_empty_sub_normal);
+            case TRASHED:
+                return getString(R.string.mind_snaggings_list_empty_sub_trashed);
+            case ARCHIVED:
+                return getString(R.string.mind_snaggings_list_empty_sub_archived);
+        }
+        return getString(R.string.mind_snaggings_list_empty_sub_normal);
     }
 
     @Override

@@ -134,6 +134,9 @@
     <string name="notebook_name">笔记本名称</string>
     <string name="pick_notebook_color">选择笔记本的颜色</string>
     <string name="notes_list_empty">笔记列表为空</string>
+    <string name="notes_list_empty_sub_normal">点击主界面的 + 按钮添加笔记</string>
+    <string name="notes_list_empty_sub_archived">没有发现归档的笔记</string>
+    <string name="notes_list_empty_sub_trashed">没有在垃圾箱中发现笔记</string>
     <string name="move_to_another_notebook">移动到其他笔记本</string>
     <string name="note_capture_note">笔记截图</string>
     <!--endregion-->
@@ -154,6 +157,10 @@
     <string name="edit_mind_snagging">编辑小纸条</string>
 
     <string name="mind_snaggings_list_type">列表显示方式</string>
+    <string name="mind_snaggings_list_empty">小纸条列表为空</string>
+    <string name="mind_snaggings_list_empty_sub_normal">点击主界面的 + 按钮添加小纸条</string>
+    <string name="mind_snaggings_list_empty_sub_archived">没有发现归档的小纸条</string>
+    <string name="mind_snaggings_list_empty_sub_trashed">没有在垃圾箱中发现小纸条</string>
     <!--endregion-->
 
     <!--region alarm-->

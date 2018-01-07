@@ -10,6 +10,7 @@
             android:layout_centerInParent="true"
             app:empty_image="@drawable/ic_lightbulb_outline_black_24dp"
             app:tint_drawable="true"
+            app:title="@string/mind_snaggings_list_empty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
