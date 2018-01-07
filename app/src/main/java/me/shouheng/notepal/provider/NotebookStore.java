@@ -11,6 +11,9 @@ import java.util.List;
 
 import me.shouheng.notepal.model.Notebook;
 import me.shouheng.notepal.model.enums.Status;
+import me.shouheng.notepal.provider.helper.StoreHelper;
+import me.shouheng.notepal.provider.helper.TimelineHelper;
+import me.shouheng.notepal.provider.schema.BaseSchema;
 import me.shouheng.notepal.provider.schema.NoteSchema;
 import me.shouheng.notepal.provider.schema.NotebookSchema;
 
@@ -63,28 +66,77 @@ public class NotebookStore extends BaseStore<Notebook> {
         values.put(NotebookSchema.TREE_PATH, model.getTreePath());
     }
 
+    public synchronized List<Notebook> getNotebooks(String whereSQL, String orderSQL){
+        return getNotebooks(whereSQL, orderSQL, Status.NORMAL);
+    }
+
+    @Override
+    public synchronized List<Notebook> getArchived(String whereSQL, String orderSQL) {
+        return getNotebooks(whereSQL, orderSQL, Status.ARCHIVED);
+    }
+
+    @Override
+    public synchronized List<Notebook> getTrashed(String whereSQL, String orderSQL) {
+        return getNotebooks(whereSQL, orderSQL, Status.TRASHED);
+    }
+
+    @Override
+    public synchronized void update(Notebook model, Status toStatus) {
+        if (model == null || toStatus == null) return;
+        TimelineHelper.addTimeLine(model, StoreHelper.getStatusOperation(toStatus));
+        SQLiteDatabase database = getWritableDatabase();
+        database.beginTransaction();
+        try {
+            Status fromStatus = model.getStatus();
+
+            /**
+             * Update the status of all associated notebooks OF GIVEN STATUS. */
+            database.execSQL(" UPDATE " + tableName
+                            + " SET " + BaseSchema.STATUS + " = " + toStatus.id + " , " + BaseSchema.LAST_MODIFIED_TIME + " = ? "
+                            + " WHERE " + NotebookSchema.TREE_PATH + " LIKE " + tableName + "." + NotebookSchema.TREE_PATH + "||'%'"
+                            + " AND " + BaseSchema.USER_ID + " = " + userId
+                            + " AND " + BaseSchema.STATUS + " = " + fromStatus.id,
+                    new String[]{String.valueOf(System.currentTimeMillis())});
+
+            /**
+             * Update the status of all associated notes OF GIVEN STATUS. */
+            database.execSQL(" UPDATE " + NoteSchema.TABLE_NAME
+                            + " SET " + BaseSchema.STATUS + " = " + toStatus.id + " , " + BaseSchema.LAST_MODIFIED_TIME + " = ? "
+                            + " WHERE " + NoteSchema.TREE_PATH + " LIKE " + NoteSchema.TABLE_NAME + "." + NoteSchema.TREE_PATH + "||'%'"
+                            + " AND " + BaseSchema.USER_ID + " = " + userId
+                            + " AND " + BaseSchema.STATUS + " = " + fromStatus.id,
+                    new String[]{String.valueOf(System.currentTimeMillis())});
+
+            database.setTransactionSuccessful();
+        } finally {
+            database.endTransaction();
+            closeDatabase(database);
+        }
+    }
+
     /**
-     * Get notebooks of {@link Status#NORMAL}.
+     * Get notebooks of given status. Here are mainly two cases match:
+     * 1).Notes count of given notebook > 0;
+     * 2).The notebook itself is in given status.
      *
      * @param whereSQL where SQL
      * @param orderSQL order SQL
      * @return the notebooks
      */
-    public synchronized List<Notebook> getNotebooks(String whereSQL, String orderSQL){
+    private List<Notebook> getNotebooks(String whereSQL, String orderSQL, Status status) {
         Cursor cursor = null;
         List<Notebook> notebooks;
         SQLiteDatabase database = getWritableDatabase();
         try {
-            cursor = database.rawQuery(" SELECT *, " + getNotesCount(Status.NORMAL)
-                    + " FROM " + tableName
-                    + " WHERE " + NotebookSchema.USER_ID + " = ? "
-                    + (TextUtils.isEmpty(whereSQL) ? "" : " AND " + whereSQL)
-                    + " AND " + NotebookSchema.STATUS + " = " + Status.NORMAL.id
-                    + " GROUP BY " + NotebookSchema.CODE
-                    + (TextUtils.isEmpty(orderSQL) ? "" : " ORDER BY " + orderSQL),
+            cursor = database.rawQuery(" SELECT *, " + getNotesCount(status)
+                            + " FROM " + tableName
+                            + " WHERE " + NotebookSchema.USER_ID + " = ? "
+                            + " AND ( " + NotebookSchema.STATUS + " = " + status.id + " OR " + NotebookSchema.COUNT + " > 0 ) "
+                            + (TextUtils.isEmpty(whereSQL) ? "" : " AND " + whereSQL)
+                            + " GROUP BY " + NotebookSchema.CODE
+                            + (TextUtils.isEmpty(orderSQL) ? "" : " ORDER BY " + orderSQL),
                     new String[]{String.valueOf(userId)});
             notebooks = getList(cursor);
-//            setupSubNotebooks(database, notebooks, Status.NORMAL);
         } finally {
             closeCursor(cursor);
             database.close();
@@ -92,70 +144,6 @@ public class NotebookStore extends BaseStore<Notebook> {
         return notebooks;
     }
 
-    /**
-     * Get the archived notebooks. The notebooks returned must satisfy one of the two conditions below:
-     * 1).The count of archived notes associated > 0;
-     * 2).The notebook itself is in {@link Status#ARCHIVED} status.
-     *
-     * @param whereSQL where SQL
-     * @param orderSQL order sql
-     * @return the notebooks list
-     */
-    @Override
-    public synchronized List<Notebook> getArchived(String whereSQL, String orderSQL) {
-        Cursor cursor = null;
-        List<Notebook> notebooks = null;
-        SQLiteDatabase database = getWritableDatabase();
-        try {
-            cursor = database.rawQuery(" SELECT *, " + getNotesCount(Status.ARCHIVED)
-                    + " FROM " + tableName
-                    + " WHERE " + NotebookSchema.USER_ID + " = ? "
-                    + (TextUtils.isEmpty(whereSQL) ? "" : " AND " + whereSQL)
-                    + " AND ( " + NotebookSchema.STATUS + " = " + Status.ARCHIVED.id
-                    + " OR " + NotebookSchema.COUNT + " > 0 ) "
-                    + " GROUP BY " + NotebookSchema.CODE
-                    + (TextUtils.isEmpty(orderSQL) ? "" : " ORDER BY " + orderSQL),
-                    new String[]{String.valueOf(userId)});
-            notebooks = getList(cursor);
-//            setupSubNotebooks(database, notebooks, Status.ARCHIVED);
-        } finally {
-            closeCursor(cursor);
-            database.close();
-        }
-        return notebooks;
-    }
-
-    @Override
-    public synchronized List<Notebook> getTrashed(String whereSQL, String orderSQL) {
-        Cursor cursor = null;
-        List<Notebook> notebooks = null;
-        SQLiteDatabase database = getWritableDatabase();
-        try {
-            cursor = database.rawQuery(" SELECT *, " + getNotesCount(Status.TRASHED)
-                    + " FROM " + tableName
-                    + " WHERE " + NotebookSchema.USER_ID + " = ? "
-                    + " AND " + NotebookSchema.COUNT + " > 0 "
-                    + " AND " + NoteSchema.STATUS + " = " + Status.TRASHED.id
-                    + (TextUtils.isEmpty(whereSQL) ? "" : " AND " + whereSQL)
-                    + " GROUP BY " + NotebookSchema.CODE
-                    + (TextUtils.isEmpty(orderSQL) ? "" : " ORDER BY " + orderSQL),
-                    new String[]{String.valueOf(userId)});
-            notebooks = getList(cursor);
-//            setupSubNotebooks(database, notebooks, Status.TRASHED);
-        } finally {
-            closeCursor(cursor);
-            closeDatabase(database);
-        }
-        return notebooks;
-    }
-
-    /**
-     * Get notebooks count of given notebooks. We did`t use this method for temporary.
-     *
-     * @param database database
-     * @param notebooks notebooks to get count
-     * @param status the status of notebooks to calculate as count
-     */
     private void setupSubNotebooks(SQLiteDatabase database, List<Notebook> notebooks, Status status) {
         LongSparseArray<Notebook> array = new LongSparseArray<>();
 
@@ -186,14 +174,7 @@ public class NotebookStore extends BaseStore<Notebook> {
         closeCursor(cursor);
     }
 
-    /**
-     * Get the count of notes of notebook of given status.
-     *
-     * @param status the status of notes to calculate
-     * @return the count calculation sql
-     */
     private String getNotesCount(Status status) {
-        // todo test whether the connection strategy is acceptable
         return " (SELECT COUNT(*) FROM " + NoteSchema.TABLE_NAME + " AS t1 "
                 + " WHERE t1." + NoteSchema.TREE_PATH + " LIKE " + tableName + "." + NotebookSchema.TREE_PATH + "||'%'"
                 + " AND t1." + NoteSchema.USER_ID + " = " + userId
