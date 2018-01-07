@@ -139,6 +139,8 @@
     <string name="notes_list_empty_sub_trashed">没有在垃圾箱中发现笔记</string>
     <string name="move_to_another_notebook">移动到其他笔记本</string>
     <string name="note_capture_note">笔记截图</string>
+
+    <string name="moved_successfully">移动成功</string>
     <!--endregion-->
 
     <!--region attachment-->
