@@ -188,8 +188,12 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
         popupM.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()){
                 case R.id.action_trash:
+                    NotesStore.getInstance(getContext()).update(multiItem.note, Status.TRASHED);
+                    reload();
                     break;
                 case R.id.action_archive:
+                    NotesStore.getInstance(getContext()).update(multiItem.note, Status.ARCHIVED);
+                    reload();
                     break;
                 case R.id.action_move:
                     moveNote(multiItem.note);
@@ -209,8 +213,12 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
         popupM.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()){
                 case R.id.action_trash:
+                    NotebookStore.getInstance(getContext()).update(notebook, Status.TRASHED);
+                    reload();
                     break;
                 case R.id.action_archive:
+                    NotebookStore.getInstance(getContext()).update(notebook, Status.ARCHIVED);
+                    reload();
                     break;
                 case R.id.action_move:
                     moveNotebook(multiItem.notebook);
