@@ -440,7 +440,13 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
 
     @Override
     public void onColorSelection(@NonNull ColorChooserDialog dialog, int selectedColor) {
-        notebookEditDialog.updateUIBySelectedColor(selectedColor);
+        if (notebookEditDialog != null) {
+            notebookEditDialog.updateUIBySelectedColor(selectedColor);
+        }
+        Fragment currentFragment = getCurrentFragment();
+        if (currentFragment instanceof NotesFragment) {
+            ((NotesFragment) currentFragment).setSelectedColor(selectedColor);
+        }
     }
 
     @Override

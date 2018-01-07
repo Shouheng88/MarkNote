@@ -24,9 +24,11 @@ import me.shouheng.notepal.activity.ContentActivity;
 import me.shouheng.notepal.activity.MainActivity;
 import me.shouheng.notepal.adapter.NotesAdapter;
 import me.shouheng.notepal.databinding.FragmentNotesBinding;
+import me.shouheng.notepal.dialog.NotebookEditDialog;
 import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.model.Notebook;
 import me.shouheng.notepal.model.enums.Status;
+import me.shouheng.notepal.provider.NotebookStore;
 import me.shouheng.notepal.provider.helper.ArchiveHelper;
 import me.shouheng.notepal.provider.helper.NotebookHelper;
 import me.shouheng.notepal.provider.helper.TrashHelper;
@@ -40,12 +42,15 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
     private final static String ARG_NOTEBOOK = "arg_notebook";
     private final static String ARG_STATUS = "arg_status";
 
-    private final static int REQUEST_CODE_FOR_NOTE_VIEW = 0x0010;
+    private final static int REQUEST_NOTE_VIEW = 0x0010;
+    private final static int REQUEST_NOTE_EDIT = 0x0011;
 
     private Notebook notebook;
     private boolean isTopStack = true;
 
     private RecyclerView.OnScrollListener scrollListener;
+
+    private NotebookEditDialog dialog;
 
     private NotesAdapter adapter;
 
@@ -104,7 +109,7 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
         adapter.setOnItemClickListener((adapter, view, position) -> {
             NotesAdapter.MultiItem item = (NotesAdapter.MultiItem) adapter.getData().get(position);
             if (item.itemType == NotesAdapter.MultiItem.ITEM_TYPE_NOTE) {
-                ContentActivity.startNoteViewForResult(NotesFragment.this, item.note, null, REQUEST_CODE_FOR_NOTE_VIEW);
+                ContentActivity.startNoteViewForResult(NotesFragment.this, item.note, null, REQUEST_NOTE_VIEW);
             } else if (item.itemType == NotesAdapter.MultiItem.ITEM_TYPE_NOTEBOOK) {
                 if (getActivity() != null && getActivity() instanceof OnNotesInteractListener) {
                     ((OnNotesInteractListener) getActivity()).onNotebookSelected(item.notebook);
@@ -116,9 +121,9 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
             switch (view.getId()) {
                 case R.id.iv_more:
                     if (item.itemType == NotesAdapter.MultiItem.ITEM_TYPE_NOTE) {
-                        popNoteMenu(view);
+                        popNoteMenu(view, item);
                     } else if (item.itemType == NotesAdapter.MultiItem.ITEM_TYPE_NOTEBOOK) {
-                        popNotebookMenu(view);
+                        popNotebookMenu(view, item, position);
                     }
                     break;
             }
@@ -132,7 +137,7 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
         getBinding().rvNotes.setAdapter(adapter);
     }
 
-    private void popNoteMenu(View v) {
+    private void popNoteMenu(View v, NotesAdapter.MultiItem multiItem) {
         PopupMenu popupM = new PopupMenu(getContext(), v);
         popupM.inflate(R.menu.pop_menu);
         popupM.setOnMenuItemClickListener(item -> {
@@ -144,6 +149,7 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
                 case R.id.action_move:
                     break;
                 case R.id.action_edit:
+                    ContentActivity.startNoteEditForResult(this, multiItem.note, null, REQUEST_NOTE_EDIT);
                     break;
             }
             return true;
@@ -151,7 +157,7 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
         popupM.show();
     }
 
-    private void popNotebookMenu(View v) {
+    private void popNotebookMenu(View v, NotesAdapter.MultiItem multiItem, int position) {
         PopupMenu popupM = new PopupMenu(getContext(), v);
         popupM.inflate(R.menu.pop_menu);
         popupM.setOnMenuItemClickListener(item -> {
@@ -163,11 +169,27 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
                 case R.id.action_move:
                     break;
                 case R.id.action_edit:
+                    editNotebook(position, multiItem.notebook);
                     break;
             }
             return true;
         });
         popupM.show();
+    }
+
+    private void editNotebook(final int position, final Notebook notebook) {
+        dialog = NotebookEditDialog.newInstance(getContext(), notebook,
+                (categoryName, notebookColor) -> {
+                    notebook.setTitle(categoryName);
+                    notebook.setColor(notebookColor);
+                    adapter.notifyItemChanged(position);
+                    NotebookStore.getInstance(getContext()).update(notebook);
+                });
+        dialog.show(getFragmentManager(), "Notebook Editor");
+    }
+
+    public void setSelectedColor(int color) {
+        if (dialog != null) dialog.updateUIBySelectedColor(color);
     }
 
     private List<NotesAdapter.MultiItem> getMultiItems() {
@@ -268,12 +290,13 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case REQUEST_CODE_FOR_NOTE_VIEW:
-                if (resultCode == Activity.RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_NOTE_VIEW:
+                case REQUEST_NOTE_EDIT:
                     reload();
-                }
-                break;
+                    break;
+            }
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
