@@ -10,6 +10,7 @@ import android.util.LongSparseArray;
 import java.util.List;
 
 import me.shouheng.notepal.model.Notebook;
+import me.shouheng.notepal.model.enums.Operation;
 import me.shouheng.notepal.model.enums.Status;
 import me.shouheng.notepal.provider.helper.StoreHelper;
 import me.shouheng.notepal.provider.helper.TimelineHelper;
@@ -107,6 +108,24 @@ public class NotebookStore extends BaseStore<Notebook> {
                             + " AND " + BaseSchema.STATUS + " = " + fromStatus.id,
                     new String[]{String.valueOf(System.currentTimeMillis())});
 
+            database.setTransactionSuccessful();
+        } finally {
+            database.endTransaction();
+            closeDatabase(database);
+        }
+    }
+
+    /**
+     * Move the notebook to another notebook need to modify its children`s tree path at the asme time.
+     *
+     * @param notebook the notebook to update
+     */
+    public synchronized void move(Notebook notebook) {
+        TimelineHelper.addTimeLine(notebook, Operation.UPDATE);
+        SQLiteDatabase database = getWritableDatabase();
+        database.beginTransaction();
+        try {
+            // TODO need to modify later
             database.setTransactionSuccessful();
         } finally {
             database.endTransaction();

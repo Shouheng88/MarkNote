@@ -209,15 +209,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         FabSortItem fabSortItem = preferencesUtils.getFabSortResult().get(index);
         switch (fabSortItem) {
             case NOTE:
-                PermissionUtils.checkStoragePermission(this, () -> {
-                    Note note = ModelFactory.getNote(this);
-                    Notebook notebook;
-                    if (isNotesFragment() && (notebook = ((NotesFragment) getCurrentFragment()).getNotebook()) != null) {
-                        note.setParentCode(notebook.getCode());
-                        note.setTreePath(notebook.getTreePath() + "|" + note.getCode());
-                    }
-                    ContentActivity.startNoteEditForResult(this, note, null, REQUEST_ADD_NOTE);
-                });
+                editNote();
                 break;
             case NOTEBOOK:
                 editNotebook();
@@ -226,6 +218,21 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                 editMindSnagging();
                 break;
         }
+    }
+
+    private void editNote() {
+        PermissionUtils.checkStoragePermission(this, () -> {
+            Note note = ModelFactory.getNote(this);
+            Notebook notebook;
+            if (isNotesFragment() && (notebook = ((NotesFragment) getCurrentFragment()).getNotebook()) != null) {
+                note.setParentCode(notebook.getCode());
+                note.setTreePath(notebook.getTreePath() + "|" + note.getCode());
+            } else {
+                // The default tree path of note is itself
+                note.setTreePath(String.valueOf(note.getCode()));
+            }
+            ContentActivity.startNoteEditForResult(this, note, null, REQUEST_ADD_NOTE);
+        });
     }
 
     private void editNotebook() {
