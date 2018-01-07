@@ -106,7 +106,6 @@ public class DataBackupIntentService extends IntentService {
         return (FileHelper.copyFile(database, new File(backupDir, PalmDB.DATABASE_NAME)));
     }
 
-    // todo bug when get the file path, FileNotFoundException
     private boolean exportAttachments(File backupDir) {
         File attachmentsDir = FileHelper.getAttachmentDir(this);
         File destDir = new File(backupDir, attachmentsDir.getName());
@@ -116,7 +115,7 @@ public class DataBackupIntentService extends IntentService {
 
         int exported = 0;
         for (Attachment attachment : list) {
-            FileHelper.copyToBackupDir(destDir, new File(attachment.getUri().getPath()));
+            FileHelper.copyToBackupDir(destDir, new File(attachment.getPath()));
             mNotificationsHelper.setMessage(getString(R.string.text_attachment) + " " + exported++ + "/" + list.size()).show();
         }
         return true;
