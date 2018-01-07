@@ -116,6 +116,7 @@ public class NotebookStore extends BaseStore<Notebook> {
     }
 
     /**
+     * TODO bug of move notebook
      * Move the notebook to another notebook need to modify its children`s tree path at the same time.
      *
      * @param notebook the notebook to update
