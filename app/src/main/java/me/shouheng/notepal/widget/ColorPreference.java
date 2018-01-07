@@ -2,11 +2,13 @@ package me.shouheng.notepal.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.preference.Preference;
 import android.util.AttributeSet;
 import android.view.View;
 
 import me.shouheng.notepal.R;
+import me.shouheng.notepal.util.ColorUtils;
 
 /**
  * Created by wang shouheng on 2017/12/23. */
@@ -55,7 +57,7 @@ public class ColorPreference extends Preference {
 
     @Override
     protected Object onGetDefaultValue(TypedArray a, int index) {
-        return a.getInt(index, 0);
+        return ColorUtils.parseColor(a.getString(index), Color.parseColor("#FF049372"));
     }
 
     @Override
