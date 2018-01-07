@@ -52,6 +52,7 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
     public static NotesFragment newInstance(@Nullable Notebook notebook) {
         Bundle args = new Bundle();
         if (notebook != null) args.putSerializable(ARG_NOTEBOOK, notebook);
+        args.putSerializable(ARG_STATUS, Status.NORMAL);
         NotesFragment fragment = new NotesFragment();
         fragment.setArguments(args);
         return fragment;
@@ -97,6 +98,8 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
     }
 
     private void configNotesList() {
+        getBinding().ivEmpty.setSubTitle(getEmptySubTitle());
+
         adapter = new NotesAdapter(getContext(), getMultiItems());
         adapter.setOnItemClickListener((adapter, view, position) -> {
             NotesAdapter.MultiItem item = (NotesAdapter.MultiItem) adapter.getData().get(position);
@@ -205,6 +208,21 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
 
     public boolean isTopStack() {
         return isTopStack;
+    }
+
+    private String getEmptySubTitle() {
+        if (getArguments() == null || !getArguments().containsKey(ARG_STATUS)) return null;
+        Status status = (Status) getArguments().get(ARG_STATUS);
+        if (status == null) return null;
+        switch (status) {
+            case NORMAL:
+                return getString(R.string.notes_list_empty_sub_normal);
+            case TRASHED:
+                return getString(R.string.notes_list_empty_sub_trashed);
+            case ARCHIVED:
+                return getString(R.string.notes_list_empty_sub_archived);
+        }
+        return getString(R.string.notes_list_empty_sub_normal);
     }
 
     @Override
