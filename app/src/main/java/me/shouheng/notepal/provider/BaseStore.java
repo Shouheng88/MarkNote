@@ -245,10 +245,10 @@ public abstract class BaseStore<T extends Model> {
         database.beginTransaction();
         try {
             database.execSQL(" UPDATE " + tableName
-                            + " SET " + BaseSchema.STATUS + " = ? , " + BaseSchema.LAST_MODIFIED_TIME + " = ? "
+                            + " SET " + BaseSchema.STATUS + " = " + toStatus.id + " , " + BaseSchema.LAST_MODIFIED_TIME + " = ? "
                             + " WHERE " + BaseSchema.CODE + " = " + model.getCode()
                             + " AND " + BaseSchema.USER_ID + " = " + userId,
-                    new String[]{String.valueOf(toStatus.id), String.valueOf(System.currentTimeMillis())});
+                    new String[]{String.valueOf(System.currentTimeMillis())});
             database.setTransactionSuccessful();
         } finally {
             database.endTransaction();
