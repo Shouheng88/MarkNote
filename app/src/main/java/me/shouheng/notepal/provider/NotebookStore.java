@@ -116,7 +116,7 @@ public class NotebookStore extends BaseStore<Notebook> {
     }
 
     /**
-     * Move the notebook to another notebook need to modify its children`s tree path at the asme time.
+     * Move the notebook to another notebook need to modify its children`s tree path at the same time.
      *
      * @param notebook the notebook to update
      */
@@ -125,7 +125,28 @@ public class NotebookStore extends BaseStore<Notebook> {
         SQLiteDatabase database = getWritableDatabase();
         database.beginTransaction();
         try {
-            // TODO need to modify later
+
+            /**
+             * Update the notebook`s tree path itself. */
+            database.update(tableName, getContentValues(notebook),
+                    BaseSchema.CODE + " = ? " + " AND " + BaseSchema.USER_ID + " = ? ",
+                    new String[]{String.valueOf(notebook.getCode()), String.valueOf(userId)});
+
+            /**
+             * Need to modify the tree path of all notebook children of all status. */
+            database.execSQL(" UPDATE " + tableName
+                    + " SET " + NotebookSchema.TREE_PATH + " = " + notebook.getTreePath() + "||'|'||" + tableName + "." + BaseSchema.CODE
+                    + " WHERE " + NotebookSchema.TREE_PATH + " LIKE " + tableName + "." + NotebookSchema.TREE_PATH + "||'%'"
+                    + " AND " + BaseSchema.CODE + " != " + notebook.getCode() // exclude itself
+                    + " AND " + BaseSchema.USER_ID + " = " + userId, new String[]{});
+
+            /**
+             * Need to modify the tree path of all note children of all status. */
+            database.execSQL(" UPDATE " + NoteSchema.TABLE_NAME
+                    + " SET " + NoteSchema.TREE_PATH + " = " + notebook.getTreePath() + "||'|'||" + NoteSchema.TABLE_NAME + "." + BaseSchema.CODE
+                    + " WHERE " + NoteSchema.TREE_PATH + " LIKE " + NoteSchema.TABLE_NAME + "." + NoteSchema.TREE_PATH + "||'%'"
+                    + " AND " + BaseSchema.USER_ID + " = " + userId, new String[]{});
+
             database.setTransactionSuccessful();
         } finally {
             database.endTransaction();
