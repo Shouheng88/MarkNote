@@ -35,13 +35,13 @@
 
         <me.shouheng.notepal.widget.ColorPreference
             android:key="default_note_color"
-            android:defaultValue="9159498"
+            android:defaultValue="#FF049372"
             android:title="@string/setting_default_note_color"
             android:summary="@string/setting_set_default_note_color"/>
 
         <me.shouheng.notepal.widget.ColorPreference
             android:key="default_notebook_color"
-            android:defaultValue="9159498"
+            android:defaultValue="#FF049372"
             android:title="@string/setting_default_notebook_color"
             android:summary="@string/setting_set_default_notebook_color"/>
 
