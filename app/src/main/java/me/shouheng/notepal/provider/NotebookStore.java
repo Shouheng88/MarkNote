@@ -91,6 +91,14 @@ public class NotebookStore extends BaseStore<Notebook> {
             Status fromStatus = model.getStatus();
 
             /**
+             * Update current notebook itself OF GIVEN STATUS. */
+            database.execSQL(" UPDATE " + tableName
+                            + " SET " + BaseSchema.STATUS + " = " + toStatus.id + " , " + BaseSchema.LAST_MODIFIED_TIME + " = ? "
+                            + " WHERE " + BaseSchema.CODE + " = " + model.getCode()
+                            + " AND " + BaseSchema.USER_ID + " = " + userId,
+                    new String[]{String.valueOf(System.currentTimeMillis())});
+
+            /**
              * Update the status of all associated notebooks OF GIVEN STATUS. */
             database.execSQL(" UPDATE " + tableName
                             + " SET " + BaseSchema.STATUS + " = " + toStatus.id + " , " + BaseSchema.LAST_MODIFIED_TIME + " = ? "
