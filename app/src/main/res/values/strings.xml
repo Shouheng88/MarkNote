@@ -73,6 +73,7 @@
     <string name="text_other_ways">其他方式</string>
     <string name="text_trash">放进垃圾箱</string>
     <string name="text_archived">归档</string>
+    <string name="text_move_out">移出</string>
     <string name="text_tab_again_exit">再按一次退出</string>
     <string name="text_attachment">附件</string>
     <string name="working">正在执行&#8230;</string>

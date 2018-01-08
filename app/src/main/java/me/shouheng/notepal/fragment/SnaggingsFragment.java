@@ -126,6 +126,7 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
     private void popMoreMenu(View v, int position) {
         PopupMenu popupM = new PopupMenu(getContext(), v);
         popupM.inflate(R.menu.pop_menu);
+        configPopMenu(popupM);
         popupM.getMenu().findItem(R.id.action_move).setVisible(false);
         popupM.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()){
@@ -142,6 +143,16 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
                 case R.id.action_edit:
                     showEditor(position);
                     break;
+                case R.id.action_move_out:
+                    MindSnaggingStore.getInstance(getContext()).update(adapter.getItem(position), Status.NORMAL);
+                    adapter.remove(position);
+                    refreshLayout();
+                    break;
+                case R.id.action_delete:
+                    MindSnaggingStore.getInstance(getContext()).update(adapter.getItem(position), Status.DELETED);
+                    adapter.remove(position);
+                    refreshLayout();
+                    break;
             }
             return true;
         });
@@ -150,6 +161,16 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
 
     private void refreshLayout() {
         new Handler().postDelayed(() -> adapter.notifyDataSetChanged(), 500);
+    }
+
+    private void configPopMenu(PopupMenu popupMenu) {
+        if (getArguments() == null || !getArguments().containsKey(ARG_STATUS)) return;
+        Status status = (Status) getArguments().get(ARG_STATUS);
+        popupMenu.getMenu().findItem(R.id.action_move_out).setVisible(status == Status.ARCHIVED || status == Status.TRASHED);
+        popupMenu.getMenu().findItem(R.id.action_edit).setVisible(status == Status.ARCHIVED || status == Status.NORMAL);
+        popupMenu.getMenu().findItem(R.id.action_trash).setVisible(status == Status.NORMAL || status == Status.ARCHIVED);
+        popupMenu.getMenu().findItem(R.id.action_archive).setVisible(status == Status.NORMAL);
+        popupMenu.getMenu().findItem(R.id.action_delete).setVisible(status == Status.TRASHED);
     }
     // endregion
 

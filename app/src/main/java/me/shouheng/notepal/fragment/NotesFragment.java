@@ -184,6 +184,7 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
     private void popNoteMenu(View v, NotesAdapter.MultiItem multiItem) {
         PopupMenu popupM = new PopupMenu(getContext(), v);
         popupM.inflate(R.menu.pop_menu);
+        configPopMenu(popupM);
         popupM.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()){
                 case R.id.action_trash:
@@ -200,6 +201,14 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
                 case R.id.action_edit:
                     ContentActivity.startNoteEditForResult(this, multiItem.note, null, REQUEST_NOTE_EDIT);
                     break;
+                case R.id.action_move_out:
+                    NotesStore.getInstance(getContext()).update(multiItem.note, Status.NORMAL);
+                    reload();
+                    break;
+                case R.id.action_delete:
+                    NotesStore.getInstance(getContext()).update(multiItem.note, Status.DELETED);
+                    reload();
+                    break;
             }
             return true;
         });
@@ -209,6 +218,7 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
     private void popNotebookMenu(View v, NotesAdapter.MultiItem multiItem, int position) {
         PopupMenu popupM = new PopupMenu(getContext(), v);
         popupM.inflate(R.menu.pop_menu);
+        configPopMenu(popupM);
         popupM.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()){
                 case R.id.action_trash:
@@ -224,6 +234,14 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
                     break;
                 case R.id.action_edit:
                     editNotebook(position, multiItem.notebook);
+                    break;
+                case R.id.action_move_out:
+                    NotebookStore.getInstance(getContext()).update(notebook, Status.NORMAL);
+                    reload();
+                    break;
+                case R.id.action_delete:
+                    NotebookStore.getInstance(getContext()).update(notebook, Status.DELETED);
+                    reload();
                     break;
             }
             return true;
@@ -270,6 +288,17 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
 
     public void setSelectedColor(int color) {
         if (dialog != null) dialog.updateUIBySelectedColor(color);
+    }
+
+    private void configPopMenu(PopupMenu popupMenu) {
+        if (getArguments() == null || !getArguments().containsKey(ARG_STATUS)) return;
+        Status status = (Status) getArguments().get(ARG_STATUS);
+        popupMenu.getMenu().findItem(R.id.action_move_out).setVisible(status == Status.ARCHIVED || status == Status.TRASHED);
+        popupMenu.getMenu().findItem(R.id.action_edit).setVisible(status == Status.ARCHIVED || status == Status.NORMAL);
+        popupMenu.getMenu().findItem(R.id.action_move).setVisible(status == Status.NORMAL);
+        popupMenu.getMenu().findItem(R.id.action_trash).setVisible(status == Status.NORMAL || status == Status.ARCHIVED);
+        popupMenu.getMenu().findItem(R.id.action_archive).setVisible(status == Status.NORMAL);
+        popupMenu.getMenu().findItem(R.id.action_delete).setVisible(status == Status.TRASHED);
     }
     // endregion
 
