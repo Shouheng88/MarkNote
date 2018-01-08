@@ -1,6 +1,7 @@
 package me.shouheng.notepal.fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -105,7 +106,7 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
         adapter.setOnItemChildClickListener((adapter, view, position) -> {
             switch (view.getId()) {
                 case R.id.iv_more:
-                    popMoreMenu(view);
+                    popMoreMenu(view, position);
                     break;
             }
         });
@@ -121,19 +122,25 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
         }
     }
 
-    private void popMoreMenu(View v) {
+    // region More Menu
+    private void popMoreMenu(View v, int position) {
         PopupMenu popupM = new PopupMenu(getContext(), v);
         popupM.inflate(R.menu.pop_menu);
         popupM.getMenu().findItem(R.id.action_move).setVisible(false);
         popupM.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()){
                 case R.id.action_trash:
+                    MindSnaggingStore.getInstance(getContext()).update(adapter.getItem(position), Status.TRASHED);
+                    adapter.remove(position);
+                    refreshLayout();
                     break;
                 case R.id.action_archive:
-                    break;
-                case R.id.action_move:
+                    MindSnaggingStore.getInstance(getContext()).update(adapter.getItem(position), Status.ARCHIVED);
+                    adapter.remove(position);
+                    refreshLayout();
                     break;
                 case R.id.action_edit:
+                    showEditor(position);
                     break;
             }
             return true;
@@ -141,6 +148,10 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
         popupM.show();
     }
 
+    private void refreshLayout() {
+        new Handler().postDelayed(() -> adapter.notifyDataSetChanged(), 500);
+    }
+    // endregion
 
     private void configForOneCol() {
         getBinding().rv.addItemDecoration(new DividerItemDecoration(getContext(),
