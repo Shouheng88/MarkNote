@@ -257,13 +257,13 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
         }).show(getFragmentManager(), "Notebook picker");
     }
 
-    private void moveNotebook(final Notebook notebook) {
+    private void moveNotebook(final Notebook nb) {
         NotebookPickerDialog.newInstance().setOnItemSelectedListener((dialog, toBook, position) -> {
-            if (toBook.getCode() == notebook.getParentCode()) return;
+            if (toBook.getCode() == nb.getParentCode()) return;
 
-            notebook.setParentCode(toBook.getCode());
-            notebook.setTreePath(toBook.getTreePath() + "|" + notebook.getCode());
-            NotebookStore.getInstance(getContext()).move(notebook);
+            nb.setParentCode(toBook.getCode());
+            nb.setTreePath(toBook.getTreePath() + "|" + nb.getCode());
+            NotebookStore.getInstance(getContext()).move(nb);
             ToastUtils.makeToast(getContext(), R.string.moved_successfully);
 
             reload();
