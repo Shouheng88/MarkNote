@@ -299,7 +299,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     // endregion
 
     // region drawer
-    public void setDrawerLayoutLocked(boolean lockDrawer){
+    private void setDrawerLayoutLocked(boolean lockDrawer){
         getBinding().drawerLayout.setDrawerLockMode(lockDrawer ?
                 DrawerLayout.LOCK_MODE_LOCKED_CLOSED : DrawerLayout.LOCK_MODE_UNLOCKED);
     }
@@ -461,6 +461,11 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         NotesFragment notesFragment = NotesFragment.newInstance(notebook);
         notesFragment.setScrollListener(onScrollListener);
         FragmentHelper.replaceWithCallback(this, notesFragment, R.id.fragment_container);
+    }
+
+    @Override
+    public void onActivityAttached(boolean isTopStack) {
+        setDrawerLayoutLocked(!isTopStack);
     }
 
     @Override

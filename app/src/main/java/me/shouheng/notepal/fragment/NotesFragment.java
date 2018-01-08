@@ -21,7 +21,6 @@ import javax.annotation.Nullable;
 
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.ContentActivity;
-import me.shouheng.notepal.activity.MainActivity;
 import me.shouheng.notepal.adapter.NotesAdapter;
 import me.shouheng.notepal.databinding.FragmentNotesBinding;
 import me.shouheng.notepal.dialog.NotebookEditDialog;
@@ -294,8 +293,8 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
     public void onActivityCreated(@android.support.annotation.Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setHasOptionsMenu(true);
-        if (!isTopStack && getActivity() != null && getActivity() instanceof MainActivity) {
-            ((MainActivity) getActivity()).setDrawerLayoutLocked(true);
+        if (!isTopStack && getActivity() != null && getActivity() instanceof OnNotesInteractListener) {
+            ((OnNotesInteractListener) getActivity()).onActivityAttached(isTopStack);
         }
     }
 
@@ -326,8 +325,8 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
     @Override
     public void onResume() {
         super.onResume();
-        if (getActivity() != null && getActivity() instanceof MainActivity) {
-            ((MainActivity) getActivity()).setDrawerLayoutLocked(!isTopStack);
+        if (getActivity() != null && getActivity() instanceof OnNotesInteractListener) {
+            ((OnNotesInteractListener) getActivity()).onActivityAttached(isTopStack);
         }
     }
 
@@ -346,5 +345,6 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
 
     public interface OnNotesInteractListener {
         void onNotebookSelected(Notebook notebook);
+        void onActivityAttached(boolean isTopStack);
     }
 }
