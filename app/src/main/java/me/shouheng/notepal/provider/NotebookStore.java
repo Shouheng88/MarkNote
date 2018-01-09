@@ -82,6 +82,20 @@ public class NotebookStore extends BaseStore<Notebook> {
     }
 
     /**
+     * Try not to use this method to update notebook`s status. Since it only update the notebook
+     * itself. To update the notebook, you should use {@link #update(Notebook, Status, Status)}
+     * method which will update the notebooks and notes associated as well.
+     *
+     * @param model the notebook to update
+     * @param toStatus the given status to update to
+     */
+    @Deprecated
+    @Override
+    public synchronized void update(Notebook model, Status toStatus) {
+        super.update(model, toStatus);
+    }
+
+    /**
      * @param model notebook to update
      * @param fromStatus the status of the notebook list, Note: this status differs from the status
      *                   of given notebook. Because, for example, the notebook in archive that showed
