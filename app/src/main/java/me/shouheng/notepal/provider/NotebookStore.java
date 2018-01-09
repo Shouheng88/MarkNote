@@ -81,6 +81,12 @@ public class NotebookStore extends BaseStore<Notebook> {
         return getNotebooks(whereSQL, orderSQL, Status.TRASHED);
     }
 
+    /**
+     * Bug when try to update the status of given notebook.
+     *
+     * @param model notebook to update
+     * @param toStatus the status to update to
+     */
     @Override
     public synchronized void update(Notebook model, Status toStatus) {
         if (model == null || toStatus == null) return;
@@ -102,7 +108,7 @@ public class NotebookStore extends BaseStore<Notebook> {
              * Update the status of all associated notebooks OF GIVEN STATUS. */
             database.execSQL(" UPDATE " + tableName
                             + " SET " + BaseSchema.STATUS + " = " + toStatus.id + " , " + BaseSchema.LAST_MODIFIED_TIME + " = ? "
-                            + " WHERE " + NotebookSchema.TREE_PATH + " LIKE " + tableName + "." + NotebookSchema.TREE_PATH + "||'%'"
+                            + " WHERE " + NotebookSchema.TREE_PATH + " LIKE '" + model.getTreePath() + "'||'%'"
                             + " AND " + BaseSchema.USER_ID + " = " + userId
                             + " AND " + BaseSchema.STATUS + " = " + fromStatus.id,
                     new String[]{String.valueOf(System.currentTimeMillis())});
@@ -111,7 +117,7 @@ public class NotebookStore extends BaseStore<Notebook> {
              * Update the status of all associated notes OF GIVEN STATUS. */
             database.execSQL(" UPDATE " + NoteSchema.TABLE_NAME
                             + " SET " + BaseSchema.STATUS + " = " + toStatus.id + " , " + BaseSchema.LAST_MODIFIED_TIME + " = ? "
-                            + " WHERE " + NoteSchema.TREE_PATH + " LIKE " + NoteSchema.TABLE_NAME + "." + NoteSchema.TREE_PATH + "||'%'"
+                            + " WHERE " + NoteSchema.TREE_PATH + " LIKE '" + model.getTreePath() + "'||'%'"
                             + " AND " + BaseSchema.USER_ID + " = " + userId
                             + " AND " + BaseSchema.STATUS + " = " + fromStatus.id,
                     new String[]{String.valueOf(System.currentTimeMillis())});

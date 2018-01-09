@@ -142,6 +142,8 @@
     <string name="note_capture_note">笔记截图</string>
 
     <string name="moved_successfully">移动成功</string>
+
+    <string name="msg_when_delete_notebook">删除该笔记本会同时删除包含的所有笔记和笔记本</string>
     <!--endregion-->
 
     <!--region attachment-->
