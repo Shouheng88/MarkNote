@@ -214,11 +214,11 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
         popupM.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()){
                 case R.id.action_trash:
-                    NotebookStore.getInstance(getContext()).update(notebook, status, Status.TRASHED);
+                    NotebookStore.getInstance(getContext()).update(multiItem.notebook, status, Status.TRASHED);
                     reload();
                     break;
                 case R.id.action_archive:
-                    NotebookStore.getInstance(getContext()).update(notebook, status, Status.ARCHIVED);
+                    NotebookStore.getInstance(getContext()).update(multiItem.notebook, status, Status.ARCHIVED);
                     reload();
                     break;
                 case R.id.action_move:
@@ -228,11 +228,11 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
                     editNotebook(position, multiItem.notebook);
                     break;
                 case R.id.action_move_out:
-                    NotebookStore.getInstance(getContext()).update(notebook, status, Status.NORMAL);
+                    NotebookStore.getInstance(getContext()).update(multiItem.notebook, status, Status.NORMAL);
                     reload();
                     break;
                 case R.id.action_delete:
-                    showDeleteMsgDialog(notebook, position);
+                    showDeleteMsgDialog(multiItem.notebook, position);
                     break;
             }
             return true;
@@ -290,14 +290,14 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
         popupMenu.getMenu().findItem(R.id.action_delete).setVisible(status == Status.TRASHED);
     }
 
-    private void showDeleteMsgDialog(final Notebook notebook, final int position) {
+    private void showDeleteMsgDialog(final Notebook nb, final int position) {
         new MaterialDialog.Builder(getContext())
                 .title(R.string.text_warning)
                 .content(R.string.msg_when_delete_notebook)
                 .positiveText(R.string.text_delete_still)
                 .negativeText(R.string.text_give_up)
                 .onPositive((materialDialog, dialogAction) -> {
-                    NotebookStore.getInstance(getContext()).update(notebook, Status.DELETED);
+                    NotebookStore.getInstance(getContext()).update(nb, status, Status.DELETED);
                     reload();
                 })
                 .show();

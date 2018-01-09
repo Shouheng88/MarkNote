@@ -82,8 +82,6 @@ public class NotebookStore extends BaseStore<Notebook> {
     }
 
     /**
-     * TODO Bug when try to update the status of given notebook.
-     *
      * @param model notebook to update
      * @param fromStatus the status of the notebook list, Note: this status differs from the status
      *                   of given notebook. Because, for example, the notebook in archive that showed
