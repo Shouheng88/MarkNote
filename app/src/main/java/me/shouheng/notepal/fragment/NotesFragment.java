@@ -49,6 +49,7 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
     private final static int REQUEST_NOTE_VIEW = 0x0010;
     private final static int REQUEST_NOTE_EDIT = 0x0011;
 
+    private Status status;
     private Notebook notebook;
     private boolean isTopStack = true;
 
@@ -57,15 +58,6 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
     private NotebookEditDialog dialog;
 
     private NotesAdapter adapter;
-
-    public static NotesFragment newInstance(@Nullable Notebook notebook) {
-        Bundle args = new Bundle();
-        if (notebook != null) args.putSerializable(ARG_NOTEBOOK, notebook);
-        args.putSerializable(ARG_STATUS, Status.NORMAL);
-        NotesFragment fragment = new NotesFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     public static NotesFragment newInstance(@Nullable Notebook notebook, @Nonnull Status status) {
         Bundle args = new Bundle();
@@ -95,6 +87,11 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
         if (args != null && args.containsKey(ARG_NOTEBOOK)) {
             isTopStack = false;
             notebook = (Notebook) args.get(ARG_NOTEBOOK);
+        }
+        if (args != null && args.containsKey(ARG_STATUS)) {
+            status = (Status) getArguments().get(ARG_STATUS);
+        } else {
+            throw new IllegalArgumentException("status required");
         }
     }
 
@@ -155,10 +152,6 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
     }
 
     private List getNotesAndNotebooks() {
-        if (getArguments() == null || !getArguments().containsKey(ARG_STATUS)) {
-            return NotebookHelper.getNotesAndNotebooks(getContext(), notebook);
-        }
-        Status status = (Status) getArguments().get(ARG_STATUS);
         return status == Status.ARCHIVED ?
                 ArchiveHelper.getNotebooksAndNotes(getContext(), notebook) :
                 status == Status.TRASHED ?
@@ -167,9 +160,6 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
     }
 
     private String getEmptySubTitle() {
-        if (getArguments() == null || !getArguments().containsKey(ARG_STATUS)) return null;
-        Status status = (Status) getArguments().get(ARG_STATUS);
-        if (status == null) return null;
         switch (status) {
             case NORMAL:
                 return getString(R.string.notes_list_empty_sub_normal);
@@ -224,11 +214,11 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
         popupM.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()){
                 case R.id.action_trash:
-                    NotebookStore.getInstance(getContext()).update(notebook, Status.TRASHED);
+                    NotebookStore.getInstance(getContext()).update(notebook, status, Status.TRASHED);
                     reload();
                     break;
                 case R.id.action_archive:
-                    NotebookStore.getInstance(getContext()).update(notebook, Status.ARCHIVED);
+                    NotebookStore.getInstance(getContext()).update(notebook, status, Status.ARCHIVED);
                     reload();
                     break;
                 case R.id.action_move:
@@ -238,7 +228,7 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
                     editNotebook(position, multiItem.notebook);
                     break;
                 case R.id.action_move_out:
-                    NotebookStore.getInstance(getContext()).update(notebook, Status.NORMAL);
+                    NotebookStore.getInstance(getContext()).update(notebook, status, Status.NORMAL);
                     reload();
                     break;
                 case R.id.action_delete:
@@ -292,8 +282,6 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
     }
 
     private void configPopMenu(PopupMenu popupMenu) {
-        if (getArguments() == null || !getArguments().containsKey(ARG_STATUS)) return;
-        Status status = (Status) getArguments().get(ARG_STATUS);
         popupMenu.getMenu().findItem(R.id.action_move_out).setVisible(status == Status.ARCHIVED || status == Status.TRASHED);
         popupMenu.getMenu().findItem(R.id.action_edit).setVisible(status == Status.ARCHIVED || status == Status.NORMAL);
         popupMenu.getMenu().findItem(R.id.action_move).setVisible(status == Status.NORMAL);
