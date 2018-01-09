@@ -82,7 +82,7 @@ public class NotebookStore extends BaseStore<Notebook> {
     }
 
     /**
-     * Bug when try to update the status of given notebook.
+     * TODO Bug when try to update the status of given notebook.
      *
      * @param model notebook to update
      * @param toStatus the status to update to
