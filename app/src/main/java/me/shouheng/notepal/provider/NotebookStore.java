@@ -85,16 +85,18 @@ public class NotebookStore extends BaseStore<Notebook> {
      * TODO Bug when try to update the status of given notebook.
      *
      * @param model notebook to update
+     * @param fromStatus the status of the notebook list, Note: this status differs from the status
+     *                   of given notebook. Because, for example, the notebook in archive that showed
+     *                   to the user may not in {@link Status#ARCHIVED} state. The list may include
+     *                   the notebook of status {@link Status#NORMAL} too.
      * @param toStatus the status to update to
      */
-    @Override
-    public synchronized void update(Notebook model, Status toStatus) {
+    public synchronized void update(Notebook model, Status fromStatus, Status toStatus) {
         if (model == null || toStatus == null) return;
         TimelineHelper.addTimeLine(model, StoreHelper.getStatusOperation(toStatus));
         SQLiteDatabase database = getWritableDatabase();
         database.beginTransaction();
         try {
-            Status fromStatus = model.getStatus();
 
             /**
              * Update current notebook itself OF GIVEN STATUS. */
