@@ -13,6 +13,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -240,8 +242,7 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
                     reload();
                     break;
                 case R.id.action_delete:
-                    NotebookStore.getInstance(getContext()).update(notebook, Status.DELETED);
-                    reload();
+                    showDeleteMsgDialog(notebook, position);
                     break;
             }
             return true;
@@ -299,6 +300,19 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
         popupMenu.getMenu().findItem(R.id.action_trash).setVisible(status == Status.NORMAL || status == Status.ARCHIVED);
         popupMenu.getMenu().findItem(R.id.action_archive).setVisible(status == Status.NORMAL);
         popupMenu.getMenu().findItem(R.id.action_delete).setVisible(status == Status.TRASHED);
+    }
+
+    private void showDeleteMsgDialog(final Notebook notebook, final int position) {
+        new MaterialDialog.Builder(getContext())
+                .title(R.string.text_warning)
+                .content(R.string.msg_when_delete_notebook)
+                .positiveText(R.string.text_delete_still)
+                .negativeText(R.string.text_give_up)
+                .onPositive((materialDialog, dialogAction) -> {
+                    NotebookStore.getInstance(getContext()).update(notebook, Status.DELETED);
+                    reload();
+                })
+                .show();
     }
     // endregion
 
