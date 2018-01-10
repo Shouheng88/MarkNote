@@ -80,6 +80,23 @@
     <string name="working">正在执行&#8230;</string>
     <!--endregion-->
 
+    <!--region App info page-->
+    <string name="app_info">程序信息</string>
+    <string name="app_description">一款基于Material Design的Markdown笔记应用</string>\
+    <string name="help_development">协助开发</string>
+    <string name="translation">翻译</string>
+    <string name="translate_to_other_languages">将PalmCollege翻译成其他语言</string>
+    <string name="rating">评分</string>
+    <string name="give_good_rating_if_you_like">如果你喜欢PalmCollege，就给我们个好评</string>
+    <string name="thanks">特别感谢</string>
+    <string name="thanks_details">百度地图提供的定位相关API\n您选择使用本应用</string>
+    <string name="developer_and_license">开发者&amp;许可证</string>
+    <string name="developers">开发者</string>
+    <string name="developer_name">Wng Shhng</string>
+    <string name="open_source_libraries_permissions">开源库许可</string>
+    <string name="view_third_part_libraries">查看使用的第三方库</string>
+    <!--endregion-->
+
     <!--region drawer menu-->
     <string name="drawer_menu_notes">笔记信息</string>
     <string name="drawer_menu_minds">小纸条</string>

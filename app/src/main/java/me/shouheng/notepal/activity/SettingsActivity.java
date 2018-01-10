@@ -13,6 +13,7 @@ import org.polaric.colorful.Colorful;
 
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.ActivitySettingsBinding;
+import me.shouheng.notepal.fragment.AppInfoFragment;
 import me.shouheng.notepal.fragment.PrimaryPickerFragment;
 import me.shouheng.notepal.fragment.SettingsBackup;
 import me.shouheng.notepal.fragment.SettingsFragment;
@@ -122,6 +123,9 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> im
                 break;
             case SettingsFragment.KEY_DATA_BACKUP:
                 FragmentHelper.replaceWithCallback(this, new SettingsBackup(), R.id.fragment_container);
+                break;
+            case SettingsFragment.KEY_ABOUT:
+                FragmentHelper.replaceWithCallback(this, new AppInfoFragment(), R.id.fragment_container);
                 break;
         }
     }

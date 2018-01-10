@@ -31,22 +31,6 @@
         <item name="android:tint">@color/white</item>
     </style>
 
-    <style name="SettingsCardStyle">
-        <item name="android:layout_marginStart">16dp</item>
-        <item name="android:layout_marginEnd">16dp</item>
-        <item name="android:layout_marginTop">8dp</item>
-        <item name="android:layout_marginBottom">8dp</item>
-        <item name="android:foreground">@drawable/ripple</item>
-        <item name="android:clickable">true</item>
-    </style>
-
-    <style name="SettingsCardTitleStyle">
-        <item name="android:textColor">@color/light_theme_text_color</item>
-        <item name="android:layout_marginStart">16dp</item>
-        <item name="android:layout_marginTop">8dp</item>
-        <item name="android:layout_marginBottom">8dp</item>
-    </style>
-
     <!--region user info-->
     <style name="ProfileCardStyle">
         <item name="android:layout_marginStart">16dp</item>
@@ -78,6 +62,52 @@
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:layout_marginStart">@dimen/medium_spacing</item>
         <item name="android:layout_marginEnd">@dimen/medium_spacing</item>
+    </style>
+    <!--endregion-->
+
+    <!--region setting page-->
+    <style name="SettingsCardStyle">
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:foreground">@drawable/ripple</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+    <style name="SettingsCardTitleStyle">
+        <item name="android:textColor">@color/light_theme_text_color</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+    </style>
+
+    <style name="SettingsCardItemTitleStyle">
+        <item name="android:paddingTop">@dimen/sub_big_spacing</item>
+        <item name="android:paddingBottom">@dimen/medium_spacing</item>
+        <item name="android:textSize">@dimen/sub_big_text</item>
+    </style>
+
+    <style name="SettingsCardItemIconStyle">
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_marginStart">@dimen/medium_spacing</item>
+        <item name="android:layout_marginEnd">@dimen/medium_spacing</item>
+    </style>
+
+    <style name="SettingsCardItemDetailLinearLayout">
+        <item name="android:paddingTop">@dimen/small_spacing</item>
+        <item name="android:paddingBottom">@dimen/small_spacing</item>
+        <item name="android:paddingRight">@dimen/medium_spacing</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="SettingsCardItemDetailTitle">
+        <item name="android:textSize">@dimen/medium_text</item>
+        <item name="android:textColor">@color/light_theme_text_color</item>
+    </style>
+
+    <style name="SettingsCardItemDetailSubTitle">
+        <item name="android:textSize">@dimen/sub_medium_text</item>
     </style>
     <!--endregion-->
 </resources>
