@@ -12,10 +12,13 @@ import android.widget.EditText;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
+import java.io.File;
+
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.CommonActivity;
 import me.shouheng.notepal.async.DataBackupIntentService;
 import me.shouheng.notepal.listener.OnFragmentDestroyListener;
+import me.shouheng.notepal.util.FileHelper;
 import me.shouheng.notepal.util.PermissionUtils;
 import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.StringUtils;
@@ -25,7 +28,8 @@ import me.shouheng.notepal.util.ToastUtils;
  * Created by wang shouheng on 2018/1/5.*/
 public class SettingsBackup extends PreferenceFragment {
 
-    private final static String KEY_EXTERNAL_STORAGE = "backup_to_external_storage";
+    private final static String KEY_BACKUP_TO_EXTERNAL_STORAGE = "backup_to_external_storage";
+    private final static String KEY_IMPORT_FROM_EXTERNAL_STORAGE = "import_from_external_storage";
 
     private PreferencesUtils preferencesUtils;
 
@@ -47,8 +51,12 @@ public class SettingsBackup extends PreferenceFragment {
     }
 
     private void setPreferenceClickListeners() {
-        findPreference(KEY_EXTERNAL_STORAGE).setOnPreferenceClickListener(preference -> {
+        findPreference(KEY_BACKUP_TO_EXTERNAL_STORAGE).setOnPreferenceClickListener(preference -> {
             PermissionUtils.checkStoragePermission((CommonActivity) getActivity(), this::showBackupNameEditor);
+            return true;
+        });
+        findPreference(KEY_IMPORT_FROM_EXTERNAL_STORAGE).setOnPreferenceClickListener(preference -> {
+            PermissionUtils.checkStoragePermission((CommonActivity) getActivity(), this::showExternalBackupImport);
             return true;
         });
     }
@@ -77,6 +85,50 @@ public class SettingsBackup extends PreferenceFragment {
                     service.putExtra(DataBackupIntentService.INTENT_BACKUP_INCLUDE_SETTINGS, cb.isChecked());
                     service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME, backupName);
                     getActivity().startService(service);
+                }).build().show();
+    }
+
+    private void showExternalBackupImport() {
+        final CharSequence[] backups = FileHelper.getExternalStoragePublicDir().list();
+        if (backups.length == 0) {
+            ToastUtils.makeToast(getActivity(), R.string.backup_no_backups_available);
+            return;
+        }
+
+        new MaterialDialog.Builder(getActivity())
+                .title(R.string.backup_data_import_message)
+                .items(backups)
+                .itemsCallbackSingleChoice(-1, (dialog, itemView, which, text) -> {
+                    soowExternalBackupImportConfirm(text.toString());
+                    return true;
+                })
+                .positiveText(R.string.confirm)
+                .onPositive((dialog, which) -> {})
+                .build().show();
+    }
+
+    private void soowExternalBackupImportConfirm(String backup) {
+        File backupDir = FileHelper.getBackupDir(backup);
+        long size = FileHelper.getSize(backupDir) / 1024;
+        String sizeString = size > 1024 ? size / 1024 + "Mb" : size + "Kb";
+
+        String prefName = FileHelper.getSharedPreferencesFile(getActivity()).getName();
+        boolean hasPreferences = (new File(backupDir, prefName)).exists();
+
+        String message = backup + " (" + sizeString + (hasPreferences ? " " + getString(R.string.backup_settings_included) : "") + ")";
+
+        new MaterialDialog.Builder(getActivity())
+                .title(R.string.backup_confirm_restoring_backup)
+                .content(message)
+                .positiveText(R.string.confirm)
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog materialDialog) {
+                        Intent service = new Intent(getActivity(), DataBackupIntentService.class);
+                        service.setAction(DataBackupIntentService.ACTION_DATA_IMPORT);
+                        service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME, backup);
+                        getActivity().startService(service);
+                    }
                 }).build().show();
     }
 
