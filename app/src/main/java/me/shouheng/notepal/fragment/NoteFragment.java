@@ -261,6 +261,7 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
 
     @Override
     protected void onGetLocation(Location location) {
+        this.location = location;
         location.setModelCode(note.getCode());
         location.setModelType(ModelType.NOTE);
         LocationsStore.getInstance(getContext()).saveModel(location);
