@@ -8,7 +8,7 @@
         android:summary="@string/backup_to_external_storage_sub"/>
 
     <Preference
-        android:key="backup_to_external_storage"
+        android:key="import_from_external_storage"
         android:persistent="false"
         android:title="@string/backup_import_from_external_storage"
         android:summary="@string/backup_import_from_external_storage_sub" />
