@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.os.StatFs;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
@@ -25,6 +26,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.security.InvalidParameterException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -93,6 +95,49 @@ public class FileHelper {
             }
         }
         return null;
+    }
+
+    public static long getSize(File directory) {
+        StatFs statFs = new StatFs(directory.getAbsolutePath());
+        long blockSize = 0;
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                blockSize = statFs.getBlockSizeLong();
+            } else {
+                blockSize = statFs.getBlockSize();
+            }
+            // Can't understand why on some devices this fails
+        } catch (NoSuchMethodError e) {
+            LogUtils.e("Mysterious error", e);
+        }
+        return getSize(directory, blockSize);
+    }
+
+    private static long getSize(File directory, long blockSize) {
+        if (blockSize == 0) {
+            throw new InvalidParameterException("Blocksize can't be 0");
+        }
+        File[] files = directory.listFiles();
+        if (files != null) {
+
+            // space used by directory itself
+            long size = directory.length();
+
+            for (File file : files) {
+                if (file.isDirectory()) {
+                    // space used by subdirectory
+                    size += getSize(file, blockSize);
+                } else {
+                    // file size need to rounded up to full block sizes
+                    // (not a perfect function, it adds additional block to 0 sized files
+                    // and file who perfectly fill their blocks)
+                    size += (file.length() / blockSize + 1) * blockSize;
+                }
+            }
+            return size;
+        } else {
+            return 0;
+        }
     }
 
     @SuppressLint("NewApi")
