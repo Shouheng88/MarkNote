@@ -13,6 +13,7 @@ import android.widget.EditText;
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.CommonActivity;
@@ -30,6 +31,7 @@ public class SettingsBackup extends PreferenceFragment {
 
     private final static String KEY_BACKUP_TO_EXTERNAL_STORAGE = "backup_to_external_storage";
     private final static String KEY_IMPORT_FROM_EXTERNAL_STORAGE = "import_from_external_storage";
+    private final static String KEY_DELETE_EXTERNAL_STORAGE_BACKUP = "delete_external_storage_backup";
 
     private PreferencesUtils preferencesUtils;
 
@@ -57,6 +59,10 @@ public class SettingsBackup extends PreferenceFragment {
         });
         findPreference(KEY_IMPORT_FROM_EXTERNAL_STORAGE).setOnPreferenceClickListener(preference -> {
             PermissionUtils.checkStoragePermission((CommonActivity) getActivity(), this::showExternalBackupImport);
+            return true;
+        });
+        findPreference(KEY_DELETE_EXTERNAL_STORAGE_BACKUP).setOnPreferenceClickListener(preference -> {
+            PermissionUtils.checkStoragePermission((CommonActivity) getActivity(), this::showExternalBackupDelete);
             return true;
         });
     }
@@ -115,20 +121,55 @@ public class SettingsBackup extends PreferenceFragment {
         String prefName = FileHelper.getSharedPreferencesFile(getActivity()).getName();
         boolean hasPreferences = (new File(backupDir, prefName)).exists();
 
-        String message = backup + " (" + sizeString + (hasPreferences ? " " + getString(R.string.backup_settings_included) : "") + ")";
+        String message = getString(R.string.backup_data_import_message_warning) + "\n\n"
+                + backup + " (" + sizeString + (hasPreferences ? " " + getString(R.string.backup_settings_included) : "") + ")";
 
         new MaterialDialog.Builder(getActivity())
                 .title(R.string.backup_confirm_restoring_backup)
                 .content(message)
                 .positiveText(R.string.confirm)
-                .callback(new MaterialDialog.ButtonCallback() {
-                    @Override
-                    public void onPositive(MaterialDialog materialDialog) {
-                        Intent service = new Intent(getActivity(), DataBackupIntentService.class);
-                        service.setAction(DataBackupIntentService.ACTION_DATA_IMPORT);
-                        service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME, backup);
-                        getActivity().startService(service);
+                .onPositive((dialog, which) -> {
+                    Intent service = new Intent(getActivity(), DataBackupIntentService.class);
+                    service.setAction(DataBackupIntentService.ACTION_DATA_IMPORT);
+                    service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME, backup);
+                    getActivity().startService(service);
+                }).build().show();
+    }
+
+    private void showExternalBackupDelete() {
+        final CharSequence[] backups = FileHelper.getExternalStoragePublicDir().list();
+        if (backups.length == 0) {
+            ToastUtils.makeToast(getActivity(), R.string.backup_no_backups_to_delete);
+            return;
+        }
+
+        ArrayList<String> selected = new ArrayList<>();
+        new MaterialDialog.Builder(getActivity())
+                .title(R.string.backup_data_delete_message)
+                .items(backups)
+                .itemsCallbackMultiChoice(new Integer[]{}, (dialog, which, text) -> {
+                    selected.clear();
+                    for (int i = 0; i < which.length; i++) {
+                        selected.add(text[i].toString());
                     }
+                    return true;
+                })
+                .positiveText(R.string.confirm)
+                .onPositive((dialog, which) -> {
+                    showExternalBackupDeleteConfirm(selected);
+                }).build().show();
+    }
+
+    private void showExternalBackupDeleteConfirm(ArrayList<String> selected) {
+        new MaterialDialog.Builder(getActivity())
+                .title(R.string.text_warning)
+                .content(R.string.backup_confirm_removing_backup)
+                .positiveText(R.string.confirm)
+                .onPositive((dialog, which) -> {
+                    Intent service = new Intent(getActivity(), DataBackupIntentService.class);
+                    service.setAction(DataBackupIntentService.ACTION_DATA_DELETE);
+                    service.putStringArrayListExtra(DataBackupIntentService.INTENT_BACKUP_NAME, selected);
+                    getActivity().startService(service);
                 }).build().show();
     }
 

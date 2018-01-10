@@ -39,8 +39,6 @@ public class DataBackupIntentService extends IntentService {
 
     public final static String ACTION_DATA_DELETE = "action_data_delete";
 
-    public final static String EXTRA_SPRINGPAD_BACKUP = "extra_springpad_backup";
-
     private NotificationsHelper mNotificationsHelper;
 
     public DataBackupIntentService() {
@@ -59,6 +57,8 @@ public class DataBackupIntentService extends IntentService {
             exportData(intent);
         } else if (ACTION_DATA_IMPORT.equals(intent.getAction())) {
             importData(intent);
+        } else if (ACTION_DATA_DELETE.equals(intent.getAction())) {
+            deleteData(intent);
         }
     }
 
@@ -187,6 +187,24 @@ public class DataBackupIntentService extends IntentService {
         File preferences = FileHelper.getSharedPreferencesFile(this);
         File preferenceBackup = new File(backupDir, preferences.getName());
         return (FileHelper.copyFile(preferenceBackup, preferences));
+    }
+    // endregion
+
+    // region delete data
+    synchronized private void deleteData(Intent intent) {
+        List<String> backups = intent.getStringArrayListExtra(INTENT_BACKUP_NAME);
+
+        StringBuilder names = new StringBuilder();
+        for (String backup : backups) {
+            File backupDir = FileHelper.getBackupDir(backup);
+            FileHelper.delete(this, backupDir.getAbsolutePath());
+            names.append(backup);
+            names.append(",");
+        }
+
+        String title = getString(R.string.backup_data_deletion_completed);
+        names.append(getString(R.string.text_delete));
+        createNotification(intent, this, title, names.toString(), null);
     }
     // endregion
 }

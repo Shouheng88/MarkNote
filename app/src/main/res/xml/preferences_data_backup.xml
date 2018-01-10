@@ -13,4 +13,10 @@
         android:title="@string/backup_import_from_external_storage"
         android:summary="@string/backup_import_from_external_storage_sub" />
 
+    <Preference
+        android:key="delete_external_storage_backup"
+        android:persistent="false"
+        android:title="@string/backup_delete_external_backup"
+        android:summary="@string/backup_delete_external_backup_sub" />
+
 </PreferenceScreen>
