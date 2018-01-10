@@ -22,6 +22,7 @@
     <string name="text_close">关闭</string>
     <string name="text_created_time">创建时间</string>
     <string name="text_delete">删除</string>
+    <string name="text_deleted">删除</string>
     <string name="text_delete_still">仍然删除</string>
     <string name="text_edit">编辑</string>
     <string name="text_find">查找</string>
@@ -279,13 +280,19 @@
     <string name="backup_data_export_completed">数据备份完成</string>
     <string name="backup_backup_existing">备份已存在，该备份将被覆盖</string>
 
-    <string name="backup_confirm_removing_backup">确认删除备份</string>
     <string name="backup_confirm_restoring_backup">确认还原备份</string>
-    <string name="backup_data_deletion_completed">数据删除完成</string>
     <string name="backup_settings_included">设置已包括</string>
+
+    <string name="backup_confirm_removing_backup">确认删除备份</string>
+    <string name="backup_data_delete_message">删除备份</string>
+    <string name="backup_data_deletion_completed">数据删除完成</string>
 
     <string name="backup_data_import_completed">数据导入完成</string>
     <string name="backup_click_to_refresh_application">点击刷新应用</string>
+
+    <string name="backup_no_backups_to_delete">没有备份数据</string>
+    <string name="backup_delete_external_backup">删除外部存储的备份数据</string>
+    <string name="backup_delete_external_backup_sub">删除备份在外部存储空间的数据</string>
     <!--endregion-->
 
     <!--region note settings-->
