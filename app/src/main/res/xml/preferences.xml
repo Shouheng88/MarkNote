@@ -104,6 +104,7 @@
 
         <Preference
             android:key="about"
+            android:persistent="false"
             android:title="@string/setting_about"
             android:summary="@string/setting_about_sub"/>
 

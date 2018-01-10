@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Point;
+import android.net.Uri;
 import android.os.Build;
+import android.support.customtabs.CustomTabsIntent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -70,5 +72,16 @@ public class ViewUtils {
         } else {
             v.setAlpha(alpha);
         }
+    }
+
+    public static void launchUrl(Context context, String url) {
+        int primaryColor = ColorUtils.primaryColor(context);
+
+        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+        CustomTabsIntent customTabsIntent = builder
+                .setToolbarColor(primaryColor)
+                .setSecondaryToolbarColor(ColorUtils.calStatusBarColor(primaryColor))
+                .build();
+        customTabsIntent.launchUrl(context, Uri.parse(url));
     }
 }

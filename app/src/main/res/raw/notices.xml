@@ -43,12 +43,6 @@
         <license>Apache Software License 2.0</license>
     </notice>
     <notice>
-        <name>Android Week View</name>
-        <url>https://github.com/alamkanak/Android-Week-View</url>
-        <copyright>Copyright 2014 Raquib-ul-Alam</copyright>
-        <license>Apache Software License 2.0</license>
-    </notice>
-    <notice>
         <name>Android Holo ColorPicker</name>
         <url>https://github.com/LarsWerkman/HoloColorPicker</url>
         <copyright>Copyright 2012 Lars Werkman</copyright>
@@ -58,12 +52,6 @@
         <name>Floating Action Button</name>
         <url>https://github.com/Clans/FloatingActionButton</url>
         <copyright>Copyright 2015 Dmytro Tarianyk</copyright>
-        <license>Apache Software License 2.0</license>
-    </notice>
-    <notice>
-        <name>Date Time Picker</name>
-        <url>https://github.com/flavienlaurent/datetimepicker</url>
-        <copyright>Copyright 2013 Flavien Laurent (DatePicker) edisonw (TimePicker)</copyright>
         <license>Apache Software License 2.0</license>
     </notice>
     <notice>
