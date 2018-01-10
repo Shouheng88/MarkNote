@@ -99,7 +99,7 @@ public class SettingsBackup extends PreferenceFragment {
                 .title(R.string.backup_data_import_message)
                 .items(backups)
                 .itemsCallbackSingleChoice(-1, (dialog, itemView, which, text) -> {
-                    soowExternalBackupImportConfirm(text.toString());
+                    showExternalBackupImportConfirm(text.toString());
                     return true;
                 })
                 .positiveText(R.string.confirm)
@@ -107,7 +107,7 @@ public class SettingsBackup extends PreferenceFragment {
                 .build().show();
     }
 
-    private void soowExternalBackupImportConfirm(String backup) {
+    private void showExternalBackupImportConfirm(String backup) {
         File backupDir = FileHelper.getBackupDir(backup);
         long size = FileHelper.getSize(backupDir) / 1024;
         String sizeString = size > 1024 ? size / 1024 + "Mb" : size + "Kb";
