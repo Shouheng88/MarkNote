@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import me.shouheng.notepal.R;
 import me.shouheng.notepal.util.ColorUtils;
 
 /**
@@ -32,6 +33,7 @@ public abstract class CommonFragment<T extends ViewDataBinding> extends Fragment
         }
 
         binding = DataBindingUtil.inflate(inflater, getLayoutResId(), container, false);
+        if (isDarkTheme()) binding.getRoot().setBackgroundResource(R.color.dark_theme_background);
 
         doCreateView(savedInstanceState);
 
