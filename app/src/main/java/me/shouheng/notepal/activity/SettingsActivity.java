@@ -7,6 +7,7 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.MenuItem;
 
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
@@ -130,7 +131,11 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> im
                 FragmentHelper.replaceWithCallback(this, new SettingsBackup(), R.id.fragment_container);
                 break;
             case SettingsFragment.KEY_DATA_SECURITY:
-                LockActivity.requirePassword(this, REQUEST_CODE_PASSWORD);
+                if (preferencesUtils.isPasswordRequired() && !TextUtils.isEmpty(preferencesUtils.getPassword())) {
+                    LockActivity.requirePassword(this, REQUEST_CODE_PASSWORD);
+                } else {
+                    FragmentHelper.replaceWithCallback(this, new SettingsDataSecurity(), R.id.fragment_container);
+                }
                 break;
             case SettingsFragment.KEY_ABOUT:
                 FragmentHelper.replaceWithCallback(this, new AppInfoFragment(), R.id.fragment_container);

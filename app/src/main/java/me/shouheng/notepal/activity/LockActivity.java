@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.text.format.DateUtils;
 import android.view.View;
 
 import com.andrognito.pinlockview.IndicatorDots;
@@ -11,17 +12,25 @@ import com.andrognito.pinlockview.PinLockListener;
 
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.ActivityLockBinding;
-import me.shouheng.notepal.util.LogUtils;
+import me.shouheng.notepal.util.MD5Util;
+import me.shouheng.notepal.util.PreferencesUtils;
+import me.shouheng.notepal.util.ToastUtils;
 
 public class LockActivity extends CommonActivity<ActivityLockBinding> {
 
     private final static String ACTION_SET_PASSWORD = "action_set_password";
     private final static String ACTION_REQUIRE_PERMISSION = "action_require_password";
 
-    public static void setPassword(Activity activity, int requestCode) {
+    private String lastInputPassword;
+
+    private int errorTimes = 0;
+
+    private PreferencesUtils preferencesUtils;
+
+    public static void setPassword(Activity activity) {
         Intent intent = new Intent(activity, LockActivity.class);
         intent.setAction(ACTION_SET_PASSWORD);
-        activity.startActivityForResult(intent, requestCode);
+        activity.startActivity(intent);
     }
 
     public static void requirePassword(Activity activity, int requestCode) {
@@ -37,6 +46,8 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {
+        preferencesUtils = PreferencesUtils.getInstance(getParent());
+
         configSystemUI();
 
         configViews();
@@ -66,7 +77,11 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
 
         @Override
         public void onComplete(String pin) {
-            LogUtils.d("Pin complete: " + pin);
+            if (getIntent().getAction().equals(ACTION_REQUIRE_PERMISSION)) {
+                onCompleteForRequirement(pin);
+            } else if (getIntent().getAction().equals(ACTION_SET_PASSWORD)) {
+                onCompleteForSetting(pin);
+            }
         }
 
         @Override
@@ -75,4 +90,45 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
         @Override
         public void onPinChange(int pinLength, String intermediatePin) {}
     };
+
+    private void onCompleteForRequirement(String pin) {
+        pin = MD5Util.MD5(pin);
+        if (preferencesUtils.getLastInputErrorTime()
+                + preferencesUtils.getPasswordFreezeTime() * DateUtils.MINUTE_IN_MILLIS > System.currentTimeMillis()) {
+            ToastUtils.makeToast(this, R.string.setting_password_frozen);
+            return;
+        }
+        if (pin.equals(preferencesUtils.getPassword())) {
+            Intent intent = new Intent();
+            setResult(Activity.RESULT_OK, intent);
+            finish();
+        } else {
+            errorTimes++;
+            getBinding().pinLockView.resetPinLockView();
+            ToastUtils.makeToast(this, String.format(getString(R.string.setting_input_wrong_password), 5 - errorTimes));
+            if (errorTimes == 5) {
+                preferencesUtils.setLastInputErrorTime(System.currentTimeMillis());
+                ToastUtils.makeToast(this, String.format(getString(R.string.setting_password_frozen_minutes),
+                        preferencesUtils.getPasswordFreezeTime()));
+            }
+        }
+    }
+
+    private void onCompleteForSetting(String pin) {
+        pin = MD5Util.MD5(pin);
+        if (lastInputPassword == null) {
+            lastInputPassword = pin;
+            getBinding().profileName.setText(R.string.setting_input_password_again);
+            getBinding().pinLockView.resetPinLockView();
+        } else {
+            if (lastInputPassword.equals(pin)) {
+                preferencesUtils.setPassword(pin);
+                finish();
+            } else {
+                lastInputPassword = null;
+                getBinding().profileName.setText(R.string.setting_input_password_newly);
+                getBinding().pinLockView.resetPinLockView();
+            }
+        }
+    }
 }
