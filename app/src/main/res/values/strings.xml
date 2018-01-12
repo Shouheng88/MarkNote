@@ -283,6 +283,15 @@
     <string name="setting_system_animation_sub">在整个应用中启用系统动画</string>
     <string name="setting_list_animation">列表动画</string>
     <string name="setting_list_animation_sub">在整个应用中启用列表动画</string>
+    <string name="setting_password_required">启用独立密码</string>
+    <string name="setting_password_required_sub">需要输入密码才能访问应用</string>
+    <string name="setting_set_password">设置独立密码</string>
+    <string name="setting_set_password_sub">设置访问应用需要的独立密码</string>
+    <string name="setting_input_password_again">再次输入</string>
+    <string name="setting_input_wrong_password">密码错误，你还有%d次机会</string>
+    <string name="setting_input_password_newly">输入新密码</string>
+    <string name="setting_password_frozen">密码处于冻结状态</string>
+    <string name="setting_password_frozen_minutes">密码将要被冻结%d分钟.</string>
     <!--endregion-->
 
     <!--region backup-->

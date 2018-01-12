@@ -111,6 +111,8 @@ public class PreferencesUtils {
 
     private final String TOUR_ACTIVITY_SHOWED = "tour_activity_showed";
 
+    private final String KEY_LAST_INPUT_ERROR_TIME = "last_input_error_time";
+
     public void setTourActivityShowed(boolean showed) {
         putBooleanValue(TOUR_ACTIVITY_SHOWED, showed);
     }
@@ -170,11 +172,21 @@ public class PreferencesUtils {
         putIntValue(MIND_SNAGGINGS_LIST_TYPE, type.id);
     }
 
+    public void setLastInputErrorTime(long millis) {
+        putLongValue(KEY_LAST_INPUT_ERROR_TIME, millis);
+    }
+
+    public long getLastInputErrorTime() {
+        return getLongValue(KEY_LAST_INPUT_ERROR_TIME, 0);
+    }
     // endregion
 
     // region universal
     private final String LIST_ANIMATION = "list_animation";
     private final String SYSTEM_ANIMATION = "system_animation";
+    private final String PASSWORD_REQUIRED = "password_required";
+    private final String PASSWORD = "password";
+    private final String PASSWORD_INPUT_FREEZE_TIME = "password_input_freeze_time";
 
     public void enableListAnimation(boolean enable){
         putBooleanValue(LIST_ANIMATION, enable);
@@ -190,6 +202,26 @@ public class PreferencesUtils {
 
     public boolean systemAnimationEnabled() {
         return getBooleanValue(SYSTEM_ANIMATION, true);
+    }
+
+    public void setPasswordRequired(boolean isRequired) {
+        putBooleanValue(PASSWORD_REQUIRED, isRequired);
+    }
+
+    public boolean isPasswordRequired() {
+        return getBooleanValue(PASSWORD_REQUIRED, false);
+    }
+
+    public void setPassword(String password) {
+        putStringValue(PASSWORD, password);
+    }
+
+    public String getPassword() {
+        return getStringValue(PASSWORD, null);
+    }
+
+    public int getPasswordFreezeTime() {
+        return getIntValue(PASSWORD_INPUT_FREEZE_TIME, 5);
     }
     // endregion
 

@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory>
+    <CheckBoxPreference
+        android:key="password_required"
+        android:defaultValue="false"
+        android:title="@string/setting_password_required"
+        android:summary="@string/setting_password_required_sub"/>
 
-        <CheckBoxPreference
-            android:key="list_animation"
-            android:defaultValue="true"
-            android:title="@string/setting_list_animation"
-            android:summary="@string/setting_list_animation_sub"/>
-
-    </PreferenceCategory>
+    <Preference
+        android:key="set_password"
+        android:persistent="false"
+        android:title="@string/setting_set_password"
+        android:summary="@string/setting_set_password_sub"/>
 
 </PreferenceScreen>
