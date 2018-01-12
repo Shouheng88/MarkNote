@@ -63,6 +63,7 @@ dependencies {
     implementation 'de.psdev.licensesdialog:licensesdialog:1.8.1'
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
     implementation 'com.github.lecho:hellocharts-android:v1.5.8'
+    implementation 'com.andrognito.pinlockview:pinlockview:2.1.0'
     compile('com.crashlytics.sdk.android:crashlytics:2.8.0@aar') {
         transitive = true
     }

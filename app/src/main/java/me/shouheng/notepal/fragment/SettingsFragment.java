@@ -25,18 +25,15 @@ public class SettingsFragment extends PreferenceFragment {
     private final static String KEY_USER_INTRO = "user_intro";
     public final static String KEY_ABOUT = "about";
     public final static String KEY_DATA_BACKUP = "data_backup";
+    public final static String KEY_DATA_SECURITY = "data_security";
 
     private CheckBoxPreference isDarkTheme, coloredNavigationBar;
 
     private ColorPreference primaryColor, accentColor, noteColor, notebookColor;
 
-    private PreferencesUtils preferencesUtils;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        preferencesUtils = PreferencesUtils.getInstance(getActivity());
 
         addPreferencesFromResource(R.xml.preferences);
 
@@ -105,6 +102,12 @@ public class SettingsFragment extends PreferenceFragment {
         findPreference(KEY_DATA_BACKUP).setOnPreferenceClickListener(preference -> {
             if (getActivity() != null && getActivity() instanceof OnPreferenceClickListener) {
                 ((OnPreferenceClickListener) getActivity()).onPreferenceClick(KEY_DATA_BACKUP);
+            }
+            return true;
+        });
+        findPreference(KEY_DATA_SECURITY).setOnPreferenceClickListener(preference -> {
+            if (getActivity() != null && getActivity() instanceof OnPreferenceClickListener) {
+                ((OnPreferenceClickListener) getActivity()).onPreferenceClick(KEY_DATA_SECURITY);
             }
             return true;
         });

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory>
+
+        <CheckBoxPreference
+            android:key="list_animation"
+            android:defaultValue="true"
+            android:title="@string/setting_list_animation"
+            android:summary="@string/setting_list_animation_sub"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
