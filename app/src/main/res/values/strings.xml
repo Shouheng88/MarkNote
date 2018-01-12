@@ -78,6 +78,7 @@
     <string name="text_tab_again_exit">再按一次退出</string>
     <string name="text_attachment">附件</string>
     <string name="working">正在执行&#8230;</string>
+    <string name="text_welcome">欢迎</string>
     <!--endregion-->
 
     <!--region App info page-->
@@ -276,6 +277,8 @@
     <string name="setting_preference">通用设置</string>
     <string name="setting_backup">数据备份</string>
     <string name="setting_backup_sub">导入或者导出程序数据</string>
+    <string name="setting_data_security">数据安全</string>
+    <string name="setting_data_security_sub">添加应用锁</string>
     <string name="setting_system_animation">系统动画</string>
     <string name="setting_system_animation_sub">在整个应用中启用系统动画</string>
     <string name="setting_list_animation">列表动画</string>

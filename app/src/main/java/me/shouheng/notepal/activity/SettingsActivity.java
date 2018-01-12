@@ -1,5 +1,7 @@
 package me.shouheng.notepal.activity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
@@ -16,6 +18,7 @@ import me.shouheng.notepal.databinding.ActivitySettingsBinding;
 import me.shouheng.notepal.fragment.AppInfoFragment;
 import me.shouheng.notepal.fragment.PrimaryPickerFragment;
 import me.shouheng.notepal.fragment.SettingsBackup;
+import me.shouheng.notepal.fragment.SettingsDataSecurity;
 import me.shouheng.notepal.fragment.SettingsFragment;
 import me.shouheng.notepal.listener.OnFragmentDestroyListener;
 import me.shouheng.notepal.listener.OnThemeSelectedListener;
@@ -30,6 +33,8 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> im
     private String keyForColor;
 
     private PreferencesUtils preferencesUtils;
+
+    private final static int REQUEST_CODE_PASSWORD = 0x0201;
 
     @Override
     protected int getLayoutResId() {
@@ -124,6 +129,9 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> im
             case SettingsFragment.KEY_DATA_BACKUP:
                 FragmentHelper.replaceWithCallback(this, new SettingsBackup(), R.id.fragment_container);
                 break;
+            case SettingsFragment.KEY_DATA_SECURITY:
+                LockActivity.requirePassword(this, REQUEST_CODE_PASSWORD);
+                break;
             case SettingsFragment.KEY_ABOUT:
                 FragmentHelper.replaceWithCallback(this, new AppInfoFragment(), R.id.fragment_container);
                 break;
@@ -164,5 +172,17 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> im
     @Override
     public void onFragmentDestroy() {
         getSupportActionBar().setTitle(R.string.text_settings);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_CODE_PASSWORD:
+                if (resultCode == Activity.RESULT_OK) {
+                    FragmentHelper.replaceWithCallback(this, new SettingsDataSecurity(), R.id.fragment_container);
+                }
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
