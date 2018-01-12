@@ -22,20 +22,6 @@ import me.shouheng.notepal.util.enums.MindSnaggingListType;
  * Created by Wang Shouheng on 2017/12/5. */
 public class PreferencesUtils {
 
-    public final static String IS_DARK_THEME = "is_dark_theme";
-    public final static String PRIMARY_COLOR = "primary_color";
-    public final static String ACCENT_COLOR = "accent_color";
-    public final static String COLORED_NAVIGATION_BAR = "colored_navigation_bar";
-
-    private final String TOUR_ACTIVITY_SHOWED = "tour_activity_showed";
-    private final String FIRST_DAY_OF_WEEK = "first_day_of_week";
-    private final String VIDEO_SIZE_LIMIT = "VIDEO_SIZE_LIMIT";
-
-    private final String FAB_SORT_RESULT = "fab_sort_result";
-    private final String FAB_SORT_SPLIT = ":";
-
-    private final String MIND_SNAGGINGS_LIST_TYPE = "mind_snaggings_list_type";
-
     public static List<FabSortItem> defaultFabOrders;
 
     static {
@@ -75,6 +61,11 @@ public class PreferencesUtils {
     }
 
     // region theme
+    public final static String IS_DARK_THEME = "is_dark_theme";
+    public final static String PRIMARY_COLOR = "primary_color";
+    public final static String ACCENT_COLOR = "accent_color";
+    public final static String COLORED_NAVIGATION_BAR = "colored_navigation_bar";
+
     public void setDarkTheme(boolean isDarkTheme) {
         putBooleanValue(IS_DARK_THEME, isDarkTheme);
     }
@@ -98,19 +89,6 @@ public class PreferencesUtils {
     public void setAccentColor(Colorful.AccentColor accentColor){
         putStringValue(ACCENT_COLOR, accentColor.getAccentName());
     }
-    // endregion
-
-    // region preferences
-    private final String LIST_ANIMATION = "list_animation";
-    private final String SYSTEM_ANIMATION = "system_animation";
-
-    public void setTourActivityShowed(boolean showed) {
-        putBooleanValue(TOUR_ACTIVITY_SHOWED, showed);
-    }
-
-    public boolean isTourActivityShowed() {
-        return getBooleanValue(TOUR_ACTIVITY_SHOWED, false);
-    }
 
     public void setColoredNavigationBar(boolean coloredNavigationBar) {
         putBooleanValue(COLORED_NAVIGATION_BAR, coloredNavigationBar);
@@ -118,6 +96,27 @@ public class PreferencesUtils {
 
     public boolean isColoredNavigationBar() {
         return getBooleanValue(COLORED_NAVIGATION_BAR, false);
+    }
+    // endregion
+
+    // region preferences
+    private final String FIRST_DAY_OF_WEEK = "first_day_of_week";
+
+    private final String VIDEO_SIZE_LIMIT = "video_size_limit";
+
+    private final String FAB_SORT_RESULT = "fab_sort_result";
+    private final String FAB_SORT_SPLIT = ":";
+
+    private final String MIND_SNAGGINGS_LIST_TYPE = "mind_snaggings_list_type";
+
+    private final String TOUR_ACTIVITY_SHOWED = "tour_activity_showed";
+
+    public void setTourActivityShowed(boolean showed) {
+        putBooleanValue(TOUR_ACTIVITY_SHOWED, showed);
+    }
+
+    public boolean isTourActivityShowed() {
+        return getBooleanValue(TOUR_ACTIVITY_SHOWED, false);
     }
 
     public void setFirstDayOfWeek(int firstDay){
@@ -155,22 +154,6 @@ public class PreferencesUtils {
         putStringValue(FAB_SORT_RESULT, fabStr.toString());
     }
 
-    public void enableListAnimation(boolean enable){
-        putBooleanValue(LIST_ANIMATION, enable);
-    }
-
-    public boolean listAnimationEnabled() {
-        return getBooleanValue(LIST_ANIMATION, true);
-    }
-
-    public void enableSystemAnimation(boolean enable){
-        putBooleanValue(SYSTEM_ANIMATION, enable);
-    }
-
-    public boolean systemAnimationEnabled() {
-        return getBooleanValue(SYSTEM_ANIMATION, true);
-    }
-
     public void setVideoSizeLimit(int limit){
         putIntValue(VIDEO_SIZE_LIMIT, limit);
     }
@@ -187,6 +170,27 @@ public class PreferencesUtils {
         putIntValue(MIND_SNAGGINGS_LIST_TYPE, type.id);
     }
 
+    // endregion
+
+    // region universal
+    private final String LIST_ANIMATION = "list_animation";
+    private final String SYSTEM_ANIMATION = "system_animation";
+
+    public void enableListAnimation(boolean enable){
+        putBooleanValue(LIST_ANIMATION, enable);
+    }
+
+    public boolean listAnimationEnabled() {
+        return getBooleanValue(LIST_ANIMATION, true);
+    }
+
+    public void enableSystemAnimation(boolean enable){
+        putBooleanValue(SYSTEM_ANIMATION, enable);
+    }
+
+    public boolean systemAnimationEnabled() {
+        return getBooleanValue(SYSTEM_ANIMATION, true);
+    }
     // endregion
 
     // region notification
