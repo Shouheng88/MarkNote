@@ -13,6 +13,8 @@ public class PalmApp extends Application{
 
     private static PalmApp mInstance;
 
+    private static boolean passwordChecked;
+
     public static synchronized PalmApp getContext() {
         return mInstance;
     }
@@ -26,5 +28,13 @@ public class PalmApp extends Application{
         Colorful.init(this);
 
         Stetho.initializeWithDefaults(this);
+    }
+
+    public static boolean isPasswordChecked() {
+        return passwordChecked;
+    }
+
+    public static void setPasswordChecked(boolean passwordChecked) {
+        PalmApp.passwordChecked = passwordChecked;
     }
 }
