@@ -22,6 +22,7 @@ import com.afollestad.materialdialogs.color.ColorChooserDialog;
 import java.util.Arrays;
 import java.util.List;
 
+import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.ActivityMainBinding;
 import me.shouheng.notepal.databinding.ActivityMainNavHeaderBinding;
@@ -64,6 +65,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     private final int REQUEST_ARCHIVE = 0x0003;
     private final int REQUEST_TRASH = 0x0004;
     private final int REQUEST_USER_INFO = 0x0005;
+    private final int REQUEST_PASSWORD = 0x0006;
 
     private long onBackPressed;
 
@@ -90,6 +92,8 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     protected void doCreateView(Bundle savedInstanceState) {
         preferencesUtils = PreferencesUtils.getInstance(this);
 
+        checkPassword();
+
         IntroActivity.launchIfNecessary(this);
 
         configToolbar();
@@ -102,6 +106,12 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         initDrawerMenu();
 
         toNotesFragment();
+    }
+
+    private void checkPassword() {
+        if (preferencesUtils.isPasswordRequired() && !PalmApp.isPasswordChecked()) {
+            LockActivity.requirePassword(this, REQUEST_PASSWORD);
+        }
     }
 
     private void initHeaderView() {
@@ -391,21 +401,26 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         AttachmentHelper.resolveResult(this, attachmentPickerDialog, requestCode,
                 resultCode, data, attachment -> mindSnaggingDialog.setAttachment(attachment));
-        if (resultCode == RESULT_OK){
-            switch (requestCode) {
-                case REQUEST_FAB_SORT:
-                    initFabSortItems();
-                    break;
-                case REQUEST_ADD_NOTE:
-                    if (isNotesFragment()) {
-                        ((NotesFragment) getCurrentFragment()).reload();
-                    }
-                    break;
-                case REQUEST_TRASH:
-                    break;
-                case REQUEST_ARCHIVE:
-                    break;
-            }
+        switch (requestCode) {
+            case REQUEST_FAB_SORT:
+                if (resultCode == RESULT_OK) initFabSortItems();
+                break;
+            case REQUEST_ADD_NOTE:
+                if (isNotesFragment() && resultCode == RESULT_OK) {
+                    ((NotesFragment) getCurrentFragment()).reload();
+                }
+                break;
+            case REQUEST_TRASH:
+                break;
+            case REQUEST_ARCHIVE:
+                break;
+            case REQUEST_PASSWORD:
+                if (resultCode != RESULT_OK) {
+                    finish();
+                } else {
+                    PalmApp.setPasswordChecked(true);
+                }
+                break;
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

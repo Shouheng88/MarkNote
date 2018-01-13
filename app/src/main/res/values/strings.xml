@@ -78,7 +78,7 @@
     <string name="text_tab_again_exit">再按一次退出</string>
     <string name="text_attachment">附件</string>
     <string name="working">正在执行&#8230;</string>
-    <string name="text_welcome">欢迎</string>
+    <string name="text_input_password_and_continue">输入密码继续</string>
     <!--endregion-->
 
     <!--region App info page-->
