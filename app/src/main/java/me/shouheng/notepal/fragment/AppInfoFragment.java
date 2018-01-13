@@ -11,6 +11,7 @@ import me.shouheng.notepal.BuildConfig;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.databinding.FragmentAppInfoBinding;
+import me.shouheng.notepal.listener.OnFragmentDestroyListener;
 import me.shouheng.notepal.util.IntentChecker;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.util.ViewUtils;
@@ -80,6 +81,14 @@ public class AppInfoFragment extends BaseFragment<FragmentAppInfoBinding> {
             ViewUtils.launchUrl(getContext(), Constants.GITHUB_DEVELOPER);
         } else {
             ToastUtils.makeToast(getContext(), R.string.failed_to_resolve_intent);
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (getActivity() instanceof OnFragmentDestroyListener) {
+            ((OnFragmentDestroyListener) getActivity()).onFragmentDestroy();
         }
     }
 }
