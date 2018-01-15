@@ -46,4 +46,7 @@
     <color name="dark_theme_empty_text_color">@color/white54</color>
     <color name="dark_theme_empty_sub_text_color">@color/white38</color>
     <color name="dark_theme_empty_icon_tint_color">@color/white38</color>
+
+    <color name="kitkat_gray_dark">#25000000</color>
+    <color name="kitkat_gray_light">#19000000</color>
 </resources>
