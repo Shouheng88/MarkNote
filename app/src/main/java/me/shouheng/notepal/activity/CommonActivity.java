@@ -18,6 +18,7 @@ import com.crashlytics.android.Crashlytics;
 
 import io.fabric.sdk.android.Fabric;
 import me.shouheng.notepal.R;
+import me.shouheng.notepal.util.ActivityUtils;
 import me.shouheng.notepal.util.PalmUtils;
 import me.shouheng.notepal.util.PermissionUtils;
 import me.shouheng.notepal.util.ToastUtils;
@@ -40,6 +41,8 @@ public abstract class CommonActivity<T extends ViewDataBinding> extends ThemedAc
     @Override
     protected final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ActivityUtils.addActivity(this);
+
         Fabric.with(this, new Crashlytics());
 
         if (getLayoutResId() <= 0 ) {

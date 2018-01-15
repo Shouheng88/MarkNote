@@ -24,6 +24,7 @@ import java.util.List;
 
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
+import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.databinding.ActivityMainBinding;
 import me.shouheng.notepal.databinding.ActivityMainNavHeaderBinding;
 import me.shouheng.notepal.dialog.AttachmentPickerDialog;
@@ -92,9 +93,13 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     protected void doCreateView(Bundle savedInstanceState) {
         preferencesUtils = PreferencesUtils.getInstance(this);
 
-        checkPassword();
-
         IntroActivity.launchIfNecessary(this);
+
+        checkPassword();
+    }
+
+    private void init() {
+        handleIntent(getIntent());
 
         configToolbar();
 
@@ -111,6 +116,18 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     private void checkPassword() {
         if (preferencesUtils.isPasswordRequired() && !PalmApp.isPasswordChecked()) {
             LockActivity.requirePassword(this, REQUEST_PASSWORD);
+        } else {
+            init();
+        }
+    }
+
+    private void handleIntent(Intent intent) {
+        String action = intent.getAction();
+        switch (action) {
+            case Constants.ACTION_SHORTCUT:
+                intent.setClass(this, ContentActivity.class);
+                startActivity(intent);
+                break;
         }
     }
 
@@ -415,10 +432,8 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
             case REQUEST_ARCHIVE:
                 break;
             case REQUEST_PASSWORD:
-                if (resultCode != RESULT_OK) {
-                    finish();
-                } else {
-                    PalmApp.setPasswordChecked(true);
+                if (resultCode == RESULT_OK) {
+                    init();
                 }
                 break;
         }

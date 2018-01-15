@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import me.shouheng.notepal.R;
+import me.shouheng.notepal.activity.ContentActivity;
 import me.shouheng.notepal.activity.MainActivity;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.model.Model;
@@ -17,6 +18,7 @@ public class ShortcutHelper {
         shortcutIntent.putExtra(Constants.EXTRA_CODE, model.getCode());
         shortcutIntent.putExtra(Constants.EXTRA_FRAGMENT, getFragmentToDispatch(model));
         shortcutIntent.setAction(Constants.ACTION_SHORTCUT);
+        shortcutIntent.putExtra(ContentActivity.EXTRA_HAS_TOOLBAR, true);
 
         Intent addIntent = new Intent();
         addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
