@@ -153,7 +153,10 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
             }
         }
 
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(note.getTitle());
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(note.getTitle());
+        }
     }
 
     private Attachment getAttachmentFormUrl(String url) {

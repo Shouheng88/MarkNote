@@ -31,9 +31,7 @@ import me.shouheng.notepal.util.ToastUtils;
 
 public class ContentActivity extends CommonActivity<ActivityContentBinding> implements ColorCallback {
 
-    private final static String EXTRA_HAS_TOOLBAR = "extra_has_toolbar";
-
-    private boolean hasToolbar = false;
+    public final static String EXTRA_HAS_TOOLBAR = "extra_has_toolbar";
 
     public static void startNoteEditForResult(Fragment fragment, @NonNull Note note, Integer position, @NonNull Integer requestCode){
         fragment.startActivityForResult(getNoteEditIntent(fragment.getContext(), note, position, requestCode), requestCode);

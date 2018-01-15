@@ -10,8 +10,10 @@ import android.view.View;
 import com.andrognito.pinlockview.IndicatorDots;
 import com.andrognito.pinlockview.PinLockListener;
 
+import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.ActivityLockBinding;
+import me.shouheng.notepal.util.ActivityUtils;
 import me.shouheng.notepal.util.MD5Util;
 import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.ToastUtils;
@@ -102,6 +104,7 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
             Intent intent = new Intent();
             setResult(Activity.RESULT_OK, intent);
             finish();
+            PalmApp.setPasswordChecked(true);
         } else {
             errorTimes++;
             getBinding().pinLockView.resetPinLockView();
@@ -129,6 +132,15 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
                 getBinding().profileName.setText(R.string.setting_input_password_newly);
                 getBinding().pinLockView.resetPinLockView();
             }
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getIntent().getAction().equals(ACTION_REQUIRE_PERMISSION)) {
+            ActivityUtils.finishAll();
+        } else {
+            super.onBackPressed();
         }
     }
 }
