@@ -124,7 +124,23 @@
 
         <service android:name=".async.DataBackupIntentService" />
 
-        <activity android:name=".activity.LockActivity"/>
+        <activity android:name=".activity.LockActivity" />
+
+        <receiver android:name=".widget.desktop.NotesListWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/notes_list_widget" />
+        </receiver>
+
+        <service
+            android:name=".widget.desktop.NotesListWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <activity android:name=".widget.desktop.WidgetConfigurationActivity"/>
     </application>
 
 </manifest>

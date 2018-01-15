@@ -44,4 +44,15 @@ public class Constants {
     public final static String GITHUB_PAGE = "https://github.com/Shouheng88/PalmCollege-App";
     public final static String GITHUB_DEVELOPER = "https://github.com/Shouheng88";
     // endregion
+
+    // region App Widgets
+    public final static String ACTION_WIDGET = "action_widget";
+    public final static String INTENT_WIDGET = "widget_id";
+    public final static String ACTION_TAKE_PHOTO = "action_widget_take_photo";
+    public final static String ACTION_WIDGET_SHOW_LIST = "action_widget_show_list";
+    // endregion
+
+    public final static String PREFS_NAME = BuildConfig.APPLICATION_ID + "_preferences";
+    public final static String PREF_WIDGET_PREFIX = "widget_";
+
 }

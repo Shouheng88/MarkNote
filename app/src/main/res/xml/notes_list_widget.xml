@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:initialKeyguardLayout="@layout/new_app_widget"
+    android:initialLayout="@layout/new_app_widget"
+    android:minHeight="110dp"
+    android:minWidth="250dp"
+    android:previewImage="@drawable/example_appwidget_preview"
+    android:resizeMode="horizontal|vertical"
+    android:updatePeriodMillis="300000"
+    android:widgetCategory="keyguard|home_screen"/>
+<!--
+
+    android:configure="me.shouheng.notepal.widget.desktop.WidgetConfigurationActivity"
+
+-->

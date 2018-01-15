@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/toolbar_widget"
+    tools:background="@color/colorPrimary"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/widget_height"
+    android:elevation="4dp">
+
+    <ImageView
+        android:id="@+id/list"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_margin="16dp"
+        android:background="@drawable/icon_selector"
+        android:layout_gravity="center_vertical"
+        android:tint="@android:color/white"
+        android:src="@drawable/ic_insert_drive_file" />
+
+    <ImageView
+        android:id="@+id/add"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_margin="16dp"
+        android:background="@drawable/icon_selector"
+        android:layout_gravity="center_vertical"
+        android:tint="@android:color/white"
+        android:src="@drawable/ic_note" />
+
+    <ImageView
+        android:id="@+id/camera"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_margin="16dp"
+        android:background="@drawable/icon_selector"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/ic_add_a_photo_white" />
+
+</LinearLayout>
