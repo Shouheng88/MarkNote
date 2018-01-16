@@ -11,6 +11,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -123,10 +124,26 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
 
     private void handleIntent(Intent intent) {
         String action = intent.getAction();
+
+        if (TextUtils.isEmpty(action)) return;
+
         switch (action) {
             case Constants.ACTION_SHORTCUT:
                 intent.setClass(this, ContentActivity.class);
                 startActivity(intent);
+                break;
+            case Constants.ACTION_WIDGET:
+                // TODO edit note of given notebook associated with widget
+                editNote();
+                break;
+            case Constants.ACTION_WIDGET_SHOW_LIST:
+                // todo show notes list associated with given widget
+                break;
+            case Constants.ACTION_TAKE_PHOTO:
+                // TODO add photo and select the model to attach to
+                break;
+            case Constants.ACTION_WIDGET_MAIN:
+                // Just show the dash board
                 break;
         }
     }
