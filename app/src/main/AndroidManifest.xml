@@ -136,7 +136,6 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/notes_list_widget" />
         </receiver>
-
         <receiver android:name=".widget.desktop.SimpleWidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -145,6 +144,15 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/simple_widget_provider_info" />
+        </receiver>
+        <receiver android:name=".widget.desktop.DesktopShortcutAppWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/shortcut_app_widget" />
         </receiver>
 
         <service

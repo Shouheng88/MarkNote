@@ -50,6 +50,7 @@ public class Constants {
     public final static String INTENT_WIDGET = "widget_id";
     public final static String ACTION_TAKE_PHOTO = "action_widget_take_photo";
     public final static String ACTION_WIDGET_SHOW_LIST = "action_widget_show_list";
+    public final static String ACTION_WIDGET_MAIN = "action_widget_main";
     // endregion
 
     public final static String PREFS_NAME = BuildConfig.APPLICATION_ID + "_preferences";
