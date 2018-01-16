@@ -54,6 +54,12 @@ public abstract class WidgetProvider extends AppWidgetProvider {
         intentDetailPhoto.putExtra(Constants.INTENT_WIDGET, widgetId);
         PendingIntent pendingIntentDetailPhoto = PendingIntent.getActivity(context, widgetId, intentDetailPhoto, PendingIntent.FLAG_CANCEL_CURRENT);
 
+        // Create an Intent to launch MainActivity
+        Intent intentMain = new Intent(context, MainActivity.class);
+        intentMain.setAction(Constants.ACTION_WIDGET_MAIN);
+        intentMain.putExtra(Constants.INTENT_WIDGET, widgetId);
+        PendingIntent pendingIntentMain = PendingIntent.getActivity(context, widgetId, intentMain, PendingIntent.FLAG_CANCEL_CURRENT);
+
         // Check various dimensions aspect of widget to choose between layouts
         Bundle options = appWidgetManager.getAppWidgetOptions(widgetId);
         boolean isSmall = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH) < 110;
@@ -64,6 +70,7 @@ public abstract class WidgetProvider extends AppWidgetProvider {
         map.put(R.id.list, pendingIntentList);
         map.put(R.id.add, pendingIntentDetail);
         map.put(R.id.camera, pendingIntentDetailPhoto);
+        map.put(R.id.main, pendingIntentMain);
 
         RemoteViews views = getRemoteViews(context, widgetId, isSmall, isSingleLine, map);
 
