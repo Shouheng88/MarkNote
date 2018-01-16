@@ -214,6 +214,7 @@ public class ScreenShotHelper {
         return bigBitmap;
     }
 
+    // region
     public static Bitmap shotWebView(WebView webView) {
         webView.measure(View.MeasureSpec.makeMeasureSpec(
                 View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED),
@@ -233,4 +234,22 @@ public class ScreenShotHelper {
         webView.draw(bigcanvas);
         return  bm;
     }
+
+    public static Bitmap shotWebViewB(WebView webView) {
+        webView.measure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+        webView.layout(0, 0, webView.getMeasuredWidth(), webView.getMeasuredHeight());
+        webView.setDrawingCacheEnabled(true);
+        webView.buildDrawingCache();
+
+        Bitmap bm = Bitmap.createBitmap(webView.getMeasuredWidth(), webView.getMeasuredHeight(), Bitmap.Config.RGB_565);
+
+        Canvas bigcanvas = new Canvas(bm);
+        Paint paint = new Paint();
+        int iHeight = bm.getHeight();
+        bigcanvas.drawBitmap(bm, 0, iHeight, paint);
+        webView.draw(bigcanvas);
+        return  bm;
+    }
+    // endregion
 }
