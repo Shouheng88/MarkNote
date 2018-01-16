@@ -126,6 +126,7 @@
 
         <activity android:name=".activity.LockActivity" />
 
+        <!-- region App Widget -->
         <receiver android:name=".widget.desktop.NotesListWidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -136,11 +137,28 @@
                 android:resource="@xml/notes_list_widget" />
         </receiver>
 
+        <receiver android:name=".widget.desktop.SimpleWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/simple_widget_provider_info" />
+        </receiver>
+
         <service
             android:name=".widget.desktop.NotesListWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
 
-        <activity android:name=".widget.desktop.WidgetConfigurationActivity"/>
+        <activity
+            android:name=".widget.desktop.WidgetConfigurationActivity"
+            android:theme="@style/Theme.AppCompat.Light.Dialog">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+        <!-- endregion -->
     </application>
 
 </manifest>
