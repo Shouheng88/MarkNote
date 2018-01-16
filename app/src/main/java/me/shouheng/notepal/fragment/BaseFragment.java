@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.databinding.ViewDataBinding;
 import android.graphics.Bitmap;
+import android.os.Looper;
 import android.support.v7.widget.RecyclerView;
 import android.webkit.WebView;
 
@@ -126,6 +127,27 @@ public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFrag
                         ToastUtils.makeToast(getActivity(), R.string.failed_to_create_file);
                     }
                 }
+            }).start();
+        });
+    }
+
+    protected void createWebCaptureB(WebView webView) {
+        assert getActivity() != null;
+        PermissionUtils.checkStoragePermission((CommonActivity) getActivity(), () -> {
+            ToastUtils.makeToast(getContext(), R.string.capturing);
+            final File file = null;
+            new Thread(() -> {
+                Looper.prepare();
+                getActivity().runOnUiThread(() -> {
+                    Bitmap bitmap = ScreenShotHelper.shotWebView(webView);
+                    boolean ret = FileHelper.saveImageToGallery(getContext(), bitmap, true, file);
+                    if (ret) {
+                        ToastUtils.makeToast(getActivity(), R.string.text_save_successfully);
+                        onGetScreenCutFile(file);
+                    } else {
+                        ToastUtils.makeToast(getActivity(), R.string.failed_to_create_file);
+                    }
+                });
             }).start();
         });
     }
