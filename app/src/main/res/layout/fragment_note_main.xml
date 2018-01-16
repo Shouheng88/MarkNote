@@ -250,7 +250,7 @@
                     android:id="@+id/et_title"
                     android:hint="@string/note_note_title"
                     android:textStyle="bold"
-                    android:maxLength="50"
+                    android:maxLength="@integer/title_length"
                     android:textColor="@color/colorPrimary"
                     android:padding="16dp"
                     android:background="@android:color/transparent"
