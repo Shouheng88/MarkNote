@@ -5,12 +5,16 @@ import android.preference.CheckBoxPreference;
 import android.preference.PreferenceFragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.text.TextUtils;
+
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.LockActivity;
 import me.shouheng.notepal.listener.OnFragmentDestroyListener;
 import me.shouheng.notepal.util.PreferencesUtils;
+import me.shouheng.notepal.util.ToastUtils;
 
 /**
  * Created by wang shouheng on 2018/1/12. */
@@ -49,6 +53,35 @@ public class SettingsDataSecurity extends PreferenceFragment {
             toSetPassword();
             return true;
         });
+        findPreference(PreferencesUtils.PASSWORD_INPUT_FREEZE_TIME).setOnPreferenceClickListener(preference -> {
+            showInputDialog();
+            return true;
+        });
+    }
+
+    private void showInputDialog() {
+        new MaterialDialog.Builder(getActivity())
+                .title(R.string.setting_password_freeze)
+                .content(R.string.input_the_freeze_minutes_in_minute)
+                .inputType(InputType.TYPE_CLASS_NUMBER)
+                .inputRange(0, 2)
+                .negativeText(R.string.cancel)
+                .input(getString(R.string.input_the_freeze_minutes_in_minute), String.valueOf(preferencesUtils.getPasswordFreezeTime()), (materialDialog, charSequence) -> {
+                    try {
+                        int minutes = Integer.parseInt(charSequence.toString());
+                        if (minutes < 0) {
+                            ToastUtils.makeToast(getActivity(), R.string.illegal_number);
+                            return;
+                        }
+                        if (minutes > 30) {
+                            ToastUtils.makeToast(getActivity(), R.string.freeze_time_too_long);
+                            return;
+                        }
+                        preferencesUtils.setPasswordFreezeTime(minutes);
+                    } catch (Exception e) {
+                        ToastUtils.makeToast(getActivity(), R.string.wrong_numeric_string);
+                    }
+                }).show();
     }
 
     private void toSetPassword() {
