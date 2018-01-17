@@ -22,10 +22,13 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
 
     private final static String ACTION_SET_PASSWORD = "action_set_password";
     private final static String ACTION_REQUIRE_PERMISSION = "action_require_password";
+    private final static String ACTION_REQUIRE_LAUNCH_APP = "action_require_launch_app";
 
     private String lastInputPassword;
 
     private int errorTimes = 0;
+
+    private boolean isPasswordFreezed = false;
 
     private PreferencesUtils preferencesUtils;
 
@@ -38,6 +41,12 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
     public static void requirePassword(Activity activity, int requestCode) {
         Intent intent = new Intent(activity, LockActivity.class);
         intent.setAction(ACTION_REQUIRE_PERMISSION);
+        activity.startActivityForResult(intent, requestCode);
+    }
+
+    public static void requireLaunch(Activity activity, int requestCode) {
+        Intent intent = new Intent(activity, LockActivity.class);
+        intent.setAction(ACTION_REQUIRE_LAUNCH_APP);
         activity.startActivityForResult(intent, requestCode);
     }
 
@@ -79,7 +88,8 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
 
         @Override
         public void onComplete(String pin) {
-            if (getIntent().getAction().equals(ACTION_REQUIRE_PERMISSION)) {
+            if (getIntent().getAction().equals(ACTION_REQUIRE_PERMISSION)
+                    || getIntent().getAction().equals(ACTION_REQUIRE_LAUNCH_APP)) {
                 onCompleteForRequirement(pin);
             } else if (getIntent().getAction().equals(ACTION_SET_PASSWORD)) {
                 onCompleteForSetting(pin);
@@ -93,12 +103,17 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
         public void onPinChange(int pinLength, String intermediatePin) {}
     };
 
+    // todo password freeze time tip error
     private void onCompleteForRequirement(String pin) {
         pin = MD5Util.MD5(pin);
         if (preferencesUtils.getLastInputErrorTime()
                 + preferencesUtils.getPasswordFreezeTime() * DateUtils.MINUTE_IN_MILLIS > System.currentTimeMillis()) {
             ToastUtils.makeToast(this, R.string.setting_password_frozen);
             return;
+        } else if (isPasswordFreezed) {
+            // need to clear the freeze time
+            isPasswordFreezed = false;
+            errorTimes = 0;
         }
         if (pin.equals(preferencesUtils.getPassword())) {
             Intent intent = new Intent();
@@ -108,11 +123,13 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
         } else {
             errorTimes++;
             getBinding().pinLockView.resetPinLockView();
-            ToastUtils.makeToast(this, String.format(getString(R.string.setting_input_wrong_password), 5 - errorTimes));
             if (errorTimes == 5) {
                 preferencesUtils.setLastInputErrorTime(System.currentTimeMillis());
+                isPasswordFreezed = true;
                 ToastUtils.makeToast(this, String.format(getString(R.string.setting_password_frozen_minutes),
                         preferencesUtils.getPasswordFreezeTime()));
+            } else {
+                ToastUtils.makeToast(this, String.format(getString(R.string.setting_input_wrong_password), 5 - errorTimes));
             }
         }
     }
@@ -137,7 +154,7 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
 
     @Override
     public void onBackPressed() {
-        if (getIntent().getAction().equals(ACTION_REQUIRE_PERMISSION)) {
+        if (getIntent().getAction().equals(ACTION_REQUIRE_LAUNCH_APP)) {
             ActivityUtils.finishAll();
         } else {
             super.onBackPressed();

@@ -116,7 +116,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
 
     private void checkPassword() {
         if (preferencesUtils.isPasswordRequired() && !PalmApp.isPasswordChecked()) {
-            LockActivity.requirePassword(this, REQUEST_PASSWORD);
+            LockActivity.requireLaunch(this, REQUEST_PASSWORD);
         } else {
             init();
         }

@@ -13,4 +13,10 @@
         android:title="@string/setting_set_password"
         android:summary="@string/setting_set_password_sub"/>
 
+    <Preference
+        android:key="password_input_freeze_time"
+        android:persistent="false"
+        android:title="@string/setting_password_freeze"
+        android:summary="@string/setting_password_freeze_sub" />
+
 </PreferenceScreen>
