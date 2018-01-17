@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Picture;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
@@ -216,37 +217,16 @@ public class ScreenShotHelper {
 
     // region
     public static Bitmap shotWebView(WebView webView) {
-        webView.measure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED),
-                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-        webView.layout(0, 0, webView.getMeasuredWidth(), webView.getMeasuredHeight());
-        webView.setDrawingCacheEnabled(true);
-        webView.buildDrawingCache();
-
-        Bitmap bm = Bitmap.createBitmap(webView.getMeasuredWidth(), webView.getMeasuredHeight(), Bitmap.Config.RGB_565);
-
-        Canvas bigCanvas = new Canvas(bm);
-        Paint paint = new Paint();
-        int iHeight = bm.getHeight();
-        bigCanvas.drawBitmap(bm, 0, iHeight, paint);
-        webView.draw(bigCanvas);
-        return  bm;
-    }
-
-    public static Bitmap shotWebViewB(WebView webView) {
-        webView.measure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED),
-                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-        webView.layout(0, 0, webView.getMeasuredWidth(), webView.getMeasuredHeight());
-        webView.setDrawingCacheEnabled(true);
-        webView.buildDrawingCache();
-
-        Bitmap bm = Bitmap.createBitmap(webView.getMeasuredWidth(), webView.getMeasuredHeight(), Bitmap.Config.RGB_565);
-
-        Canvas bigcanvas = new Canvas(bm);
-        Paint paint = new Paint();
-        int iHeight = bm.getHeight();
-        bigcanvas.drawBitmap(bm, 0, iHeight, paint);
-        webView.draw(bigcanvas);
-        return  bm;
+        Picture picture = webView.capturePicture();
+        int width = picture.getWidth();
+        int height = picture.getHeight();
+        Bitmap bitmap = null;
+        if (width > 0 && height > 0) {
+            bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+            picture.draw(canvas);
+        }
+        return bitmap;
     }
     // endregion
 }
