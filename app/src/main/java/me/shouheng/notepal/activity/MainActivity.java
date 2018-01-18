@@ -12,6 +12,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -68,6 +69,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     private final int REQUEST_TRASH = 0x0004;
     private final int REQUEST_USER_INFO = 0x0005;
     private final int REQUEST_PASSWORD = 0x0006;
+    private final int REQUEST_SEARCH = 0x0007;
 
     private long onBackPressed;
 
@@ -418,6 +420,12 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     // endregion
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home: {
@@ -427,6 +435,12 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                 }
                 return true;
             }
+            case R.id.action_settings:
+                SettingsActivity.startActivityForResult(this, REQUEST_SEARCH);
+                break;
+            case R.id.action_search:
+                SearchActivity.startActivityForResult(this, REQUEST_SEARCH);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -445,8 +459,12 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                 }
                 break;
             case REQUEST_TRASH:
+                // TODO update list
                 break;
             case REQUEST_ARCHIVE:
+                // TODO update list
+                break;
+            case REQUEST_SEARCH:
                 break;
             case REQUEST_PASSWORD:
                 if (resultCode == RESULT_OK) {

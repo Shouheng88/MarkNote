@@ -96,6 +96,7 @@
         <activity android:name=".activity.TrashedActivity" />
         <activity android:name=".activity.UserInfoActivity" />
         <activity android:name=".activity.LoginActivity" />
+        <activity android:name=".activity.SearchActivity" />
 
         <meta-data
             android:name="io.fabric.ApiKey"

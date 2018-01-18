@@ -101,17 +101,13 @@ public class PreferencesUtils {
 
     // region preferences
     private final String FIRST_DAY_OF_WEEK = "first_day_of_week";
-
     private final String VIDEO_SIZE_LIMIT = "video_size_limit";
-
     private final String FAB_SORT_RESULT = "fab_sort_result";
     private final String FAB_SORT_SPLIT = ":";
-
     private final String MIND_SNAGGINGS_LIST_TYPE = "mind_snaggings_list_type";
-
     private final String TOUR_ACTIVITY_SHOWED = "tour_activity_showed";
-
     private final String KEY_LAST_INPUT_ERROR_TIME = "last_input_error_time";
+    private final String SEARCH_CONDITIONS = "search_conditions";
 
     public void setTourActivityShowed(boolean showed) {
         putBooleanValue(TOUR_ACTIVITY_SHOWED, showed);
@@ -178,6 +174,14 @@ public class PreferencesUtils {
 
     public long getLastInputErrorTime() {
         return getLongValue(KEY_LAST_INPUT_ERROR_TIME, 0);
+    }
+
+    public void setSearchConditions(String searchConditions) {
+        putStringValue(SEARCH_CONDITIONS, searchConditions);
+    }
+
+    public String getSearchConditions() {
+        return getStringValue(SEARCH_CONDITIONS, null);
     }
     // endregion
 

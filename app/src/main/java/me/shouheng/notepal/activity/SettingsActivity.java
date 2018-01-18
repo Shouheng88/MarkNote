@@ -37,6 +37,15 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> im
 
     private final static int REQUEST_CODE_PASSWORD = 0x0201;
 
+    private static final String EXTRA_NAME_REQUEST_CODE = "extra.requestcode";
+
+    public static void startActivityForResult(Activity mContext, int requestCode){
+        Intent intent = new Intent(mContext, SearchActivity.class);
+        intent.putExtra(EXTRA_NAME_REQUEST_CODE, requestCode);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        mContext.startActivityForResult(intent, requestCode);
+    }
+
     @Override
     protected int getLayoutResId() {
         return R.layout.activity_settings;
