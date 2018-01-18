@@ -427,6 +427,15 @@
     <string name="file_not_exist">文件不存在</string>
     <!--endregion-->
 
+    <!--region search-->
+    <string name="include_tags">包含标签</string>
+    <string name="include_archived">包含归档</string>
+    <string name="include_trashed">包含废纸篓</string>
+    <string name="search_by_conditions">根据条件搜索&#8230;</string>
+    <string name="no_search_result_found">没有找到搜索结果</string>
+    <string name="try_other_conditions">换个搜索条件试一下</string>
+    <!--endregion-->
+
     <!--region capture-->
     <string name="empty_list_to_capture">要截取的列表为空</string>
     <string name="list_quick_capture">列表截图</string>

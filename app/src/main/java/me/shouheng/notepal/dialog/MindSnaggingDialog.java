@@ -1,5 +1,6 @@
 package me.shouheng.notepal.dialog;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.databinding.DataBindingUtil;
@@ -28,6 +29,7 @@ import me.shouheng.notepal.util.FileHelper;
 
 /**
  * Created by wangshouheng on 2017/8/19. */
+@SuppressLint("ValidFragment")
 public class MindSnaggingDialog extends DialogFragment {
 
     private MindSnagging mindSnagging;
@@ -56,8 +58,7 @@ public class MindSnaggingDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(LayoutInflater.from(getContext()),
-                R.layout.dialog_mind_snagging_layout, null, false);
+        binding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_mind_snagging_layout, null, false);
 
         binding.tv.setTextColor(ColorUtils.accentColor(getContext()));
         String len = (mindSnagging.getContent() == null ?
