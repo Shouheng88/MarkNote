@@ -126,6 +126,7 @@
                                     android:text="@string/translation" />
 
                                 <TextView
+                                    android:id="@+id/tv_translate_detail"
                                     style="@style/SettingsCardItemDetailSubTitle"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -170,6 +171,7 @@
                                     android:text="@string/rating" />
 
                                 <TextView
+                                    android:id="@+id/tv_rate_detail"
                                     style="@style/SettingsCardItemDetailSubTitle"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -213,7 +215,7 @@
                         android:id="@+id/tv_thanks_details"
                         android:text="@string/thanks_details"
                         android:layout_margin="16dp"
-                        android:textSize="16sp"
+                        android:textSize="15sp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 

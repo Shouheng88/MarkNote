@@ -86,9 +86,9 @@
     <string name="app_description">一款基于Material Design的Markdown笔记应用</string>\
     <string name="help_development">协助开发</string>
     <string name="translation">翻译</string>
-    <string name="translate_to_other_languages">将PalmCollege翻译成其他语言</string>
+    <string name="translate_to_other_languages">将%s翻译成其他语言</string>
     <string name="rating">评分</string>
-    <string name="give_good_rating_if_you_like">如果你喜欢PalmCollege，就给我们个好评</string>
+    <string name="give_good_rating_if_you_like">如果你喜欢%s，就给我们个好评</string>
     <string name="thanks">特别感谢</string>
     <string name="thanks_details">百度地图提供的定位相关API\n您选择使用本应用</string>
     <string name="developer_and_license">开发者&amp;许可证</string>
@@ -477,7 +477,7 @@
     <string name="cancel">取消</string>
     <string name="back">返回</string>
     <string name="use_social_accounts">使用社交账号登录</string>
-    <string name="register_palm_college">注册 PalmCollege</string>
+    <string name="register_palm_college">注册 %s</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
     <!--endregion-->
