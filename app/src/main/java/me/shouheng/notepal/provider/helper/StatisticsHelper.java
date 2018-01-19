@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 
+import me.shouheng.notepal.model.Stats;
 import me.shouheng.notepal.model.enums.ModelType;
 import me.shouheng.notepal.model.enums.Operation;
 import me.shouheng.notepal.model.enums.Status;
@@ -31,5 +32,9 @@ public class StatisticsHelper {
             states.add(TimelineStore.getInstance(context).getCount(whereSQL, Status.NORMAL, false));
         }
         return states;
+    }
+
+    public static Stats getStats(Context context) {
+        return new Stats();
     }
 }

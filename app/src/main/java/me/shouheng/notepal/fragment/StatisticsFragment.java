@@ -10,6 +10,8 @@ import java.lang.ref.WeakReference;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.FragmentSnaggingsBinding;
 import me.shouheng.notepal.model.Stats;
+import me.shouheng.notepal.provider.helper.StatisticsHelper;
+import me.shouheng.notepal.util.LogUtils;
 
 /**
  * Created by wang shouheng on 2018/1/19. */
@@ -32,7 +34,9 @@ public class StatisticsFragment extends BaseFragment<FragmentSnaggingsBinding> {
         ab.setTitle(R.string.statistic);
     }
 
-    private void outputStats(Stats stats) {}
+    private void outputStats(Stats stats) {
+        LogUtils.d(stats);
+    }
 
     private static class StatsTask extends AsyncTask<Void, Void, Stats> {
 
@@ -44,12 +48,13 @@ public class StatisticsFragment extends BaseFragment<FragmentSnaggingsBinding> {
 
         @Override
         protected Stats doInBackground(Void... params) {
-            return new Stats();
+            if (weakReference.get() == null) return null;
+            return StatisticsHelper.getStats(weakReference.get().getContext());
         }
 
         @Override
         protected void onPostExecute(Stats result) {
-            if (weakReference.get() != null) {
+            if (result != null && weakReference.get() != null) {
                 weakReference.get().outputStats(result);
             }
         }
