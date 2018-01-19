@@ -7,6 +7,7 @@ import android.view.MenuItem;
 
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.ActivityUserInfoBinding;
+import me.shouheng.notepal.fragment.StatisticsFragment;
 import me.shouheng.notepal.fragment.TimeLineFragment;
 import me.shouheng.notepal.fragment.UserInfoFragment;
 import me.shouheng.notepal.util.FragmentHelper;
@@ -51,5 +52,10 @@ public class UserInfoActivity extends CommonActivity<ActivityUserInfoBinding> im
     @Override
     public void onTimelineSelected() {
         FragmentHelper.replaceWithCallback(this, new TimeLineFragment(), R.id.fragment_container);
+    }
+
+    @Override
+    public void onChatHeaderSelected() {
+        FragmentHelper.replaceWithCallback(this, new StatisticsFragment(), R.id.fragment_container);
     }
 }
