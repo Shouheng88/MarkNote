@@ -53,6 +53,8 @@ public class UserInfoFragment extends CommonFragment<FragmentUserInfoBinding> {
         getBinding().lcv.setLineChartData(getLineChartData());
 
         getBinding().llLogout.setOnClickListener(v -> logout());
+
+        getBinding().rlHeader.setOnClickListener(v -> toStatistics());
     }
 
     private void configAccountViews() {
@@ -72,6 +74,12 @@ public class UserInfoFragment extends CommonFragment<FragmentUserInfoBinding> {
     private void toTimeLine() {
         if (getActivity() != null && getActivity() instanceof OnItemSelectedListener) {
             ((OnItemSelectedListener) getActivity()).onTimelineSelected();
+        }
+    }
+
+    private void toStatistics() {
+        if (getActivity() != null && getActivity() instanceof OnItemSelectedListener) {
+            ((OnItemSelectedListener) getActivity()).onChatHeaderSelected();
         }
     }
 
@@ -172,5 +180,6 @@ public class UserInfoFragment extends CommonFragment<FragmentUserInfoBinding> {
 
     public interface OnItemSelectedListener {
         void onTimelineSelected();
+        void onChatHeaderSelected();
     }
 }

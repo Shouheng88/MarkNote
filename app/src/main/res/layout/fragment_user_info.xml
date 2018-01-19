@@ -278,6 +278,7 @@
                     android:layout_height="match_parent">
 
                     <LinearLayout
+                        android:id="@+id/rl_header"
                         android:orientation="horizontal"
                         android:paddingEnd="8dp"
                         android:paddingTop="8dp"
@@ -291,8 +292,7 @@
                             android:src="@drawable/ic_equalizer_black_24dp"
                             style="@style/ProfilesCardItemIconStyle"/>
 
-                        <LinearLayout
-                            android:orientation="vertical"
+                        <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
@@ -305,12 +305,21 @@
 
                             <TextView
                                 android:id="@+id/tv_statistic_detail"
+                                android:layout_below="@id/tv_statistic"
                                 android:text="@string/activities_in_seven_days"
                                 style="@style/ProfileSubTitleStyle"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content" />
 
-                        </LinearLayout>
+                            <ImageView
+                                android:src="@drawable/ic_more_horiz_black_24dp"
+                                android:layout_alignParentEnd="true"
+                                android:tint="#ccc"
+                                android:background="?attr/selectableItemBackground"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                        </RelativeLayout>
 
                     </LinearLayout>
 
