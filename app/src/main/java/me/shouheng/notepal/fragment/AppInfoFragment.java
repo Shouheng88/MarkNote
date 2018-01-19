@@ -44,6 +44,9 @@ public class AppInfoFragment extends BaseFragment<FragmentAppInfoBinding> {
         getBinding().llDeveloper.setOnClickListener(v -> viewDeveloper());
 
         getBinding().tvVersionName.setText(BuildConfig.VERSION_NAME);
+
+        getBinding().tvRateDetail.setText(String.format(getString(R.string.give_good_rating_if_you_like), getString(R.string.app_name)));
+        getBinding().tvTranslateDetail.setText(String.format(getString(R.string.translate_to_other_languages), getString(R.string.app_name)));
     }
 
     private void showLicensesDialog() {
