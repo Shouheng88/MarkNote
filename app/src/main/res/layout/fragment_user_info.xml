@@ -305,7 +305,7 @@
 
                             <TextView
                                 android:id="@+id/tv_statistic_detail"
-                                android:text="@string/assignment_completed_this_seven_days"
+                                android:text="@string/activities_in_seven_days"
                                 style="@style/ProfileSubTitleStyle"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content" />

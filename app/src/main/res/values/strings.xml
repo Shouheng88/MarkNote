@@ -460,7 +460,7 @@
     <string name="timeline_detail">最近都做了什么</string>
     <string name="statistic">数据统计</string>
     <string name="statistic_of_this_week">本周的数据统计</string>
-    <string name="assignment_completed_this_seven_days">最近7天完成的任务数据</string>
+    <string name="activities_in_seven_days">最近7天添加的笔记</string>
     <string name="logout">退出登录</string>
 
     <string name="please_input_account">请输入邮箱</string>
