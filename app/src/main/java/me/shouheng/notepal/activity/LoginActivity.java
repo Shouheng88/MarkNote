@@ -69,15 +69,16 @@ public class LoginActivity extends CommonActivity<ActivityLoginBinding> {
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {
-        configRegister();
+        getBinding().btnLogin.setBackgroundColor(primaryColor());
+        getBinding().btnLogin.setUnpressedColor(primaryColor());
+
+        getBinding().register.setOnClickListener(view -> showRegisterDialog());
     }
 
-    private void configRegister() {
-        getBinding().register.setOnClickListener(view -> {
-            RegisterDialog regDlg = RegisterDialog.newInstance();
-            regDlg.setCancelable(false);
-            regDlg.show(getSupportFragmentManager(), "Register Dialog");
-        });
+    private void showRegisterDialog() {
+        RegisterDialog regDlg = RegisterDialog.newInstance();
+        regDlg.setCancelable(false);
+        regDlg.show(getSupportFragmentManager(), "Register Dialog");
     }
 
 //    private void initFBAuth() {
