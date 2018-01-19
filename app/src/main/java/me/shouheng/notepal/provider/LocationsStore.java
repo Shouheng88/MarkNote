@@ -6,10 +6,14 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
 
+import java.util.List;
+
 import me.shouheng.notepal.model.Location;
 import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.model.enums.ModelType;
 import me.shouheng.notepal.model.enums.Status;
+import me.shouheng.notepal.provider.helper.StoreHelper;
+import me.shouheng.notepal.provider.schema.BaseSchema;
 import me.shouheng.notepal.provider.schema.LocationSchema;
 
 /**
@@ -86,5 +90,24 @@ public class LocationsStore extends BaseStore<Location> {
         return getLocation(LocationSchema.MODEL_CODE + " = " + note.getCode()
                 + " AND " + LocationSchema.MODEL_TYPE + " = " + ModelType.NOTE.id,
                 LocationSchema.ADDED_TIME + " DESC ");
+    }
+
+    public synchronized List<Location> getDistinct(String whereSQL, String orderSQL) {
+        Cursor cursor = null;
+        List<Location> models = null;
+        SQLiteDatabase database = getWritableDatabase();
+        try {
+            cursor = database.rawQuery(" SELECT DISTINCT "
+                    + LocationSchema.COUNTRY + "," + LocationSchema.PROVINCE + "," + LocationSchema.CITY + "," + LocationSchema.DISTRICT
+                    + " FROM " + tableName
+                    + " WHERE " + BaseSchema.USER_ID + " = " + userId
+                    + (TextUtils.isEmpty(whereSQL) ? "" : " AND " + whereSQL)
+                    + (TextUtils.isEmpty(orderSQL) ? "" : " ORDER BY " + orderSQL), new String[]{});
+            models = StoreHelper.getDistinctLocations(cursor);
+        } finally {
+            closeCursor(cursor);
+            closeDatabase(database);
+        }
+        return models;
     }
 }

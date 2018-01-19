@@ -23,6 +23,11 @@ public class Stats {
     // endregion
 
     // region locations stats
+
+    /**
+     * Distinct locations */
+    private List<Location> locations;
+
     /**
      * Distinct locations */
     private int locCnt;
@@ -106,6 +111,14 @@ public class Stats {
 
     public void setTrashedMinds(int trashedMinds) {
         this.trashedMinds = trashedMinds;
+    }
+
+    public List<Location> getLocations() {
+        return locations;
+    }
+
+    public void setLocations(List<Location> locations) {
+        this.locations = locations;
     }
 
     public int getLocCnt() {
@@ -213,6 +226,7 @@ public class Stats {
                 ", totalMinds=" + totalMinds +
                 ", archivedMinds=" + archivedMinds +
                 ", trashedMinds=" + trashedMinds +
+                ", locations=" + locations +
                 ", locCnt=" + locCnt +
                 ", totalLocations=" + totalLocations +
                 ", totalNotebooks=" + totalNotebooks +

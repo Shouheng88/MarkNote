@@ -6,13 +6,17 @@ import android.net.Uri;
 
 import java.lang.reflect.Field;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
+import me.shouheng.notepal.model.Location;
 import me.shouheng.notepal.model.Model;
 import me.shouheng.notepal.model.TimeLine;
 import me.shouheng.notepal.model.enums.Operation;
 import me.shouheng.notepal.model.enums.Status;
 import me.shouheng.notepal.provider.annotation.Column;
 import me.shouheng.notepal.provider.schema.BaseSchema;
+import me.shouheng.notepal.provider.schema.LocationSchema;
 import me.shouheng.notepal.provider.schema.TimelineSchema;
 
 
@@ -138,5 +142,20 @@ public class StoreHelper {
         values.put(TimelineSchema.MODEL_TYPE, timeLine.getModelType().id);
         values.put(TimelineSchema.MODEL_NAME, timeLine.getModelName());
         return values;
+    }
+
+    public static List<Location> getDistinctLocations(Cursor cursor) {
+        List<Location> locations = new LinkedList<>();
+        if (cursor.moveToFirst()) {
+            do {
+                Location location = new Location();
+                location.setCountry(cursor.getString(cursor.getColumnIndex(LocationSchema.COUNTRY)));
+                location.setProvince(cursor.getString(cursor.getColumnIndex(LocationSchema.PROVINCE)));
+                location.setCity(cursor.getString(cursor.getColumnIndex(LocationSchema.CITY)));
+                location.setDistrict(cursor.getString(cursor.getColumnIndex(LocationSchema.DISTRICT)));
+                locations.add(location);
+            } while (cursor.moveToNext());
+        }
+        return locations;
     }
 }
