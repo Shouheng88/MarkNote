@@ -224,6 +224,7 @@ public abstract class BaseStore<T extends Model> {
 
     public synchronized void update(T model) {
         if (model == null) return;
+        TimelineHelper.addTimeLine(model, Operation.UPDATE);
         StoreHelper.setLastModifiedInfo(model);
         SQLiteDatabase database = getWritableDatabase();
         database.beginTransaction();
