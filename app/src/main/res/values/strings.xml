@@ -79,6 +79,10 @@
     <string name="text_attachment">附件</string>
     <string name="working">正在执行&#8230;</string>
     <string name="text_input_password_and_continue">输入密码继续</string>
+
+    <string name="statistic_title_activities">最近7天添加的笔记和小纸条</string>
+    <string name="statistic_title_models_added">添加的数据实体的统计结果</string>
+    <string name="statistic_title_attachments_added">添加的附件的统计结果</string>
     <!--endregion-->
 
     <!--region App info page-->

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -10,22 +11,125 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <lecho.lib.hellocharts.view.ColumnChartView
-                android:id="@+id/ccv_models"
+            <android.support.v7.widget.CardView
+                android:layout_margin="8dp"
+                android:foreground="@drawable/ripple"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardCornerRadius="@dimen/card_corner_radius"
+                app:cardElevation="@dimen/card_elevation"
                 android:layout_width="match_parent"
-                android:layout_height="300dp" />
+                android:layout_height="wrap_content">
 
-            <lecho.lib.hellocharts.view.LineChartView
-                android:id="@+id/lcv_note"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_width="match_parent"
-                android:layout_height="200dp" />
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-            <lecho.lib.hellocharts.view.ColumnChartView
-                android:id="@+id/ccv_attachment"
+                    <me.shouheng.notepal.widget.themed.SupportTextView
+                        android:text="@string/statistic_title_activities"
+                        android:textSize="16sp"
+                        android:padding="16dp"
+                        android:drawableStart="@drawable/ic_note_add_grey_24dp"
+                        android:drawablePadding="16dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <me.shouheng.notepal.widget.themed.Divider
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginStart="16dp" />
+
+                    <lecho.lib.hellocharts.view.LineChartView
+                        android:id="@+id/lcv_note"
+                        android:layout_margin="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="220dp" />
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_margin="8dp"
+                android:foreground="@drawable/ripple"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardCornerRadius="@dimen/card_corner_radius"
+                app:cardElevation="@dimen/card_elevation"
                 android:layout_width="match_parent"
-                android:layout_height="300dp" />
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <me.shouheng.notepal.widget.themed.SupportTextView
+                        android:text="@string/statistic_title_models_added"
+                        android:textSize="16sp"
+                        android:padding="16dp"
+                        android:drawableStart="@drawable/ic_equalizer_grey_24dp"
+                        android:drawablePadding="16dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <me.shouheng.notepal.widget.themed.Divider
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginStart="16dp" />
+
+                    <lecho.lib.hellocharts.view.ColumnChartView
+                        android:id="@+id/ccv_models"
+                        android:layout_margin="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="220dp" />
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_margin="8dp"
+                android:foreground="@drawable/ripple"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardCornerRadius="@dimen/card_corner_radius"
+                app:cardElevation="@dimen/card_elevation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <me.shouheng.notepal.widget.themed.SupportTextView
+                        android:drawableStart="@drawable/ic_attach_file_grey"
+                        android:drawablePadding="16dp"
+                        android:text="@string/statistic_title_attachments_added"
+                        android:textSize="16sp"
+                        android:padding="16dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <me.shouheng.notepal.widget.themed.Divider
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginStart="16dp" />
+
+                    <lecho.lib.hellocharts.view.ColumnChartView
+                        android:id="@+id/ccv_attachment"
+                        android:layout_margin="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="220dp" />
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
 
         </LinearLayout>
 
