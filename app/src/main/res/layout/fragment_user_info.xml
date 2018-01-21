@@ -288,7 +288,7 @@
                         <me.shouheng.notepal.widget.themed.SupportImageView
                             android:layout_width="@dimen/icon_width_height"
                             android:layout_height="@dimen/icon_width_height"
-                            android:src="@drawable/ic_equalizer_black_24dp"
+                            android:src="@drawable/ic_equalizer_grey_24dp"
                             style="@style/ProfilesCardItemIconStyle"/>
 
                         <RelativeLayout
