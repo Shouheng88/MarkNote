@@ -115,12 +115,14 @@ public class StatisticsHelper {
     /**
      * To get the line chart data use the queried data.
      *
-     * @param lineStatistics line statistics
-     * @param color the color of line
+     * @param context the context
+     * @param stats the stats object
      * @return the line chart data
      */
-    public static LineChartData getLineChartData(List<Integer> lineStatistics, int color) {
-        return getLineChartData(Arrays.asList(getLine(lineStatistics, color)));
+    public static LineChartData getLineChartData(Context context, Stats stats) {
+        return getLineChartData(Arrays.asList(
+                getLine(stats.getNotesStats(), context.getResources().getColor(R.color.md_lime_600)),
+                getLine(stats.getMindsStats(), context.getResources().getColor(R.color.md_green_600))));
     }
 
     private static LineChartData getLineChartData(List<Line> lines) {
@@ -141,7 +143,7 @@ public class StatisticsHelper {
         data.setLines(lines);
         data.setAxisXBottom(null);
         data.setAxisYLeft(null);
-        data.setBaseValue(0);
+        data.setBaseValue(-0.1f);
         data.setValueLabelBackgroundColor(Color.TRANSPARENT);
         Axis axis = Axis.generateAxisFromCollection(Arrays.asList(0.0f, 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f), days);
         data.setAxisXBottom(axis);
@@ -189,6 +191,27 @@ public class StatisticsHelper {
         return states;
     }
 
+
+    public static ColumnChartData getModelsData(Context context, Stats stats) {
+        ColumnChartData data = new ColumnChartData(Arrays.asList(
+                getColumn(stats.getTotalNotes(), context.getResources().getColor(R.color.md_lime_600)),
+                getColumn(stats.getTotalNotebooks(), context.getResources().getColor(R.color.md_light_blue_500)),
+                getColumn(stats.getTotalMinds(), context.getResources().getColor(R.color.md_green_600)),
+                getColumn(stats.getTotalAttachments(), context.getResources().getColor(R.color.md_pink_500)),
+                getColumn(stats.getTotalLocations(), context.getResources().getColor(R.color.md_red_500))));
+
+        Axis axisX = Axis.generateAxisFromCollection(Arrays.asList(0.0f, 1.0f, 2.0f, 3.0f, 4.0f), Arrays.asList(
+                context.getString(R.string.model_name_note),
+                context.getString(R.string.model_name_notebook),
+                context.getString(R.string.model_name_mind_snagging),
+                context.getString(R.string.model_name_attachment),
+                context.getString(R.string.model_name_location)));
+
+        data.setAxisXBottom(axisX);
+        data.setAxisYLeft(null);
+
+        return data;
+    }
 
     public static ColumnChartData getAttachmentsData(Context context, Stats stats) {
         /**
