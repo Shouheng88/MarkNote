@@ -1,18 +1,12 @@
 package me.shouheng.notepal.fragment;
 
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 
 import java.lang.ref.WeakReference;
-import java.util.Arrays;
 
-import lecho.lib.hellocharts.model.Axis;
-import lecho.lib.hellocharts.model.Column;
-import lecho.lib.hellocharts.model.ColumnChartData;
-import lecho.lib.hellocharts.model.SubcolumnValue;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.FragmentStatisticsBinding;
 import me.shouheng.notepal.model.Stats;
@@ -49,29 +43,7 @@ public class StatisticsFragment extends BaseFragment<FragmentStatisticsBinding> 
         getBinding().lcvMinds.setValueSelectionEnabled(false);
         getBinding().lcvMinds.setLineChartData(StatisticsHelper.getLineChartData(stats.getMindsStats(), primaryColor()));
 
-        generateDefaultData(stats);
-    }
-
-    private void generateDefaultData(Stats stats) {
-        ColumnChartData data = new ColumnChartData(Arrays.asList(
-                getColumn(stats.getFiles(), Color.RED),
-                getColumn(stats.getImages(), Color.GREEN),
-                getColumn(stats.getSketches(), Color.BLUE),
-                getColumn(stats.getVideos(), Color.YELLOW),
-                getColumn(stats.getAudioRecordings(), Color.MAGENTA)));
-
-        Axis axisX = Axis.generateAxisFromCollection(Arrays.asList(0.0f, 1.0f, 2.0f, 3.0f, 4.0f),
-                Arrays.asList("A", "B", "C", "D", "E"));
-        data.setAxisXBottom(axisX);
-        data.setAxisYLeft(null);
-
-        getBinding().ccvAttachment.setColumnChartData(data);
-    }
-
-    private Column getColumn(float value, int color) {
-        Column column = new Column(Arrays.asList(new SubcolumnValue(value, color)));
-        column.setHasLabels(true);
-        return column;
+        getBinding().ccvAttachment.setColumnChartData(StatisticsHelper.getAttachmentsData(getContext(), stats));
     }
 
     private static class StatsTask extends AsyncTask<Void, Void, Stats> {
