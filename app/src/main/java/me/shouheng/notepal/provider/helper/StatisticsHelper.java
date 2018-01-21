@@ -12,10 +12,14 @@ import java.util.List;
 import java.util.Locale;
 
 import lecho.lib.hellocharts.model.Axis;
+import lecho.lib.hellocharts.model.Column;
+import lecho.lib.hellocharts.model.ColumnChartData;
 import lecho.lib.hellocharts.model.Line;
 import lecho.lib.hellocharts.model.LineChartData;
 import lecho.lib.hellocharts.model.PointValue;
+import lecho.lib.hellocharts.model.SubcolumnValue;
 import lecho.lib.hellocharts.model.ValueShape;
+import me.shouheng.notepal.R;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.model.Location;
@@ -183,5 +187,35 @@ public class StatisticsHelper {
             states.add(TimelineStore.getInstance(context).getCount(whereSQL, Status.NORMAL, false));
         }
         return states;
+    }
+
+
+    public static ColumnChartData getAttachmentsData(Context context, Stats stats) {
+        /**
+         * Set the attachments column data, you may replace the colors and names later. */
+        ColumnChartData data = new ColumnChartData(Arrays.asList(
+                getColumn(stats.getFiles(), context.getResources().getColor(R.color.md_lime_600)),
+                getColumn(stats.getImages(), context.getResources().getColor(R.color.md_light_blue_500)),
+                getColumn(stats.getSketches(), context.getResources().getColor(R.color.md_pink_500)),
+                getColumn(stats.getVideos(), context.getResources().getColor(R.color.md_green_600)),
+                getColumn(stats.getAudioRecordings(), context.getResources().getColor(R.color.md_red_500))));
+
+        Axis axisX = Axis.generateAxisFromCollection(Arrays.asList(0.0f, 1.0f, 2.0f, 3.0f, 4.0f), Arrays.asList(
+                context.getString(R.string.attachment_type_files),
+                context.getString(R.string.attachment_type_images),
+                context.getString(R.string.attachment_type_sketches),
+                context.getString(R.string.attachment_type_videos),
+                context.getString(R.string.attachment_type_recordings)));
+
+        data.setAxisXBottom(axisX);
+        data.setAxisYLeft(null);
+
+        return data;
+    }
+
+    private static Column getColumn(float value, int color) {
+        Column column = new Column(Arrays.asList(new SubcolumnValue(value, color)));
+        column.setHasLabels(true);
+        return column;
     }
 }

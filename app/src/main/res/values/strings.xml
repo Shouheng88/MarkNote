@@ -175,6 +175,12 @@
     <string name="recording">正在录制音频&#8230;</string>
     <string name="recorded">录制完成</string>
     <string name="add_attachment">添加附件</string>
+
+    <string name="attachment_type_files">文件</string>
+    <string name="attachment_type_images">图片</string>
+    <string name="attachment_type_videos">视频</string>
+    <string name="attachment_type_recordings">录音</string>
+    <string name="attachment_type_sketches">手写</string>
     <!--endregion-->
 
     <!--region mind snagging-->
