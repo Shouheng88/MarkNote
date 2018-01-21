@@ -28,7 +28,7 @@ public class RegisterDialog extends DialogFragment{
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final View rootView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_register_layout, null);
         final Dialog regDlg =  new AlertDialog.Builder(getActivity())
-                .setTitle(R.string.register_palm_college)
+                .setTitle(String.format(getString(R.string.register_palm_college), getString(R.string.app_name)))
                 .setView(rootView)
                 .create();
         regDlg.setCancelable(false);
