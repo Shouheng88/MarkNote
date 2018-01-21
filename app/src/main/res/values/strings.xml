@@ -36,6 +36,7 @@
     <string name="copy_link">复制链接</string>
     <string name="text_last_modified_time">最后更新时间</string>
     <string name="text_last_sync_time">上次同步时间</string>
+    <string name="text_chars_number">字符总数</string>
     <string name="text_more">更多</string>
     <string name="text_pick">选择</string>
     <string name="text_preview">预览</string>
@@ -83,6 +84,8 @@
     <string name="statistic_title_activities">最近7天添加的笔记和小纸条</string>
     <string name="statistic_title_models_added">添加的数据实体的统计结果</string>
     <string name="statistic_title_attachments_added">添加的附件的统计结果</string>
+
+    <string name="text_replace_tab_with_4_spaces">使用4个空格替换退格</string>
     <!--endregion-->
 
     <!--region App info page-->

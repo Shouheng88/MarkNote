@@ -181,6 +181,7 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
             getBinding().drawer.drawerToolbar.setBackgroundColor(getResources().getColor(R.color.dark_theme_background));
         }
 
+        updateCharsInfo();
         getBinding().drawer.tvTimeInfo.setText(ModelHelper.getTimeInfo(note));
 
         getBinding().drawer.flLabels.setOnClickListener(v -> showTagsEditDialog());
@@ -204,7 +205,6 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
         getBinding().drawer.ivAddPreview.setOnClickListener(v -> showAttachmentPicker(AttachmentPickerType.PREVIEW_IMAGE));
         loadPreviewImage();
 
-        // todo add more features
         getBinding().drawer.tvSettings.setOnClickListener(view -> {
             String content = getBinding().main.etContent.getText().toString();
             if (!TextUtils.isEmpty(content)) {
@@ -224,8 +224,14 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
         @Override
         public void afterTextChanged(Editable s) {
             setContentChanged();
+            updateCharsInfo();
         }
     };
+
+    private void updateCharsInfo() {
+        String charsInfo = getString(R.string.text_chars_number) + " : " + getBinding().main.etContent.getText().toString().length();
+        getBinding().drawer.tvCharsInfo.setText(charsInfo);
+    }
 
     private void showStatisticsDialog(){}
 
