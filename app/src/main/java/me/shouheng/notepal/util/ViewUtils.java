@@ -53,6 +53,10 @@ public class ViewUtils {
         return point;
     }
 
+    public static int getScreenOrientation(Context context) {
+        return context.getResources().getConfiguration().orientation;
+    }
+
     public static int getStatusBarHeight(Resources r) {
         int resourceId = r.getIdentifier("status_bar_height", "dimen", "android");
         if (resourceId > 0)

@@ -1,5 +1,6 @@
 package me.shouheng.notepal.fragment;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -182,7 +183,9 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
 
     private void configForTwoCols() {
         int dp4 = ViewUtils.dp2Px(getContext(), 4);
-        getBinding().rv.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        getBinding().rv.setLayoutManager(new StaggeredGridLayoutManager(
+                ViewUtils.getScreenOrientation(getContext()) == Configuration.ORIENTATION_LANDSCAPE ? 3 : 2,
+                StaggeredGridLayoutManager.VERTICAL));
         getBinding().rv.addItemDecoration(new SpaceItemDecoration(dp4, dp4, dp4, dp4));
     }
 
