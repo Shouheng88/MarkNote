@@ -35,13 +35,23 @@
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:id="@+id/tv_time_info"
-                tools:text="Last modified time: 3 days ago\nAdded time: 4 days ago."
-                android:gravity="bottom"
-                android:padding="20dp"
+                android:id="@+id/tv_chars_info"
+                tools:text="Total Chars : 4"
+                android:layout_alignParentBottom="true"
+                android:paddingStart="20dp"
+                android:paddingBottom="20dp"
                 android:textColor="#bbb"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tv_time_info"
+                android:layout_above="@id/tv_chars_info"
+                tools:text="Last modified time: 3 days ago\nAdded time: 4 days ago."
+                android:paddingStart="20dp"
+                android:textColor="#bbb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
         </RelativeLayout>
 
@@ -165,7 +175,7 @@
                     android:layout_width="match_parent"
                     android:drawablePadding="13dp"
                     android:paddingStart="13dp"
-                    android:text="@string/text_settings"
+                    android:text="@string/text_replace_tab_with_4_spaces"
                     android:gravity="center_vertical"
                     android:layout_height="50dp" />
 
