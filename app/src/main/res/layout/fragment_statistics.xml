@@ -10,15 +10,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <lecho.lib.hellocharts.view.LineChartView
-                android:id="@+id/lcv_note"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
+            <lecho.lib.hellocharts.view.ColumnChartView
+                android:id="@+id/ccv_models"
                 android:layout_width="match_parent"
-                android:layout_height="200dp" />
+                android:layout_height="300dp" />
 
             <lecho.lib.hellocharts.view.LineChartView
-                android:id="@+id/lcv_minds"
+                android:id="@+id/lcv_note"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_width="match_parent"

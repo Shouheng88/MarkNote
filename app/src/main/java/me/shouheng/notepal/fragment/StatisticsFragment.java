@@ -37,11 +37,10 @@ public class StatisticsFragment extends BaseFragment<FragmentStatisticsBinding> 
     private void outputStats(Stats stats) {
         LogUtils.d(stats);
 
-        getBinding().lcvNote.setValueSelectionEnabled(false);
-        getBinding().lcvNote.setLineChartData(StatisticsHelper.getLineChartData(stats.getNotesStats(), primaryColor()));
+        getBinding().ccvModels.setColumnChartData(StatisticsHelper.getModelsData(getContext(), stats));
 
-        getBinding().lcvMinds.setValueSelectionEnabled(false);
-        getBinding().lcvMinds.setLineChartData(StatisticsHelper.getLineChartData(stats.getMindsStats(), primaryColor()));
+        getBinding().lcvNote.setValueSelectionEnabled(false);
+        getBinding().lcvNote.setLineChartData(StatisticsHelper.getLineChartData(getContext(), stats));
 
         getBinding().ccvAttachment.setColumnChartData(StatisticsHelper.getAttachmentsData(getContext(), stats));
     }
