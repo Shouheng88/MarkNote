@@ -20,6 +20,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.RelativeLayout;
 
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
+import com.github.clans.fab.FloatingActionButton;
 
 import java.util.Arrays;
 import java.util.List;
@@ -81,6 +82,9 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     private AttachmentPickerDialog attachmentPickerDialog;
 
     private RecyclerView.OnScrollListener onScrollListener;
+
+    private FloatingActionButton[] fabs = new FloatingActionButton[]{getBinding().fab1,
+            getBinding().fab2, getBinding().fab3, getBinding().fab4, getBinding().fab5};
 
     @Override
     protected int getLayoutResId() {
@@ -179,33 +183,12 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
             getBinding().menu.close(true);
         });
 
-        getBinding().fab1.setColorNormal(accentColor());
-        getBinding().fab2.setColorNormal(accentColor());
-        getBinding().fab3.setColorNormal(accentColor());
-        getBinding().fab4.setColorNormal(accentColor());
-        getBinding().fab5.setColorNormal(accentColor());
-
-        getBinding().fab1.setColorPressed(accentColor());
-        getBinding().fab2.setColorPressed(accentColor());
-        getBinding().fab3.setColorPressed(accentColor());
-        getBinding().fab4.setColorPressed(accentColor());
-        getBinding().fab5.setColorPressed(accentColor());
-
-        View.OnClickListener onFabClickListener = v -> {
-            switch (v.getId()) {
-                case R.id.fab1:resolveFabClick(0);break;
-                case R.id.fab2:resolveFabClick(1);break;
-                case R.id.fab3:resolveFabClick(2);break;
-                case R.id.fab4:resolveFabClick(3);break;
-                case R.id.fab5:resolveFabClick(4);break;
-            }
-        };
-
-        getBinding().fab1.setOnClickListener(onFabClickListener);
-        getBinding().fab2.setOnClickListener(onFabClickListener);
-        getBinding().fab3.setOnClickListener(onFabClickListener);
-        getBinding().fab4.setOnClickListener(onFabClickListener);
-        getBinding().fab5.setOnClickListener(onFabClickListener);
+        for (int i=0; i<fabs.length; i++) {
+            fabs[i].setColorNormal(accentColor());
+            fabs[i].setColorPressed(accentColor());
+            int finalI = i;
+            fabs[i].setOnClickListener(view -> resolveFabClick(finalI));
+        }
 
         onScrollListener = new CustomRecyclerScrollViewListener() {
             @Override
@@ -233,18 +216,10 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     private void initFabSortItems() {
         try {
             List<FabSortItem> fabSortItems = preferencesUtils.getFabSortResult();
-
-            getBinding().fab1.setImageDrawable(ColorUtils.tintDrawable(getResources().getDrawable(fabSortItems.get(0).iconRes), Color.WHITE));
-            getBinding().fab2.setImageDrawable(ColorUtils.tintDrawable(getResources().getDrawable(fabSortItems.get(1).iconRes), Color.WHITE));
-            getBinding().fab3.setImageDrawable(ColorUtils.tintDrawable(getResources().getDrawable(fabSortItems.get(2).iconRes), Color.WHITE));
-            getBinding().fab4.setImageDrawable(ColorUtils.tintDrawable(getResources().getDrawable(fabSortItems.get(3).iconRes), Color.WHITE));
-            getBinding().fab5.setImageDrawable(ColorUtils.tintDrawable(getResources().getDrawable(fabSortItems.get(4).iconRes), Color.WHITE));
-
-            getBinding().fab1.setLabelText(getString(fabSortItems.get(0).nameRes));
-            getBinding().fab2.setLabelText(getString(fabSortItems.get(1).nameRes));
-            getBinding().fab3.setLabelText(getString(fabSortItems.get(2).nameRes));
-            getBinding().fab4.setLabelText(getString(fabSortItems.get(3).nameRes));
-            getBinding().fab5.setLabelText(getString(fabSortItems.get(4).nameRes));
+            for (int i=0; i<fabs.length; i++) {
+                fabs[i].setImageDrawable(ColorUtils.tintDrawable(getResources().getDrawable(fabSortItems.get(i).iconRes), Color.WHITE));
+                fabs[i].setLabelText(getString(fabSortItems.get(i).nameRes));
+            }
         } catch (Exception e) {
             LogUtils.d("initFabSortItems, error occurred : " + e);
             PreferencesUtils.getInstance(this).setFabSortResult(PreferencesUtils.defaultFabOrders);
