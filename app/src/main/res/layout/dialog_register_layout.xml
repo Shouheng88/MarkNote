@@ -1,104 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:padding="20dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <EditText
-            android:id="@+id/in_account"
-            android:hint="@string/please_input_account"
-            android:textColor="@color/colorPrimary"
-            android:padding="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            android:imeOptions="actionUnspecified"
-            android:singleLine="true"
-            android:maxLines="1"/>
-
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <EditText
-            android:id="@+id/in_psd"
-            android:hint="@string/please_input_password"
-            android:textColor="@color/colorPrimary"
-            android:padding="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:singleLine="true"
-            android:imeOptions="actionUnspecified"
-            android:inputType="textPassword"/>
-
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <EditText
-            android:id="@+id/in_psd_again"
-            android:hint="@string/please_input_password_again"
-            android:textColor="@color/colorPrimary"
-            android:padding="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:singleLine="true"
-            android:imeOptions="actionUnspecified"
-            android:inputType="textPassword"/>
-
-    </android.support.design.widget.TextInputLayout>
+    android:layout_height="wrap_content">
 
     <LinearLayout
-        android:layout_marginTop="8dp"
-        android:orientation="horizontal"
+        android:orientation="vertical"
+        android:padding="20dp"
         android:layout_width="match_parent"
-        android:weightSum="4"
-        android:gravity="center_horizontal"
-        android:paddingBottom="20dp"
         android:layout_height="wrap_content">
 
-        <me.shouheng.notepal.widget.UIRippleButton
-            android:id="@+id/cancel_register"
-            android:text="@string/cancel"
-            android:textSize="15sp"
-            android:textColor="@android:color/black"
-            android:layout_weight="2"
-            android:background="@color/md_grey_500"
-            app:ripple_color = "@color/md_grey_300"
-            app:color_unpressed="@color/md_grey_500"
-            app:ripple_duration="400"
-            app:shape_type="rectangle"
-            android:layout_marginEnd="10dp"
-            android:layout_width="0dp"
-            android:layout_height="40dp"/>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <me.shouheng.notepal.widget.UIRippleButton
-            android:id="@+id/cfm_register"
-            android:text="@string/register"
-            android:textSize="15sp"
-            android:textColor="@android:color/white"
-            android:layout_weight="2"
-            android:background="@color/colorPrimary"
-            app:ripple_color = "#80FFFFFF"
-            app:color_unpressed="@color/colorPrimary"
-            app:ripple_duration="400"
-            app:shape_type="rectangle"
-            android:layout_marginStart="10dp"
-            android:layout_width="0dp"
-            android:layout_height="40dp"/>
+            <EditText
+                android:id="@+id/in_account"
+                android:hint="@string/please_input_account"
+                android:textColor="@color/colorPrimary"
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:imeOptions="actionUnspecified"
+                android:singleLine="true"
+                android:maxLines="1"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/in_psd"
+                android:hint="@string/please_input_password"
+                android:textColor="@color/colorPrimary"
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:imeOptions="actionUnspecified"
+                android:inputType="textPassword"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/in_psd_again"
+                android:hint="@string/please_input_password_again"
+                android:textColor="@color/colorPrimary"
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:imeOptions="actionUnspecified"
+                android:inputType="textPassword"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:weightSum="4"
+            android:gravity="center_horizontal"
+            android:paddingBottom="20dp"
+            android:layout_height="wrap_content">
+
+            <me.shouheng.notepal.widget.UIRippleButton
+                android:id="@+id/cancel_register"
+                android:text="@string/cancel"
+                android:textSize="15sp"
+                android:textColor="@android:color/black"
+                android:layout_weight="2"
+                android:background="@color/md_grey_500"
+                app:ripple_color = "@color/md_grey_300"
+                app:color_unpressed="@color/md_grey_500"
+                app:ripple_duration="400"
+                app:shape_type="rectangle"
+                android:layout_marginEnd="10dp"
+                android:layout_width="0dp"
+                android:layout_height="40dp"/>
+
+            <me.shouheng.notepal.widget.UIRippleButton
+                android:id="@+id/cfm_register"
+                android:text="@string/register"
+                android:textSize="15sp"
+                android:textColor="@android:color/white"
+                android:layout_weight="2"
+                android:background="@color/colorPrimary"
+                app:ripple_color = "#80FFFFFF"
+                app:color_unpressed="@color/colorPrimary"
+                app:ripple_duration="400"
+                app:shape_type="rectangle"
+                android:layout_marginStart="10dp"
+                android:layout_width="0dp"
+                android:layout_height="40dp"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 
-</LinearLayout>
+</ScrollView>
