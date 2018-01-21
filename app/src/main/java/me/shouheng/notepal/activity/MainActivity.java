@@ -422,8 +422,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        AttachmentHelper.resolveResult(this, attachmentPickerDialog, requestCode,
-                resultCode, data, attachment -> mindSnaggingDialog.setAttachment(attachment));
+        handleAttachmentResult(requestCode, resultCode, data);
         switch (requestCode) {
             case REQUEST_FAB_SORT:
                 if (resultCode == RESULT_OK) initFabSortItems();
@@ -448,6 +447,15 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                 break;
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void handleAttachmentResult(int requestCode, int resultCode, Intent data) {
+        AttachmentHelper.resolveResult(this,
+                attachmentPickerDialog,
+                requestCode,
+                resultCode,
+                data,
+                attachment -> mindSnaggingDialog.setAttachment(attachment));
     }
 
     @Override
