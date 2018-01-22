@@ -18,11 +18,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import my.shouheng.palmmarkdown.fastscroller.FastScrollWebView;
 import my.shouheng.palmmarkdown.tools.GenieUtils;
 
 /**
  * Created by wangshouheng on 2017/6/29. */
-public class MarkdownViewer extends WebView {
+public class MarkdownViewer extends FastScrollWebView {
 
     private static final String TAG = "MarkdownViewer";
 

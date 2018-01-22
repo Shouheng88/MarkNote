@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
@@ -111,6 +112,9 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
     }
 
     private void configViews() {
+        getBinding().mdView.getDelegate().setThumbDrawable(ContextCompat.getDrawable(getContext(), R.drawable.recyclerview_fastscroller_handle));
+        getBinding().mdView.getDelegate().setThumbSize(8, 32);
+        getBinding().mdView.getDelegate().setThumbDynamicHeight(false);
         getBinding().mdView.setWebViewTheme(isDarkTheme());
         getBinding().mdView.setPrimaryColor(primaryColor());
         getBinding().mdView.setPrimaryDark(ColorUtils.calStatusBarColor(primaryColor()));
