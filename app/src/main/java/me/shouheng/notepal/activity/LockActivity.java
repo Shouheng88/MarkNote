@@ -104,7 +104,6 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
         public void onPinChange(int pinLength, String intermediatePin) {}
     };
 
-    // todo password freeze time tip error
     private void onCompleteForRequirement(String pin) {
         pin = MD5Util.MD5(pin);
         if (preferencesUtils.getLastInputErrorTime()
@@ -128,11 +127,10 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
                 preferencesUtils.setLastInputErrorTime(System.currentTimeMillis());
                 isPasswordFreezed = true;
                 String msg = String.format(getString(R.string.setting_password_frozen_minutes), preferencesUtils.getPasswordFreezeTime());
-                ToastUtils.makeToast(this, msg);
-                LogUtils.d("Password Frozen");
-                LogUtils.d("Toast :" + msg);
+                ToastUtils.makeToast(msg);
+                LogUtils.d("Password Frozen" + "Toast :" + msg);
             } else {
-                ToastUtils.makeToast(this, String.format(getString(R.string.setting_input_wrong_password), 5 - errorTimes));
+                ToastUtils.makeToast(String.format(getString(R.string.setting_input_wrong_password), 5 - errorTimes));
             }
         }
     }
