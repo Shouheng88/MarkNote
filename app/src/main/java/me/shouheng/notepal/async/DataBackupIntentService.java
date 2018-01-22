@@ -81,7 +81,6 @@ public class DataBackupIntentService extends IntentService {
         NotificationsHelper mNotificationsHelper = new NotificationsHelper(mContext);
         mNotificationsHelper.createNotification(R.drawable.ic_save_white, title, notifyIntent)
                 .setMessage(message)
-                // TODO modify when include the notification function
 //                .setRingtone(prefs.getString("settings_notification_ringtone", null))
                 .setLedActive();
 //        if (prefs.getBoolean("settings_notification_vibration", true)) {

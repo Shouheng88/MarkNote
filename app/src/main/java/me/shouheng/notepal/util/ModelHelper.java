@@ -68,8 +68,6 @@ public class ModelHelper {
             return;
         }
 
-        // todo 获取指定数据类型的链接的逻辑实现
-
         ClipboardManager clipboardManager = (ClipboardManager) ctx.getSystemService(Context.CLIPBOARD_SERVICE);
         clipboardManager.setText(null);
     }
