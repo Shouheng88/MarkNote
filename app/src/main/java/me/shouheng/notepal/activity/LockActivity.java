@@ -14,6 +14,7 @@ import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.ActivityLockBinding;
 import me.shouheng.notepal.util.ActivityUtils;
+import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.MD5Util;
 import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.ToastUtils;
@@ -126,8 +127,10 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
             if (errorTimes == 5) {
                 preferencesUtils.setLastInputErrorTime(System.currentTimeMillis());
                 isPasswordFreezed = true;
-                ToastUtils.makeToast(this, String.format(getString(R.string.setting_password_frozen_minutes),
-                        preferencesUtils.getPasswordFreezeTime()));
+                String msg = String.format(getString(R.string.setting_password_frozen_minutes), preferencesUtils.getPasswordFreezeTime());
+                ToastUtils.makeToast(this, msg);
+                LogUtils.d("Password Frozen");
+                LogUtils.d("Toast :" + msg);
             } else {
                 ToastUtils.makeToast(this, String.format(getString(R.string.setting_input_wrong_password), 5 - errorTimes));
             }
