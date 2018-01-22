@@ -83,8 +83,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
 
     private RecyclerView.OnScrollListener onScrollListener;
 
-    private FloatingActionButton[] fabs = new FloatingActionButton[]{getBinding().fab1,
-            getBinding().fab2, getBinding().fab3, getBinding().fab4, getBinding().fab5};
+    private FloatingActionButton[] fabs;
 
     @Override
     protected int getLayoutResId() {
@@ -182,6 +181,8 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         getBinding().rlMenuContainer.setOnClickListener(view -> {
             getBinding().menu.close(true);
         });
+
+        fabs = new FloatingActionButton[]{getBinding().fab1, getBinding().fab2, getBinding().fab3, getBinding().fab4, getBinding().fab5};
 
         for (int i=0; i<fabs.length; i++) {
             fabs[i].setColorNormal(accentColor());
