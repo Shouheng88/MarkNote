@@ -335,6 +335,7 @@
     <string name="backup_confirm_removing_backup">确认删除备份</string>
     <string name="backup_data_delete_message">删除备份</string>
     <string name="backup_data_deletion_completed">数据删除完成</string>
+    <string name="backup_no_backup_data_selected">没有选中的备份</string>
 
     <string name="backup_data_import_completed">数据导入完成</string>
     <string name="backup_click_to_refresh_application">点击刷新应用</string>

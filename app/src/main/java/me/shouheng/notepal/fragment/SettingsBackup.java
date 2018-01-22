@@ -14,6 +14,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.CommonActivity;
@@ -95,7 +96,7 @@ public class SettingsBackup extends PreferenceFragment {
     }
 
     private void showExternalBackupImport() {
-        final CharSequence[] backups = FileHelper.getExternalStoragePublicDir().list();
+        final String[] backups = getExternalBackups();
         if (backups.length == 0) {
             ToastUtils.makeToast(getActivity(), R.string.backup_no_backups_available);
             return;
@@ -105,6 +106,10 @@ public class SettingsBackup extends PreferenceFragment {
                 .title(R.string.backup_data_import_message)
                 .items(backups)
                 .itemsCallbackSingleChoice(-1, (dialog, itemView, which, text) -> {
+                    if (TextUtils.isEmpty(text)) {
+                        ToastUtils.makeToast(R.string.backup_no_backup_data_selected);
+                        return true;
+                    }
                     showExternalBackupImportConfirm(text.toString());
                     return true;
                 })
@@ -136,8 +141,14 @@ public class SettingsBackup extends PreferenceFragment {
                 }).build().show();
     }
 
+    private String[] getExternalBackups() {
+        String[] backups = FileHelper.getExternalStoragePublicDir().list();
+        Arrays.sort(backups);
+        return backups;
+    }
+
     private void showExternalBackupDelete() {
-        final CharSequence[] backups = FileHelper.getExternalStoragePublicDir().list();
+        final String[] backups = getExternalBackups();
         if (backups.length == 0) {
             ToastUtils.makeToast(getActivity(), R.string.backup_no_backups_to_delete);
             return;
@@ -156,7 +167,11 @@ public class SettingsBackup extends PreferenceFragment {
                 })
                 .positiveText(R.string.confirm)
                 .onPositive((dialog, which) -> {
-                    showExternalBackupDeleteConfirm(selected);
+                    if (selected.isEmpty()) {
+                        ToastUtils.makeToast(R.string.backup_no_backup_data_selected);
+                    } else {
+                        showExternalBackupDeleteConfirm(selected);
+                    }
                 }).build().show();
     }
 
