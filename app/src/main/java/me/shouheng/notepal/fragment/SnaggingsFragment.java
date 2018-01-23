@@ -53,7 +53,7 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
 
     private MindSnaggingAdapter adapter;
 
-    private MindSnaggingDialog snaggingDialog;
+    private MindSnaggingDialog mindSnaggingDialog;
 
     private AttachmentPickerDialog attachmentPickerDialog;
 
@@ -190,15 +190,13 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
     }
 
     private void showEditor(int position) {
-        snaggingDialog = new MindSnaggingDialog.Builder()
-                .setOnAttachmentClickListener(attachment -> AttachmentHelper.resolveClickEvent(
-                        getContext(), attachment, Arrays.asList(attachment), ""))
-                .setOnConfirmListener((mindSnagging, attachment) ->
-                        saveMindSnagging(position, mindSnagging, attachment))
+        mindSnaggingDialog = new MindSnaggingDialog.Builder()
+                .setOnAttachmentClickListener(attachment -> AttachmentHelper.resolveClickEvent(getContext(), attachment, Arrays.asList(attachment), ""))
+                .setOnConfirmListener((mindSnagging, attachment) -> saveMindSnagging(position, mindSnagging, attachment))
                 .setOnAddAttachmentListener(mindSnagging -> showSnaggingAttachmentPicker())
                 .setMindSnagging(adapter.getItem(position))
                 .build();
-        snaggingDialog.show(getFragmentManager(), "snag");
+        mindSnaggingDialog.show(getFragmentManager(), "snag");
     }
 
     private List<MindSnagging> getSnaggings() {
@@ -304,11 +302,21 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
     }
 
     private void showSnaggingAttachmentPicker() {
-        attachmentPickerDialog = new AttachmentPickerDialog.Builder()
+        attachmentPickerDialog = new AttachmentPickerDialog.Builder(this)
                 .setRecordVisible(false)
                 .setVideoVisible(false)
                 .build();
         attachmentPickerDialog.show(getFragmentManager(), "Attachment picker");
+    }
+
+    @Override
+    protected void onGetAttachment(Attachment attachment) {
+        mindSnaggingDialog.setAttachment(attachment);
+    }
+
+    @Override
+    protected void onFailedGetAttachment(Attachment attachment) {
+        ToastUtils.makeToast(R.string.failed_to_save_attachment);
     }
 
     public interface OnSnagginsInteractListener {

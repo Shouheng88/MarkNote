@@ -61,8 +61,8 @@ import me.shouheng.notepal.widget.tools.CustomRecyclerScrollViewListener;
 
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
 
-public class MainActivity extends CommonActivity<ActivityMainBinding> implements
-        NotesFragment.OnNotesInteractListener, OnAttachingFileListener, OnSnagginsInteractListener {
+public class MainActivity extends CommonActivity<ActivityMainBinding> implements NotesFragment.OnNotesInteractListener,
+        OnAttachingFileListener, OnSnagginsInteractListener {
 
     private final int REQUEST_FAB_SORT = 0x0001;
     private final int REQUEST_ADD_NOTE = 0x0002;
@@ -76,7 +76,6 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
 
     private PreferencesUtils preferencesUtils;
 
-    // TODO bug when reopen the activity
     private MindSnaggingDialog mindSnaggingDialog;
     private NotebookEditDialog notebookEditDialog;
     private AttachmentPickerDialog attachmentPickerDialog;
@@ -520,7 +519,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
 
     @Override
     public void onAttachingFileErrorOccurred(Attachment attachment) {
-        ToastUtils.makeToast(this, R.string.failed_to_save_attachment);
+        ToastUtils.makeToast(R.string.failed_to_save_attachment);
     }
 
     @Override
