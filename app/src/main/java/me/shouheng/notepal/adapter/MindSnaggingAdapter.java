@@ -18,10 +18,11 @@ import me.shouheng.notepal.model.MindSnagging;
 import me.shouheng.notepal.util.FileHelper;
 import me.shouheng.notepal.util.TimeUtils;
 import me.shouheng.notepal.util.enums.MindSnaggingListType;
+import me.shouheng.notepal.widget.tools.BubbleTextGetter;
 
 /**
  * Created by wangshouheng on 2017/8/20.*/
-public class MindSnaggingAdapter extends BaseQuickAdapter<MindSnagging, BaseViewHolder> {
+public class MindSnaggingAdapter extends BaseQuickAdapter<MindSnagging, BaseViewHolder> implements BubbleTextGetter {
 
     private Context context;
 
@@ -50,5 +51,14 @@ public class MindSnaggingAdapter extends BaseQuickAdapter<MindSnagging, BaseView
         helper.setText(R.id.text_view_title, mindSnagging.getContent());
         helper.setText(R.id.tv_added_time, TimeUtils.getPrettyTime(mindSnagging.getAddedTime()));
         helper.addOnClickListener(R.id.iv_more);
+    }
+
+    @Override
+    public String getTextToShowInBubble(int pos) {
+        try {
+            return String.valueOf(getItem(pos).getContent().charAt(0));
+        } catch (Exception e) {
+            return "";
+        }
     }
 }
