@@ -13,7 +13,7 @@ import my.shouheng.palmmarkdown.tools.MarkdownEffect;
 
 /**
  * Created by wangshouheng on 2017/6/29.*/
-public class MarkdownEditor extends android.support.v7.widget.AppCompatEditText{
+public class MarkdownEditor extends android.support.v7.widget.AppCompatEditText {
 
     /* 操作序号(一次编辑可能对应多个操作，如替换文字，就是删除+插入) */
     private int index;

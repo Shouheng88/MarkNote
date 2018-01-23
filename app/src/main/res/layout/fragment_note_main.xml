@@ -234,7 +234,8 @@
 
         </RelativeLayout>
 
-        <ScrollView
+        <my.shouheng.palmmarkdown.fastscroller.FastScrollScrollView
+            android:id="@+id/fssv"
             android:layout_above="@id/rl_bottom"
             android:layout_below="@id/toolbar"
             android:fitsSystemWindows="true"
@@ -310,7 +311,7 @@
 
             </LinearLayout>
 
-        </ScrollView>
+        </my.shouheng.palmmarkdown.fastscroller.FastScrollScrollView>
 
     </RelativeLayout>
 

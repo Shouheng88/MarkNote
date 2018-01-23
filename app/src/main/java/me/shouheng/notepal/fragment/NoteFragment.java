@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -168,6 +169,10 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
         for (int id : ids) getRoot().findViewById(id).setOnClickListener(this::addEffect);
 
         getBinding().main.ivEnableFormat.setOnClickListener(v -> switchFormat());
+
+        getBinding().main.fssv.getDelegate().setThumbSize(8, 32);
+        getBinding().main.fssv.getDelegate().setThumbDynamicHeight(false);
+        getBinding().main.fssv.getDelegate().setThumbDrawable(ContextCompat.getDrawable(getContext(), R.drawable.recyclerview_fastscroller_handle));
     }
 
     private void configDrawer() {
