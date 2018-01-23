@@ -16,6 +16,8 @@ public class MindSnagging extends Model {
     @Column(name = "picture")
     private Uri picture;
 
+    // todo add mime type
+
     public String getContent() {
         return content;
     }

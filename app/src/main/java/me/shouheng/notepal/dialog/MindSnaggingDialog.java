@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,8 +17,11 @@ import android.view.View;
 
 import com.bumptech.glide.Glide;
 
+import java.io.IOException;
+
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
+import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.databinding.DialogMindSnaggingLayoutBinding;
 import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.model.MindSnagging;
@@ -25,6 +29,8 @@ import me.shouheng.notepal.model.enums.ModelType;
 import me.shouheng.notepal.provider.AttachmentsStore;
 import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.FileHelper;
+import me.shouheng.notepal.util.LogUtils;
+import me.shouheng.notepal.util.ToastUtils;
 
 /**
  * Created by wangshouheng on 2017/8/19. */
@@ -33,6 +39,8 @@ public class MindSnaggingDialog extends DialogFragment {
 
     private MindSnagging mindSnagging;
     private Attachment attachment;
+
+    private MediaPlayer mPlayer;
 
     private OnConfirmListener onConfirmListener;
     private OnAddAttachmentListener onAddAttachmentListener;
@@ -82,10 +90,18 @@ public class MindSnaggingDialog extends DialogFragment {
             }
         });
 
+        // todo the listener won't work
         return new AlertDialog.Builder(getContext())
                 .setTitle(R.string.edit_mind_snagging)
                 .setView(binding.getRoot())
-                .create();
+                .setOnCancelListener(dialogInterface -> {
+                    LogUtils.d("cancel");
+                    if (isPlaying()) stopPlaying();
+                })
+                .setOnDismissListener(dialogInterface -> {
+                    LogUtils.d("dismiss");
+                    if (isPlaying()) stopPlaying();
+                }).create();
     }
 
     private void initButtons() {
@@ -130,28 +146,74 @@ public class MindSnaggingDialog extends DialogFragment {
         // This means the user added a new attachment
         if (this.attachment == null) setCancelable(false);
         this.attachment = attachment;
+        mindSnagging.setPicture(attachment.getUri());
 
         binding.bottom.btnNeutral.setEnabled(false);
         binding.bottom.btnNeutral.setTextColor(Color.GRAY);
-
         binding.bottom.btnPositive.setEnabled(true);
         binding.bottom.btnPositive.setTextColor(ColorUtils.accentColor(getContext()));
 
-        mindSnagging.setPicture(attachment.getUri());
         binding.iv.setVisibility(View.GONE);
         binding.siv.setVisibility(View.VISIBLE);
-        Uri thumbnailUri = FileHelper.getThumbnailUri(getContext(), attachment);
-        Glide.with(PalmApp.getContext())
-                .load(thumbnailUri)
-                .centerCrop()
-                .crossFade()
-                .into(binding.siv);
+
+        if (Constants.MIME_TYPE_AUDIO.equals(attachment.getMineType())){
+            binding.siv.setImageResource(attachment.isAudioPlaying() ? R.drawable.stop : R.drawable.play);
+        } else {
+            Uri thumbnailUri = FileHelper.getThumbnailUri(getContext(), attachment);
+            Glide.with(PalmApp.getContext())
+                    .load(thumbnailUri)
+                    .centerCrop()
+                    .crossFade()
+                    .into(binding.siv);
+        }
 
         binding.siv.setOnClickListener(v -> {
+            if (Constants.MIME_TYPE_AUDIO.equals(attachment.getMineType())) {
+                if (isPlaying()) {
+                    stopPlaying();
+                } else {
+                    startPlaying(attachment);
+                }
+            }
             if (onAttachmentClickListener != null) {
                 onAttachmentClickListener.onClick(attachment);
             }
         });
+    }
+
+    private boolean isPlaying() {
+        return mPlayer != null && mPlayer.isPlaying();
+    }
+
+    private void startPlaying(Attachment attachment) {
+        if (mPlayer == null) mPlayer = new MediaPlayer();
+        try {
+            mPlayer.setDataSource(getContext(), attachment.getUri());
+            mPlayer.prepare();
+            mPlayer.start();
+            notifyPlayingStateChanged(true);
+            mPlayer.setOnCompletionListener(mp -> {
+                mPlayer = null;
+                notifyPlayingStateChanged(false);
+            });
+        } catch (IOException e) {
+            ToastUtils.makeToast(R.string.failed_when_play_audio);
+        }
+    }
+
+    private void stopPlaying() {
+        if (mPlayer != null) {
+            notifyPlayingStateChanged(false);
+            mPlayer.release();
+            mPlayer = null;
+        }
+    }
+
+    private void notifyPlayingStateChanged(boolean playing) {
+        if (attachment != null){
+            attachment.setAudioPlaying(playing);
+            binding.siv.setImageResource(attachment.isAudioPlaying() ? R.drawable.stop : R.drawable.play);
+        }
     }
 
     public static class Builder {
