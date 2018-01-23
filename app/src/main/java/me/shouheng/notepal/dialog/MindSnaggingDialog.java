@@ -18,7 +18,6 @@ import com.bumptech.glide.Glide;
 
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.config.TextLength;
 import me.shouheng.notepal.databinding.DialogMindSnaggingLayoutBinding;
 import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.model.MindSnagging;
@@ -33,13 +32,10 @@ import me.shouheng.notepal.util.FileHelper;
 public class MindSnaggingDialog extends DialogFragment {
 
     private MindSnagging mindSnagging;
-
     private Attachment attachment;
 
     private OnConfirmListener onConfirmListener;
-
     private OnAddAttachmentListener onAddAttachmentListener;
-
     private OnAttachmentClickListener onAttachmentClickListener;
 
     private DialogMindSnaggingLayoutBinding binding;
@@ -51,8 +47,7 @@ public class MindSnaggingDialog extends DialogFragment {
         this.onAddAttachmentListener = builder.onAddAttachmentListener;
         this.onAttachmentClickListener = builder.onAttachmentClickListener;
 
-        this.attachment = AttachmentsStore.getInstance(PalmApp.getContext())
-                .getAttachment(ModelType.MIND_SNAGGING, mindSnagging.getCode());
+        this.attachment = AttachmentsStore.getInstance(PalmApp.getContext()).getAttachment(ModelType.MIND_SNAGGING, mindSnagging.getCode());
     }
 
     @NonNull
@@ -60,14 +55,9 @@ public class MindSnaggingDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_mind_snagging_layout, null, false);
 
-        binding.tv.setTextColor(ColorUtils.accentColor(getContext()));
-        String len = (mindSnagging.getContent() == null ?
-                0 : mindSnagging.getContent().length()) + "/" + TextLength.SNAGGING_TEXT_LENGTH.length;
-        binding.tv.setText(len);
-
+        binding.wtv.bindEditText(binding.et);
         binding.et.setText(mindSnagging.getContent());
         binding.et.addTextChangedListener(new EtTextWatcher());
-
         binding.iv.setOnClickListener(v -> {
             if (onAddAttachmentListener != null) {
                 onAddAttachmentListener.onAddAttachment(mindSnagging);
@@ -76,17 +66,9 @@ public class MindSnaggingDialog extends DialogFragment {
 
         setAttachment(attachment);
 
-        binding.bottom.btnNegative.setTextColor(ColorUtils.accentColor(getContext()));
-        binding.bottom.btnPositive.setTextColor(Color.GRAY);
-        binding.bottom.btnPositive.setEnabled(false);
+        initButtons();
 
-        if (attachment == null) {
-            binding.bottom.btnNeutral.setTextColor(ColorUtils.accentColor(getContext()));
-        } else {
-            binding.bottom.btnNeutral.setEnabled(false);
-            binding.bottom.btnNeutral.setTextColor(Color.GRAY);
-        }
-
+        binding.bottom.btnNegative.setOnClickListener(v -> dismiss());
         binding.bottom.btnPositive.setOnClickListener(v -> {
             if (onConfirmListener != null){
                 mindSnagging.setContent(binding.et.getText().toString());
@@ -94,9 +76,6 @@ public class MindSnaggingDialog extends DialogFragment {
             }
             dismiss();
         });
-
-        binding.bottom.btnNegative.setOnClickListener(v -> dismiss());
-
         binding.bottom.btnNeutral.setOnClickListener(v -> {
             if (onAddAttachmentListener != null) {
                 onAddAttachmentListener.onAddAttachment(mindSnagging);
@@ -109,6 +88,20 @@ public class MindSnaggingDialog extends DialogFragment {
                 .create();
     }
 
+    private void initButtons() {
+        binding.bottom.btnNegative.setTextColor(ColorUtils.accentColor(getContext()));
+
+        binding.bottom.btnPositive.setTextColor(Color.GRAY);
+        binding.bottom.btnPositive.setEnabled(false);
+
+        if (attachment == null) {
+            binding.bottom.btnNeutral.setTextColor(ColorUtils.accentColor(getContext()));
+        } else {
+            binding.bottom.btnNeutral.setEnabled(false);
+            binding.bottom.btnNeutral.setTextColor(Color.GRAY);
+        }
+    }
+
     private class EtTextWatcher implements TextWatcher {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -118,8 +111,6 @@ public class MindSnaggingDialog extends DialogFragment {
 
         @Override
         public void afterTextChanged(Editable s) {
-            String sb = s.length() + "/" + TextLength.SNAGGING_TEXT_LENGTH.length;
-            binding.tv.setText(sb);
             setCancelable(false);
             if (s.length() == 0 && attachment == null) {
                 binding.bottom.btnPositive.setEnabled(false);
@@ -135,15 +126,16 @@ public class MindSnaggingDialog extends DialogFragment {
 
     public void setAttachment(final Attachment attachment) {
         if (attachment == null) return;
-        setCancelable(false);
+
+        // This means the user added a new attachment
+        if (this.attachment == null) setCancelable(false);
+        this.attachment = attachment;
 
         binding.bottom.btnNeutral.setEnabled(false);
         binding.bottom.btnNeutral.setTextColor(Color.GRAY);
 
         binding.bottom.btnPositive.setEnabled(true);
         binding.bottom.btnPositive.setTextColor(ColorUtils.accentColor(getContext()));
-
-        this.attachment = attachment;
 
         mindSnagging.setPicture(attachment.getUri());
         binding.iv.setVisibility(View.GONE);

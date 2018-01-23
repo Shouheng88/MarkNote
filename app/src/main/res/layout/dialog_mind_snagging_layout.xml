@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <FrameLayout
         android:paddingStart="16dp"
@@ -46,10 +47,10 @@
                     android:layout_height="wrap_content"
                     android:maxLength="@integer/mind_snagging_content_length" />
 
-                <TextView
-                    android:id="@+id/tv"
+                <me.shouheng.notepal.widget.WatcherTextView
+                    android:id="@+id/wtv"
                     android:layout_gravity="end"
-                    android:textColor="@color/colorAccent"
+                    app:max_length="@integer/mind_snagging_content_length"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
