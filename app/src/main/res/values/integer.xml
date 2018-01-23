@@ -12,5 +12,5 @@
     <integer name="teacher_text_length">50</integer>
     <integer name="email_address_length">50</integer>
     <integer name="feedback_details_length">250</integer>
-    <integer name="mind_snagging_content_length">250</integer>
+    <integer name="mind_snagging_content_length">500</integer>
 </resources>
