@@ -3,6 +3,7 @@ package me.shouheng.notepal.dialog;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.media.MediaPlayer;
@@ -29,7 +30,6 @@ import me.shouheng.notepal.model.enums.ModelType;
 import me.shouheng.notepal.provider.AttachmentsStore;
 import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.FileHelper;
-import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.ToastUtils;
 
 /**
@@ -90,18 +90,10 @@ public class MindSnaggingDialog extends DialogFragment {
             }
         });
 
-        // todo the listener won't work
         return new AlertDialog.Builder(getContext())
                 .setTitle(R.string.edit_mind_snagging)
                 .setView(binding.getRoot())
-                .setOnCancelListener(dialogInterface -> {
-                    LogUtils.d("cancel");
-                    if (isPlaying()) stopPlaying();
-                })
-                .setOnDismissListener(dialogInterface -> {
-                    LogUtils.d("dismiss");
-                    if (isPlaying()) stopPlaying();
-                }).create();
+                .create();
     }
 
     private void initButtons() {
@@ -214,6 +206,17 @@ public class MindSnaggingDialog extends DialogFragment {
             attachment.setAudioPlaying(playing);
             binding.siv.setImageResource(attachment.isAudioPlaying() ? R.drawable.stop : R.drawable.play);
         }
+    }
+
+    @Override
+    public void onCancel(DialogInterface dialog) {
+        if (isPlaying()) stopPlaying();
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        if (isPlaying()) stopPlaying();
     }
 
     public static class Builder {
