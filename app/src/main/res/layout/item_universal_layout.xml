@@ -44,6 +44,7 @@
         android:layout_marginStart="@dimen/primary_margin"
         android:layout_width="@dimen/item_image_height"
         android:layout_height="@dimen/item_image_height"
+        android:layout_marginEnd="@dimen/small_spacing"
         android:layout_gravity="center_vertical" />
 
 </LinearLayout>

@@ -13,10 +13,11 @@ import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.model.Notebook;
 import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.TimeUtils;
+import me.shouheng.notepal.widget.tools.BubbleTextGetter;
 
 /**
  * Created by wang shouheng on 2017/12/23.*/
-public class NotesAdapter extends BaseMultiItemQuickAdapter<NotesAdapter.MultiItem, BaseViewHolder> {
+public class NotesAdapter extends BaseMultiItemQuickAdapter<NotesAdapter.MultiItem, BaseViewHolder> implements BubbleTextGetter {
 
     private Context context;
 
@@ -62,6 +63,21 @@ public class NotesAdapter extends BaseMultiItemQuickAdapter<NotesAdapter.MultiIt
         helper.setText(R.id.tv_added_time, str);
         helper.setImageDrawable(R.id.iv_icon, ColorUtils.tintDrawable(
                 context.getResources().getDrawable(R.drawable.ic_folder_black_24dp), nbColor));
+    }
+
+    @Override
+    public String getTextToShowInBubble(int pos) {
+        try {
+            MultiItem multiItem = getItem(pos);
+            if (multiItem.itemType == MultiItem.ITEM_TYPE_NOTE) {
+                return String.valueOf(multiItem.note.getTitle().charAt(0));
+            } else if (multiItem.itemType == MultiItem.ITEM_TYPE_NOTEBOOK) {
+                return String.valueOf(multiItem.notebook.getTitle().charAt(0));
+            }
+        } catch (Exception e) {
+            return "";
+        }
+        return "";
     }
 
     public static class MultiItem implements MultiItemEntity {

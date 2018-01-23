@@ -179,6 +179,7 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
         getBinding().rv.addItemDecoration(new DividerItemDecoration(getContext(),
                 DividerItemDecoration.VERTICAL_LIST, isDarkTheme()));
         getBinding().rv.setLayoutManager(new LinearLayoutManager(getContext()));
+        getBinding().fastscroller.setRecyclerView(getBinding().rv);
     }
 
     private void configForTwoCols() {
@@ -187,6 +188,7 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
                 ViewUtils.getScreenOrientation(getContext()) == Configuration.ORIENTATION_LANDSCAPE ? 3 : 2,
                 StaggeredGridLayoutManager.VERTICAL));
         getBinding().rv.addItemDecoration(new SpaceItemDecoration(dp4, dp4, dp4, dp4));
+        getBinding().fastscroller.setVisibility(View.GONE);
     }
 
     private void showEditor(int position) {

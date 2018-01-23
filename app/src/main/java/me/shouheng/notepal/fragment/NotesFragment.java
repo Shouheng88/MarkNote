@@ -137,6 +137,8 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
         if (scrollListener != null) getBinding().rvNotes.addOnScrollListener(scrollListener);
         getBinding().rvNotes.setEmptyView(getBinding().ivEmpty);
         getBinding().rvNotes.setAdapter(adapter);
+
+        getBinding().fastscroller.setRecyclerView(getBinding().rvNotes);
     }
 
     private List<NotesAdapter.MultiItem> getMultiItems() {
