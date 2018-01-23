@@ -282,11 +282,18 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         mindSnaggingDialog = new MindSnaggingDialog.Builder()
                 .setMindSnagging(ModelFactory.getMindSnagging(this))
                 .setOnAddAttachmentListener(mindSnagging -> showAttachmentPicker())
-                .setOnAttachmentClickListener(attachment -> AttachmentHelper.resolveClickEvent(
-                        this, attachment, Arrays.asList(attachment), ""))
+                .setOnAttachmentClickListener(this::resolveAttachmentClick)
                 .setOnConfirmListener(this::saveMindSnagging)
                 .build();
         mindSnaggingDialog.show(getSupportFragmentManager(), "mind snagging");
+    }
+
+    private void resolveAttachmentClick(Attachment attachment) {
+        AttachmentHelper.resolveClickEvent(
+                this,
+                attachment,
+                Arrays.asList(attachment),
+                "");
     }
 
     private void saveMindSnagging(MindSnagging mindSnagging, Attachment attachment) {
