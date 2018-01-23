@@ -155,7 +155,6 @@ public class FastScrollDelegate {
 		// log("awakenScrollBars call startDelay->" + startDelay);
 		if (!mIsHanlingTouchEvent) {
 			if (mScrollCache.state == ScrollabilityCache.OFF) {
-				// FIXME: this is copied from WindowManagerService.
 				// We should get this value from the system when it
 				// is possible to do so.
 				final int KEY_REPEAT_FIRST_DELAY = 750;
