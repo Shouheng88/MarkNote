@@ -42,6 +42,7 @@
                 android:textColor="#ffffff"
                 android:singleLine="true"
                 android:ellipsize="end"
+                android:text="@string/user_info_click_to_see_personal_info"
                 tools:text="shouheng2015@gmail.com"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
