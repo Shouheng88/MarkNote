@@ -400,9 +400,11 @@
     <string name="illegal_email_format">邮箱格式不合法</string>
     <!--endregion-->
 
+    <!--region timeline-->
     <string name="no_more_data">没有更多数据了&#8230;</string>
     <string name="no_activity_in_timeline">您的时间线上没有活动</string>
     <string name="activities_on_app_will_display_here">您在App上面的活动会被展示在这里</string>
+    <!--endregion-->
 
     <!--region recycler view capture-->
     <string name="capture_empty_list">要截取的列表为空</string>
