@@ -58,9 +58,9 @@ public class AppInfoFragment extends BaseFragment<FragmentAppInfoBinding> {
     }
 
     private void openGithubProject() {
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.GITHUB_PAGE));
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.GITHUB_TRANSLATION_PAGE));
         if (IntentUtils.isAvailable(getContext(), intent, null)) {
-            ViewUtils.launchUrl(getContext(), Constants.GITHUB_PAGE);
+            ViewUtils.launchUrl(getContext(), Constants.GITHUB_TRANSLATION_PAGE);
         } else {
             ToastUtils.makeToast(getContext(), R.string.failed_to_resolve_intent);
         }
@@ -79,12 +79,14 @@ public class AppInfoFragment extends BaseFragment<FragmentAppInfoBinding> {
     }
 
     private void viewDeveloper() {
+        /*
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.GITHUB_DEVELOPER));
         if (IntentUtils.isAvailable(getContext(), intent, null)) {
             ViewUtils.launchUrl(getContext(), Constants.GITHUB_DEVELOPER);
         } else {
             ToastUtils.makeToast(getContext(), R.string.failed_to_resolve_intent);
         }
+        */
     }
 
     @Override
