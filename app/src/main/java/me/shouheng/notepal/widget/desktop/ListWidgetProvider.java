@@ -14,7 +14,7 @@ import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.LogUtils;
 
-public class NotesListWidgetProvider extends WidgetProvider {
+public class ListWidgetProvider extends WidgetProvider {
 
     @Override
     protected RemoteViews getRemoteViews(Context context, int widgetId, boolean isSmall, boolean isSingleLine, SparseArray<PendingIntent> pendingIntentsMap) {

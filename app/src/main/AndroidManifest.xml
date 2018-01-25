@@ -128,7 +128,7 @@
         <activity android:name=".activity.LockActivity" />
 
         <!-- region App Widget -->
-        <receiver android:name=".widget.desktop.NotesListWidgetProvider">
+        <receiver android:name=".widget.desktop.ListWidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
