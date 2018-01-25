@@ -3,11 +3,11 @@ package me.shouheng.notepal.util.tools;
 import android.os.Handler;
 import android.os.Looper;
 
-public class Invoker extends Thread {
+public class Invoker<T> extends Thread {
 
-	private Callback callback;
+	private Callback<T> callback;
 
-	public Invoker(Callback callback) {
+	public Invoker(Callback<T> callback) {
 		this.callback = callback;
 	}
 
@@ -19,7 +19,7 @@ public class Invoker extends Thread {
 
 	@Override
 	public void run() {
-		final boolean b = callback.onRun();
-		new Handler(Looper.getMainLooper()).post(() -> callback.onAfter(b));
+		Message<T> message = callback.onRun();
+		new Handler(Looper.getMainLooper()).post(() -> callback.onAfter(message));
 	}
 }

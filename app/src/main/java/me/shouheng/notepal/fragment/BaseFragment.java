@@ -23,6 +23,7 @@ import me.shouheng.notepal.util.ScreenShotHelper;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.util.tools.Callback;
 import me.shouheng.notepal.util.tools.Invoker;
+import me.shouheng.notepal.util.tools.Message;
 
 /**
  * Created by wang shouheng on 2017/12/29.*/
@@ -38,24 +39,28 @@ public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFrag
         PermissionUtils.checkStoragePermission((CommonActivity) getActivity(), () -> {
             final ProgressDialog pd = new ProgressDialog(getContext());
             pd.setMessage(getString(R.string.capturing));
-            final File file = null;
-            new Invoker(new Callback() {
+            new Invoker<>(new Callback<File>() {
                 @Override
                 public void onBefore() {
                     pd.setCancelable(false);
                     pd.show();
                 }
+
                 @Override
-                public boolean onRun() {
+                public Message<File> onRun() {
+                    Message<File> message = new Message<>();
                     Bitmap bitmap = ScreenShotHelper.shotRecyclerView(recyclerView);
-                    return FileHelper.saveImageToGallery(getContext(), bitmap, true, file);
+                    boolean succeed = FileHelper.saveImageToGallery(getContext(), bitmap, true, message::setObj);
+                    message.setSucceed(succeed);
+                    return message;
                 }
+
                 @Override
-                public void onAfter(boolean b) {
+                public void onAfter(Message<File> message) {
                     pd.dismiss();
-                    if (b) {
-                        ToastUtils.makeToast(getActivity(), R.string.text_save_successfully);
-                        onGetScreenCutFile(file);
+                    if (message.isSucceed()) {
+                        ToastUtils.makeToast(String.format(getString(R.string.text_file_saved_to), message.getObj().getPath()));
+                        onGetScreenCutFile(message.getObj());
                     } else {
                         ToastUtils.makeToast(getActivity(), R.string.failed_to_create_file);
                     }
@@ -73,24 +78,26 @@ public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFrag
         PermissionUtils.checkStoragePermission((CommonActivity) getActivity(), () -> {
             final ProgressDialog pd = new ProgressDialog(getContext());
             pd.setTitle(R.string.capturing);
-            final File file = null;
-            new Invoker(new Callback() {
+            new Invoker<>(new Callback<File>() {
                 @Override
                 public void onBefore() {
                     pd.setCancelable(false);
                     pd.show();
                 }
                 @Override
-                public boolean onRun() {
-                    Bitmap bitmap = ScreenShotHelper.shotRecyclerView(recyclerView, itemHeight);
-                    return FileHelper.saveImageToGallery(getContext(), bitmap, true, file);
+                public Message<File> onRun() {
+                    Message<File> message = new Message<>();
+                    Bitmap bitmap = ScreenShotHelper.shotRecyclerView(recyclerView);
+                    boolean succeed = FileHelper.saveImageToGallery(getContext(), bitmap, true, message::setObj);
+                    message.setSucceed(succeed);
+                    return message;
                 }
                 @Override
-                public void onAfter(boolean b) {
+                public void onAfter(Message<File> message) {
                     pd.dismiss();
-                    if (b) {
-                        ToastUtils.makeToast(getActivity(), R.string.text_save_successfully);
-                        onGetScreenCutFile(file);
+                    if (message.isSucceed()) {
+                        ToastUtils.makeToast(String.format(getString(R.string.text_file_saved_to), message.getObj().getPath()));
+                        onGetScreenCutFile(message.getObj());
                     } else {
                         ToastUtils.makeToast(getActivity(), R.string.failed_to_create_file);
                     }
@@ -105,8 +112,7 @@ public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFrag
             final ProgressDialog pd = new ProgressDialog(getContext());
             pd.setTitle(R.string.capturing);
             Bitmap bitmap = ScreenShotHelper.shotWebView(webView);
-            final File file = null;
-            new Invoker(new Callback(){
+            new Invoker<>(new Callback<File>(){
                 @Override
                 public void onBefore() {
                     pd.setCancelable(false);
@@ -114,16 +120,19 @@ public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFrag
                 }
 
                 @Override
-                public boolean onRun() {
-                    return FileHelper.saveImageToGallery(getContext(), bitmap, true, file);
+                public Message<File> onRun() {
+                    Message<File> message = new Message<>();
+                    boolean succeed = FileHelper.saveImageToGallery(getContext(), bitmap, true, message::setObj);
+                    message.setSucceed(succeed);
+                    return message;
                 }
 
                 @Override
-                public void onAfter(boolean b) {
+                public void onAfter(Message<File> message) {
                     pd.dismiss();
-                    if (b) {
-                        ToastUtils.makeToast(getActivity(), R.string.text_save_successfully);
-                        onGetScreenCutFile(file);
+                    if (message.isSucceed()) {
+                        ToastUtils.makeToast(String.format(getString(R.string.text_file_saved_to), message.getObj().getPath()));
+                        onGetScreenCutFile(message.getObj());
                     } else {
                         ToastUtils.makeToast(getActivity(), R.string.failed_to_create_file);
                     }

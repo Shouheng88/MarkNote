@@ -5,14 +5,17 @@ import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.os.StatFs;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.support.annotation.DrawableRes;
 import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 import android.webkit.MimeTypeMap;
@@ -471,7 +474,7 @@ public class FileHelper {
      * @param isPng 是否是png格式的图片
      * @param file 用于返回的保存的文件
      * @return 是否成功执行保存操作 */
-    public static boolean saveImageToGallery(Context context, Bitmap bmp, boolean isPng, File file) {
+    public static boolean saveImageToGallery(Context context, Bitmap bmp, boolean isPng, OnSavedToGalleryListener onSavedToGalleryListener) {
         LogUtils.d("saveImageToGallery: " + bmp);
         if (bmp == null) return false;
         File appDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), context.getString(R.string.app_name));
@@ -486,7 +489,7 @@ public class FileHelper {
         } else {
             fileName = System.currentTimeMillis() + ".jpg";
         }
-        file = new File(appDir, fileName);
+        File file = new File(appDir, fileName);
         try {
             FileOutputStream fos = new FileOutputStream(file);
             if (isPng) {
@@ -514,6 +517,7 @@ public class FileHelper {
             return false;
         }
         context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(appDir)));
+        if (onSavedToGalleryListener != null) onSavedToGalleryListener.OnSavedToGallery(file);
         return true;
     }
 
@@ -555,5 +559,16 @@ public class FileHelper {
                 + System.getProperty("file.separator")
                 + packageName
                 + "_preferences.xml");
+    }
+
+    public static void saveDrawable(Context context, @DrawableRes int drawableRes, OnSavedToGalleryListener onSavedToGalleryListener) {
+        Resources res = context.getResources();
+        BitmapDrawable d = (BitmapDrawable) res.getDrawable(drawableRes);
+        Bitmap img = d.getBitmap();
+        FileHelper.saveImageToGallery(context, img, true, onSavedToGalleryListener);
+    }
+
+    public interface OnSavedToGalleryListener {
+        void OnSavedToGallery(File file);
     }
 }

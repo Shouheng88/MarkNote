@@ -48,6 +48,7 @@
     <string name="text_search">搜索</string>
     <string name="text_save_or_discard">保存还是放弃所做的修改？</string>
     <string name="text_save_successfully">保存成功</string>
+    <string name="text_file_saved_to">文件被保存到%s</string>
     <string name="text_save">保存</string>
     <string name="text_statistic">数据统计</string>
     <string name="text_save_and_retry_to_add_shortcut">项目未保存，无法添加快捷方式，保存并再次尝试？</string>
