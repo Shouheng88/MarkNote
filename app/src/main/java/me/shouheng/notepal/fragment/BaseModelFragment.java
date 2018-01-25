@@ -23,6 +23,7 @@ import me.shouheng.notepal.model.Location;
 import me.shouheng.notepal.model.Model;
 import me.shouheng.notepal.model.ModelFactory;
 import me.shouheng.notepal.provider.BaseStore;
+import me.shouheng.notepal.util.AppWidgetUtils;
 import me.shouheng.notepal.util.NetworkUtils;
 import me.shouheng.notepal.util.PermissionUtils;
 import me.shouheng.notepal.util.ShortcutHelper;
@@ -54,7 +55,9 @@ public abstract class BaseModelFragment<T extends Model, V extends ViewDataBindi
 
     protected abstract T getModel();
 
-    protected void afterSaveOrUpdate() {}
+    protected void afterSaveOrUpdate() {
+        AppWidgetUtils.notifyAppWidgets(getContext());
+    }
 
     protected void setContentChanged() {
         this.contentChanged = true;

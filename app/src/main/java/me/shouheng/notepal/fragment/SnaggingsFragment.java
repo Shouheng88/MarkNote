@@ -34,6 +34,7 @@ import me.shouheng.notepal.model.enums.Status;
 import me.shouheng.notepal.provider.AttachmentsStore;
 import me.shouheng.notepal.provider.MindSnaggingStore;
 import me.shouheng.notepal.provider.schema.MindSnaggingSchema;
+import me.shouheng.notepal.util.AppWidgetUtils;
 import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.ToastUtils;
@@ -161,6 +162,7 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
     }
 
     private void refreshLayout() {
+        AppWidgetUtils.notifyAppWidgets(getContext());
         new Handler().postDelayed(() -> adapter.notifyDataSetChanged(), 500);
     }
 
@@ -194,7 +196,10 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
     private void showEditor(int position) {
         mindSnaggingDialog = new MindSnaggingDialog.Builder()
                 .setOnAttachmentClickListener(attachment -> AttachmentHelper.resolveClickEvent(getContext(), attachment, Arrays.asList(attachment), ""))
-                .setOnConfirmListener((mindSnagging, attachment) -> saveMindSnagging(position, mindSnagging, attachment))
+                .setOnConfirmListener((mindSnagging, attachment) -> {
+                    AppWidgetUtils.notifyAppWidgets(getContext());
+                    saveMindSnagging(position, mindSnagging, attachment);
+                })
                 .setOnAddAttachmentListener(mindSnagging -> showSnaggingAttachmentPicker())
                 .setMindSnagging(adapter.getItem(position))
                 .build();

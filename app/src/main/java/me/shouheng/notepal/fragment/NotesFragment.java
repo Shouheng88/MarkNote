@@ -35,6 +35,7 @@ import me.shouheng.notepal.provider.NotesStore;
 import me.shouheng.notepal.provider.helper.ArchiveHelper;
 import me.shouheng.notepal.provider.helper.NotebookHelper;
 import me.shouheng.notepal.provider.helper.TrashHelper;
+import me.shouheng.notepal.util.AppWidgetUtils;
 import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.widget.tools.CustomItemAnimator;
@@ -311,6 +312,7 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
     }
 
     public void reload() {
+        AppWidgetUtils.notifyAppWidgets(getContext());
         adapter.setNewData(getMultiItems());
     }
 
