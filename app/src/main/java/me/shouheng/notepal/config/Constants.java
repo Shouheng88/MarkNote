@@ -41,7 +41,7 @@ public class Constants {
     // region Urls
     public final static String GOOGLE_PLAY_WEB_PAGE = "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID;
     public final static String MARKET_PAGE = "market://details?id=" + BuildConfig.APPLICATION_ID;
-    public final static String GITHUB_PAGE = "https://github.com/Shouheng88/PalmCollege-App";
+    public final static String GITHUB_TRANSLATION_PAGE = "https://github.com/Shouheng88/NotePal-Translation";
     public final static String GITHUB_DEVELOPER = "https://github.com/Shouheng88";
     public final static String GOOGLE_PLUS_URL = "https://plus.google.com/u/1/communities/102252970668657211916";
 
