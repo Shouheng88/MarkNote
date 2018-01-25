@@ -51,6 +51,8 @@ public class Attachment extends Model implements Parcelable {
      * 判断当前的附件是否是新加入的附件 */
     private boolean isNew;
 
+    private boolean fake;
+
     public boolean isNew() {
         return isNew;
     }
@@ -65,6 +67,14 @@ public class Attachment extends Model implements Parcelable {
 
     public void setAudioPlaying(boolean audioPlaying) {
         this.audioPlaying = audioPlaying;
+    }
+
+    public boolean isFake() {
+        return fake;
+    }
+
+    public void setFake(boolean fake) {
+        this.fake = fake;
     }
 
     // endregion
