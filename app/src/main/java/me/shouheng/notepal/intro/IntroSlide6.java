@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import me.shouheng.notepal.R;
+import me.shouheng.notepal.config.Constants;
 
 
 public class IntroSlide6 extends IntroFragment {
@@ -20,7 +21,7 @@ public class IntroSlide6 extends IntroFragment {
 		imageSmall.setVisibility(View.VISIBLE);
 		imageSmall.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse("http://gplus_community"));
+            intent.setData(Uri.parse(Constants.GOOGLE_PLUS_URL));
             startActivity(intent);
         });
 		description.setText(R.string.intro_6_description);
