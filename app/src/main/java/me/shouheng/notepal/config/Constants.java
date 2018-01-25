@@ -54,6 +54,6 @@ public class Constants {
     // endregion
 
     public final static String PREFS_NAME = BuildConfig.APPLICATION_ID + "_preferences";
-    public final static String PREF_WIDGET_PREFIX = "widget_";
-
+    public final static String PREF_WIDGET_SQL_PREFIX = "widget_sql_";
+    public final static String PREF_WIDGET_TYPE_PREFIX = "widget_type_";
 }

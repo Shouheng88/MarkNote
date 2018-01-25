@@ -1,8 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="me.shouheng.notepal.widget.desktop.WidgetConfigurationActivity">
+<layout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="@dimen/medium_spacing"
+        tools:context="me.shouheng.notepal.widget.desktop.WidgetConfigurationActivity">
+
+        <RadioGroup
+            android:id="@+id/widget_config_radiogroup"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal" >
+
+            <RadioButton
+                android:id="@+id/widget_config_notes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="@string/model_name_note" />
+
+            <RadioButton
+                android:id="@+id/widget_config_minds"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/model_name_mind_snagging" />
+
+        </RadioGroup>
+
+        <LinearLayout
+            android:id="@+id/ll_folder"
+            android:layout_width="match_parent"
+            android:background="?attr/selectableItemBackground"
+            android:layout_height="@dimen/note_center_options_height"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="8dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/iv_folder"
+                android:layout_width="@dimen/note_center_options_height"
+                android:layout_height="@dimen/note_center_options_height"
+                android:paddingBottom="12dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="12dp"
+                android:src="@drawable/ic_move_to_inbox_black_24dp"
+                android:tint="@color/md_grey_500" />
+
+            <TextView
+                android:id="@+id/tv_folder"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:lines="1"
+                android:singleLine="true"
+                tools:text="我的第一个笔记本"
+                android:text="@string/all_notes"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btn_positive"
+                android:layout_alignParentEnd="true"
+                android:text="@string/text_accept"
+                android:textColor="@color/colorAccent"
+                android:background="@android:color/transparent"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</layout>

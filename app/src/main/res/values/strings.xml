@@ -157,6 +157,7 @@
         <item quantity="other">%d 个笔记</item>
     </plurals>
     <string name="note_default_notebook">默认笔记本</string>
+    <string name="all_notes">全部笔记</string>
     <string name="edit_notebook">编辑笔记本</string>
     <string name="notebook_name">笔记本名称</string>
     <string name="pick_notebook_color">选择笔记本的颜色</string>
