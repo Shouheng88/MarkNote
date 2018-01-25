@@ -1,28 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
-
-        <TextView
-            android:text=""
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
 
-        <!--
-        用户你好，NotePal是一款免费的笔记应用，由于时间限制仍然有许多问题等待完善：
-        如果你喜欢NotePal你可以在“设置->关于程序->翻译”中协助开发者将NotePal翻译成其他语言，或者在应用网站上面给程序好评。
-        如果你有其他的需求想要实现，或者对NotePal有不满意的地方，可以通过Google+社区 Twitter 或者直接邮件的方式与开发者讨论需求。
-        如果你发现了NotePal中存在BUG和意外崩溃，可以直接邮件开发者或者在“设置->信息反馈”中提出。
-        NotePal会在后续推出一些新的功能和特性，如果你喜欢该应用，可以在“设置->支持开发”中支持程序的开发。
-        两外，可以通过关注Google+社区和Twitter获取程序开发的最新动态。
-        -->
+            <me.shouheng.notepal.widget.themed.SupportTextView
+                android:text="@string/dialog_notice_content_part1"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-    </LinearLayout>
+            <me.shouheng.notepal.widget.themed.SupportTextView
+                android:text="@string/dialog_notice_content_part2"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <me.shouheng.notepal.widget.themed.SupportTextView
+                android:text="@string/dialog_notice_content_part3"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:padding="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="60dp">
+
+                <me.shouheng.notepal.widget.themed.SupportImageView
+                    android:id="@+id/siv_google_play"
+                    android:src="@drawable/ic_action_google_play"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent" />
+
+                <me.shouheng.notepal.widget.themed.SupportImageView
+                    android:id="@+id/siv_github"
+                    android:src="@drawable/ic_action_github"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent" />
+
+                <me.shouheng.notepal.widget.themed.SupportImageView
+                    android:id="@+id/siv_gmail"
+                    android:src="@drawable/ic_action_gmail"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+
+            <me.shouheng.notepal.widget.themed.SupportTextView
+                android:text="@string/dialog_notice_content_part4"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <me.shouheng.notepal.widget.themed.SupportTextView
+                android:text="@string/dialog_notice_content_part5"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <me.shouheng.notepal.widget.themed.SupportTextView
+                android:text="@string/dialog_notice_content_part6"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:padding="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="60dp">
+
+                <me.shouheng.notepal.widget.themed.SupportImageView
+                    android:id="@+id/siv_gplus"
+                    android:src="@drawable/ic_action_gplus"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent" />
+
+                <me.shouheng.notepal.widget.themed.SupportImageView
+                    android:id="@+id/siv_twitter"
+                    android:src="@drawable/ic_action_twitter"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent" />
+
+                <me.shouheng.notepal.widget.themed.SupportImageView
+                    android:id="@+id/siv_weibo"
+                    android:src="@drawable/ssdk_oks_classic_sinaweibo"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+
+            <me.shouheng.notepal.widget.themed.SupportTextView
+                android:text="@string/dialog_notice_content_part7"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </layout>

@@ -33,6 +33,7 @@ import me.shouheng.notepal.databinding.ActivityMainNavHeaderBinding;
 import me.shouheng.notepal.dialog.AttachmentPickerDialog;
 import me.shouheng.notepal.dialog.MindSnaggingDialog;
 import me.shouheng.notepal.dialog.NotebookEditDialog;
+import me.shouheng.notepal.dialog.NoticeDialog;
 import me.shouheng.notepal.fragment.NotesFragment;
 import me.shouheng.notepal.fragment.SnaggingsFragment;
 import me.shouheng.notepal.fragment.SnaggingsFragment.OnSnagginsInteractListener;
@@ -352,6 +353,9 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     private void execute(final MenuItem menuItem) {
         new Handler().postDelayed(() -> {
             switch (menuItem.getItemId()) {
+                case R.id.nav_sync:
+                    NoticeDialog.newInstance().show(getSupportFragmentManager(), "NoticeDialog");
+                    break;
                 case R.id.nav_settings:
                     startActivity(SettingsActivity.class);
                     break;
