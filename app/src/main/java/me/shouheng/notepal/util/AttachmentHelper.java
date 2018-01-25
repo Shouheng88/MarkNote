@@ -46,7 +46,7 @@ public class AttachmentHelper {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(attachment.getUri(), FileHelper.getMimeType(context, attachment.getUri()));
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-        if (IntentChecker.isAvailable(context.getApplicationContext(), intent, null)) {
+        if (IntentUtils.isAvailable(context.getApplicationContext(), intent, null)) {
             context.startActivity(intent);
         } else {
             ToastUtils.makeToast(context, R.string.activity_not_found_to_resolve);

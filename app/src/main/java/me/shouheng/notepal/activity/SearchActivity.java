@@ -33,7 +33,7 @@ import me.shouheng.notepal.provider.MindSnaggingStore;
 import me.shouheng.notepal.provider.helper.QueryHelper;
 import me.shouheng.notepal.util.FileHelper;
 import me.shouheng.notepal.util.GsonUtils;
-import me.shouheng.notepal.util.IntentChecker;
+import me.shouheng.notepal.util.IntentUtils;
 import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.util.tools.SearchConditions;
@@ -276,7 +276,7 @@ public class SearchActivity extends ThemedActivity implements OnQueryTextListene
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setDataAndType(attachment.getUri(), FileHelper.getMimeType(SearchActivity.this, attachment.getUri()));
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-                if (IntentChecker.isAvailable(getApplicationContext(), intent, null)) {
+                if (IntentUtils.isAvailable(getApplicationContext(), intent, null)) {
                     startActivity(intent);
                 } else {
                     ToastUtils.makeToast(SearchActivity.this, R.string.activity_not_found_to_resolve);

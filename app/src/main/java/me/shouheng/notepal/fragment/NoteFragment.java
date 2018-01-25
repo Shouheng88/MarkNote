@@ -201,6 +201,7 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
         getBinding().drawer.tvCopyText.setOnClickListener(v -> {
             note.setContent(getBinding().main.etContent.getText().toString());
             ModelHelper.copyToClipboard(getActivity(), getBinding().main.etContent.getText().toString());
+            ToastUtils.makeToast(getContext(), R.string.content_was_copied_to_clipboard);
         });
 
         getBinding().drawer.tvAddToHomeScreen.setOnClickListener(v -> addShortcut());

@@ -32,7 +32,6 @@ public class ModelHelper {
     public static void copyToClipboard(Activity ctx, String content) {
         ClipboardManager clipboardManager = (ClipboardManager) ctx.getSystemService(Context.CLIPBOARD_SERVICE);
         clipboardManager.setText(content);
-        ToastUtils.makeToast(ctx, R.string.content_was_copied_to_clipboard);
     }
 
     public static void share(Context context, String title, String content, List<Attachment> attachments) {

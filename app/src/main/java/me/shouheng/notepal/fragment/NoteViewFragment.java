@@ -33,7 +33,7 @@ import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.provider.AttachmentsStore;
 import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.util.ColorUtils;
-import me.shouheng.notepal.util.IntentChecker;
+import me.shouheng.notepal.util.IntentUtils;
 import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.ModelHelper;
 import me.shouheng.notepal.util.PrintUtils;
@@ -140,7 +140,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intent.setDataAndType(uri, mimeType);
-        if (IntentChecker.isAvailable(getContext(), intent, null)) {
+        if (IntentUtils.isAvailable(getContext(), intent, null)) {
             startActivity(intent);
         } else {
             ToastUtils.makeToast(getContext(), R.string.activity_not_found_to_resolve);

@@ -43,6 +43,10 @@ public class Constants {
     public final static String MARKET_PAGE = "market://details?id=" + BuildConfig.APPLICATION_ID;
     public final static String GITHUB_PAGE = "https://github.com/Shouheng88/PalmCollege-App";
     public final static String GITHUB_DEVELOPER = "https://github.com/Shouheng88";
+
+    public final static String DEVELOPER_EMAIL = "shouheng2015@gmail.com";
+    public final static String DEVELOPER_EMAIL_PREFIX = "【NotePal|%s】";
+    public final static String DEVELOPER_EMAIL_EMAIL_PREFIX = "\nContact Email:";
     // endregion
 
     // region App Widgets
@@ -51,9 +55,9 @@ public class Constants {
     public final static String ACTION_TAKE_PHOTO = "action_widget_take_photo";
     public final static String ACTION_WIDGET_SHOW_LIST = "action_widget_show_list";
     public final static String ACTION_WIDGET_MAIN = "action_widget_main";
-    // endregion
 
     public final static String PREFS_NAME = BuildConfig.APPLICATION_ID + "_preferences";
     public final static String PREF_WIDGET_SQL_PREFIX = "widget_sql_";
     public final static String PREF_WIDGET_TYPE_PREFIX = "widget_type_";
+    // endregion
 }
