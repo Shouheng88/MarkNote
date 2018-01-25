@@ -1,5 +1,6 @@
 package me.shouheng.notepal.dialog;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -23,12 +24,14 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.model.Feedback;
 import me.shouheng.notepal.model.ModelFactory;
 import me.shouheng.notepal.model.enums.FeedbackType;
+import me.shouheng.notepal.util.ModelHelper;
 import me.shouheng.notepal.util.StringUtils;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.widget.WatcherTextView;
 
 /**
  * Created by wangshouheng on 2017/12/3.*/
+@SuppressLint("ValidFragment")
 public class FeedbackDialog extends DialogFragment implements AdapterView.OnItemSelectedListener {
 
     private Context context;
@@ -80,14 +83,23 @@ public class FeedbackDialog extends DialogFragment implements AdapterView.OnItem
                 .create();
     }
 
+    private void copyContentIfNecessary() {
+        if (!TextUtils.isEmpty(etQuestion.getText().toString())) {
+            ModelHelper.copyToClipboard(getActivity(), etQuestion.getText().toString());
+            ToastUtils.makeToasts(R.string.content_was_copied_to_clipboard);
+        }
+    }
+
     private boolean checkInput() {
         String email, details;
         if (TextUtils.isEmpty(email = etEmail.getText().toString())) {
-            ToastUtils.makeToast(context, R.string.connect_email_required);
+            ToastUtils.makeToasts(R.string.connect_email_required);
+            copyContentIfNecessary();
             return false;
         }
         if (!StringUtils.validate(email)) {
-
+            ToastUtils.makeToasts(R.string.illegal_email_format);
+            copyContentIfNecessary();
             return false;
         }
         feedback.setEmail(email);

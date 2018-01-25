@@ -16,6 +16,10 @@ public class ToastUtils {
         Toast.makeText(PalmApp.getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
+    public static void makeToasts(@StringRes int msgRes) {
+        Toast.makeText(PalmApp.getContext(), msgRes, Toast.LENGTH_SHORT).show();
+    }
+
     public static void makeToast(@StringRes int msgRes){
         if (toast == null){
             toast = Toast.makeText(PalmApp.getContext(), msgRes, Toast.LENGTH_SHORT);

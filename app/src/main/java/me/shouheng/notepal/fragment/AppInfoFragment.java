@@ -12,7 +12,7 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.databinding.FragmentAppInfoBinding;
 import me.shouheng.notepal.listener.OnFragmentDestroyListener;
-import me.shouheng.notepal.util.IntentChecker;
+import me.shouheng.notepal.util.IntentUtils;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.util.ViewUtils;
 
@@ -59,7 +59,7 @@ public class AppInfoFragment extends BaseFragment<FragmentAppInfoBinding> {
 
     private void openGithubProject() {
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.GITHUB_PAGE));
-        if (IntentChecker.isAvailable(getContext(), intent, null)) {
+        if (IntentUtils.isAvailable(getContext(), intent, null)) {
             ViewUtils.launchUrl(getContext(), Constants.GITHUB_PAGE);
         } else {
             ToastUtils.makeToast(getContext(), R.string.failed_to_resolve_intent);
@@ -68,9 +68,9 @@ public class AppInfoFragment extends BaseFragment<FragmentAppInfoBinding> {
 
     private void openInMarket() {
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.MARKET_PAGE));
-        if (IntentChecker.isAvailable(getContext(), intent, null)){
+        if (IntentUtils.isAvailable(getContext(), intent, null)){
             startActivity(intent);
-        } else if (IntentChecker.isAvailable(getContext(),
+        } else if (IntentUtils.isAvailable(getContext(),
                 new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.GOOGLE_PLAY_WEB_PAGE)), null)) {
             ViewUtils.launchUrl(getContext(), Constants.GOOGLE_PLAY_WEB_PAGE);
         } else {
@@ -80,7 +80,7 @@ public class AppInfoFragment extends BaseFragment<FragmentAppInfoBinding> {
 
     private void viewDeveloper() {
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.GITHUB_DEVELOPER));
-        if (IntentChecker.isAvailable(getContext(), intent, null)) {
+        if (IntentUtils.isAvailable(getContext(), intent, null)) {
             ViewUtils.launchUrl(getContext(), Constants.GITHUB_DEVELOPER);
         } else {
             ToastUtils.makeToast(getContext(), R.string.failed_to_resolve_intent);

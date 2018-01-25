@@ -10,12 +10,13 @@ import com.afollestad.materialdialogs.StackingBehavior;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.CommonActivity;
 import me.shouheng.notepal.activity.ThemedActivity;
+import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.dialog.DonateDialog;
 import me.shouheng.notepal.dialog.DonateDialog.DonateChannel;
 import me.shouheng.notepal.dialog.FeedbackDialog;
 import me.shouheng.notepal.intro.IntroActivity;
 import me.shouheng.notepal.util.ColorUtils;
-import me.shouheng.notepal.util.LogUtils;
+import me.shouheng.notepal.util.IntentUtils;
 import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.widget.ColorPreference;
 
@@ -94,9 +95,11 @@ public class SettingsFragment extends PreferenceFragment {
         });
 
         findPreference(KEY_FEEDBACK).setOnPreferenceClickListener(preference -> {
-            FeedbackDialog.newInstance(getActivity(), (dialog, feedback) ->
-                    LogUtils.d("onSend: " + feedback)
-            ).show(((CommonActivity) getActivity()).getSupportFragmentManager(), "Feedback Editor");
+            FeedbackDialog.newInstance(getActivity(), (dialog, feedback) -> {
+                IntentUtils.sendEmail(getActivity(),
+                        String.format(Constants.DEVELOPER_EMAIL_PREFIX, feedback.getFeedbackType().name()),
+                        feedback.getQuestion() + Constants.DEVELOPER_EMAIL_EMAIL_PREFIX + feedback.getEmail());
+            }).show(((CommonActivity) getActivity()).getSupportFragmentManager(), "Feedback Editor");
             return true;
         });
         findPreference(KEY_USER_GUIDE).setOnPreferenceClickListener(preference -> {
