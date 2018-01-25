@@ -1,10 +1,9 @@
 package me.shouheng.notepal.dialog;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -14,6 +13,8 @@ import com.bumptech.glide.Glide;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.DialogDonateBinding;
+import me.shouheng.notepal.util.FileHelper;
+import me.shouheng.notepal.util.ToastUtils;
 
 /**
  * Created by wang shouheng on 2018/1/25.*/
@@ -33,6 +34,7 @@ public class DonateDialog extends DialogFragment {
         return fragment;
     }
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_donate, null, false);
@@ -45,13 +47,15 @@ public class DonateDialog extends DialogFragment {
                 .setTitle(R.string.setting_support_development)
                 .setView(binding.getRoot())
                 .setPositiveButton(R.string.cancel, null)
-                .setNegativeButton(R.string.download_donate_picture, new OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        // todo copy to picture album
-                    }
-                })
+                .setNegativeButton(R.string.download_donate_picture, (dialogInterface, i) -> saveDrawable())
                 .create();
+    }
+
+    private void saveDrawable() {
+        FileHelper.saveDrawable(getContext(), donateChannel == DonateChannel.AliPay ?
+                R.drawable.donate_ali_pay : R.drawable.donate_wechat, file -> {
+            ToastUtils.makeToast(String.format(getString(R.string.text_file_saved_to), file.getPath()));
+        });
     }
 
     private void configViews() {

@@ -1,10 +1,10 @@
 package me.shouheng.notepal.util.tools;
 
-public interface Callback {
+public interface Callback<T> {
 
 	void onBefore();
 
-	boolean onRun();
+	Message<T> onRun();
 
-	void onAfter(boolean b);
+	void onAfter(Message<T> message);
 }
