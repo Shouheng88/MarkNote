@@ -87,6 +87,8 @@
     <string name="statistic_title_attachments_added">添加的附件的统计结果</string>
 
     <string name="text_replace_tab_with_4_spaces">使用4个空格替换退格</string>
+
+    <string name="text_to_user">给用户：</string>
     <!--endregion-->
 
     <!--region App info page-->
@@ -104,6 +106,14 @@
     <string name="developer_name">Wng Shhng (shouheng2015@gmail.com)</string>
     <string name="open_source_libraries_permissions">开源库许可</string>
     <string name="view_third_part_libraries">查看使用的第三方库</string>
+
+    <string name="dialog_notice_content_part1">用户你好，\n由于时间限制仍然NotePal有许多问题等待完善：</string>
+    <string name="dialog_notice_content_part2">1.如果你喜欢NotePal你可以在“设置->关于程序->翻译”中协助开发者将NotePal翻译成其他语言，或者在应用商店给该应用好评。</string>
+    <string name="dialog_notice_content_part3">2.如果你有其他的需求想要实现，或者对NotePal的功能有不满意的地方，可以通过Google+社区、Twitter、Weibo或者直接邮件的方式与开发者讨论需求。</string>
+    <string name="dialog_notice_content_part4">3.如果你发现了NotePal中存在BUG和意外崩溃，可以在“设置->信息反馈”中反馈给开发者或者通过上述渠道进行反馈。</string>
+    <string name="dialog_notice_content_part5">4.NotePal会在后续推出一些新的功能和特性，如果你喜欢该应用，可以在“设置->支持开发”中支持程序的开发。</string>
+    <string name="dialog_notice_content_part6">5.另外，你也可以通过Google+社区、Twitter和Weibo获取程序开发的最新动态，并可以参与测试。</string>
+    <string name="dialog_notice_content_part7">请给予NotePal更多的耐心，我们会努力更好。\最后，祝你使用愉快！</string>
     <!--endregion-->
 
     <!--region drawer menu-->

@@ -135,7 +135,7 @@
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/notes_list_widget" />
+                android:resource="@xml/list_widget" />
         </receiver>
         <receiver android:name=".widget.desktop.SimpleWidgetProvider">
             <intent-filter>

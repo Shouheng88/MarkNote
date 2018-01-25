@@ -8,9 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.activity.LoginActivity;
 import me.shouheng.notepal.config.TextLength;
 import me.shouheng.notepal.databinding.FragmentUserInfoBinding;
+import me.shouheng.notepal.dialog.NoticeDialog;
 import me.shouheng.notepal.dialog.SimpleEditDialog;
 import me.shouheng.notepal.model.enums.ModelType;
 import me.shouheng.notepal.provider.helper.StatisticsHelper;
@@ -71,12 +71,16 @@ public class UserInfoFragment extends CommonFragment<FragmentUserInfoBinding> {
     }
 
     private void login() {
+        NoticeDialog.newInstance().show(getFragmentManager(), "NoticeDialog");
+        /*
         if (!logined) {
             LoginActivity.startForResult(this, REQUEST_FOR_LOGIN);
-        }
+        }*/
     }
 
-    private void logout() {}
+    private void logout() {
+        NoticeDialog.newInstance().show(getFragmentManager(), "NoticeDialog");
+    }
 
     private void showSchoolEditor() {
         if (!logined) {
