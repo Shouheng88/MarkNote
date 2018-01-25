@@ -31,9 +31,33 @@
         <license>Apache Software License 2.0</license>
     </notice>
     <notice>
+        <name>OkHttp</name>
+        <url>https://github.com/square/okhttp</url>
+        <copyright>Copyright 2016 Square, Inc.</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>Stetho</name>
+        <url>https://github.com/facebook/stetho</url>
+        <copyright>Copyright (c) 2015, Facebook, Inc. All rights reserved.</copyright>
+        <license>BSD 3-Clause License</license>
+    </notice>
+    <notice>
         <name>RxAndroid</name>
         <url>https://github.com/ReactiveX/RxAndroid</url>
         <copyright>Copyright 2015 The RxAndroid authors</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>Gson</name>
+        <url>https://github.com/google/gson</url>
+        <copyright>Copyright 2008 Google Inc.</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>RxBinding</name>
+        <url>https://github.com/JakeWharton/RxBinding</url>
+        <copyright>Copyright (C) 2015 Jake Wharton</copyright>
         <license>Apache Software License 2.0</license>
     </notice>
     <notice>
@@ -43,21 +67,15 @@
         <license>Apache Software License 2.0</license>
     </notice>
     <notice>
-        <name>Android Holo ColorPicker</name>
-        <url>https://github.com/LarsWerkman/HoloColorPicker</url>
-        <copyright>Copyright 2012 Lars Werkman</copyright>
-        <license>Apache Software License 2.0</license>
-    </notice>
-    <notice>
         <name>Floating Action Button</name>
         <url>https://github.com/Clans/FloatingActionButton</url>
         <copyright>Copyright 2015 Dmytro Tarianyk</copyright>
         <license>Apache Software License 2.0</license>
     </notice>
     <notice>
-        <name>Pull Back Layout</name>
+        <name>HoloColorPicker</name>
         <url>https://github.com/LarsWerkman/HoloColorPicker</url>
-        <copyright>Copyright (c) 2015 XiNGRZ &lt;xxx@oxo.ooo&gt;</copyright>
+        <copyright>Copyright 2012 Lars Werkman</copyright>
         <license>MIT License</license>
     </notice>
 </notices>
