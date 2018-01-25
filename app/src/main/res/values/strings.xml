@@ -383,8 +383,14 @@
 
     <!--region other settings-->
     <string name="setting_others">其他设置</string>
-    <string name="setting_support_development">支持开发者</string>
+    <string name="setting_support_development">支持开发</string>
     <string name="setting_support_development_sub">你的支持将被用来向程序中增加新的特性</string>
+    <string name="support_development_content">你的支持将被用来向程序中增加新的特性，你可以选择下面的两种支持方式，或者取消：</string>
+    <string name="alipay">支付宝</string>
+    <string name="wechat">微信</string>
+    <string name="next_time">下次吧</string>
+    <string name="donate_dialog_content">你可以选择打开微信或者支付宝，并直接扫描图中的二维码，或者点击按钮将图片下载到相册后进行扫描。</string>
+    <string name="download_donate_picture">下载图片到本地</string>
     <string name="setting_feedback">信息反馈</string>
     <string name="setting_feedback_sub">帮助开发者把程序做得更好</string>
     <string name="setting_about">关于程序</string>

@@ -5,10 +5,13 @@ import android.preference.CheckBoxPreference;
 import android.preference.PreferenceFragment;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.afollestad.materialdialogs.StackingBehavior;
 
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.CommonActivity;
 import me.shouheng.notepal.activity.ThemedActivity;
+import me.shouheng.notepal.dialog.DonateDialog;
+import me.shouheng.notepal.dialog.DonateDialog.DonateChannel;
 import me.shouheng.notepal.dialog.FeedbackDialog;
 import me.shouheng.notepal.intro.IntroActivity;
 import me.shouheng.notepal.util.ColorUtils;
@@ -17,6 +20,10 @@ import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.widget.ColorPreference;
 
 /**
+ * bug report -> shouheng2015@gmail.com
+ * requirement, latest news -> Twitter, Google+, Weibo
+ * donate -> WeiChat, AliPay
+ *
  * Created by wang shouheng on 2017/12/21.*/
 public class SettingsFragment extends PreferenceFragment {
 
@@ -26,6 +33,7 @@ public class SettingsFragment extends PreferenceFragment {
     public final static String KEY_ABOUT = "about";
     public final static String KEY_DATA_BACKUP = "data_backup";
     public final static String KEY_DATA_SECURITY = "data_security";
+    private final static String KEY_SUPPORT_DEVELOP = "support_develop";
 
     private CheckBoxPreference isDarkTheme, coloredNavigationBar;
 
@@ -112,12 +120,29 @@ public class SettingsFragment extends PreferenceFragment {
             return true;
         });
 
+        findPreference(KEY_SUPPORT_DEVELOP).setOnPreferenceClickListener(preference -> {
+            new MaterialDialog.Builder(getActivity())
+                    .title(R.string.setting_support_development)
+                    .content(R.string.support_development_content)
+                    .positiveText(R.string.alipay)
+                    .onPositive((dialog, which) -> showDonateDialog(DonateChannel.AliPay))
+                    .negativeText(R.string.wechat)
+                    .onNegative((dialog, which) -> showDonateDialog(DonateChannel.WeChat))
+                    .neutralText(R.string.next_time)
+                    .stackingBehavior(StackingBehavior.ADAPTIVE)
+                    .show();
+            return true;
+        });
         findPreference(KEY_ABOUT).setOnPreferenceClickListener(preference -> {
             if (getActivity() != null && getActivity() instanceof OnPreferenceClickListener) {
                 ((OnPreferenceClickListener) getActivity()).onPreferenceClick(KEY_ABOUT);
             }
             return true;
         });
+    }
+
+    private void showDonateDialog(DonateChannel donateChannel) {
+        DonateDialog.newInstance(donateChannel).show(((CommonActivity) getActivity()).getSupportFragmentManager(), "Donate Dialog");
     }
 
     private void showIntroduction() {
