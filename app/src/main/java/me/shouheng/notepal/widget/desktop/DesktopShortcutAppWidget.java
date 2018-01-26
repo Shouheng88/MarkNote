@@ -15,7 +15,7 @@ public class DesktopShortcutAppWidget extends WidgetProvider {
         LogUtils.d(isSingleLine + " " + isSmall);
         RemoteViews views;
         views = new RemoteViews(context.getPackageName(), R.layout.widget_layout_small);
-        views.setOnClickPendingIntent(R.id.main, pendingIntentsMap.get(R.id.main));
+        views.setOnClickPendingIntent(R.id.iv_launch_app, pendingIntentsMap.get(R.id.iv_launch_app));
         return views;
     }
 }

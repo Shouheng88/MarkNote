@@ -56,8 +56,7 @@ public class Constants {
     public final static String ACTION_WIDGET = "action_widget";
     public final static String INTENT_WIDGET = "widget_id";
     public final static String ACTION_TAKE_PHOTO = "action_widget_take_photo";
-    public final static String ACTION_WIDGET_LAUNCH = "action_widget_launch_app";
-    public final static String ACTION_WIDGET_MAIN = "action_widget_main";
+    public final static String ACTION_WIDGET_LAUNCH_APP = "action_widget_launch_app";
 
     public final static String PREFS_NAME = BuildConfig.APPLICATION_ID + "_preferences";
     public final static String PREF_WIDGET_SQL_PREFIX = "widget_sql_";

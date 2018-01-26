@@ -2,6 +2,6 @@
 <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="50dp"
     android:layout_height="50dp"
-    android:id="@+id/main"
+    android:id="@+id/iv_launch_app"
     android:src="@mipmap/ic_launcher_round"
     android:padding="@dimen/widget_margin"/>

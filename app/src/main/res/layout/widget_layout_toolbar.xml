@@ -18,7 +18,7 @@
         android:src="@drawable/ic_insert_drive_file" />
 
     <ImageView
-        android:id="@+id/add"
+        android:id="@+id/iv_add_note"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_margin="16dp"
@@ -28,7 +28,7 @@
         android:src="@drawable/ic_note" />
 
     <ImageView
-        android:id="@+id/camera"
+        android:id="@+id/iv_add_photo"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_margin="16dp"

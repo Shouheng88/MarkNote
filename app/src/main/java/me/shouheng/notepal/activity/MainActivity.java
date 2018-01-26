@@ -149,14 +149,11 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                     }
                 }
                 break;
-            case Constants.ACTION_WIDGET_LAUNCH:
+            case Constants.ACTION_WIDGET_LAUNCH_APP:
                 // do nothing just open the app.
                 break;
             case Constants.ACTION_TAKE_PHOTO:
                 // TODO add photo and select the model to attach to
-                break;
-            case Constants.ACTION_WIDGET_MAIN:
-                // Just show the dash board
                 break;
         }
     }
