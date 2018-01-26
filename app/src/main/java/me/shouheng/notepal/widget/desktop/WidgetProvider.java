@@ -35,40 +35,39 @@ public abstract class WidgetProvider extends AppWidgetProvider {
     }
 
     private void setLayout(Context context, AppWidgetManager appWidgetManager, int widgetId) {
-
-        // Create an Intent to add note
-        Intent intentAddNote = new Intent(context, MainActivity.class);
-        intentAddNote.setAction(Constants.ACTION_ADD_NOTE);
-        intentAddNote.putExtra(Constants.INTENT_WIDGET, widgetId);
-        PendingIntent pendingIntentAddNote = PendingIntent.getActivity(context, widgetId, intentAddNote, PendingIntent.FLAG_CANCEL_CURRENT);
-
-        // Create an Intent to add a photo
-        Intent intentAddPhoto = new Intent(context, MainActivity.class);
-        intentAddPhoto.setAction(Constants.ACTION_TAKE_PHOTO);
-        intentAddPhoto.putExtra(Constants.INTENT_WIDGET, widgetId);
-        PendingIntent pendingIntentAddPhoto = PendingIntent.getActivity(context, widgetId, intentAddPhoto, PendingIntent.FLAG_CANCEL_CURRENT);
-
-        // Create an Intent to launch App
-        Intent intentLaunchApp = new Intent(context, MainActivity.class);
-        intentLaunchApp.setAction(Constants.ACTION_WIDGET_LAUNCH_APP);
-        intentLaunchApp.putExtra(Constants.INTENT_WIDGET, widgetId);
-        PendingIntent pendingIntentLaunchApp = PendingIntent.getActivity(context, widgetId, intentLaunchApp, PendingIntent.FLAG_CANCEL_CURRENT);
-
-        // Check various dimensions aspect of widget to choose between layouts
         Bundle options = appWidgetManager.getAppWidgetOptions(widgetId);
         boolean isSmall = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH) < 110;
         boolean isSingleLine = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT) < 110;
 
-        // Creation of a map to associate PendingIntent(s) to views
         SparseArray<PendingIntent> map = new SparseArray<>();
-        map.put(R.id.iv_launch_app, pendingIntentLaunchApp);
-        map.put(R.id.iv_add_note, pendingIntentAddNote);
-        map.put(R.id.iv_add_photo, pendingIntentAddPhoto);
+        map.put(R.id.iv_launch_app, pendingIntentLaunchApp(context, widgetId));
+        map.put(R.id.iv_add_note, pendingIntentAddNote(context, widgetId));
+        map.put(R.id.iv_add_photo, pendingIntentAddPhoto(context, widgetId));
 
         RemoteViews views = getRemoteViews(context, widgetId, isSmall, isSingleLine, map);
 
-        // Tell the AppWidgetManager to perform an update on the current app widget
         appWidgetManager.updateAppWidget(widgetId, views);
+    }
+
+    private PendingIntent pendingIntentAddNote(Context context, int widgetId) {
+        Intent intentAddNote = new Intent(context, MainActivity.class);
+        intentAddNote.setAction(Constants.ACTION_ADD_NOTE);
+        intentAddNote.putExtra(Constants.INTENT_WIDGET, widgetId);
+        return PendingIntent.getActivity(context, widgetId, intentAddNote, PendingIntent.FLAG_CANCEL_CURRENT);
+    }
+
+    private PendingIntent pendingIntentAddPhoto(Context context, int widgetId) {
+        Intent intentAddPhoto = new Intent(context, MainActivity.class);
+        intentAddPhoto.setAction(Constants.ACTION_TAKE_PHOTO);
+        intentAddPhoto.putExtra(Constants.INTENT_WIDGET, widgetId);
+        return PendingIntent.getActivity(context, widgetId, intentAddPhoto, PendingIntent.FLAG_CANCEL_CURRENT);
+    }
+
+    private PendingIntent pendingIntentLaunchApp(Context context, int widgetId) {
+        Intent intentLaunchApp = new Intent(context, MainActivity.class);
+        intentLaunchApp.setAction(Constants.ACTION_WIDGET_LAUNCH_APP);
+        intentLaunchApp.putExtra(Constants.INTENT_WIDGET, widgetId);
+        return PendingIntent.getActivity(context, widgetId, intentLaunchApp, PendingIntent.FLAG_CANCEL_CURRENT);
     }
 
     abstract protected RemoteViews getRemoteViews(Context context, int widgetId, boolean isSmall, boolean isSingleLine, SparseArray<PendingIntent> pendingIntentsMap);
