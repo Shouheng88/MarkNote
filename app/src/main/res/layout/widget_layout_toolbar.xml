@@ -8,7 +8,7 @@
     android:elevation="4dp">
 
     <ImageView
-        android:id="@+id/list"
+        android:id="@+id/iv_launch_app"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_margin="16dp"

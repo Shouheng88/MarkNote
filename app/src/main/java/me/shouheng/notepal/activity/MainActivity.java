@@ -149,8 +149,8 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                     }
                 }
                 break;
-            case Constants.ACTION_WIDGET_SHOW_LIST:
-                // todo show notes list associated with given widget
+            case Constants.ACTION_WIDGET_LAUNCH:
+                // do nothing just open the app.
                 break;
             case Constants.ACTION_TAKE_PHOTO:
                 // TODO add photo and select the model to attach to
