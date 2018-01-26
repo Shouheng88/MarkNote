@@ -167,6 +167,14 @@
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".activity.SnaggingActivity"
+            android:configChanges="orientation|keyboardHidden|keyboard|navigation"
+            android:excludeFromRecents="true"
+            android:theme="@style/Theme.AppCompat.Dialog"
+            android:launchMode="singleInstance"
+            android:taskAffinity="" />
         <!-- endregion -->
     </application>
 

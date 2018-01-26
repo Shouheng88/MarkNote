@@ -14,16 +14,17 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import org.polaric.colorful.BaseActivity;
+import org.polaric.colorful.PermissionUtils;
+
 import java.io.File;
 
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.activity.CommonActivity;
 import me.shouheng.notepal.activity.SketchActivity;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.databinding.DialogAttachmentPickerLayoutBinding;
 import me.shouheng.notepal.util.FileHelper;
 import me.shouheng.notepal.util.PalmUtils;
-import me.shouheng.notepal.util.PermissionUtils;
 import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.ToastUtils;
 
@@ -108,7 +109,7 @@ public class AttachmentPickerDialog extends DialogFragment {
 
     private void resolveAlbumClickEvent() {
         assert getActivity() != null;
-        PermissionUtils.checkStoragePermission((CommonActivity) getActivity(), () -> {
+        PermissionUtils.checkStoragePermission((BaseActivity) getActivity(), () -> {
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
             intent.addCategory(Intent.CATEGORY_OPENABLE);
             intent.setType("image/*");
@@ -123,7 +124,7 @@ public class AttachmentPickerDialog extends DialogFragment {
 
     private void resolveFileClickEvent() {
         assert getActivity() != null;
-        PermissionUtils.checkStoragePermission((CommonActivity) getActivity(), () -> {
+        PermissionUtils.checkStoragePermission((BaseActivity) getActivity(), () -> {
             Intent intent;
             intent = new Intent(Intent.ACTION_GET_CONTENT);
             if (PalmUtils.isJellyBeanMR2()) intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
@@ -141,7 +142,7 @@ public class AttachmentPickerDialog extends DialogFragment {
 
     private void resolveCaptureEvent() {
         assert getActivity() != null;
-        PermissionUtils.checkStoragePermission((CommonActivity) getActivity(), () -> {
+        PermissionUtils.checkStoragePermission((BaseActivity) getActivity(), () -> {
             File file = FileHelper.createNewAttachmentFile(getActivity(), Constants.MIME_TYPE_IMAGE_EXTENSION);
             if (file == null){
                 ToastUtils.makeToast(getActivity(), R.string.failed_to_create_file);
@@ -163,7 +164,7 @@ public class AttachmentPickerDialog extends DialogFragment {
 
     private void resolveRecordEvent() {
         assert getActivity() != null;
-        PermissionUtils.checkRecordPermission((CommonActivity) getActivity(), () -> {
+        PermissionUtils.checkRecordPermission((BaseActivity) getActivity(), () -> {
             if (onItemSelectedListener != null){
                 onItemSelectedListener.onSelectedAudioRecord();
             }
@@ -173,7 +174,7 @@ public class AttachmentPickerDialog extends DialogFragment {
 
     private void resolveShotEvent() {
         assert getActivity() != null;
-        PermissionUtils.checkStoragePermission((CommonActivity) getActivity(), () -> {
+        PermissionUtils.checkStoragePermission((BaseActivity) getActivity(), () -> {
             File file = FileHelper.createNewAttachmentFile(getActivity(), Constants.MIME_TYPE_VIDEO_EXTENSION);
             if (file == null){
                 ToastUtils.makeToast(getActivity(), R.string.failed_to_create_file);

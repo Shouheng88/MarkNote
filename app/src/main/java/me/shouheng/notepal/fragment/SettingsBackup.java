@@ -12,6 +12,8 @@ import android.widget.EditText;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
+import org.polaric.colorful.PermissionUtils;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,7 +23,6 @@ import me.shouheng.notepal.activity.CommonActivity;
 import me.shouheng.notepal.async.DataBackupIntentService;
 import me.shouheng.notepal.listener.OnFragmentDestroyListener;
 import me.shouheng.notepal.util.FileHelper;
-import me.shouheng.notepal.util.PermissionUtils;
 import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.StringUtils;
 import me.shouheng.notepal.util.ToastUtils;

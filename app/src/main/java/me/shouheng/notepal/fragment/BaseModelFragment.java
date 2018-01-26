@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
 
+import org.polaric.colorful.PermissionUtils;
+
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.CommonActivity;
 import me.shouheng.notepal.activity.ContentActivity;
@@ -25,7 +27,6 @@ import me.shouheng.notepal.model.ModelFactory;
 import me.shouheng.notepal.provider.BaseStore;
 import me.shouheng.notepal.util.AppWidgetUtils;
 import me.shouheng.notepal.util.NetworkUtils;
-import me.shouheng.notepal.util.PermissionUtils;
 import me.shouheng.notepal.util.ShortcutHelper;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.util.ViewUtils;
