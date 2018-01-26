@@ -125,7 +125,8 @@
 
         <service android:name=".async.DataBackupIntentService" />
 
-        <activity android:name=".activity.LockActivity" />
+        <activity android:name=".activity.LockActivity"
+            android:theme="@android:style/Theme.Holo.Dialog.NoActionBar"/>
 
         <!-- region App Widget -->
         <receiver android:name=".widget.desktop.ListWidgetProvider">
@@ -172,7 +173,7 @@
             android:name=".activity.SnaggingActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|navigation"
             android:excludeFromRecents="true"
-            android:theme="@style/Theme.AppCompat.Dialog"
+            android:theme="@style/TransParentDialog"
             android:launchMode="singleInstance"
             android:taskAffinity="" />
         <!-- endregion -->
