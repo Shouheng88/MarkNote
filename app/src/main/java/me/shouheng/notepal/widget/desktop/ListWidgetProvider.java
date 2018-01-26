@@ -22,17 +22,17 @@ public class ListWidgetProvider extends WidgetProvider {
         RemoteViews views;
         if (isSmall) {
             views = new RemoteViews(context.getPackageName(), R.layout.widget_layout_small);
-            views.setOnClickPendingIntent(R.id.list, pendingIntentsMap.get(R.id.list));
+            views.setOnClickPendingIntent(R.id.iv_launch_app, pendingIntentsMap.get(R.id.iv_launch_app));
         } else if (isSingleLine) {
             views = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
             views.setOnClickPendingIntent(R.id.add, pendingIntentsMap.get(R.id.add));
-            views.setOnClickPendingIntent(R.id.list, pendingIntentsMap.get(R.id.list));
+            views.setOnClickPendingIntent(R.id.iv_launch_app, pendingIntentsMap.get(R.id.iv_launch_app));
             views.setOnClickPendingIntent(R.id.camera, pendingIntentsMap.get(R.id.camera));
             views.setInt(R.id.toolbar, "setBackgroundColor", ColorUtils.primaryColor(context));
         } else {
             views = new RemoteViews(context.getPackageName(), R.layout.widget_layout_list);
             views.setOnClickPendingIntent(R.id.add, pendingIntentsMap.get(R.id.add));
-            views.setOnClickPendingIntent(R.id.list, pendingIntentsMap.get(R.id.list));
+            views.setOnClickPendingIntent(R.id.iv_launch_app, pendingIntentsMap.get(R.id.iv_launch_app));
             views.setOnClickPendingIntent(R.id.camera, pendingIntentsMap.get(R.id.camera));
 
             Intent intent = new Intent(context, NotesListWidgetService.class);

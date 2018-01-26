@@ -44,7 +44,7 @@ public abstract class WidgetProvider extends AppWidgetProvider {
 
         // Create an Intent to launch ListActivity
         Intent intentList = new Intent(context, MainActivity.class);
-        intentList.setAction(Constants.ACTION_WIDGET_SHOW_LIST);
+        intentList.setAction(Constants.ACTION_WIDGET_LAUNCH);
         intentList.putExtra(Constants.INTENT_WIDGET, widgetId);
         PendingIntent pendingIntentList = PendingIntent.getActivity(context, widgetId, intentList, PendingIntent.FLAG_CANCEL_CURRENT);
 
@@ -67,7 +67,7 @@ public abstract class WidgetProvider extends AppWidgetProvider {
 
         // Creation of a map to associate PendingIntent(s) to views
         SparseArray<PendingIntent> map = new SparseArray<>();
-        map.put(R.id.list, pendingIntentList);
+        map.put(R.id.iv_launch_app, pendingIntentList);
         map.put(R.id.add, pendingIntentDetail);
         map.put(R.id.camera, pendingIntentDetailPhoto);
         map.put(R.id.main, pendingIntentMain);
