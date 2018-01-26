@@ -56,6 +56,7 @@ import me.shouheng.notepal.provider.NotebookStore;
 import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.FragmentHelper;
+import me.shouheng.notepal.util.IntentUtils;
 import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.ToastUtils;
@@ -162,6 +163,18 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
             case Constants.ACTION_TAKE_PHOTO:
                 // TODO add photo and select the model to attach to
                 break;
+            case Intent.ACTION_SEND:
+            case Intent.ACTION_SEND_MULTIPLE:
+            case Constants.INTENT_GOOGLE_NOW:
+                handleThirdPart();
+                break;
+        }
+    }
+
+    private void handleThirdPart() {
+        Intent i = getIntent();
+        if (IntentUtils.checkAction(i, Intent.ACTION_SEND, Intent.ACTION_SEND_MULTIPLE, Constants.INTENT_GOOGLE_NOW) && i.getType() != null) {
+            ContentActivity.startThirdPartResult(this, i, REQUEST_ADD_NOTE);
         }
     }
 

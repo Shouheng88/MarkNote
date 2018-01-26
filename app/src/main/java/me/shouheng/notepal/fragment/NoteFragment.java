@@ -1,8 +1,10 @@
 package me.shouheng.notepal.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -27,10 +29,12 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.ContentActivity;
+import me.shouheng.notepal.async.AttachmentTask;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.databinding.FragmentNoteBinding;
 import me.shouheng.notepal.dialog.AttachmentPickerDialog;
@@ -72,10 +76,11 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
     private Notebook notebook;
 
     private AttachmentPickerType attachmentPickerType;
-
     private PreferencesUtils preferencesUtils;
 
     private AttachmentPickerDialog attachmentPickerDialog;
+
+    private final static String EXTRA_IS_THIRD_PART = "extra_is_third_part";
 
     public static NoteFragment newInstance(Note note, Integer position, Integer requestCode) {
         Bundle arg = new Bundle();
@@ -83,6 +88,34 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
         arg.putSerializable(Constants.EXTRA_MODEL, note);
         if (position != null) arg.putInt(Constants.EXTRA_POSITION, position);
         if (requestCode != null) arg.putInt(Constants.EXTRA_REQUEST_CODE, requestCode);
+        NoteFragment fragment = new NoteFragment();
+        fragment.setArguments(arg);
+        return fragment;
+    }
+
+    /**
+     * Used to get note fragment from third part intent
+     *
+     * @param context the context
+     * @param intent the third part intent
+     * @return the fragment instance
+     */
+    public static NoteFragment getThirdPart(Context context, Intent intent) {
+        Bundle arg = new Bundle();
+
+        arg.putSerializable(Constants.EXTRA_MODEL, ModelFactory.getNote(context));
+
+        int requestCode = intent.getIntExtra(Constants.EXTRA_REQUEST_CODE, -1);
+        if (requestCode != -1) arg.putInt(Constants.EXTRA_REQUEST_CODE, requestCode);
+
+        arg.putBoolean(EXTRA_IS_THIRD_PART, true);
+
+        arg.putBoolean(Constants.EXTRA_IS_GOOGLE_NOW, intent.getBooleanExtra(Constants.EXTRA_IS_GOOGLE_NOW, false));
+        arg.putString(Intent.EXTRA_SUBJECT, intent.getStringExtra(Intent.EXTRA_SUBJECT));
+        arg.putString(Intent.EXTRA_TEXT, intent.getStringExtra(Intent.EXTRA_TEXT));
+        arg.putParcelable(Intent.EXTRA_STREAM, intent.getParcelableExtra(Intent.EXTRA_STREAM));
+        arg.putParcelableArrayList(Intent.EXTRA_STREAM, intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM));
+
         NoteFragment fragment = new NoteFragment();
         fragment.setArguments(arg);
         return fragment;
@@ -109,13 +142,11 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
     private void handleArguments() {
         Bundle arguments = getArguments();
 
-        if (arguments != null && arguments.containsKey(Constants.EXTRA_MODEL)){
-            note = (Note) arguments.getSerializable(Constants.EXTRA_MODEL);
-        }
-
-        if (note == null)  {
-            if (getActivity() != null) getActivity().finish();
+        if (arguments == null || !arguments.containsKey(Constants.EXTRA_MODEL)
+                || (note = (Note) arguments.getSerializable(Constants.EXTRA_MODEL)) == null) {
             ToastUtils.makeToast(getContext(), R.string.note_no_such_note);
+            if (getActivity() != null) getActivity().finish();
+            return;
         }
 
         noteFile = AttachmentsStore.getInstance(getContext()).get(note.getContentCode());
@@ -135,6 +166,34 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
             tempFile = FileHelper.createNewAttachmentFile(getContext(), preferencesUtils.getNoteFileExtension());
             note.setContent("");
         }
+
+        // handle arguments for intent from third part
+        if (arguments.getBoolean(EXTRA_IS_THIRD_PART)) {
+            String title = arguments.getString(Intent.EXTRA_SUBJECT);
+            note.setTitle(title);
+
+            String content = arguments.getString(Intent.EXTRA_TEXT);
+            note.setContent(content);
+
+            // Single attachment data
+            Uri uri = arguments.getParcelable(Intent.EXTRA_STREAM);
+
+            // Due to the fact that Google Now passes intent as text but with
+            // audio recording attached the case must be handled in specific way
+            if (uri != null && arguments.getBoolean(Constants.EXTRA_IS_GOOGLE_NOW)) {
+                String name = FileHelper.getNameFromUri(getContext(), uri);
+                new AttachmentTask(this, uri, name, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            }
+
+            // Multiple attachment data
+            ArrayList<Uri> uris = arguments.getParcelableArrayList(Intent.EXTRA_STREAM);
+            if (uris != null) {
+                for (Uri uriSingle : uris) {
+                    String name = FileHelper.getNameFromUri(getContext(), uriSingle);
+                    new AttachmentTask(this, uriSingle, name, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                }
+            }
+        }
     }
 
     private void configToolbar() {
@@ -146,6 +205,10 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setTitle("");
         setStatusBarColor(getResources().getColor(isDarkTheme() ? R.color.dark_theme_foreground : R.color.md_grey_500));
+
+        if (getArguments() != null && getArguments().getBoolean(EXTRA_IS_THIRD_PART)) {
+            setContentChanged();
+        }
     }
 
     private void configMain() {
@@ -380,6 +443,9 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
     protected void onGetAttachment(Attachment attachment) {
         attachment.setModelCode(note.getCode());
         attachment.setModelType(ModelType.NOTE);
+        LogUtils.d(attachment);
+        // can't get the file
+        if (TextUtils.isEmpty(attachment.getUri().toString())) return;
         AttachmentsStore.getInstance(getContext()).saveModel(attachment);
 
         if (attachmentPickerType == AttachmentPickerType.PREVIEW_IMAGE) {
