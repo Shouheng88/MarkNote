@@ -1,7 +1,5 @@
 package me.shouheng.notepal.fragment;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -9,12 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import de.psdev.licensesdialog.LicensesDialog;
 import me.shouheng.notepal.BuildConfig;
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.databinding.FragmentAppInfoBinding;
 import me.shouheng.notepal.listener.OnFragmentDestroyListener;
 import me.shouheng.notepal.util.IntentUtils;
-import me.shouheng.notepal.util.ToastUtils;
-import me.shouheng.notepal.util.ViewUtils;
 
 /**
  * Created by wangshouheng on 2017/12/3.*/
@@ -38,10 +33,10 @@ public class AppInfoFragment extends BaseFragment<FragmentAppInfoBinding> {
     }
 
     private void configViews() {
-        getBinding().llTranslation.setOnClickListener(v -> openGithubProject());
-        getBinding().llRating.setOnClickListener(v -> openInMarket());
+        getBinding().llTranslation.setOnClickListener(v -> IntentUtils.openGithubProject(getActivity()));
+        getBinding().llRating.setOnClickListener(v -> IntentUtils.openInMarket(getActivity()));
         getBinding().llLicense.setOnClickListener(v -> showLicensesDialog());
-        getBinding().llDeveloper.setOnClickListener(v -> viewDeveloper());
+        getBinding().llDeveloper.setOnClickListener(v -> IntentUtils.openDeveloperPage(getActivity()));
 
         getBinding().tvVersionName.setText(BuildConfig.VERSION_NAME);
 
@@ -55,38 +50,6 @@ public class AppInfoFragment extends BaseFragment<FragmentAppInfoBinding> {
                 .setIncludeOwnLicense(true)
                 .build()
                 .showAppCompat();
-    }
-
-    private void openGithubProject() {
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.GITHUB_TRANSLATION_PAGE));
-        if (IntentUtils.isAvailable(getContext(), intent, null)) {
-            ViewUtils.launchUrl(getContext(), Constants.GITHUB_TRANSLATION_PAGE);
-        } else {
-            ToastUtils.makeToast(getContext(), R.string.failed_to_resolve_intent);
-        }
-    }
-
-    private void openInMarket() {
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.MARKET_PAGE));
-        if (IntentUtils.isAvailable(getContext(), intent, null)){
-            startActivity(intent);
-        } else if (IntentUtils.isAvailable(getContext(),
-                new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.GOOGLE_PLAY_WEB_PAGE)), null)) {
-            ViewUtils.launchUrl(getContext(), Constants.GOOGLE_PLAY_WEB_PAGE);
-        } else {
-            ToastUtils.makeToast(getContext(), R.string.failed_to_resolve_intent);
-        }
-    }
-
-    private void viewDeveloper() {
-        /*
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.GITHUB_DEVELOPER));
-        if (IntentUtils.isAvailable(getContext(), intent, null)) {
-            ViewUtils.launchUrl(getContext(), Constants.GITHUB_DEVELOPER);
-        } else {
-            ToastUtils.makeToast(getContext(), R.string.failed_to_resolve_intent);
-        }
-        */
     }
 
     @Override

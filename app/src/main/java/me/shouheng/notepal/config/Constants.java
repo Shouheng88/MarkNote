@@ -41,9 +41,11 @@ public class Constants {
     // region Urls
     public final static String GOOGLE_PLAY_WEB_PAGE = "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID;
     public final static String MARKET_PAGE = "market://details?id=" + BuildConfig.APPLICATION_ID;
-    public final static String GITHUB_TRANSLATION_PAGE = "https://github.com/WngShhng/NotePal-Page";
+    public final static String GITHUB_PAGE = "https://github.com/WngShhng/NotePal-Page";
     public final static String GITHUB_DEVELOPER = "https://github.com/WngShhng";
     public final static String GOOGLE_PLUS_URL = "https://plus.google.com/u/1/communities/102252970668657211916";
+    public final static String WEIBO_PAGE = "https://weibo.com/5401152113/profile?rightmod=1&wvr=6&mod=personinfo";
+    public final static String TWITTER_PAGE = "https://twitter.com/ShouhengWang";
 
     public final static String DEVELOPER_EMAIL = "shouheng2015@gmail.com";
     public final static String DEVELOPER_EMAIL_PREFIX = "【NotePal|%s】";
