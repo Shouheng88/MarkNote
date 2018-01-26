@@ -44,6 +44,7 @@ public abstract class WidgetProvider extends AppWidgetProvider {
         map.put(R.id.iv_add_note, pendingIntentAddNote(context, widgetId));
         map.put(R.id.iv_add_mind, pendingIntentAddMind(context, widgetId));
         map.put(R.id.iv_add_photo, pendingIntentAddPhoto(context, widgetId));
+        map.put(R.id.iv_setting, pendingIntentSetting(context, widgetId));
 
         RemoteViews views = getRemoteViews(context, widgetId, isSmall, isSingleLine, map);
 
@@ -76,6 +77,13 @@ public abstract class WidgetProvider extends AppWidgetProvider {
         intentAddMind.setAction(Constants.ACTION_ADD_MIND);
         intentAddMind.putExtra(Constants.INTENT_WIDGET, widgetId);
         return PendingIntent.getActivity(context, widgetId, intentAddMind, PendingIntent.FLAG_CANCEL_CURRENT);
+    }
+
+    private PendingIntent pendingIntentSetting(Context context, int widgetId) {
+        Intent intentSetting = new Intent(context, WidgetConfigurationActivity.class);
+        intentSetting.setAction(Constants.ACTION_CONFIG);
+        intentSetting.putExtra(Constants.INTENT_WIDGET, widgetId);
+        return PendingIntent.getActivity(context, widgetId, intentSetting, PendingIntent.FLAG_CANCEL_CURRENT);
     }
 
     abstract protected RemoteViews getRemoteViews(Context context, int widgetId, boolean isSmall, boolean isSingleLine, SparseArray<PendingIntent> pendingIntentsMap);
