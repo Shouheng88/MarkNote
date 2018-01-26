@@ -25,15 +25,15 @@ public class ListWidgetProvider extends WidgetProvider {
             views.setOnClickPendingIntent(R.id.iv_launch_app, pendingIntentsMap.get(R.id.iv_launch_app));
         } else if (isSingleLine) {
             views = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
-            views.setOnClickPendingIntent(R.id.add, pendingIntentsMap.get(R.id.add));
+            views.setOnClickPendingIntent(R.id.iv_add_note, pendingIntentsMap.get(R.id.iv_add_note));
             views.setOnClickPendingIntent(R.id.iv_launch_app, pendingIntentsMap.get(R.id.iv_launch_app));
-            views.setOnClickPendingIntent(R.id.camera, pendingIntentsMap.get(R.id.camera));
+            views.setOnClickPendingIntent(R.id.iv_add_photo, pendingIntentsMap.get(R.id.iv_add_photo));
             views.setInt(R.id.toolbar, "setBackgroundColor", ColorUtils.primaryColor(context));
         } else {
             views = new RemoteViews(context.getPackageName(), R.layout.widget_layout_list);
-            views.setOnClickPendingIntent(R.id.add, pendingIntentsMap.get(R.id.add));
+            views.setOnClickPendingIntent(R.id.iv_add_note, pendingIntentsMap.get(R.id.iv_add_note));
             views.setOnClickPendingIntent(R.id.iv_launch_app, pendingIntentsMap.get(R.id.iv_launch_app));
-            views.setOnClickPendingIntent(R.id.camera, pendingIntentsMap.get(R.id.camera));
+            views.setOnClickPendingIntent(R.id.iv_add_photo, pendingIntentsMap.get(R.id.iv_add_photo));
 
             Intent intent = new Intent(context, NotesListWidgetService.class);
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);

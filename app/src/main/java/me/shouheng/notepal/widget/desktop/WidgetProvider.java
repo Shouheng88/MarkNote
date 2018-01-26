@@ -36,29 +36,23 @@ public abstract class WidgetProvider extends AppWidgetProvider {
 
     private void setLayout(Context context, AppWidgetManager appWidgetManager, int widgetId) {
 
-        // Create an Intent to launch DetailActivity
-        Intent intentDetail = new Intent(context, MainActivity.class);
-        intentDetail.setAction(Constants.ACTION_WIDGET);
-        intentDetail.putExtra(Constants.INTENT_WIDGET, widgetId);
-        PendingIntent pendingIntentDetail = PendingIntent.getActivity(context, widgetId, intentDetail, PendingIntent.FLAG_CANCEL_CURRENT);
+        // Create an Intent to add note
+        Intent intentAddNote = new Intent(context, MainActivity.class);
+        intentAddNote.setAction(Constants.ACTION_WIDGET);
+        intentAddNote.putExtra(Constants.INTENT_WIDGET, widgetId);
+        PendingIntent pendingIntentAddNote = PendingIntent.getActivity(context, widgetId, intentAddNote, PendingIntent.FLAG_CANCEL_CURRENT);
 
-        // Create an Intent to launch ListActivity
-        Intent intentList = new Intent(context, MainActivity.class);
-        intentList.setAction(Constants.ACTION_WIDGET_LAUNCH);
-        intentList.putExtra(Constants.INTENT_WIDGET, widgetId);
-        PendingIntent pendingIntentList = PendingIntent.getActivity(context, widgetId, intentList, PendingIntent.FLAG_CANCEL_CURRENT);
+        // Create an Intent to add a photo
+        Intent intentAddPhoto = new Intent(context, MainActivity.class);
+        intentAddPhoto.setAction(Constants.ACTION_TAKE_PHOTO);
+        intentAddPhoto.putExtra(Constants.INTENT_WIDGET, widgetId);
+        PendingIntent pendingIntentAddPhoto = PendingIntent.getActivity(context, widgetId, intentAddPhoto, PendingIntent.FLAG_CANCEL_CURRENT);
 
-        // Create an Intent to launch DetailActivity to take a photo
-        Intent intentDetailPhoto = new Intent(context, MainActivity.class);
-        intentDetailPhoto.setAction(Constants.ACTION_TAKE_PHOTO);
-        intentDetailPhoto.putExtra(Constants.INTENT_WIDGET, widgetId);
-        PendingIntent pendingIntentDetailPhoto = PendingIntent.getActivity(context, widgetId, intentDetailPhoto, PendingIntent.FLAG_CANCEL_CURRENT);
-
-        // Create an Intent to launch MainActivity
-        Intent intentMain = new Intent(context, MainActivity.class);
-        intentMain.setAction(Constants.ACTION_WIDGET_MAIN);
-        intentMain.putExtra(Constants.INTENT_WIDGET, widgetId);
-        PendingIntent pendingIntentMain = PendingIntent.getActivity(context, widgetId, intentMain, PendingIntent.FLAG_CANCEL_CURRENT);
+        // Create an Intent to launch App
+        Intent intentLaunchApp = new Intent(context, MainActivity.class);
+        intentLaunchApp.setAction(Constants.ACTION_WIDGET_LAUNCH_APP);
+        intentLaunchApp.putExtra(Constants.INTENT_WIDGET, widgetId);
+        PendingIntent pendingIntentLaunchApp = PendingIntent.getActivity(context, widgetId, intentLaunchApp, PendingIntent.FLAG_CANCEL_CURRENT);
 
         // Check various dimensions aspect of widget to choose between layouts
         Bundle options = appWidgetManager.getAppWidgetOptions(widgetId);
@@ -67,10 +61,9 @@ public abstract class WidgetProvider extends AppWidgetProvider {
 
         // Creation of a map to associate PendingIntent(s) to views
         SparseArray<PendingIntent> map = new SparseArray<>();
-        map.put(R.id.iv_launch_app, pendingIntentList);
-        map.put(R.id.add, pendingIntentDetail);
-        map.put(R.id.camera, pendingIntentDetailPhoto);
-        map.put(R.id.main, pendingIntentMain);
+        map.put(R.id.iv_launch_app, pendingIntentLaunchApp);
+        map.put(R.id.iv_add_note, pendingIntentAddNote);
+        map.put(R.id.iv_add_photo, pendingIntentAddPhoto);
 
         RemoteViews views = getRemoteViews(context, widgetId, isSmall, isSingleLine, map);
 
