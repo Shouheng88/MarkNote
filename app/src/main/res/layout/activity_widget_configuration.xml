@@ -7,7 +7,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="@dimen/medium_spacing"
-        tools:context="me.shouheng.notepal.widget.desktop.WidgetConfigurationActivity">
+        tools:context="me.shouheng.notepal.activity.ConfigActivity">
 
         <RadioGroup
             android:id="@+id/widget_config_radiogroup"

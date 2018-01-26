@@ -161,7 +161,7 @@
             android:permission="android.permission.BIND_REMOTEVIEWS" />
 
         <activity
-            android:name=".widget.desktop.WidgetConfigurationActivity"
+            android:name=".activity.ConfigActivity"
             android:theme="@style/Theme.AppCompat.Light.Dialog">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />

@@ -1,4 +1,4 @@
-package me.shouheng.notepal.widget.desktop;
+package me.shouheng.notepal.activity;
 
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
@@ -13,8 +13,10 @@ import me.shouheng.notepal.dialog.NotebookPickerDialog;
 import me.shouheng.notepal.model.Notebook;
 import me.shouheng.notepal.provider.schema.NoteSchema;
 import me.shouheng.notepal.util.LogUtils;
+import me.shouheng.notepal.widget.desktop.ListRemoteViewsFactory;
+import me.shouheng.notepal.widget.desktop.ListWidgetType;
 
-public class WidgetConfigurationActivity extends AppCompatActivity {
+public class ConfigActivity extends AppCompatActivity {
 
     private int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
     private String sqlCondition;
