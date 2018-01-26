@@ -31,6 +31,46 @@ public class IntentUtils {
         }
     }
 
+    public static void openInMarket(Context context) {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.MARKET_PAGE));
+        if (IntentUtils.isAvailable(context, intent, null)){
+            context.startActivity(intent);
+        } else if (IntentUtils.isAvailable(context, new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.GOOGLE_PLAY_WEB_PAGE)), null)) {
+            ViewUtils.launchUrl(context, Constants.GOOGLE_PLAY_WEB_PAGE);
+        } else {
+            ToastUtils.makeToast(context, R.string.failed_to_resolve_intent);
+        }
+    }
+
+    public static void openGithubProject(Context context) {
+        openWebPage(context, Constants.GITHUB_PAGE);
+    }
+
+    public static void openWeiboPage(Context context) {
+        openWebPage(context, Constants.WEIBO_PAGE);
+    }
+
+    public static void openTwitterPage(Context context) {
+        openWebPage(context, Constants.TWITTER_PAGE);
+    }
+
+    public static void openGooglePlusPage(Context context) {
+        openWebPage(context, Constants.GOOGLE_PLUS_URL);
+    }
+
+    public static void openDeveloperPage(Context context) {
+        openWebPage(context, Constants.GITHUB_DEVELOPER);
+    }
+
+    public static void openWebPage(Context context, String url) {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        if (IntentUtils.isAvailable(context, intent, null)) {
+            ViewUtils.launchUrl(context, url);
+        } else {
+            ToastUtils.makeToast(context, R.string.failed_to_resolve_intent);
+        }
+    }
+
     public static boolean isAvailable(Context ctx, Intent intent, String[] features) {
         final PackageManager mgr = ctx.getPackageManager();
         List<ResolveInfo> list = mgr.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
