@@ -4,12 +4,15 @@ import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.util.SparseArray;
 import android.widget.RemoteViews;
 
+import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.MainActivity;
+import me.shouheng.notepal.activity.SnaggingActivity;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.LogUtils;
@@ -50,12 +53,20 @@ public class ListWidgetProvider extends WidgetProvider {
         intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
         views.setRemoteAdapter(R.id.widget_list, intent);
 
-        Intent clickIntent = new Intent(context, MainActivity.class);
-        clickIntent.setAction(Constants.ACTION_WIDGET_LIST);
-        PendingIntent clickPI = PendingIntent.getActivity(context, 0, clickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        views.setPendingIntentTemplate(R.id.widget_list, clickPI);
+        views.setPendingIntentTemplate(R.id.widget_list, listClickPendingIntent(context, widgetId));
 
         return views;
+    }
+
+    private PendingIntent listClickPendingIntent(Context context, int widgetId) {
+        SharedPreferences sharedPreferences = PalmApp.getContext().getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
+        int id = sharedPreferences.getInt(Constants.PREF_WIDGET_TYPE_PREFIX + String.valueOf(widgetId), ListWidgetType.NOTES_LIST.id);
+        ListWidgetType listWidgetType = ListWidgetType.getListWidgetType(id);
+
+        Intent clickIntent = new Intent(context, listWidgetType == ListWidgetType.MINDS_LIST ? SnaggingActivity.class : MainActivity.class);
+        clickIntent.setAction(Constants.ACTION_WIDGET_LIST);
+
+        return PendingIntent.getActivity(context, 0, clickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     private void configToolbar(Context context, RemoteViews views, SparseArray<PendingIntent> pendingIntentsMap) {

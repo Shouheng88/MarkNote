@@ -22,21 +22,21 @@ public class ConfigActivity extends AppCompatActivity {
     private String sqlCondition;
     private Notebook selectedNotebook;
 
-    private ActivityWidgetConfigurationBinding activityWidgetConfigurationBinding;
+    private ActivityWidgetConfigurationBinding binding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setResult(RESULT_CANCELED);
         super.onCreate(savedInstanceState);
 
-        activityWidgetConfigurationBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.activity_widget_configuration, null, false);
-        setContentView(activityWidgetConfigurationBinding.getRoot());
+        binding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.activity_widget_configuration, null, false);
+        setContentView(binding.getRoot());
 
         doCreateView(savedInstanceState);
     }
 
     public ActivityWidgetConfigurationBinding getBinding() {
-        return activityWidgetConfigurationBinding;
+        return binding;
     }
 
     protected void doCreateView(Bundle savedInstanceState) {

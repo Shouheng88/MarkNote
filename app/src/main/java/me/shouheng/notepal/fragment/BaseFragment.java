@@ -8,17 +8,18 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.webkit.WebView;
 
+import org.polaric.colorful.BaseActivity;
+import org.polaric.colorful.PermissionUtils;
+
 import java.io.File;
 
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.activity.CommonActivity;
 import me.shouheng.notepal.dialog.AttachmentPickerDialog;
 import me.shouheng.notepal.listener.OnAttachingFileListener;
 import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.util.AttachmentHelper.OnGetAttachmentListener;
 import me.shouheng.notepal.util.FileHelper;
-import me.shouheng.notepal.util.PermissionUtils;
 import me.shouheng.notepal.util.ScreenShotHelper;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.util.tools.Callback;
@@ -36,7 +37,7 @@ public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFrag
             return;
         }
         assert getActivity() != null;
-        PermissionUtils.checkStoragePermission((CommonActivity) getActivity(), () -> {
+        PermissionUtils.checkStoragePermission((BaseActivity) getActivity(), () -> {
             final ProgressDialog pd = new ProgressDialog(getContext());
             pd.setMessage(getString(R.string.capturing));
             new Invoker<>(new Callback<File>() {
@@ -75,7 +76,7 @@ public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFrag
             return;
         }
         assert getActivity() != null;
-        PermissionUtils.checkStoragePermission((CommonActivity) getActivity(), () -> {
+        PermissionUtils.checkStoragePermission((BaseActivity) getActivity(), () -> {
             final ProgressDialog pd = new ProgressDialog(getContext());
             pd.setTitle(R.string.capturing);
             new Invoker<>(new Callback<File>() {
@@ -108,7 +109,7 @@ public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFrag
 
     protected void createWebCapture(WebView webView) {
         assert getActivity() != null;
-        PermissionUtils.checkStoragePermission((CommonActivity) getActivity(), () -> {
+        PermissionUtils.checkStoragePermission((BaseActivity) getActivity(), () -> {
             final ProgressDialog pd = new ProgressDialog(getContext());
             pd.setTitle(R.string.capturing);
             Bitmap bitmap = ScreenShotHelper.shotWebView(webView);

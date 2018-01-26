@@ -43,6 +43,7 @@
 
                 <android.support.v7.widget.AppCompatEditText
                     android:id="@+id/et"
+                    android:textSize="16sp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLength="@integer/mind_snagging_content_length" />

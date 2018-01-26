@@ -45,6 +45,7 @@ public class MindSnaggingDialog extends DialogFragment {
     private OnConfirmListener onConfirmListener;
     private OnAddAttachmentListener onAddAttachmentListener;
     private OnAttachmentClickListener onAttachmentClickListener;
+    private OnLifeMethodCalledListener onLifeMethodCalledListener;
 
     private DialogMindSnaggingLayoutBinding binding;
 
@@ -54,6 +55,7 @@ public class MindSnaggingDialog extends DialogFragment {
         this.onConfirmListener = builder.onConfirmListener;
         this.onAddAttachmentListener = builder.onAddAttachmentListener;
         this.onAttachmentClickListener = builder.onAttachmentClickListener;
+        this.onLifeMethodCalledListener = builder.onLifeMethodCalledListener;
 
         this.attachment = AttachmentsStore.getInstance(PalmApp.getContext()).getAttachment(ModelType.MIND_SNAGGING, mindSnagging.getCode());
     }
@@ -211,24 +213,24 @@ public class MindSnaggingDialog extends DialogFragment {
     @Override
     public void onCancel(DialogInterface dialog) {
         if (isPlaying()) stopPlaying();
+        if (onLifeMethodCalledListener != null) onLifeMethodCalledListener.onCancel();
     }
 
     @Override
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
         if (isPlaying()) stopPlaying();
+        if (onLifeMethodCalledListener != null) onLifeMethodCalledListener.onDismiss();
     }
 
     public static class Builder {
         private MindSnagging mindSnagging;
-
         private Attachment attachment;
 
         private OnConfirmListener onConfirmListener;
-
         private OnAddAttachmentListener onAddAttachmentListener;
-
         private OnAttachmentClickListener onAttachmentClickListener;
+        private OnLifeMethodCalledListener onLifeMethodCalledListener;
 
         public Builder setMindSnagging(MindSnagging mindSnagging) {
             this.mindSnagging = mindSnagging;
@@ -255,6 +257,11 @@ public class MindSnaggingDialog extends DialogFragment {
             return this;
         }
 
+        public Builder setOnLifeMethodCalledListener(OnLifeMethodCalledListener onLifeMethodCalledListener) {
+            this.onLifeMethodCalledListener = onLifeMethodCalledListener;
+            return this;
+        }
+
         public MindSnaggingDialog build() {
             return new MindSnaggingDialog(this);
         }
@@ -270,5 +277,10 @@ public class MindSnaggingDialog extends DialogFragment {
 
     public interface OnAttachmentClickListener {
         void onClick(Attachment attachment);
+    }
+
+    public interface OnLifeMethodCalledListener {
+        void onCancel();
+        void onDismiss();
     }
 }

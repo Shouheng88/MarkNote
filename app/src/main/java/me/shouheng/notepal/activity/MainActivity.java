@@ -22,6 +22,8 @@ import android.widget.RelativeLayout;
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
 import com.github.clans.fab.FloatingActionButton;
 
+import org.polaric.colorful.PermissionUtils;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -55,7 +57,6 @@ import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.FragmentHelper;
 import me.shouheng.notepal.util.LogUtils;
-import me.shouheng.notepal.util.PermissionUtils;
 import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.util.enums.MindSnaggingListType;
