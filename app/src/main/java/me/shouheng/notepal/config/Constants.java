@@ -53,9 +53,10 @@ public class Constants {
     // endregion
 
     // region App Widgets
-    public final static String ACTION_WIDGET = "action_widget";
     public final static String INTENT_WIDGET = "widget_id";
+    public final static String ACTION_WIDGET_LIST = "action_widget_list";
     public final static String ACTION_TAKE_PHOTO = "action_widget_take_photo";
+    public final static String ACTION_ADD_NOTE = "action_widget_add_note";
     public final static String ACTION_WIDGET_LAUNCH_APP = "action_widget_launch_app";
 
     public final static String PREFS_NAME = BuildConfig.APPLICATION_ID + "_preferences";

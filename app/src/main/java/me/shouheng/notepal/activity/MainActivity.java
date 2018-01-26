@@ -139,7 +139,10 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                 intent.setClass(this, ContentActivity.class);
                 startActivity(intent);
                 break;
-            case Constants.ACTION_WIDGET:
+            case Constants.ACTION_ADD_NOTE:
+                editNote(getNewNote());
+                break;
+            case Constants.ACTION_WIDGET_LIST:
                 Model model;
                 if (intent.hasExtra(Constants.EXTRA_MODEL) && (model = (Model) intent.getSerializableExtra(Constants.EXTRA_MODEL)) != null) {
                     if (model instanceof Note) {
