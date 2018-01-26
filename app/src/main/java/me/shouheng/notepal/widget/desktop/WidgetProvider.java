@@ -38,7 +38,7 @@ public abstract class WidgetProvider extends AppWidgetProvider {
 
         // Create an Intent to add note
         Intent intentAddNote = new Intent(context, MainActivity.class);
-        intentAddNote.setAction(Constants.ACTION_WIDGET);
+        intentAddNote.setAction(Constants.ACTION_ADD_NOTE);
         intentAddNote.putExtra(Constants.INTENT_WIDGET, widgetId);
         PendingIntent pendingIntentAddNote = PendingIntent.getActivity(context, widgetId, intentAddNote, PendingIntent.FLAG_CANCEL_CURRENT);
 

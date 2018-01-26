@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
-        <include android:id="@+id/iv_launch_app" layout="@layout/fragment_note_main"/>
+        <include android:id="@+id/main" layout="@layout/fragment_note_main"/>
 
         <FrameLayout
             android:layout_gravity="end"

@@ -41,7 +41,7 @@ public class ListWidgetProvider extends WidgetProvider {
             views.setRemoteAdapter(R.id.widget_list, intent);
 
             Intent clickIntent = new Intent(context, MainActivity.class);
-            clickIntent.setAction(Constants.ACTION_WIDGET);
+            clickIntent.setAction(Constants.ACTION_WIDGET_LIST);
             PendingIntent clickPI = PendingIntent.getActivity(context, 0, clickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             views.setPendingIntentTemplate(R.id.widget_list, clickPI);
 
