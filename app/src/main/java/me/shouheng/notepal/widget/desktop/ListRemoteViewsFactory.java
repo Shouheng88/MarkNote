@@ -26,6 +26,7 @@ import me.shouheng.notepal.provider.AttachmentsStore;
 import me.shouheng.notepal.provider.MindSnaggingStore;
 import me.shouheng.notepal.provider.NotesStore;
 import me.shouheng.notepal.provider.schema.NoteSchema;
+import me.shouheng.notepal.util.AppWidgetUtils;
 import me.shouheng.notepal.util.BitmapHelper;
 import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.TimeUtils;
@@ -202,5 +203,7 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
         Editor editor = mContext.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS).edit();
         editor.putString(Constants.PREF_WIDGET_SQL_PREFIX + String.valueOf(mAppWidgetId), sqlCondition).apply();
         editor.putInt(Constants.PREF_WIDGET_TYPE_PREFIX + String.valueOf(mAppWidgetId), listWidgetType.id).apply();
+
+        AppWidgetUtils.notifyAppWidgets(mContext);
     }
 }

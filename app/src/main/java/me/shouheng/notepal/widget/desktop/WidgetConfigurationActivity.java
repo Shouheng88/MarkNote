@@ -56,7 +56,7 @@ public class WidgetConfigurationActivity extends AppCompatActivity {
         getBinding().btnPositive.setOnClickListener(view -> {
             if (getBinding().widgetConfigRadiogroup.getCheckedRadioButtonId() == R.id.widget_config_notes) {
                 if (selectedNotebook != null) {
-                    sqlCondition = NoteSchema.TREE_PATH + " LIKE " + selectedNotebook.getTreePath() + "'%'";
+                    sqlCondition = NoteSchema.TREE_PATH + " LIKE '" + selectedNotebook.getTreePath() + "'||'%'";
                 } else {
                     sqlCondition = null;
                 }
