@@ -2,6 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ScrollView
+        android:scrollbars="none"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -11,31 +12,34 @@
             android:layout_height="wrap_content">
 
             <me.shouheng.notepal.widget.themed.SupportTextView
-                android:text="@string/dialog_notice_content_part1"
-                android:paddingStart="16dp"
+                android:id="@+id/tv1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="8dp"
                 android:paddingEnd="16dp"
+                android:paddingStart="16dp"
                 android:paddingTop="16dp"
-                android:paddingBottom="8dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:text="@string/dialog_notice_content_part1" />
 
             <me.shouheng.notepal.widget.themed.SupportTextView
-                android:text="@string/dialog_notice_content_part2"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
+                android:id="@+id/tv2"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:paddingBottom="8dp"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp"
+                android:paddingTop="8dp"
+                android:text="@string/dialog_notice_content_part2" />
 
             <me.shouheng.notepal.widget.themed.SupportTextView
-                android:text="@string/dialog_notice_content_part3"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
+                android:id="@+id/tv3"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:paddingBottom="8dp"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp"
+                android:paddingTop="8dp"
+                android:text="@string/dialog_notice_content_part3" />
 
             <LinearLayout
                 android:padding="16dp"
@@ -66,31 +70,34 @@
             </LinearLayout>
 
             <me.shouheng.notepal.widget.themed.SupportTextView
-                android:text="@string/dialog_notice_content_part4"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
+                android:id="@+id/tv4"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:paddingBottom="8dp"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp"
+                android:paddingTop="8dp"
+                android:text="@string/dialog_notice_content_part4" />
 
             <me.shouheng.notepal.widget.themed.SupportTextView
-                android:text="@string/dialog_notice_content_part5"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
+                android:id="@+id/tv5"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:paddingBottom="8dp"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp"
+                android:paddingTop="8dp"
+                android:text="@string/dialog_notice_content_part5" />
 
             <me.shouheng.notepal.widget.themed.SupportTextView
-                android:text="@string/dialog_notice_content_part6"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
+                android:id="@+id/tv6"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:paddingBottom="8dp"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp"
+                android:paddingTop="8dp"
+                android:text="@string/dialog_notice_content_part6" />
 
             <LinearLayout
                 android:padding="16dp"
@@ -121,13 +128,14 @@
             </LinearLayout>
 
             <me.shouheng.notepal.widget.themed.SupportTextView
-                android:text="@string/dialog_notice_content_part7"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
+                android:id="@+id/tv7"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:paddingBottom="8dp"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp"
+                android:paddingTop="8dp"
+                android:text="@string/dialog_notice_content_part7" />
 
         </LinearLayout>
 
