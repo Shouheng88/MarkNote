@@ -142,6 +142,9 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
             case Constants.ACTION_ADD_NOTE:
                 editNote(getNewNote());
                 break;
+            case Constants.ACTION_ADD_MIND:
+                editMindSnagging(ModelFactory.getMindSnagging(this));
+                break;
             case Constants.ACTION_WIDGET_LIST:
                 Model model;
                 if (intent.hasExtra(Constants.EXTRA_MODEL) && (model = (Model) intent.getSerializableExtra(Constants.EXTRA_MODEL)) != null) {

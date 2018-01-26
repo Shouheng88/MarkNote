@@ -42,6 +42,7 @@ public abstract class WidgetProvider extends AppWidgetProvider {
         SparseArray<PendingIntent> map = new SparseArray<>();
         map.put(R.id.iv_launch_app, pendingIntentLaunchApp(context, widgetId));
         map.put(R.id.iv_add_note, pendingIntentAddNote(context, widgetId));
+        map.put(R.id.iv_add_mind, pendingIntentAddMind(context, widgetId));
         map.put(R.id.iv_add_photo, pendingIntentAddPhoto(context, widgetId));
 
         RemoteViews views = getRemoteViews(context, widgetId, isSmall, isSingleLine, map);
@@ -68,6 +69,13 @@ public abstract class WidgetProvider extends AppWidgetProvider {
         intentLaunchApp.setAction(Constants.ACTION_WIDGET_LAUNCH_APP);
         intentLaunchApp.putExtra(Constants.INTENT_WIDGET, widgetId);
         return PendingIntent.getActivity(context, widgetId, intentLaunchApp, PendingIntent.FLAG_CANCEL_CURRENT);
+    }
+
+    private PendingIntent pendingIntentAddMind(Context context, int widgetId) {
+        Intent intentAddMind = new Intent(context, MainActivity.class);
+        intentAddMind.setAction(Constants.ACTION_ADD_MIND);
+        intentAddMind.putExtra(Constants.INTENT_WIDGET, widgetId);
+        return PendingIntent.getActivity(context, widgetId, intentAddMind, PendingIntent.FLAG_CANCEL_CURRENT);
     }
 
     abstract protected RemoteViews getRemoteViews(Context context, int widgetId, boolean isSmall, boolean isSingleLine, SparseArray<PendingIntent> pendingIntentsMap);
