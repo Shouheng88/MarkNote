@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -28,7 +29,6 @@ import me.shouheng.notepal.util.FragmentHelper;
 import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.ToastUtils;
 
-
 public class ContentActivity extends CommonActivity<ActivityContentBinding> implements ColorCallback {
 
     public final static String EXTRA_HAS_TOOLBAR = "extra_has_toolbar";
@@ -47,6 +47,19 @@ public class ContentActivity extends CommonActivity<ActivityContentBinding> impl
 
     public static void startNoteViewForResult(Activity activity, @NonNull Note note, Integer position, @NonNull Integer requestCode){
         activity.startActivityForResult(getNoteViewIntent(activity, note, position, requestCode), requestCode);
+    }
+
+    public static void startThirdPartResult(Activity activity, Intent i, @NonNull Integer requestCode) {
+        Intent intent = new Intent(activity, ContentActivity.class);
+        intent.setAction(Constants.ACTION_TO_NOTE_FROM_THIRD_PART);
+        intent.putExtra(Constants.EXTRA_IS_GOOGLE_NOW, Constants.INTENT_GOOGLE_NOW.equals(i.getAction()));
+        intent.putExtra(Constants.EXTRA_FRAGMENT, Constants.VALUE_FRAGMENT_NOTE);
+        intent.putExtra(Constants.EXTRA_REQUEST_CODE, requestCode);
+        intent.putExtra(Intent.EXTRA_SUBJECT, i.getStringExtra(Intent.EXTRA_SUBJECT));
+        intent.putExtra(Intent.EXTRA_TEXT, i.getStringExtra(Intent.EXTRA_TEXT));
+        intent.putExtra(Intent.EXTRA_STREAM, (Parcelable) i.getParcelableExtra(Intent.EXTRA_STREAM));
+        intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, i.getParcelableArrayListExtra(Intent.EXTRA_STREAM));
+        activity.startActivityForResult(intent, requestCode);
     }
 
     private static Intent getNoteViewIntent(Context context, @NonNull Note note, Integer position, @NonNull Integer requestCode) {
@@ -127,6 +140,8 @@ public class ContentActivity extends CommonActivity<ActivityContentBinding> impl
                     position == -1 ? null : position,
                     requestCode == -1 ? null : requestCode,
                     Constants.VALUE_START_EDIT.equals(intent.getStringExtra(Constants.EXTRA_START_TYPE)));
+        } else if (Constants.ACTION_TO_NOTE_FROM_THIRD_PART.equals(intent.getAction())) {
+            toNoteFromThirdPart(intent);
         }
 
         // The case below mainly used for the intent from shortcut
@@ -149,8 +164,13 @@ public class ContentActivity extends CommonActivity<ActivityContentBinding> impl
     }
 
     private void toNoteFragment(Note note, @Nullable Integer position, @Nullable Integer requestCode, boolean isEdit){
-        Fragment fragment = isEdit ? NoteFragment.newInstance(note, position, requestCode) : NoteViewFragment.newInstance(note, position, requestCode);
+        Fragment fragment = isEdit ? NoteFragment.newInstance(note, position, requestCode)
+                : NoteViewFragment.newInstance(note, position, requestCode);
         FragmentHelper.replace(this, fragment, R.id.fragment_container);
+    }
+
+    private void toNoteFromThirdPart(Intent intent) {
+        FragmentHelper.replace(this, NoteFragment.getThirdPart(this, intent), R.id.fragment_container);
     }
 
     @Override
