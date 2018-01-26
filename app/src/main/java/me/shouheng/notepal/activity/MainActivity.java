@@ -41,6 +41,7 @@ import me.shouheng.notepal.intro.IntroActivity;
 import me.shouheng.notepal.listener.OnAttachingFileListener;
 import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.model.MindSnagging;
+import me.shouheng.notepal.model.Model;
 import me.shouheng.notepal.model.ModelFactory;
 import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.model.Notebook;
@@ -72,6 +73,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     private final int REQUEST_USER_INFO = 0x0005;
     private final int REQUEST_PASSWORD = 0x0006;
     private final int REQUEST_SEARCH = 0x0007;
+    private final int REQUEST_NOTE_VIEW = 0x0008;
 
     private long onBackPressed;
 
@@ -138,8 +140,14 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                 startActivity(intent);
                 break;
             case Constants.ACTION_WIDGET:
-                // TODO edit note of given notebook associated with widget
-                editNote();
+                Model model;
+                if (intent.hasExtra(Constants.EXTRA_MODEL) && (model = (Model) intent.getSerializableExtra(Constants.EXTRA_MODEL)) != null) {
+                    if (model instanceof Note) {
+                        ContentActivity.startNoteViewForResult(this, (Note) model, null, REQUEST_NOTE_VIEW);
+                    } else if (model instanceof MindSnagging) {
+                        editMindSnagging((MindSnagging) model);
+                    }
+                }
                 break;
             case Constants.ACTION_WIDGET_SHOW_LIST:
                 // todo show notes list associated with given widget
@@ -232,30 +240,34 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         FabSortItem fabSortItem = preferencesUtils.getFabSortResult().get(index);
         switch (fabSortItem) {
             case NOTE:
-                editNote();
+                editNote(getNewNote());
                 break;
             case NOTEBOOK:
                 editNotebook();
                 break;
             case MIND_SNAGGING:
-                editMindSnagging();
+                editMindSnagging(ModelFactory.getMindSnagging(this));
                 break;
         }
     }
 
-    private void editNote() {
+    private void editNote(@NonNull final Note note) {
         PermissionUtils.checkStoragePermission(this, () -> {
-            Note note = ModelFactory.getNote(this);
-            Notebook notebook;
-            if (isNotesFragment() && (notebook = ((NotesFragment) getCurrentFragment()).getNotebook()) != null) {
-                note.setParentCode(notebook.getCode());
-                note.setTreePath(notebook.getTreePath() + "|" + note.getCode());
-            } else {
-                // The default tree path of note is itself
-                note.setTreePath(String.valueOf(note.getCode()));
-            }
             ContentActivity.startNoteEditForResult(this, note, null, REQUEST_ADD_NOTE);
         });
+    }
+
+    private Note getNewNote() {
+        Note note = ModelFactory.getNote(this);
+        Notebook notebook;
+        if (isNotesFragment() && (notebook = ((NotesFragment) getCurrentFragment()).getNotebook()) != null) {
+            note.setParentCode(notebook.getCode());
+            note.setTreePath(notebook.getTreePath() + "|" + note.getCode());
+        } else {
+            // The default tree path of note is itself
+            note.setTreePath(String.valueOf(note.getCode()));
+        }
+        return note;
     }
 
     private void editNotebook() {
@@ -279,9 +291,9 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         notebookEditDialog.show(getSupportFragmentManager(), "NotebookEditDialog");
     }
 
-    private void editMindSnagging() {
+    private void editMindSnagging(@NonNull MindSnagging param) {
         mindSnaggingDialog = new MindSnaggingDialog.Builder()
-                .setMindSnagging(ModelFactory.getMindSnagging(this))
+                .setMindSnagging(param)
                 .setOnAddAttachmentListener(mindSnagging -> showAttachmentPicker())
                 .setOnAttachmentClickListener(this::resolveAttachmentClick)
                 .setOnConfirmListener(this::saveMindSnagging)
@@ -435,6 +447,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
             case REQUEST_FAB_SORT:
                 if (resultCode == RESULT_OK) initFabSortItems();
                 break;
+            case REQUEST_NOTE_VIEW:
             case REQUEST_ADD_NOTE:
                 if (isNotesFragment() && resultCode == RESULT_OK) {
                     ((NotesFragment) getCurrentFragment()).reload();
