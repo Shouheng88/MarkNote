@@ -19,37 +19,52 @@ public class ListWidgetProvider extends WidgetProvider {
     @Override
     protected RemoteViews getRemoteViews(Context context, int widgetId, boolean isSmall, boolean isSingleLine, SparseArray<PendingIntent> pendingIntentsMap) {
         LogUtils.d(isSingleLine + " " + isSmall);
-        RemoteViews views;
+
         if (isSmall) {
-            views = new RemoteViews(context.getPackageName(), R.layout.widget_layout_small);
-            views.setOnClickPendingIntent(R.id.iv_launch_app, pendingIntentsMap.get(R.id.iv_launch_app));
+            return configSmall(context, pendingIntentsMap);
         } else if (isSingleLine) {
-            views = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
-            views.setOnClickPendingIntent(R.id.iv_launch_app, pendingIntentsMap.get(R.id.iv_launch_app));
-            views.setOnClickPendingIntent(R.id.iv_add_note, pendingIntentsMap.get(R.id.iv_add_note));
-            views.setOnClickPendingIntent(R.id.iv_add_mind, pendingIntentsMap.get(R.id.iv_add_mind));
-            views.setOnClickPendingIntent(R.id.iv_add_photo, pendingIntentsMap.get(R.id.iv_add_photo));
-            views.setInt(R.id.toolbar, "setBackgroundColor", ColorUtils.primaryColor(context));
+            return configSingleLine(context, pendingIntentsMap);
         } else {
-            views = new RemoteViews(context.getPackageName(), R.layout.widget_layout_list);
-            views.setOnClickPendingIntent(R.id.iv_launch_app, pendingIntentsMap.get(R.id.iv_launch_app));
-            views.setOnClickPendingIntent(R.id.iv_add_note, pendingIntentsMap.get(R.id.iv_add_note));
-            views.setOnClickPendingIntent(R.id.iv_add_mind, pendingIntentsMap.get(R.id.iv_add_mind));
-            views.setOnClickPendingIntent(R.id.iv_add_photo, pendingIntentsMap.get(R.id.iv_add_photo));
-
-            Intent intent = new Intent(context, NotesListWidgetService.class);
-            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
-            intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
-            views.setRemoteAdapter(R.id.widget_list, intent);
-
-            Intent clickIntent = new Intent(context, MainActivity.class);
-            clickIntent.setAction(Constants.ACTION_WIDGET_LIST);
-            PendingIntent clickPI = PendingIntent.getActivity(context, 0, clickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-            views.setPendingIntentTemplate(R.id.widget_list, clickPI);
-
-            views.setInt(R.id.toolbar, "setBackgroundColor", ColorUtils.primaryColor(context));
+            return configList(context, widgetId, pendingIntentsMap);
         }
+    }
+
+    private RemoteViews configSmall(Context context, SparseArray<PendingIntent> pendingIntentsMap) {
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_layout_small);
+        views.setOnClickPendingIntent(R.id.iv_launch_app, pendingIntentsMap.get(R.id.iv_launch_app));
         return views;
+    }
+
+    private RemoteViews configSingleLine(Context context, SparseArray<PendingIntent> pendingIntentsMap) {
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
+        configToolbar(context, views, pendingIntentsMap);
+        return views;
+    }
+
+    private RemoteViews configList(Context context, int widgetId, SparseArray<PendingIntent> pendingIntentsMap) {
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_layout_list);
+        configToolbar(context, views, pendingIntentsMap);
+
+        Intent intent = new Intent(context, NotesListWidgetService.class);
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
+        intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
+        views.setRemoteAdapter(R.id.widget_list, intent);
+
+        Intent clickIntent = new Intent(context, MainActivity.class);
+        clickIntent.setAction(Constants.ACTION_WIDGET_LIST);
+        PendingIntent clickPI = PendingIntent.getActivity(context, 0, clickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        views.setPendingIntentTemplate(R.id.widget_list, clickPI);
+
+        return views;
+    }
+
+    private void configToolbar(Context context, RemoteViews views, SparseArray<PendingIntent> pendingIntentsMap) {
+        views.setOnClickPendingIntent(R.id.iv_launch_app, pendingIntentsMap.get(R.id.iv_launch_app));
+        views.setOnClickPendingIntent(R.id.iv_add_note, pendingIntentsMap.get(R.id.iv_add_note));
+        views.setOnClickPendingIntent(R.id.iv_add_mind, pendingIntentsMap.get(R.id.iv_add_mind));
+        views.setOnClickPendingIntent(R.id.iv_add_photo, pendingIntentsMap.get(R.id.iv_add_photo));
+        views.setOnClickPendingIntent(R.id.iv_setting, pendingIntentsMap.get(R.id.iv_setting));
+        views.setInt(R.id.toolbar, "setBackgroundColor", ColorUtils.primaryColor(context));
     }
 }
 
