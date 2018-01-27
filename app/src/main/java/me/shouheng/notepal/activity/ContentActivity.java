@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,14 +21,16 @@ import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.databinding.ActivityContentBinding;
 import me.shouheng.notepal.fragment.CommonFragment;
 import me.shouheng.notepal.fragment.NoteFragment;
+import me.shouheng.notepal.fragment.NoteFragment.OnNoteInteractListener;
 import me.shouheng.notepal.fragment.NoteViewFragment;
+import me.shouheng.notepal.model.ModelFactory;
 import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.provider.NotesStore;
 import me.shouheng.notepal.util.FragmentHelper;
 import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.ToastUtils;
 
-public class ContentActivity extends CommonActivity<ActivityContentBinding> implements ColorCallback {
+public class ContentActivity extends CommonActivity<ActivityContentBinding> implements ColorCallback, OnNoteInteractListener {
 
     public final static String EXTRA_HAS_TOOLBAR = "extra_has_toolbar";
 
@@ -50,16 +51,13 @@ public class ContentActivity extends CommonActivity<ActivityContentBinding> impl
     }
 
     public static void startThirdPartResult(Activity activity, Intent i, @NonNull Integer requestCode) {
-        Intent intent = new Intent(activity, ContentActivity.class);
-        intent.setAction(Constants.ACTION_TO_NOTE_FROM_THIRD_PART);
-        intent.putExtra(Constants.EXTRA_IS_GOOGLE_NOW, Constants.INTENT_GOOGLE_NOW.equals(i.getAction()));
-        intent.putExtra(Constants.EXTRA_FRAGMENT, Constants.VALUE_FRAGMENT_NOTE);
-        intent.putExtra(Constants.EXTRA_REQUEST_CODE, requestCode);
-        intent.putExtra(Intent.EXTRA_SUBJECT, i.getStringExtra(Intent.EXTRA_SUBJECT));
-        intent.putExtra(Intent.EXTRA_TEXT, i.getStringExtra(Intent.EXTRA_TEXT));
-        intent.putExtra(Intent.EXTRA_STREAM, (Parcelable) i.getParcelableExtra(Intent.EXTRA_STREAM));
-        intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, i.getParcelableArrayListExtra(Intent.EXTRA_STREAM));
-        activity.startActivityForResult(intent, requestCode);
+        i.setClass(activity, ContentActivity.class);
+        i.putExtra(Constants.EXTRA_IS_GOOGLE_NOW, Constants.INTENT_GOOGLE_NOW.equals(i.getAction()));
+        i.setAction(Constants.ACTION_TO_NOTE_FROM_THIRD_PART);
+        i.putExtra(Constants.EXTRA_FRAGMENT, Constants.VALUE_FRAGMENT_NOTE);
+        i.putExtra(Constants.EXTRA_REQUEST_CODE, requestCode);
+        i.putExtra(Constants.EXTRA_START_TYPE, Constants.VALUE_START_EDIT);
+        activity.startActivity(i);
     }
 
     private static Intent getNoteViewIntent(Context context, @NonNull Note note, Integer position, @NonNull Integer requestCode) {
@@ -139,9 +137,12 @@ public class ContentActivity extends CommonActivity<ActivityContentBinding> impl
             toNoteFragment(note,
                     position == -1 ? null : position,
                     requestCode == -1 ? null : requestCode,
-                    Constants.VALUE_START_EDIT.equals(intent.getStringExtra(Constants.EXTRA_START_TYPE)));
+                    Constants.VALUE_START_EDIT.equals(intent.getStringExtra(Constants.EXTRA_START_TYPE)), false);
         } else if (Constants.ACTION_TO_NOTE_FROM_THIRD_PART.equals(intent.getAction())) {
-            toNoteFromThirdPart(intent);
+            toNoteFragment(ModelFactory.getNote(this),
+                    null,
+                    null,
+                    Constants.VALUE_START_EDIT.equals(intent.getStringExtra(Constants.EXTRA_START_TYPE)), true);
         }
 
         // The case below mainly used for the intent from shortcut
@@ -159,18 +160,14 @@ public class ContentActivity extends CommonActivity<ActivityContentBinding> impl
             toNoteFragment(note,
                     position == -1 ? null : position,
                     requestCode == -1 ? null : requestCode,
-                    Constants.VALUE_START_EDIT.equals(intent.getStringExtra(Constants.EXTRA_START_TYPE)));
+                    Constants.VALUE_START_EDIT.equals(intent.getStringExtra(Constants.EXTRA_START_TYPE)), false);
         }
     }
 
-    private void toNoteFragment(Note note, @Nullable Integer position, @Nullable Integer requestCode, boolean isEdit){
-        Fragment fragment = isEdit ? NoteFragment.newInstance(note, position, requestCode)
+    private void toNoteFragment(Note note, @Nullable Integer position, @Nullable Integer requestCode, boolean isEdit, boolean isThirdPart){
+        Fragment fragment = isEdit ? NoteFragment.newInstance(note, position, requestCode, isThirdPart)
                 : NoteViewFragment.newInstance(note, position, requestCode);
         FragmentHelper.replace(this, fragment, R.id.fragment_container);
-    }
-
-    private void toNoteFromThirdPart(Intent intent) {
-        FragmentHelper.replace(this, NoteFragment.getThirdPart(this, intent), R.id.fragment_container);
     }
 
     @Override
@@ -189,5 +186,10 @@ public class ContentActivity extends CommonActivity<ActivityContentBinding> impl
         if (currentFragment instanceof CommonFragment){
             ((CommonFragment) currentFragment).onBackPressed();
         }
+    }
+
+    @Override
+    public Intent getIntentForThirdPart() {
+        return getIntent();
     }
 }
