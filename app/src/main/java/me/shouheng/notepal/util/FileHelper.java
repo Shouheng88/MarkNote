@@ -15,6 +15,7 @@ import android.os.Environment;
 import android.os.StatFs;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.support.annotation.DrawableRes;
 import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
@@ -49,7 +50,7 @@ public class FileHelper {
 
     private static final String EXTERNAL_STORAGE_FOLDER = "NotePal";
 
-    public static boolean isStorageWriteable() {
+    private static boolean isStorageWriteable() {
         boolean isExternalStorageAvailable;
         boolean isExternalStorageWriteable;
         String state = Environment.getExternalStorageState();
@@ -68,19 +69,56 @@ public class FileHelper {
         return isExternalStorageAvailable && isExternalStorageWriteable;
     }
 
-    public static boolean isMediaDocument(Uri uri) {
+    // region Get file path
+
+    @SuppressLint("NewApi")
+    public static String getPath(final Context context, final Uri uri) {
+        if (uri == null) return null;
+
+        final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
+        if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
+            if (isExternalStorageDocument(uri)) {
+                final String docId = DocumentsContract.getDocumentId(uri);
+                final String[] split = docId.split(":");
+                final String type = split[0];
+                if ("primary".equalsIgnoreCase(type)) {
+                    return Environment.getExternalStorageDirectory() + "/" + split[1];
+                }
+            } else if (isDownloadsDocument(uri)) {
+                final Uri contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), parseLong(DocumentsContract.getDocumentId(uri)));
+                return getDataColumn(context, contentUri, null, null);
+            } else if (isMediaDocument(uri)) {
+                final String docId = DocumentsContract.getDocumentId(uri);
+                final String[] split = docId.split(":");
+                final String type = split[0];
+                Uri contentUri = MediaStoreFactory.getInstance().createURI(type);
+
+                final String selection = "_id=?";
+                final String[] selectionArgs = new String[]{split[1]};
+
+                return getDataColumn(context, contentUri, selection, selectionArgs);
+            }
+        } else if ("content".equalsIgnoreCase(uri.getScheme())) {
+            return getDataColumn(context, uri, null, null);
+        } else if ("file".equalsIgnoreCase(uri.getScheme())) {
+            return uri.getPath();
+        }
+        return null;
+    }
+
+    private static boolean isMediaDocument(Uri uri) {
         return "com.android.providers.media.documents".equals(uri.getAuthority());
     }
 
-    public static boolean isExternalStorageDocument(Uri uri) {
+    private static boolean isExternalStorageDocument(Uri uri) {
         return "com.android.externalstorage.documents".equals(uri.getAuthority());
     }
 
-    public static boolean isDownloadsDocument(Uri uri) {
+    private static boolean isDownloadsDocument(Uri uri) {
         return "com.android.providers.downloads.documents".equals(uri.getAuthority());
     }
 
-    public static String getDataColumn(Context context, Uri uri, String selection, String[] selectionArgs) {
+    private static String getDataColumn(Context context, Uri uri, String selection, String[] selectionArgs) {
         Cursor cursor = null;
         final String column = "_data";
         final String[] projection = {column};
@@ -99,6 +137,7 @@ public class FileHelper {
         }
         return null;
     }
+    // endregion
 
     public static long getSize(File directory) {
         StatFs statFs = new StatFs(directory.getAbsolutePath());
@@ -143,43 +182,24 @@ public class FileHelper {
         }
     }
 
-    @SuppressLint("NewApi")
-    public static String getPath(final Context context, final Uri uri) {
-        if (uri == null) {
-            return null;
-        }
-        final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
-        if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
-            if (isExternalStorageDocument(uri)) {
-                final String docId = DocumentsContract.getDocumentId(uri);
-                final String[] split = docId.split(":");
-                final String type = split[0];
-                if ("primary".equalsIgnoreCase(type)) {
-                    return Environment.getExternalStorageDirectory() + "/" + split[1];
-                }
-            } else if (isDownloadsDocument(uri)) {
-                final Uri contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), parseLong(DocumentsContract.getDocumentId(uri)));
-                return getDataColumn(context, contentUri, null, null);
-            } else if (isMediaDocument(uri)) {
-                final String docId = DocumentsContract.getDocumentId(uri);
-                final String[] split = docId.split(":");
-                final String type = split[0];
-                Uri contentUri = MediaStoreFactory.getInstance().createURI(type);
+    // region Get file MIME.
 
-                final String selection = "_id=?";
-                final String[] selectionArgs = new String[]{split[1]};
-
-                return getDataColumn(context, contentUri, selection, selectionArgs);
-            }
-        } else if ("content".equalsIgnoreCase(uri.getScheme())) {
-            return getDataColumn(context, uri, null, null);
-        } else if ("file".equalsIgnoreCase(uri.getScheme())) {
-            return uri.getPath();
-        }
-        return null;
+    /**
+     * Get mime type of given uri.
+     *
+     * @param mContext the context
+     * @param uri the uri belows to the file stored in the app file system, so the mime type got
+     *            is the mime type of file in file system.
+     * @return the mime type
+     */
+    public static String getMimeType(Context mContext, Uri uri) {
+        ContentResolver resolver = mContext.getContentResolver();
+        String mimeType = resolver.getType(uri);
+        if (mimeType == null) mimeType = getMimeType(uri.toString());
+        return mimeType;
     }
 
-    public static String getMimeType(String url) {
+    private static String getMimeType(String url) {
         String type = null;
         String extension = MimeTypeMap.getFileExtensionFromUrl(url);
         if (extension != null) {
@@ -189,16 +209,20 @@ public class FileHelper {
         return type;
     }
 
-    public static String getMimeType(Context mContext, Uri uri) {
-        ContentResolver cR = mContext.getContentResolver();
-        String mimeType = cR.getType(uri);
-        if (mimeType == null) {
-            mimeType = getMimeType(uri.toString());
-        }
+    /**
+     * Get file mime type and translate it into the mime type of this application.
+     *
+     * @param mContext the context
+     * @param uri the uri of attachment
+     * @return the mime type of this application
+     */
+    private static String getMimeTypeInternal(Context mContext, Uri uri) {
+        String mimeType = getMimeType(mContext, uri);
+        mimeType = getMimeTypeInternal(mimeType);
         return mimeType;
     }
 
-    public static String getMimeTypeInternal(Context mContext, String mimeType) {
+    private static String getMimeTypeInternal(String mimeType) {
         if (mimeType != null) {
             if (mimeType.contains("image/")) {
                 mimeType = Constants.MIME_TYPE_IMAGE;
@@ -212,31 +236,50 @@ public class FileHelper {
         }
         return mimeType;
     }
+    // endregion
 
-    public static String getMimeTypeInternal(Context mContext, Uri uri) {
-        String mimeType = getMimeType(mContext, uri);
-        mimeType = getMimeTypeInternal(mContext, mimeType);
-        return mimeType;
-    }
-
-    public static String getFileExtension(String fileName) {
-        if (TextUtils.isEmpty(fileName)) {
-            return "";
-        }
+    // region Get file EXTENSION
+    /**
+     * Get file extension from file name.
+     *
+     * @param fileName file name
+     * @return the extension
+     */
+    private static String getFileExtension(String fileName) {
+        if (TextUtils.isEmpty(fileName)) return "";
         String extension = "";
         int index = fileName.lastIndexOf(".");
-        if (index != -1) {
-            extension = fileName.substring(index, fileName.length());
-        }
+        if (index != -1) extension = fileName.substring(index, fileName.length());
         return extension;
     }
 
-    public static Uri getThumbnailUri(Context mContext, Attachment attachment) {
-        Uri uri = attachment.getUri();
+    /**
+     * Get file extension from uri.
+     *
+     * @param mContext the context
+     * @param uri the uri
+     * @return the extension
+     */
+    private static String getFileExtension(Context mContext, Uri uri) {
+        // get extension from mime type
+        String mimeType = getMimeType(mContext, uri);
+        if (!TextUtils.isEmpty(mimeType)) {
+            String subtype = mimeType.split("/")[1];
+            LogUtils.d(mimeType);
+            return subtype;
+        }
+        // use the uri to get file extension
+        return getFileExtension(uri.toString());
+    }
+    // endregion
+
+    // region Get THUMBNAIL from uri
+    public static Uri getThumbnailUri(Context mContext, Uri uri) {
         String mimeType = getMimeType(uri.toString());
         if (!TextUtils.isEmpty(mimeType)) {
             String type = mimeType.split("/")[0];
             String subtype = mimeType.split("/")[1];
+            LogUtils.d(mimeType);
             switch (type) {
                 case "image":
                 case "video":
@@ -245,48 +288,44 @@ public class FileHelper {
                     uri = Uri.parse("android.resource://" + mContext.getPackageName() + "/" + R.raw.play);
                     break;
                 default:
-                    int drawable = "x-vcard".equals(subtype) ? R.raw.vcard : R.raw.files;
-                    uri = Uri.parse("android.resource://" + mContext.getPackageName() + "/" + drawable);
-                    break;
+                    if ("x-vcard".equals(subtype)) {
+                        return Uri.parse("android.resource://" + mContext.getPackageName() + "/" + R.raw.vcard);
+                    } else {
+                        return getThumbnailUri(mContext, uri, subtype);
+                    }
             }
         } else {
-            uri = Uri.parse("android.resource://" + mContext.getPackageName() + "/" + R.raw.files);
+            String extension, path;
+            extension = TextUtils.isEmpty(path = getPath(mContext, uri)) ?  getFileExtension(uri.toString()) : getFileExtension(path);
+            return getThumbnailUri(mContext, uri, extension);
         }
         return uri;
     }
 
-    public static Uri getThumbnailUri(Context mContext, Uri uri ) {
-        String mimeType = getMimeType(uri.toString());
-        if (!TextUtils.isEmpty(mimeType)) {
-            String type = mimeType.split("/")[0];
-            String subtype = mimeType.split("/")[1];
-            switch (type) {
-                case "image":
-                case "video":
-                    break;
-                case "audio":
-                    uri = Uri.parse("android.resource://" + mContext.getPackageName() + "/" + R.raw.play);
-                    break;
-                default:
-                    int drawable = "x-vcard".equals(subtype) ? R.raw.vcard : R.raw.files;
-                    uri = Uri.parse("android.resource://" + mContext.getPackageName() + "/" + drawable);
-                    break;
-            }
-        } else {
-            uri = Uri.parse("android.resource://" + mContext.getPackageName() + "/" + R.raw.files);
+    private static Uri getThumbnailUri(Context mContext, Uri uri, String extension) {
+        switch (extension) {
+            case "mp3":case "wav":case "aac":case "wma":// audio
+                uri = Uri.parse("android.resource://" + mContext.getPackageName() + "/" + R.raw.play);
+                break;
+            case "avi":case "mov":case "wmv":case "3gp":case "rmvb":case "flv":case "mpeg":case "mp4":
+                return uri;
+            default:
+                uri = Uri.parse("android.resource://" + mContext.getPackageName() + "/" + R.raw.files);
+                break;
         }
         return uri;
     }
+    // endregion
 
     public static String getNameFromUri(Context mContext, Uri uri) {
         String fileName = "";
         Cursor cursor = null;
         try {
-            cursor = mContext.getContentResolver().query(uri, new String[]{"_display_name"}, null, null, null);
+            cursor = mContext.getContentResolver().query(uri, new String[]{OpenableColumns.DISPLAY_NAME}, null, null, null);
             if (cursor != null) {
                 try {
                     if (cursor.moveToFirst()) {
-                        fileName = cursor.getString(0);
+                        fileName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
                     }
                 } catch (Exception e) {
                     LogUtils.e("Error managing diskk cache", e);
@@ -304,7 +343,7 @@ public class FileHelper {
         return fileName;
     }
 
-    public static File createNewAttachmentFile(Context context, String extension){
+    public static File createNewAttachmentFile(Context context, String extension) {
         File file = null;
         if (isStorageWriteable()) {
             file = new File(context.getExternalFilesDir(null), createNewAttachmentName(extension));
@@ -312,44 +351,47 @@ public class FileHelper {
         return file;
     }
 
-    public static synchronized String createNewAttachmentName(String extension) {
-        Calendar now = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_SORTABLE);
-        String name = sdf.format(now.getTime());
-        name += extension != null ? extension : "";
-        return name;
-    }
-
     public static Attachment createAttachmentFromUri(Context mContext, Uri uri) {
         return createAttachmentFromUri(mContext, uri, false);
     }
 
-    public static Attachment createAttachmentFromUri(Context mContext, Uri uri, boolean moveSource) {
+    private static Attachment createAttachmentFromUri(Context mContext, Uri uri, boolean moveSource) {
         String name = FileHelper.getNameFromUri(mContext, uri);
-        String extension = FileHelper.getFileExtension(FileHelper.getNameFromUri(mContext, uri)).toLowerCase(Locale.getDefault());
-        File f;
+        String extension = FileHelper.getFileExtension(name).toLowerCase(Locale.getDefault());
+
+        /**
+         * The name got from last step is the {@link OpenableColumns.DISPLAY_NAME} value.
+         * That means, for a mp3 file "Music.mp3", we may only get the "Music", so the extension can be empty.
+         * To avoid the extension empty, we should check it and try to get it from the mime type. */
+        if (TextUtils.isEmpty(extension)) extension = getFileExtension(mContext, uri);
+
+        File file;
         if (moveSource) {
-            f = createNewAttachmentFile(mContext, extension);
+            file = createNewAttachmentFile(mContext, extension);
             try {
-                moveFile(new File(uri.getPath()), f);
+                moveFile(new File(uri.getPath()), file);
             } catch (IOException e) {
                 LogUtils.e("Can't move file " + uri.getPath());
             }
         } else {
-            f = FileHelper.createExternalStoragePrivateFile(mContext, uri, extension);
+            file = FileHelper.createExternalStoragePrivateFile(mContext, uri, extension);
         }
+
+        /**
+         * Create attachment object as return value. */
         Attachment mAttachment = ModelFactory.getAttachment(mContext);
-        if (f != null) {
-            mAttachment.setUri(getAttachmentUriFromFile(mContext, f));
+        if (file != null) {
+            mAttachment.setUri(getUriFromFile(mContext, file));
             mAttachment.setMineType(getMimeTypeInternal(mContext, uri));
             mAttachment.setName(name);
-            mAttachment.setSize(f.length());
-            mAttachment.setPath(f.getPath());
+            mAttachment.setSize(file.length());
+            mAttachment.setPath(file.getPath());
         }
+
         return mAttachment;
     }
 
-    public static File createExternalStoragePrivateFile(Context mContext, Uri uri, String extension) {
+    private static File createExternalStoragePrivateFile(Context mContext, Uri uri, String extension) {
         if (!isStorageWriteable()) {
             ToastUtils.makeToast(mContext, R.string.storage_not_available);
             return null;
@@ -383,6 +425,15 @@ public class FileHelper {
         return file;
     }
 
+    private static String createNewAttachmentName(String extension) {
+        Calendar now = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_SORTABLE, Locale.getDefault());
+        String name = sdf.format(now.getTime());
+        name += extension != null ? extension : "";
+        return name;
+    }
+
+    // region File operations
     public static void moveFile(File srcFile, File destFile) throws IOException {
         if (srcFile == null) {
             throw new NullPointerException("Source must not be null");
@@ -457,8 +508,9 @@ public class FileHelper {
         }
         return res;
     }
+    // endregion
 
-    public static Uri getAttachmentUriFromFile(Context context, File file){
+    public static Uri getUriFromFile(Context context, File file){
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M){
             return FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", file);
         } else {
@@ -466,13 +518,14 @@ public class FileHelper {
         }
     }
 
+    // region Save image to EXTERNAL storage
     /**
      * 保存图标到相册中
      *
      * @param context 上下文
      * @param bmp 图片
      * @param isPng 是否是png格式的图片
-     * @param file 用于返回的保存的文件
+     * @param onSavedToGalleryListener the callback of saving event
      * @return 是否成功执行保存操作 */
     public static boolean saveImageToGallery(Context context, Bitmap bmp, boolean isPng, OnSavedToGalleryListener onSavedToGalleryListener) {
         LogUtils.d("saveImageToGallery: " + bmp);
@@ -521,6 +574,15 @@ public class FileHelper {
         return true;
     }
 
+    public static void saveDrawableToGallery(Context context, @DrawableRes int drawableRes, OnSavedToGalleryListener onSavedToGalleryListener) {
+        Resources res = context.getResources();
+        BitmapDrawable d = (BitmapDrawable) res.getDrawable(drawableRes);
+        Bitmap img = d.getBitmap();
+        FileHelper.saveImageToGallery(context, img, true, onSavedToGalleryListener);
+    }
+    // endregion
+
+    // region Methods of backup.
     public static File getBackupDir(String backupName) {
         File backupDir = new File(getExternalStoragePublicDir(), backupName);
         if (!backupDir.exists()) backupDir.mkdirs();
@@ -560,13 +622,7 @@ public class FileHelper {
                 + packageName
                 + "_preferences.xml");
     }
-
-    public static void saveDrawable(Context context, @DrawableRes int drawableRes, OnSavedToGalleryListener onSavedToGalleryListener) {
-        Resources res = context.getResources();
-        BitmapDrawable d = (BitmapDrawable) res.getDrawable(drawableRes);
-        Bitmap img = d.getBitmap();
-        FileHelper.saveImageToGallery(context, img, true, onSavedToGalleryListener);
-    }
+    // endregion
 
     public interface OnSavedToGalleryListener {
         void OnSavedToGallery(File file);

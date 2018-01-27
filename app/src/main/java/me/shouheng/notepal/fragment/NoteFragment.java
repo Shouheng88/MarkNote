@@ -508,7 +508,7 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
                 LogUtils.d("onClick: " + e);
             }
             noteFile = ModelFactory.getAttachment(getContext());
-            noteFile.setUri(FileHelper.getAttachmentUriFromFile(getContext(), tempFile));
+            noteFile.setUri(FileHelper.getUriFromFile(getContext(), tempFile));
             noteFile.setSize(FileUtils.sizeOf(tempFile));
             noteFile.setPath(tempFile.getPath());
             noteFile.setName(tempFile.getName());

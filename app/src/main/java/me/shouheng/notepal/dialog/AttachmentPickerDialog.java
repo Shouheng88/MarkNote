@@ -149,7 +149,7 @@ public class AttachmentPickerDialog extends DialogFragment {
                 dismiss();
                 return;
             }
-            attachmentUri = FileHelper.getAttachmentUriFromFile(getContext(), file);
+            attachmentUri = FileHelper.getUriFromFile(getContext(), file);
             filePath = file.getPath();
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             intent.putExtra(MediaStore.EXTRA_OUTPUT, attachmentUri);
@@ -181,7 +181,7 @@ public class AttachmentPickerDialog extends DialogFragment {
                 dismiss();
                 return;
             }
-            attachmentUri = FileHelper.getAttachmentUriFromFile(getContext(), file);
+            attachmentUri = FileHelper.getUriFromFile(getContext(), file);
             filePath = file.getPath();
             Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
             intent.putExtra(MediaStore.EXTRA_OUTPUT, attachmentUri);
@@ -202,7 +202,7 @@ public class AttachmentPickerDialog extends DialogFragment {
             dismiss();
             return;
         }
-        attachmentUri = FileHelper.getAttachmentUriFromFile(getContext(), file);
+        attachmentUri = FileHelper.getUriFromFile(getContext(), file);
         if (mFragment != null){
             Intent intent = new Intent(mFragment.getContext(), SketchActivity.class);
             filePath = file.getPath();
