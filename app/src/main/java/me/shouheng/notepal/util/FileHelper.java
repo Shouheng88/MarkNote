@@ -195,7 +195,7 @@ public class FileHelper {
     public static String getMimeType(Context mContext, Uri uri) {
         ContentResolver resolver = mContext.getContentResolver();
         String mimeType = resolver.getType(uri);
-        if (mimeType == null) mimeType = getMimeType(uri.toString());
+        if (TextUtils.isEmpty(mimeType)) mimeType = getMimeType(uri.toString());
         return mimeType;
     }
 
@@ -261,15 +261,20 @@ public class FileHelper {
      * @return the extension
      */
     private static String getFileExtension(Context mContext, Uri uri) {
-        // get extension from mime type
-        String mimeType = getMimeType(mContext, uri);
-        if (!TextUtils.isEmpty(mimeType)) {
-            String subtype = mimeType.split("/")[1];
-            LogUtils.d(mimeType);
-            return subtype;
+        String extension;
+        if (TextUtils.isEmpty(extension = MimeTypeMap.getFileExtensionFromUrl(uri.toString()))
+                && TextUtils.isEmpty(extension = getFileExtension(getPath(mContext, uri)))) {
+            String mimeType = getMimeType(mContext, uri);
+            if (!TextUtils.isEmpty(mimeType)) {
+                String subtype = mimeType.split("/")[1];
+                LogUtils.d(mimeType);
+                return "." + subtype;
+            } else {
+                return "";
+            }
+        } else {
+            return extension;
         }
-        // use the uri to get file extension
-        return getFileExtension(uri.toString());
     }
     // endregion
 
