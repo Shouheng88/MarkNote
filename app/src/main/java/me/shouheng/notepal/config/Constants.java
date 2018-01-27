@@ -40,6 +40,8 @@ public class Constants {
     public final static String INTENT_GOOGLE_NOW = "com.google.android.gm.action.AUTO_SEND";
 
     public final static String ACTION_RESTART_APP = "action_restart_app";
+
+    public final static String ACTION_NOTE_CHANGE_BROADCAST = "action_broadcast_notes_changed";
     // endregion
 
     // region Urls

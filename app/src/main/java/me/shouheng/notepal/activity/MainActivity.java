@@ -1,6 +1,9 @@
 package me.shouheng.notepal.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -86,6 +89,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     private AttachmentPickerDialog attachmentPickerDialog;
 
     private RecyclerView.OnScrollListener onScrollListener;
+    private NotesChangedReceiver notesChangedReceiver;
 
     private FloatingActionButton[] fabs;
 
@@ -106,6 +110,8 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         IntroActivity.launchIfNecessary(this);
 
         checkPassword();
+
+        regNoteChangeReceiver();
     }
 
     private void init() {
@@ -434,6 +440,23 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     }
     // endregion
 
+    // region notes change receiver
+    private void regNoteChangeReceiver() {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Constants.ACTION_NOTE_CHANGE_BROADCAST);
+        notesChangedReceiver = new NotesChangedReceiver();
+        registerReceiver(notesChangedReceiver, filter);
+    }
+
+    private class NotesChangedReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (isNotesFragment()) ((NotesFragment) getCurrentFragment()).reload();
+        }
+    }
+    // endregion
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
@@ -530,6 +553,12 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
             ToastUtils.makeToast(this, R.string.text_tab_again_exit);
         }
         onBackPressed = System.currentTimeMillis();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(notesChangedReceiver);
     }
 
     @Override

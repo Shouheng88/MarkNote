@@ -1,6 +1,5 @@
 package me.shouheng.notepal.fragment;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -82,40 +81,13 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
 
     private final static String EXTRA_IS_THIRD_PART = "extra_is_third_part";
 
-    public static NoteFragment newInstance(Note note, Integer position, Integer requestCode) {
+    public static NoteFragment newInstance(Note note, Integer position, Integer requestCode, boolean isThirdPart) {
         Bundle arg = new Bundle();
+        arg.putBoolean(EXTRA_IS_THIRD_PART, isThirdPart);
         if (note == null) throw new IllegalArgumentException("Note cannot be null");
         arg.putSerializable(Constants.EXTRA_MODEL, note);
         if (position != null) arg.putInt(Constants.EXTRA_POSITION, position);
         if (requestCode != null) arg.putInt(Constants.EXTRA_REQUEST_CODE, requestCode);
-        NoteFragment fragment = new NoteFragment();
-        fragment.setArguments(arg);
-        return fragment;
-    }
-
-    /**
-     * Used to get note fragment from third part intent
-     *
-     * @param context the context
-     * @param intent the third part intent
-     * @return the fragment instance
-     */
-    public static NoteFragment getThirdPart(Context context, Intent intent) {
-        Bundle arg = new Bundle();
-
-        arg.putSerializable(Constants.EXTRA_MODEL, ModelFactory.getNote(context));
-
-        int requestCode = intent.getIntExtra(Constants.EXTRA_REQUEST_CODE, -1);
-        if (requestCode != -1) arg.putInt(Constants.EXTRA_REQUEST_CODE, requestCode);
-
-        arg.putBoolean(EXTRA_IS_THIRD_PART, true);
-
-        arg.putBoolean(Constants.EXTRA_IS_GOOGLE_NOW, intent.getBooleanExtra(Constants.EXTRA_IS_GOOGLE_NOW, false));
-        arg.putString(Intent.EXTRA_SUBJECT, intent.getStringExtra(Intent.EXTRA_SUBJECT));
-        arg.putString(Intent.EXTRA_TEXT, intent.getStringExtra(Intent.EXTRA_TEXT));
-        arg.putParcelable(Intent.EXTRA_STREAM, intent.getParcelableExtra(Intent.EXTRA_STREAM));
-        arg.putParcelableArrayList(Intent.EXTRA_STREAM, intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM));
-
         NoteFragment fragment = new NoteFragment();
         fragment.setArguments(arg);
         return fragment;
@@ -168,25 +140,27 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
         }
 
         // handle arguments for intent from third part
-        if (arguments.getBoolean(EXTRA_IS_THIRD_PART)) {
-            String title = arguments.getString(Intent.EXTRA_SUBJECT);
+        if (arguments.getBoolean(EXTRA_IS_THIRD_PART) && getActivity() instanceof OnNoteInteractListener) {
+            Intent intent = ((OnNoteInteractListener) getActivity()).getIntentForThirdPart();
+
+            String title = intent.getStringExtra(Intent.EXTRA_SUBJECT);
             note.setTitle(title);
 
-            String content = arguments.getString(Intent.EXTRA_TEXT);
+            String content = intent.getStringExtra(Intent.EXTRA_TEXT);
             note.setContent(content);
 
             // Single attachment data
-            Uri uri = arguments.getParcelable(Intent.EXTRA_STREAM);
+            Uri uri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
 
             // Due to the fact that Google Now passes intent as text but with
             // audio recording attached the case must be handled in specific way
-            if (uri != null && arguments.getBoolean(Constants.EXTRA_IS_GOOGLE_NOW)) {
+            if (uri != null && !Constants.INTENT_GOOGLE_NOW.equals(intent.getAction())) {
                 String name = FileHelper.getNameFromUri(getContext(), uri);
                 new AttachmentTask(this, uri, name, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             }
 
             // Multiple attachment data
-            ArrayList<Uri> uris = arguments.getParcelableArrayList(Intent.EXTRA_STREAM);
+            ArrayList<Uri> uris = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
             if (uris != null) {
                 for (Uri uriSingle : uris) {
                     String name = FileHelper.getNameFromUri(getContext(), uriSingle);
@@ -533,6 +507,10 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
         String content = getBinding().main.etContent.getText().toString();
         if (TextUtils.isEmpty(content)) content = "  ";
         note.setContent(content);
+
+        if (getArguments() != null && getArguments().getBoolean(EXTRA_IS_THIRD_PART)) {
+            sendNoteChangeBroadcast();
+        }
     }
 
     @Override
@@ -605,7 +583,17 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
         onBack();
     }
 
+    private void sendNoteChangeBroadcast() {
+        Intent intent = new Intent();
+        intent.setAction(Constants.ACTION_NOTE_CHANGE_BROADCAST);
+        getContext().sendBroadcast(intent);
+    }
+
     private enum AttachmentPickerType {
         PREVIEW_IMAGE, CONTENT_IMAGE;
+    }
+
+    public interface OnNoteInteractListener {
+        Intent getIntentForThirdPart();
     }
 }
