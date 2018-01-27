@@ -153,7 +153,7 @@ public class MindSnaggingDialog extends DialogFragment {
         if (Constants.MIME_TYPE_AUDIO.equals(attachment.getMineType())){
             binding.siv.setImageResource(attachment.isAudioPlaying() ? R.drawable.stop : R.drawable.play);
         } else {
-            Uri thumbnailUri = FileHelper.getThumbnailUri(getContext(), attachment);
+            Uri thumbnailUri = FileHelper.getThumbnailUri(getContext(), attachment.getUri());
             Glide.with(PalmApp.getContext())
                     .load(thumbnailUri)
                     .centerCrop()

@@ -97,7 +97,7 @@ public class ImageFragment extends Fragment {
 
     private void displayMedia(PhotoView photoView) {
         Glide.with(getContext())
-                .load(FileHelper.getThumbnailUri(getContext(), attachment))
+                .load(FileHelper.getThumbnailUri(getContext(), attachment.getUri()))
                 .asBitmap()
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .thumbnail(0.5f)
@@ -119,7 +119,7 @@ public class ImageFragment extends Fragment {
      * @param imageView view to show*/
     private void displayMedia(ImageView imageView){
         Glide.with(getContext())
-                .load(FileHelper.getThumbnailUri(getContext(), attachment))
+                .load(FileHelper.getThumbnailUri(getContext(), attachment.getUri()))
                 .asBitmap()
                 .animate(R.anim.fade_in_support)
                 .into(imageView);

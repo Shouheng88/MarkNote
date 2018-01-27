@@ -52,7 +52,7 @@ public class DonateDialog extends DialogFragment {
     }
 
     private void saveDrawable() {
-        FileHelper.saveDrawable(getContext(), donateChannel == DonateChannel.AliPay ?
+        FileHelper.saveDrawableToGallery(getContext(), donateChannel == DonateChannel.AliPay ?
                 R.drawable.donate_ali_pay : R.drawable.donate_wechat, file -> {
             ToastUtils.makeToast(String.format(getString(R.string.text_file_saved_to), file.getPath()));
         });

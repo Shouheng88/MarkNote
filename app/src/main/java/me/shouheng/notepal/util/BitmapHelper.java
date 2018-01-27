@@ -19,9 +19,7 @@ package me.shouheng.notepal.util;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
-import android.net.Uri;
 import android.provider.MediaStore.Images.Thumbnails;
-import android.text.TextUtils;
 
 import org.apache.commons.io.FilenameUtils;
 
@@ -84,30 +82,5 @@ public class BitmapHelper {
 		}
 
 		return bmp;
-	}
-
-	public static Uri getThumbnailUri(Context mContext, Attachment mAttachment) {
-		Uri uri = mAttachment.getUri();
-		String mimeType = FileHelper.getMimeType(uri.toString());
-		if (!TextUtils.isEmpty(mimeType)) {
-			String type = mimeType.split("/")[0];
-			String subtype = mimeType.split("/")[1];
-			switch (type) {
-				case "image":
-				case "video":
-					// Nothing to do, bitmap will be retrieved from this
-					break;
-				case "audio":
-					uri = Uri.parse("android.resource://" + mContext.getPackageName() + "/" + R.raw.play);
-					break;
-				default:
-					int drawable = "x-vcard".equals(subtype) ? R.raw.vcard : R.raw.files;
-					uri = Uri.parse("android.resource://" + mContext.getPackageName() + "/" + drawable);
-					break;
-			}
-		} else {
-			uri = Uri.parse("android.resource://" + mContext.getPackageName() + "/" + R.raw.files);
-		}
-		return uri;
 	}
 }
