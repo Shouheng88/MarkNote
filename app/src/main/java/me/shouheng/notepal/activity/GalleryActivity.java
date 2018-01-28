@@ -6,8 +6,11 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,19 +26,22 @@ import java.util.ArrayList;
 
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.AttachmentPagerAdapter;
-import me.shouheng.notepal.databinding.ActivityGalleryBinding;
 import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.util.FileHelper;
 import me.shouheng.notepal.util.SystemUiVisibilityUtil;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.util.ViewUtils;
+import me.shouheng.notepal.widget.HackyViewPager;
 import me.shouheng.notepal.widget.tools.DepthPageTransformer;
 import ooo.oxo.library.widget.PullBackLayout;
 
-public class GalleryActivity extends CommonActivity<ActivityGalleryBinding> implements PullBackLayout.Callback {
+public class GalleryActivity extends AppCompatActivity implements PullBackLayout.Callback {
 
     private boolean fullScreenMode;
     private ColorDrawable mBackground;
+
+    private HackyViewPager mViewPager;
+    private Toolbar toolbar;
 
     public final static String EXTRA_GALLERY_IMAGES = "extra_gallery_images";
     public final static String EXTRA_GALLERY_CLICKED_IMAGE = "extra_gallery_clicked_image";
@@ -47,12 +53,10 @@ public class GalleryActivity extends CommonActivity<ActivityGalleryBinding> impl
     private String title = "";
 
     @Override
-    protected int getLayoutResId() {
-        return R.layout.activity_gallery;
-    }
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_gallery);
 
-    @Override
-    protected void doCreateView(Bundle savedInstanceState) {
         handleIntent(savedInstanceState);
 
         configToolbar();
@@ -77,14 +81,14 @@ public class GalleryActivity extends CommonActivity<ActivityGalleryBinding> impl
     }
 
     private void configToolbar() {
-        setSupportActionBar(getBinding().toolbar);
+        toolbar = findViewById(R.id.toolbar);
+        
+        setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_toolbar_shade));
-        getSupportActionBar().setTitle(title);
-        getSupportActionBar().setSubtitle(clickedImage + 1 + "/" + attachments.size());
-
-        setStatusBarColor(getResources().getColor(R.color.md_black_1000));
+        actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_toolbar_shade));
+        actionBar.setTitle(title);
+        actionBar.setSubtitle(clickedImage + 1 + "/" + attachments.size());
     }
 
     private void configViews() {
@@ -101,19 +105,20 @@ public class GalleryActivity extends CommonActivity<ActivityGalleryBinding> impl
             }
         });
 
+        mViewPager = findViewById(R.id.view_pager);
         AttachmentPagerAdapter adapter = new AttachmentPagerAdapter(getSupportFragmentManager(), attachments);
-        getBinding().viewPager.setAdapter(adapter);
-        getBinding().viewPager.setCurrentItem(clickedImage);
-        getBinding().viewPager.setPageTransformer(true, new DepthPageTransformer());
-        getBinding().viewPager.setOffscreenPageLimit(3);
-        getBinding().viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        mViewPager.setAdapter(adapter);
+        mViewPager.setCurrentItem(clickedImage);
+        mViewPager.setPageTransformer(true, new DepthPageTransformer());
+        mViewPager.setOffscreenPageLimit(3);
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
 
             @Override
             public void onPageSelected(int position) {
-                getBinding().toolbar.setSubtitle((position + 1) + "/" + attachments.size());
+                toolbar.setSubtitle((position + 1) + "/" + attachments.size());
                 invalidateOptionsMenu();
             }
 
@@ -142,7 +147,7 @@ public class GalleryActivity extends CommonActivity<ActivityGalleryBinding> impl
 
     private void hideSystemUI() {
         runOnUiThread(() -> {
-            getBinding().toolbar.animate().translationY(- getBinding().toolbar.getHeight()).setInterpolator(new AccelerateInterpolator()).setDuration(200).start();
+            toolbar.animate().translationY(- toolbar.getHeight()).setInterpolator(new AccelerateInterpolator()).setDuration(200).start();
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                     | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                     | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -155,7 +160,7 @@ public class GalleryActivity extends CommonActivity<ActivityGalleryBinding> impl
     }
 
     private void setupSystemUI() {
-        getBinding().toolbar.animate().translationY(ViewUtils.getStatusBarHeight(getResources())).setInterpolator(
+        toolbar.animate().translationY(ViewUtils.getStatusBarHeight(getResources())).setInterpolator(
                 new DecelerateInterpolator()).setDuration(0).start();
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -164,7 +169,7 @@ public class GalleryActivity extends CommonActivity<ActivityGalleryBinding> impl
 
     private void showSystemUI() {
         runOnUiThread(() -> {
-            getBinding().toolbar.animate().translationY(ViewUtils.getStatusBarHeight(getResources())).setInterpolator(
+            toolbar.animate().translationY(ViewUtils.getStatusBarHeight(getResources())).setInterpolator(
                     new DecelerateInterpolator()).setDuration(240).start();
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                     | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -199,7 +204,7 @@ public class GalleryActivity extends CommonActivity<ActivityGalleryBinding> impl
                 finish();
                 break;
             case R.id.action_share: {
-                Attachment attachment = attachments.get(getBinding().viewPager.getCurrentItem());
+                Attachment attachment = attachments.get(mViewPager.getCurrentItem());
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType(FileHelper.getMimeType(this, attachment.getUri()));
                 intent.putExtra(Intent.EXTRA_STREAM, attachment.getUri());
@@ -208,7 +213,7 @@ public class GalleryActivity extends CommonActivity<ActivityGalleryBinding> impl
             break;
             case R.id.action_open:{
                 try {
-                    Attachment attachment = attachments.get(getBinding().viewPager.getCurrentItem());
+                    Attachment attachment = attachments.get(mViewPager.getCurrentItem());
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     intent.setDataAndType(attachment.getUri(), FileHelper.getMimeType(this, attachment.getUri()));
