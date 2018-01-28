@@ -216,7 +216,7 @@ public class FileHelper {
      * @param uri the uri of attachment
      * @return the mime type of this application
      */
-    private static String getMimeTypeInternal(Context mContext, Uri uri) {
+    public static String getMimeTypeInternal(Context mContext, Uri uri) {
         String mimeType = getMimeType(mContext, uri);
         mimeType = getMimeTypeInternal(mimeType);
         return mimeType;
@@ -260,7 +260,7 @@ public class FileHelper {
      * @param uri the uri
      * @return the extension
      */
-    private static String getFileExtension(Context mContext, Uri uri) {
+    public static String getFileExtension(Context mContext, Uri uri) {
         String extension;
         if (TextUtils.isEmpty(extension = MimeTypeMap.getFileExtensionFromUrl(uri.toString()))
                 && TextUtils.isEmpty(extension = getFileExtension(getPath(mContext, uri)))) {

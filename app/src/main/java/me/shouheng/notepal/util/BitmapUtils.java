@@ -54,7 +54,8 @@ public class BitmapUtils {
                 height = (int)((float)srcBmp.getHeight() / ratio);
             }
 
-            int rotation = neededRotation(new File(uri.getPath()));
+            String path = FileHelper.getPath(mContext, uri);
+            int rotation = neededRotation(new File(path));
             if(rotation != 0) {
                 Matrix matrix = new Matrix();
                 matrix.postRotate((float)rotation);
