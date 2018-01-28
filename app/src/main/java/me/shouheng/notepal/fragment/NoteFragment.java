@@ -220,7 +220,6 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
         if (isDarkTheme()){
             getBinding().drawer.drawerToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
             getBinding().drawer.getRoot().setBackgroundColor(getResources().getColor(R.color.dark_theme_background));
-            getBinding().drawer.drawerToolbar.setBackgroundColor(getResources().getColor(R.color.dark_theme_background));
         }
 
         updateCharsInfo();
