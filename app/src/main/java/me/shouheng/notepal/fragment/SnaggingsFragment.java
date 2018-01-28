@@ -252,7 +252,7 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         menu.findItem(R.id.action_list_type).setIcon(mindSnaggingListType == MindSnaggingListType.ONE_COL ?
-                R.drawable.ic_view_stream_white_24dp : R.drawable.ic_view_module_white_24dp);
+                R.drawable.ic_view_module_white_24dp : R.drawable.ic_view_stream_white_24dp);
     }
 
     @Override
