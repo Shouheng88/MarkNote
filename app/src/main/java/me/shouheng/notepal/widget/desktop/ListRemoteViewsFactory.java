@@ -67,6 +67,7 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory, SharedPrefere
     }
 
     private List<Note> getNotes() {
+        // fixme may throw connection pool close exception
         String condition = sharedPreferences.getString(Constants.PREF_WIDGET_SQL_PREFIX + String.valueOf(appWidgetId), "");
         return NotesStore.getInstance(app).get(condition, NoteSchema.LAST_MODIFIED_TIME + " DESC ");
     }
