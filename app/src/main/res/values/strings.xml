@@ -113,7 +113,7 @@
     <string name="dialog_notice_content_part4">3.如果你发现了NotePal中存在BUG和意外崩溃，可以在<![CDATA[<b>“设置->信息反馈”</b>]]>或者<![CDATA[<b>直接邮件开发者</b>]]>进行反馈。</string>
     <string name="dialog_notice_content_part5">4.NotePal会在后续推出一些新的功能和特性，如果你喜欢该应用，可以在<![CDATA[<b>“设置->支持开发”</b>]]>中支持程序的开发。</string>
     <string name="dialog_notice_content_part6">5.另外，你也可以通过<![CDATA[<b>Google+社区、Twitter和Weibo</b>]]>获取程序开发的最新动态，并可以参与测试。</string>
-    <string name="dialog_notice_content_part7">请给予NotePal更多的耐心，我们会努力更好。\n最后，祝你使用愉快！</string>
+    <string name="dialog_notice_content_part7">请给予NotePal更多的耐心，我们会努力做得更好。\n最后，祝你使用愉快！</string>
     <!--endregion-->
 
     <!--region drawer menu-->
