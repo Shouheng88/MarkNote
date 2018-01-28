@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.LongSparseArray;
 import android.view.View;
@@ -40,7 +41,7 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
     private ListWidgetType listWidgetType;
     private LongSparseArray<Attachment> array = new LongSparseArray<>();
 
-    private final int WIDTH = 64, HEIGHT = 64;
+    private final int WIDTH = 128, HEIGHT = 128;
 
     private SharedPreferences sharedPreferences;
 
@@ -53,8 +54,8 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
     @Override
     public void onCreate() {
         LogUtils.d("Created widget " + appWidgetId);
-        listWidgetType = ListWidgetType.getListWidgetType(
-                sharedPreferences.getInt(Constants.PREF_WIDGET_TYPE_PREFIX + String.valueOf(appWidgetId), 0));
+        listWidgetType = ListWidgetType.getListWidgetType(sharedPreferences.getInt(
+                Constants.PREF_WIDGET_TYPE_PREFIX + String.valueOf(appWidgetId), ListWidgetType.NOTES_LIST.id));
         setupModels();
     }
 
@@ -68,12 +69,12 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 
     private List<Note> getNotes() {
         String condition = sharedPreferences.getString(Constants.PREF_WIDGET_SQL_PREFIX + String.valueOf(appWidgetId), "");
-        return NotesStore.getInstance(PalmApp.getContext()).get(condition, NoteSchema.LAST_MODIFIED_TIME + " DESC ");
+        return NotesStore.getInstance(app).get(condition, NoteSchema.LAST_MODIFIED_TIME + " DESC ");
     }
 
     private List<MindSnagging> getMinds() {
         String condition = sharedPreferences.getString(Constants.PREF_WIDGET_SQL_PREFIX + String.valueOf(appWidgetId), "");
-        return MindSnaggingStore.getInstance(PalmApp.getContext()).get(condition, NoteSchema.LAST_MODIFIED_TIME + " DESC ");
+        return MindSnaggingStore.getInstance(app).get(condition, NoteSchema.LAST_MODIFIED_TIME + " DESC ");
     }
 
     @Override
@@ -100,12 +101,14 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 
     @Override
     public RemoteViews getViewAt(int position) {
-        if (listWidgetType == ListWidgetType.NOTES_LIST) {
-            return getNoteViewAt(position);
-        } else if (listWidgetType == ListWidgetType.MINDS_LIST) {
-            return getMindsViewAt(position);
+        switch (listWidgetType) {
+            case MINDS_LIST:
+                return getMindsViewAt(position);
+            case NOTES_LIST:
+                return getNoteViewAt(position);
+            default:
+                return null;
         }
-        return null;
     }
 
     private RemoteViews getNoteViewAt(int position) {
@@ -127,16 +130,16 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
     }
 
     private RemoteViews getMindsViewAt(int position) {
-        RemoteViews row = new RemoteViews(app.getPackageName(), R.layout.item_universal_layout);
+        RemoteViews row = new RemoteViews(app.getPackageName(), R.layout.item_universal_layout_widget);
 
         MindSnagging mind = minds.get(position);
 
         row.setTextViewText(R.id.text_view_title, mind.getContent());
         row.setTextViewText(R.id.tv_added_time, TimeUtils.getLongDateTime(app.getApplicationContext(), mind.getAddedTime()));
 
-        Attachment attachment = getAttachment(mind);
-        if (attachment != null) {
-            Bitmap bmp = BitmapHelper.getBitmapFromAttachment(app, attachment, WIDTH, HEIGHT);
+        Uri uri = mind.getPicture();
+        if (uri != null) {
+            Bitmap bmp = BitmapHelper.getBitmap(app, uri, WIDTH, HEIGHT);
             row.setBitmap(R.id.image_view_cover, "setImageBitmap", bmp);
             row.setInt(R.id.image_view_cover, "setVisibility", View.VISIBLE);
         } else {
