@@ -243,7 +243,6 @@ public class SketchActivity extends ThemedActivity implements OnDrawChangedListe
     @Override
     public void onBackPressed() {
         onBack();
-        super.onBackPressed();
     }
 
     @Override
