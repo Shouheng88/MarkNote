@@ -292,20 +292,24 @@ public abstract class BaseStore<T extends Model> {
 
     protected T get(Cursor cursor) {
         T model = null;
-        if (cursor != null && cursor.moveToFirst()){
+        if (cursor != null && !cursor.isClosed() && cursor.moveToFirst()){
             do {
                 model = getModel(cursor);
             } while (cursor.moveToNext());
+        } else if (cursor != null && cursor.isClosed()) {
+            LogUtils.e("cursor is closed : " + cursor);
         }
         return model;
     }
 
     protected List<T> getList(Cursor cursor){
         List<T> models = new LinkedList<>();
-        if (cursor != null && cursor.moveToFirst()){
+        if (cursor != null && !cursor.isClosed() && cursor.moveToFirst()){
             do {
                 models.add(getModel(cursor));
             } while (cursor.moveToNext());
+        } else if (cursor != null && cursor.isClosed()) {
+            LogUtils.e("cursor is closed : " + cursor);
         }
         return models;
     }
