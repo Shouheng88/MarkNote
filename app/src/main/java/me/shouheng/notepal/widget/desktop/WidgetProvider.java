@@ -85,6 +85,7 @@ public abstract class WidgetProvider extends AppWidgetProvider {
         Intent intentSetting = new Intent(context, ConfigActivity.class);
         intentSetting.setAction(Constants.ACTION_CONFIG);
         intentSetting.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
+        intentSetting.putExtra(Constants.ACTION_CONFIG_SWITCH_ENABLE, false);
         return PendingIntent.getActivity(context, widgetId, intentSetting, PendingIntent.FLAG_CANCEL_CURRENT);
     }
 

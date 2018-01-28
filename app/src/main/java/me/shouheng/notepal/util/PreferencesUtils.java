@@ -29,8 +29,8 @@ public class PreferencesUtils {
         defaultFabOrders.add(FabSortItem.NOTE);
         defaultFabOrders.add(FabSortItem.NOTEBOOK);
         defaultFabOrders.add(FabSortItem.MIND_SNAGGING);
-        defaultFabOrders.add(FabSortItem.NOTICE);
         defaultFabOrders.add(FabSortItem.CAPTURE);
+        defaultFabOrders.add(FabSortItem.FILE);
     }
 
     private static PreferencesUtils sInstance;

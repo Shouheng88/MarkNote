@@ -6,10 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.LongSparseArray;
 import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService.RemoteViewsFactory;
@@ -19,27 +16,22 @@ import java.util.List;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.config.Constants;
-import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.model.MindSnagging;
 import me.shouheng.notepal.model.Note;
-import me.shouheng.notepal.model.enums.ModelType;
-import me.shouheng.notepal.provider.AttachmentsStore;
 import me.shouheng.notepal.provider.MindSnaggingStore;
 import me.shouheng.notepal.provider.NotesStore;
 import me.shouheng.notepal.provider.schema.NoteSchema;
 import me.shouheng.notepal.util.AppWidgetUtils;
-import me.shouheng.notepal.util.BitmapHelper;
 import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.TimeUtils;
 
-public class ListRemoteViewsFactory implements RemoteViewsFactory {
+public class ListRemoteViewsFactory implements RemoteViewsFactory, SharedPreferences.OnSharedPreferenceChangeListener {
 
     private PalmApp app;
     private int appWidgetId;
     private List<Note> notes;
     private List<MindSnagging> minds;
     private ListWidgetType listWidgetType;
-    private LongSparseArray<Attachment> array = new LongSparseArray<>();
 
     private final int WIDTH = 128, HEIGHT = 128;
 
@@ -47,16 +39,23 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 
     public ListRemoteViewsFactory(Application app, Intent intent) {
         this.app = (PalmApp) app;
+
         appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+
         sharedPreferences = app.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
     }
 
     @Override
     public void onCreate() {
         LogUtils.d("Created widget " + appWidgetId);
+        setupFields();
+        setupModels();
+    }
+
+    private void setupFields() {
         listWidgetType = ListWidgetType.getListWidgetType(sharedPreferences.getInt(
                 Constants.PREF_WIDGET_TYPE_PREFIX + String.valueOf(appWidgetId), ListWidgetType.NOTES_LIST.id));
-        setupModels();
     }
 
     private void setupModels() {
@@ -87,6 +86,7 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
     public void onDestroy() {
         sharedPreferences.edit().remove(Constants.PREF_WIDGET_SQL_PREFIX + String.valueOf(appWidgetId)).apply();
         sharedPreferences.edit().remove(Constants.PREF_WIDGET_TYPE_PREFIX + String.valueOf(appWidgetId)).apply();
+        sharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
     }
 
     @Override
@@ -137,14 +137,15 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
         row.setTextViewText(R.id.text_view_title, mind.getContent());
         row.setTextViewText(R.id.tv_added_time, TimeUtils.getLongDateTime(app.getApplicationContext(), mind.getAddedTime()));
 
-        Uri uri = mind.getPicture();
-        if (uri != null) {
-            Bitmap bmp = BitmapHelper.getBitmap(app, uri, WIDTH, HEIGHT);
-            row.setBitmap(R.id.image_view_cover, "setImageBitmap", bmp);
-            row.setInt(R.id.image_view_cover, "setVisibility", View.VISIBLE);
-        } else {
-            row.setInt(R.id.image_view_cover, "setVisibility", View.GONE);
-        }
+//        Uri uri = mind.getPicture();
+//        if (uri != null) {
+//            Bitmap bmp = BitmapHelper.getBitmap(app, uri, WIDTH, HEIGHT);
+//            row.setBitmap(R.id.image_view_cover, "setImageBitmap", bmp);
+//            row.setInt(R.id.image_view_cover, "setVisibility", View.VISIBLE);
+//        } else {
+        // for current version, we don't show the picture in minds list widget
+        row.setInt(R.id.image_view_cover, "setVisibility", View.GONE);
+//        }
 
         Bundle extras = new Bundle();
         extras.putParcelable(Constants.EXTRA_MODEL, mind);
@@ -153,27 +154,6 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
         row.setOnClickFillInIntent(R.id.root, fillInIntent);
 
         return row;
-    }
-
-    private Attachment getAttachment(MindSnagging mindSnagging) {
-        Attachment attach;
-        if ((attach = array.get(mindSnagging.getCode())) == null) {
-            Attachment attachment = AttachmentsStore.getInstance(PalmApp.getContext()).getAttachment(ModelType.MIND_SNAGGING, mindSnagging.getCode());
-            if (attachment == null) {
-                attachment = new Attachment();
-                attachment.setFake(true);
-                array.put(mindSnagging.getCode(), attachment);
-                return null;
-            }
-            array.put(mindSnagging.getCode(), attachment);
-            return attachment;
-        } else {
-            if (attach.isFake()) {
-                return null;
-            } else {
-                return attach;
-            }
-        }
     }
 
     @Override
@@ -208,5 +188,10 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
         editor.putInt(Constants.PREF_WIDGET_TYPE_PREFIX + String.valueOf(mAppWidgetId), listWidgetType.id).apply();
 
         AppWidgetUtils.notifyAppWidgets(mContext);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+        setupFields();
     }
 }

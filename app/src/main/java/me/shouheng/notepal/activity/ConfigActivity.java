@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import me.shouheng.notepal.R;
+import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.databinding.ActivityWidgetConfigurationBinding;
 import me.shouheng.notepal.dialog.NotebookPickerDialog;
 import me.shouheng.notepal.model.Notebook;
@@ -52,6 +53,15 @@ public class ConfigActivity extends AppCompatActivity {
                     LogUtils.e("Wrong element choosen: " + checkedId);
             }
         });
+
+        /**
+         * set whether enable the function of switching list type. We don't let the user switch the list type. */
+        if (getIntent().hasExtra(Constants.ACTION_CONFIG_SWITCH_ENABLE)
+                && !getIntent().getBooleanExtra(Constants.ACTION_CONFIG_SWITCH_ENABLE, false)) {
+            getBinding().widgetConfigRadiogroup.setEnabled(false);
+            getBinding().widgetConfigMinds.setEnabled(false);
+            getBinding().widgetConfigNotes.setEnabled(false);
+        }
 
         getBinding().llFolder.setOnClickListener(view -> showNotebookPicker());
 
