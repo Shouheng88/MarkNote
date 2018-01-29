@@ -11,12 +11,14 @@ import java.util.LinkedList;
 import java.util.List;
 
 import me.shouheng.notepal.model.Model;
+import me.shouheng.notepal.model.TimeLine;
 import me.shouheng.notepal.model.enums.Operation;
 import me.shouheng.notepal.model.enums.Status;
 import me.shouheng.notepal.provider.annotation.Table;
 import me.shouheng.notepal.provider.helper.StoreHelper;
 import me.shouheng.notepal.provider.helper.TimelineHelper;
 import me.shouheng.notepal.provider.schema.BaseSchema;
+import me.shouheng.notepal.provider.schema.TimelineSchema;
 import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.UserUtil;
 
@@ -205,6 +207,25 @@ public abstract class BaseStore<T extends Model> {
             closeDatabase(database);
         }
         return count == 0;
+    }
+
+    public synchronized List<T> getPage(int index, int pageCount, String orderSQL, Status status, boolean exclude) {
+        Cursor cursor = null;
+        List<T> models;
+        final SQLiteDatabase database = getWritableDatabase();
+        try {
+            cursor = database.rawQuery(" SELECT * FROM " + tableName
+                            + " WHERE " + BaseSchema.USER_ID + " = ? "
+                            + (status == null ? "" : " AND " + BaseSchema.STATUS + (exclude ? " != " : " = ") + status.id)
+                            + (TextUtils.isEmpty(orderSQL) ? "" : " ORDER BY " + orderSQL)
+                            + " LIMIT ?, ? ",
+                    new String[]{String.valueOf(userId), String.valueOf(index), String.valueOf(pageCount)});
+            models = getList(cursor);
+        } finally {
+            closeCursor(cursor);
+            closeDatabase(database);
+        }
+        return models;
     }
 
 
