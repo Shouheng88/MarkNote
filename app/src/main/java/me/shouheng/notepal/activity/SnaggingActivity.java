@@ -24,6 +24,7 @@ import me.shouheng.notepal.provider.AttachmentsStore;
 import me.shouheng.notepal.provider.MindSnaggingStore;
 import me.shouheng.notepal.util.AppWidgetUtils;
 import me.shouheng.notepal.util.AttachmentHelper;
+import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.ToastUtils;
 
 public class SnaggingActivity extends BaseActivity implements OnAttachingFileListener {
@@ -33,14 +34,19 @@ public class SnaggingActivity extends BaseActivity implements OnAttachingFileLis
 
     private void handleIntent(Intent intent) {
         String action = intent.getAction();
+        LogUtils.d("action:" + action);
 
-        if (TextUtils.isEmpty(action)) finish();
+        if (TextUtils.isEmpty(action)) {
+            finish();
+            return;
+        }
 
         switch (action) {
             case Constants.ACTION_WIDGET_LIST:
                 Model model;
                 if (intent.hasExtra(Constants.EXTRA_MODEL) && (model = (Model) intent.getSerializableExtra(Constants.EXTRA_MODEL)) != null) {
                     if (model instanceof MindSnagging) {
+                        LogUtils.d(model);
                         editMindSnagging((MindSnagging) model);
                     }
                 }
