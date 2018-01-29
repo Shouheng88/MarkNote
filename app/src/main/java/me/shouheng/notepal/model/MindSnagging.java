@@ -4,6 +4,9 @@ import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Date;
+
+import me.shouheng.notepal.model.enums.Status;
 import me.shouheng.notepal.provider.annotation.Column;
 import me.shouheng.notepal.provider.annotation.Table;
 
@@ -21,6 +24,14 @@ public class MindSnagging extends Model implements Parcelable {
     public MindSnagging() {}
 
     protected MindSnagging(Parcel in) {
+        setId(in.readLong());
+        setCode(in.readLong());
+        setUserId(in.readLong());
+        setAddedTime(new Date(in.readLong()));
+        setLastModifiedTime(new Date(in.readLong()));
+        setLastSyncTime(new Date(in.readLong()));
+        setStatus(Status.getStatusById(in.readInt()));
+
         content = in.readString();
         picture = Uri.parse(in.readString());
     }
@@ -68,6 +79,14 @@ public class MindSnagging extends Model implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeLong(getId());
+        parcel.writeLong(getCode());
+        parcel.writeLong(getUserId());
+        parcel.writeLong(getAddedTime().getTime());
+        parcel.writeLong(getLastModifiedTime().getTime());
+        parcel.writeLong(getLastSyncTime().getTime());
+        parcel.writeInt(getStatus().id);
+
         parcel.writeString(content);
         parcel.writeString(getPicture() == null ? "" : getPicture().toString());
     }
