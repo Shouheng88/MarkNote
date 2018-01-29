@@ -36,6 +36,7 @@ import me.shouheng.notepal.provider.MindSnaggingStore;
 import me.shouheng.notepal.provider.schema.MindSnaggingSchema;
 import me.shouheng.notepal.util.AppWidgetUtils;
 import me.shouheng.notepal.util.AttachmentHelper;
+import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.util.ViewUtils;
@@ -61,6 +62,13 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
     private MindSnaggingListType mindSnaggingListType;
 
     private PreferencesUtils preferencesUtils;
+
+    private int modelsCount, pageNumber = 20, startIndex = 0;
+    private boolean isLoadingMore = false;
+
+    private Status status;
+
+    private MindSnaggingStore store;
 
     public static SnaggingsFragment newInstance() {
         Bundle args = new Bundle();
@@ -178,19 +186,51 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
     // endregion
 
     private void configForOneCol() {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+
         getBinding().rv.addItemDecoration(new DividerItemDecoration(getContext(),
                 DividerItemDecoration.VERTICAL_LIST, isDarkTheme()));
-        getBinding().rv.setLayoutManager(new LinearLayoutManager(getContext()));
+        getBinding().rv.setLayoutManager(layoutManager);
         getBinding().fastscroller.setRecyclerView(getBinding().rv);
+
+        getBinding().rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int lastVisibleItem = layoutManager.findLastVisibleItemPosition();
+                int totalItemCount = layoutManager.getItemCount();
+                if (lastVisibleItem + 1 == totalItemCount && dy > 0) {
+                    if (!isLoadingMore) {
+                        recyclerView.post(() -> loadMoreData());
+                    }
+                }
+            }
+        });
     }
 
     private void configForTwoCols() {
-        int dp4 = ViewUtils.dp2Px(getContext(), 4);
-        getBinding().rv.setLayoutManager(new StaggeredGridLayoutManager(
+        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(
                 ViewUtils.getScreenOrientation(getContext()) == Configuration.ORIENTATION_LANDSCAPE ? 3 : 2,
-                StaggeredGridLayoutManager.VERTICAL));
+                StaggeredGridLayoutManager.VERTICAL);
+
+        int dp4 = ViewUtils.dp2Px(getContext(), 4);
+        getBinding().rv.setLayoutManager(layoutManager);
         getBinding().rv.addItemDecoration(new SpaceItemDecoration(dp4, dp4, dp4, dp4));
         getBinding().fastscroller.setVisibility(View.GONE);
+
+        getBinding().rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int lastVisibleItem = layoutManager.findLastVisibleItemPositions(null)[0];
+                int totalItemCount = layoutManager.getItemCount();
+                if (totalItemCount - lastVisibleItem < 10 && dy > 0) {
+                    if (!isLoadingMore) {
+                        recyclerView.post(() -> loadMoreData());
+                    }
+                }
+            }
+        });
     }
 
     private void showEditor(int position) {
@@ -207,16 +247,42 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
     }
 
     private List<MindSnagging> getSnaggings() {
-        MindSnaggingStore store = MindSnaggingStore.getInstance(getContext());
-        if (getArguments() == null || !getArguments().containsKey(ARG_STATUS)) {
-            return store.get(null, MindSnaggingSchema.ADDED_TIME + " DESC ");
+        status = getArguments() == null || !getArguments().containsKey(ARG_STATUS) ? Status.NORMAL : (Status) getArguments().get(ARG_STATUS);
+        String orderSQL = MindSnaggingSchema.ADDED_TIME + " DESC ";
+
+        store = MindSnaggingStore.getInstance(getContext());
+
+        modelsCount = store.getCount(null, status, false);
+        List<MindSnagging> snaggingList;
+        if (modelsCount <= pageNumber) { // per page count > total cont -> LOAD ALL
+            snaggingList = store.get(null, orderSQL, status, false);
+        } else { // load first page
+            snaggingList = store.getPage(startIndex, pageNumber, orderSQL, status, false);
         }
-        Status status = (Status) getArguments().get(ARG_STATUS);
-        return status == Status.ARCHIVED ?
-                store.getArchived(null, MindSnaggingSchema.ADDED_TIME + " DESC ") :
-                status == Status.TRASHED ?
-                        store.getTrashed(null, MindSnaggingSchema.ADDED_TIME + " DESC ") :
-                        store.get(null, MindSnaggingSchema.ADDED_TIME + " DESC ");
+
+        return snaggingList;
+    }
+
+    private void loadMoreData() {
+        LogUtils.d("startIndex:" + startIndex);
+        isLoadingMore = true;
+        // 初始位置移动20
+        startIndex += pageNumber;
+        List<MindSnagging> timeLines;
+        if (startIndex > modelsCount) {
+            // 初始位置大于总数，说明没有更多数据了
+            ToastUtils.makeToast(getContext(), R.string.no_more_data);
+            isLoadingMore = false;
+            startIndex -= pageNumber;
+            return;
+        } else if (startIndex + pageNumber > modelsCount) { // 如果将要加载的总数超出了数目总数
+            timeLines = store.getPage(startIndex, startIndex + pageNumber - modelsCount, MindSnaggingSchema.ADDED_TIME + " DESC ", Status.NORMAL, false);
+        } else {
+            timeLines = store.getPage(startIndex, pageNumber, MindSnaggingSchema.ADDED_TIME + " DESC ", Status.NORMAL, false);
+        }
+        adapter.addData(timeLines);
+        adapter.notifyDataSetChanged();
+        isLoadingMore = false;
     }
 
     public void addSnagging(MindSnagging snagging) {

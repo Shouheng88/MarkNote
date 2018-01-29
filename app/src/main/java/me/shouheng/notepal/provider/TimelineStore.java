@@ -5,12 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import java.util.List;
-
 import me.shouheng.notepal.model.TimeLine;
 import me.shouheng.notepal.model.enums.ModelType;
 import me.shouheng.notepal.model.enums.Operation;
-import me.shouheng.notepal.model.enums.Status;
 import me.shouheng.notepal.provider.schema.TimelineSchema;
 
 
@@ -57,24 +54,5 @@ public class TimelineStore extends BaseStore<TimeLine> {
         values.put(TimelineSchema.MODEL_CODE, model.getModelCode());
         values.put(TimelineSchema.MODEL_NAME, model.getModelName());
         values.put(TimelineSchema.MODEL_TYPE, model.getModelType().id);
-    }
-
-    public synchronized List<TimeLine> getPageTimeLines(int index, int pageCount) {
-        Cursor cursor = null;
-        List<TimeLine> models;
-        final SQLiteDatabase database = getWritableDatabase();
-        try {
-            cursor = database.rawQuery(" SELECT * FROM " + tableName
-                    + " WHERE " + TimelineSchema.USER_ID + " = ? "
-                    + " AND " + TimelineSchema.STATUS + " = " + Status.NORMAL.id
-                    + " ORDER BY " + TimelineSchema.ADDED_TIME + " DESC "
-                    + " LIMIT ?, ? ",
-                    new String[]{String.valueOf(userId), String.valueOf(index), String.valueOf(pageCount)});
-            models = getList(cursor);
-        } finally {
-            closeCursor(cursor);
-            closeDatabase(database);
-        }
-        return models;
     }
 }
