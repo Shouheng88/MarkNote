@@ -37,6 +37,7 @@ import me.shouheng.notepal.provider.schema.MindSnaggingSchema;
 import me.shouheng.notepal.util.AppWidgetUtils;
 import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.util.LogUtils;
+import me.shouheng.notepal.util.ModelHelper;
 import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.util.ViewUtils;
@@ -138,8 +139,12 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
         popupM.inflate(R.menu.pop_menu);
         configPopMenu(popupM);
         popupM.getMenu().findItem(R.id.action_move).setVisible(false);
+        popupM.getMenu().findItem(R.id.action_share).setVisible(true);
         popupM.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()){
+                case R.id.action_share:
+                    ModelHelper.share(getContext(), adapter.getItem(position));
+                    break;
                 case R.id.action_trash:
                     MindSnaggingStore.getInstance(getContext()).update(adapter.getItem(position), Status.TRASHED);
                     adapter.remove(position);
