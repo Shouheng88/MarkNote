@@ -21,6 +21,7 @@ import java.util.Map;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.model.Attachment;
+import me.shouheng.notepal.model.MindSnagging;
 import me.shouheng.notepal.model.Model;
 import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.widget.FlowLayout;
@@ -68,6 +69,19 @@ public class ModelHelper {
 
         context.startActivity(Intent.createChooser(shareIntent,
                 context.getResources().getString(R.string.share_message_chooser)));
+    }
+
+    public static void share(Context context, MindSnagging mindSnagging) {
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, mindSnagging.getContent());
+
+        if (mindSnagging.getPicture() != null) {
+            shareIntent.setType(FileHelper.getMimeTypeInternal(context, mindSnagging.getPicture()));
+            shareIntent.putExtra(Intent.EXTRA_STREAM, mindSnagging.getPicture());
+        }
+
+        context.startActivity(Intent.createChooser(shareIntent, context.getResources().getString(R.string.share_message_chooser)));
     }
 
     public static <T extends Model> void copyLink(Activity ctx, T model) {
