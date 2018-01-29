@@ -4,7 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v7.app.AlertDialog;
 import android.text.ClipboardManager;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,6 +22,8 @@ import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.model.Model;
+import me.shouheng.notepal.model.Note;
+import me.shouheng.notepal.widget.FlowLayout;
 
 /**
  * Created by wangshouheng on 2017/11/4.*/
@@ -69,5 +78,45 @@ public class ModelHelper {
 
         ClipboardManager clipboardManager = (ClipboardManager) ctx.getSystemService(Context.CLIPBOARD_SERVICE);
         clipboardManager.setText(null);
+    }
+
+    // todo setup the statistic dialog
+    public static void showStatisticDialog(Context context, Note note) {
+        new AlertDialog.Builder(context)
+                .setPositiveButton(R.string.text_confirm, null)
+                .create()
+                .show();
+    }
+
+    public static void showLabels(Context context, Note note) {
+        View root = LayoutInflater.from(context).inflate(R.layout.dialog_tags, null, false);
+        FlowLayout flowLayout = root.findViewById(R.id.fl_labels);
+        addTagsToLayout(context, flowLayout, note.getTags());
+        new AlertDialog.Builder(context)
+                .setTitle(R.string.text_labels)
+                .setView(root)
+                .setPositiveButton(R.string.text_confirm, null)
+                .create()
+                .show();
+    }
+
+    private static void addTagsToLayout(Context context, FlowLayout flowLayout, String stringTags){
+        if (TextUtils.isEmpty(stringTags)) return;
+        String[] tags = stringTags.split(";");
+        for (String tag : tags) addTagToLayout(context, flowLayout, tag);
+    }
+
+    private static  void addTagToLayout(Context context, FlowLayout flowLayout, String tag){
+        int margin = ViewUtils.dp2Px(context, 2f);
+        int padding = ViewUtils.dp2Px(context, 5f);
+        TextView tvLabel = new TextView(context);
+        tvLabel.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        ViewGroup.MarginLayoutParams params = new ViewGroup.MarginLayoutParams(tvLabel.getLayoutParams());
+        params.setMargins(margin, margin, margin, margin);
+        tvLabel.setLayoutParams(params);
+        tvLabel.setPadding(padding, 0, padding, 0);
+        tvLabel.setBackgroundResource(R.drawable.label_background);
+        tvLabel.setText(tag);
+        flowLayout.addView(tvLabel);
     }
 }

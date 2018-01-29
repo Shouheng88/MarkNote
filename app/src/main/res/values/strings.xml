@@ -6,6 +6,7 @@
     <string name="text_add_to_home_screen">添加到手机主屏</string>
     <string name="text_about">关于</string>
     <string name="text_accept">接受</string>
+    <string name="text_labels">标签</string>
     <string name="text_add_labels">添加标签</string>
     <string name="text_add_location">添加位置</string>
     <string name="text_clear">清除</string>
@@ -40,7 +41,7 @@
     <string name="text_more">更多</string>
     <string name="text_pick">选择</string>
     <string name="text_preview">预览</string>
-    <string name="text_print">打印</string>
+    <string name="text_print_pdf">打印PDF</string>
     <string name="text_reset">重置</string>
     <string name="text_send">发送</string>
     <string name="text_settings">设置</string>
@@ -58,6 +59,9 @@
     <string name="text_trying_to_get_location">正在尝试获取位置信息&#8230;</string>
     <string name="text_undo">撤销</string>
     <string name="text_warning">警告</string>
+    <string name="text_location_info">位置信息</string>
+    <string name="text_no_location_info">没有找到位置信息</string>
+    <string name="text_show_location">显示位置信息</string>
     <string name="failed_to_get_location">获取位置信息失败</string>
     <string name="trying_to_get_location">正在尝试获取位置信息&#8230;</string>
     <string name="content_was_copied_to_clipboard">内容已复制到粘贴板</string>

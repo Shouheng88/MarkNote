@@ -15,6 +15,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -28,15 +30,18 @@ import me.shouheng.notepal.activity.ContentActivity;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.databinding.FragmentNoteViewBinding;
 import me.shouheng.notepal.model.Attachment;
+import me.shouheng.notepal.model.Location;
 import me.shouheng.notepal.model.ModelFactory;
 import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.provider.AttachmentsStore;
+import me.shouheng.notepal.provider.LocationsStore;
 import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.IntentUtils;
 import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.ModelHelper;
 import me.shouheng.notepal.util.PrintUtils;
+import me.shouheng.notepal.util.ShortcutHelper;
 import me.shouheng.notepal.util.ToastUtils;
 import my.shouheng.palmmarkdown.dialog.OpenResolver;
 
@@ -220,8 +225,43 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
             case R.id.font_serif:
                 getBinding().mdView.getSettings().setSerifFontFamily("sans-serif");
                 break;
+            case R.id.action_labs:
+                ModelHelper.showLabels(getContext(), note);
+                break;
+            case R.id.action_location:
+                showLocation();
+                break;
+            case R.id.action_copy_link:
+                ModelHelper.copyLink(getActivity(), note);
+                break;
+            case R.id.action_copy_content:
+                ModelHelper.copyToClipboard(getActivity(), content);
+                ToastUtils.makeToast(getContext(), R.string.content_was_copied_to_clipboard);
+                break;
+            case R.id.action_add_shortcut:
+                ShortcutHelper.addShortcut(getActivity().getApplicationContext(), note);
+                ToastUtils.makeToast(getContext(), R.string.successfully_add_shortcut);
+                break;
+            case R.id.action_statistic:
+                ModelHelper.showStatisticDialog(getContext(), note);
+                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showLocation() {
+        Location location = LocationsStore.getInstance(getContext()).getLocation(note);
+        if (location == null) {
+            ToastUtils.makeToast(R.string.text_no_location_info);
+            return;
+        }
+        String strLocation = location.getCountry() + "|" + location.getProvince() + "|" + location.getCity() + "|" + location.getDistrict();
+        new MaterialDialog.Builder(getContext())
+                .title(R.string.text_location_info)
+                .positiveText(R.string.text_confirm)
+                .content(strLocation)
+                .build()
+                .show();
     }
 
     private void initSearchView(SearchView searchView) {
