@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import me.shouheng.notepal.model.TimeLine;
@@ -62,7 +61,7 @@ public class TimelineStore extends BaseStore<TimeLine> {
 
     public synchronized List<TimeLine> getPageTimeLines(int index, int pageCount) {
         Cursor cursor = null;
-        List<TimeLine> models = new ArrayList<>();
+        List<TimeLine> models;
         final SQLiteDatabase database = getWritableDatabase();
         try {
             cursor = database.rawQuery(" SELECT * FROM " + tableName

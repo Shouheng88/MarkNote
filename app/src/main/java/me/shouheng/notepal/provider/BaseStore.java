@@ -63,7 +63,7 @@ public abstract class BaseStore<T extends Model> {
 
     protected void closeDatabase(SQLiteDatabase database) {}
 
-    protected void closeCursor(Cursor cursor) {
+    protected synchronized void closeCursor(Cursor cursor) {
         if (cursor == null || cursor.isClosed()) return;
         try {
             cursor.close();
@@ -284,13 +284,13 @@ public abstract class BaseStore<T extends Model> {
     }
 
 
-    protected ContentValues getContentValues(T model){
+    protected synchronized ContentValues getContentValues(T model){
         ContentValues values = StoreHelper.getBaseContentValues(model);
         fillContentValues(values, model);
         return values;
     }
 
-    protected T get(Cursor cursor) {
+    protected synchronized T get(Cursor cursor) {
         T model = null;
         if (cursor != null && !cursor.isClosed() && cursor.moveToFirst()){
             do {
@@ -302,7 +302,7 @@ public abstract class BaseStore<T extends Model> {
         return model;
     }
 
-    protected List<T> getList(Cursor cursor){
+    protected synchronized List<T> getList(Cursor cursor){
         List<T> models = new LinkedList<>();
         if (cursor != null && !cursor.isClosed() && cursor.moveToFirst()){
             do {
