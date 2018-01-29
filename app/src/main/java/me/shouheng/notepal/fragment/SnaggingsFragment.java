@@ -270,8 +270,6 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
         startIndex += pageNumber;
         List<MindSnagging> timeLines;
         if (startIndex > modelsCount) {
-            // 初始位置大于总数，说明没有更多数据了
-            ToastUtils.makeToast(getContext(), R.string.no_more_data);
             isLoadingMore = false;
             startIndex -= pageNumber;
             return;
