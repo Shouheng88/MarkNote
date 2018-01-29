@@ -35,6 +35,30 @@
         </menu>
     </item>
 
+    <item android:id="@+id/action_labs"
+        android:title="@string/text_labels"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/action_location"
+        android:title="@string/text_show_location"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/action_copy_link"
+        android:title="@string/text_copy_link"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/action_copy_content"
+        android:title="@string/text_copy_text"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/action_add_shortcut"
+        android:title="@string/text_add_to_home_screen"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/action_statistic"
+        android:title="@string/text_statistic"
+        app:showAsAction="never"/>
+
     <item android:id="@+id/action_share"
         android:title="@string/text_share"
         app:showAsAction="never"/>
@@ -44,7 +68,7 @@
         android:id="@+id/capture"/>
 
     <item app:showAsAction="never"
-        android:title="@string/text_print"
+        android:title="@string/text_print_pdf"
         android:id="@+id/print"/>
 
 </menu>
