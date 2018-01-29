@@ -9,6 +9,7 @@ import org.polaric.colorful.BaseActivity;
 
 import java.util.Arrays;
 
+import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.dialog.AttachmentPickerDialog;
@@ -25,12 +26,15 @@ import me.shouheng.notepal.provider.MindSnaggingStore;
 import me.shouheng.notepal.util.AppWidgetUtils;
 import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.util.LogUtils;
+import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.ToastUtils;
 
 public class SnaggingActivity extends BaseActivity implements OnAttachingFileListener {
 
     private MindSnaggingDialog mindSnaggingDialog;
     private AttachmentPickerDialog attachmentPickerDialog;
+
+    private final int REQUEST_PASSWORD = 0x0016;
 
     private void handleIntent(Intent intent) {
         String action = intent.getAction();
@@ -118,7 +122,15 @@ public class SnaggingActivity extends BaseActivity implements OnAttachingFileLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        handleIntent(getIntent());
+        checkPassword();
+    }
+
+    private void checkPassword() {
+        if (PreferencesUtils.getInstance(this).isPasswordRequired() && !PalmApp.isPasswordChecked()) {
+            LockActivity.requireLaunch(this, REQUEST_PASSWORD);
+        } else {
+            handleIntent(getIntent());
+        }
     }
 
     @Override
@@ -129,6 +141,13 @@ public class SnaggingActivity extends BaseActivity implements OnAttachingFileLis
                 resultCode,
                 data,
                 attachment -> mindSnaggingDialog.setAttachment(attachment));
+        switch (requestCode) {
+            case REQUEST_PASSWORD:
+                if (resultCode == RESULT_OK) {
+                    handleIntent(getIntent());
+                }
+                break;
+        }
     }
 
     @Override
