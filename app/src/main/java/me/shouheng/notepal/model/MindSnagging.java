@@ -18,9 +18,6 @@ public class MindSnagging extends Model implements Parcelable {
     @Column(name = "picture")
     private Uri picture;
 
-    // todo add mime type
-
-
     public MindSnagging() {}
 
     protected MindSnagging(Parcel in) {
