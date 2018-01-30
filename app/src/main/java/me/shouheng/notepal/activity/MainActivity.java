@@ -347,10 +347,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
 
         ToastUtils.makeToast(this, R.string.text_save_successfully);
 
-        Fragment fragment = getCurrentFragment();
-        if (fragment instanceof SnaggingsFragment) {
-            ((SnaggingsFragment) fragment).addSnagging(mindSnagging);
-        }
+        if (isSnaggingFragment()) ((SnaggingsFragment) getCurrentFragment()).addSnagging(mindSnagging);
     }
 
     private void showAttachmentPicker() {
@@ -434,6 +431,10 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         return getCurrentFragment() instanceof NotesFragment;
     }
 
+    private boolean isSnaggingFragment() {
+        return getCurrentFragment() instanceof SnaggingsFragment;
+    }
+
     private boolean isDashboard() {
         Fragment currentFragment = getCurrentFragment();
         return currentFragment instanceof NotesFragment || currentFragment instanceof SnaggingsFragment;
@@ -494,12 +495,19 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                 }
                 break;
             case REQUEST_TRASH:
-                // TODO update list
+                if (resultCode == RESULT_OK) {
+                    updateListIfNecessary();
+                }
                 break;
-            case REQUEST_ARCHIVE:
-                // TODO update list
+            case REQUEST_ARCHIVE: // todo update event
+                if (resultCode == RESULT_OK) {
+                    updateListIfNecessary();
+                }
                 break;
             case REQUEST_SEARCH:
+                if (resultCode == RESULT_OK) {
+                    updateListIfNecessary();
+                }
                 break;
             case REQUEST_PASSWORD:
                 if (resultCode == RESULT_OK) {
@@ -508,6 +516,15 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                 break;
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void updateListIfNecessary() {
+        if (isNotesFragment()) {
+            ((NotesFragment) getCurrentFragment()).reload();
+        }
+        if (isSnaggingFragment()) {
+            ((SnaggingsFragment) getCurrentFragment()).reload();
+        }
     }
 
     private void handleAttachmentResult(int requestCode, int resultCode, Intent data) {
