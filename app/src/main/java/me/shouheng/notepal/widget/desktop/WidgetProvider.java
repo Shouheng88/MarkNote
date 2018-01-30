@@ -46,6 +46,7 @@ public abstract class WidgetProvider extends AppWidgetProvider {
         map.put(R.id.iv_add_note, pendingIntentAddNote(context, widgetId));
         map.put(R.id.iv_add_mind, pendingIntentAddMind(context, widgetId));
         map.put(R.id.iv_add_photo, pendingIntentAddPhoto(context, widgetId));
+        map.put(R.id.iv_add_sketch, pendingIntentAddSketch(context, widgetId));
         map.put(R.id.iv_setting, pendingIntentSetting(context, widgetId));
 
         RemoteViews views = getRemoteViews(context, widgetId, isSmall, isSingleLine, map);
@@ -63,6 +64,13 @@ public abstract class WidgetProvider extends AppWidgetProvider {
     private PendingIntent pendingIntentAddPhoto(Context context, int widgetId) {
         Intent intentAddPhoto = new Intent(context, MainActivity.class);
         intentAddPhoto.setAction(Constants.ACTION_TAKE_PHOTO);
+        intentAddPhoto.putExtra(Constants.INTENT_WIDGET, widgetId);
+        return PendingIntent.getActivity(context, widgetId, intentAddPhoto, PendingIntent.FLAG_CANCEL_CURRENT);
+    }
+
+    private PendingIntent pendingIntentAddSketch(Context context, int widgetId) {
+        Intent intentAddPhoto = new Intent(context, MainActivity.class);
+        intentAddPhoto.setAction(Constants.ACTION_ADD_SKETCH);
         intentAddPhoto.putExtra(Constants.INTENT_WIDGET, widgetId);
         return PendingIntent.getActivity(context, widgetId, intentAddPhoto, PendingIntent.FLAG_CANCEL_CURRENT);
     }
