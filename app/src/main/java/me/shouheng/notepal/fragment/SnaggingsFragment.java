@@ -112,6 +112,10 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
 
         mindSnaggingListType = preferencesUtils.getMindSnaggingListType();
 
+        store = MindSnaggingStore.getInstance(getContext());
+        status = getArguments() == null || !getArguments().containsKey(ARG_STATUS) ? Status.NORMAL : (Status) getArguments().get(ARG_STATUS);
+        modelsCount = store.getCount(null, status, false);
+
         adapter = new MindSnaggingAdapter(getContext(), mindSnaggingListType, getSnaggings());
         adapter.setOnItemClickListener((adapter1, view, position) -> showEditor(position));
         adapter.setOnItemChildClickListener((adapter, view, position) -> {
@@ -238,6 +242,11 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
         });
     }
 
+    public void reload() {
+        AppWidgetUtils.notifyAppWidgets(getContext());
+        adapter.setNewData(getSnaggings());
+    }
+
     private void showEditor(int position) {
         mindSnaggingDialog = new MindSnaggingDialog.Builder()
                 .setOnAttachmentClickListener(attachment -> AttachmentHelper.resolveClickEvent(getContext(), attachment, Arrays.asList(attachment), ""))
@@ -252,12 +261,10 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
     }
 
     private List<MindSnagging> getSnaggings() {
-        status = getArguments() == null || !getArguments().containsKey(ARG_STATUS) ? Status.NORMAL : (Status) getArguments().get(ARG_STATUS);
+        startIndex = 0;
+
         String orderSQL = MindSnaggingSchema.ADDED_TIME + " DESC ";
 
-        store = MindSnaggingStore.getInstance(getContext());
-
-        modelsCount = store.getCount(null, status, false);
         List<MindSnagging> snaggingList;
         if (modelsCount <= pageNumber) { // per page count > total cont -> LOAD ALL
             snaggingList = store.get(null, orderSQL, status, false);
