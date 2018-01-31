@@ -167,7 +167,10 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                 // do nothing just open the app.
                 break;
             case Constants.ACTION_TAKE_PHOTO:
-                // TODO add photo and select the model to attach to
+                ContentActivity.startAction(this, Constants.ACTION_TAKE_PHOTO, 0);
+                break;
+            case Constants.ACTION_ADD_SKETCH:
+                ContentActivity.startAction(this, Constants.ACTION_ADD_SKETCH, 0);
                 break;
             case Intent.ACTION_SEND:
             case Intent.ACTION_SEND_MULTIPLE:
@@ -270,6 +273,15 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                 break;
             case MIND_SNAGGING:
                 editMindSnagging(ModelFactory.getMindSnagging(this));
+                break;
+            case DRAFT:
+                ContentActivity.startAction(this, Constants.ACTION_ADD_SKETCH, 0);
+                break;
+            case FILE:
+                ContentActivity.startAction(this, Constants.ACTION_ADD_FILES, 0);
+                break;
+            case CAPTURE:
+                ContentActivity.startAction(this, Constants.ACTION_TAKE_PHOTO, 0);
                 break;
         }
     }

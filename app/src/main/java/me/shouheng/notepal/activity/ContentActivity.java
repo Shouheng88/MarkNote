@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
@@ -54,6 +56,16 @@ public class ContentActivity extends CommonActivity<ActivityContentBinding> impl
         i.setClass(activity, ContentActivity.class);
         i.putExtra(Constants.EXTRA_IS_GOOGLE_NOW, Constants.INTENT_GOOGLE_NOW.equals(i.getAction()));
         i.setAction(Constants.ACTION_TO_NOTE_FROM_THIRD_PART);
+        i.putExtra(Constants.EXTRA_FRAGMENT, Constants.VALUE_FRAGMENT_NOTE);
+        i.putExtra(Constants.EXTRA_REQUEST_CODE, requestCode);
+        i.putExtra(Constants.EXTRA_START_TYPE, Constants.VALUE_START_EDIT);
+        activity.startActivity(i);
+    }
+
+    public static void startAction(Activity activity, String action, @Nullable Integer requestCode) {
+        Intent i = new Intent(activity, ContentActivity.class);
+        i.setAction(action);
+        i.putExtra(Constants.EXTRA_MODEL, (Parcelable) ModelFactory.getNote(activity));
         i.putExtra(Constants.EXTRA_FRAGMENT, Constants.VALUE_FRAGMENT_NOTE);
         i.putExtra(Constants.EXTRA_REQUEST_CODE, requestCode);
         i.putExtra(Constants.EXTRA_START_TYPE, Constants.VALUE_START_EDIT);
@@ -132,23 +144,17 @@ public class ContentActivity extends CommonActivity<ActivityContentBinding> impl
                 return;
             }
             Note note = (Note) intent.getSerializableExtra(Constants.EXTRA_MODEL);
-            int position = intent.getIntExtra(Constants.EXTRA_POSITION, -1);
             int requestCode = intent.getIntExtra(Constants.EXTRA_REQUEST_CODE, -1);
-            toNoteFragment(note,
-                    position == -1 ? null : position,
-                    requestCode == -1 ? null : requestCode,
-                    Constants.VALUE_START_EDIT.equals(intent.getStringExtra(Constants.EXTRA_START_TYPE)), false);
+            boolean isEdit = Constants.VALUE_START_EDIT.equals(intent.getStringExtra(Constants.EXTRA_START_TYPE));
+            toNoteFragment(note, requestCode == -1 ? null : requestCode, isEdit, false);
         } else if (Constants.ACTION_TO_NOTE_FROM_THIRD_PART.equals(intent.getAction())) {
-            toNoteFragment(ModelFactory.getNote(this),
-                    null,
-                    null,
-                    Constants.VALUE_START_EDIT.equals(intent.getStringExtra(Constants.EXTRA_START_TYPE)), true);
+            boolean isEdit = Constants.VALUE_START_EDIT.equals(intent.getStringExtra(Constants.EXTRA_START_TYPE));
+            toNoteFragment(ModelFactory.getNote(this), null, isEdit, true);
         }
 
         // The case below mainly used for the intent from shortcut
         if (intent.hasExtra(Constants.EXTRA_CODE)) {
             long code = intent.getLongExtra(Constants.EXTRA_CODE, -1);
-            int position = intent.getIntExtra(Constants.EXTRA_POSITION, -1);
             int requestCode = intent.getIntExtra(Constants.EXTRA_REQUEST_CODE, -1);
             Note note = NotesStore.getInstance(this).get(code);
             if (note == null){
@@ -157,16 +163,16 @@ public class ContentActivity extends CommonActivity<ActivityContentBinding> impl
                 finish();
                 return;
             }
-            toNoteFragment(note,
-                    position == -1 ? null : position,
-                    requestCode == -1 ? null : requestCode,
-                    Constants.VALUE_START_EDIT.equals(intent.getStringExtra(Constants.EXTRA_START_TYPE)), false);
+            boolean isEdit = Constants.VALUE_START_EDIT.equals(intent.getStringExtra(Constants.EXTRA_START_TYPE));
+            toNoteFragment(note, requestCode == -1 ? null : requestCode, isEdit,false);
         }
     }
 
-    private void toNoteFragment(Note note, @Nullable Integer position, @Nullable Integer requestCode, boolean isEdit, boolean isThirdPart){
-        Fragment fragment = isEdit ? NoteFragment.newInstance(note, position, requestCode, isThirdPart)
-                : NoteViewFragment.newInstance(note, position, requestCode);
+    private void toNoteFragment(Note note, @Nullable Integer requestCode, boolean isEdit, boolean isThirdPart){
+        String action = getIntent() == null || TextUtils.isEmpty(getIntent().getAction()) ? null : getIntent().getAction();
+        Fragment fragment = isEdit ?
+                NoteFragment.newInstance(note, requestCode, isThirdPart, action) :
+                NoteViewFragment.newInstance(note, requestCode);
         FragmentHelper.replace(this, fragment, R.id.fragment_container);
     }
 

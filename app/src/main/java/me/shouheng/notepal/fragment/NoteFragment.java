@@ -80,14 +80,15 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
     private AttachmentPickerDialog attachmentPickerDialog;
 
     private final static String EXTRA_IS_THIRD_PART = "extra_is_third_part";
+    private final static String EXTRA_ACTION = "extra_action";
 
-    public static NoteFragment newInstance(Note note, Integer position, Integer requestCode, boolean isThirdPart) {
+    public static NoteFragment newInstance(Note note, Integer requestCode, boolean isThirdPart, String action) {
         Bundle arg = new Bundle();
         arg.putBoolean(EXTRA_IS_THIRD_PART, isThirdPart);
         if (note == null) throw new IllegalArgumentException("Note cannot be null");
         arg.putSerializable(Constants.EXTRA_MODEL, note);
-        if (position != null) arg.putInt(Constants.EXTRA_POSITION, position);
         if (requestCode != null) arg.putInt(Constants.EXTRA_REQUEST_CODE, requestCode);
+        if (action != null) arg.putString(EXTRA_ACTION, action);
         NoteFragment fragment = new NoteFragment();
         fragment.setArguments(arg);
         return fragment;
@@ -167,6 +168,12 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
                     new AttachmentTask(this, uriSingle, name, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 }
             }
+        } else if(Constants.ACTION_ADD_SKETCH.equals(arguments.getString(EXTRA_ACTION))) {
+
+        } else if (Constants.ACTION_TAKE_PHOTO.equals(arguments.getString(EXTRA_ACTION))) {
+
+        } else if (Constants.ACTION_ADD_FILES.equals(arguments.getString(EXTRA_ACTION))) {
+
         }
     }
 
@@ -507,7 +514,11 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
         if (TextUtils.isEmpty(content)) content = "  ";
         note.setContent(content);
 
-        if (getArguments() != null && getArguments().getBoolean(EXTRA_IS_THIRD_PART)) {
+        Bundle args = getArguments();
+        if (args != null && (args.getBoolean(EXTRA_IS_THIRD_PART)
+                || Constants.ACTION_ADD_SKETCH.equals(args.getString(EXTRA_ACTION))
+                || Constants.ACTION_ADD_FILES.equals(args.getString(EXTRA_ACTION))
+                || Constants.ACTION_TAKE_PHOTO.equals(args.getString(EXTRA_ACTION)))) {
             sendNoteChangeBroadcast();
         }
     }
