@@ -57,10 +57,9 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
     private boolean isPreview = false;
     private boolean isContentChanged = false;
 
-    public static NoteViewFragment newInstance(Note note, Integer position, Integer requestCode){
+    public static NoteViewFragment newInstance(Note note, Integer requestCode){
         Bundle arg = new Bundle();
         arg.putSerializable(Constants.EXTRA_MODEL, note);
-        if (position != null) arg.putInt(Constants.EXTRA_POSITION, position);
         if (requestCode != null) arg.putInt(Constants.EXTRA_REQUEST_CODE, requestCode);
         NoteViewFragment fragment = new NoteViewFragment();
         fragment.setArguments(arg);
