@@ -2,11 +2,8 @@ package me.shouheng.notepal.dialog;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -17,17 +14,9 @@ import android.view.View;
 import org.polaric.colorful.BaseActivity;
 import org.polaric.colorful.PermissionUtils;
 
-import java.io.File;
-
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.activity.SketchActivity;
-import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.databinding.DialogAttachmentPickerLayoutBinding;
 import me.shouheng.notepal.util.AttachmentHelper;
-import me.shouheng.notepal.util.FileHelper;
-import me.shouheng.notepal.util.PalmUtils;
-import me.shouheng.notepal.util.PreferencesUtils;
-import me.shouheng.notepal.util.ToastUtils;
 
 /**
  * Created by wangshouheng on 2017/4/7.*/
@@ -94,13 +83,10 @@ public class AttachmentPickerDialog extends DialogFragment {
     private void resolveAlbumClickEvent() {
         assert getActivity() != null;
         PermissionUtils.checkStoragePermission((BaseActivity) getActivity(), () -> {
-            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-            intent.addCategory(Intent.CATEGORY_OPENABLE);
-            intent.setType("image/*");
             if (mFragment != null){
-                mFragment.startActivityForResult(intent, AttachmentHelper.REQUEST_SELECT_IMAGE);
+                AttachmentHelper.pickFromAlbum(mFragment);
             } else {
-                getActivity().startActivityForResult(intent, AttachmentHelper.REQUEST_SELECT_IMAGE);
+                AttachmentHelper.pickFromAlbum(getActivity());
             }
             dismiss();
         });
@@ -109,15 +95,10 @@ public class AttachmentPickerDialog extends DialogFragment {
     private void resolveFileClickEvent() {
         assert getActivity() != null;
         PermissionUtils.checkStoragePermission((BaseActivity) getActivity(), () -> {
-            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-            if (PalmUtils.isJellyBeanMR2()) intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-            intent.addCategory(Intent.CATEGORY_OPENABLE);
-            intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
-            intent.setType("*/*");
             if (mFragment != null) {
-                mFragment.startActivityForResult(intent, AttachmentHelper.REQUEST_FILES);
+                AttachmentHelper.pickFiles(mFragment);
             } else {
-                getActivity().startActivityForResult(intent, AttachmentHelper.REQUEST_FILES);
+                AttachmentHelper.pickFiles(getActivity());
             }
             dismiss();
         });
@@ -126,23 +107,10 @@ public class AttachmentPickerDialog extends DialogFragment {
     private void resolveCaptureEvent() {
         assert getActivity() != null;
         PermissionUtils.checkStoragePermission((BaseActivity) getActivity(), () -> {
-            File file = FileHelper.createNewAttachmentFile(getActivity(), Constants.MIME_TYPE_IMAGE_EXTENSION);
-            if (file == null){
-                ToastUtils.makeToast(getActivity(), R.string.failed_to_create_file);
-                dismiss();
-                return;
-            }
-
-            Uri attachmentUri = FileHelper.getUriFromFile(getContext(), file);
-            AttachmentHelper.setAttachmentUri(attachmentUri);
-            AttachmentHelper.setFilePath(file.getPath());
-
-            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, attachmentUri);
             if (mFragment != null){
-                mFragment.startActivityForResult(intent, AttachmentHelper.REQUEST_TAKE_PHOTO);
+                AttachmentHelper.capture(mFragment);
             } else {
-                getActivity().startActivityForResult(intent, AttachmentHelper.REQUEST_TAKE_PHOTO);
+                AttachmentHelper.capture(getActivity());
             }
             dismiss();
         });
@@ -161,50 +129,25 @@ public class AttachmentPickerDialog extends DialogFragment {
     private void resolveShotEvent() {
         assert getActivity() != null;
         PermissionUtils.checkStoragePermission((BaseActivity) getActivity(), () -> {
-            File file = FileHelper.createNewAttachmentFile(getActivity(), Constants.MIME_TYPE_VIDEO_EXTENSION);
-            if (file == null){
-                ToastUtils.makeToast(getActivity(), R.string.failed_to_create_file);
-                dismiss();
-                return;
-            }
-
-            Uri attachmentUri = FileHelper.getUriFromFile(getContext(), file);
-            AttachmentHelper.setAttachmentUri(attachmentUri);
-            AttachmentHelper.setFilePath(file.getPath());
-
-            Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, attachmentUri);
-            intent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, PreferencesUtils.getInstance(getContext()).getVideoSizeLimit() * 1024 * 1024);
             if (mFragment != null){
-                mFragment.startActivityForResult(intent, AttachmentHelper.REQUEST_TAKE_VIDEO);
+                AttachmentHelper.recordVideo(mFragment);
             } else {
-                getActivity().startActivityForResult(intent, AttachmentHelper.REQUEST_TAKE_VIDEO);
+                AttachmentHelper.recordVideo(getActivity());
             }
             dismiss();
         });
     }
 
     private void resolveSketchEvent() {
-        File file = FileHelper.createNewAttachmentFile(getActivity(), Constants.MIME_TYPE_SKETCH_EXTENSION);
-        if (file == null) {
-            ToastUtils.makeToast(getActivity(), R.string.failed_to_create_file);
+        assert getActivity() != null;
+        PermissionUtils.checkStoragePermission((BaseActivity) getActivity(), () -> {
+            if (mFragment != null){
+                AttachmentHelper.sketch(mFragment);
+            } else {
+                AttachmentHelper.sketch(getActivity());
+            }
             dismiss();
-            return;
-        }
-
-        Uri attachmentUri = FileHelper.getUriFromFile(getContext(), file);
-        String filePath = file.getPath();
-        AttachmentHelper.setAttachmentUri(attachmentUri);
-        AttachmentHelper.setFilePath(filePath);
-
-        Intent intent = new Intent(getContext(), SketchActivity.class);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, filePath);
-        if (mFragment != null){
-            mFragment.startActivityForResult(intent, AttachmentHelper.REQUEST_SKETCH);
-        } else {
-            getActivity().startActivityForResult(intent, AttachmentHelper.REQUEST_SKETCH);
-        }
-        dismiss();
+        });
     }
 
     public interface OnPickAudioSelectedListener {
