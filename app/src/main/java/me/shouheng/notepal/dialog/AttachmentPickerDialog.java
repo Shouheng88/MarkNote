@@ -23,6 +23,7 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.SketchActivity;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.databinding.DialogAttachmentPickerLayoutBinding;
+import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.util.FileHelper;
 import me.shouheng.notepal.util.PalmUtils;
 import me.shouheng.notepal.util.PreferencesUtils;
@@ -47,12 +48,6 @@ public class AttachmentPickerDialog extends DialogFragment {
     private OnPickAudioSelectedListener onItemSelectedListener;
 
     private OnAddNetUriSelectedListener onAddNetUriSelectedListener;
-
-    public final static int REQUEST_TAKE_PHOTO = 0x1000;
-    public final static int REQUEST_SELECT_IMAGE = 0x1100;
-    public final static int REQUEST_TAKE_VIDEO = 0x1200;
-    public final static int REQUEST_FILES = 0x1300;
-    public final static int REQUEST_SKETCH = 0x1400;
 
     @SuppressLint("ValidFragment")
     public AttachmentPickerDialog(Builder builder) {
@@ -114,9 +109,9 @@ public class AttachmentPickerDialog extends DialogFragment {
             intent.addCategory(Intent.CATEGORY_OPENABLE);
             intent.setType("image/*");
             if (mFragment != null){
-                mFragment.startActivityForResult(intent, REQUEST_SELECT_IMAGE);
+                mFragment.startActivityForResult(intent, AttachmentHelper.REQUEST_SELECT_IMAGE);
             } else {
-                getActivity().startActivityForResult(intent, REQUEST_SELECT_IMAGE);
+                getActivity().startActivityForResult(intent, AttachmentHelper.REQUEST_SELECT_IMAGE);
             }
             dismiss();
         });
@@ -132,9 +127,9 @@ public class AttachmentPickerDialog extends DialogFragment {
             intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
             intent.setType("*/*");
             if (mFragment != null) {
-                mFragment.startActivityForResult(intent, REQUEST_FILES);
+                mFragment.startActivityForResult(intent, AttachmentHelper.REQUEST_FILES);
             } else {
-                getActivity().startActivityForResult(intent, REQUEST_FILES);
+                getActivity().startActivityForResult(intent, AttachmentHelper.REQUEST_FILES);
             }
             dismiss();
         });
@@ -154,9 +149,9 @@ public class AttachmentPickerDialog extends DialogFragment {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             intent.putExtra(MediaStore.EXTRA_OUTPUT, attachmentUri);
             if (mFragment != null){
-                mFragment.startActivityForResult(intent, REQUEST_TAKE_PHOTO);
+                mFragment.startActivityForResult(intent, AttachmentHelper.REQUEST_TAKE_PHOTO);
             } else {
-                getActivity().startActivityForResult(intent, REQUEST_TAKE_PHOTO);
+                getActivity().startActivityForResult(intent, AttachmentHelper.REQUEST_TAKE_PHOTO);
             }
             dismiss();
         });
@@ -187,9 +182,9 @@ public class AttachmentPickerDialog extends DialogFragment {
             intent.putExtra(MediaStore.EXTRA_OUTPUT, attachmentUri);
             intent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, PreferencesUtils.getInstance(getContext()).getVideoSizeLimit() * 1024 * 1024);
             if (mFragment != null){
-                mFragment.startActivityForResult(intent, REQUEST_TAKE_VIDEO);
+                mFragment.startActivityForResult(intent, AttachmentHelper.REQUEST_TAKE_VIDEO);
             } else {
-                getActivity().startActivityForResult(intent, REQUEST_TAKE_VIDEO);
+                getActivity().startActivityForResult(intent, AttachmentHelper.REQUEST_TAKE_VIDEO);
             }
             dismiss();
         });
@@ -207,12 +202,12 @@ public class AttachmentPickerDialog extends DialogFragment {
             Intent intent = new Intent(mFragment.getContext(), SketchActivity.class);
             filePath = file.getPath();
             intent.putExtra(MediaStore.EXTRA_OUTPUT, filePath);
-            mFragment.startActivityForResult(intent, REQUEST_SKETCH);
+            mFragment.startActivityForResult(intent, AttachmentHelper.REQUEST_SKETCH);
         } else {
             Intent intent = new Intent(getContext(), SketchActivity.class);
             filePath = file.getPath();
             intent.putExtra(MediaStore.EXTRA_OUTPUT, filePath);
-            getActivity().startActivityForResult(intent, REQUEST_SKETCH);
+            getActivity().startActivityForResult(intent, AttachmentHelper.REQUEST_SKETCH);
         }
         dismiss();
     }
