@@ -34,9 +34,6 @@ import me.shouheng.notepal.util.ToastUtils;
 @SuppressLint("ValidFragment")
 public class AttachmentPickerDialog extends DialogFragment {
 
-    private Uri attachmentUri;
-    private String filePath;
-
     private boolean isRecordVisible;
     private boolean isVideoVisible;
     private boolean isAlbumVisible;
@@ -94,14 +91,6 @@ public class AttachmentPickerDialog extends DialogFragment {
                 .create();
     }
 
-    public Uri getAttachmentUri() {
-        return attachmentUri;
-    }
-
-    public String getFilePath() {
-        return filePath;
-    }
-
     private void resolveAlbumClickEvent() {
         assert getActivity() != null;
         PermissionUtils.checkStoragePermission((BaseActivity) getActivity(), () -> {
@@ -144,8 +133,11 @@ public class AttachmentPickerDialog extends DialogFragment {
                 dismiss();
                 return;
             }
-            attachmentUri = FileHelper.getUriFromFile(getContext(), file);
-            filePath = file.getPath();
+
+            Uri attachmentUri = FileHelper.getUriFromFile(getContext(), file);
+            AttachmentHelper.setAttachmentUri(attachmentUri);
+            AttachmentHelper.setFilePath(file.getPath());
+
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             intent.putExtra(MediaStore.EXTRA_OUTPUT, attachmentUri);
             if (mFragment != null){
@@ -176,8 +168,11 @@ public class AttachmentPickerDialog extends DialogFragment {
                 dismiss();
                 return;
             }
-            attachmentUri = FileHelper.getUriFromFile(getContext(), file);
-            filePath = file.getPath();
+
+            Uri attachmentUri = FileHelper.getUriFromFile(getContext(), file);
+            AttachmentHelper.setAttachmentUri(attachmentUri);
+            AttachmentHelper.setFilePath(file.getPath());
+
             Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
             intent.putExtra(MediaStore.EXTRA_OUTPUT, attachmentUri);
             intent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, PreferencesUtils.getInstance(getContext()).getVideoSizeLimit() * 1024 * 1024);
@@ -197,16 +192,17 @@ public class AttachmentPickerDialog extends DialogFragment {
             dismiss();
             return;
         }
-        attachmentUri = FileHelper.getUriFromFile(getContext(), file);
+
+        Uri attachmentUri = FileHelper.getUriFromFile(getContext(), file);
+        String filePath = file.getPath();
+        AttachmentHelper.setAttachmentUri(attachmentUri);
+        AttachmentHelper.setFilePath(filePath);
+
+        Intent intent = new Intent(getContext(), SketchActivity.class);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, filePath);
         if (mFragment != null){
-            Intent intent = new Intent(mFragment.getContext(), SketchActivity.class);
-            filePath = file.getPath();
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, filePath);
             mFragment.startActivityForResult(intent, AttachmentHelper.REQUEST_SKETCH);
         } else {
-            Intent intent = new Intent(getContext(), SketchActivity.class);
-            filePath = file.getPath();
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, filePath);
             getActivity().startActivityForResult(intent, AttachmentHelper.REQUEST_SKETCH);
         }
         dismiss();
