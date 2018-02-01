@@ -22,11 +22,18 @@ import me.shouheng.notepal.model.ModelFactory;
  * Created by Wang Shouheng on 2017/12/30.*/
 public class AttachmentHelper {
 
+    /**
+     * request code of attachment picker action */
     public final static int REQUEST_TAKE_PHOTO = 0x1000;
     public final static int REQUEST_SELECT_IMAGE = 0x1100;
     public final static int REQUEST_TAKE_VIDEO = 0x1200;
     public final static int REQUEST_FILES = 0x1300;
     public final static int REQUEST_SKETCH = 0x1400;
+
+    /**
+     * persist the current operation file information */
+    private Uri attachmentUri;
+    private String filePath;
 
     // region Resolve attachment click events
     public static void resolveClickEvent(
@@ -188,4 +195,20 @@ public class AttachmentHelper {
         void onGetAttachment(Attachment attachment);
     }
     // endregion
+
+    public Uri getAttachmentUri() {
+        return attachmentUri;
+    }
+
+    public void setAttachmentUri(Uri attachmentUri) {
+        this.attachmentUri = attachmentUri;
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
 }
