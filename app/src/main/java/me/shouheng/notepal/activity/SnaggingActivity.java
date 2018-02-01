@@ -1,5 +1,6 @@
 package me.shouheng.notepal.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -135,12 +136,12 @@ public class SnaggingActivity extends BaseActivity implements OnAttachingFileLis
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        AttachmentHelper.resolveResult(this,
-                attachmentPickerDialog,
-                requestCode,
-                resultCode,
-                data,
-                attachment -> mindSnaggingDialog.setAttachment(attachment));
+        if (resultCode == Activity.RESULT_OK) {
+            AttachmentHelper.resolveResult(this,
+                    requestCode,
+                    data,
+                    attachment -> mindSnaggingDialog.setAttachment(attachment));
+        }
         switch (requestCode) {
             case REQUEST_PASSWORD:
                 if (resultCode == RESULT_OK) {

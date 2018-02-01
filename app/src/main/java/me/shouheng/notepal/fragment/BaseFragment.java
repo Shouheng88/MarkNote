@@ -153,7 +153,7 @@ public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFrag
      * 1. These methods are called when you clicked some items on the {@link AttachmentPickerDialog}
      * 2. When you finally selected some images or videos, the {@link #onActivityResult(int, int, Intent)}
      * will be called first, in this method we called
-     * {@link AttachmentHelper#resolveResult(Fragment, AttachmentPickerDialog, int, Intent, OnGetAttachmentListener)}
+     * {@link AttachmentHelper#resolveResult(Fragment, int, Intent, OnGetAttachmentListener)}
      * to resolve this event. When the logic is completed in this method, methods in {@link OnAttachingFileListener} will be called.
      * That means {@link #onAttachingFileErrorOccurred(Attachment)} and {@link #onAttachingFileFinished(Attachment)}.
      * 3. In these two methods will called {@link #onGetAttachment(Attachment)} and {@link #onFailedGetAttachment(Attachment)}
@@ -185,7 +185,6 @@ public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFrag
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
             AttachmentHelper.resolveResult(this,
-                    getAttachmentPickerDialog(),
                     requestCode,
                     data,
                     BaseFragment.this::onGetAttachment);

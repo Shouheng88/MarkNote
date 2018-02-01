@@ -13,7 +13,6 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.GalleryActivity;
 import me.shouheng.notepal.async.AttachmentTask;
 import me.shouheng.notepal.config.Constants;
-import me.shouheng.notepal.dialog.AttachmentPickerDialog;
 import me.shouheng.notepal.listener.OnAttachingFileListener;
 import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.model.ModelFactory;
@@ -32,8 +31,8 @@ public class AttachmentHelper {
 
     /**
      * persist the current operation file information */
-    private Uri attachmentUri;
-    private String filePath;
+    private static Uri attachmentUri;
+    private static String filePath;
 
     // region Resolve attachment click events
     public static void resolveClickEvent(
@@ -94,70 +93,60 @@ public class AttachmentHelper {
     // region Attachment adding events
 
     public static<T extends Fragment & OnAttachingFileListener> void resolveResult(
-            T fragment,
-            AttachmentPickerDialog dialog,
-            int requestCode,
-            Intent data,
-            OnGetAttachmentListener onGetAttachmentListener) {
+            T fragment, int requestCode, Intent data, OnGetAttachmentListener onGetAttachmentListener) {
         switch (requestCode){
             case REQUEST_TAKE_PHOTO:
-                onGetAttachmentListener.onGetAttachment(getAttachment(fragment.getContext(), dialog, Constants.MIME_TYPE_IMAGE));
+                onGetAttachmentListener.onGetAttachment(getAttachment(fragment.getContext(), Constants.MIME_TYPE_IMAGE));
                 break;
             case REQUEST_SELECT_IMAGE:
                 startTask(fragment, data);
                 break;
             case REQUEST_TAKE_VIDEO:
-                onGetAttachmentListener.onGetAttachment(getVideo(fragment.getContext(), dialog, data));
+                onGetAttachmentListener.onGetAttachment(getVideo(fragment.getContext(), data));
                 break;
             case REQUEST_FILES:
                 startTask(fragment, data);
                 break;
             case REQUEST_SKETCH:
-                onGetAttachmentListener.onGetAttachment(getAttachment(fragment.getContext(), dialog, Constants.MIME_TYPE_SKETCH));
+                onGetAttachmentListener.onGetAttachment(getAttachment(fragment.getContext(), Constants.MIME_TYPE_SKETCH));
                 break;
         }
     }
 
     public static<T extends Activity & OnAttachingFileListener> void resolveResult(
-            T activity,
-            AttachmentPickerDialog dialog,
-            int requestCode,
-            int resultCode,
-            Intent data,
-            OnGetAttachmentListener onGetAttachmentListener) {
-        if (resultCode != Activity.RESULT_OK) return; // not handle this event
+            T activity, int requestCode, Intent data, OnGetAttachmentListener onGetAttachmentListener) {
         switch (requestCode){
             case REQUEST_TAKE_PHOTO:
-                onGetAttachmentListener.onGetAttachment(getAttachment(activity, dialog, Constants.MIME_TYPE_IMAGE));
+                onGetAttachmentListener.onGetAttachment(getAttachment(activity, Constants.MIME_TYPE_IMAGE));
                 break;
             case REQUEST_SELECT_IMAGE:
                 startTask(activity, data);
                 break;
             case REQUEST_TAKE_VIDEO:
-                onGetAttachmentListener.onGetAttachment(getVideo(activity, dialog, data));
+                onGetAttachmentListener.onGetAttachment(getVideo(activity, data));
                 break;
             case REQUEST_FILES:
                 startTask(activity, data);
                 break;
             case REQUEST_SKETCH:
-                onGetAttachmentListener.onGetAttachment(getAttachment(activity, dialog, Constants.MIME_TYPE_SKETCH));
+                onGetAttachmentListener.onGetAttachment(getAttachment(activity, Constants.MIME_TYPE_SKETCH));
                 break;
         }
     }
 
-    private static Attachment getAttachment(Context context, AttachmentPickerDialog dialog, String mimeType) {
+    private static Attachment getAttachment(Context context, String mimeType) {
         Attachment photo = ModelFactory.getAttachment(context);
-        photo.setUri(dialog.getAttachmentUri());
+        photo.setUri(attachmentUri);
         photo.setMineType(mimeType);
-        photo.setPath(dialog.getFilePath());
+        photo.setPath(filePath);
         return photo;
     }
 
-    private static Attachment getVideo(Context context, AttachmentPickerDialog dialog, Intent data) {
+    private static Attachment getVideo(Context context, Intent data) {
         Attachment attachment = ModelFactory.getAttachment(context);
         attachment.setUri(data.getData());
         attachment.setMineType(Constants.MIME_TYPE_VIDEO);
-        attachment.setPath(dialog.getFilePath());
+        attachment.setPath(filePath);
         return attachment;
     }
 
@@ -196,19 +185,19 @@ public class AttachmentHelper {
     }
     // endregion
 
-    public Uri getAttachmentUri() {
+    public static Uri getAttachmentUri() {
         return attachmentUri;
     }
 
-    public void setAttachmentUri(Uri attachmentUri) {
-        this.attachmentUri = attachmentUri;
+    public static void setAttachmentUri(Uri attachmentUri) {
+        AttachmentHelper.attachmentUri = attachmentUri;
     }
 
-    public String getFilePath() {
+    public static String getFilePath() {
         return filePath;
     }
 
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
+    public static void setFilePath(String filePath) {
+        AttachmentHelper.filePath = filePath;
     }
 }

@@ -1,5 +1,6 @@
 package me.shouheng.notepal.activity;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -540,12 +541,12 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     }
 
     private void handleAttachmentResult(int requestCode, int resultCode, Intent data) {
-        AttachmentHelper.resolveResult(this,
-                attachmentPickerDialog,
-                requestCode,
-                resultCode,
-                data,
-                attachment -> mindSnaggingDialog.setAttachment(attachment));
+        if (resultCode == Activity.RESULT_OK) {
+            AttachmentHelper.resolveResult(this,
+                    requestCode,
+                    data,
+                    attachment -> mindSnaggingDialog.setAttachment(attachment));
+        }
     }
 
     @Override
