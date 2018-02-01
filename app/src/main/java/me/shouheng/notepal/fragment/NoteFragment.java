@@ -25,6 +25,8 @@ import com.balysv.materialmenu.MaterialMenuDrawable;
 import com.bumptech.glide.Glide;
 
 import org.apache.commons.io.FileUtils;
+import org.polaric.colorful.BaseActivity;
+import org.polaric.colorful.PermissionUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -49,6 +51,7 @@ import me.shouheng.notepal.provider.BaseStore;
 import me.shouheng.notepal.provider.LocationsStore;
 import me.shouheng.notepal.provider.NotebookStore;
 import me.shouheng.notepal.provider.NotesStore;
+import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.FileHelper;
 import me.shouheng.notepal.util.LogUtils;
@@ -169,11 +172,17 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
                 }
             }
         } else if(Constants.ACTION_ADD_SKETCH.equals(arguments.getString(EXTRA_ACTION))) {
-
+            PermissionUtils.checkStoragePermission((BaseActivity) getActivity(), () -> {
+                AttachmentHelper.sketch(this);
+            });
         } else if (Constants.ACTION_TAKE_PHOTO.equals(arguments.getString(EXTRA_ACTION))) {
-
+            PermissionUtils.checkStoragePermission((BaseActivity) getActivity(), () -> {
+                AttachmentHelper.capture(this);
+            });
         } else if (Constants.ACTION_ADD_FILES.equals(arguments.getString(EXTRA_ACTION))) {
-
+            PermissionUtils.checkStoragePermission((BaseActivity) getActivity(), () -> {
+                AttachmentHelper.pickFiles(this);
+            });
         }
     }
 
