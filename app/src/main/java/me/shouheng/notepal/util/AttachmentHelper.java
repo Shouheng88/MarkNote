@@ -22,6 +22,12 @@ import me.shouheng.notepal.model.ModelFactory;
  * Created by Wang Shouheng on 2017/12/30.*/
 public class AttachmentHelper {
 
+    public final static int REQUEST_TAKE_PHOTO = 0x1000;
+    public final static int REQUEST_SELECT_IMAGE = 0x1100;
+    public final static int REQUEST_TAKE_VIDEO = 0x1200;
+    public final static int REQUEST_FILES = 0x1300;
+    public final static int REQUEST_SKETCH = 0x1400;
+
     // region Resolve attachment click events
     public static void resolveClickEvent(
             Context context,
@@ -87,19 +93,19 @@ public class AttachmentHelper {
             Intent data,
             OnGetAttachmentListener onGetAttachmentListener) {
         switch (requestCode){
-            case AttachmentPickerDialog.REQUEST_TAKE_PHOTO:
+            case REQUEST_TAKE_PHOTO:
                 onGetAttachmentListener.onGetAttachment(getAttachment(fragment.getContext(), dialog, Constants.MIME_TYPE_IMAGE));
                 break;
-            case AttachmentPickerDialog.REQUEST_SELECT_IMAGE:
+            case REQUEST_SELECT_IMAGE:
                 startTask(fragment, data);
                 break;
-            case AttachmentPickerDialog.REQUEST_TAKE_VIDEO:
+            case REQUEST_TAKE_VIDEO:
                 onGetAttachmentListener.onGetAttachment(getVideo(fragment.getContext(), dialog, data));
                 break;
-            case AttachmentPickerDialog.REQUEST_FILES:
+            case REQUEST_FILES:
                 startTask(fragment, data);
                 break;
-            case AttachmentPickerDialog.REQUEST_SKETCH:
+            case REQUEST_SKETCH:
                 onGetAttachmentListener.onGetAttachment(getAttachment(fragment.getContext(), dialog, Constants.MIME_TYPE_SKETCH));
                 break;
         }
@@ -114,19 +120,19 @@ public class AttachmentHelper {
             OnGetAttachmentListener onGetAttachmentListener) {
         if (resultCode != Activity.RESULT_OK) return; // not handle this event
         switch (requestCode){
-            case AttachmentPickerDialog.REQUEST_TAKE_PHOTO:
+            case REQUEST_TAKE_PHOTO:
                 onGetAttachmentListener.onGetAttachment(getAttachment(activity, dialog, Constants.MIME_TYPE_IMAGE));
                 break;
-            case AttachmentPickerDialog.REQUEST_SELECT_IMAGE:
+            case REQUEST_SELECT_IMAGE:
                 startTask(activity, data);
                 break;
-            case AttachmentPickerDialog.REQUEST_TAKE_VIDEO:
+            case REQUEST_TAKE_VIDEO:
                 onGetAttachmentListener.onGetAttachment(getVideo(activity, dialog, data));
                 break;
-            case AttachmentPickerDialog.REQUEST_FILES:
+            case REQUEST_FILES:
                 startTask(activity, data);
                 break;
-            case AttachmentPickerDialog.REQUEST_SKETCH:
+            case REQUEST_SKETCH:
                 onGetAttachmentListener.onGetAttachment(getAttachment(activity, dialog, Constants.MIME_TYPE_SKETCH));
                 break;
         }
