@@ -4,13 +4,17 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.GalleryActivity;
+import me.shouheng.notepal.activity.SketchActivity;
 import me.shouheng.notepal.async.AttachmentTask;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.listener.OnAttachingFileListener;
@@ -182,6 +186,130 @@ public class AttachmentHelper {
 
     public interface OnGetAttachmentListener {
         void onGetAttachment(Attachment attachment);
+    }
+    // endregion
+
+    // region Pick attachment
+
+    public static void pickFromAlbum(Activity activity) {
+        activity.startActivityForResult(pickFromAlbum(), AttachmentHelper.REQUEST_SELECT_IMAGE);
+    }
+
+    public static void pickFromAlbum(Fragment fragment) {
+        fragment.startActivityForResult(pickFromAlbum(), AttachmentHelper.REQUEST_SELECT_IMAGE);
+    }
+
+    private static Intent pickFromAlbum() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("image/*");
+        return intent;
+    }
+
+    public static void pickFiles(Activity activity) {
+        activity.startActivityForResult(pickFiles(), AttachmentHelper.REQUEST_FILES);
+    }
+
+    public static void pickFiles(Fragment fragment) {
+        fragment.startActivityForResult(pickFiles(), AttachmentHelper.REQUEST_FILES);
+    }
+
+    private static Intent pickFiles() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        if (PalmUtils.isJellyBeanMR2()) intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+        intent.setType("*/*");
+        return intent;
+    }
+
+    public static void capture(Activity activity) {
+        Intent intent = captureIntent(activity);
+        if (intent == null) return;
+        activity.startActivityForResult(intent, AttachmentHelper.REQUEST_TAKE_PHOTO);
+    }
+
+    public static void capture(Fragment fragment) {
+        Intent intent = captureIntent(fragment.getContext());
+        if (intent == null) return;
+        fragment.startActivityForResult(intent, AttachmentHelper.REQUEST_TAKE_PHOTO);
+    }
+
+    @Nullable
+    private static Intent captureIntent(Context context) {
+        File file = FileHelper.createNewAttachmentFile(context, Constants.MIME_TYPE_IMAGE_EXTENSION);
+        if (file == null){
+            ToastUtils.makeToast(context, R.string.failed_to_create_file);
+            return null;
+        }
+
+        Uri attachmentUri = FileHelper.getUriFromFile(context, file);
+        AttachmentHelper.setAttachmentUri(attachmentUri);
+        AttachmentHelper.setFilePath(file.getPath());
+
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, attachmentUri);
+        return intent;
+    }
+
+    public static void recordVideo(Activity activity) {
+        Intent intent = recordVideoIntent(activity);
+        if (intent == null) return;
+        activity.startActivityForResult(intent, AttachmentHelper.REQUEST_TAKE_VIDEO);
+    }
+
+    public static void recordVideo(Fragment fragment) {
+        Intent intent = recordVideoIntent(fragment.getContext());
+        if (intent == null) return;
+        fragment.startActivityForResult(intent, AttachmentHelper.REQUEST_TAKE_VIDEO);
+    }
+
+    @Nullable
+    private static Intent recordVideoIntent(Context context) {
+        File file = FileHelper.createNewAttachmentFile(context, Constants.MIME_TYPE_SKETCH_EXTENSION);
+        if (file == null) {
+            ToastUtils.makeToast(context, R.string.failed_to_create_file);
+            return null;
+        }
+
+        Uri attachmentUri = FileHelper.getUriFromFile(context, file);
+        String filePath = file.getPath();
+        AttachmentHelper.setAttachmentUri(attachmentUri);
+        AttachmentHelper.setFilePath(filePath);
+
+        Intent intent = new Intent(context, SketchActivity.class);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, filePath);
+        return intent;
+    }
+
+    public static void sketch(Activity activity) {
+        Intent intent = sketchIntent(activity);
+        if (intent == null) return;
+        activity.startActivityForResult(intent, AttachmentHelper.REQUEST_SKETCH);
+    }
+
+    public static void sketch(Fragment fragment) {
+        Intent intent = sketchIntent(fragment.getContext());
+        if (intent == null) return;
+        fragment.startActivityForResult(intent, AttachmentHelper.REQUEST_SKETCH);
+    }
+
+    @Nullable
+    private static Intent sketchIntent(Context context) {
+        File file = FileHelper.createNewAttachmentFile(context, Constants.MIME_TYPE_SKETCH_EXTENSION);
+        if (file == null) {
+            ToastUtils.makeToast(context, R.string.failed_to_create_file);
+            return null;
+        }
+
+        Uri attachmentUri = FileHelper.getUriFromFile(context, file);
+        String filePath = file.getPath();
+        AttachmentHelper.setAttachmentUri(attachmentUri);
+        AttachmentHelper.setFilePath(filePath);
+
+        Intent intent = new Intent(context, SketchActivity.class);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, filePath);
+        return intent;
     }
     // endregion
 
