@@ -84,10 +84,8 @@ public class AttachmentHelper {
             T fragment,
             AttachmentPickerDialog dialog,
             int requestCode,
-            int resultCode,
             Intent data,
             OnGetAttachmentListener onGetAttachmentListener) {
-        if (resultCode != Activity.RESULT_OK) return; // not handle this event
         switch (requestCode){
             case AttachmentPickerDialog.REQUEST_TAKE_PHOTO:
                 onGetAttachmentListener.onGetAttachment(getAttachment(fragment.getContext(), dialog, Constants.MIME_TYPE_IMAGE));
