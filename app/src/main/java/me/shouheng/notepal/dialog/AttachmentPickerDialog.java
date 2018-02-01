@@ -109,8 +109,7 @@ public class AttachmentPickerDialog extends DialogFragment {
     private void resolveFileClickEvent() {
         assert getActivity() != null;
         PermissionUtils.checkStoragePermission((BaseActivity) getActivity(), () -> {
-            Intent intent;
-            intent = new Intent(Intent.ACTION_GET_CONTENT);
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
             if (PalmUtils.isJellyBeanMR2()) intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
             intent.addCategory(Intent.CATEGORY_OPENABLE);
             intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
