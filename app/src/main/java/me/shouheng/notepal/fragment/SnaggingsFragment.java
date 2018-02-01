@@ -103,8 +103,10 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
 
     private void configToolbar() {
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        actionBar.setTitle(R.string.drawer_menu_minds);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        if (actionBar != null) {
+            actionBar.setTitle(R.string.drawer_menu_minds);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     private void configSnaggings() {
