@@ -27,11 +27,11 @@ public class AttachmentHelper {
 
     /**
      * request code of attachment picker action */
-    public final static int REQUEST_TAKE_PHOTO = 0x1000;
-    public final static int REQUEST_SELECT_IMAGE = 0x1100;
-    public final static int REQUEST_TAKE_VIDEO = 0x1200;
-    public final static int REQUEST_FILES = 0x1300;
-    public final static int REQUEST_SKETCH = 0x1400;
+    private final static int REQUEST_TAKE_PHOTO = 0x1000;
+    private final static int REQUEST_SELECT_IMAGE = 0x1100;
+    private final static int REQUEST_TAKE_VIDEO = 0x1200;
+    private final static int REQUEST_FILES = 0x1300;
+    private final static int REQUEST_SKETCH = 0x1400;
 
     /**
      * persist the current operation file information */
