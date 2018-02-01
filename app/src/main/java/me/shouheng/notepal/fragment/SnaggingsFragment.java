@@ -58,8 +58,6 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
 
     private MindSnaggingDialog mindSnaggingDialog;
 
-    private AttachmentPickerDialog attachmentPickerDialog;
-
     private MindSnaggingListType mindSnaggingListType;
 
     private PreferencesUtils preferencesUtils;
@@ -366,11 +364,6 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
         return mindSnaggingListType;
     }
 
-    @Override
-    protected AttachmentPickerDialog getAttachmentPickerDialog() {
-        return attachmentPickerDialog;
-    }
-
     private void saveMindSnagging(int position, MindSnagging mindSnagging, Attachment attachment) {
         if (attachment != null && AttachmentsStore.getInstance(getContext()).isNewModel(attachment.getCode())) {
             attachment.setModelCode(mindSnagging.getCode());
@@ -387,11 +380,10 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
     }
 
     private void showSnaggingAttachmentPicker() {
-        attachmentPickerDialog = new AttachmentPickerDialog.Builder(this)
+        new AttachmentPickerDialog.Builder(this)
                 .setRecordVisible(false)
                 .setVideoVisible(false)
-                .build();
-        attachmentPickerDialog.show(getFragmentManager(), "Attachment picker");
+                .build().show(getFragmentManager(), "Attachment picker");
     }
 
     @Override

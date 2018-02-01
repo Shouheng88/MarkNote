@@ -80,8 +80,6 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
     private AttachmentPickerType attachmentPickerType;
     private PreferencesUtils preferencesUtils;
 
-    private AttachmentPickerDialog attachmentPickerDialog;
-
     private final static String EXTRA_IS_THIRD_PART = "extra_is_third_part";
     private final static String EXTRA_ACTION = "extra_action";
 
@@ -172,29 +170,30 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
                 }
             }
         } else if(Constants.ACTION_ADD_SKETCH.equals(arguments.getString(EXTRA_ACTION))) {
-            PermissionUtils.checkStoragePermission((BaseActivity) getActivity(), () -> {
-                AttachmentHelper.sketch(this);
-            });
+            assert getActivity() != null;
+            PermissionUtils.checkStoragePermission((BaseActivity) getActivity(), () -> AttachmentHelper.sketch(this));
         } else if (Constants.ACTION_TAKE_PHOTO.equals(arguments.getString(EXTRA_ACTION))) {
-            PermissionUtils.checkStoragePermission((BaseActivity) getActivity(), () -> {
-                AttachmentHelper.capture(this);
-            });
+            assert getActivity() != null;
+            PermissionUtils.checkStoragePermission((BaseActivity) getActivity(), () -> AttachmentHelper.capture(this));
         } else if (Constants.ACTION_ADD_FILES.equals(arguments.getString(EXTRA_ACTION))) {
-            PermissionUtils.checkStoragePermission((BaseActivity) getActivity(), () -> {
-                AttachmentHelper.pickFiles(this);
-            });
+            assert getActivity() != null;
+            PermissionUtils.checkStoragePermission((BaseActivity) getActivity(), () -> AttachmentHelper.pickFiles(this));
         }
     }
 
     private void configToolbar() {
+        assert getContext() != null;
+        assert getActivity() != null;
         materialMenu = new MaterialMenuDrawable(getContext(), primaryColor(), MaterialMenuDrawable.Stroke.THIN);
         materialMenu.setIconState(MaterialMenuDrawable.IconState.ARROW);
         getBinding().main.toolbar.setNavigationIcon(materialMenu);
         ((AppCompatActivity) getActivity()).setSupportActionBar(getBinding().main.toolbar);
         ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
-        ab.setTitle("");
-        setStatusBarColor(getResources().getColor(isDarkTheme() ? R.color.dark_theme_foreground : R.color.md_grey_500));
+        if (ab != null) {
+            ab.setDisplayHomeAsUpEnabled(true);
+            ab.setTitle("");
+            setStatusBarColor(getResources().getColor(isDarkTheme() ? R.color.dark_theme_foreground : R.color.md_grey_500));
+        }
 
         if (getArguments() != null && getArguments().getBoolean(EXTRA_IS_THIRD_PART)) {
             setContentChanged();
@@ -302,8 +301,7 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
                     getBinding().main.tvFolder.setTextColor(notebook1.getColor());
                     setContentChanged();
                     dialog.dismiss();
-                })
-                .show(getFragmentManager(), "NOTEBOOK_PICKER");
+                }).show(getFragmentManager(), "NOTEBOOK_PICKER");
     }
 
     @Override
@@ -406,21 +404,15 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
                 .show(getFragmentManager(), "Link Image");
     }
 
-    @Override
-    protected AttachmentPickerDialog getAttachmentPickerDialog() {
-        return attachmentPickerDialog;
-    }
-
     private void showAttachmentPicker(AttachmentPickerType attachmentPickerType) {
         this.attachmentPickerType = attachmentPickerType;
-        attachmentPickerDialog = new AttachmentPickerDialog.Builder(this)
+        new AttachmentPickerDialog.Builder(this)
                 .setRecordVisible(false)
                 .setVideoVisible(false)
                 .setAddLinkVisible(attachmentPickerType != AttachmentPickerType.PREVIEW_IMAGE)
                 .setFilesVisible(attachmentPickerType != AttachmentPickerType.PREVIEW_IMAGE)
                 .setOnAddNetUriSelectedListener(this::addImageLink)
-                .build();
-        attachmentPickerDialog.show(getFragmentManager(), "Attachment picker");
+                .build().show(getFragmentManager(), "Attachment picker");
     }
 
     @Override

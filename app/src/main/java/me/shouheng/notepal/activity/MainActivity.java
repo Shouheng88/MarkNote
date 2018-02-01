@@ -87,7 +87,6 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
 
     private MindSnaggingDialog mindSnaggingDialog;
     private NotebookEditDialog notebookEditDialog;
-    private AttachmentPickerDialog attachmentPickerDialog;
 
     private RecyclerView.OnScrollListener onScrollListener;
     private NotesChangedReceiver notesChangedReceiver;
@@ -364,12 +363,11 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     }
 
     private void showAttachmentPicker() {
-        attachmentPickerDialog = new AttachmentPickerDialog.Builder()
+        new AttachmentPickerDialog.Builder()
                 .setAddLinkVisible(false)
                 .setRecordVisible(false)
                 .setVideoVisible(false)
-                .build();
-        attachmentPickerDialog.show(getSupportFragmentManager(), "Attachment picker");
+                .build().show(getSupportFragmentManager(), "Attachment picker");
     }
     // endregion
 
