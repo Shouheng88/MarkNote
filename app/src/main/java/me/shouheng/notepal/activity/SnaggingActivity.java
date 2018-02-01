@@ -33,7 +33,6 @@ import me.shouheng.notepal.util.ToastUtils;
 public class SnaggingActivity extends BaseActivity implements OnAttachingFileListener {
 
     private MindSnaggingDialog mindSnaggingDialog;
-    private AttachmentPickerDialog attachmentPickerDialog;
 
     private final int REQUEST_PASSWORD = 0x0016;
 
@@ -112,12 +111,11 @@ public class SnaggingActivity extends BaseActivity implements OnAttachingFileLis
     }
 
     private void showAttachmentPicker() {
-        attachmentPickerDialog = new AttachmentPickerDialog.Builder()
+        new AttachmentPickerDialog.Builder()
                 .setAddLinkVisible(false)
                 .setRecordVisible(false)
                 .setVideoVisible(false)
-                .build();
-        attachmentPickerDialog.show(getSupportFragmentManager(), "Attachment picker");
+                .build().show(getSupportFragmentManager(), "Attachment picker");
     }
 
     @Override
@@ -146,6 +144,8 @@ public class SnaggingActivity extends BaseActivity implements OnAttachingFileLis
             case REQUEST_PASSWORD:
                 if (resultCode == RESULT_OK) {
                     handleIntent(getIntent());
+                } else {
+                    finish();
                 }
                 break;
         }
