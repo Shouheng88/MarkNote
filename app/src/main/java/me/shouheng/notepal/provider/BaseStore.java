@@ -38,9 +38,9 @@ public abstract class BaseStore<T extends Model> {
     @SuppressWarnings("unchecked")
     public BaseStore(Context context) {
         this.mPalmDatabase = PalmDB.getInstance(context);
+        LogUtils.d(mPalmDatabase); // the instance should be singleton
         userId = UserUtil.getInstance(context).getUserIdKept();
-        entityClass = (Class) ((ParameterizedType) this.getClass().getGenericSuperclass())
-                .getActualTypeArguments()[0];
+        entityClass = (Class) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
         if (!entityClass.isAnnotationPresent(Table.class))
             throw new IllegalArgumentException("Entity class should have Table.class annotation");
         tableName = entityClass.getAnnotation(Table.class).name();
@@ -324,6 +324,8 @@ public abstract class BaseStore<T extends Model> {
     }
 
     protected synchronized List<T> getList(Cursor cursor){
+        LogUtils.d(this); // print the hash code of this object
+        LogUtils.d(Thread.currentThread());
         List<T> models = new LinkedList<>();
         if (cursor != null && !cursor.isClosed() && cursor.moveToFirst()){
             do {
