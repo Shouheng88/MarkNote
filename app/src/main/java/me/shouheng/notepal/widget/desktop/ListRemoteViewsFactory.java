@@ -74,7 +74,10 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory, SharedPrefere
 
     private List<MindSnagging> getMinds() {
         String condition = sharedPreferences.getString(Constants.PREF_WIDGET_SQL_PREFIX + String.valueOf(appWidgetId), "");
-        return MindSnaggingStore.getInstance(app).get(condition, NoteSchema.LAST_MODIFIED_TIME + " DESC ");
+        MindSnaggingStore store = MindSnaggingStore.getInstance(app);
+        LogUtils.d(store);
+        LogUtils.d(Thread.currentThread());
+        return store.get(condition, NoteSchema.LAST_MODIFIED_TIME + " DESC ");
     }
 
     @Override

@@ -1,5 +1,6 @@
 package me.shouheng.notepal.provider;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -12,13 +13,14 @@ public class PalmDB extends SQLiteOpenHelper {
 
     private static final int VERSION = 1;
 
+    @SuppressLint("StaticFieldLeak")
     private static PalmDB sInstance = null;
 
     private Context mContext;
 
     public static PalmDB getInstance(final Context context){
         if (sInstance == null){
-            synchronized (SQLiteOpenHelper.class) {
+            synchronized (PalmDB.class) {
                 if (sInstance == null) {
                     sInstance = new PalmDB(context.getApplicationContext());
                 }
