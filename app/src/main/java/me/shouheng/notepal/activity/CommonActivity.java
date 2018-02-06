@@ -12,6 +12,7 @@ import com.afollestad.materialdialogs.color.ColorChooserDialog;
 import com.crashlytics.android.Crashlytics;
 
 import io.fabric.sdk.android.Fabric;
+import me.shouheng.notepal.provider.base.OpenHelperManager;
 import me.shouheng.notepal.util.ActivityUtils;
 
 /**
@@ -67,5 +68,15 @@ public abstract class CommonActivity<T extends ViewDataBinding> extends ThemedAc
 
     public void superOnBackPressed() {
         super.onBackPressed();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        releaseHelper();
+    }
+
+    protected void releaseHelper() {
+        OpenHelperManager.releaseHelper();
     }
 }
