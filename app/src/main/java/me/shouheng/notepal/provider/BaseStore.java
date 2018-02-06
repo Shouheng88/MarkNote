@@ -324,10 +324,9 @@ public abstract class BaseStore<T extends Model> {
     }
 
     protected synchronized List<T> getList(Cursor cursor){
-        LogUtils.d(this); // print the hash code of this object
-        LogUtils.d(Thread.currentThread());
+        LogUtils.d("Current Object: " + this + ", " + Thread.currentThread());
         List<T> models = new LinkedList<>();
-        if (cursor != null && !cursor.isClosed() && cursor.moveToFirst()){
+        if (cursor != null && !cursor.isClosed() && cursor.moveToFirst()){ // exception here
             do {
                 models.add(getModel(cursor));
             } while (cursor.moveToNext());
