@@ -14,32 +14,34 @@ import me.shouheng.notepal.R;
 public class FragmentHelper {
 
     public static void replace(AppCompatActivity activity, Fragment fragment, @IdRes int containerId) {
-        FragmentManager fragmentManager = activity.getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        setCustomAnimations(transaction);
-        transaction.replace(containerId, fragment).commit();
-    }
-
-    public static void replace(AppCompatActivity activity, android.app.Fragment fragment, @IdRes int containerId) {
-        android.app.FragmentManager fragmentManager = activity.getFragmentManager();
-        android.app.FragmentTransaction transaction = fragmentManager.beginTransaction();
-        setCustomAnimations(transaction);
-        transaction.replace(containerId, fragment).commit();
+        replace(activity, fragment, containerId, false);
     }
 
     public static void replaceWithCallback(AppCompatActivity activity, Fragment fragment, @IdRes int containerId) {
-        FragmentManager fragmentManager = activity.getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        setCustomAnimations(transaction);
-        transaction.addToBackStack(null);
-        transaction.replace(containerId, fragment).commit();
+        replace(activity, fragment, containerId, true);
+    }
+
+    public static void replace(AppCompatActivity activity, android.app.Fragment fragment, @IdRes int containerId) {
+        replace(activity, fragment, containerId, false);
     }
 
     public static void replaceWithCallback(AppCompatActivity activity, android.app.Fragment fragment, @IdRes int containerId) {
+        replace(activity, fragment, containerId, true);
+    }
+
+    private static void replace(AppCompatActivity activity, android.app.Fragment fragment, @IdRes int containerId, boolean backStack) {
         android.app.FragmentManager fragmentManager = activity.getFragmentManager();
         android.app.FragmentTransaction transaction = fragmentManager.beginTransaction();
         setCustomAnimations(transaction);
-        transaction.addToBackStack(null);
+        if (backStack) transaction.addToBackStack(null);
+        transaction.replace(containerId, fragment).commit();
+    }
+
+    private static void replace(AppCompatActivity activity, Fragment fragment, @IdRes int containerId, boolean backStack) {
+        FragmentManager fragmentManager = activity.getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        setCustomAnimations(transaction);
+        if (backStack) transaction.addToBackStack(null);
         transaction.replace(containerId, fragment).commit();
     }
 
