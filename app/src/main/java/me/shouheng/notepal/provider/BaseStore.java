@@ -11,14 +11,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 import me.shouheng.notepal.model.Model;
-import me.shouheng.notepal.model.TimeLine;
 import me.shouheng.notepal.model.enums.Operation;
 import me.shouheng.notepal.model.enums.Status;
 import me.shouheng.notepal.provider.annotation.Table;
+import me.shouheng.notepal.provider.base.OpenHelperManager;
 import me.shouheng.notepal.provider.helper.StoreHelper;
 import me.shouheng.notepal.provider.helper.TimelineHelper;
 import me.shouheng.notepal.provider.schema.BaseSchema;
-import me.shouheng.notepal.provider.schema.TimelineSchema;
 import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.UserUtil;
 
@@ -60,10 +59,13 @@ public abstract class BaseStore<T extends Model> {
     protected abstract void fillContentValues(ContentValues values, T model);
 
     protected SQLiteDatabase getWritableDatabase() {
+        OpenHelperManager.requireConnection();
         return mPalmDatabase.getWritableDatabase();
     }
 
-    protected void closeDatabase(SQLiteDatabase database) {}
+    protected void closeDatabase(SQLiteDatabase database) {
+        OpenHelperManager.releaseHelper(mPalmDatabase);
+    }
 
     protected synchronized void closeCursor(Cursor cursor) {
         if (cursor == null || cursor.isClosed()) return;

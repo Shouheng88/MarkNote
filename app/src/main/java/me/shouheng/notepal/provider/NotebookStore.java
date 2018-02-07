@@ -212,7 +212,7 @@ public class NotebookStore extends BaseStore<Notebook> {
             notebooks = getList(cursor);
         } finally {
             closeCursor(cursor);
-            database.close();
+            closeDatabase(database);
         }
         return notebooks;
     }
