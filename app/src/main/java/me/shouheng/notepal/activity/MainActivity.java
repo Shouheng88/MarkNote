@@ -178,6 +178,8 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                 handleThirdPart();
                 break;
         }
+
+        intent.setAction(""); // remove action info
     }
 
     private void handleThirdPart() {
