@@ -3,6 +3,7 @@ package me.shouheng.notepal.widget.desktop;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.util.SparseArray;
+import android.view.View;
 import android.widget.RemoteViews;
 
 import me.shouheng.notepal.R;
@@ -28,6 +29,7 @@ public class SimpleWidgetProvider extends WidgetProvider {
     private RemoteViews configSingleLine(Context context, SparseArray<PendingIntent> pendingIntentsMap) {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
         configToolbar(context, views, pendingIntentsMap);
+        views.setViewVisibility(R.id.iv_setting, View.GONE);
         return views;
     }
 
