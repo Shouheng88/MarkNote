@@ -9,12 +9,28 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    signingConfigs {
+        release {
+            keyAlias 'npcodebase'
+            storeFile file('../palm.jks')
+            storePassword 'qweasdzxc'
+            keyPassword 'qweasdzxc'
+        }
     }
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled true
+            shrinkResources true // enable shrink resources
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        applicationVariants.all { variant ->
+            variant.outputs.all { output ->
+                outputFileName = defaultConfig.applicationId + "-" + variant.baseName + "-" + defaultConfig.versionName + "-" + defaultConfig.versionCode + ".apk";
+            }
         }
     }
     dataBinding {
@@ -28,6 +44,13 @@ android {
         main {
             jniLibs.srcDirs = ['libs']
         }
+    }
+    flavorDimensions "default"
+    productFlavors {
+        dev {}
+        alpha {}
+        beta {}
+        prod {}
     }
 }
 
