@@ -132,18 +132,18 @@
 
     <!--region introduction-->
     <string name="show_introduction_again">再次显示用户导引页？</string>
-    <string name="intro_1_title">intro 1 title</string>
-    <string name="intro_1_description">intro 1 description</string>
-    <string name="intro_2_title">intro 2 title</string>
-    <string name="intro_2_description">intro 2 description</string>
-    <string name="intro_3_title">intro 3 title</string>
-    <string name="intro_3_description">intro 3 description</string>
-    <string name="intro_4_title">intro 4 title</string>
-    <string name="intro_4_description">intro 4 description</string>
-    <string name="intro_5_title">intro 5 title</string>
-    <string name="intro_5_description">intro 5 description</string>
-    <string name="intro_6_title">intro 6 title</string>
-    <string name="intro_6_description">intro 6 description</string>
+    <string name="intro_1_title">欢迎使用 %s</string>
+    <string name="intro_1_description">感谢您使用 %s\n一款帮助您提升工作效率\n记录生活中精彩时刻的\nMarkdown笔记应用</string>
+    <string name="intro_2_title">Markdown</string>
+    <string name="intro_2_description">Markdown语法支持\n分享、导出图片和PDF</string>
+    <string name="intro_3_title">小纸条</string>
+    <string name="intro_3_description">轻量型笔记\n随时随地记录精彩时刻</string>
+    <string name="intro_4_title">主题</string>
+    <string name="intro_4_description">日夜主题\n13种主色调 16种强调色</string>
+    <string name="intro_5_title">附件</string>
+    <string name="intro_5_description">手绘 图片 照片 视频\n音频 文件 位置</string>
+    <string name="intro_6_title">祝您使用愉快</string>
+    <string name="intro_6_description">加入社区！</string>
     <!--endregion introduction-->
 
     <!--region fab sort-->
