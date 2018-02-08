@@ -10,13 +10,12 @@
 
     <ImageView
         android:id="@+id/iv_launch_app"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_margin="16dp"
+        android:layout_width="56dp"
+        android:layout_height="match_parent"
         android:background="@drawable/icon_selector"
         android:layout_gravity="center_vertical"
         android:tint="@android:color/white"
-        android:src="@drawable/ic_insert_drive_file" />
+        android:src="@drawable/notepal_desc" />
 
     <ImageView
         android:id="@+id/iv_add_note"
