@@ -14,7 +14,7 @@ android {
     }
     signingConfigs {
         release {
-            keyAlias 'npcodebase'
+            keyAlias 'key0'
             storeFile file('../palm.jks')
             storePassword 'qweasdzxc'
             keyPassword 'qweasdzxc'
