@@ -14,10 +14,10 @@ public class IntroSlide1 extends IntroFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         background.setBackgroundResource(R.color.intro_color_1);
-        title.setText(R.string.intro_1_title);
+        title.setText(String.format(getString(R.string.intro_1_title), getString(R.string.app_name)));
         image.setVisibility(View.GONE);
         imageSmall.setImageResource(R.mipmap.ic_launcher);
         imageSmall.setVisibility(View.VISIBLE);
-        description.setText(R.string.intro_1_description);
+        description.setText(String.format(getString(R.string.intro_1_description), getString(R.string.app_name)));
     }
 }

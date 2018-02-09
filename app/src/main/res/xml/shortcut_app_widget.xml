@@ -4,6 +4,6 @@
     android:initialLayout="@layout/desktop_shortcut_app_widget"
     android:minHeight="40dp"
     android:minWidth="40dp"
-    android:previewImage="@drawable/example_appwidget_preview"
+    android:previewImage="@drawable/notepal_plus"
     android:updatePeriodMillis="300000"
     android:widgetCategory="home_screen"/>
