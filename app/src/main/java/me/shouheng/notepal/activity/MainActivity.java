@@ -140,7 +140,8 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     private void handleIntent(Intent intent) {
         String action = intent.getAction();
 
-        if (TextUtils.isEmpty(action)) return;
+        // if the action is empty or the activity is recreated for theme change, don;t handle intent
+        if (TextUtils.isEmpty(action) || recreateForThemeChange) return;
 
         switch (action) {
             case Constants.ACTION_SHORTCUT:
@@ -178,8 +179,6 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                 handleThirdPart();
                 break;
         }
-
-        intent.setAction(""); // remove action info
     }
 
     private void handleThirdPart() {

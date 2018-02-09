@@ -11,6 +11,8 @@ public abstract class ColorfulActivity extends BaseActivity {
 
     private String themeString;
 
+    protected boolean recreateForThemeChange;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +39,7 @@ public abstract class ColorfulActivity extends BaseActivity {
         if (!Colorful.getThemeString().equals(themeString)) {
             Log.d(Util.LOG_TAG, "Theme change detected, restarting activity");
             recreate();
+            recreateForThemeChange = true;
         }
     }
 }
