@@ -12,7 +12,7 @@
         android:id="@+id/iv_launch_app"
         android:layout_width="56dp"
         android:layout_height="match_parent"
-        android:background="@drawable/icon_selector"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:layout_gravity="center_vertical"
         android:tint="@android:color/white"
         android:src="@drawable/notepal_desc" />
@@ -22,7 +22,7 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_margin="16dp"
-        android:background="@drawable/icon_selector"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:layout_gravity="center_vertical"
         android:tint="@android:color/white"
         android:src="@drawable/ic_note" />
@@ -32,7 +32,7 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_margin="16dp"
-        android:background="@drawable/icon_selector"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:layout_gravity="center_vertical"
         android:tint="@android:color/white"
         android:src="@drawable/ic_lightbulb_outline_black_24dp" />
@@ -42,7 +42,7 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_margin="16dp"
-        android:background="@drawable/icon_selector"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:layout_gravity="center_vertical"
         android:tint="@android:color/white"
         android:src="@drawable/ic_add_a_photo_white" />
@@ -52,7 +52,7 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_margin="16dp"
-        android:background="@drawable/icon_selector"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:layout_gravity="center_vertical"
         android:tint="@android:color/white"
         android:src="@drawable/ic_gesture_black_24dp" />
@@ -62,7 +62,7 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_margin="16dp"
-        android:background="@drawable/icon_selector"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:layout_gravity="center_vertical"
         android:tint="@android:color/white"
         android:src="@drawable/ic_settings_black" />
