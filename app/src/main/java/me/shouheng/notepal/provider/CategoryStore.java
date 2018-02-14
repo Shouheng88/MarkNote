@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.List;
+
 import me.shouheng.notepal.model.Category;
 import me.shouheng.notepal.model.enums.Portrait;
 import me.shouheng.notepal.provider.schema.CategorySchema;
@@ -53,5 +55,22 @@ public class CategoryStore extends BaseStore<Category> {
         values.put(CategorySchema.COLOR, model.getColor());
         values.put(CategorySchema.PORTRAIT, model.getPortrait().id);
         values.put(CategorySchema.CATEGORY_ORDER, model.getCategoryOrder());
+    }
+
+    public synchronized void updateOrders(List<Category> categories){
+        SQLiteDatabase database = getWritableDatabase();
+        database.beginTransaction();
+        try {
+            int size = categories.size();
+            for (int i = 0; i < size; i++){
+                database.execSQL(" UPDATE " + tableName +
+                        " SET " + CategorySchema.CATEGORY_ORDER + " = " + i +
+                        " WHERE " + CategorySchema.CODE + " = " + categories.get(i).getCode());
+            }
+            database.setTransactionSuccessful();
+        } finally {
+            database.endTransaction();
+            closeDatabase(database);
+        }
     }
 }
