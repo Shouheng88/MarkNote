@@ -36,9 +36,11 @@ import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.databinding.ActivityMainBinding;
 import me.shouheng.notepal.databinding.ActivityMainNavHeaderBinding;
 import me.shouheng.notepal.dialog.AttachmentPickerDialog;
+import me.shouheng.notepal.dialog.CategoryEditDialog;
 import me.shouheng.notepal.dialog.MindSnaggingDialog;
 import me.shouheng.notepal.dialog.NotebookEditDialog;
 import me.shouheng.notepal.dialog.NoticeDialog;
+import me.shouheng.notepal.fragment.CategoriesFragment;
 import me.shouheng.notepal.fragment.NotesFragment;
 import me.shouheng.notepal.fragment.SnaggingsFragment;
 import me.shouheng.notepal.fragment.SnaggingsFragment.OnSnagginsInteractListener;
@@ -54,6 +56,7 @@ import me.shouheng.notepal.model.enums.FabSortItem;
 import me.shouheng.notepal.model.enums.ModelType;
 import me.shouheng.notepal.model.enums.Status;
 import me.shouheng.notepal.provider.AttachmentsStore;
+import me.shouheng.notepal.provider.CategoryStore;
 import me.shouheng.notepal.provider.MindSnaggingStore;
 import me.shouheng.notepal.provider.NotebookStore;
 import me.shouheng.notepal.util.AttachmentHelper;
@@ -90,6 +93,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
 
     private MindSnaggingDialog mindSnaggingDialog;
     private NotebookEditDialog notebookEditDialog;
+    private CategoryEditDialog categoryEditDialog;
 
     private RecyclerView.OnScrollListener onScrollListener;
     private NotesChangedReceiver notesChangedReceiver;
@@ -275,6 +279,9 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
             case NOTEBOOK:
                 editNotebook();
                 break;
+            case CATEGORY:
+                editCategory();
+                break;
             case MIND_SNAGGING:
                 editMindSnagging(ModelFactory.getMindSnagging(this));
                 break;
@@ -373,6 +380,20 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                 .setVideoVisible(false)
                 .build().show(getSupportFragmentManager(), "Attachment picker");
     }
+
+    private void editCategory() {
+        categoryEditDialog = CategoryEditDialog.newInstance(this, ModelFactory.getCategory(this), category -> {
+            CategoryStore.getInstance(this).saveModel(category);
+
+            ToastUtils.makeToast(this, R.string.text_save_successfully);
+
+            Fragment fragment = getCurrentFragment();
+            if (fragment != null && fragment instanceof CategoriesFragment) {
+                ((CategoriesFragment) fragment).addCategory(category);
+            }
+        });
+        categoryEditDialog.show(getSupportFragmentManager(), "CATEGORY_EDIT_DIALOG");
+    }
     // endregion
 
     // region drawer
@@ -411,10 +432,10 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                     toNotesFragment();
                     break;
                 case R.id.nav_minds:
-                    toSnaggingsFragment(true);
+                    toSnaggingFragment(true);
                     break;
                 case R.id.nav_labels:
-                    // todo add labels fragments
+                    toCategoriesFragment();
                     break;
                 case R.id.nav_archive:
                     startActivityForResult(ArchiveActivity.class, REQUEST_ARCHIVE);
@@ -434,12 +455,20 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         new Handler().postDelayed(() -> getBinding().nav.getMenu().findItem(R.id.nav_notes).setChecked(true), 300);
     }
 
-    private void toSnaggingsFragment(boolean checkDuplicate) {
+    private void toSnaggingFragment(boolean checkDuplicate) {
         if (checkDuplicate && getCurrentFragment() instanceof SnaggingsFragment) return;
         SnaggingsFragment snaggingsFragment = SnaggingsFragment.newInstance();
         snaggingsFragment.setScrollListener(onScrollListener);
         FragmentHelper.replace(this, snaggingsFragment, R.id.fragment_container);
         new Handler().postDelayed(() -> getBinding().nav.getMenu().findItem(R.id.nav_minds).setChecked(true), 300);
+    }
+
+    private void toCategoriesFragment() {
+        if (getCurrentFragment() instanceof CategoriesFragment) return;
+        CategoriesFragment categoriesFragment = CategoriesFragment.newInstance();
+        categoriesFragment.setScrollListener(onScrollListener);
+        FragmentHelper.replace(this, categoriesFragment, R.id.fragment_container);
+        new Handler().postDelayed(() -> getBinding().nav.getMenu().findItem(R.id.nav_labels).setChecked(true), 300);
     }
 
     private Fragment getCurrentFragment(){
@@ -588,6 +617,9 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         if (notebookEditDialog != null) {
             notebookEditDialog.updateUIBySelectedColor(selectedColor);
         }
+        if (categoryEditDialog != null) {
+            categoryEditDialog.updateUIBySelectedColor(selectedColor);
+        }
         Fragment currentFragment = getCurrentFragment();
         if (currentFragment instanceof NotesFragment) {
             ((NotesFragment) currentFragment).setSelectedColor(selectedColor);
@@ -618,6 +650,6 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
 
     @Override
     public void onListTypeChanged(MindSnaggingListType listType) {
-        toSnaggingsFragment(false);
+        toSnaggingFragment(false);
     }
 }
