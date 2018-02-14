@@ -28,8 +28,10 @@ public class ArchiveActivity extends BaseListActivity implements NotesFragment.O
 
     @Override
     public void onNotebookSelected(Notebook notebook) {
-        NotesFragment notesFragment = NotesFragment.newInstance(notebook, Status.ARCHIVED);
-        FragmentHelper.replaceWithCallback(this, notesFragment, R.id.fragment_container);
+        FragmentHelper.replaceWithCallback(
+                this,
+                NotesFragment.newInstance(notebook, Status.ARCHIVED),
+                R.id.fragment_container);
     }
 
     @Override
