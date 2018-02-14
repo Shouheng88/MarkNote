@@ -253,6 +253,7 @@
     <!--region fab items-->
     <string name="fab_opt_note">笔记</string>
     <string name="fab_opt_notebook">笔记本</string>
+    <string name="fab_opt_category">标签</string>
     <string name="fab_opt_capture">拍照</string>
     <string name="fab_opt_file">文件</string>
     <string name="fab_opt_draft">手写</string>
