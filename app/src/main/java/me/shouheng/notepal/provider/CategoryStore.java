@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.List;
 
 import me.shouheng.notepal.model.Category;
+import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.model.enums.Portrait;
 import me.shouheng.notepal.provider.schema.CategorySchema;
 
@@ -72,5 +73,16 @@ public class CategoryStore extends BaseStore<Category> {
             database.endTransaction();
             closeDatabase(database);
         }
+    }
+
+    /**
+     * Get labels of note.
+     *
+     * @param note the note
+     * @return categories of note
+     */
+    public synchronized List<Category> getCategories(Note note) {
+        // note -> note labels -> category codes -> categories -> labels text
+        return null;
     }
 }
