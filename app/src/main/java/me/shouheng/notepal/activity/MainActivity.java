@@ -68,9 +68,12 @@ import me.shouheng.notepal.widget.tools.CustomRecyclerScrollViewListener;
 
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
 
-public class MainActivity extends CommonActivity<ActivityMainBinding> implements NotesFragment.OnNotesInteractListener,
-        OnAttachingFileListener, OnSnagginsInteractListener {
+public class MainActivity extends CommonActivity<ActivityMainBinding> implements
+        NotesFragment.OnNotesInteractListener,
+        OnAttachingFileListener,
+        OnSnagginsInteractListener {
 
+    // region request codes
     private final int REQUEST_FAB_SORT = 0x0001;
     private final int REQUEST_ADD_NOTE = 0x0002;
     private final int REQUEST_ARCHIVE = 0x0003;
@@ -79,6 +82,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     private final int REQUEST_PASSWORD = 0x0006;
     private final int REQUEST_SEARCH = 0x0007;
     private final int REQUEST_NOTE_VIEW = 0x0008;
+    // endregion
 
     private long onBackPressed;
 
