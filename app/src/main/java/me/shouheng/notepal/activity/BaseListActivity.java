@@ -1,5 +1,7 @@
 package me.shouheng.notepal.activity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.IdRes;
@@ -20,11 +22,21 @@ import me.shouheng.notepal.util.FragmentHelper;
  * Created by wangshouheng on 2017/10/10.*/
 public abstract class BaseListActivity extends CommonActivity<ActivityListBaseWithDrawerBinding> {
 
+    private boolean isListChanged;
+
     protected abstract CharSequence getActionbarTitle();
 
     protected abstract Fragment getNotesFragment();
 
     protected abstract Fragment getSnaggingsFragment();
+
+    protected void setListChanged(boolean isListChanged) {
+        this.isListChanged = isListChanged;
+    }
+
+    protected boolean isListChanged() {
+        return isListChanged;
+    }
 
     @Override
     protected int getLayoutResId() {
@@ -57,6 +69,10 @@ public abstract class BaseListActivity extends CommonActivity<ActivityListBaseWi
 
         getBinding().navView.setNavigationItemSelectedListener(menuItem -> {
             if (menuItem.getItemId() == R.id.nav_back) {
+                if (isListChanged) {
+                    Intent intent = new Intent();
+                    setResult(Activity.RESULT_OK, intent);
+                }
                 BaseListActivity.super.onBackPressed();
                 return true;
             }
@@ -111,6 +127,10 @@ public abstract class BaseListActivity extends CommonActivity<ActivityListBaseWi
         if (getBinding().drawerLayout.isDrawerOpen(GravityCompat.START)){
             getBinding().drawerLayout.closeDrawer(GravityCompat.START);
         } else {
+            if (isListChanged) {
+                Intent intent = new Intent();
+                setResult(Activity.RESULT_OK, intent);
+            }
             super.onBackPressed();
         }
     }

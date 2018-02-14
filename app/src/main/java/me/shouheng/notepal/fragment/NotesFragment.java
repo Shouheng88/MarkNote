@@ -314,6 +314,13 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
     public void reload() {
         AppWidgetUtils.notifyAppWidgets(getContext());
         adapter.setNewData(getMultiItems());
+
+        /**
+         * Other the note name is changed or the list is changed by adding or removing,
+         * will notify the activity. */
+        if (getActivity() != null && getActivity() instanceof OnNotesInteractListener) {
+            ((OnNotesInteractListener) getActivity()).onListChanged();
+        }
     }
 
     public Notebook getNotebook() {
@@ -379,7 +386,21 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
     }
 
     public interface OnNotesInteractListener {
+
+        /**
+         * On the notebook is selected, this method will be called.
+         *
+         * @param notebook notebook selected */
         void onNotebookSelected(Notebook notebook);
+
+        /**
+         * When the fragment is attached to the activity, will call this method to lock the drawer
+         *
+         * @param isTopStack whether current fragment is the top stack of all fragments */
         void onActivityAttached(boolean isTopStack);
+
+        /**
+         * This method will be called when the notes list is changed -- moved out from or added to the list. */
+        void onListChanged();
     }
 }
