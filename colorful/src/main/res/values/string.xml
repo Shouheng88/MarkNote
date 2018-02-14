@@ -14,13 +14,12 @@
     <string name="permission_camera_permission">相机</string>
     <string name="permission_calendar_permission">日历</string>
     <string name="permission_set_permission_in_setting">在设置中设置%s.</string>
-    <!--Permission denied. Please try again after grant the permission.-->
-    <string name="permission_permission_denied_try_after">没有权限，请授予权限之后再次尝试。</string>
     <string name="setting_permission">设置权限</string>
     <string name="set_permission_in_setting">打开"设置"，轻触"权限"，将"%s"设置为打开，并再次尝试.</string>
     <string name="storage_permission">存储空间权限</string>
     <string name="phone_permission">电话权限</string>
     <string name="microphone_permission">麦克风权限</string>
     <string name="to_set">去设置</string>
-    <string name="permission_denied_try_again_after_set">请授予程序权限后再次尝试</string>
+    <!--Permission denied. Please try again after grant the permission.-->
+    <string name="permission_denied_try_again_after_set">没有权限，请授予权限之后再次尝试。</string>
 </resources>
