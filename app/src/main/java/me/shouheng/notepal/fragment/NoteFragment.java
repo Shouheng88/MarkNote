@@ -257,7 +257,7 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
 
         getBinding().drawer.tvAddToHomeScreen.setOnClickListener(v -> addShortcut());
 
-        getBinding().drawer.tvStatistics.setOnClickListener(v -> showStatisticsDialog());
+        getBinding().drawer.tvStatistics.setOnClickListener(v -> showStatistics());
 
         getBinding().drawer.ivAddPreview.setOnClickListener(v -> showAttachmentPicker(AttachmentPickerType.PREVIEW_IMAGE));
         loadPreviewImage();
@@ -290,7 +290,10 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
         getBinding().drawer.tvCharsInfo.setText(charsInfo);
     }
 
-    private void showStatisticsDialog(){}
+    private void showStatistics(){
+        note.setContent(getBinding().main.etContent.getText().toString());
+        ModelHelper.showStatistic(getContext(), note);
+    }
 
     private void showNotebookPicker() {
         NotebookPickerDialog.newInstance()
