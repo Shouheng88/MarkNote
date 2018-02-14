@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:gravity="center"
+    android:paddingBottom="2dp">
+
+    <me.shouheng.notepal.widget.themed.SupportTextView
+        android:id="@+id/tv_name"
+        android:layout_weight="3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:paddingEnd="5dp"
+        android:paddingStart="0dp"
+        tools:text="Total"
+        android:textStyle="bold"/>
+
+    <me.shouheng.notepal.widget.themed.SupportTextView
+        android:id="@+id/tv_result"
+        tools:text="10"
+        android:layout_weight="2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

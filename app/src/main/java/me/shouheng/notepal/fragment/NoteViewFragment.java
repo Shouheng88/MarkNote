@@ -242,7 +242,8 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
                 ToastUtils.makeToast(getContext(), R.string.successfully_add_shortcut);
                 break;
             case R.id.action_statistic:
-                ModelHelper.showStatisticDialog(getContext(), note);
+                note.setContent(content);
+                ModelHelper.showStatistic(getContext(), note);
                 break;
         }
         return super.onOptionsItemSelected(item);

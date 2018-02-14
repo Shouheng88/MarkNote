@@ -94,12 +94,26 @@ public class ModelHelper {
         clipboardManager.setText(null);
     }
 
-    // todo setup the statistic dialog
-    public static void showStatisticDialog(Context context, Note note) {
+    // todo test whether the logic works
+    public static void showStatistic(Context context, Note note) {
+        View root = LayoutInflater.from(context).inflate(R.layout.dialog_stats, null, false);
+        LinearLayout llStats = root.findViewById(R.id.ll_stats);
+        addStat(context, llStats, context.getString(R.string.text_created_time), TimeUtils.getPrettyTime(note.getAddedTime()));
+        addStat(context, llStats, context.getString(R.string.text_last_modified_time), TimeUtils.getPrettyTime(note.getLastModifiedTime()));
+        addStat(context, llStats, context.getString(R.string.text_last_sync_time), (note.getLastSyncTime().getTime() == 0 ? "--" : TimeUtils.getPrettyTime(note.getLastModifiedTime())));
+        addStat(context, llStats, context.getString(R.string.text_chars_number), String.valueOf(note.getContent().length()));
         new AlertDialog.Builder(context)
+                .setView(root)
                 .setPositiveButton(R.string.text_confirm, null)
                 .create()
                 .show();
+    }
+
+    private static void addStat(Context context, LinearLayout llStats, String name, String result) {
+        LinearLayout llStat = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.item_stat, null, false);
+        ((TextView) llStat.findViewById(R.id.tv_name)).setText(name);
+        ((TextView) llStat.findViewById(R.id.tv_result)).setText(result);
+        llStats.addView(llStat);
     }
 
     public static void showLabels(Context context, Note note) {
