@@ -286,6 +286,48 @@
     <string name="operation_uncompleted">设置未完成</string>
     <!--endregion-->
 
+    <!--region portrait-->
+    <string name="pick_portrait">选择图标</string>
+    <string name="edit_category">编辑标签</string>
+    <string name="category_name">标签名称</string>
+    <string name="pick_category_color">选择标签颜色</string>
+
+    <string name="portrait_name_folder">文件夹</string>
+    <string name="portrait_name_lock">加锁</string>
+    <string name="portrait_name_envelope">信封</string>
+    <string name="portrait_name_write">书写</string>
+    <string name="portrait_name_timeline">时间线</string>
+    <string name="portrait_name_demo">演示</string>
+
+    <string name="portrait_name_growing">增长</string>
+    <string name="portrait_name_corporate">合作</string>
+    <string name="portrait_name_book">笔记本</string>
+    <string name="portrait_name_tourism_book">旅行笔记</string>
+    <string name="portrait_name_gift">礼物</string>
+    <string name="portrait_name_house">房子</string>
+
+    <string name="portrait_name_cloud">云</string>
+    <string name="portrait_name_attachment">附件</string>
+    <string name="portrait_name_music">音乐</string>
+    <string name="portrait_name_flag">书签</string>
+    <string name="portrait_name_star">星星</string>
+    <string name="portrait_name_medal">金牌</string>
+
+    <string name="portrait_name_link">链接</string>
+    <string name="portrait_name_bug">BUG</string>
+    <string name="portrait_name_album">相册</string>
+    <string name="portrait_name_location">位置</string>
+    <string name="portrait_name_message">信息</string>
+    <string name="portrait_name_label">标签</string>
+
+    <string name="portrait_name_loving_label">情感标签</string>
+    <string name="portrait_name_loving_folder">情感文件夹</string>
+    <string name="portrait_name_node">结点</string>
+    <string name="portrait_name_node_circle">环形结点</string>
+    <string name="portrait_name_football">橄榄球</string>
+    <string name="portrait_name_collection">收藏</string>
+    <!--endregion -->
+
     <!--region feedback-->
     <string name="feedback_types">反馈类型</string>
     <string name="feedback_abrupt_crash">意外崩溃</string>
