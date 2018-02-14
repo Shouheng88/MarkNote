@@ -11,10 +11,10 @@ import me.shouheng.notepal.R;
 public enum FabSortItem {
     NOTE(R.string.fab_opt_note, R.drawable.ic_note),
     NOTEBOOK(R.string.fab_opt_notebook, R.drawable.ic_folder_black_24dp),
-    CAPTURE(R.string.fab_opt_capture, R.drawable.ic_add_a_photo_white),
+    CATEGORY(R.string.fab_opt_category, R.drawable.ic_labels_grey_24dp),
     FILE(R.string.fab_opt_file, R.drawable.ic_attach_file_white),
+    CAPTURE(R.string.fab_opt_capture, R.drawable.ic_add_a_photo_white),
     DRAFT(R.string.fab_opt_draft, R.drawable.ic_gesture_black_24dp),
-//    LINK(R.string.fab_opt_link, R.drawable.ic_insert_link_grey_24dp),
 //    RECORD(R.string.fab_opt_record, R.drawable.ic_mic_white_24dp),
 //    NOTICE(R.string.fab_opt_notice, R.drawable.ic_access_alarm_white),
     MIND_SNAGGING(R.string.fab_mind_snagging, R.drawable.ic_lightbulb_outline_black_24dp);

@@ -29,7 +29,7 @@ public class PreferencesUtils {
         defaultFabOrders.add(FabSortItem.NOTE);
         defaultFabOrders.add(FabSortItem.NOTEBOOK);
         defaultFabOrders.add(FabSortItem.MIND_SNAGGING);
-        defaultFabOrders.add(FabSortItem.CAPTURE);
+        defaultFabOrders.add(FabSortItem.CATEGORY);
         defaultFabOrders.add(FabSortItem.FILE);
     }
 
