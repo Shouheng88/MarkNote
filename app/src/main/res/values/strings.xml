@@ -517,8 +517,6 @@
     <string name="back">返回</string>
     <string name="use_social_accounts">使用社交账号登录</string>
     <string name="register_palm_college">注册 %s</string>
-    <string name="appwidget_text">EXAMPLE</string>
-    <string name="add_widget">Add widget</string>
     <!--endregion-->
 
 </resources>
