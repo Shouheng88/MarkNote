@@ -9,6 +9,7 @@ import me.shouheng.notepal.config.TextLength;
 import me.shouheng.notepal.model.enums.AlarmType;
 import me.shouheng.notepal.model.enums.ModelType;
 import me.shouheng.notepal.model.enums.Operation;
+import me.shouheng.notepal.model.enums.Portrait;
 import me.shouheng.notepal.model.enums.Status;
 import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.TimeUtils;
@@ -125,6 +126,13 @@ public class ModelFactory {
 
     public static Feedback getFeedback(Context context) {
         return getModel(context, Feedback.class);
+    }
+
+    public static Category getCategory(Context context){
+        Category category = getModel(context, Category.class);
+        assert category != null;
+        category.setPortrait(Portrait.FOLDER);
+        return category;
     }
 
     private static <M extends Model> String getModelName(M model) {
