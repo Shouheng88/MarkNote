@@ -1,6 +1,5 @@
 package me.shouheng.notepal.activity;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -495,57 +494,43 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        handleAttachmentResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode != RESULT_OK) return;
+
+        handleAttachmentResult(requestCode, data);
+
         switch (requestCode) {
             case REQUEST_FAB_SORT:
-                if (resultCode == RESULT_OK) initFabSortItems();
+                initFabSortItems();
                 break;
             case REQUEST_NOTE_VIEW:
             case REQUEST_ADD_NOTE:
-                if (isNotesFragment() && resultCode == RESULT_OK) {
-                    ((NotesFragment) getCurrentFragment()).reload();
-                }
+                if (isNotesFragment()) ((NotesFragment) getCurrentFragment()).reload();
                 break;
             case REQUEST_TRASH:
-                if (resultCode == RESULT_OK) {
-                    updateListIfNecessary();
-                }
+                updateListIfNecessary();
                 break;
             case REQUEST_ARCHIVE: // todo update event
-                if (resultCode == RESULT_OK) {
-                    updateListIfNecessary();
-                }
+                updateListIfNecessary();
                 break;
             case REQUEST_SEARCH:
-                if (resultCode == RESULT_OK) {
-                    updateListIfNecessary();
-                }
+                updateListIfNecessary();
                 break;
             case REQUEST_PASSWORD:
-                if (resultCode == RESULT_OK) {
-                    init();
-                }
+                init();
                 break;
         }
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void updateListIfNecessary() {
-        if (isNotesFragment()) {
-            ((NotesFragment) getCurrentFragment()).reload();
-        }
-        if (isSnaggingFragment()) {
-            ((SnaggingsFragment) getCurrentFragment()).reload();
-        }
+        if (isNotesFragment()) ((NotesFragment) getCurrentFragment()).reload();
+        if (isSnaggingFragment()) ((SnaggingsFragment) getCurrentFragment()).reload();
     }
 
-    private void handleAttachmentResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK) {
-            AttachmentHelper.resolveResult(this,
-                    requestCode,
-                    data,
-                    attachment -> mindSnaggingDialog.setAttachment(attachment));
-        }
+    private void handleAttachmentResult(int requestCode, Intent data) {
+        AttachmentHelper.resolveResult(this, requestCode, data, attachment ->
+                mindSnaggingDialog.setAttachment(attachment));
     }
 
     @Override
