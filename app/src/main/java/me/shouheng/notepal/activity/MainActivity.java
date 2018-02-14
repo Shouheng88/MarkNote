@@ -389,6 +389,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                 case R.id.nav_notes:
                 case R.id.nav_minds:
                 case R.id.nav_notices:
+                case R.id.nav_labels:
                     menuItem.setChecked(true);
                     break;
             }
@@ -411,6 +412,9 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                     break;
                 case R.id.nav_minds:
                     toSnaggingsFragment(true);
+                    break;
+                case R.id.nav_labels:
+                    // todo add labels fragments
                     break;
                 case R.id.nav_archive:
                     startActivityForResult(ArchiveActivity.class, REQUEST_ARCHIVE);
