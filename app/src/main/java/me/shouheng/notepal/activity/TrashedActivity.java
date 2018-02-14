@@ -11,7 +11,9 @@ import me.shouheng.notepal.util.FragmentHelper;
 
 /**
  * Created by wangshouheng on 2017/10/10.*/
-public class TrashedActivity extends BaseListActivity implements NotesFragment.OnNotesInteractListener {
+public class TrashedActivity extends BaseListActivity implements
+        NotesFragment.OnNotesInteractListener,
+        SnaggingsFragment.OnSnagginsInteractListener {
 
     @Override
     protected CharSequence getActionbarTitle() {
@@ -40,7 +42,12 @@ public class TrashedActivity extends BaseListActivity implements NotesFragment.O
     }
 
     @Override
-    public void onListChanged() {
+    public void onNoteListChanged() {
+        setListChanged(true);
+    }
+
+    @Override
+    public void onSnaggingListChanged() {
         setListChanged(true);
     }
 }

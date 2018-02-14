@@ -603,9 +603,6 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     }
 
     @Override
-    public void onListChanged() {}
-
-    @Override
     public void onAttachingFileErrorOccurred(Attachment attachment) {
         ToastUtils.makeToast(R.string.failed_to_save_attachment);
     }

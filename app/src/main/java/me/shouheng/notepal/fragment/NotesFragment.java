@@ -319,7 +319,7 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
          * Other the note name is changed or the list is changed by adding or removing,
          * will notify the activity. */
         if (getActivity() != null && getActivity() instanceof OnNotesInteractListener) {
-            ((OnNotesInteractListener) getActivity()).onListChanged();
+            ((OnNotesInteractListener) getActivity()).onNoteListChanged();
         }
     }
 
@@ -391,16 +391,18 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
          * On the notebook is selected, this method will be called.
          *
          * @param notebook notebook selected */
-        void onNotebookSelected(Notebook notebook);
+        default void onNotebookSelected(Notebook notebook){}
 
         /**
          * When the fragment is attached to the activity, will call this method to lock the drawer
          *
          * @param isTopStack whether current fragment is the top stack of all fragments */
-        void onActivityAttached(boolean isTopStack);
+        default void onActivityAttached(boolean isTopStack){}
 
         /**
-         * This method will be called when the notes list is changed -- moved out from or added to the list. */
-        void onListChanged();
+         * This method will be called when the notes list is changed -- moved out from or added to the list.
+         *
+         * @see SnaggingsFragment.OnSnagginsInteractListener#onSnaggingListChanged() */
+        default void onNoteListChanged(){}
     }
 }
