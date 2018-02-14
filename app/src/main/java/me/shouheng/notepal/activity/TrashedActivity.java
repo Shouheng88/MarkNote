@@ -38,4 +38,9 @@ public class TrashedActivity extends BaseListActivity implements NotesFragment.O
     public void onActivityAttached(boolean isTopStack) {
         setDrawerLayoutLocked(!isTopStack);
     }
+
+    @Override
+    public void onListChanged() {
+        setListChanged(true);
+    }
 }
