@@ -3,18 +3,19 @@
 
     <string name="text_cancel">取消</string>
 
-    <string name="permission_setting_permission">Permission Setting</string>
-    <string name="permission_storage_permission">storage permission</string>
-    <string name="permission_location_permission">location permission</string>
-    <string name="permission_microphone_permission">microphone permission</string>
-    <string name="permission_phone_permission">phone permission</string>
-    <string name="permission_sms_permission">sms permission</string>
-    <string name="permission_sensor_permission">sensors permission</string>
-    <string name="permission_contacts_permission">contacts permission</string>
-    <string name="permission_camera_permission">camera permission</string>
-    <string name="permission_calendar_permission">calendar permission</string>
-    <string name="permission_set_permission_in_setting">Set the %s in settings.</string>
-    <string name="permission_permission_denied_try_after">Permission denied. Please try again after grant the permission.</string>
+    <string name="permission_setting_permission">授予权限</string>
+    <string name="permission_storage_permission">存储空间</string>
+    <string name="permission_location_permission">位置信息</string>
+    <string name="permission_microphone_permission">麦克风</string>
+    <string name="permission_phone_permission">电话</string>
+    <string name="permission_sms_permission">短信</string>
+    <string name="permission_sensor_permission">传感器</string>
+    <string name="permission_contacts_permission">通讯录</string>
+    <string name="permission_camera_permission">相机</string>
+    <string name="permission_calendar_permission">日历</string>
+    <string name="permission_set_permission_in_setting">在设置中设置%s.</string>
+    <!--Permission denied. Please try again after grant the permission.-->
+    <string name="permission_permission_denied_try_after">没有权限，请授予权限之后再次尝试。</string>
     <string name="setting_permission">设置权限</string>
     <string name="set_permission_in_setting">打开"设置"，轻触"权限"，将"%s"设置为打开，并再次尝试.</string>
     <string name="storage_permission">存储空间权限</string>
@@ -22,5 +23,4 @@
     <string name="microphone_permission">麦克风权限</string>
     <string name="to_set">去设置</string>
     <string name="permission_denied_try_again_after_set">请授予程序权限后再次尝试</string>
-    <string name="check_network_availability">检查网络连接是否可用</string>
 </resources>
