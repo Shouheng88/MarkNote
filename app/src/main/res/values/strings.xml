@@ -123,6 +123,7 @@
     <!--region drawer menu-->
     <string name="drawer_menu_notes">笔记信息</string>
     <string name="drawer_menu_minds">小纸条</string>
+    <string name="drawer_menu_labels">小纸条</string>
     <string name="drawer_menu_notices">提醒信息</string>
     <string name="drawer_menu_setting">设置</string>
     <string name="drawer_menu_trash">废纸篓</string>
