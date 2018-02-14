@@ -222,6 +222,7 @@
         <item quantity="one">%d 个笔记</item>
         <item quantity="other">%d 个笔记</item>
     </plurals>
+    <string name="category_delete_message">删除该标签不会删除其相关的笔记。</string>
     <string name="categories_list_empty">标签列表为空</string>
     <string name="categories_list_empty_sub_normal">点击主界面的 + 按钮添加标签</string>
     <string name="categories_list_empty_sub_archived">没有发现归档的标签</string>
