@@ -9,7 +9,9 @@ import me.shouheng.notepal.model.Notebook;
 import me.shouheng.notepal.model.enums.Status;
 import me.shouheng.notepal.util.FragmentHelper;
 
-public class ArchiveActivity extends BaseListActivity implements NotesFragment.OnNotesInteractListener {
+public class ArchiveActivity extends BaseListActivity implements
+        NotesFragment.OnNotesInteractListener,
+        SnaggingsFragment.OnSnagginsInteractListener{
 
     @Override
     protected CharSequence getActionbarTitle() {
@@ -40,7 +42,12 @@ public class ArchiveActivity extends BaseListActivity implements NotesFragment.O
     }
 
     @Override
-    public void onListChanged() {
+    public void onNoteListChanged() {
+        setListChanged(true);
+    }
+
+    @Override
+    public void onSnaggingListChanged() {
         setListChanged(true);
     }
 }

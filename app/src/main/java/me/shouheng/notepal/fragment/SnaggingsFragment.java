@@ -245,6 +245,13 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
     public void reload() {
         AppWidgetUtils.notifyAppWidgets(getContext());
         adapter.setNewData(getSnaggings());
+
+        /**
+         * Notify the snagging list is changed. The activity need to record the message, and
+         * use it when set result to caller. */
+        if (getActivity() != null && getActivity() instanceof OnSnagginsInteractListener) {
+            ((OnSnagginsInteractListener) getActivity()).onSnaggingListChanged();
+        }
     }
 
     private void showEditor(int position) {
@@ -397,6 +404,21 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
     }
 
     public interface OnSnagginsInteractListener {
-        void onListTypeChanged(MindSnaggingListType listType);
+
+        /**
+         * The method will be called when list changed between grid-style and list-style.
+         *
+         * @param listType current list type
+         */
+        default void onListTypeChanged(MindSnaggingListType listType){}
+
+        /**
+         * This method will be called, when the snagging list is changed. Do not try to call {@link #reload()}
+         * This method as well as {@link NotesFragment.OnNotesInteractListener#onNoteListChanged()} is only used
+         * to record the list change message and handle in future.
+         *
+         * @see NotesFragment.OnNotesInteractListener#onNoteListChanged()
+         */
+        default void onSnaggingListChanged(){}
     }
 }
