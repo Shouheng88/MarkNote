@@ -47,6 +47,7 @@ import me.shouheng.notepal.fragment.SnaggingsFragment.OnSnagginsInteractListener
 import me.shouheng.notepal.intro.IntroActivity;
 import me.shouheng.notepal.listener.OnAttachingFileListener;
 import me.shouheng.notepal.model.Attachment;
+import me.shouheng.notepal.model.Category;
 import me.shouheng.notepal.model.MindSnagging;
 import me.shouheng.notepal.model.Model;
 import me.shouheng.notepal.model.ModelFactory;
@@ -74,7 +75,8 @@ import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
 public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         NotesFragment.OnNotesInteractListener,
         OnAttachingFileListener,
-        OnSnagginsInteractListener {
+        OnSnagginsInteractListener,
+        CategoriesFragment.OnCategoriesInteractListener {
 
     // region request codes
     private final int REQUEST_FAB_SORT = 0x0001;
@@ -636,6 +638,18 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         NotesFragment notesFragment = NotesFragment.newInstance(notebook, Status.NORMAL);
         notesFragment.setScrollListener(onScrollListener);
         FragmentHelper.replaceWithCallback(this, notesFragment, R.id.fragment_container);
+    }
+
+    @Override
+    public void onCategorySelected(Category category) {
+        NotesFragment notesFragment = NotesFragment.newInstance(category, Status.NORMAL);
+        notesFragment.setScrollListener(onScrollListener);
+        FragmentHelper.replaceWithCallback(this, notesFragment, R.id.fragment_container);
+    }
+
+    @Override
+    public void onResumeToCategory() {
+        setDrawerLayoutLocked(false);
     }
 
     @Override
