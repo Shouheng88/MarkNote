@@ -29,7 +29,6 @@
             <EditText
                 android:id="@+id/et_category_name"
                 android:padding="8dp"
-                android:background="@android:color/transparent"
                 android:hint="@string/category_name"
                 android:maxLines="1"
                 android:maxLength="@integer/label_length"
