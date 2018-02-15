@@ -81,10 +81,10 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
 
     private void configToolbar() {
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setTitle(R.string.drawer_menu_labels);
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
+        actionBar.setTitle(R.string.drawer_menu_labels);
+        actionBar.setSubtitle(null);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_white);
     }
 
     private void configCategories() {
@@ -238,7 +238,17 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        if (getActivity() != null && getActivity() instanceof OnCategoriesInteractListener) {
+            ((OnCategoriesInteractListener) getActivity()).onCategorySelected(mAdapter.getItem(position));
+        }
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (getActivity() != null && getActivity() instanceof OnCategoriesInteractListener) {
+            ((OnCategoriesInteractListener) getActivity()).onResumeToCategory();
+        }
     }
 
     public interface OnCategoriesInteractListener {
@@ -251,5 +261,9 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
          * @see NotesFragment.OnNotesInteractListener#onNoteListChanged()
          */
         default void onCategoryListChanged(){}
+
+        default void onResumeToCategory() {}
+
+        default void onCategorySelected(Category category) {}
     }
 }
