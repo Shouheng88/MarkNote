@@ -123,7 +123,7 @@
     <!--region drawer menu-->
     <string name="drawer_menu_notes">笔记信息</string>
     <string name="drawer_menu_minds">小纸条</string>
-    <string name="drawer_menu_labels">小纸条</string>
+    <string name="drawer_menu_labels">标签</string>
     <string name="drawer_menu_notices">提醒信息</string>
     <string name="drawer_menu_setting">设置</string>
     <string name="drawer_menu_trash">废纸篓</string>
@@ -134,7 +134,7 @@
     <!--region introduction-->
     <string name="show_introduction_again">再次显示用户导引页？</string>
     <string name="intro_1_title">欢迎使用 %s</string>
-    <string name="intro_1_description">感谢您使用 %s\n一款帮助您提升工作效率\n记录生活中精彩时刻的\nMarkdown笔记应用</string>
+    <string name="intro_1_description">感谢您使用 %s\n\n一款帮助您提升工作效率\n记录生活中精彩时刻的\nMarkdown笔记应用</string>
     <string name="intro_2_title">Markdown</string>
     <string name="intro_2_description">Markdown语法支持\n分享、导出图片和PDF</string>
     <string name="intro_3_title">小纸条</string>
