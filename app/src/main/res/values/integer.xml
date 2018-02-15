@@ -6,7 +6,7 @@
     <integer name="title_length">125</integer>
     <integer name="sub_content_length">250</integer>
     <integer name="labels_length">50</integer>
-    <integer name="label_length">8</integer>
+    <integer name="label_length">20</integer>
     <integer name="email_address_length">50</integer>
     <integer name="feedback_details_length">450</integer>
     <integer name="mind_snagging_content_length">450</integer>
