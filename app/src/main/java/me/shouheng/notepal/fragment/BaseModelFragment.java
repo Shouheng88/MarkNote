@@ -210,6 +210,7 @@ public abstract class BaseModelFragment<T extends Model, V extends ViewDataBindi
         /**
          * build dialog */
         new AlertDialog.Builder(getContext())
+                .setTitle(R.string.text_add_labels)
                 .setMultiChoiceItems(items, checked, (dialog, which, isChecked) -> checked[which] = isChecked)
                 .setPositiveButton(R.string.text_confirm, (dialog, which) -> {
                     LogUtils.d(checked);
@@ -249,7 +250,7 @@ public abstract class BaseModelFragment<T extends Model, V extends ViewDataBindi
         if (getTagsLayout() == null) return;
         getTagsLayout().removeAllViews();
         if (TextUtils.isEmpty(stringTags)) return;
-        String[] tags = stringTags.split(CategoryStore.CATEGORY_SPLITOR);
+        String[] tags = stringTags.split(CategoryStore.CATEGORY_SPLIT);
         for (String tag : tags) addTagToLayout(tag);
     }
 
