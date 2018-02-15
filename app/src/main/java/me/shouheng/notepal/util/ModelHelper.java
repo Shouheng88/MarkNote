@@ -24,6 +24,7 @@ import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.model.MindSnagging;
 import me.shouheng.notepal.model.Model;
 import me.shouheng.notepal.model.Note;
+import me.shouheng.notepal.provider.CategoryStore;
 import me.shouheng.notepal.widget.FlowLayout;
 
 /**
@@ -116,10 +117,10 @@ public class ModelHelper {
         llStats.addView(llStat);
     }
 
-    public static void showLabels(Context context, Note note) {
+    public static void showLabels(Context context, String tags) {
         View root = LayoutInflater.from(context).inflate(R.layout.dialog_tags, null, false);
         FlowLayout flowLayout = root.findViewById(R.id.fl_labels);
-        addTagsToLayout(context, flowLayout, note.getTags());
+        addTagsToLayout(context, flowLayout, tags);
         new AlertDialog.Builder(context)
                 .setTitle(R.string.text_labels)
                 .setView(root)
@@ -130,7 +131,7 @@ public class ModelHelper {
 
     private static void addTagsToLayout(Context context, FlowLayout flowLayout, String stringTags){
         if (TextUtils.isEmpty(stringTags)) return;
-        String[] tags = stringTags.split(";");
+        String[] tags = stringTags.split(CategoryStore.CATEGORY_SPLIT);
         for (String tag : tags) addTagToLayout(context, flowLayout, tag);
     }
 

@@ -145,7 +145,7 @@ public class CategoryStore extends BaseStore<Category> {
      * @return tags name
      */
     public static String getTagsName(List<Category> categories) {
-        if (categories == null || categories.isEmpty()) return null;
+        if (categories == null || categories.isEmpty()) return "";
         int len = categories.size();
         StringBuilder sb = new StringBuilder();
         for (int i=0; i<len; i++) {
