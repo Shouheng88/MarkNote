@@ -46,7 +46,7 @@ import me.shouheng.notepal.widget.tools.DividerItemDecoration;
 public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
 
     private final static String ARG_NOTEBOOK = "arg_notebook";
-    private final static String ARG_CATEGORY = "arg_categoory";
+    private final static String ARG_CATEGORY = "arg_category";
     private final static String ARG_STATUS = "arg_status";
 
     private final static int REQUEST_NOTE_VIEW = 0x0010;
