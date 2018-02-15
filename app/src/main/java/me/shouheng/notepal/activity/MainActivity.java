@@ -485,7 +485,9 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
 
     private boolean isDashboard() {
         Fragment currentFragment = getCurrentFragment();
-        return currentFragment instanceof NotesFragment || currentFragment instanceof SnaggingsFragment;
+        return currentFragment instanceof NotesFragment
+                || currentFragment instanceof SnaggingsFragment
+                || currentFragment instanceof CategoriesFragment;
     }
     // endregion
 
