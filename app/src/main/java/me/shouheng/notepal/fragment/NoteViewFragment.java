@@ -25,15 +25,19 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.ContentActivity;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.databinding.FragmentNoteViewBinding;
 import me.shouheng.notepal.model.Attachment;
+import me.shouheng.notepal.model.Category;
 import me.shouheng.notepal.model.Location;
 import me.shouheng.notepal.model.ModelFactory;
 import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.provider.AttachmentsStore;
+import me.shouheng.notepal.provider.CategoryStore;
 import me.shouheng.notepal.provider.LocationsStore;
 import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.util.ColorUtils;
@@ -53,11 +57,12 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
 
     private Note note;
     private String content;
+    private String tags;
 
     private boolean isPreview = false;
     private boolean isContentChanged = false;
 
-    public static NoteViewFragment newInstance(Note note, Integer requestCode){
+    public static NoteViewFragment newInstance(@Nonnull Note note, Integer requestCode){
         Bundle arg = new Bundle();
         arg.putSerializable(Constants.EXTRA_MODEL, note);
         if (requestCode != null) arg.putInt(Constants.EXTRA_REQUEST_CODE, requestCode);
@@ -84,9 +89,14 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
 
     private void handleArguments() {
         Bundle arguments = getArguments();
-        if (arguments.containsKey(Constants.EXTRA_MODEL)){
-            note = (Note) arguments.getSerializable(Constants.EXTRA_MODEL);
+
+        if (arguments == null || !arguments.containsKey(Constants.EXTRA_MODEL)) {
+            throw new IllegalArgumentException("Model is required.");
         }
+
+        note = (Note) arguments.getSerializable(Constants.EXTRA_MODEL);
+        List<Category> selections = CategoryStore.getInstance(getContext()).getCategories(note);
+        tags = CategoryStore.getTagsName(selections);
 
         if (TextUtils.isEmpty(note.getContent())) {
             Attachment noteFile = AttachmentsStore.getInstance(getContext()).get(note.getContentCode());
@@ -225,7 +235,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
                 getBinding().mdView.getSettings().setSerifFontFamily("sans-serif");
                 break;
             case R.id.action_labs:
-                ModelHelper.showLabels(getContext(), note);
+                ModelHelper.showLabels(getContext(), tags);
                 break;
             case R.id.action_location:
                 showLocation();
