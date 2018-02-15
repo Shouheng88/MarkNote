@@ -195,6 +195,10 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
                 .show();
     }
 
+    public void setSelectedColor(int color) {
+        if (categoryEditDialog != null) categoryEditDialog.updateUIBySelectedColor(color);
+    }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
