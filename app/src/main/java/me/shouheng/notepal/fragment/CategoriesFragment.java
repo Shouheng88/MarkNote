@@ -27,6 +27,7 @@ import me.shouheng.notepal.dialog.CategoryEditDialog;
 import me.shouheng.notepal.model.Category;
 import me.shouheng.notepal.model.enums.Status;
 import me.shouheng.notepal.provider.CategoryStore;
+import me.shouheng.notepal.provider.schema.CategorySchema;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.util.ViewUtils;
 import me.shouheng.notepal.widget.tools.CustomItemAnimator;
@@ -129,7 +130,13 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
     }
 
     private List<Category> getCategories() {
-        return categoryStore.get(null, null);
+        if (status == Status.ARCHIVED) {
+            return categoryStore.getArchived(null, CategorySchema.CATEGORY_ORDER);
+        } else if (status == Status.TRASHED) {
+            return categoryStore.getTrashed(null, CategorySchema.CATEGORY_ORDER);
+        } else {
+            return categoryStore.get(null, CategorySchema.CATEGORY_ORDER);
+        }
     }
 
     public void reload() {
