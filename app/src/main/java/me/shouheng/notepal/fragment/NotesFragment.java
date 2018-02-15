@@ -27,6 +27,7 @@ import me.shouheng.notepal.adapter.NotesAdapter;
 import me.shouheng.notepal.databinding.FragmentNotesBinding;
 import me.shouheng.notepal.dialog.NotebookEditDialog;
 import me.shouheng.notepal.dialog.NotebookPickerDialog;
+import me.shouheng.notepal.model.Category;
 import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.model.Notebook;
 import me.shouheng.notepal.model.enums.Status;
@@ -45,6 +46,7 @@ import me.shouheng.notepal.widget.tools.DividerItemDecoration;
 public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
 
     private final static String ARG_NOTEBOOK = "arg_notebook";
+    private final static String ARG_CATEGORY = "arg_categoory";
     private final static String ARG_STATUS = "arg_status";
 
     private final static int REQUEST_NOTE_VIEW = 0x0010;
@@ -52,6 +54,7 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
 
     private Status status;
     private Notebook notebook;
+    private Category category;
     private boolean isTopStack = true;
 
     private RecyclerView.OnScrollListener scrollListener;
@@ -63,6 +66,15 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
     public static NotesFragment newInstance(@Nullable Notebook notebook, @Nonnull Status status) {
         Bundle args = new Bundle();
         if (notebook != null) args.putSerializable(ARG_NOTEBOOK, notebook);
+        args.putSerializable(ARG_STATUS, status);
+        NotesFragment fragment = new NotesFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static NotesFragment newInstance(@Nonnull Category category, @Nonnull Status status) {
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_CATEGORY, category);
         args.putSerializable(ARG_STATUS, status);
         NotesFragment fragment = new NotesFragment();
         fragment.setArguments(args);
@@ -85,11 +97,16 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
 
     private void handleArguments() {
         Bundle args = getArguments();
-        if (args != null && args.containsKey(ARG_NOTEBOOK)) {
+        if (args == null) return;
+        if (args.containsKey(ARG_NOTEBOOK)) {
             isTopStack = false;
             notebook = (Notebook) args.get(ARG_NOTEBOOK);
         }
-        if (args != null && args.containsKey(ARG_STATUS)) {
+        if (args.containsKey(ARG_CATEGORY)) {
+            isTopStack = false;
+            category = (Category) args.get(ARG_CATEGORY);
+        }
+        if (args.containsKey(ARG_STATUS)) {
             status = (Status) getArguments().get(ARG_STATUS);
         } else {
             throw new IllegalArgumentException("status required");
@@ -100,7 +117,8 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setTitle(R.string.drawer_menu_notes);
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setSubtitle(notebook == null ? null : notebook.getTitle());
+        String subTitle = notebook != null ? notebook.getTitle() : category != null ? category.getName() : null;
+        actionBar.setSubtitle(subTitle);
         actionBar.setHomeAsUpIndicator(isTopStack ? R.drawable.ic_menu_white : R.drawable.ic_arrow_back_white_24dp);
     }
 
@@ -155,11 +173,19 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
     }
 
     private List getNotesAndNotebooks() {
-        return status == Status.ARCHIVED ?
-                ArchiveHelper.getNotebooksAndNotes(getContext(), notebook) :
-                status == Status.TRASHED ?
-                        TrashHelper.getNotebooksAndNotes(getContext(), notebook) :
-                        NotebookHelper.getNotesAndNotebooks(getContext(), notebook);
+        if (category != null) {
+            return status == Status.ARCHIVED ?
+                    ArchiveHelper.getNotebooksAndNotes(getContext(), category) :
+                    status == Status.TRASHED ?
+                            TrashHelper.getNotebooksAndNotes(getContext(), category) :
+                            NotebookHelper.getNotesAndNotebooks(getContext(), category);
+        } else {
+            return status == Status.ARCHIVED ?
+                    ArchiveHelper.getNotebooksAndNotes(getContext(), notebook) :
+                    status == Status.TRASHED ?
+                            TrashHelper.getNotebooksAndNotes(getContext(), notebook) :
+                            NotebookHelper.getNotesAndNotebooks(getContext(), notebook);
+        }
     }
 
     private String getEmptySubTitle() {

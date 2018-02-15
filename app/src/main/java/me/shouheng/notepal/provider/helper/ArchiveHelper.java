@@ -5,6 +5,9 @@ import android.content.Context;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
+import me.shouheng.notepal.model.Category;
 import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.model.Notebook;
 import me.shouheng.notepal.provider.NotebookStore;
@@ -30,10 +33,20 @@ public class ArchiveHelper {
                 NoteSchema.LAST_MODIFIED_TIME + " DESC ");
     }
 
+    public static List<Note> getNotes(Context context, @Nonnull Category category) {
+        return NotesStore.getInstance(context).getArchived(
+                NoteSchema.TAGS + " LIKE '%'||'" + category.getCode() + "'||'%' ",
+                NotebookSchema.ADDED_TIME + " DESC ");
+    }
+
     public static List getNotebooksAndNotes(Context context, Notebook notebook) {
         List list = new LinkedList();
         list.addAll(getNotebooks(context, notebook));
         list.addAll(getNotes(context, notebook));
         return list;
+    }
+
+    public static List getNotebooksAndNotes(Context context, @Nonnull Category category) {
+        return getNotes(context, category);
     }
 }
