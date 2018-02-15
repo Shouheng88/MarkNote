@@ -449,7 +449,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
 
     private void toNotesFragment() {
         if (isNotesFragment()) return;
-        NotesFragment notesFragment = NotesFragment.newInstance(null, Status.NORMAL);
+        NotesFragment notesFragment = NotesFragment.newInstance(Status.NORMAL);
         notesFragment.setScrollListener(onScrollListener);
         FragmentHelper.replace(this, notesFragment, R.id.fragment_container);
         new Handler().postDelayed(() -> getBinding().nav.getMenu().findItem(R.id.nav_notes).setChecked(true), 300);
@@ -623,6 +623,9 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         Fragment currentFragment = getCurrentFragment();
         if (currentFragment instanceof NotesFragment) {
             ((NotesFragment) currentFragment).setSelectedColor(selectedColor);
+        }
+        if (currentFragment instanceof CategoriesFragment) {
+            ((CategoriesFragment) currentFragment).setSelectedColor(selectedColor);
         }
     }
 

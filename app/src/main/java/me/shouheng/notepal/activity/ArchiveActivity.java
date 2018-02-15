@@ -20,7 +20,7 @@ public class ArchiveActivity extends BaseListActivity implements
 
     @Override
     protected Fragment getNotesFragment() {
-        return NotesFragment.newInstance(null, Status.ARCHIVED);
+        return NotesFragment.newInstance(Status.ARCHIVED);
     }
 
     @Override

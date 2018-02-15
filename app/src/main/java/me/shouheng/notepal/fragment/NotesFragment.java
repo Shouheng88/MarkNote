@@ -19,7 +19,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.ContentActivity;
@@ -63,9 +62,17 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
 
     private NotesAdapter adapter;
 
-    public static NotesFragment newInstance(@Nullable Notebook notebook, @Nonnull Status status) {
+    public static NotesFragment newInstance(@Nonnull Status status) {
         Bundle args = new Bundle();
-        if (notebook != null) args.putSerializable(ARG_NOTEBOOK, notebook);
+        args.putSerializable(ARG_STATUS, status);
+        NotesFragment fragment = new NotesFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static NotesFragment newInstance(@Nonnull Notebook notebook, @Nonnull Status status) {
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_NOTEBOOK, notebook);
         args.putSerializable(ARG_STATUS, status);
         NotesFragment fragment = new NotesFragment();
         fragment.setArguments(args);

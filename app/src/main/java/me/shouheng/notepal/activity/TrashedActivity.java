@@ -22,7 +22,7 @@ public class TrashedActivity extends BaseListActivity implements
 
     @Override
     protected Fragment getNotesFragment() {
-        return NotesFragment.newInstance(null, Status.TRASHED);
+        return NotesFragment.newInstance(Status.TRASHED);
     }
 
     @Override
