@@ -19,7 +19,7 @@ import me.shouheng.notepal.util.LogUtils;
  * Created by wangshouheng on 2017/8/19. */
 public class CategoryStore extends BaseStore<Category> {
 
-    public static String CATEGORY_SPLITOR = "|";
+    public static String CATEGORY_SPLIT = ",";
 
     private static CategoryStore sInstance = null;
 
@@ -91,7 +91,7 @@ public class CategoryStore extends BaseStore<Category> {
 
         /**
          * Get 'In' String SQL. {@Example: '(12321321313, 213213213213, 12313213213)'} */
-        String[] codes = note.getTags().split(CATEGORY_SPLITOR);
+        String[] codes = note.getTags().split(CATEGORY_SPLIT);
         StringBuilder sb = new StringBuilder(" ( ");
         int len = codes.length;
         for (int i=0; i<len; i++) {
@@ -132,7 +132,7 @@ public class CategoryStore extends BaseStore<Category> {
         StringBuilder sb = new StringBuilder();
         for (int i=0; i<len; i++) {
             sb.append(categories.get(i).getCode());
-            if (i != len - 1) sb.append(CATEGORY_SPLITOR);
+            if (i != len - 1) sb.append(CATEGORY_SPLIT);
         }
         LogUtils.d(sb.toString());
         return sb.toString();
@@ -150,7 +150,7 @@ public class CategoryStore extends BaseStore<Category> {
         StringBuilder sb = new StringBuilder();
         for (int i=0; i<len; i++) {
             sb.append(categories.get(i).getName());
-            if (i != len - 1) sb.append(CATEGORY_SPLITOR);
+            if (i != len - 1) sb.append(CATEGORY_SPLIT);
         }
         LogUtils.d(sb.toString());
         return sb.toString();
