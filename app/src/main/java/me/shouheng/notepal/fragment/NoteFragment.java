@@ -79,7 +79,7 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
     private File file;
     private File tempFile;
     private Notebook notebook;
-    private List<Category> categories;
+    private List<Category> selections;
     private List<Category> allCategories;
 
     private AttachmentPickerType attachmentPickerType;
@@ -132,7 +132,7 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
         previewImage = AttachmentsStore.getInstance(getContext()).get(note.getPreviewCode());
         location = LocationsStore.getInstance(getContext()).getLocation(note);
         notebook = NotebookStore.getInstance(getContext()).get(note.getParentCode());
-        categories = CategoryStore.getInstance(getContext()).getCategories(note);
+        selections = CategoryStore.getInstance(getContext()).getCategories(note);
 
         if (noteFile != null) {
             try {
@@ -251,7 +251,7 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
 
         getBinding().drawer.flLabels.setOnClickListener(v -> showLabelsPicker());
         getBinding().drawer.tvAddLabels.setOnClickListener(v -> showLabelsPicker());
-        addTagsToLayout(CategoryStore.getTagsName(categories));
+        addTagsToLayout(CategoryStore.getTagsName(selections));
 
         getBinding().drawer.tvAddLocation.setOnClickListener(v -> tryToLocate());
         showLocationInfo();
@@ -308,7 +308,7 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
         if (allCategories == null) {
             allCategories = CategoryStore.getInstance(getContext()).get(null, null);
         }
-        showCategoriesPicker(allCategories, categories);
+        showCategoriesPicker(allCategories, selections);
     }
 
     private void showNotebookPicker() {
@@ -330,7 +330,9 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
 
     @Override
     protected void onGetSelectedCategories(List<Category> categories) {
+        selections = categories;
         note.setTags(CategoryStore.getTags(categories));
+        addTagsToLayout(CategoryStore.getTagsName(categories));
         setContentChanged();
     }
 
