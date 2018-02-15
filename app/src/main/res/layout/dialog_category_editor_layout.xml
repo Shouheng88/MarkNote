@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:paddingBottom="8dp"
     android:layout_width="match_parent"
@@ -31,7 +32,7 @@
                 android:background="@android:color/transparent"
                 android:hint="@string/category_name"
                 android:maxLines="1"
-                android:maxLength="@integer/title_length"
+                android:maxLength="@integer/label_length"
                 android:singleLine="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -41,7 +42,7 @@
         <me.shouheng.notepal.widget.WatcherTextView
             android:id="@+id/wtv"
             android:layout_gravity="end"
-            android:maxLength="@integer/title_length"
+            app:max_length="@integer/label_length"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -67,7 +68,7 @@
             android:layout_margin="5dp"
             android:layout_height="40dp">
 
-            <my.shouheng.palmcollege.widget.CircleImageView
+            <me.shouheng.notepal.widget.CircleImageView
                 android:id="@+id/civ_category_color"
                 android:layout_width="40dp"
                 android:layout_height="40dp" />
