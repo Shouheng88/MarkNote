@@ -20,6 +20,7 @@ import java.io.IOException;
  * Created by wangshouheng on 2017/11/17. */
 public class ScreenShotHelper {
 
+    // region shot recycler view
     public static Bitmap getRecyclerViewBitmap(RecyclerView recyclerView, String picPath) {
         int h = 0;
         Bitmap bitmap;
@@ -214,8 +215,9 @@ public class ScreenShotHelper {
 
         return bigBitmap;
     }
+    // endregion
 
-    // region
+    // region shot web view
     public static Bitmap shotWebView(WebView webView) {
         Picture picture = webView.capturePicture();
         int width = picture.getWidth();
