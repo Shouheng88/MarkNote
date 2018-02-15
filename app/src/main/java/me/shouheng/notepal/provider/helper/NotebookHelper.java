@@ -5,6 +5,9 @@ import android.content.Context;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
+import me.shouheng.notepal.model.Category;
 import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.model.Notebook;
 import me.shouheng.notepal.provider.NotebookStore;
@@ -55,10 +58,27 @@ public class NotebookHelper {
                 NoteSchema.ADDED_TIME + " DESC ");
     }
 
+    /**
+     * Get notmal notes of given category : the {@link NoteSchema#TAGS} contains {@link Category#code}.
+     *
+     * @param context context
+     * @param category the category
+     * @return the notes list
+     */
+    public static List<Note> getNotes(Context context, @Nonnull Category category) {
+        return NotesStore.getInstance(context).get(
+                NoteSchema.TAGS + " LIKE '%'||'" + category.getCode() + "'||'%' ",
+                NotebookSchema.ADDED_TIME + " DESC ");
+    }
+
     public static List getNotesAndNotebooks(Context context, Notebook notebook) {
         List data = new LinkedList();
         data.addAll(NotebookHelper.getNotebooks(context, notebook));
         data.addAll(NotebookHelper.getNotes(context, notebook));
         return data;
+    }
+
+    public static List getNotesAndNotebooks(Context context, @Nonnull Category category) {
+        return NotebookHelper.getNotes(context, category);
     }
 }
