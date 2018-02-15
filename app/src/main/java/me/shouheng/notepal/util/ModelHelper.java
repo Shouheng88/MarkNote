@@ -95,7 +95,6 @@ public class ModelHelper {
         clipboardManager.setText(null);
     }
 
-    // todo test whether the logic works
     public static void showStatistic(Context context, Note note) {
         View root = LayoutInflater.from(context).inflate(R.layout.dialog_stats, null, false);
         LinearLayout llStats = root.findViewById(R.id.ll_stats);
@@ -104,6 +103,7 @@ public class ModelHelper {
         addStat(context, llStats, context.getString(R.string.text_last_sync_time), (note.getLastSyncTime().getTime() == 0 ? "--" : TimeUtils.getPrettyTime(note.getLastModifiedTime())));
         addStat(context, llStats, context.getString(R.string.text_chars_number), String.valueOf(note.getContent().length()));
         new AlertDialog.Builder(context)
+                .setTitle(R.string.text_statistic)
                 .setView(root)
                 .setPositiveButton(R.string.text_confirm, null)
                 .create()
