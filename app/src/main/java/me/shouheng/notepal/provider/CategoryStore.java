@@ -12,7 +12,10 @@ import java.util.List;
 import me.shouheng.notepal.model.Category;
 import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.model.enums.Portrait;
+import me.shouheng.notepal.model.enums.Status;
+import me.shouheng.notepal.provider.schema.BaseSchema;
 import me.shouheng.notepal.provider.schema.CategorySchema;
+import me.shouheng.notepal.provider.schema.NoteSchema;
 import me.shouheng.notepal.util.LogUtils;
 
 /**
@@ -61,6 +64,27 @@ public class CategoryStore extends BaseStore<Category> {
         values.put(CategorySchema.COLOR, model.getColor());
         values.put(CategorySchema.PORTRAIT, model.getPortrait().id);
         values.put(CategorySchema.CATEGORY_ORDER, model.getCategoryOrder());
+    }
+
+    @Override
+    public synchronized List<Category> get(String whereSQL, String orderSQL, Status status, boolean exclude) {
+        Cursor cursor = null;
+        List<Category> models;
+        SQLiteDatabase database = getWritableDatabase();
+        try {
+            cursor = database.rawQuery(" SELECT *, " + getNotesCount(status)
+                            + " FROM " + tableName
+                            + " WHERE " + BaseSchema.USER_ID + " = " + userId
+                            + (TextUtils.isEmpty(whereSQL) ? "" : " AND " + whereSQL)
+                            + (status == null ? "" : " AND " + BaseSchema.STATUS + (exclude ? " != " : " = ") + status.id)
+                            + (TextUtils.isEmpty(orderSQL) ? "" : " ORDER BY " + orderSQL),
+                    new String[]{});
+            models = getList(cursor);
+        } finally {
+            closeCursor(cursor);
+            closeDatabase(database);
+        }
+        return models;
     }
 
     public synchronized void updateOrders(List<Category> categories){
@@ -118,6 +142,14 @@ public class CategoryStore extends BaseStore<Category> {
         }
 
         return categories;
+    }
+
+    private String getNotesCount(Status status) {
+        return " (SELECT COUNT(*) FROM " + NoteSchema.TABLE_NAME + " AS t1 "
+                + " WHERE t1." + NoteSchema.TAGS + " LIKE '%'||" + tableName + "." + CategorySchema.CODE + "||'%'"
+                + " AND t1." + CategorySchema.USER_ID + " = " + userId
+                + " AND t1." + CategorySchema.STATUS + " = " + (status == null ? Status.NORMAL.id : status.id) + " ) "
+                + " AS " + CategorySchema.COUNT;
     }
 
     /**

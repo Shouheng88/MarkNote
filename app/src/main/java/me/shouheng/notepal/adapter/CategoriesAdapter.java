@@ -20,8 +20,8 @@ import me.shouheng.notepal.widget.tools.IItemTouchHelperAdapter;
 public class CategoriesAdapter extends BaseQuickAdapter<Category, BaseViewHolder> implements
         IItemTouchHelperAdapter {
 
-    protected Category mJustDeletedToDoItem;
-    protected int mIndexOfDeletedToDoItem;
+    private Category mJustDeletedToDoItem;
+    private int mIndexOfDeletedToDoItem;
     private boolean isPositionChanged;
 
     private Context context;
