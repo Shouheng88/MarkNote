@@ -86,7 +86,7 @@ public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFrag
                 @Override
                 public Message<File> onRun() {
                     Message<File> message = new Message<>();
-                    Bitmap bitmap = ScreenShotHelper.shotRecyclerView(recyclerView);
+                    Bitmap bitmap = ScreenShotHelper.shotRecyclerView(recyclerView, itemHeight);
                     boolean succeed = FileHelper.saveImageToGallery(getContext(), bitmap, true, message::setObj);
                     message.setSucceed(succeed);
                     return message;
