@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -14,18 +15,22 @@ import com.afollestad.materialdialogs.color.ColorChooserDialog;
 
 import org.polaric.colorful.PermissionUtils;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.CommonActivity;
 import me.shouheng.notepal.activity.ContentActivity;
 import me.shouheng.notepal.config.Constants;
-import me.shouheng.notepal.config.TextLength;
-import me.shouheng.notepal.dialog.SimpleEditDialog;
 import me.shouheng.notepal.manager.LocationManager;
+import me.shouheng.notepal.model.Category;
 import me.shouheng.notepal.model.Location;
 import me.shouheng.notepal.model.Model;
 import me.shouheng.notepal.model.ModelFactory;
 import me.shouheng.notepal.provider.BaseStore;
+import me.shouheng.notepal.provider.CategoryStore;
 import me.shouheng.notepal.util.AppWidgetUtils;
+import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.NetworkUtils;
 import me.shouheng.notepal.util.ShortcutHelper;
 import me.shouheng.notepal.util.ToastUtils;
@@ -179,58 +184,76 @@ public abstract class BaseModelFragment<T extends Model, V extends ViewDataBindi
     }
     // endregion
 
-    // region tags
-    protected void showTagEditDialog() {
-        SimpleEditDialog.newInstance("", tag -> {
-            if (TextUtils.isEmpty(tag)) return;
+    // region
+    protected void showCategoriesPicker(List<Category> all, List<Category> selected) {
+        if (all == null || all.isEmpty()) {
+            showCategoryEmptyDialog();
+            return;
+        }
 
-            if (tag.indexOf(';') != -1) {
-                ToastUtils.makeToast(getContext(), R.string.text_illegal_label);
-                return;
+        /**
+         * prepare selections and default selections */
+        int len = all.size();
+        String[] items = new String[len];
+        boolean[] checked = new boolean[len];
+        for (int i=0; i<len; i++) {
+            Category current = all.get(i);
+            items[i] = current.getName();
+            for (Category category : selected) {
+                if (category.getCode() == current.getCode()) {
+                    checked[i] = true;
+                    break;
+                }
             }
+        }
 
-            String tags = (TextUtils.isEmpty(getTags()) ? "" : getTags()) + tag + ";";
-            if (tags.length() > TextLength.LABELS_TOTAL_LENGTH.length) {
-                ToastUtils.makeToast(getContext(), R.string.text_total_labels_too_long);
-                return;
-            }
+        /**
+         * build dialog */
+        new AlertDialog.Builder(getContext())
+                .setMultiChoiceItems(items, checked, (dialog, which, isChecked) -> checked[which] = isChecked)
+                .setPositiveButton(R.string.text_confirm, (dialog, which) -> {
+                    LogUtils.d(checked);
 
-            onGetTags(tags);
+                    /**
+                     * prepare selected categories and call {@link #onGetSelectedCategories(List)}
+                     * to return to the caller. */
+                    List<Category> rets = new LinkedList<>();
+                    for (int i=0; i<len; i++) {
+                        if (checked[i]) {
+                            rets.add(all.get(i));
+                        }
+                    }
 
-            addTagToLayout(tag);
-        }).setMaxLength(TextLength.LABEL_TEXT_LENGTH.length).show(getFragmentManager(), "SHOW_ADD_LABELS_DIALOG");
+                    onGetSelectedCategories(rets);
+                })
+                .setNegativeButton(R.string.text_cancel, null)
+                .show();
     }
 
-    protected void showTagsEditDialog() {
-        SimpleEditDialog.newInstance(TextUtils.isEmpty(getTags()) ? "" : getTags(), content -> {
-            content = TextUtils.isEmpty(content) ? "" : content;
-            if (!content.endsWith(";")) content = content + ";";
+    protected void onGetSelectedCategories(List<Category> categories) {}
 
-            onGetTags(content);
-
-            addTagsToLayout(content);
-        }).setMaxLength(TextLength.LABELS_TOTAL_LENGTH.length).show(getFragmentManager(), "TAGS_EDITOR");
+    private void showCategoryEmptyDialog() {
+        new AlertDialog.Builder(getContext())
+                .setTitle(R.string.text_tips)
+                .setMessage(R.string.no_selectable_category)
+                .setPositiveButton(R.string.text_confirm, null)
+                .create()
+                .show();
     }
 
-    protected FlowLayout getTagsLayout(){
+    protected FlowLayout getTagsLayout() {
         return null;
     }
 
-    protected String getTags() {
-        return "";
-    }
-
-    protected void onGetTags(String tags) {}
-
-    protected void addTagsToLayout(String stringTags){
+    protected void addTagsToLayout(String stringTags) {
         if (getTagsLayout() == null) return;
         getTagsLayout().removeAllViews();
         if (TextUtils.isEmpty(stringTags)) return;
-        String[] tags = stringTags.split(";");
+        String[] tags = stringTags.split(CategoryStore.CATEGORY_SPLITOR);
         for (String tag : tags) addTagToLayout(tag);
     }
 
-    protected void addTagToLayout(String tag){
+    protected void addTagToLayout(String tag) {
         if (getTagsLayout() == null) return;
 
         int margin = ViewUtils.dp2Px(getContext(), 2f);

@@ -31,6 +31,7 @@ import org.polaric.colorful.PermissionUtils;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
@@ -41,6 +42,7 @@ import me.shouheng.notepal.databinding.FragmentNoteBinding;
 import me.shouheng.notepal.dialog.AttachmentPickerDialog;
 import me.shouheng.notepal.dialog.NotebookPickerDialog;
 import me.shouheng.notepal.model.Attachment;
+import me.shouheng.notepal.model.Category;
 import me.shouheng.notepal.model.Location;
 import me.shouheng.notepal.model.ModelFactory;
 import me.shouheng.notepal.model.Note;
@@ -48,6 +50,7 @@ import me.shouheng.notepal.model.Notebook;
 import me.shouheng.notepal.model.enums.ModelType;
 import me.shouheng.notepal.provider.AttachmentsStore;
 import me.shouheng.notepal.provider.BaseStore;
+import me.shouheng.notepal.provider.CategoryStore;
 import me.shouheng.notepal.provider.LocationsStore;
 import me.shouheng.notepal.provider.NotebookStore;
 import me.shouheng.notepal.provider.NotesStore;
@@ -76,6 +79,8 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
     private File file;
     private File tempFile;
     private Notebook notebook;
+    private List<Category> categories;
+    private List<Category> allCategories;
 
     private AttachmentPickerType attachmentPickerType;
     private PreferencesUtils preferencesUtils;
@@ -127,6 +132,7 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
         previewImage = AttachmentsStore.getInstance(getContext()).get(note.getPreviewCode());
         location = LocationsStore.getInstance(getContext()).getLocation(note);
         notebook = NotebookStore.getInstance(getContext()).get(note.getParentCode());
+        categories = CategoryStore.getInstance(getContext()).getCategories(note);
 
         if (noteFile != null) {
             try {
@@ -171,13 +177,16 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
             }
         } else if(Constants.ACTION_ADD_SKETCH.equals(arguments.getString(EXTRA_ACTION))) {
             assert getActivity() != null;
-            PermissionUtils.checkStoragePermission((BaseActivity) getActivity(), () -> AttachmentHelper.sketch(this));
+            PermissionUtils.checkStoragePermission((BaseActivity) getActivity(),
+                    () -> AttachmentHelper.sketch(this));
         } else if (Constants.ACTION_TAKE_PHOTO.equals(arguments.getString(EXTRA_ACTION))) {
             assert getActivity() != null;
-            PermissionUtils.checkStoragePermission((BaseActivity) getActivity(), () -> AttachmentHelper.capture(this));
+            PermissionUtils.checkStoragePermission((BaseActivity) getActivity(),
+                    () -> AttachmentHelper.capture(this));
         } else if (Constants.ACTION_ADD_FILES.equals(arguments.getString(EXTRA_ACTION))) {
             assert getActivity() != null;
-            PermissionUtils.checkStoragePermission((BaseActivity) getActivity(), () -> AttachmentHelper.pickFiles(this));
+            PermissionUtils.checkStoragePermission((BaseActivity) getActivity(),
+                    () -> AttachmentHelper.pickFiles(this));
         }
     }
 
@@ -240,9 +249,9 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
         updateCharsInfo();
         getBinding().drawer.tvTimeInfo.setText(ModelHelper.getTimeInfo(note));
 
-        getBinding().drawer.flLabels.setOnClickListener(v -> showTagsEditDialog());
-        getBinding().drawer.tvAddLabels.setOnClickListener(v -> showTagEditDialog());
-        addTagsToLayout(note.getTags());
+        getBinding().drawer.flLabels.setOnClickListener(v -> showLabelsPicker());
+        getBinding().drawer.tvAddLabels.setOnClickListener(v -> showLabelsPicker());
+        addTagsToLayout(CategoryStore.getTagsName(categories));
 
         getBinding().drawer.tvAddLocation.setOnClickListener(v -> tryToLocate());
         showLocationInfo();
@@ -290,9 +299,16 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
         getBinding().drawer.tvCharsInfo.setText(charsInfo);
     }
 
-    private void showStatistics(){
+    private void showStatistics() {
         note.setContent(getBinding().main.etContent.getText().toString());
         ModelHelper.showStatistic(getContext(), note);
+    }
+
+    private void showLabelsPicker() {
+        if (allCategories == null) {
+            allCategories = CategoryStore.getInstance(getContext()).get(null, null);
+        }
+        showCategoriesPicker(allCategories, categories);
     }
 
     private void showNotebookPicker() {
@@ -313,14 +329,8 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
     }
 
     @Override
-    protected String getTags() {
-        return note.getTags();
-    }
-
-    @Override
-    protected void onGetTags(String tags) {
-        super.onGetTags(tags);
-        note.setTags(tags);
+    protected void onGetSelectedCategories(List<Category> categories) {
+        note.setTags(CategoryStore.getTags(categories));
         setContentChanged();
     }
 

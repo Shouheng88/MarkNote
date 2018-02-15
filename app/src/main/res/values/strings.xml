@@ -218,6 +218,8 @@
     <!--endregion-->
 
     <!--region category-->
+    <string name="no_selectable_category">没有可供选择的标签，在主界面添加标签后再次尝试。</string>
+
     <plurals name="notes_number">
         <item quantity="one">%d 个笔记</item>
         <item quantity="other">%d 个笔记</item>
