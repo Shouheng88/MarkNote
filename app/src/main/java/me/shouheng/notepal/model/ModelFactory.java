@@ -11,6 +11,7 @@ import me.shouheng.notepal.model.enums.ModelType;
 import me.shouheng.notepal.model.enums.Operation;
 import me.shouheng.notepal.model.enums.Portrait;
 import me.shouheng.notepal.model.enums.Status;
+import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.TimeUtils;
 import me.shouheng.notepal.util.UserUtil;
@@ -132,6 +133,8 @@ public class ModelFactory {
         Category category = getModel(context, Category.class);
         assert category != null;
         category.setPortrait(Portrait.FOLDER);
+        // use the primary color as the category color
+        category.setColor(ColorUtils.primaryColor(context));
         return category;
     }
 
