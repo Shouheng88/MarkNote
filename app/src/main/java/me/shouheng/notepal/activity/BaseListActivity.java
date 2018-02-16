@@ -73,7 +73,7 @@ public abstract class BaseListActivity extends CommonActivity<ActivityListBaseWi
                     Intent intent = new Intent();
                     setResult(Activity.RESULT_OK, intent);
                 }
-                BaseListActivity.super.onBackPressed();
+                super.onBackPressed();
                 return true;
             }
             getBinding().drawerLayout.closeDrawers();

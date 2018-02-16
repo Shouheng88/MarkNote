@@ -540,6 +540,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        LogUtils.d("requestCode:" + requestCode + ", resultCode:" + resultCode);
 
         if (resultCode != RESULT_OK) return;
 
