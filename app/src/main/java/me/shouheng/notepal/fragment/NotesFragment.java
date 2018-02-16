@@ -435,7 +435,7 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
         /**
          * This method will be called when the notes list is changed -- moved out from or added to the list.
          *
-         * @see SnaggingsFragment.OnSnagginsInteractListener#onSnaggingListChanged() */
+         * @see SnaggingsFragment.OnSnaggingInteractListener#onSnaggingListChanged() */
         default void onNoteListChanged(){}
     }
 }

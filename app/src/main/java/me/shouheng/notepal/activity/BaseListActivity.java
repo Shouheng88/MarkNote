@@ -15,12 +15,18 @@ import android.view.View;
 
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.ActivityListBaseWithDrawerBinding;
+import me.shouheng.notepal.fragment.CategoriesFragment;
+import me.shouheng.notepal.fragment.NotesFragment;
+import me.shouheng.notepal.fragment.SnaggingsFragment;
 import me.shouheng.notepal.util.FragmentHelper;
 
 
 /**
  * Created by wangshouheng on 2017/10/10.*/
-public abstract class BaseListActivity extends CommonActivity<ActivityListBaseWithDrawerBinding> {
+public abstract class BaseListActivity extends CommonActivity<ActivityListBaseWithDrawerBinding> implements
+        NotesFragment.OnNotesInteractListener,
+        SnaggingsFragment.OnSnaggingInteractListener,
+        CategoriesFragment.OnCategoriesInteractListener {
 
     private boolean isListChanged;
 
@@ -31,10 +37,6 @@ public abstract class BaseListActivity extends CommonActivity<ActivityListBaseWi
     protected abstract Fragment getSnaggingFragment();
 
     protected abstract Fragment getCategoryFragment();
-
-    protected void setListChanged(boolean isListChanged) {
-        this.isListChanged = isListChanged;
-    }
 
     @Override
     protected int getLayoutResId() {
@@ -134,5 +136,15 @@ public abstract class BaseListActivity extends CommonActivity<ActivityListBaseWi
             }
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public void onNoteListChanged() {
+        isListChanged = true;
+    }
+
+    @Override
+    public void onSnaggingListChanged() {
+        isListChanged = true;
     }
 }
