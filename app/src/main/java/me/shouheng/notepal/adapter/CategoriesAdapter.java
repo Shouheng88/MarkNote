@@ -45,7 +45,7 @@ public class CategoriesAdapter extends BaseQuickAdapter<Category, BaseViewHolder
 
         if (isDarkTheme) helper.itemView.setBackgroundResource(R.color.dark_theme_foreground);
 
-        helper.setText(R.id.tv_title, "#" + category.getName());
+        helper.setText(R.id.tv_title, "# " + category.getName());
         helper.setText(R.id.tv_sub_title, context.getResources().getQuantityString(
                 R.plurals.notes_number, category.getCount(), category.getCount()));
 
