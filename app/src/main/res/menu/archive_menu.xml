@@ -12,6 +12,10 @@
             android:title="@string/drawer_menu_minds"
             android:icon="@drawable/ic_lightbulb_outline_black_24dp"/>
 
+        <item android:id="@+id/nav_labels"
+            android:title="@string/drawer_menu_labels"
+            android:icon="@drawable/ic_labels_grey_24dp"/>
+
     </group>
 
     <group android:id="@+id/group3"

@@ -3,15 +3,18 @@ package me.shouheng.notepal.activity;
 import android.support.v4.app.Fragment;
 
 import me.shouheng.notepal.R;
+import me.shouheng.notepal.fragment.CategoriesFragment;
 import me.shouheng.notepal.fragment.NotesFragment;
 import me.shouheng.notepal.fragment.SnaggingsFragment;
+import me.shouheng.notepal.model.Category;
 import me.shouheng.notepal.model.Notebook;
 import me.shouheng.notepal.model.enums.Status;
 import me.shouheng.notepal.util.FragmentHelper;
 
 public class ArchiveActivity extends BaseListActivity implements
         NotesFragment.OnNotesInteractListener,
-        SnaggingsFragment.OnSnagginsInteractListener{
+        SnaggingsFragment.OnSnagginsInteractListener,
+        CategoriesFragment.OnCategoriesInteractListener {
 
     @Override
     protected CharSequence getActionbarTitle() {
@@ -24,16 +27,30 @@ public class ArchiveActivity extends BaseListActivity implements
     }
 
     @Override
-    protected Fragment getSnaggingsFragment() {
+    protected Fragment getSnaggingFragment() {
         return SnaggingsFragment.newInstance(Status.ARCHIVED);
     }
 
     @Override
+    protected Fragment getCategoryFragment() {
+        return CategoriesFragment.newInstance(Status.ARCHIVED);
+    }
+
+    @Override
+    public void onResumeToCategory() {
+        setDrawerLayoutLocked(false);
+    }
+
+    @Override
+    public void onCategorySelected(Category category) {
+        NotesFragment notesFragment = NotesFragment.newInstance(category, Status.ARCHIVED);
+        FragmentHelper.replaceWithCallback(this, notesFragment, R.id.fragment_container);
+    }
+
+    @Override
     public void onNotebookSelected(Notebook notebook) {
-        FragmentHelper.replaceWithCallback(
-                this,
-                NotesFragment.newInstance(notebook, Status.ARCHIVED),
-                R.id.fragment_container);
+        NotesFragment notesFragment = NotesFragment.newInstance(notebook, Status.ARCHIVED);
+        FragmentHelper.replaceWithCallback(this, notesFragment, R.id.fragment_container);
     }
 
     @Override

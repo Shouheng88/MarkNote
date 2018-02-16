@@ -28,14 +28,12 @@ public abstract class BaseListActivity extends CommonActivity<ActivityListBaseWi
 
     protected abstract Fragment getNotesFragment();
 
-    protected abstract Fragment getSnaggingsFragment();
+    protected abstract Fragment getSnaggingFragment();
+
+    protected abstract Fragment getCategoryFragment();
 
     protected void setListChanged(boolean isListChanged) {
         this.isListChanged = isListChanged;
-    }
-
-    protected boolean isListChanged() {
-        return isListChanged;
     }
 
     @Override
@@ -92,7 +90,10 @@ public abstract class BaseListActivity extends CommonActivity<ActivityListBaseWi
                     FragmentHelper.replace(this, getNotesFragment(), R.id.fragment_container);
                     break;
                 case R.id.nav_minds:
-                    FragmentHelper.replace(this, getSnaggingsFragment(), R.id.fragment_container);
+                    FragmentHelper.replace(this, getSnaggingFragment(), R.id.fragment_container);
+                    break;
+                case R.id.nav_labels:
+                    FragmentHelper.replace(this, getCategoryFragment(), R.id.fragment_container);
                     break;
             }
         }, 350);
