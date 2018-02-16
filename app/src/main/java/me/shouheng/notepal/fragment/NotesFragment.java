@@ -218,10 +218,12 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
                 case R.id.action_trash:
                     NotesStore.getInstance(getContext()).update(multiItem.note, Status.TRASHED);
                     reload();
+                    notifyListChanged();
                     break;
                 case R.id.action_archive:
                     NotesStore.getInstance(getContext()).update(multiItem.note, Status.ARCHIVED);
                     reload();
+                    notifyListChanged();
                     break;
                 case R.id.action_move:
                     moveNote(multiItem.note);
@@ -232,10 +234,12 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
                 case R.id.action_move_out:
                     NotesStore.getInstance(getContext()).update(multiItem.note, Status.NORMAL);
                     reload();
+                    notifyListChanged();
                     break;
                 case R.id.action_delete:
                     NotesStore.getInstance(getContext()).update(multiItem.note, Status.DELETED);
                     reload();
+                    notifyListChanged();
                     break;
             }
             return true;
@@ -297,6 +301,8 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
             ToastUtils.makeToast(getContext(), R.string.moved_successfully);
 
             reload();
+            notifyListChanged();
+
             dialog.dismiss();
         }).show(getFragmentManager(), "Notebook picker");
     }
@@ -345,12 +351,17 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
     }
 
     public void reload() {
-        AppWidgetUtils.notifyAppWidgets(getContext());
         adapter.setNewData(getMultiItems());
+    }
+
+    private void notifyListChanged() {
 
         /**
-         * Other the note name is changed or the list is changed by adding or removing,
-         * will notify the activity. */
+         * Notify app widget that the list is changed. */
+        AppWidgetUtils.notifyAppWidgets(getContext());
+
+        /**
+         * Notify the attached activity that the list is changed. */
         if (getActivity() != null && getActivity() instanceof OnNotesInteractListener) {
             ((OnNotesInteractListener) getActivity()).onNoteListChanged();
         }
@@ -412,6 +423,7 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
                 case REQUEST_NOTE_VIEW:
                 case REQUEST_NOTE_EDIT:
                     reload();
+                    notifyListChanged();
                     break;
             }
         }
