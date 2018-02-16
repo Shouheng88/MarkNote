@@ -133,7 +133,8 @@ public class CategoryStore extends BaseStore<Category> {
             cursor = database.rawQuery(" SELECT * "
                             + " FROM " + tableName
                             + " WHERE " + CategorySchema.USER_ID + " = ? "
-                            + " AND " + CategorySchema.CODE + " IN " + sb.toString(),
+                            + " AND " + CategorySchema.CODE + " IN " + sb.toString()
+                            + " AND " + CategorySchema.STATUS + " = " + Status.NORMAL.id,
                     new String[]{String.valueOf(userId)});
             categories = getList(cursor);
         } finally {
