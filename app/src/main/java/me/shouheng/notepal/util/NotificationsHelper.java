@@ -30,10 +30,9 @@ public class NotificationsHelper {
                 .setAutoCancel(true).setColor(mContext.getResources().getColor(R.color.colorAccent));
         mBuilder.setContentIntent(notifyIntent);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            // TODO add the notification logo
-//            setLargeIcon(R.drawable.logo_notification_lollipop);
+            setLargeIcon(R.drawable.notepal_notification);
         } else {
-            setLargeIcon(R.mipmap.ic_launcher);
+            setLargeIcon(R.mipmap.ic_launcher_round);
         }
         return this;
     }
