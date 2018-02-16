@@ -76,7 +76,7 @@ public class CategoryStore extends BaseStore<Category> {
                             + " FROM " + tableName
                             + " WHERE " + BaseSchema.USER_ID + " = " + userId
                             + (TextUtils.isEmpty(whereSQL) ? "" : " AND " + whereSQL)
-                            + (status == null ? "" : " AND " + BaseSchema.STATUS + (exclude ? " != " : " = ") + status.id)
+                            + " AND " + BaseSchema.STATUS + " != " + Status.DELETED.id
                             + (TextUtils.isEmpty(orderSQL) ? "" : " ORDER BY " + orderSQL),
                     new String[]{});
             models = getList(cursor);
@@ -145,6 +145,12 @@ public class CategoryStore extends BaseStore<Category> {
         return categories;
     }
 
+    /**
+     * Get the notes count of given category.
+     *
+     * @param status the status of category
+     * @return the count sql of getting notes
+     */
     private String getNotesCount(Status status) {
         return " (SELECT COUNT(*) FROM " + NoteSchema.TABLE_NAME + " AS t1 "
                 + " WHERE t1." + NoteSchema.TAGS + " LIKE '%'||" + tableName + "." + CategorySchema.CODE + "||'%'"
