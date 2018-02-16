@@ -43,7 +43,7 @@ import me.shouheng.notepal.dialog.NoticeDialog;
 import me.shouheng.notepal.fragment.CategoriesFragment;
 import me.shouheng.notepal.fragment.NotesFragment;
 import me.shouheng.notepal.fragment.SnaggingsFragment;
-import me.shouheng.notepal.fragment.SnaggingsFragment.OnSnagginsInteractListener;
+import me.shouheng.notepal.fragment.SnaggingsFragment.OnSnaggingInteractListener;
 import me.shouheng.notepal.intro.IntroActivity;
 import me.shouheng.notepal.listener.OnAttachingFileListener;
 import me.shouheng.notepal.model.Attachment;
@@ -75,7 +75,7 @@ import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
 public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         NotesFragment.OnNotesInteractListener,
         OnAttachingFileListener,
-        OnSnagginsInteractListener,
+        OnSnaggingInteractListener,
         CategoriesFragment.OnCategoriesInteractListener {
 
     // region request codes
@@ -485,6 +485,10 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         return getCurrentFragment() instanceof SnaggingsFragment;
     }
 
+    private boolean isCategoryFragment() {
+        return getCurrentFragment() instanceof CategoriesFragment;
+    }
+
     private boolean isDashboard() {
         Fragment currentFragment = getCurrentFragment();
         return currentFragment instanceof NotesFragment
@@ -567,6 +571,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     private void updateListIfNecessary() {
         if (isNotesFragment()) ((NotesFragment) getCurrentFragment()).reload();
         if (isSnaggingFragment()) ((SnaggingsFragment) getCurrentFragment()).reload();
+        if (isCategoryFragment()) ((CategoriesFragment) getCurrentFragment()).reload();
     }
 
     private void handleAttachmentResult(int requestCode, Intent data) {

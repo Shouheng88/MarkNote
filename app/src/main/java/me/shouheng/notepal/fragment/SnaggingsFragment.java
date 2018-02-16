@@ -65,6 +65,8 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
     private int modelsCount, pageNumber = 20, startIndex = 0;
     private boolean isLoadingMore = false;
 
+    private final static int DATA_SET_CHANGE_NOTIFICATION_DELAY = 500;
+
     private Status status;
 
     private MindSnaggingStore store;
@@ -96,7 +98,7 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
 
         configToolbar();
 
-        configSnaggings();
+        configSnagging();
     }
 
     private void configToolbar() {
@@ -107,7 +109,7 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
         }
     }
 
-    private void configSnaggings() {
+    private void configSnagging() {
         getBinding().ivEmpty.setSubTitle(getEmptySubTitle());
 
         mindSnaggingListType = preferencesUtils.getMindSnaggingListType();
@@ -153,11 +155,13 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
                     MindSnaggingStore.getInstance(getContext()).update(adapter.getItem(position), Status.TRASHED);
                     adapter.remove(position);
                     refreshLayout();
+                    notifyListChanged();
                     break;
                 case R.id.action_archive:
                     MindSnaggingStore.getInstance(getContext()).update(adapter.getItem(position), Status.ARCHIVED);
                     adapter.remove(position);
                     refreshLayout();
+                    notifyListChanged();
                     break;
                 case R.id.action_edit:
                     showEditor(position);
@@ -166,11 +170,13 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
                     MindSnaggingStore.getInstance(getContext()).update(adapter.getItem(position), Status.NORMAL);
                     adapter.remove(position);
                     refreshLayout();
+                    notifyListChanged();
                     break;
                 case R.id.action_delete:
                     MindSnaggingStore.getInstance(getContext()).update(adapter.getItem(position), Status.DELETED);
                     adapter.remove(position);
                     refreshLayout();
+                    notifyListChanged();
                     break;
             }
             return true;
@@ -179,8 +185,7 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
     }
 
     private void refreshLayout() {
-        AppWidgetUtils.notifyAppWidgets(getContext());
-        new Handler().postDelayed(() -> adapter.notifyDataSetChanged(), 500);
+        new Handler().postDelayed(() -> adapter.notifyDataSetChanged(), DATA_SET_CHANGE_NOTIFICATION_DELAY);
     }
 
     private void configPopMenu(PopupMenu popupMenu) {
@@ -243,14 +248,18 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
     }
 
     public void reload() {
-        AppWidgetUtils.notifyAppWidgets(getContext());
         adapter.setNewData(getSnaggings());
+    }
+
+    private void notifyListChanged() {
+        /**
+         * notify the app widget that the list is changed. */
+        AppWidgetUtils.notifyAppWidgets(getContext());
 
         /**
-         * Notify the snagging list is changed. The activity need to record the message, and
-         * use it when set result to caller. */
-        if (getActivity() != null && getActivity() instanceof OnSnagginsInteractListener) {
-            ((OnSnagginsInteractListener) getActivity()).onSnaggingListChanged();
+         * Notify the attached activity that the list is changed. */
+        if (getActivity() != null && getActivity() instanceof OnSnaggingInteractListener) {
+            ((OnSnaggingInteractListener) getActivity()).onSnaggingListChanged();
         }
     }
 
@@ -258,8 +267,8 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
         mindSnaggingDialog = new MindSnaggingDialog.Builder()
                 .setOnAttachmentClickListener(attachment -> AttachmentHelper.resolveClickEvent(getContext(), attachment, Arrays.asList(attachment), ""))
                 .setOnConfirmListener((mindSnagging, attachment) -> {
-                    AppWidgetUtils.notifyAppWidgets(getContext());
                     saveMindSnagging(position, mindSnagging, attachment);
+                    notifyListChanged();
                 })
                 .setOnAddAttachmentListener(mindSnagging -> showSnaggingAttachmentPicker())
                 .setMindSnagging(adapter.getItem(position))
@@ -354,8 +363,8 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
             case R.id.action_list_type:
                 preferencesUtils.setMindSnaggingListType(getListTypeToSwitch());
                 getActivity().invalidateOptionsMenu();
-                if (getActivity() instanceof OnSnagginsInteractListener) {
-                    ((OnSnagginsInteractListener) getActivity()).onListTypeChanged(mindSnaggingListType);
+                if (getActivity() instanceof OnSnaggingInteractListener) {
+                    ((OnSnaggingInteractListener) getActivity()).onListTypeChanged(mindSnaggingListType);
                 }
                 break;
             case R.id.action_capture:
@@ -403,7 +412,7 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
         ToastUtils.makeToast(R.string.failed_to_save_attachment);
     }
 
-    public interface OnSnagginsInteractListener {
+    public interface OnSnaggingInteractListener {
 
         /**
          * The method will be called when list changed between grid-style and list-style.

@@ -11,10 +11,7 @@ import me.shouheng.notepal.model.Notebook;
 import me.shouheng.notepal.model.enums.Status;
 import me.shouheng.notepal.util.FragmentHelper;
 
-public class ArchiveActivity extends BaseListActivity implements
-        NotesFragment.OnNotesInteractListener,
-        SnaggingsFragment.OnSnagginsInteractListener,
-        CategoriesFragment.OnCategoriesInteractListener {
+public class ArchiveActivity extends BaseListActivity {
 
     @Override
     protected CharSequence getActionbarTitle() {
@@ -56,15 +53,5 @@ public class ArchiveActivity extends BaseListActivity implements
     @Override
     public void onActivityAttached(boolean isTopStack) {
         setDrawerLayoutLocked(!isTopStack);
-    }
-
-    @Override
-    public void onNoteListChanged() {
-        setListChanged(true);
-    }
-
-    @Override
-    public void onSnaggingListChanged() {
-        setListChanged(true);
     }
 }
