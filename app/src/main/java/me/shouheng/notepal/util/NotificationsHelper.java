@@ -30,7 +30,7 @@ public class NotificationsHelper {
                 .setAutoCancel(true).setColor(mContext.getResources().getColor(R.color.colorAccent));
         mBuilder.setContentIntent(notifyIntent);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            setLargeIcon(R.drawable.notepal_notification);
+            setLargeIcon(R.mipmap.ic_launcher_round);
         } else {
             setLargeIcon(R.mipmap.ic_launcher_round);
         }
