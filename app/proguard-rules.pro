@@ -32,6 +32,9 @@
 -keep public class * extends android.support.v4.app.Fragment
 -keep public class * extends android.app.Fragment
 
+#Social Style Date and Time Formatting for Java
+-keep class org.ocpsoft.prettytime.i18n.**
+
 # 保持测试相关的代码
 -dontnote junit.framework.**
 -dontnote junit.runner.**
