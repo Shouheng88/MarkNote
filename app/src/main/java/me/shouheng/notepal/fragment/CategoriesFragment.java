@@ -53,7 +53,7 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
         CategoriesFragment fragment = new CategoriesFragment();
         args.putSerializable(ARG_STATUS, Status.NORMAL);
         fragment.setArguments(args);
-        return new CategoriesFragment();
+        return fragment;
     }
 
     public static CategoriesFragment newInstance(@Nonnull Status status) {
