@@ -2,6 +2,7 @@ package me.shouheng.notepal;
 
 import android.app.Activity;
 import android.app.Application;
+import android.support.multidex.MultiDex;
 
 import com.facebook.stetho.Stetho;
 
@@ -31,6 +32,8 @@ public class PalmApp extends Application{
         super.onCreate();
 
         mInstance = this;
+
+        MultiDex.install(this);
 
         Colorful.init(this);
 
