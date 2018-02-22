@@ -14,7 +14,10 @@ public class SearchConditions {
 
     private boolean includePurpose;
 
-    private boolean includeTags;
+    /**
+     * For current version (1.0), don't include the filter option of tag.
+     * So we let this filed be false and the menu item invisible. */
+    private boolean includeTags = false;
 
     private boolean includeArchived;
 

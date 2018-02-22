@@ -23,6 +23,16 @@ public class QueryHelper {
 
     private SearchConditions conditions;
 
+    /**
+     * Note for this class:
+     * For current version (1.0), don't include the filter option of tag.
+     * So we let this filed be false and the menu item invisible.
+     * If the tags options is included someday, remember to change the {@link #getNotes(String)}
+     * and {@link #getMindSnaggings(String)} methods. And remove the {@link SearchConditions#includeTags}.
+     *
+     * @param context the context
+     * @return the fragment instance
+     */
     public static QueryHelper newInstance(Context context) {
         return new QueryHelper(context);
     }
