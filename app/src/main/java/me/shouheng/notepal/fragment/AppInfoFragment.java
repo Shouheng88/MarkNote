@@ -38,7 +38,8 @@ public class AppInfoFragment extends BaseFragment<FragmentAppInfoBinding> {
         getBinding().llLicense.setOnClickListener(v -> showLicensesDialog());
         getBinding().llDeveloper.setOnClickListener(v -> IntentUtils.openDeveloperPage(getActivity()));
 
-        getBinding().tvVersionName.setText(BuildConfig.VERSION_NAME);
+        String verName = BuildConfig.FLAVOR + "-" + BuildConfig.VERSION_NAME;
+        getBinding().tvVersionName.setText(verName);
 
         getBinding().tvRateDetail.setText(String.format(getString(R.string.give_good_rating_if_you_like), getString(R.string.app_name)));
         getBinding().tvTranslateDetail.setText(String.format(getString(R.string.translate_to_other_languages), getString(R.string.app_name)));
