@@ -557,7 +557,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
             case REQUEST_TRASH:
                 updateListIfNecessary();
                 break;
-            case REQUEST_ARCHIVE: // todo update event
+            case REQUEST_ARCHIVE:
                 updateListIfNecessary();
                 break;
             case REQUEST_SEARCH:
