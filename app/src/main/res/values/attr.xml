@@ -56,4 +56,10 @@
         <attr name="atom" format="color|reference" />
     </declare-styleable>
 
+    <declare-styleable name="CardTitleView">
+        <attr name="card_title" format="string"/>
+        <attr name="card_sub_title" format="string"/>
+        <attr name="card_icon" format="reference"/>
+    </declare-styleable>
+
 </resources>

@@ -2,6 +2,8 @@ package me.shouheng.notepal.widget.themed;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 
 import me.shouheng.notepal.R;
@@ -40,6 +42,19 @@ public class SupportImageView extends android.support.v7.widget.AppCompatImageVi
 
         int tintColor = ColorUtils.isDarkTheme(getContext()) ? darkThemeTintColor : lightThemeTintColor;
         if (getDrawable() != null) setImageDrawable(ColorUtils.tintDrawable(getDrawable(), tintColor));
+    }
+
+    @Override
+    public void setImageResource(int resId) {
+        int tintColor = ColorUtils.isDarkTheme(getContext()) ? darkThemeTintColor : lightThemeTintColor;
+        setImageDrawable(ColorUtils.tintDrawable(getResources().getDrawable(resId), tintColor));
+    }
+
+    @Override
+    public void setImageDrawable(@Nullable Drawable drawable) {
+        if (drawable == null) return;
+        int tintColor = ColorUtils.isDarkTheme(getContext()) ? darkThemeTintColor : lightThemeTintColor;
+        super.setImageDrawable(ColorUtils.tintDrawable(drawable, tintColor));
     }
 
     public int getLightThemeTintColor() {
