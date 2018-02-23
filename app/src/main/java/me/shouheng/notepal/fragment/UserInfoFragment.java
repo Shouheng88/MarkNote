@@ -34,14 +34,14 @@ public class UserInfoFragment extends CommonFragment<FragmentUserInfoBinding> {
     protected void doCreateView(Bundle savedInstanceState) {
         configAccountViews();
 
-        getBinding().llTimeline.setOnClickListener(v -> toTimeLine());
+        getBinding().ctvTimeline.setOnCardTitleClickListener(this::toTimeLine);
 
         getBinding().lcv.setValueSelectionEnabled(false);
         getBinding().lcv.setLineChartData(StatisticsHelper.getLineChartData(getContext(), ModelType.NOTE, primaryColor()));
 
         getBinding().llLogout.setOnClickListener(v -> logout());
 
-        getBinding().rlHeader.setOnClickListener(v -> toStatistics());
+        getBinding().ctvStatistic.setOnCardTitleClickListener(this::toStatistics);
     }
 
     private void configAccountViews() {
@@ -54,8 +54,8 @@ public class UserInfoFragment extends CommonFragment<FragmentUserInfoBinding> {
         }
 
         getBinding().llUser.setOnClickListener(v -> login());
-        getBinding().llSchool.setOnClickListener(v -> showSchoolEditor());
-        getBinding().llMajor.setOnClickListener(v -> showMajorEditor());
+        getBinding().ctvSchool.setOnCardTitleClickListener(this::showSchoolEditor);
+        getBinding().ctvMajor.setOnCardTitleClickListener(this::showMajorEditor);
     }
 
     private void toTimeLine() {
