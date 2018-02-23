@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.text.TextUtils;
@@ -159,27 +160,24 @@ public class SettingsBackup extends PreferenceFragment {
         }
 
         ArrayList<String> selected = new ArrayList<>();
-        new MaterialDialog.Builder(getActivity())
-                .title(R.string.backup_data_delete_message)
-                .items(backups)
-                .itemsCallbackMultiChoice(new Integer[]{}, (dialog, which, text) -> {
-                    selected.clear();
-                    for (int i = 0; i < which.length; i++) {
-                        selected.add(text[i].toString());
+        new AlertDialog.Builder(getActivity())
+                .setTitle(R.string.backup_data_delete_message)
+                .setMultiChoiceItems(backups, new boolean[backups.length], (dialog, which, isChecked) -> {
+                    if (isChecked) {
+                        selected.add(backups[which]);
+                    } else {
+                        selected.remove(backups[which]);
                     }
-                    LogUtils.d(selected);
-                    return true;
                 })
-                .negativeText(R.string.cancel)
-                .positiveText(R.string.confirm)
-                .onPositive((dialog, which) -> {
+                .setNegativeButton(R.string.cancel, null)
+                .setPositiveButton(R.string.confirm, (dialog, which) -> {
                     LogUtils.d(selected);
                     if (selected.isEmpty()) {
                         ToastUtils.makeToast(R.string.backup_no_backup_data_selected);
                     } else {
                         showExternalBackupDeleteConfirm(selected);
                     }
-                }).build().show();
+                }).show();
     }
 
     private void showExternalBackupDeleteConfirm(ArrayList<String> selected) {
