@@ -13,7 +13,6 @@ import org.apache.commons.io.filefilter.TrueFileFilter;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import me.shouheng.notepal.R;
@@ -123,10 +122,10 @@ public class DataBackupIntentService extends IntentService {
         AttachmentsStore store = AttachmentsStore.getInstance(this);
         List<Attachment> list = store.get(null, null);
 
-        int exported = 0;
+        int exported = 0, size = list.size();
         for (Attachment attachment : list) {
             FileHelper.copyToBackupDir(destDir, new File(attachment.getPath()));
-            mNotificationsHelper.setMessage(getString(R.string.text_attachment) + " " + exported++ + "/" + list.size()).show();
+            mNotificationsHelper.setMessage(getString(R.string.text_attachment) + " " + exported++ + "/" + size).show();
         }
         return true;
     }
@@ -167,15 +166,12 @@ public class DataBackupIntentService extends IntentService {
         if (!backupAttachmentsDir.exists()) {
             return;
         }
-        Collection list = FileUtils.listFiles(backupAttachmentsDir, FileFilterUtils.trueFileFilter(), TrueFileFilter.INSTANCE);
-        Iterator i = list.iterator();
-        int imported = 0;
-        File file = null;
-        while (i.hasNext()) {
+        Collection<File> list = FileUtils.listFiles(backupAttachmentsDir, FileFilterUtils.trueFileFilter(), TrueFileFilter.INSTANCE);
+        int imported = 0, size = list.size();
+        for (File file : list) {
             try {
-                file = (File) i.next();
                 FileUtils.copyFileToDirectory(file, attachmentsDir, true);
-                mNotificationsHelper.setMessage(getString(R.string.text_attachment) + " " + imported++ + "/" + list.size()).show();
+                mNotificationsHelper.setMessage(getString(R.string.text_attachment) + " " + imported++ + "/" + size).show();
             } catch (IOException e) {
                 LogUtils.e("Error importing the attachment " + file.getName());
             }
