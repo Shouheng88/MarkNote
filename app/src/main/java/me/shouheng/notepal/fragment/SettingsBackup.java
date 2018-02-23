@@ -28,6 +28,8 @@ import me.shouheng.notepal.util.StringUtils;
 import me.shouheng.notepal.util.ToastUtils;
 
 /**
+ * todo data backup delete not selected error
+ *
  * Created by wang shouheng on 2018/1/5.*/
 public class SettingsBackup extends PreferenceFragment {
 

@@ -123,7 +123,7 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
 
         if (arguments == null || !arguments.containsKey(Constants.EXTRA_MODEL)
                 || (note = (Note) arguments.getSerializable(Constants.EXTRA_MODEL)) == null) {
-            ToastUtils.makeToast(getContext(), R.string.note_no_such_note);
+            ToastUtils.makeToast(getContext(), R.string.text_no_such_note);
             if (getActivity() != null) getActivity().finish();
             return;
         }

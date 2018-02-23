@@ -158,7 +158,7 @@ public class ContentActivity extends CommonActivity<ActivityContentBinding> impl
             int requestCode = intent.getIntExtra(Constants.EXTRA_REQUEST_CODE, -1);
             Note note = NotesStore.getInstance(this).get(code);
             if (note == null){
-                ToastUtils.makeToast(this, R.string.content_no_such_note);
+                ToastUtils.makeToast(this, R.string.text_no_such_note);
                 LogUtils.d("Failed to resolve intent : " + intent);
                 finish();
                 return;
