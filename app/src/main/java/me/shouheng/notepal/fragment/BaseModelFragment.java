@@ -57,7 +57,7 @@ public abstract class BaseModelFragment<T extends Model, V extends ViewDataBindi
 
     protected abstract void updateModel();
 
-    protected abstract BaseStore getStoreOfModel();
+    protected abstract BaseStore<T> getStoreOfModel();
 
     protected abstract T getModel();
 

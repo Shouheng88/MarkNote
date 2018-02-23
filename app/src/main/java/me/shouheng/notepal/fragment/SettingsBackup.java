@@ -23,6 +23,7 @@ import me.shouheng.notepal.activity.CommonActivity;
 import me.shouheng.notepal.async.DataBackupIntentService;
 import me.shouheng.notepal.listener.OnFragmentDestroyListener;
 import me.shouheng.notepal.util.FileHelper;
+import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.StringUtils;
 import me.shouheng.notepal.util.ToastUtils;
@@ -166,10 +167,13 @@ public class SettingsBackup extends PreferenceFragment {
                     for (int i = 0; i < which.length; i++) {
                         selected.add(text[i].toString());
                     }
+                    LogUtils.d(selected);
                     return true;
                 })
+                .negativeText(R.string.cancel)
                 .positiveText(R.string.confirm)
                 .onPositive((dialog, which) -> {
+                    LogUtils.d(selected);
                     if (selected.isEmpty()) {
                         ToastUtils.makeToast(R.string.backup_no_backup_data_selected);
                     } else {
