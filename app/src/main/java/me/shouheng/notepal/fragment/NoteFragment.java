@@ -312,15 +312,14 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
     }
 
     private void showNotebookPicker() {
-        NotebookPickerDialog.newInstance()
-                .setOnItemSelectedListener((dialog, notebook1, position) -> {
-                    note.setParentCode(notebook1.getCode());
-                    note.setTreePath(notebook1.getTreePath() + "|" + notebook1.getCode());
-                    getBinding().main.tvFolder.setText(notebook1.getTitle());
-                    getBinding().main.tvFolder.setTextColor(notebook1.getColor());
-                    setContentChanged();
-                    dialog.dismiss();
-                }).show(getFragmentManager(), "NOTEBOOK_PICKER");
+        NotebookPickerDialog.newInstance().setOnItemSelectedListener((dialog, notebook1, position) -> {
+            note.setParentCode(notebook1.getCode());
+            note.setTreePath(notebook1.getTreePath() + "|" + notebook1.getCode());
+            getBinding().main.tvFolder.setText(notebook1.getTitle());
+            getBinding().main.tvFolder.setTextColor(notebook1.getColor());
+            setContentChanged();
+            dialog.dismiss();
+        }).show(getFragmentManager(), "NOTEBOOK_PICKER");
     }
 
     @Override
@@ -372,24 +371,9 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
             case R.id.iv_stroke:effect = MarkdownEffect.STRIKE;break;
             case R.id.iv_line:effect = MarkdownEffect.H_LINE;break;
             case R.id.iv_xml:effect = MarkdownEffect.XML;break;
-            case R.id.iv_insert_picture:
-                showAttachmentPicker(AttachmentPickerType.CONTENT_IMAGE);
-                break;
-            case R.id.iv_insert_link: {
-                LinkInputDialog.getInstance(
-                        (title, link) -> getBinding().main.etContent.setEffect(MarkdownEffect.LINK, title, link)
-                ).show(getFragmentManager(), "LINK INPUT");
-            } break;
-            case R.id.iv_insert_table: {
-                TableInputDialog.getInstance((rowsStr, colsStr) -> {
-                    int rows, cols;
-                    try {rows = TextUtils.isEmpty(rowsStr) ? 3 : Integer.parseInt(rowsStr);}
-                    catch (NumberFormatException e) {rows = 3;}
-                    try {cols = TextUtils.isEmpty(colsStr) ? 3 : Integer.parseInt(colsStr);}
-                    catch (NumberFormatException e) {cols = 3;}
-                    getBinding().main.etContent.setEffect(MarkdownEffect.TABLE, rows, cols);
-                }).show(getFragmentManager(), "TABLE INPUT");
-            } break;
+            case R.id.iv_insert_picture:showAttachmentPicker(AttachmentPickerType.CONTENT_IMAGE);break;
+            case R.id.iv_insert_link:showLinkEditor();break;
+            case R.id.iv_insert_table:showTableEditor();break;
         }
         if (effect != null) getBinding().main.etContent.setEffect(effect);
     }
@@ -415,8 +399,32 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
     }
 
     private void addImageLink() {
-        LinkInputDialog.getInstance((title, link) -> getBinding().main.etContent.setEffect(MarkdownEffect.IMAGE, title, link))
-                .show(getFragmentManager(), "Link Image");
+        LinkInputDialog.getInstance((title, link) ->
+                getBinding().main.etContent.setEffect(MarkdownEffect.IMAGE, title, link)
+        ).show(getFragmentManager(), "Link Image");
+    }
+
+    private void showTableEditor() {
+        TableInputDialog.getInstance((rowsStr, colsStr) -> {
+            int rows, cols;
+            try {
+                rows = TextUtils.isEmpty(rowsStr) ? 3 : Integer.parseInt(rowsStr);
+            } catch (NumberFormatException e) {
+                rows = 3;
+            }
+            try {
+                cols = TextUtils.isEmpty(colsStr) ? 3 : Integer.parseInt(colsStr);
+            } catch (NumberFormatException e) {
+                cols = 3;
+            }
+            getBinding().main.etContent.setEffect(MarkdownEffect.TABLE, rows, cols);
+        }).show(getFragmentManager(), "TABLE INPUT");
+    }
+
+    private void showLinkEditor() {
+        LinkInputDialog.getInstance((title, link) ->
+                getBinding().main.etContent.setEffect(MarkdownEffect.LINK, title, link)
+        ).show(getFragmentManager(), "LINK INPUT");
     }
 
     private void showAttachmentPicker(AttachmentPickerType attachmentPickerType) {
@@ -451,9 +459,13 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
         } else {
             if (Constants.MIME_TYPE_IMAGE.equalsIgnoreCase(attachment.getMineType())
                     || Constants.MIME_TYPE_SKETCH.equalsIgnoreCase(attachment.getMineType())) {
-                getBinding().main.etContent.setEffect(MarkdownEffect.IMAGE, "image" , attachment.getUri().toString());
+                getBinding().main.etContent.setEffect(MarkdownEffect.IMAGE,
+                        "image" ,
+                        attachment.getUri().toString());
             } else {
-                getBinding().main.etContent.setEffect(MarkdownEffect.LINK, getAttachmentTitle(attachment.getPath()), attachment.getUri().toString());
+                getBinding().main.etContent.setEffect(MarkdownEffect.LINK,
+                        getAttachmentTitle(attachment.getPath()),
+                        attachment.getUri().toString());
             }
         }
     }
@@ -540,7 +552,7 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
     }
 
     @Override
-    protected BaseStore getStoreOfModel() {
+    protected BaseStore<Note> getStoreOfModel() {
         return NotesStore.getInstance(getContext());
     }
 
@@ -588,8 +600,8 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
                 getBinding().drawerLayout.openDrawer(GravityCompat.END, true);
                 break;
             case R.id.action_preview:
-                note.setTitle(TextUtils.isEmpty(getBinding().main.etTitle.getText().toString()) ? "" :
-                        getBinding().main.etTitle.getText().toString());
+                note.setTitle(TextUtils.isEmpty(getBinding().main.etTitle.getText().toString()) ?
+                        "" : getBinding().main.etTitle.getText().toString());
                 String content = getBinding().main.etContent.getText().toString();
                 if (TextUtils.isEmpty(content)) content = "  ";
                 note.setContent(content);
