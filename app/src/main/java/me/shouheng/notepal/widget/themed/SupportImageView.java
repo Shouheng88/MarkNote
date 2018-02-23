@@ -31,7 +31,7 @@ public class SupportImageView extends android.support.v7.widget.AppCompatImageVi
     }
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
-        TypedArray attr = context.obtainStyledAttributes(attrs, R.styleable.EmptyView, 0, 0);
+        TypedArray attr = context.obtainStyledAttributes(attrs, R.styleable.SupportImageView, 0, 0);
         lightThemeTintColor = attr.getColor(R.styleable.SupportImageView_light_theme_tint,
                 getContext().getResources().getColor(R.color.light_theme_image_tint_color));
         darkThemeTintColor = attr.getColor(R.styleable.SupportImageView_dark_theme_tint,
