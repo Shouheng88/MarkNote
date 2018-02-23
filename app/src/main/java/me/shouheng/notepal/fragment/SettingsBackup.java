@@ -25,7 +25,6 @@ import me.shouheng.notepal.async.DataBackupIntentService;
 import me.shouheng.notepal.listener.OnFragmentDestroyListener;
 import me.shouheng.notepal.util.FileHelper;
 import me.shouheng.notepal.util.LogUtils;
-import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.StringUtils;
 import me.shouheng.notepal.util.ToastUtils;
 
@@ -39,14 +38,10 @@ public class SettingsBackup extends PreferenceFragment {
     private final static String KEY_IMPORT_FROM_EXTERNAL_STORAGE = "import_from_external_storage";
     private final static String KEY_DELETE_EXTERNAL_STORAGE_BACKUP = "delete_external_storage_backup";
 
-    private PreferencesUtils preferencesUtils;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         configToolbar();
-
-        preferencesUtils = PreferencesUtils.getInstance(getActivity());
 
         addPreferencesFromResource(R.xml.preferences_data_backup);
 
