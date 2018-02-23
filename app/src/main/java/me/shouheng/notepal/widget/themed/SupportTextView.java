@@ -33,7 +33,7 @@ public class SupportTextView extends AppCompatTextView {
     }
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
-        TypedArray attr = context.obtainStyledAttributes(attrs, R.styleable.EmptyView, 0, 0);
+        TypedArray attr = context.obtainStyledAttributes(attrs, R.styleable.SupportTextView, 0, 0);
         lightThemeTextColor = attr.getColor(R.styleable.SupportTextView_light_theme_text_color,
                 getContext().getResources().getColor(R.color.md_grey_850));
         darkThemeTextColor = attr.getColor(R.styleable.SupportTextView_dark_theme_text_color, Color.WHITE);
