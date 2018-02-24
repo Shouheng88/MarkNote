@@ -7,7 +7,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <ImageView
+        <android.support.v7.widget.AppCompatImageView
             android:id="@+id/iv_image"
             android:src="@drawable/empty_sunny"
             android:layout_gravity="center_horizontal"
