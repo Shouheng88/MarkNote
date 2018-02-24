@@ -23,23 +23,20 @@
 
                 <LinearLayout
                     android:orientation="vertical"
+                    android:paddingTop="8dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <me.shouheng.notepal.widget.themed.SupportTextView
-                        android:text="@string/statistic_title_activities"
-                        android:textSize="16sp"
-                        android:padding="16dp"
-                        android:drawableStart="@drawable/ic_note_add_grey_24dp"
-                        android:drawablePadding="16dp"
+                    <me.shouheng.notepal.widget.themed.CardTitleView
+                        app:card_icon="@drawable/ic_note_add_grey_24dp"
+                        app:card_title="@string/statistic_activities"
+                        app:card_sub_title="@string/statistic_title_activities"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"/>
 
                     <me.shouheng.notepal.widget.themed.Divider
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginStart="16dp" />
+                        android:layout_height="1dp" />
 
                     <lecho.lib.hellocharts.view.LineChartView
                         android:id="@+id/lcv_note"
@@ -63,23 +60,20 @@
 
                 <LinearLayout
                     android:orientation="vertical"
+                    android:paddingTop="8dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <me.shouheng.notepal.widget.themed.SupportTextView
-                        android:text="@string/statistic_title_models_added"
-                        android:textSize="16sp"
-                        android:padding="16dp"
-                        android:drawableStart="@drawable/ic_equalizer_grey_24dp"
-                        android:drawablePadding="16dp"
+                    <me.shouheng.notepal.widget.themed.CardTitleView
+                        app:card_icon="@drawable/ic_equalizer_grey_24dp"
+                        app:card_title="@string/statistic_models_added"
+                        app:card_sub_title="@string/statistic_title_models_added"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"/>
 
                     <me.shouheng.notepal.widget.themed.Divider
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginStart="16dp" />
+                        android:layout_height="1dp" />
 
                     <lecho.lib.hellocharts.view.ColumnChartView
                         android:id="@+id/ccv_models"
@@ -103,23 +97,20 @@
 
                 <LinearLayout
                     android:orientation="vertical"
+                    android:paddingTop="8dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <me.shouheng.notepal.widget.themed.SupportTextView
-                        android:drawableStart="@drawable/ic_attach_file_grey"
-                        android:drawablePadding="16dp"
-                        android:text="@string/statistic_title_attachments_added"
-                        android:textSize="16sp"
-                        android:padding="16dp"
+                    <me.shouheng.notepal.widget.themed.CardTitleView
+                        app:card_icon="@drawable/ic_attach_file_grey"
+                        app:card_title="@string/statistic_attachments_added"
+                        app:card_sub_title="@string/statistic_title_attachments_added"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"/>
 
                     <me.shouheng.notepal.widget.themed.Divider
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginStart="16dp" />
+                        android:layout_height="1dp" />
 
                     <lecho.lib.hellocharts.view.ColumnChartView
                         android:id="@+id/ccv_attachment"

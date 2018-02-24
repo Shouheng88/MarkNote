@@ -481,8 +481,11 @@
     <string name="activities_in_seven_days">最近7天添加的笔记</string>
     <string name="logout">退出登录</string>
 
+    <string name="statistic_activities">最近7天</string>
     <string name="statistic_title_activities">最近7天添加的笔记和小纸条</string>
+    <string name="statistic_models_added">添加的数据实体</string>
     <string name="statistic_title_models_added">添加的数据实体的统计结果</string>
+    <string name="statistic_attachments_added">添加的附件</string>
     <string name="statistic_title_attachments_added">添加的附件的统计结果</string>
 
     <string name="no_more_data">没有更多数据了&#8230;</string>
