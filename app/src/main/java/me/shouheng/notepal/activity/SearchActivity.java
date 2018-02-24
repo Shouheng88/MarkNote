@@ -43,7 +43,7 @@ import me.shouheng.notepal.widget.tools.DividerItemDecoration;
 
 public class SearchActivity extends ThemedActivity implements OnQueryTextListener, OnItemSelectedListener {
 
-    private static final String EXTRA_NAME_REQUEST_CODE = "extra.requestcode";
+    private static final String EXTRA_NAME_REQUEST_CODE = "extra.request.code";
 
     private InputMethodManager mImm;
 

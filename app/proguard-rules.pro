@@ -35,6 +35,9 @@
 #Social Style Date and Time Formatting for Java
 -keep class org.ocpsoft.prettytime.i18n.**
 
+#解决ActionBar上面的搜索按钮的空指针问题
+-keep class android.support.v7.widget.SearchView { *; }
+
 # 保持测试相关的代码
 -dontnote junit.framework.**
 -dontnote junit.runner.**
