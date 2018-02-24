@@ -49,15 +49,21 @@
         <license>Apache Software License 2.0</license>
     </notice>
     <notice>
-        <name>Gson</name>
-        <url>https://github.com/google/gson</url>
-        <copyright>Copyright 2008 Google Inc.</copyright>
+        <name>RxJava</name>
+        <url>https://github.com/ReactiveX/RxJava</url>
+        <copyright>Copyright (c) 2016-present, RxJava Contributors</copyright>
         <license>Apache Software License 2.0</license>
     </notice>
     <notice>
         <name>RxBinding</name>
         <url>https://github.com/JakeWharton/RxBinding</url>
         <copyright>Copyright (C) 2015 Jake Wharton</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>Gson</name>
+        <url>https://github.com/google/gson</url>
+        <copyright>Copyright 2008 Google Inc.</copyright>
         <license>Apache Software License 2.0</license>
     </notice>
     <notice>
@@ -77,5 +83,17 @@
         <url>https://github.com/LarsWerkman/HoloColorPicker</url>
         <copyright>Copyright 2012 Lars Werkman</copyright>
         <license>MIT License</license>
+    </notice>
+    <notice>
+        <name>BaseRecyclerViewAdapterHelper</name>
+        <url>https://github.com/CymChad/BaseRecyclerViewAdapterHelper</url>
+        <copyright>Copyright 2016 CymChad</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>CircleImageView</name>
+        <url>https://github.com/hdodenhof/CircleImageView</url>
+        <copyright>Copyright 2014 - 2017 Henning Dodenhof</copyright>
+        <license>Apache Software License 2.0</license>
     </notice>
 </notices>
