@@ -33,16 +33,18 @@ public class AppInfoFragment extends BaseFragment<FragmentAppInfoBinding> {
     }
 
     private void configViews() {
-        getBinding().llTranslation.setOnClickListener(v -> IntentUtils.openGithubProject(getActivity()));
-        getBinding().llRating.setOnClickListener(v -> IntentUtils.openInMarket(getActivity()));
-        getBinding().llLicense.setOnClickListener(v -> showLicensesDialog());
-        getBinding().llDeveloper.setOnClickListener(v -> IntentUtils.openDeveloperPage(getActivity()));
-
         String verName = BuildConfig.FLAVOR + "-" + BuildConfig.VERSION_NAME + "-" + BuildConfig.BUILD_TYPE;
         getBinding().tvVersionName.setText(verName);
 
-        getBinding().tvRateDetail.setText(String.format(getString(R.string.give_good_rating_if_you_like), getString(R.string.app_name)));
-        getBinding().tvTranslateDetail.setText(String.format(getString(R.string.translate_to_other_languages), getString(R.string.app_name)));
+        getBinding().ctvTranslation.setOnCardTitleClickListener(() -> IntentUtils.openGithubProject(getActivity()));
+        getBinding().ctvTranslation.setSubTitle(String.format(getString(R.string.translate_to_other_languages), getString(R.string.app_name)));
+
+        getBinding().ctvRating.setOnCardTitleClickListener(() -> IntentUtils.openInMarket(getActivity()));
+        getBinding().ctvRating.setSubTitle(String.format(getString(R.string.give_good_rating_if_you_like), getString(R.string.app_name)));
+
+        getBinding().ctvDeveloper.setOnCardTitleClickListener(() -> IntentUtils.openDeveloperPage(getActivity()));
+
+        getBinding().ctvLicense.setOnCardTitleClickListener(this::showLicensesDialog);
     }
 
     private void showLicensesDialog() {

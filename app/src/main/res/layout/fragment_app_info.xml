@@ -93,95 +93,21 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"/>
 
-                    <LinearLayout
-                        android:id="@+id/ll_translation"
+                    <me.shouheng.notepal.widget.themed.CardTitleView
+                        android:id="@+id/ctv_translation"
+                        app:card_icon="@drawable/ic_assistant_photo_black_24dp"
+                        app:card_title="@string/translation"
+                        app:card_sub_title="@string/translate_to_other_languages"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/ripple"
-                        android:clickable="true"
-                        android:orientation="horizontal">
+                        android:layout_height="wrap_content"/>
 
-                        <me.shouheng.notepal.widget.themed.SupportImageView
-                            style="@style/SettingsCardItemIconStyle"
-                            android:layout_width="@dimen/icon_width_height"
-                            android:layout_height="@dimen/icon_width_height"
-                            android:src="@drawable/ic_assistant_photo_black_24dp" />
-
-                        <RelativeLayout
-                            style="@style/SettingsCardItemDetailLinearLayout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:orientation="vertical">
-
-                                <me.shouheng.notepal.widget.themed.SupportTextView
-                                    style="@style/SettingsCardItemDetailTitle"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/translation" />
-
-                                <TextView
-                                    android:id="@+id/tv_translate_detail"
-                                    style="@style/SettingsCardItemDetailSubTitle"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/translate_to_other_languages" />
-
-                            </LinearLayout>
-
-                        </RelativeLayout>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/ll_rating"
+                    <me.shouheng.notepal.widget.themed.CardTitleView
+                        android:id="@+id/ctv_rating"
+                        app:card_icon="@drawable/ic_star_black_24dp"
+                        app:card_title="@string/rating"
+                        app:card_sub_title="@string/give_good_rating_if_you_like"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/ripple"
-                        android:clickable="true"
-                        android:orientation="horizontal">
-
-                        <me.shouheng.notepal.widget.themed.SupportImageView
-                            style="@style/SettingsCardItemIconStyle"
-                            android:layout_width="@dimen/icon_width_height"
-                            android:layout_height="@dimen/icon_width_height"
-                            android:src="@drawable/ic_star_black_24dp" />
-
-                        <RelativeLayout
-                            style="@style/SettingsCardItemDetailLinearLayout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:orientation="vertical">
-
-                                <me.shouheng.notepal.widget.themed.SupportTextView
-                                    style="@style/SettingsCardItemDetailTitle"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/rating" />
-
-                                <TextView
-                                    android:id="@+id/tv_rate_detail"
-                                    style="@style/SettingsCardItemDetailSubTitle"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/give_good_rating_if_you_like" />
-
-                            </LinearLayout>
-
-                        </RelativeLayout>
-
-                    </LinearLayout>
+                        android:layout_height="wrap_content"/>
 
                 </LinearLayout>
 
@@ -247,92 +173,21 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"/>
 
-                    <LinearLayout
-                        android:id="@+id/ll_developer"
+                    <me.shouheng.notepal.widget.themed.CardTitleView
+                        android:id="@+id/ctv_developer"
+                        app:card_icon="@drawable/ic_person_black_24dp"
+                        app:card_title="@string/developers"
+                        app:card_sub_title="@string/developer_name"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/ripple"
-                        android:clickable="true"
-                        android:orientation="horizontal">
+                        android:layout_height="wrap_content"/>
 
-                        <me.shouheng.notepal.widget.themed.SupportImageView
-                            style="@style/SettingsCardItemIconStyle"
-                            android:layout_width="@dimen/icon_width_height"
-                            android:layout_height="@dimen/icon_width_height"
-                            android:src="@drawable/ic_person_black_24dp" />
-
-                        <RelativeLayout
-                            style="@style/SettingsCardItemDetailLinearLayout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:orientation="vertical">
-
-                                <me.shouheng.notepal.widget.themed.SupportTextView
-                                    style="@style/SettingsCardItemDetailTitle"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/developers" />
-
-                                <TextView
-                                    style="@style/SettingsCardItemDetailSubTitle"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/developer_name" />
-
-                            </LinearLayout>
-
-                        </RelativeLayout>
-
-                    </LinearLayout>
-
-                    <LinearLayout android:id="@+id/ll_license"
+                    <me.shouheng.notepal.widget.themed.CardTitleView
+                        android:id="@+id/ctv_license"
+                        app:card_icon="@drawable/ic_insert_drive_file_grey_24dp"
+                        app:card_title="@string/open_source_libraries_permissions"
+                        app:card_sub_title="@string/view_third_part_libraries"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/ripple"
-                        android:clickable="true"
-                        android:orientation="horizontal">
-
-                        <me.shouheng.notepal.widget.themed.SupportImageView
-                            style="@style/SettingsCardItemIconStyle"
-                            android:layout_width="@dimen/icon_width_height"
-                            android:layout_height="@dimen/icon_width_height"
-                            android:src="@drawable/ic_insert_drive_file_grey_24dp" />
-
-                        <RelativeLayout
-                            style="@style/SettingsCardItemDetailLinearLayout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:orientation="vertical">
-
-                                <me.shouheng.notepal.widget.themed.SupportTextView
-                                    style="@style/SettingsCardItemDetailTitle"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/open_source_libraries_permissions" />
-
-                                <TextView
-                                    style="@style/SettingsCardItemDetailSubTitle"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/view_third_part_libraries" />
-
-                            </LinearLayout>
-
-                        </RelativeLayout>
-
-                    </LinearLayout>
+                        android:layout_height="wrap_content"/>
 
                 </LinearLayout>
 
