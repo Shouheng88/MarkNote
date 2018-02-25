@@ -6,7 +6,7 @@
     <string name="text_add_to_home_screen">Add shortcut</string>
     <string name="text_about">About</string>
     <string name="text_accept">Accept</string>
-    <string name="text_labels">Labels</string>
+    <string name="text_labels">Tags</string>
     <string name="text_add_labels">Add label</string>
     <string name="text_add_location">Add location</string>
     <string name="text_clear">Clear</string>
@@ -88,92 +88,92 @@
     <!--endregion-->
 
     <!--region Common->Intro Page-->
-    <string name="intro_1_title">欢迎使用 %s</string>
-    <string name="intro_1_description">感谢您使用 %s\n\n一款帮助您提升工作效率\n记录生活中精彩时刻的\nMarkdown笔记应用</string>
+    <string name="intro_1_title">Welcome to %s</string>
+    <string name="intro_1_description">Thanks for using %s\n\nan Markdown application\nfor productivity\n and leisure note-taking</string>
     <string name="intro_2_title">Markdown</string>
-    <string name="intro_2_description">Markdown语法支持\n分享、导出图片和PDF</string>
-    <string name="intro_3_title">小纸条</string>
-    <string name="intro_3_description">轻量型笔记\n随时随地记录精彩时刻</string>
-    <string name="intro_4_title">主题</string>
-    <string name="intro_4_description">日夜主题\n13种主色调 16种强调色</string>
-    <string name="intro_5_title">附件</string>
-    <string name="intro_5_description">手绘 图片 照片 视频\n音频 文件 位置</string>
-    <string name="intro_6_title">祝您使用愉快</string>
-    <string name="intro_6_description">加入社区！</string>
+    <string name="intro_2_description">Markdown grammar support\nShare, Export picture and PDF</string>
+    <string name="intro_3_title">Snagging</string>
+    <string name="intro_3_description">Light weight note\nanywhere and anytime</string>
+    <string name="intro_4_title">Themes</string>
+    <string name="intro_4_description">Light and dark\n13 kinds of main color\n16 kinds of accent color</string>
+    <string name="intro_5_title">Attachment</string>
+    <string name="intro_5_description">Sketch Picture Photo Video\nAudio File Location</string>
+    <string name="intro_6_title">Enjoy</string>
+    <string name="intro_6_description">Don\'t forget to subscribe our community!</string>
     <!--endregion introduction-->
 
     <!--region Common->Capture-->
-    <string name="empty_list_to_capture">要截取的列表为空</string>
-    <string name="capture_list">列表截图</string>
-    <string name="capturing">正在截取&#8230;</string>
+    <string name="empty_list_to_capture">Empty list to capture</string>
+    <string name="capture_list">Capture</string>
+    <string name="capturing">Capturing&#8230;</string>
     <!--endregion-->
 
     <!--region Common->Search-->
-    <string name="include_tags">包含标签</string>
-    <string name="include_archived">包含归档</string>
-    <string name="include_trashed">包含废纸篓</string>
-    <string name="search_by_conditions">根据条件搜索&#8230;</string>
-    <string name="no_search_result_found">没有找到搜索结果</string>
-    <string name="try_other_conditions">换个搜索条件试一下</string>
+    <string name="include_tags">Include tags</string>
+    <string name="include_archived">Archived</string>
+    <string name="include_trashed">Trashed</string>
+    <string name="search_by_conditions">Search by conditions&#8230;</string>
+    <string name="no_search_result_found">Result not found</string>
+    <string name="try_other_conditions">Try another condition</string>
     <!--endregion-->
 
     <!--region Common->DrawerItems-->
-    <string name="drawer_menu_notes">笔记信息</string>
-    <string name="drawer_menu_minds">小纸条</string>
-    <string name="drawer_menu_labels">标签</string>
-    <string name="drawer_menu_notices">提醒信息</string>
-    <string name="drawer_menu_setting">设置</string>
-    <string name="drawer_menu_trash">废纸篓</string>
-    <string name="drawer_menu_archive">归档</string>
-    <string name="drawer_menu_sync">数据同步</string>
+    <string name="drawer_menu_notes">Notes</string>
+    <string name="drawer_menu_minds">Snagging</string>
+    <string name="drawer_menu_labels">Tags</string>
+    <string name="drawer_menu_notices">Notices</string>
+    <string name="drawer_menu_setting">Settings</string>
+    <string name="drawer_menu_trash">Trash</string>
+    <string name="drawer_menu_archive">Archived</string>
+    <string name="drawer_menu_sync">Sync</string>
     <!--endregion-->
     <!--endregion-->
 
     <!--region Fab-->
-    <string name="fab_opt_note">笔记</string>
-    <string name="fab_opt_notebook">笔记本</string>
-    <string name="fab_opt_category">标签</string>
-    <string name="fab_opt_capture">拍照</string>
-    <string name="fab_opt_file">文件</string>
-    <string name="fab_opt_draft">手写</string>
-    <string name="fab_opt_link">链接</string>
-    <string name="fab_opt_record">录音</string>
-    <string name="fab_opt_notice">提醒</string>
-    <string name="fab_mind_snagging">小纸条</string>
+    <string name="fab_opt_note">Note</string>
+    <string name="fab_opt_notebook">Notebook</string>
+    <string name="fab_opt_category">Tags</string>
+    <string name="fab_opt_capture">Capture</string>
+    <string name="fab_opt_file">File</string>
+    <string name="fab_opt_draft">Sketch</string>
+    <string name="fab_opt_link">Link</string>
+    <string name="fab_opt_record">Record</string>
+    <string name="fab_opt_notice">Alarm</string>
+    <string name="fab_mind_snagging">Snagging</string>
 
-    <string name="fab_sort_custom_fab">自定义浮动按钮</string>
-    <string name="fab_sort_custom">自定义&#8230;</string>
-    <string name="fab_sort_custom_fab_tip">拖动尾部的按钮进行排序，排在前面的5个按钮会被添加到浮动按钮菜单中进行显示。</string>
-    <string name="fab_sort_save">保存修改</string>
-    <string name="fab_sort_save_or_lose">保存或则放弃你对浮动按钮菜单所作的修改。</string>
-    <string name="fab_sort_save_successfully">成功保存浮动菜单的设置</string>
+    <string name="fab_sort_custom_fab">Custom fabs</string>
+    <string name="fab_sort_custom">Custom&#8230;</string>
+    <string name="fab_sort_custom_fab_tip">Drag the rear icon to sort, the top 5 will be showed in menu.</string>
+    <string name="fab_sort_save">Save</string>
+    <string name="fab_sort_save_or_lose">Save or discard your modifications</string>
+    <string name="fab_sort_save_successfully">Successfully saved</string>
     <!--endregion-->
 
     <!--region Note-->
-    <string name="content_failed_to_parse_intent">无法解析的意图</string>
-    <string name="note_failed_to_read_file">读取文件内容失败</string>
-    <string name="note_failed_to_get_note_content">读取笔记内容失败</string>
-    <string name="text_no_such_note">没有找到该笔记</string>
-    <string name="note_note_title">笔记标题</string>
-    <string name="note_write_down_what_you_want">写下此刻的想法&#8230;</string>
-    <string name="note_default_notebook">默认笔记本</string>
-    <string name="edit_notebook">编辑笔记本</string>
-    <string name="notebook_name">笔记本名称</string>
-    <string name="pick_notebook_color">选择笔记本的颜色</string>
-    <string name="note_capture_note">笔记截图</string>
-    <string name="all_notes">全部笔记</string>
-    <string name="text_replace_tab_with_4_spaces">使用4个空格替换退格</string>
+    <string name="content_failed_to_parse_intent">Failed to parse the intent</string>
+    <string name="note_failed_to_read_file">Failed to read file</string>
+    <string name="note_failed_to_get_note_content">Failed to read content</string>
+    <string name="text_no_such_note">Note not found</string>
+    <string name="note_note_title">Note title</string>
+    <string name="note_write_down_what_you_want">Write down your note&#8230;</string>
+    <string name="note_default_notebook">Default notebook</string>
+    <string name="edit_notebook">Edit notebook</string>
+    <string name="notebook_name">Notebook name</string>
+    <string name="pick_notebook_color">Select the color of notebook</string>
+    <string name="note_capture_note">Capture note</string>
+    <string name="all_notes">All notes</string>
+    <string name="text_replace_tab_with_4_spaces">Use 4 spaces replaces Tab</string>
 
-    <string name="notes_list_empty">笔记列表为空</string>
-    <string name="notes_list_empty_sub_normal">点击主界面的 + 按钮添加笔记</string>
-    <string name="notes_list_empty_sub_archived">没有发现归档的笔记</string>
-    <string name="notes_list_empty_sub_trashed">没有在垃圾箱中发现笔记</string>
-    <string name="move_to_another_notebook">移动到其他笔记本</string>
-    <string name="moved_successfully">移动成功</string>
-    <string name="msg_when_delete_notebook">删除该笔记本会同时删除包含的所有笔记和笔记本</string>
+    <string name="notes_list_empty">Empty notes list</string>
+    <string name="notes_list_empty_sub_normal">add note by clicking + in dashboard</string>
+    <string name="notes_list_empty_sub_archived">no archived note found</string>
+    <string name="notes_list_empty_sub_trashed">no trashed note found</string>
+    <string name="move_to_another_notebook">Move to another notebook</string>
+    <string name="moved_successfully">Successfully moved</string>
+    <string name="msg_when_delete_notebook">Delete the notebook will delete its child-notebooks and child-notes as well.</string>
 
-    <string name="pick_notebook">选择笔记本</string>
-    <string name="no_notebook_available">没有可用的笔记本</string>
+    <string name="pick_notebook">Pick notebook</string>
+    <string name="no_notebook_available">No available notebook</string>
     <!--endregion-->
 
     <!--region Attachment-->
