@@ -239,19 +239,19 @@
     <!--endregion-->
 
     <!--region Alarm-->
-    <string name="pick_alarm_type">选择闹钟类型</string>
-    <string name="one_shot">一次</string>
-    <string name="every_day">每天</string>
-    <string name="every_weekday">每周工作日(周一至周五)</string>
-    <string name="every_weekend">每周周末(周六、周日)</string>
-    <string name="custom_by_week">按周自定义</string>
-    <string name="custom_by_month">按月自定义</string>
-    <string name="clear_reminder">清除提醒</string>
+    <string name="pick_alarm_type">Pick alarm type</string>
+    <string name="one_shot">One shot</string>
+    <string name="every_day">Every day</string>
+    <string name="every_weekday">Weekday (Mon - Fri)</string>
+    <string name="every_weekend">Weekend (Sat &amp; Sub)</string>
+    <string name="custom_by_week">Custom by week</string>
+    <string name="custom_by_month">Custom by month</string>
+    <string name="clear_reminder">Clear reminder</string>
     <string name="day_concat">,</string>
-    <string name="from">从</string>
-    <string name="to">到</string>
-    <string name="at">在</string>
-    <string name="until">直到</string>
+    <string name="from">From</string>
+    <string name="to">to</string>
+    <string name="at">at</string>
+    <string name="until">until</string>
     <!--endregion-->
 
     <!--region Enums-->
