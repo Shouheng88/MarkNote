@@ -20,7 +20,7 @@
             android:text="@string/text_give_up"
             android:textColor="@color/colorAccent"
             android:background="@android:color/transparent"
-            android:layout_width="60dp"
+            android:layout_width="80dp"
             android:layout_height="wrap_content" />
 
         <Button
@@ -28,7 +28,7 @@
             android:text="@string/add_attachment"
             android:textColor="@color/colorAccent"
             android:background="@android:color/transparent"
-            android:layout_width="60dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
     </RelativeLayout>
