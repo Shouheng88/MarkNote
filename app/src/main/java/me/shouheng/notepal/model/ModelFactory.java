@@ -12,7 +12,6 @@ import me.shouheng.notepal.model.enums.Operation;
 import me.shouheng.notepal.model.enums.Portrait;
 import me.shouheng.notepal.model.enums.Status;
 import me.shouheng.notepal.util.ColorUtils;
-import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.TimeUtils;
 import me.shouheng.notepal.util.UserUtil;
 
@@ -100,7 +99,7 @@ public class ModelFactory {
     public static Notebook getNotebook(Context context) {
         Notebook notebook = getModel(context, Notebook.class);
         assert notebook != null;
-        notebook.setColor(PreferencesUtils.getInstance(context).getDefaultNotebookColor());
+        notebook.setColor(ColorUtils.primaryColor(context));
         return notebook;
     }
 
