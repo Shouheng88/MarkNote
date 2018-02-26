@@ -136,7 +136,7 @@ public class SettingsFragment extends PreferenceFragment {
         new MaterialDialog.Builder(getActivity())
                 .title(R.string.text_tips)
                 .content(R.string.show_introduction_again)
-                .positiveText(R.string.text_confirm)
+                .positiveText(R.string.text_ok)
                 .negativeText(R.string.text_cancel)
                 .onPositive((materialDialog, dialogAction) -> {
                     IntroActivity.launch(getActivity());

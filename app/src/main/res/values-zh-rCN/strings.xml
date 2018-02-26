@@ -73,6 +73,7 @@
     <string name="text_attachment">附件</string>
     <string name="working">正在执行&#8230;</string>
     <string name="text_input_password_and_continue">输入密码继续</string>
+    <string name="text_ok">好的</string>
 
     <string name="check_network_availability">检查网络连接是否可用</string>
 
