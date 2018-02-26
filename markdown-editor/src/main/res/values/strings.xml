@@ -1,27 +1,27 @@
 <resources>
     <string name="app_name">PalmMarkdown</string>
 
-    <string name="md_insert_link">插入链接</string>
-    <string name="md_text_to_show">用于显示的文本</string>
-    <string name="md_confirm">确定</string>
-    <string name="md_cancel">取消</string>
-    <string name="md_link">要插入的链接</string>
+    <string name="md_insert_link">Insert link</string>
+    <string name="md_text_to_show">Text to show</string>
+    <string name="md_confirm">Confirm</string>
+    <string name="md_cancel">Cancel</string>
+    <string name="md_link">Link to insert</string>
 
-    <string name="md_link_title_cannot_empty">链接标题不能为空</string>
-    <string name="md_link_cannot_empty">链接不能为空</string>
+    <string name="md_link_title_cannot_empty">Link title required</string>
+    <string name="md_link_cannot_empty">Link required</string>
 
-    <string name="md_insert_table">插入表格</string>
+    <string name="md_insert_table">Insert table</string>
 
-    <string name="md_input_rows_number">输入行数</string>
-    <string name="md_input_cols_number">输入列数</string>
+    <string name="md_input_rows_number">Rows</string>
+    <string name="md_input_cols_number">Columns</string>
 
-    <string name="md_rows_cannot_empty">输入的行数不能为空</string>
-    <string name="md_cols_cannot_empty">输入的列数不能为空</string>
+    <string name="md_rows_cannot_empty">The row number can\'t be empty.</string>
+    <string name="md_cols_cannot_empty">The column number can\'t be empty.</string>
 
-    <string name="openas">打开方式</string>
-    <string name="text">文本</string>
-    <string name="audio">音乐</string>
-    <string name="video">视频</string>
-    <string name="other">其他</string>
-    <string name="image">图片</string>
+    <string name="openas">Open as</string>
+    <string name="text">Text</string>
+    <string name="audio">Audio</string>
+    <string name="video">Video</string>
+    <string name="image">Image</string>
+    <string name="other">Other</string>
 </resources>
