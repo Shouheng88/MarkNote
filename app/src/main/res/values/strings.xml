@@ -177,37 +177,37 @@
     <!--endregion-->
 
     <!--region Attachment-->
-    <string name="failed_to_create_file">创建文件失败</string>
-    <string name="storage_not_available">存储空间不可用</string>
-    <string name="failed_to_save_attachment">保存附件失败</string>
-    <string name="add_attachment">添加附件</string>
+    <string name="failed_to_create_file">Failed to create file</string>
+    <string name="storage_not_available">Storage unavailable</string>
+    <string name="failed_to_save_attachment">Failed to save attachment</string>
+    <string name="add_attachment">Add attachment</string>
 
-    <string name="attachment_type_files">文件</string>
-    <string name="attachment_type_images">图片</string>
-    <string name="attachment_type_videos">视频</string>
-    <string name="attachment_type_recordings">录音</string>
-    <string name="attachment_type_sketches">手写</string>
+    <string name="attachment_type_files">File</string>
+    <string name="attachment_type_images">Image</string>
+    <string name="attachment_type_videos">Video</string>
+    <string name="attachment_type_recordings">Recording</string>
+    <string name="attachment_type_sketches">Sketch</string>
 
-    <string name="album">相册</string>
-    <string name="net_link">网络链接</string>
-    <string name="file">文件</string>
-    <string name="create">创建</string>
-    <string name="take_a_photo">拍摄照片</string>
-    <string name="sound_record">录制音频</string>
-    <string name="take_video">录制视频</string>
-    <string name="sketch">手写</string>
+    <string name="album">Album</string>
+    <string name="net_link">Link</string>
+    <string name="file">File</string>
+    <string name="create">Create</string>
+    <string name="take_a_photo">Take a photo</string>
+    <string name="sound_record">Sound record</string>
+    <string name="take_video">Take video</string>
+    <string name="sketch">Sketch</string>
 
-    <string name="activity_not_found_to_resolve">没有找到可用的程序</string>
-    <string name="use_to_open">用&#8230;打开</string>
-    <string name="information">信息</string>
-    <string name="failed_when_play_audio">播放音频时出现错误</string>
-    <string name="failed_to_resolve_intent">没有找到可用的应用</string>
+    <string name="activity_not_found_to_resolve">No available application</string>
+    <string name="use_to_open">Open with&#8230;</string>
+    <string name="information">Information</string>
+    <string name="failed_when_play_audio">Error occurred when play audio</string>
+    <string name="failed_to_resolve_intent">Failed to resolve intent</string>
 
-    <string name="confirm_to_clear_bitmap">确认全部擦除？</string>
-    <string name="stroke">线宽</string>
-    <string name="opacity">透明度</string>
-    <string name="saturation">饱和度</string>
-    <string name="file_not_exist">文件不存在</string>
+    <string name="confirm_to_clear_bitmap">Confirm to clear bitmap?</string>
+    <string name="stroke">Stroke</string>
+    <string name="opacity">Opacity</string>
+    <string name="saturation">Saturation</string>
+    <string name="file_not_exist">File not found</string>
     <!--endregion-->
 
     <!--region MindSnagging-->
