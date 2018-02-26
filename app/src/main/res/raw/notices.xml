@@ -96,4 +96,10 @@
         <copyright>Copyright 2014 - 2017 Henning Dodenhof</copyright>
         <license>Apache Software License 2.0</license>
     </notice>
+    <notice>
+        <name>PinLockView</name>
+        <url>https://github.com/aritraroy/PinLockView</url>
+        <copyright>Copyright 2017 aritraroy</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
 </notices>
