@@ -398,45 +398,45 @@
     <!--endregion-->
 
     <!--region Setting->Help-->
-    <string name="setting_help">帮助</string>
-    <string name="setting_online_user_guide">用户手册</string>
-    <string name="setting_online_user_guide_sub">获取用户使用手册</string>
-    <string name="setting_user_intro">用户导引</string>
-    <string name="setting_user_intro_sub">再次显示用户导引</string>
-    <string name="show_introduction_again">再次显示用户导引页？</string>
+    <string name="setting_help">Help</string>
+    <string name="setting_online_user_guide">User guide</string>
+    <string name="setting_online_user_guide_sub">Get online user guide</string>
+    <string name="setting_user_intro">User intro</string>
+    <string name="setting_user_intro_sub">Intro page</string>
+    <string name="show_introduction_again">Show intro page again?</string>
     <!--endregion-->
 
     <!--region Setting->Other-->
-    <string name="setting_others">其他设置</string>
-    <string name="setting_support_development">支持开发</string>
-    <string name="setting_support_development_sub">你的支持将被用来向程序中增加新的特性</string>
-    <string name="support_development_content">你的支持将被用来向程序中增加新的特性，你可以选择下面的两种支持方式，或者取消：</string>
-    <string name="alipay">支付宝</string>
-    <string name="wechat">微信</string>
-    <string name="next_time">下次吧</string>
-    <string name="donate_dialog_content">你可以选择打开微信或者支付宝，并直接扫描图中的二维码，或者点击按钮将图片下载到相册后进行扫描。</string>
-    <string name="download_donate_picture">下载图片到本地</string>
-    <string name="setting_feedback">信息反馈</string>
-    <string name="setting_feedback_sub">帮助开发者把程序做得更好</string>
-    <string name="setting_about">关于程序</string>
-    <string name="setting_about_sub">与程序有关的详细信息</string>
+    <string name="setting_others">Others</string>
+    <string name="setting_support_development">Support developing</string>
+    <string name="setting_support_development_sub">You support will be used to add new features and functions</string>
+    <string name="support_development_content">You support will be used to add new features and functions. You may choose one of the support channels below:</string>
+    <string name="alipay">AliPay</string>
+    <string name="wechat">WeChat</string>
+    <string name="next_time">Next time</string>
+    <string name="donate_dialog_content">You may launch the AliPay or WeChat and scan the QR code or save the image to album and scan from it.</string>
+    <string name="download_donate_picture">Save image</string>
+    <string name="setting_feedback">Feedback</string>
+    <string name="setting_feedback_sub">Help developer make application better</string>
+    <string name="setting_about">About</string>
+    <string name="setting_about_sub">Details about this application</string>
     <!--endregion-->
 
     <!--region Setting->AppInfo-->
-    <string name="app_info">程序信息</string>
-    <string name="app_description">一款基于Material Design的Markdown笔记应用</string>\
-    <string name="help_development">协助开发</string>
-    <string name="translation">翻译</string>
-    <string name="translate_to_other_languages">将 %s 翻译成其他语言</string>
-    <string name="rating">评分</string>
-    <string name="give_good_rating_if_you_like">如果你喜欢 %s，就给我们个好评</string>
-    <string name="thanks">特别感谢</string>
-    <string name="thanks_details">百度地图提供的定位相关API\n您选择使用本应用</string>
-    <string name="developer_and_license">开发者&amp;许可证</string>
-    <string name="developers">开发者</string>
+    <string name="app_info">App info</string>
+    <string name="app_description">A material design markdown note-taking application</string>\
+    <string name="help_development">Associations</string>
+    <string name="translation">Translation</string>
+    <string name="translate_to_other_languages">Translate %s into other languages</string>
+    <string name="rating">Rating</string>
+    <string name="give_good_rating_if_you_like">Give us a good rating if you like %s</string>
+    <string name="thanks">Thanks</string>
+    <string name="thanks_details">Location API offered by Baidu\nYou use this application</string>
+    <string name="developer_and_license">Developer &amp; License</string>
+    <string name="developers">Developers</string>
     <string name="developer_name">WngShhng (shouheng2015@gmail.com)</string>
-    <string name="open_source_libraries_permissions">开源库许可</string>
-    <string name="view_third_part_libraries">查看使用的第三方库</string>
+    <string name="open_source_libraries_permissions">Open source license</string>
+    <string name="view_third_part_libraries">View the open source projects included in this application</string>
     <!--endregion-->
 
     <!--region Setting->Feedback-->
