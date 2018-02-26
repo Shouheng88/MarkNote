@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.View;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.andrognito.pinlockview.IndicatorDots;
 import com.andrognito.pinlockview.PinLockListener;
 
@@ -123,7 +124,12 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
         /**
          * Check the freeze time first. */
         if (preferencesUtils.getLastInputErrorTime() + psdFreezeLength > System.currentTimeMillis()) {
-            ToastUtils.makeToast(this, R.string.setting_password_frozen);
+            if (!TextUtils.isEmpty(preferencesUtils.getPasswordQuestion())
+                    && !TextUtils.isEmpty(preferencesUtils.getPasswordAnswer())) {
+                showFreezeDialog();
+            } else {
+                showFreezeDialog();
+            }
             return;
         } else if (isPasswordFrozen) {
             // clear the freeze info
@@ -134,22 +140,17 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
         if (savedPassword.equals(encryptedPin)) {
             /**
              * If the input password is the same as saved one -> back and record.*/
-            Intent intent = new Intent();
-            setResult(Activity.RESULT_OK, intent);
-            PalmApp.setPasswordChecked(true);
-            finish();
+            passCheck();
         } else {
             /**
              * Input wrong password. */
             getBinding().pinLockView.resetPinLockView();
-
             if (++errorTimes == 5) {
                 /**
                  * Input wrong password for too many times, record last error time and save the frozen state. */
                 preferencesUtils.setLastInputErrorTime(System.currentTimeMillis());
                 isPasswordFrozen = true;
-                String msg = String.format(getString(R.string.setting_password_frozen_minutes), preferencesUtils.getPasswordFreezeTime());
-                ToastUtils.makeToast(msg);
+                showFreezeToast();
             } else {
                 ToastUtils.makeToast(String.format(getString(R.string.setting_input_wrong_password), 5 - errorTimes));
             }
@@ -184,6 +185,58 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
                 getBinding().pinLockView.resetPinLockView();
             }
         }
+    }
+
+    private void showFreezeToast() {
+        String msg = String.format(getString(R.string.setting_password_frozen_minutes), preferencesUtils.getPasswordFreezeTime());
+        ToastUtils.makeToast(msg);
+    }
+
+    private void showFreezeDialog() {
+        new MaterialDialog.Builder(this)
+                .title(R.string.text_tips)
+                .content(R.string.setting_password_frozen)
+                .positiveText(R.string.text_ok)
+                .onPositive((dialog, which) -> showQuestionDialog())
+                .negativeText(R.string.text_cancel)
+                .build().show();
+    }
+
+    private void showQuestionDialog() {
+        String question = preferencesUtils.getPasswordQuestion();
+        String answer = preferencesUtils.getPasswordAnswer();
+        new MaterialDialog.Builder(this)
+                .title(R.string.setting_answer_question)
+                .content(question)
+                .input(null, null, (dialog, input) -> {
+                    if (answer.equals(input)) {
+                        preferencesUtils.setPasswordRequired(false);
+                        showDisableDialog();
+                    } else {
+                        ToastUtils.makeToast(R.string.setting_wrong_answer);
+                    }
+                })
+                .negativeText(R.string.cancel)
+                .positiveText(R.string.confirm)
+                .build().show();
+    }
+
+    private void showDisableDialog() {
+        MaterialDialog dlg = new MaterialDialog.Builder(this)
+                .title(R.string.text_tips)
+                .content(R.string.setting_disable_password)
+                .positiveText(R.string.text_ok)
+                .onPositive((dialog, which) -> passCheck())
+                .build();
+        dlg.show();
+        dlg.setOnDismissListener(dialog -> passCheck());
+    }
+
+    private void passCheck() {
+        Intent intent = new Intent();
+        setResult(Activity.RESULT_OK, intent);
+        PalmApp.setPasswordChecked(true);
+        finish();
     }
 
     private String getEncryptPassword(String pin) {

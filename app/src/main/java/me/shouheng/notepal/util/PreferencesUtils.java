@@ -191,6 +191,8 @@ public class PreferencesUtils {
     private final String PASSWORD_REQUIRED = "password_required";
     private final String PASSWORD = "password";
     public static final String PASSWORD_INPUT_FREEZE_TIME = "password_input_freeze_time";
+    private final String PASSWORD_QUESTION = "password_question";
+    private final String PASSWORD_ANSWER = "password_answer";
 
     public void enableListAnimation(boolean enable){
         putBooleanValue(LIST_ANIMATION, enable);
@@ -230,6 +232,22 @@ public class PreferencesUtils {
 
     public void setPasswordFreezeTime(int time) {
         putIntValue(PASSWORD_INPUT_FREEZE_TIME, time);
+    }
+
+    public void setPasswordQuestion(String question) {
+        putStringValue(PASSWORD_QUESTION, question);
+    }
+
+    public String getPasswordQuestion() {
+        return getStringValue(PASSWORD_QUESTION, null);
+    }
+
+    public void setPasswordAnswer(String answer) {
+        putStringValue(PASSWORD_ANSWER, answer);
+    }
+
+    public String getPasswordAnswer() {
+        return getStringValue(PASSWORD_ANSWER, null);
     }
     // endregion
 
