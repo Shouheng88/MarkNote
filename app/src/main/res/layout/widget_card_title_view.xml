@@ -31,8 +31,7 @@
             <TextView
                 android:id="@+id/tv_sub_title"
                 style="@style/ProfileSubTitleStyle"
-                tools:text="sub title test text"
-                android:lines="1"
+                tools:text="This is the sub title test text, which will show a long text and multiple lines."
                 android:ellipsize="end"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
