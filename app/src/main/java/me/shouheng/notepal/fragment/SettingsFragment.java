@@ -38,7 +38,7 @@ public class SettingsFragment extends PreferenceFragment {
 
     private CheckBoxPreference isDarkTheme, coloredNavigationBar;
 
-    private ColorPreference primaryColor, accentColor, noteColor, notebookColor;
+    private ColorPreference primaryColor, accentColor;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,9 +52,6 @@ public class SettingsFragment extends PreferenceFragment {
         coloredNavigationBar = (CheckBoxPreference) findPreference(PreferencesUtils.COLORED_NAVIGATION_BAR);
         primaryColor.setValue(ColorUtils.primaryColor(getActivity()));
         accentColor.setValue(ColorUtils.accentColor(getActivity()));
-
-        noteColor = (ColorPreference) findPreference(PreferencesUtils.DEFAULT_NOTE_COLOR);
-        notebookColor = (ColorPreference) findPreference(PreferencesUtils.DEFAULT_NOTEBOOK_COLOR);
 
         setPreferenceClickListeners();
     }
@@ -78,19 +75,6 @@ public class SettingsFragment extends PreferenceFragment {
         });
         coloredNavigationBar.setOnPreferenceClickListener(preference -> {
             ((ThemedActivity) getActivity()).updateTheme();
-            return true;
-        });
-
-        notebookColor.setOnPreferenceClickListener(preference -> {
-            if (getActivity() != null && getActivity() instanceof OnPreferenceClickListener) {
-                ((OnPreferenceClickListener) getActivity()).onPreferenceClick(PreferencesUtils.DEFAULT_NOTEBOOK_COLOR);
-            }
-            return true;
-        });
-        noteColor.setOnPreferenceClickListener(preference -> {
-            if (getActivity() != null && getActivity() instanceof OnPreferenceClickListener) {
-                ((OnPreferenceClickListener) getActivity()).onPreferenceClick(PreferencesUtils.DEFAULT_NOTE_COLOR);
-            }
             return true;
         });
 
@@ -171,14 +155,6 @@ public class SettingsFragment extends PreferenceFragment {
 
     public void notifyPrimaryColorChanged(int primaryColor) {
         this.primaryColor.setValue(primaryColor);
-    }
-
-    public void notifyNoteColorChanged(int noteColor) {
-        this.noteColor.setValue(noteColor);
-    }
-
-    public void notifyNotebookColorChanged(int notebookColor) {
-        this.notebookColor.setValue(notebookColor);
     }
 
     public interface OnPreferenceClickListener {
