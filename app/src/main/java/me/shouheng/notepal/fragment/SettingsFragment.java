@@ -15,6 +15,7 @@ import me.shouheng.notepal.dialog.DonateDialog;
 import me.shouheng.notepal.dialog.DonateDialog.DonateChannel;
 import me.shouheng.notepal.dialog.FeedbackDialog;
 import me.shouheng.notepal.intro.IntroActivity;
+import me.shouheng.notepal.model.Feedback;
 import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.IntentUtils;
 import me.shouheng.notepal.util.PreferencesUtils;
@@ -31,10 +32,11 @@ public class SettingsFragment extends PreferenceFragment {
     private final static String KEY_FEEDBACK = "feedback";
     private final static String KEY_USER_GUIDE = "user_guide";
     private final static String KEY_USER_INTRO = "user_intro";
+    private final static String KEY_SUPPORT_DEVELOP = "support_develop";
+
     public final static String KEY_ABOUT = "about";
     public final static String KEY_DATA_BACKUP = "data_backup";
     public final static String KEY_DATA_SECURITY = "data_security";
-    private final static String KEY_SUPPORT_DEVELOP = "support_develop";
 
     private CheckBoxPreference isDarkTheme, coloredNavigationBar;
 
@@ -79,11 +81,7 @@ public class SettingsFragment extends PreferenceFragment {
         });
 
         findPreference(KEY_FEEDBACK).setOnPreferenceClickListener(preference -> {
-            FeedbackDialog.newInstance(getActivity(), (dialog, feedback) -> {
-                IntentUtils.sendEmail(getActivity(),
-                        String.format(Constants.DEVELOPER_EMAIL_PREFIX, feedback.getFeedbackType().name()),
-                        feedback.getQuestion() + Constants.DEVELOPER_EMAIL_EMAIL_PREFIX + feedback.getEmail());
-            }).show(((CommonActivity) getActivity()).getSupportFragmentManager(), "Feedback Editor");
+            showFeedbackEditor();
             return true;
         });
         findPreference(KEY_USER_GUIDE).setOnPreferenceClickListener(preference -> {
@@ -108,16 +106,7 @@ public class SettingsFragment extends PreferenceFragment {
         });
 
         findPreference(KEY_SUPPORT_DEVELOP).setOnPreferenceClickListener(preference -> {
-            new MaterialDialog.Builder(getActivity())
-                    .title(R.string.setting_support_development)
-                    .content(R.string.support_development_content)
-                    .positiveText(R.string.alipay)
-                    .onPositive((dialog, which) -> showDonateDialog(DonateChannel.AliPay))
-                    .negativeText(R.string.wechat)
-                    .onNegative((dialog, which) -> showDonateDialog(DonateChannel.WeChat))
-                    .neutralText(R.string.next_time)
-                    .stackingBehavior(StackingBehavior.ADAPTIVE)
-                    .show();
+            showSupport();
             return true;
         });
         findPreference(KEY_ABOUT).setOnPreferenceClickListener(preference -> {
@@ -128,8 +117,20 @@ public class SettingsFragment extends PreferenceFragment {
         });
     }
 
+    private void showFeedbackEditor() {
+        FeedbackDialog.newInstance(getActivity(), (dialog, feedback) -> sendFeedback(feedback))
+                .show(((CommonActivity) getActivity()).getSupportFragmentManager(), "Feedback Editor");
+    }
+
+    private void sendFeedback(Feedback feedback) {
+        String subject = String.format(Constants.DEVELOPER_EMAIL_PREFIX, feedback.getFeedbackType().name());
+        String body = feedback.getQuestion() + Constants.DEVELOPER_EMAIL_EMAIL_PREFIX + feedback.getEmail();
+        IntentUtils.sendEmail(getActivity(), subject, body);
+    }
+
     private void showDonateDialog(DonateChannel donateChannel) {
-        DonateDialog.newInstance(donateChannel).show(((CommonActivity) getActivity()).getSupportFragmentManager(), "Donate Dialog");
+        DonateDialog.newInstance(donateChannel)
+                .show(((CommonActivity) getActivity()).getSupportFragmentManager(), "Donate Dialog");
     }
 
     private void showIntroduction() {
@@ -138,9 +139,20 @@ public class SettingsFragment extends PreferenceFragment {
                 .content(R.string.show_introduction_again)
                 .positiveText(R.string.text_ok)
                 .negativeText(R.string.text_cancel)
-                .onPositive((materialDialog, dialogAction) -> {
-                    IntroActivity.launch(getActivity());
-                })
+                .onPositive((materialDialog, dialogAction) -> IntroActivity.launch(getActivity()))
+                .show();
+    }
+
+    private void showSupport() {
+        new MaterialDialog.Builder(getActivity())
+                .title(R.string.setting_support_development)
+                .content(R.string.support_development_content)
+                .positiveText(R.string.alipay)
+                .onPositive((dialog, which) -> showDonateDialog(DonateChannel.AliPay))
+                .negativeText(R.string.wechat)
+                .onNegative((dialog, which) -> showDonateDialog(DonateChannel.WeChat))
+                .neutralText(R.string.next_time)
+                .stackingBehavior(StackingBehavior.ADAPTIVE)
                 .show();
     }
 
