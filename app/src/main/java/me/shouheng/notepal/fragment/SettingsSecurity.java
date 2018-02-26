@@ -18,7 +18,7 @@ import me.shouheng.notepal.util.ToastUtils;
 
 /**
  * Created by wang shouheng on 2018/1/12. */
-public class SettingsDataSecurity extends PreferenceFragment {
+public class SettingsSecurity extends PreferenceFragment {
 
     private final static String KEY_SET_PASSWORD = "set_password";
     private final static String KEY_PASSWORD_REQUIRED = "password_required";
