@@ -2,17 +2,17 @@
 <resources>
     <string name="text_cancel">Cancel</string>
     <string name="permission_setting_permission">Permission settings</string>
-    <string name="permission_storage_permission">storage</string>
-    <string name="permission_location_permission">location</string>
-    <string name="permission_microphone_permission">microphone</string>
-    <string name="permission_phone_permission">phone</string>
-    <string name="permission_sms_permission">sms</string>
-    <string name="permission_sensor_permission">sensor</string>
-    <string name="permission_contacts_permission">contacts</string>
-    <string name="permission_camera_permission">camera</string>
-    <string name="permission_calendar_permission">calendar</string>
+    <string name="permission_storage_permission">Storage</string>
+    <string name="permission_location_permission">Location</string>
+    <string name="permission_microphone_permission">Microphone</string>
+    <string name="permission_phone_permission">Phone</string>
+    <string name="permission_sms_permission">Sms</string>
+    <string name="permission_sensor_permission">Sensor</string>
+    <string name="permission_contacts_permission">Contacts</string>
+    <string name="permission_camera_permission">Camera</string>
+    <string name="permission_calendar_permission">Calendar</string>
     <string name="setting_permission">Setting permission</string>
-    <string name="set_permission_in_setting">Open "Settings", tap "Permissions", enable "%s" and try again.</string>
+    <string name="set_permission_in_setting">Permission is required.\n\nGrant the permission to this application and try again:\n\n Open app info page in settings, tap \"Permissions\", enable \"%s\".</string>
     <string name="to_set">to set</string>
     <string name="permission_denied_try_again_after_set">Permission denied. Please try again after grant the permission.</string>
 </resources>
