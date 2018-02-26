@@ -221,21 +221,21 @@
     <!--endregion-->
 
     <!--region Category-->
-    <string name="pick_portrait">选择图标</string>
-    <string name="edit_category">编辑标签</string>
-    <string name="category_name">标签名称</string>
-    <string name="pick_category_color">选择标签颜色</string>
+    <string name="pick_portrait">Pick portrait</string>
+    <string name="edit_category">Edit category</string>
+    <string name="category_name">Category name</string>
+    <string name="pick_category_color">Pick category color</string>
 
-    <string name="no_selectable_category">没有可供选择的标签，在主界面添加标签后再次尝试。</string>
+    <string name="no_selectable_category">No available category, try again after adding in dashboard</string>
     <plurals name="notes_number">
-        <item quantity="one">%d 个笔记</item>
-        <item quantity="other">%d 个笔记</item>
+        <item quantity="one">%d note</item>
+        <item quantity="other">%d notes</item>
     </plurals>
-    <string name="category_delete_message">删除该标签不会删除其相关的笔记。</string>
-    <string name="categories_list_empty">标签列表为空</string>
-    <string name="categories_list_empty_sub_normal">点击主界面的 + 按钮添加标签</string>
-    <string name="categories_list_empty_sub_archived">没有发现归档的标签</string>
-    <string name="categories_list_empty_sub_trashed">没有在垃圾箱中发现标签</string>
+    <string name="category_delete_message">Delete category will only delete the connection with notes, notes won\'t be deleted.</string>
+    <string name="categories_list_empty">Empty category list</string>
+    <string name="categories_list_empty_sub_normal">add category by licking + in dashboard</string>
+    <string name="categories_list_empty_sub_archived">no archived category found</string>
+    <string name="categories_list_empty_sub_trashed">no trashed category found</string>
     <!--endregion-->
 
     <!--region Alarm-->
