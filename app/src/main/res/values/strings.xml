@@ -467,22 +467,22 @@
     <!--region User Info-->
     <string name="user_info_click_to_see_personal_info">Click to view personal info</string>
     <string name="user_info">User info</string>
-    <string name="school">School|Company</string>
-    <string name="major">Major|Carer</string>
+    <string name="school">School | Company</string>
+    <string name="major">Major | Carer</string>
     <string name="timeline">Timeline</string>
     <string name="statistic">Statistics</string>
-    <string name="not_login_click_to_login">Not login·click to login</string>
+    <string name="not_login_click_to_login">Not login · Click to login</string>
     <string name="login_and_get_storage">Login to get storage</string>
     <string name="storage_left_monthly">Storage left</string>
     <string name="storage_left_and_click_grant_tips">%d MB left, click to get more storage</string>
     <string name="not_login_try_after_login">Not login, try again after login</string>
-    <string name="timeline_detail">what you have done these days</string>
+    <string name="timeline_detail">What you have done in NotePal</string>
     <string name="statistic_of_this_week">Statistics of current week</string>
-    <string name="activities_in_seven_days">Notes added recent 7 days</string>
+    <string name="activities_in_seven_days">Notes added during recent 7 days</string>
     <string name="logout">Logout</string>
 
-    <string name="statistic_activities">Activities recent 7 days</string>
-    <string name="statistic_title_activities">Notes and snagging added recent 7 days</string>
+    <string name="statistic_activities">Activities during recent 7 days</string>
+    <string name="statistic_title_activities">Notes and snagging added during recent 7 days</string>
     <string name="statistic_models_added">Models added</string>
     <string name="statistic_title_models_added">Statistics of added models</string>
     <string name="statistic_attachments_added">Attachments added</string>
