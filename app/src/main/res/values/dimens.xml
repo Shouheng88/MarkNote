@@ -55,4 +55,6 @@
     <dimen name="widget_margin">8dp</dimen>
     <dimen name="widget_height">56dp</dimen>
     <!--endregion-->
+
+    <dimen name="toolbar_evaluation">5dp</dimen>
 </resources>

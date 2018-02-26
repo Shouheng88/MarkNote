@@ -21,6 +21,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
+            <View android:layout_width="match_parent"
+                android:layout_height="@dimen/toolbar_evaluation"
+                android:background="@drawable/toolbar_dropshadow"
+                android:layout_below="@id/toolbar_layout"/>
+
         </RelativeLayout>
 
         <android.support.design.widget.NavigationView

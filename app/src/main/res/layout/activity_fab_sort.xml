@@ -2,17 +2,18 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".activity.FabSortActivity">
 
-        <include layout="@layout/layout_toolbar"/>
+        <include android:id="@+id/toolbar_layout" layout="@layout/layout_toolbar"/>
 
         <LinearLayout
+            android:id="@+id/tip_layout"
             android:orientation="vertical"
             android:padding="16dp"
+            android:layout_below="@id/toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -33,9 +34,16 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_fabs"
+            android:layout_below="@id/tip_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-    </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/toolbar_evaluation"
+            android:background="@drawable/toolbar_dropshadow"
+            android:layout_below="@id/toolbar_layout"/>
+
+    </RelativeLayout>
 
 </layout>

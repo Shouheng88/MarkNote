@@ -62,7 +62,7 @@ public abstract class BaseListActivity extends CommonActivity<ActivityListBaseWi
 
     private void configDrawer() {
         getBinding().drawerLayout.openDrawer(GravityCompat.START);
-        View header = getBinding().navView.inflateHeaderView(R.layout.archive_header);
+        View header = getBinding().navView.inflateHeaderView(R.layout.layout_archive_header);
         Toolbar drawerToolbar = header.findViewById(R.id.toolbar);
         drawerToolbar.setTitle(R.string.items);
         drawerToolbar.setBackgroundColor(primaryColor());

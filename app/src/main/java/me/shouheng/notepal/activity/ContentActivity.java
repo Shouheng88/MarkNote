@@ -129,6 +129,7 @@ public class ContentActivity extends CommonActivity<ActivityContentBinding> impl
         if (intent.hasExtra(EXTRA_HAS_TOOLBAR) && intent.getBooleanExtra(EXTRA_HAS_TOOLBAR, false)) {
             Toolbar toolbar = getBinding().bar.findViewById(R.id.toolbar);
             getBinding().bar.setVisibility(View.VISIBLE);
+            getBinding().vShadow.setVisibility(View.VISIBLE);
             setSupportActionBar(toolbar);
             if (!isDarkTheme()) toolbar.setPopupTheme(R.style.AppTheme_PopupOverlay);
         }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout
+    <RelativeLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -9,10 +9,18 @@
         <include android:id="@+id/bar" layout="@layout/layout_toolbar" android:visibility="gone"/>
 
         <FrameLayout
+            android:layout_below="@id/bar"
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-    </LinearLayout>
+        <View android:id="@+id/v_shadow"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/toolbar_evaluation"
+            android:background="@drawable/toolbar_dropshadow"
+            android:layout_below="@id/bar"/>
+
+    </RelativeLayout>
 
 </layout>
