@@ -180,7 +180,7 @@
     <string name="failed_to_create_file">Failed to create file</string>
     <string name="storage_not_available">Storage unavailable</string>
     <string name="failed_to_save_attachment">Failed to save attachment</string>
-    <string name="add_attachment">Add attachment</string>
+    <string name="add_attachment">Attachment</string>
 
     <string name="attachment_type_files">File</string>
     <string name="attachment_type_images">Image</string>
