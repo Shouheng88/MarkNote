@@ -49,7 +49,7 @@ public class NoticeDialog extends DialogFragment {
         return new AlertDialog.Builder(getContext())
                 .setTitle(R.string.need_to_complete)
                 .setView(binding.getRoot())
-                .setPositiveButton(R.string.text_confirm, null)
+                .setPositiveButton(R.string.text_ok, null)
                 .create();
     }
 }
