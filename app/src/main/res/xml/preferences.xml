@@ -15,12 +15,12 @@
             android:title="@string/setting_data_security"
             android:summary="@string/setting_data_security_sub" />
 
-        <CheckBoxPreference
-            android:visibility="gone"
-            android:key="list_animation"
-            android:defaultValue="true"
-            android:title="@string/setting_list_animation"
-            android:summary="@string/setting_list_animation_sub"/>
+        <!--<CheckBoxPreference-->
+            <!--android:visibility="gone"-->
+            <!--android:key="list_animation"-->
+            <!--android:defaultValue="true"-->
+            <!--android:title="@string/setting_list_animation"-->
+            <!--android:summary="@string/setting_list_animation_sub"/>-->
 
         <CheckBoxPreference
             android:key="system_animation"

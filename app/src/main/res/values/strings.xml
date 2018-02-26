@@ -40,7 +40,7 @@
     <string name="text_search">Search</string>
     <string name="text_save_or_discard">Save or discard modification?</string>
     <string name="text_save_successfully">Save successfully</string>
-    <string name="text_file_saved_to">File saved to %s</string>
+    <string name="text_file_saved_to">File is saved to %s</string>
     <string name="text_save">Save</string>
     <string name="text_statistic">Statistics</string>
     <string name="text_save_and_retry_to_add_shortcut">The project hasn\'t been saved, unable to add shortcut. Please try again after saved.</string>
@@ -73,6 +73,7 @@
     <string name="text_attachment">Attachment</string>
     <string name="working">Working&#8230;</string>
     <string name="text_input_password_and_continue">Input password to continue</string>
+    <string name="text_ok">OK</string>
 
     <string name="check_network_availability">Check network availability</string>
 
@@ -328,9 +329,9 @@
     <string name="setting_password_required">Enable password</string>
     <string name="setting_password_required_sub">Input password to continue</string>
     <string name="setting_set_password">Set password</string>
-    <string name="setting_set_password_sub">Setup the password when access to application</string>
+    <string name="setting_set_password_sub">Setup the password when access to this application</string>
     <string name="setting_password_freeze">Set password freeze time</string>
-    <string name="setting_password_freeze_sub">Freeze time length when input wrong password</string>
+    <string name="setting_password_freeze_sub">You are unable to input password during this time</string>
     <string name="setting_input_password_again">Input again</string>
     <string name="setting_input_wrong_password">Wrong password, you have %d chances left</string>
     <string name="setting_input_password_newly">Input new password</string>
@@ -383,9 +384,9 @@
     <!--region Setting->Theme-->
     <string name="setting_theme">Theme</string>
     <string name="setting_dark_theme">Dark theme</string>
-    <string name="setting_dark_theme_sub">Use dark theme to whole application</string>
+    <string name="setting_dark_theme_sub">Use dark theme in whole application</string>
     <string name="setting_primary_color">Primary color</string>
-    <string name="setting_primary_color_sub">The primary color used to whole application</string>
+    <string name="setting_primary_color_sub">The primary color used in whole application</string>
     <string name="setting_accent_color">Accent color</string>
     <string name="setting_accent_color_sub">Set the accent color to dashboard and widget components</string>
 
@@ -402,7 +403,7 @@
     <string name="setting_online_user_guide">User guide</string>
     <string name="setting_online_user_guide_sub">Get online user guide</string>
     <string name="setting_user_intro">User intro</string>
-    <string name="setting_user_intro_sub">Intro page</string>
+    <string name="setting_user_intro_sub">Show intro page</string>
     <string name="show_introduction_again">Show intro page again?</string>
     <!--endregion-->
 
@@ -481,7 +482,7 @@
 
     <string name="no_more_data">No more data&#8230;</string>
     <string name="no_activity_in_timeline">You have no activity in timeline</string>
-    <string name="activities_on_app_will_display_here">your activities in app will be showed here</string>
+    <string name="activities_on_app_will_display_here">your activities in application will be showed here</string>
 
     <!--region User Info->Login-->
     <string name="please_input_account">Please input account</string>
