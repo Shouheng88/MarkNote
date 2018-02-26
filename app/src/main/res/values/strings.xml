@@ -211,13 +211,13 @@
     <!--endregion-->
 
     <!--region MindSnagging-->
-    <string name="edit_mind_snagging">编辑小纸条</string>
+    <string name="edit_mind_snagging">Edit snagging</string>
 
-    <string name="mind_snaggings_list_type">列表显示方式</string>
-    <string name="mind_snaggings_list_empty">小纸条列表为空</string>
-    <string name="mind_snaggings_list_empty_sub_normal">点击主界面的 + 按钮添加小纸条</string>
-    <string name="mind_snaggings_list_empty_sub_archived">没有发现归档的小纸条</string>
-    <string name="mind_snaggings_list_empty_sub_trashed">没有在垃圾箱中发现小纸条</string>
+    <string name="mind_snaggings_list_type">Snagging list type</string>
+    <string name="mind_snaggings_list_empty">Empty snagging list</string>
+    <string name="mind_snaggings_list_empty_sub_normal">add snagging by clicking + in dashboard</string>
+    <string name="mind_snaggings_list_empty_sub_archived">no archived snagging found</string>
+    <string name="mind_snaggings_list_empty_sub_trashed">no trashed snagging found</string>
     <!--endregion-->
 
     <!--region Category-->
