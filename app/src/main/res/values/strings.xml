@@ -79,13 +79,13 @@
 
     <!--region Common->Announcement-->
     <string name="need_to_complete">Function unavailable</string>
-    <string name="dialog_notice_content_part1">Hello user, due to the limit of time, NotePal still has few weakness. Here we invite you to improve it with us:</string>
-    <string name="dialog_notice_content_part2">1.If you like NotePal you may associate developer by translating it in to another language in <![CDATA[<b>"Settings->About->Translation"</b> ]]>, or give rating and feedback in App market.</string>
-    <string name="dialog_notice_content_part3">2.If you have other requirements, or if you are unsatisfied about current functions, you may feed back to developer in <![CDATA[<b>Google+ community, Twitter, Weibo or directly sending an email</b>]]>.</string>
-    <string name="dialog_notice_content_part4">3.If you find BUG or crashes in NotePal, you can feed back in <![CDATA[<b>"Settings->Feedback"</b>]]> or <![CDATA[<b>directly sending an email to developer</b>]]>.</string>
+    <string name="dialog_notice_content_part1">Hello, user!\nDue to the limit of time, NotePal still has few weakness. Here we invite you to improve it with us:</string>
+    <string name="dialog_notice_content_part2">1.If you like NotePal you may associate developer by translating it in to other languages(Find in <![CDATA[<b>\"Settings->About->Translation\"</b>]]>), or give rating and feedback in application market.</string>
+    <string name="dialog_notice_content_part3">2.If you have special requirements, or if you are unsatisfied about current functions, feed back to developer by any of below ways: <![CDATA[<b>Google+ community, Twitter, Weibo or directly sending an email</b>]]>.</string>
+    <string name="dialog_notice_content_part4">3.If you find bugs or crashes in NotePal, you can feed back in <![CDATA[<b>"Settings->Feedback"</b>]]> or <![CDATA[<b>directly sending an email to developer</b>]]>.</string>
     <string name="dialog_notice_content_part5">4.NotePal will continue to push out many new functions and features, if you like this application, you may support developing in <![CDATA[<b>"Settings->Support developing"</b>]]>.</string>
-    <string name="dialog_notice_content_part6">5.Furthermore, you can also get latest developing messages by follow the <![CDATA[<b>Google+ community, Twitter or Weibo</b>]]>, you may even join the beta test.</string>
-    <string name="dialog_notice_content_part7">Please give more patience to NotePal, we will work better. \nLast, wish you have a happy journey with NotePal!</string>
+    <string name="dialog_notice_content_part6">5.Furthermore, you can also get latest developing messages by subscribe our <![CDATA[<b>Google+ community, Twitter or Weibo</b>]]>. You may even join the beta test.</string>
+    <string name="dialog_notice_content_part7">Please give more patience to NotePal, we will work better.\nLast, wish you have a happy journey with NotePal!</string>
     <!--endregion-->
 
     <!--region Common->Intro Page-->
@@ -115,7 +115,7 @@
     <string name="include_trashed">Trashed</string>
     <string name="search_by_conditions">Search by conditions&#8230;</string>
     <string name="no_search_result_found">Result not found</string>
-    <string name="try_other_conditions">Try another condition</string>
+    <string name="try_other_conditions">try another condition and search again</string>
     <!--endregion-->
 
     <!--region Common->DrawerItems-->
