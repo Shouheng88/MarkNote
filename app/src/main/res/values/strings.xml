@@ -90,17 +90,17 @@
 
     <!--region Common->Intro Page-->
     <string name="intro_1_title">Welcome to %s</string>
-    <string name="intro_1_description">Thanks for using %s\n\nan Markdown application\nfor productivity\n and leisure note-taking</string>
+    <string name="intro_1_description">Thanks for using %s\nthe markdown support application\nfor productivity\n and leisure note-taking</string>
     <string name="intro_2_title">Markdown</string>
-    <string name="intro_2_description">Markdown grammar support\nShare, Export picture and PDF</string>
+    <string name="intro_2_description">Markdown grammar support\nshare and export note\nas pictures and PDF files</string>
     <string name="intro_3_title">Snagging</string>
-    <string name="intro_3_description">Light weight note\nanywhere and anytime</string>
-    <string name="intro_4_title">Themes</string>
-    <string name="intro_4_description">Light and dark\n13 kinds of main color\n16 kinds of accent color</string>
+    <string name="intro_3_description">Light weight note\nnote anywhere and anytime</string>
+    <string name="intro_4_title">Colorful</string>
+    <string name="intro_4_description">Light and dark\n13 kinds of primary color\n16 kinds of accent color</string>
     <string name="intro_5_title">Attachment</string>
-    <string name="intro_5_description">Sketch Picture Photo Video\nAudio File Location</string>
+    <string name="intro_5_description">Multiple kinds of attachments\nsketch, picture, photo, video\naudio, file, location</string>
     <string name="intro_6_title">Enjoy</string>
-    <string name="intro_6_description">Don\'t forget to subscribe our community!</string>
+    <string name="intro_6_description">Don\'t forget to subscribe\nour community!</string>
     <!--endregion introduction-->
 
     <!--region Common->Capture-->
