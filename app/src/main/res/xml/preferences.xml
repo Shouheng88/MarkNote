@@ -16,6 +16,7 @@
             android:summary="@string/setting_data_security_sub" />
 
         <CheckBoxPreference
+            android:visibility="gone"
             android:key="list_animation"
             android:defaultValue="true"
             android:title="@string/setting_list_animation"
@@ -27,10 +28,6 @@
             android:title="@string/setting_system_animation"
             android:summary="@string/setting_system_animation_sub"/>
 
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="@string/setting_note">
-
         <ListPreference
             android:title="@string/setting_default_note_file_extension"
             android:key="note_file_extension"
@@ -40,6 +37,9 @@
             android:summary="@string/setting_default_note_file_extension_sub"/>
 
     </PreferenceCategory>
+
+    <!--<PreferenceCategory android:title="@string/setting_note">-->
+    <!--</PreferenceCategory>-->
 
     <PreferenceCategory android:title="@string/setting_theme">
 
