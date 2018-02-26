@@ -344,34 +344,34 @@
     <!--endregion-->
 
     <!--region Setting->Backup-->
-    <string name="backup_to_external_storage">备份到手机外部存储空间</string>
-    <string name="backup_to_external_storage_sub">备份在手机外部存储空间的数据在应用被卸载的时候不会被删除</string>
-    <string name="backup_import_from_external_storage">从手机外部存储空间导入</string>
-    <string name="backup_import_from_external_storage_sub">导入手机外部存储空间中备份的数据</string>
+    <string name="backup_to_external_storage">Backup to external storage</string>
+    <string name="backup_to_external_storage_sub">The data backup on external storage won\'t be delete when the application is uninstalled</string>
+    <string name="backup_import_from_external_storage">Import from external storage</string>
+    <string name="backup_import_from_external_storage_sub">Import data backup on external storage</string>
 
-    <string name="backup_include_settings">包括设置（带密码）</string>
-    <string name="backup_data_export_message">输入备份名称</string>
-    <string name="backup_data_export_name_empty">输入的名称为空，将使用默认名称</string>
-    <string name="backup_no_backups_available">无可用备份</string>
-    <string name="backup_data_import_message">导入备份</string>
-    <string name="backup_data_import_message_warning">警告：此操作将覆盖所有当前数据！</string>
-    <string name="backup_data_export_completed">数据备份完成</string>
-    <string name="backup_backup_existing">备份已存在，该备份将被覆盖</string>
+    <string name="backup_include_settings">Include settings（with password）</string>
+    <string name="backup_data_export_message">Input backup name</string>
+    <string name="backup_data_export_name_empty">Empty backup name, the default name will be used</string>
+    <string name="backup_no_backups_available">No available backup</string>
+    <string name="backup_data_import_message">Import backup</string>
+    <string name="backup_data_import_message_warning">Warning: this will cover current data!</string>
+    <string name="backup_data_export_completed">Backup completed</string>
+    <string name="backup_backup_existing">Backup existed, the existed will be covered</string>
 
-    <string name="backup_confirm_restoring_backup">确认还原备份</string>
-    <string name="backup_settings_included">设置已包括</string>
+    <string name="backup_confirm_restoring_backup">Confirm to restore from backup</string>
+    <string name="backup_settings_included">Settings included</string>
 
-    <string name="backup_confirm_removing_backup">确认删除备份</string>
-    <string name="backup_data_delete_message">删除备份</string>
-    <string name="backup_data_deletion_completed">数据删除完成</string>
-    <string name="backup_no_backup_data_selected">没有选中的备份</string>
+    <string name="backup_confirm_removing_backup">Confirm to delete backup</string>
+    <string name="backup_data_delete_message">Delete backup</string>
+    <string name="backup_data_deletion_completed">Backup delete completed</string>
+    <string name="backup_no_backup_data_selected">No backup selected</string>
 
-    <string name="backup_data_import_completed">数据导入完成</string>
-    <string name="backup_click_to_refresh_application">点击刷新应用</string>
+    <string name="backup_data_import_completed">Data import completed</string>
+    <string name="backup_click_to_refresh_application">Click to refresh application</string>
 
-    <string name="backup_no_backups_to_delete">没有备份数据</string>
-    <string name="backup_delete_external_backup">删除外部存储的备份数据</string>
-    <string name="backup_delete_external_backup_sub">删除备份在外部存储空间的数据</string>
+    <string name="backup_no_backups_to_delete">No backup to delete</string>
+    <string name="backup_delete_external_backup">Delete external backup</string>
+    <string name="backup_delete_external_backup_sub">Delete the backup on external storage</string>
     <!--endregion-->
 
     <!--region Setting->Note-->
