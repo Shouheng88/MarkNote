@@ -381,20 +381,20 @@
     <!--endregion-->
 
     <!--region Setting->Theme-->
-    <string name="setting_theme">应用主题</string>
-    <string name="setting_dark_theme">夜间主题</string>
-    <string name="setting_dark_theme_sub">将整个程序的主题设置成暗色调的</string>
-    <string name="setting_primary_color">主色调</string>
-    <string name="setting_primary_color_sub">应用到整个程序的主要色彩</string>
-    <string name="setting_accent_color">强调色调</string>
-    <string name="setting_accent_color_sub">设置主界面及其他组件所需的强调色</string>
+    <string name="setting_theme">Theme</string>
+    <string name="setting_dark_theme">Dark theme</string>
+    <string name="setting_dark_theme_sub">Use dark theme to whole application</string>
+    <string name="setting_primary_color">Primary color</string>
+    <string name="setting_primary_color_sub">The primary color used to whole application</string>
+    <string name="setting_accent_color">Accent color</string>
+    <string name="setting_accent_color_sub">Set the accent color to dashboard and widget components</string>
 
-    <string name="select_accent_color">选择强调色彩</string>
-    <string name="my_youth">活力</string>
-    <string name="noble">质朴</string>
+    <string name="select_accent_color">Select accent color</string>
+    <string name="my_youth">Vigorous</string>
+    <string name="noble">Noble</string>
 
-    <string name="setting_colored_navigation_bar">彩色导航栏</string>
-    <string name="setting_colored_navigation_bar_sub">切换导航栏颜色</string>
+    <string name="setting_colored_navigation_bar">Colored navigation bar</string>
+    <string name="setting_colored_navigation_bar_sub">Use colored navigation bar</string>
     <!--endregion-->
 
     <!--region Setting->Help-->
