@@ -444,23 +444,18 @@
     <!--endregion-->
 
     <!--region Setting->Feedback-->
-    <string name="feedback">反馈</string>
-    <string name="email_to_find_you">可以联系到你的邮箱</string>
-    <string name="details">详情</string>
-    <string name="connect_email_required">需要联系邮箱</string>
-    <string name="details_required">需要详情信息</string>
-    <string name="illegal_email_format">邮箱格式不合法</string>
+    <string name="feedback">Feedback</string>
+    <string name="email_to_find_you">Email to contact you</string>
+    <string name="details">Details</string>
+    <string name="connect_email_required">Email required</string>
+    <string name="details_required">Details required</string>
+    <string name="illegal_email_format">Illegal email</string>
 
-    <string name="feedback_types">反馈类型</string>
-    <string name="feedback_email_to_find_you">可以联系到你的邮箱</string>
-    <string name="feedback_details">详情</string>
-    <string name="feedback_connect_email_required">需要联系邮箱</string>
-    <string name="feedback_details_required">需要详情信息</string>
-    <string name="feedback_illegal_email_format">邮箱格式不合法</string>
+    <string name="feedback_types">Feedback type</string>
 
-    <string name="feedback_abrupt_crash">意外崩溃</string>
-    <string name="feedback_function_improvement">功能改善</string>
-    <string name="feedback_function_requirement">功能需求</string>
+    <string name="feedback_abrupt_crash">Abrupt crash</string>
+    <string name="feedback_function_improvement">Function improvement</string>
+    <string name="feedback_function_requirement">Function requirement</string>
     <!--endregion-->
     <!--endregion-->
 
