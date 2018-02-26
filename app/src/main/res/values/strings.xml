@@ -72,7 +72,7 @@
     <string name="text_tab_again_exit">Again to exit</string>
     <string name="text_attachment">Attachment</string>
     <string name="working">Working&#8230;</string>
-    <string name="text_input_password_and_continue">Input password to continue</string>
+    <string name="text_input_password_and_continue">Input password</string>
     <string name="text_ok">OK</string>
 
     <string name="check_network_availability">Check network availability</string>
@@ -334,7 +334,7 @@
     <string name="setting_password_freeze_sub">You are unable to input password during this time</string>
     <string name="setting_input_password_again">Input again</string>
     <string name="setting_input_wrong_password">Wrong password, you have %d chances left</string>
-    <string name="setting_input_password_newly">Input new password</string>
+    <string name="setting_input_password_newly">Input password</string>
     <string name="setting_password_frozen">Password is frozen</string>
     <string name="setting_password_frozen_minutes">Password is frozen, try again %d later</string>
 
