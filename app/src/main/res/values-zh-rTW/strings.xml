@@ -378,10 +378,6 @@
     <string name="setting_note">筆記設置</string>
     <string name="setting_default_note_file_extension">筆記的默認檔拓展名</string>
     <string name="setting_default_note_file_extension_sub">創建的筆記檔的默認拓展名</string>
-    <string name="setting_default_note_color">筆記的默認顏色</string>
-    <string name="setting_set_default_note_color">設置筆記的默認顏色</string>
-    <string name="setting_default_notebook_color">筆記本的默認顏色</string>
-    <string name="setting_set_default_notebook_color">設置筆記本的默認顏色</string>
     <!--endregion-->
 
     <!--region Setting->Theme-->

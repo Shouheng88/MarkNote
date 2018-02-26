@@ -283,25 +283,7 @@ public class PreferencesUtils {
     // endregion
 
     // region notes and notebooks
-    public static final String DEFAULT_NOTE_COLOR = "default_note_color";
     public static final String NOTE_FILE_EXTENSION = "note_file_extension";
-    public static final String DEFAULT_NOTEBOOK_COLOR = "default_notebook_color";
-
-    public void setDefaultNotebookColor(int color) {
-        putIntValue(DEFAULT_NOTEBOOK_COLOR, color);
-    }
-
-    public int getDefaultNotebookColor() {
-        return getIntValue(DEFAULT_NOTEBOOK_COLOR, ColorUtils.primaryColor(PalmApp.getContext()));
-    }
-
-    public void setDefaultNoteColor(int color) {
-        putIntValue(DEFAULT_NOTE_COLOR, color);
-    }
-
-    public int getDefaultNoteColor() {
-        return getIntValue(DEFAULT_NOTE_COLOR, ColorUtils.primaryColor(PalmApp.getContext()));
-    }
 
     public String getNoteFileExtension() {
         return getStringValue(NOTE_FILE_EXTENSION, ".md");

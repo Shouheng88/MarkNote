@@ -90,16 +90,6 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> im
                 if (isSettingsFragment()) ((SettingsFragment) getCurrentFragment())
                         .notifyAccentColorChanged(selectedColor);
                 break;
-            case PreferencesUtils.DEFAULT_NOTE_COLOR:
-                preferencesUtils.setDefaultNoteColor(selectedColor);
-                if (isSettingsFragment()) ((SettingsFragment) getCurrentFragment())
-                        .notifyNoteColorChanged(selectedColor);
-                break;
-            case PreferencesUtils.DEFAULT_NOTEBOOK_COLOR:
-                preferencesUtils.setDefaultNotebookColor(selectedColor);
-                if (isSettingsFragment()) ((SettingsFragment) getCurrentFragment())
-                        .notifyNotebookColorChanged(selectedColor);
-                break;
         }
     }
 
@@ -126,12 +116,6 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> im
             case PreferencesUtils.PRIMARY_COLOR:
                 FragmentHelper.replaceWithCallback(this,
                         PrimaryPickerFragment.newInstance(), R.id.fragment_container);
-                break;
-            case PreferencesUtils.DEFAULT_NOTE_COLOR:
-                showPrimaryColorPicker(R.string.setting_set_default_note_color, preferencesUtils.getDefaultNoteColor());
-                break;
-            case PreferencesUtils.DEFAULT_NOTEBOOK_COLOR:
-                showPrimaryColorPicker(R.string.setting_set_default_notebook_color, preferencesUtils.getDefaultNotebookColor());
                 break;
             case PreferencesUtils.ACCENT_COLOR:
                 showAccentColorPicker();
