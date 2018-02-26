@@ -19,7 +19,7 @@ import me.shouheng.notepal.databinding.ActivitySettingsBinding;
 import me.shouheng.notepal.fragment.AppInfoFragment;
 import me.shouheng.notepal.fragment.PrimaryPickerFragment;
 import me.shouheng.notepal.fragment.SettingsBackup;
-import me.shouheng.notepal.fragment.SettingsDataSecurity;
+import me.shouheng.notepal.fragment.SettingsSecurity;
 import me.shouheng.notepal.fragment.SettingsFragment;
 import me.shouheng.notepal.listener.OnFragmentDestroyListener;
 import me.shouheng.notepal.listener.OnThemeSelectedListener;
@@ -127,7 +127,7 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> im
                 if (preferencesUtils.isPasswordRequired() && !TextUtils.isEmpty(preferencesUtils.getPassword())) {
                     LockActivity.requirePassword(this, REQUEST_CODE_PASSWORD);
                 } else {
-                    FragmentHelper.replaceWithCallback(this, new SettingsDataSecurity(), R.id.fragment_container);
+                    FragmentHelper.replaceWithCallback(this, new SettingsSecurity(), R.id.fragment_container);
                 }
                 break;
             case SettingsFragment.KEY_ABOUT:
@@ -177,7 +177,7 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> im
         switch (requestCode) {
             case REQUEST_CODE_PASSWORD:
                 if (resultCode == Activity.RESULT_OK) {
-                    FragmentHelper.replaceWithCallback(this, new SettingsDataSecurity(), R.id.fragment_container);
+                    FragmentHelper.replaceWithCallback(this, new SettingsSecurity(), R.id.fragment_container);
                 }
                 break;
         }
