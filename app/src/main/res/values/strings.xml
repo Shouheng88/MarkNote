@@ -256,59 +256,59 @@
 
     <!--region Enums-->
     <string name="model_name_none">None</string>
-    <string name="model_name_note">笔记</string>
-    <string name="model_name_notebook">笔记本</string>
-    <string name="model_name_alarm">闹钟</string>
-    <string name="model_name_attachment">附件</string>
-    <string name="model_name_location">位置</string>
-    <string name="model_name_mind_snagging">小纸条</string>
-    <string name="model_name_timeline">时间线</string>
+    <string name="model_name_note">Note</string>
+    <string name="model_name_notebook">Notebook</string>
+    <string name="model_name_alarm">Alarm</string>
+    <string name="model_name_attachment">Attachment</string>
+    <string name="model_name_location">Location</string>
+    <string name="model_name_mind_snagging">Snagging</string>
+    <string name="model_name_timeline">Timeline</string>
 
     <string name="operation_none">None</string>
-    <string name="operation_added">添加</string>
-    <string name="operation_modified">修改</string>
-    <string name="operation_deleted">删除</string>
-    <string name="operation_completed">完成</string>
-    <string name="operation_trashed">移到垃圾箱</string>
-    <string name="operation_recover">恢复</string>
-    <string name="operation_archived">归档</string>
-    <string name="operation_synced">同步</string>
-    <string name="operation_uncompleted">设置未完成</string>
+    <string name="operation_added">Added</string>
+    <string name="operation_modified">Modified</string>
+    <string name="operation_deleted">Deleted</string>
+    <string name="operation_completed">Completed</string>
+    <string name="operation_trashed">Trashed</string>
+    <string name="operation_recover">Recovered</string>
+    <string name="operation_archived">Archived</string>
+    <string name="operation_synced">Synced</string>
+    <string name="operation_uncompleted">Uncompleted</string>
 
-    <string name="portrait_name_folder">文件夹</string>
-    <string name="portrait_name_lock">加锁</string>
-    <string name="portrait_name_envelope">信封</string>
-    <string name="portrait_name_write">书写</string>
-    <string name="portrait_name_timeline">时间线</string>
-    <string name="portrait_name_demo">演示</string>
+    <string name="portrait_name_folder">Folder</string>
+    <string name="portrait_name_lock">Lock</string>
+    <string name="portrait_name_envelope">Envelope</string>
+    <string name="portrait_name_write">Write</string>
+    <string name="portrait_name_timeline">Timeline</string>
+    <string name="portrait_name_demo">Demo</string>
 
-    <string name="portrait_name_growing">增长</string>
-    <string name="portrait_name_corporate">合作</string>
-    <string name="portrait_name_book">笔记本</string>
-    <string name="portrait_name_tourism_book">旅行笔记</string>
-    <string name="portrait_name_gift">礼物</string>
-    <string name="portrait_name_house">房子</string>
+    <string name="portrait_name_growing">Growing</string>
+    <string name="portrait_name_corporate">Corporate</string>
+    <string name="portrait_name_book">Book</string>
+    <string name="portrait_name_tourism_book">Tourism book</string>
+    <string name="portrait_name_gift">Gift</string>
+    <string name="portrait_name_house">House</string>
 
-    <string name="portrait_name_cloud">云</string>
-    <string name="portrait_name_attachment">附件</string>
-    <string name="portrait_name_music">音乐</string>
-    <string name="portrait_name_flag">书签</string>
-    <string name="portrait_name_star">星星</string>
-    <string name="portrait_name_medal">金牌</string>
+    <string name="portrait_name_cloud">Cloud</string>
+    <string name="portrait_name_attachment">Attachment</string>
+    <string name="portrait_name_music">Music</string>
+    <string name="portrait_name_flag">Flag</string>
+    <string name="portrait_name_star">Star</string>
+    <string name="portrait_name_medal">Medal</string>
 
-    <string name="portrait_name_link">链接</string>
+    <string name="portrait_name_link">Link</string>
     <string name="portrait_name_bug">BUG</string>
-    <string name="portrait_name_album">相册</string>
-    <string name="portrait_name_location">位置</string>
-    <string name="portrait_name_message">信息</string>
-    <string name="portrait_name_label">标签</string>
+    <string name="portrait_name_album">Album</string>
+    <string name="portrait_name_location">Location</string>
+    <string name="portrait_name_message">Message</string>
+    <string name="portrait_name_label">Label</string>
 
-    <string name="portrait_name_loving_label">情感标签</string>
-    <string name="portrait_name_loving_folder">情感文件夹</string>
-    <string name="portrait_name_node">结点</string>
-    <string name="portrait_name_node_circle">环形结点</string>
-    <string name="portrait_name_football">橄榄球</string>
-    <string name="portrait_name_collection">收藏</string>
+    <string name="portrait_name_loving_label">Loving label</string>
+    <string name="portrait_name_loving_folder">Loving folder</string>
+    <string name="portrait_name_node">Node</string>
+    <string name="portrait_name_node_circle">Node circle</string>
+    <string name="portrait_name_football">Football</string>
+    <string name="portrait_name_collection">Collection</string>
     <!--endregion -->
 
     <!--region Setting-->
