@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.View;
@@ -111,12 +112,13 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
     };
 
     private void onCompleteForRequirement(String var) {
-        String encryptedPin = RSAUtil.getEncryptPassword(var);
+        String encryptedPin = RSAUtil.getEncryptString(var);
 
         /**
          * If the saved password is empty, pass the password check logic. */
         if (TextUtils.isEmpty(savedPassword)) {
             passCheck();
+            return;
         }
 
         /**
@@ -161,7 +163,7 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
      *
      * @param var the password numeric string */
     private void onCompleteForSetting(String var) {
-        String encryptedPin = RSAUtil.getEncryptPassword(var);
+        String encryptedPin = RSAUtil.getEncryptString(var);
 
         if (TextUtils.isEmpty(lastInputPassword)) {
             /**
@@ -206,8 +208,10 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
         new MaterialDialog.Builder(this)
                 .title(R.string.setting_answer_question)
                 .content(question)
+                .inputType(InputType.TYPE_TEXT_VARIATION_PASSWORD)
                 .input(null, null, (dialog, input) -> {
-                    if (answer.equals(input)) {
+                    String encryptAnswer = RSAUtil.getEncryptString(input.toString());
+                    if (answer.equals(encryptAnswer)) {
                         preferencesUtils.setPasswordRequired(false);
                         showDisableDialog();
                     } else {
