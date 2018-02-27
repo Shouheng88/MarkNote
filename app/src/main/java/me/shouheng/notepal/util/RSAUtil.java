@@ -121,10 +121,10 @@ public class RSAUtil {
         }
     }
 
-    public static String getEncryptPassword(String pin) {
+    public static String getEncryptString(String var) {
         try {
             PublicKey publicKey = RSAUtil.loadPublicKey(Constants.REA_PUBLIC_KEY);
-            byte[] encryptByte = RSAUtil.encryptData(pin.getBytes(), publicKey);
+            byte[] encryptByte = RSAUtil.encryptData(var.getBytes(), publicKey);
             String afterEncrypt = Base64Utils.encode(encryptByte);
             LogUtils.d(afterEncrypt);
             return afterEncrypt;
