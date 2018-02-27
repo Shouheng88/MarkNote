@@ -107,8 +107,10 @@ public class UserInfoFragment extends CommonFragment<FragmentUserInfoBinding> {
     @Override
     public void onResume() {
         super.onResume();
-        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        actionBar.setTitle(R.string.user_info);
+        if (getActivity() != null) {
+            ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+            if (actionBar != null) actionBar.setTitle(R.string.user_info);
+        }
     }
 
     @Override

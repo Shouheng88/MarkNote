@@ -49,8 +49,10 @@ public class TimeLineFragment extends CommonFragment<FragmentTimeLineBinding> {
     }
 
     private void configToolbar() {
-        ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        ab.setTitle(R.string.timeline);
+        if (getActivity() != null) {
+            ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
+            if (ab != null) ab.setTitle(R.string.timeline);
+        }
     }
 
     private void configTimeline() {

@@ -55,8 +55,10 @@ public class FabSortActivity extends CommonActivity<ActivityFabSortBinding> {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar ab = getSupportActionBar();
-        ab.setTitle(R.string.fab_sort_custom_fab);
-        ab.setDisplayHomeAsUpEnabled(true);
+        if (ab != null) {
+            ab.setTitle(R.string.fab_sort_custom_fab);
+            ab.setDisplayHomeAsUpEnabled(true);
+        }
         if (!isDarkTheme()) toolbar.setPopupTheme(R.style.AppTheme_PopupOverlay);
     }
 

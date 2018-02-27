@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MenuItem;
@@ -19,8 +20,8 @@ import me.shouheng.notepal.databinding.ActivitySettingsBinding;
 import me.shouheng.notepal.fragment.AppInfoFragment;
 import me.shouheng.notepal.fragment.PrimaryPickerFragment;
 import me.shouheng.notepal.fragment.SettingsBackup;
-import me.shouheng.notepal.fragment.SettingsSecurity;
 import me.shouheng.notepal.fragment.SettingsFragment;
+import me.shouheng.notepal.fragment.SettingsSecurity;
 import me.shouheng.notepal.listener.OnFragmentDestroyListener;
 import me.shouheng.notepal.listener.OnThemeSelectedListener;
 import me.shouheng.notepal.util.ColorUtils;
@@ -63,8 +64,11 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> im
     private void configToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(R.string.text_settings);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle(R.string.text_settings);
+        }
         if (!isDarkTheme()) toolbar.setPopupTheme(R.style.AppTheme_PopupOverlay);
     }
 
@@ -169,7 +173,10 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> im
 
     @Override
     public void onFragmentDestroy() {
-        getSupportActionBar().setTitle(R.string.text_settings);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(R.string.text_settings);
+        }
     }
 
     @Override

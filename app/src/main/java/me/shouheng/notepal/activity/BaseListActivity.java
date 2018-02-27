@@ -55,9 +55,11 @@ public abstract class BaseListActivity extends CommonActivity<ActivityListBaseWi
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (!isDarkTheme()) toolbar.setPopupTheme(R.style.AppTheme_PopupOverlay);
-        actionBar.setTitle(getActionbarTitle());
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_white);
+        if (actionBar != null) {
+            actionBar.setTitle(getActionbarTitle());
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_white);
+        }
     }
 
     private void configDrawer() {
