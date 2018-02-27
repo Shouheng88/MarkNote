@@ -34,10 +34,10 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
 
     private PreferencesUtils preferencesUtils;
 
-    public static void setPassword(Activity activity) {
+    public static void setPassword(Activity activity, int requestCode) {
         Intent intent = new Intent(activity, LockActivity.class);
         intent.setAction(ACTION_SET_PASSWORD);
-        activity.startActivity(intent);
+        activity.startActivityForResult(intent, requestCode);
     }
 
     public static void requirePassword(Activity activity, int requestCode) {
@@ -66,6 +66,8 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
         configSystemUI();
 
         configViews();
+
+        checkPassword();
     }
 
     private void configSystemUI() {
@@ -89,6 +91,17 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
 
         if (ACTION_SET_PASSWORD.equals(getIntent().getAction())) {
             getBinding().profileName.setText(R.string.setting_input_password_newly);
+        }
+    }
+
+    /**
+     * If there is no password saved in preferences, pass the password check directly. */
+    private void checkPassword() {
+        if (ACTION_REQUIRE_PERMISSION.equals(getIntent().getAction())
+                || ACTION_REQUIRE_LAUNCH_APP.equals(getIntent().getAction())) {
+            if (TextUtils.isEmpty(savedPassword)) {
+                passCheck();
+            }
         }
     }
 
@@ -130,6 +143,8 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
             } else {
                 showFreezeDialog();
             }
+            // rest the pin
+            getBinding().pinLockView.resetPinLockView();
             return;
         } else if (isPasswordFrozen) {
             // clear the freeze info
@@ -173,10 +188,7 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
             getBinding().pinLockView.resetPinLockView();
         } else {
             if (lastInputPassword.equals(encryptedPin)) {
-                /**
-                 * The password input twice is the same, save it to settings and finish activity. */
-                preferencesUtils.setPassword(encryptedPin);
-                finish();
+                passSetting(encryptedPin);
             } else {
                 /**
                  * Clear last input password, need to input same password twice. */
@@ -240,6 +252,15 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
         Intent intent = new Intent();
         setResult(Activity.RESULT_OK, intent);
         PalmApp.setPasswordChecked(true);
+        finish();
+    }
+
+    private void passSetting(String encryptedPin) {
+        /**
+         * The password input twice is the same, save it to settings and finish activity. */
+        preferencesUtils.setPassword(encryptedPin);
+        Intent intent = new Intent();
+        setResult(Activity.RESULT_OK, intent);
         finish();
     }
 

@@ -1,5 +1,7 @@
 package me.shouheng.notepal.fragment;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
@@ -30,6 +32,8 @@ public class SettingsSecurity extends PreferenceFragment {
     private final static String KEY_SET_PASSWORD = "set_password";
     private final static String KEY_PASSWORD_REQUIRED = "password_required";
     private final static String KEY_PASSWORD_QUESTION = "password_question_answer";
+
+    private final static int REQUEST_SET_PASSWORD = 0x0010;
 
     private PreferencesUtils preferencesUtils;
 
@@ -97,7 +101,7 @@ public class SettingsSecurity extends PreferenceFragment {
     }
 
     private void toSetPassword() {
-        LockActivity.setPassword(getActivity());
+        LockActivity.setPassword(getActivity(), REQUEST_SET_PASSWORD);
     }
 
     private void showQuestionEditor() {
@@ -173,6 +177,21 @@ public class SettingsSecurity extends PreferenceFragment {
         preferencesUtils.setPasswordAnswer(encryptAnswer);
 
         ToastUtils.makeToast(R.string.text_save_successfully);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_SET_PASSWORD:
+                if (resultCode != Activity.RESULT_OK && TextUtils.isEmpty(preferencesUtils.getPassword())) {
+                    /**
+                     * remove the password requirement if the password is not set */
+                    preferencesUtils.setPasswordRequired(false);
+                    ((CheckBoxPreference) findPreference(KEY_PASSWORD_REQUIRED)).setChecked(false);
+                }
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
