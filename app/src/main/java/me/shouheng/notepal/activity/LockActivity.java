@@ -1,6 +1,7 @@
 package me.shouheng.notepal.activity;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -34,10 +35,10 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
 
     private PreferencesUtils preferencesUtils;
 
-    public static void setPassword(Activity activity, int requestCode) {
-        Intent intent = new Intent(activity, LockActivity.class);
+    public static void setPassword(Fragment fragment, int requestCode) {
+        Intent intent = new Intent(fragment.getActivity(), LockActivity.class);
         intent.setAction(ACTION_SET_PASSWORD);
-        activity.startActivityForResult(intent, requestCode);
+        fragment.startActivityForResult(intent, requestCode);
     }
 
     public static void requirePassword(Activity activity, int requestCode) {
@@ -268,6 +269,10 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
     public void onBackPressed() {
         if (ACTION_REQUIRE_LAUNCH_APP.equals(getIntent().getAction())) {
             ActivityUtils.finishAll();
+        } else if (ACTION_SET_PASSWORD.equals(getIntent().getAction())) {
+            Intent intent = new Intent();
+            setResult(Activity.RESULT_CANCELED, intent);
+            finish();
         } else {
             super.onBackPressed();
         }
