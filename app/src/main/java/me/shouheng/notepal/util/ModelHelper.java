@@ -144,7 +144,7 @@ public class ModelHelper {
         params.setMargins(margin, margin, margin, margin);
         tvLabel.setLayoutParams(params);
         tvLabel.setPadding(padding, 0, padding, 0);
-        tvLabel.setBackgroundResource(R.drawable.label_background);
+        tvLabel.setBackgroundResource(ColorUtils.isDarkTheme(context) ? R.drawable.label_background_dark : R.drawable.label_background);
         tvLabel.setText(tag);
         flowLayout.addView(tvLabel);
     }
