@@ -74,6 +74,8 @@ public class Note extends Model implements Parcelable {
         setContentCode(in.readLong());
         setTags(in.readString());
         setPreviewCode(in.readLong());
+
+        setTagsName(in.readString());
     }
 
     public static final Creator<Note> CREATOR = new Creator<Note>() {
@@ -171,5 +173,7 @@ public class Note extends Model implements Parcelable {
         dest.writeLong(getContentCode());
         dest.writeString(getTags());
         dest.writeLong(getPreviewCode());
+
+        dest.writeString(getTagsName());
     }
 }
