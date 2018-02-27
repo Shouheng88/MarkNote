@@ -101,7 +101,7 @@ public class SettingsSecurity extends PreferenceFragment {
     }
 
     private void toSetPassword() {
-        LockActivity.setPassword(getActivity(), REQUEST_SET_PASSWORD);
+        LockActivity.setPassword(this, REQUEST_SET_PASSWORD);
     }
 
     private void showQuestionEditor() {
