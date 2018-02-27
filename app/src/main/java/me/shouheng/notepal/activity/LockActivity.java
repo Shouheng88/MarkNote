@@ -12,14 +12,10 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.andrognito.pinlockview.IndicatorDots;
 import com.andrognito.pinlockview.PinLockListener;
 
-import java.security.PublicKey;
-
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.ActivityLockBinding;
 import me.shouheng.notepal.util.ActivityUtils;
-import me.shouheng.notepal.util.Base64Utils;
-import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.RSAUtil;
 import me.shouheng.notepal.util.ToastUtils;
@@ -29,10 +25,6 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
     private final static String ACTION_SET_PASSWORD = "action_set_password";
     private final static String ACTION_REQUIRE_PERMISSION = "action_require_password";
     private final static String ACTION_REQUIRE_LAUNCH_APP = "action_require_launch_app";
-    private final static String PUBLIC_KEY = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQD0diKVSZ/U/KHuxZFYac3lLq7K\n" +
-            "edqc+uOKSJgq26tgy4wmELCw8gJkempBm8NPf+uSOdWPlPLWijSf3W2KfzMMvZQ2\n" +
-            "tfNQPQu+gXgdXuZC+fhqVqNgYtWVRMIspveSm3AK+52AxxzTlfAU1fpCEFOf4AHc\n" +
-            "/E33toB493pf9gS2xwIDAQAB";
 
     private String lastInputPassword, savedPassword;
     private int errorTimes = 0;
@@ -119,7 +111,13 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
     };
 
     private void onCompleteForRequirement(String var) {
-        String encryptedPin = getEncryptPassword(var);
+        String encryptedPin = RSAUtil.getEncryptPassword(var);
+
+        /**
+         * If the saved password is empty, pass the password check logic. */
+        if (TextUtils.isEmpty(savedPassword)) {
+            passCheck();
+        }
 
         /**
          * Check the freeze time first. */
@@ -163,7 +161,7 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
      *
      * @param var the password numeric string */
     private void onCompleteForSetting(String var) {
-        String encryptedPin = getEncryptPassword(var);
+        String encryptedPin = RSAUtil.getEncryptPassword(var);
 
         if (TextUtils.isEmpty(lastInputPassword)) {
             /**
@@ -237,20 +235,6 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
         setResult(Activity.RESULT_OK, intent);
         PalmApp.setPasswordChecked(true);
         finish();
-    }
-
-    private String getEncryptPassword(String pin) {
-        try {
-            PublicKey publicKey = RSAUtil.loadPublicKey(PUBLIC_KEY);
-            byte[] encryptByte = RSAUtil.encryptData(pin.getBytes(), publicKey);
-            String afterEncrypt = Base64Utils.encode(encryptByte);
-            LogUtils.d(afterEncrypt);
-            return afterEncrypt;
-        } catch (Exception e) {
-            LogUtils.e(e);
-            e.printStackTrace();
-        }
-        return null;
     }
 
     @Override

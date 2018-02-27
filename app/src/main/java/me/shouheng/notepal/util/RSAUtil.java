@@ -16,6 +16,8 @@ import java.security.spec.X509EncodedKeySpec;
 
 import javax.crypto.Cipher;
 
+import me.shouheng.notepal.config.Constants;
+
 /**
  * Created by wangshouheng on 2017/2/27.*/
 public class RSAUtil {
@@ -117,5 +119,19 @@ public class RSAUtil {
         } catch (NullPointerException e) {
             throw new Exception("Empty private key data");
         }
+    }
+
+    public static String getEncryptPassword(String pin) {
+        try {
+            PublicKey publicKey = RSAUtil.loadPublicKey(Constants.REA_PUBLIC_KEY);
+            byte[] encryptByte = RSAUtil.encryptData(pin.getBytes(), publicKey);
+            String afterEncrypt = Base64Utils.encode(encryptByte);
+            LogUtils.d(afterEncrypt);
+            return afterEncrypt;
+        } catch (Exception e) {
+            LogUtils.e(e);
+            e.printStackTrace();
+        }
+        return null;
     }
 }

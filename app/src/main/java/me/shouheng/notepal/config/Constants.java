@@ -74,4 +74,9 @@ public class Constants {
     public final static String PREF_WIDGET_SQL_PREFIX = "widget_sql_";
     public final static String PREF_WIDGET_TYPE_PREFIX = "widget_type_";
     // endregion
+
+    public final static String REA_PUBLIC_KEY = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQD0diKVSZ/U/KHuxZFYac3lLq7K\n" +
+            "edqc+uOKSJgq26tgy4wmELCw8gJkempBm8NPf+uSOdWPlPLWijSf3W2KfzMMvZQ2\n" +
+            "tfNQPQu+gXgdXuZC+fhqVqNgYtWVRMIspveSm3AK+52AxxzTlfAU1fpCEFOf4AHc\n" +
+            "/E33toB493pf9gS2xwIDAQAB";
 }
