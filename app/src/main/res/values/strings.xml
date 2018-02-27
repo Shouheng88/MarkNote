@@ -7,7 +7,7 @@
     <string name="text_about">About</string>
     <string name="text_accept">Accept</string>
     <string name="text_labels">Tags</string>
-    <string name="text_add_labels">Add label</string>
+    <string name="text_add_labels">Add Tags</string>
     <string name="text_add_location">Add location</string>
     <string name="text_clear">Clear</string>
     <string name="text_copy_text">Copy content</string>
@@ -302,7 +302,7 @@
     <string name="portrait_name_album">Album</string>
     <string name="portrait_name_location">Location</string>
     <string name="portrait_name_message">Message</string>
-    <string name="portrait_name_label">Label</string>
+    <string name="portrait_name_label">Tags</string>
 
     <string name="portrait_name_loving_label">Loving label</string>
     <string name="portrait_name_loving_folder">Loving folder</string>
