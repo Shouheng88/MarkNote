@@ -144,7 +144,7 @@
 
     <string name="fab_sort_custom_fab">Custom fabs</string>
     <string name="fab_sort_custom">Custom&#8230;</string>
-    <string name="fab_sort_custom_fab_tip">Drag the rear icon to sort, the top 5 will be showed in menu.</string>
+    <string name="fab_sort_custom_fab_tip">Drag the rear icon to sort, the top 5 ones will be showed in dashboard.</string>
     <string name="fab_sort_save">Save</string>
     <string name="fab_sort_save_or_lose">Save or discard your modifications</string>
     <string name="fab_sort_save_successfully">Successfully saved</string>
@@ -169,7 +169,7 @@
     <string name="notes_list_empty_sub_normal">add note by clicking + in dashboard</string>
     <string name="notes_list_empty_sub_archived">no archived note found</string>
     <string name="notes_list_empty_sub_trashed">no trashed note found</string>
-    <string name="move_to_another_notebook">Move to another notebook</string>
+    <string name="move_to_another_notebook">Move</string>
     <string name="moved_successfully">Successfully moved</string>
     <string name="msg_when_delete_notebook">Delete the notebook will delete its child-notebooks and child-notes as well.</string>
 

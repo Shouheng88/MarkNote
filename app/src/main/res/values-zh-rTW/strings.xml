@@ -169,7 +169,7 @@
     <string name="notes_list_empty_sub_normal">點擊主介面的 + 按鈕添加筆記</string>
     <string name="notes_list_empty_sub_archived">沒有發現歸檔的筆記</string>
     <string name="notes_list_empty_sub_trashed">沒有在垃圾箱中發現筆記</string>
-    <string name="move_to_another_notebook">移動到其他筆記本</string>
+    <string name="move_to_another_notebook">移動</string>
     <string name="moved_successfully">移動成功</string>
     <string name="msg_when_delete_notebook">刪除該筆記本會同時刪除包含的所有筆記和筆記本</string>
 
