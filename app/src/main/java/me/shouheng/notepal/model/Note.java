@@ -36,12 +36,22 @@ public class Note extends Model implements Parcelable {
 
     private String content;
 
+    private String tagsName;
+
     public String getContent() {
         return content;
     }
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getTagsName() {
+        return tagsName;
+    }
+
+    public void setTagsName(String tagsName) {
+        this.tagsName = tagsName;
     }
 
     // endregion
