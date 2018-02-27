@@ -213,6 +213,8 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
                     String encryptAnswer = RSAUtil.getEncryptString(input.toString());
                     if (answer.equals(encryptAnswer)) {
                         preferencesUtils.setPasswordRequired(false);
+                        // remove the last input error time
+                        preferencesUtils.setLastInputErrorTime(0);
                         showDisableDialog();
                     } else {
                         ToastUtils.makeToast(R.string.setting_wrong_answer);
