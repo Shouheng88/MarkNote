@@ -36,7 +36,7 @@ public class NotesAdapter extends BaseMultiItemQuickAdapter<NotesAdapter.MultiIt
 
     @Override
     protected void convert(BaseViewHolder helper, MultiItem item) {
-        if (isDarkTheme) helper.itemView.setBackgroundResource(R.color.dark_theme_foreground);
+        if (isDarkTheme) helper.itemView.setBackgroundResource(R.color.dark_theme_background);
         switch (helper.getItemViewType()) {
             case MultiItem.ITEM_TYPE_NOTE:
                 convertNote(helper, item.note);
