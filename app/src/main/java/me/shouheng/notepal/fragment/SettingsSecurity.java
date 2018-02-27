@@ -108,6 +108,11 @@ public class SettingsSecurity extends PreferenceFragment {
         binding.wtvAnswer.bindEditText(binding.etAnswer);
         binding.wtvConfirmAnswer.bindEditText(binding.etConfirmAnswer);
 
+        /**
+         * set default question from the preferences */
+        String savedQuestion = preferencesUtils.getPasswordQuestion();
+        binding.etQuestion.setText(savedQuestion);
+
         binding.etConfirmAnswer.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}

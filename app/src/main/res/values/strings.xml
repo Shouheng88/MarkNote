@@ -336,7 +336,7 @@
     <string name="setting_input_wrong_password">Wrong password, you have %d chances left</string>
     <string name="setting_input_password_newly">Input password</string>
     <string name="setting_password_frozen_minutes">Password is frozen, try again %d later</string>
-    <string name="setting_password_frozen">Your password is frozen. You are able to disable password check by answering your question when set the password.</string>
+    <string name="setting_password_frozen">Your password is frozen. You are able to disable password check by answering your security question.</string>
     <string name="setting_answer_question">Answer question</string>
     <string name="setting_wrong_answer">Wrong answer</string>
     <string name="setting_disable_password">You passed the question. And the password check is disabled. Now you are able to change the password in setting.</string>
