@@ -169,7 +169,7 @@
     <string name="notes_list_empty_sub_normal">点击主界面的 + 按钮添加笔记</string>
     <string name="notes_list_empty_sub_archived">没有发现归档的笔记</string>
     <string name="notes_list_empty_sub_trashed">没有在垃圾箱中发现笔记</string>
-    <string name="move_to_another_notebook">移动到其他笔记本</string>
+    <string name="move_to_another_notebook">移动</string>
     <string name="moved_successfully">移动成功</string>
     <string name="msg_when_delete_notebook">删除该笔记本会同时删除包含的所有笔记和笔记本</string>
 
