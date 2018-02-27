@@ -39,7 +39,7 @@
     <string name="text_share">Share</string>
     <string name="text_search">Search</string>
     <string name="text_save_or_discard">Save or discard modification?</string>
-    <string name="text_save_successfully">Save successfully</string>
+    <string name="text_save_successfully">Saved successfully</string>
     <string name="text_file_saved_to">File is saved to %s</string>
     <string name="text_save">Save</string>
     <string name="text_statistic">Statistics</string>
@@ -339,7 +339,16 @@
     <string name="setting_password_frozen">Your password is frozen. You are able to disable password check by answering your question when set the password.</string>
     <string name="setting_answer_question">Answer question</string>
     <string name="setting_wrong_answer">Wrong answer</string>
-    <string name="setting_disable_password">You passed the question check. Now you are able to change the password in setting.</string>
+    <string name="setting_disable_password">You passed the question. And the password check is disabled. Now you are able to change the password in setting.</string>
+    <string name="setting_security_question">Security question</string>
+    <string name="setting_security_question_sub">The security and answer used when you forget password</string>
+    <string name="text_question">Question</string>
+    <string name="text_answer">Answer</string>
+    <string name="text_confirm_answer">Confirm answer</string>
+    <string name="setting_answer_different">The confirm answer is not the same as answer</string>
+    <string name="setting_question_required">Security question is required</string>
+    <string name="setting_answer_required">Answer is required</string>
+    <string name="setting_confirm_answer_required">Confirm answer is required</string>
 
     <string name="wrong_numeric_string">The string contains illegal chars</string>
     <string name="input_the_freeze_minutes_in_minute">freeze time (0 &#8211; 30 minutes)</string>

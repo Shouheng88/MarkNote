@@ -1,19 +1,26 @@
 package me.shouheng.notepal.fragment;
 
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.PreferenceFragment;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.LockActivity;
+import me.shouheng.notepal.databinding.DialogSecurityQuestionLayoutBinding;
 import me.shouheng.notepal.listener.OnFragmentDestroyListener;
 import me.shouheng.notepal.util.PreferencesUtils;
+import me.shouheng.notepal.util.RSAUtil;
 import me.shouheng.notepal.util.ToastUtils;
 
 /**
@@ -22,6 +29,7 @@ public class SettingsSecurity extends PreferenceFragment {
 
     private final static String KEY_SET_PASSWORD = "set_password";
     private final static String KEY_PASSWORD_REQUIRED = "password_required";
+    private final static String KEY_PASSWORD_QUESTION = "password_question_answer";
 
     private PreferencesUtils preferencesUtils;
 
@@ -57,6 +65,10 @@ public class SettingsSecurity extends PreferenceFragment {
             showInputDialog();
             return true;
         });
+        findPreference(KEY_PASSWORD_QUESTION).setOnPreferenceClickListener(preference -> {
+            showQuestionEditor();
+            return true;
+        });
     }
 
     private void showInputDialog() {
@@ -86,6 +98,76 @@ public class SettingsSecurity extends PreferenceFragment {
 
     private void toSetPassword() {
         LockActivity.setPassword(getActivity());
+    }
+
+    private void showQuestionEditor() {
+        DialogSecurityQuestionLayoutBinding binding = DataBindingUtil.inflate(
+                LayoutInflater.from(getActivity()), R.layout.dialog_security_question_layout, null, false);
+
+        binding.wtvQuestion.bindEditText(binding.etQuestion);
+        binding.wtvAnswer.bindEditText(binding.etAnswer);
+        binding.wtvConfirmAnswer.bindEditText(binding.etConfirmAnswer);
+
+        binding.etConfirmAnswer.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!binding.etAnswer.getText().toString().equals(s.toString())) {
+                    binding.tilConfirmAnswer.setErrorEnabled(true);
+                    binding.tilConfirmAnswer.setError(getString(R.string.setting_answer_different));
+                } else {
+                    binding.tilConfirmAnswer.setErrorEnabled(false);
+                }
+            }
+        });
+
+        new AlertDialog.Builder(getActivity())
+                .setTitle(R.string.setting_security_question)
+                .setNegativeButton(R.string.cancel, null)
+                .setPositiveButton(R.string.text_save, (dialog, which) -> {
+                    String question = binding.etQuestion.getText().toString();
+                    String answer = binding.etAnswer.getText().toString();
+                    boolean passed = checkSecurityQuestion(question, answer,
+                            binding.etConfirmAnswer.getText().toString());
+                    if (passed) {
+                        saveSecurityQuestion(question, answer);
+                    }
+                })
+                .setView(binding.getRoot())
+                .create().show();
+    }
+
+    private boolean checkSecurityQuestion(String question, String answer, String confirmAnswer) {
+        if (TextUtils.isEmpty(question)) {
+            ToastUtils.makeToast(getActivity(), R.string.setting_question_required);
+            return false;
+        }
+        if (TextUtils.isEmpty(answer)) {
+            ToastUtils.makeToast(getActivity(), R.string.setting_answer_required);
+            return false;
+        }
+        if (TextUtils.isEmpty(confirmAnswer)) {
+            ToastUtils.makeToast(getActivity(), R.string.setting_confirm_answer_required);
+            return false;
+        }
+        if (!answer.equals(confirmAnswer)) {
+            ToastUtils.makeToast(getActivity(), R.string.setting_answer_different);
+            return false;
+        }
+        return true;
+    }
+
+    private void saveSecurityQuestion(String question, String answer) {
+        preferencesUtils.setPasswordQuestion(question);
+        String encryptAnswer = RSAUtil.getEncryptString(answer);
+        preferencesUtils.setPasswordAnswer(encryptAnswer);
+
+        ToastUtils.makeToast(R.string.text_save_successfully);
     }
 
     @Override
