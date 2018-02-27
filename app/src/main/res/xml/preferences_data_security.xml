@@ -19,4 +19,10 @@
         android:title="@string/setting_password_freeze"
         android:summary="@string/setting_password_freeze_sub" />
 
+    <Preference
+        android:key="password_question_answer"
+        android:persistent="false"
+        android:title="@string/setting_security_question"
+        android:summary="@string/setting_security_question_sub"/>
+
 </PreferenceScreen>
