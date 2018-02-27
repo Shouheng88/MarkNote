@@ -85,10 +85,12 @@ public class GalleryActivity extends AppCompatActivity implements PullBackLayout
         
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_toolbar_shade));
-        actionBar.setTitle(title);
-        actionBar.setSubtitle(clickedImage + 1 + "/" + attachments.size());
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_toolbar_shade));
+            actionBar.setTitle(title);
+            actionBar.setSubtitle(clickedImage + 1 + "/" + attachments.size());
+        }
     }
 
     private void configViews() {

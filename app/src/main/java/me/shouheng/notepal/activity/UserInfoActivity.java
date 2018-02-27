@@ -30,9 +30,11 @@ public class UserInfoActivity extends CommonActivity<ActivityUserInfoBinding> im
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle(R.string.user_info);
+        }
         if (!isDarkTheme()) toolbar.setPopupTheme(R.style.AppTheme_PopupOverlay);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle(R.string.user_info);
     }
 
     private void configFragment() {

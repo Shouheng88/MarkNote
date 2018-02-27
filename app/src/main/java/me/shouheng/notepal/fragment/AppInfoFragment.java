@@ -28,8 +28,12 @@ public class AppInfoFragment extends BaseFragment<FragmentAppInfoBinding> {
     }
 
     private void configToolbar() {
-        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        actionBar.setTitle(R.string.app_info);
+        if (getActivity() != null) {
+            ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setTitle(R.string.app_info);
+            }
+        }
     }
 
     private void configViews() {

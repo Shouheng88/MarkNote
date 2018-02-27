@@ -30,8 +30,10 @@ public class StatisticsFragment extends BaseFragment<FragmentStatisticsBinding> 
     }
 
     private void configToolbar() {
-        ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        ab.setTitle(R.string.statistic);
+        if (getActivity() != null) {
+            ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
+            if (ab != null) ab.setTitle(R.string.statistic);
+        }
     }
 
     private void outputStats(Stats stats) {

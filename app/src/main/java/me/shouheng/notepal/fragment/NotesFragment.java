@@ -121,12 +121,16 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
     }
 
     private void configToolbar() {
-        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        actionBar.setTitle(R.string.drawer_menu_notes);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        String subTitle = notebook != null ? notebook.getTitle() : category != null ? category.getName() : null;
-        actionBar.setSubtitle(subTitle);
-        actionBar.setHomeAsUpIndicator(isTopStack ? R.drawable.ic_menu_white : R.drawable.ic_arrow_back_white_24dp);
+        if (getActivity() != null) {
+            ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setTitle(R.string.drawer_menu_notes);
+                actionBar.setDisplayHomeAsUpEnabled(true);
+                String subTitle = notebook != null ? notebook.getTitle() : category != null ? category.getName() : null;
+                actionBar.setSubtitle(subTitle);
+                actionBar.setHomeAsUpIndicator(isTopStack ? R.drawable.ic_menu_white : R.drawable.ic_arrow_back_white_24dp);
+            }
+        }
     }
 
     // region Config Notes List

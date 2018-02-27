@@ -171,9 +171,11 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
             }
         }
 
-        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setTitle(note.getTitle());
+        if (getActivity() != null) {
+            ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setTitle(note.getTitle());
+            }
         }
     }
 
