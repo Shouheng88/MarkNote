@@ -335,8 +335,20 @@
     <string name="setting_input_password_again">再次輸入</string>
     <string name="setting_input_wrong_password">密碼錯誤，你還有%d次機會</string>
     <string name="setting_input_password_newly">輸入新密碼</string>
-    <string name="setting_password_frozen">密碼處於凍結狀態</string>
     <string name="setting_password_frozen_minutes">密碼被凍結，請於%d分鐘後再次嘗試.</string>
+    <string name="setting_password_frozen">密碼處於凍結狀態，你可以通過回答密保問題來禁用密碼校驗。</string>
+    <string name="setting_answer_question">密保問題</string>
+    <string name="setting_wrong_answer">答案錯誤</string>
+    <string name="setting_disable_password">你已經通過了密保問題。密碼校驗邏輯已經關閉。你可以在設置中修改密碼。</string>
+    <string name="setting_security_question">密保問題</string>
+    <string name="setting_security_question_sub">忘記密碼的時候使用的密保問題</string>
+    <string name="text_question">問題</string>
+    <string name="text_answer">答案</string>
+    <string name="text_confirm_answer">確認答案</string>
+    <string name="setting_answer_different">錯誤：兩次輸入的結果不一致</string>
+    <string name="setting_question_required">需要輸入密保問題</string>
+    <string name="setting_answer_required">需要輸入密保答案</string>
+    <string name="setting_confirm_answer_required">需要再次輸入密保答案</string>
 
     <string name="wrong_numeric_string">輸入的數字包含非法字元</string>
     <string name="input_the_freeze_minutes_in_minute">輸入凍結時間(0至30分鐘)</string>
