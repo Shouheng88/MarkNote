@@ -329,9 +329,11 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
 
     @Override
     protected void onGetSelectedCategories(List<Category> categories) {
+        String tagsName = CategoryStore.getTagsName(categories);
         selections = categories;
         note.setTags(CategoryStore.getTags(categories));
-        addTagsToLayout(CategoryStore.getTagsName(categories));
+        note.setTagsName(tagsName);
+        addTagsToLayout(tagsName);
         setContentChanged();
     }
 

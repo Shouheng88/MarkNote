@@ -356,6 +356,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
                 if (resultCode == Activity.RESULT_OK){
                     isContentChanged = true;
                     note = (Note) data.getSerializableExtra(Constants.EXTRA_MODEL);
+                    tags = note.getTagsName();
                     refreshLayout(true);
                 }
                 break;
