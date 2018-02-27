@@ -177,15 +177,15 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                 // do nothing just open the app.
                 break;
             case Constants.ACTION_TAKE_PHOTO:
-                ContentActivity.startAction(this, Constants.ACTION_TAKE_PHOTO, 0);
+                startAddPhoto();
                 break;
             case Constants.ACTION_ADD_SKETCH:
-                ContentActivity.startAction(this, Constants.ACTION_ADD_SKETCH, 0);
+                startAddSketch();
                 break;
             case Intent.ACTION_SEND:
             case Intent.ACTION_SEND_MULTIPLE:
             case Constants.INTENT_GOOGLE_NOW:
-                handleThirdPart();
+                PermissionUtils.checkStoragePermission(this, this::handleThirdPart);
                 break;
         }
     }
@@ -195,6 +195,21 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         if (IntentUtils.checkAction(i, Intent.ACTION_SEND, Intent.ACTION_SEND_MULTIPLE, Constants.INTENT_GOOGLE_NOW) && i.getType() != null) {
             ContentActivity.startThirdPartResult(this, i, REQUEST_ADD_NOTE);
         }
+    }
+
+    private void startAddPhoto() {
+        PermissionUtils.checkStoragePermission(this, () ->
+                ContentActivity.startAction(MainActivity.this, Constants.ACTION_TAKE_PHOTO, 0));
+    }
+
+    private void startAddSketch() {
+        PermissionUtils.checkStoragePermission(this, () ->
+                ContentActivity.startAction(MainActivity.this, Constants.ACTION_ADD_SKETCH, 0));
+    }
+
+    private void startAddFile() {
+        PermissionUtils.checkStoragePermission(this, () ->
+                ContentActivity.startAction(MainActivity.this, Constants.ACTION_ADD_FILES, 0));
     }
 
     private void initHeaderView() {
@@ -288,13 +303,13 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                 editMindSnagging(ModelFactory.getMindSnagging(this));
                 break;
             case DRAFT:
-                ContentActivity.startAction(this, Constants.ACTION_ADD_SKETCH, 0);
+                startAddSketch();
                 break;
             case FILE:
-                ContentActivity.startAction(this, Constants.ACTION_ADD_FILES, 0);
+                startAddFile();
                 break;
             case CAPTURE:
-                ContentActivity.startAction(this, Constants.ACTION_TAKE_PHOTO, 0);
+                startAddPhoto();
                 break;
         }
     }
