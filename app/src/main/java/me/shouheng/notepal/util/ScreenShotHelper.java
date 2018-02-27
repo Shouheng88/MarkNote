@@ -1,6 +1,7 @@
 package me.shouheng.notepal.util;
 
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -224,7 +225,7 @@ public class ScreenShotHelper {
         int height = picture.getHeight();
         Bitmap bitmap = null;
         if (width > 0 && height > 0) {
-            bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            bitmap = Bitmap.createBitmap(width, height, Config.RGB_565);
             Canvas canvas = new Canvas(bitmap);
             picture.draw(canvas);
         }
