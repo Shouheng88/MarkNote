@@ -43,7 +43,7 @@ public class CategoriesAdapter extends BaseQuickAdapter<Category, BaseViewHolder
     protected void convert(BaseViewHolder helper, Category category) {
         final int categoryColor = category.getColor();
 
-        if (isDarkTheme) helper.itemView.setBackgroundResource(R.color.dark_theme_foreground);
+        if (isDarkTheme) helper.itemView.setBackgroundResource(R.color.dark_theme_background);
 
         helper.setText(R.id.tv_title, "# " + category.getName());
         helper.setText(R.id.tv_sub_title, context.getResources().getQuantityString(
