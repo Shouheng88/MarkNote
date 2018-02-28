@@ -355,6 +355,7 @@
     <string name="freeze_time_too_long">The time is too long</string>
     <string name="illegal_number">Illegal number</string>
     <!--endregion-->
+    <string name="setting_no_security_question_message">You have not set the security question, be sure to set the question in case that you forget the password.</string>
 
     <!--region Setting->Backup-->
     <string name="backup_to_external_storage">Backup to external storage</string>

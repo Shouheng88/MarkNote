@@ -47,6 +47,8 @@ public class SettingsSecurity extends PreferenceFragment {
         addPreferencesFromResource(R.xml.preferences_data_security);
 
         setPreferenceClickListeners();
+
+        showAlertIfNecessary();
     }
 
     private void configToolbar() {
@@ -58,6 +60,10 @@ public class SettingsSecurity extends PreferenceFragment {
         findPreference(KEY_PASSWORD_REQUIRED).setOnPreferenceClickListener(preference -> {
             if (TextUtils.isEmpty(preferencesUtils.getPassword()) && ((CheckBoxPreference) preference).isChecked() ) {
                 toSetPassword();
+            } else if (((CheckBoxPreference) preference).isChecked()){
+                /**
+                 * the password is not empty and the password is required, but the security question is not set */
+                showAlertIfNecessary();
             }
             return true;
         });
@@ -188,10 +194,25 @@ public class SettingsSecurity extends PreferenceFragment {
                      * remove the password requirement if the password is not set */
                     preferencesUtils.setPasswordRequired(false);
                     ((CheckBoxPreference) findPreference(KEY_PASSWORD_REQUIRED)).setChecked(false);
+                } else {
+                    showAlertIfNecessary();
                 }
                 break;
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void showAlertIfNecessary() {
+        if (!TextUtils.isEmpty(preferencesUtils.getPasswordQuestion())
+                || !preferencesUtils.isPasswordRequired()) return;
+        new MaterialDialog.Builder(getActivity())
+                .title(R.string.text_tips)
+                .content(R.string.setting_no_security_question_message)
+                .positiveText(R.string.text_ok)
+                .onPositive((dialog, which) -> showQuestionEditor())
+                .negativeText(R.string.cancel)
+                .build()
+                .show();
     }
 
     @Override

@@ -349,6 +349,7 @@
     <string name="setting_question_required">需要输入密保问题</string>
     <string name="setting_answer_required">需要输入密保答案</string>
     <string name="setting_confirm_answer_required">需要再次输入密保答案</string>
+    <string name="setting_no_security_question_message">你还没有设置密保问题，为防止忘记密码，请设置密保问题。</string>
 
     <string name="wrong_numeric_string">输入的数字包含非法字符</string>
     <string name="input_the_freeze_minutes_in_minute">输入冻结时间(0至30分钟)</string>
