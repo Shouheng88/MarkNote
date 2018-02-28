@@ -12,7 +12,7 @@ public class IntroSlide3 extends IntroFragment {
 		super.onActivityCreated(savedInstanceState);
 		background.setBackgroundResource(R.color.intro_color_3);
 		title.setText(R.string.intro_3_title);
-		image.setImageResource(R.drawable.slide2);
+		image.setImageResource(R.drawable.slide2_release);
 		description.setText(R.string.intro_3_description);
 	}
 }
