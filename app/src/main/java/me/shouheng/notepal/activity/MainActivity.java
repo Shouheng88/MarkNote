@@ -66,6 +66,7 @@ import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.FragmentHelper;
 import me.shouheng.notepal.util.IntentUtils;
 import me.shouheng.notepal.util.LogUtils;
+import me.shouheng.notepal.util.PalmUtils;
 import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.util.enums.MindSnaggingListType;
@@ -216,6 +217,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     private void initHeaderView() {
         View header = getBinding().nav.inflateHeaderView(R.layout.activity_main_nav_header);
         ActivityMainNavHeaderBinding headerBinding = DataBindingUtil.bind(header);
+        if (PalmUtils.isLollipop()) headerBinding.fl.setForeground(getResources().getDrawable(R.drawable.ripple));
         header.setOnClickListener(v -> {});
         header.setOnLongClickListener(v -> true);
         header.setOnClickListener(view -> startActivityForResult(UserInfoActivity.class, REQUEST_USER_INFO));

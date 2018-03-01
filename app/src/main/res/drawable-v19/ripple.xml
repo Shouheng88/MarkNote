@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:color="@color/md_grey_500"
+    tools:targetApi="lollipop">
+    <item android:id="@android:id/mask"
+        android:drawable="@color/md_amber_500" />
+</ripple>

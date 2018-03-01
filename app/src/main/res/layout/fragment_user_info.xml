@@ -32,7 +32,6 @@
                         android:paddingBottom="8dp"
                         android:paddingStart="16dp"
                         android:paddingEnd="8dp"
-                        android:foreground="@drawable/ripple"
                         android:clickable="true"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
