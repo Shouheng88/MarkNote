@@ -8,7 +8,7 @@
         <me.shouheng.notepal.widget.EmptyView
             android:id="@+id/iv_empty"
             android:layout_centerInParent="true"
-            app:empty_image="@drawable/ic_note"
+            app:empty_image="@drawable/ic_note_large"
             app:tint_drawable="true"
             app:title="@string/notes_list_empty"
             android:layout_width="wrap_content"
