@@ -13,7 +13,7 @@
             <me.shouheng.notepal.widget.EmptyView
                 android:id="@+id/iv_empty"
                 android:layout_centerInParent="true"
-                app:empty_image="@drawable/ic_timeline_black_24dp"
+                app:empty_image="@drawable/ic_timeline_large"
                 app:tint_drawable="true"
                 app:title="@string/no_activity_in_timeline"
                 app:sub_title="@string/activities_on_app_will_display_here"
