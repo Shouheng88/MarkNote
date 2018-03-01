@@ -43,7 +43,7 @@ public class EmptyView extends LinearLayout {
         TypedArray attr = context.obtainStyledAttributes(attributeSet, R.styleable.EmptyView, 0, 0);
         int bottomTitleSize = attr.getDimensionPixelSize(R.styleable.EmptyView_title_size, 16);
         int bottomSubTitleSize = attr.getDimensionPixelSize(R.styleable.EmptyView_sub_title_size, 14);
-        int mIcon = attr.getResourceId(R.styleable.EmptyView_empty_image, R.drawable.empty_sunny);
+        int mIcon = attr.getResourceId(R.styleable.EmptyView_empty_image, -1);
         tintDrawable = attr.getBoolean(R.styleable.EmptyView_tint_drawable, false);
         String bottomTitle = attr.getString(R.styleable.EmptyView_title);
         String bottomSubTitle = attr.getString(R.styleable.EmptyView_sub_title);
@@ -58,7 +58,7 @@ public class EmptyView extends LinearLayout {
         binding.tvBottomTitle.setVisibility(TextUtils.isEmpty(bottomTitle) ? GONE : VISIBLE);
         binding.tvBottomSubTitle.setVisibility(TextUtils.isEmpty(bottomSubTitle) ? GONE : VISIBLE);
 
-        binding.ivImage.setImageResource(mIcon);
+        if (mIcon != -1) binding.ivImage.setImageResource(mIcon);
 
         boolean isDarkTheme;
         if (isDarkTheme = ColorUtils.isDarkTheme(context)) {

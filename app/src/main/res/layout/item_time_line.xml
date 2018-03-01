@@ -38,14 +38,13 @@
         app:atom="@drawable/solid_circle_green"
         app:atom_size="@dimen/timeline_dot_size"/>
 
-    <android.support.v7.widget.CardView
+    <me.shouheng.notepal.widget.themed.SupportCardView
         android:id="@+id/cd"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         app:cardCornerRadius="1dp"
-        android:foreground="@drawable/ripple"
         app:cardElevation="5dp"
         android:clickable="true"
         android:layout_width="match_parent"
@@ -100,6 +99,6 @@
 
         </RelativeLayout>
 
-    </android.support.v7.widget.CardView>
+    </me.shouheng.notepal.widget.themed.SupportCardView>
 
 </LinearLayout>

@@ -11,9 +11,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <android.support.v7.widget.CardView
+            <me.shouheng.notepal.widget.themed.SupportCardView
                 android:layout_margin="8dp"
-                android:foreground="@drawable/ripple"
                 android:clickable="true"
                 android:focusable="true"
                 app:cardCornerRadius="@dimen/card_corner_radius"
@@ -46,11 +45,10 @@
 
                 </LinearLayout>
 
-            </android.support.v7.widget.CardView>
+            </me.shouheng.notepal.widget.themed.SupportCardView>
 
-            <android.support.v7.widget.CardView
+            <me.shouheng.notepal.widget.themed.SupportCardView
                 android:layout_margin="8dp"
-                android:foreground="@drawable/ripple"
                 android:clickable="true"
                 android:focusable="true"
                 app:cardCornerRadius="@dimen/card_corner_radius"
@@ -83,11 +81,10 @@
 
                 </LinearLayout>
 
-            </android.support.v7.widget.CardView>
+            </me.shouheng.notepal.widget.themed.SupportCardView>
 
-            <android.support.v7.widget.CardView
+            <me.shouheng.notepal.widget.themed.SupportCardView
                 android:layout_margin="8dp"
-                android:foreground="@drawable/ripple"
                 android:clickable="true"
                 android:focusable="true"
                 app:cardCornerRadius="@dimen/card_corner_radius"
@@ -120,7 +117,7 @@
 
                 </LinearLayout>
 
-            </android.support.v7.widget.CardView>
+            </me.shouheng.notepal.widget.themed.SupportCardView>
 
         </LinearLayout>
 

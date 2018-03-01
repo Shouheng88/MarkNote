@@ -14,6 +14,7 @@ import me.shouheng.notepal.dialog.NoticeDialog;
 import me.shouheng.notepal.dialog.SimpleEditDialog;
 import me.shouheng.notepal.model.enums.ModelType;
 import me.shouheng.notepal.provider.helper.StatisticsHelper;
+import me.shouheng.notepal.util.PalmUtils;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.util.UserUtil;
 
@@ -54,6 +55,7 @@ public class UserInfoFragment extends CommonFragment<FragmentUserInfoBinding> {
         }
 
         getBinding().llUser.setOnClickListener(v -> login());
+        if (PalmUtils.isMarshmallow()) getBinding().llUser.setForeground(getResources().getDrawable(R.drawable.ripple));
         getBinding().ctvSchool.setOnCardTitleClickListener(this::showSchoolEditor);
         getBinding().ctvMajor.setOnCardTitleClickListener(this::showMajorEditor);
     }

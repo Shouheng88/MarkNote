@@ -9,7 +9,6 @@
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/iv_image"
-            android:src="@drawable/empty_sunny"
             android:layout_gravity="center_horizontal"
             android:layout_width="@dimen/empty_view_size"
             android:layout_height="@dimen/empty_view_size" />

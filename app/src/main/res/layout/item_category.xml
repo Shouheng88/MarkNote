@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:background="@color/light_theme_background"
-    android:foreground="@drawable/ripple"
+    android:foreground="?attr/selectableItemBackground"
     android:layout_width="match_parent"
     android:layout_height="60dp">
 
