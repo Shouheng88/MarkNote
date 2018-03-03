@@ -57,14 +57,11 @@ public class TimeLineFragment extends CommonFragment<FragmentTimeLineBinding> {
 
     private void configTimeline() {
         modelsCount = TimelineStore.getInstance(getContext()).getCount(null, null, false);
-        List<TimeLine> timeLines;
-        if (modelsCount <= pageNumber) {
-            // per page count > total cont -> LOAD ALL
-            timeLines = TimelineStore.getInstance(getContext()).get(null, TimelineSchema.ADDED_TIME + " DESC ");
-        } else {
-            // load first page
-            timeLines = TimelineStore.getInstance(getContext()).getPage(startIndex, pageNumber, TimelineSchema.ADDED_TIME + " DESC ", Status.NORMAL, false);
-        }
+        List<TimeLine> timeLines = TimelineStore.getInstance(getContext()).getPage(startIndex,
+                pageNumber,
+                TimelineSchema.ADDED_TIME + " DESC ",
+                Status.NORMAL,
+                false);
 
         adapter = new TimeLinesAdapter(getContext(), timeLines);
 
@@ -92,24 +89,20 @@ public class TimeLineFragment extends CommonFragment<FragmentTimeLineBinding> {
     private void loadMoreData() {
         LogUtils.d("startIndex:" + startIndex);
         isLoadingMore = true;
-        // 初始位置移动20
         startIndex += pageNumber;
-        List<TimeLine> timeLines;
         if (startIndex > modelsCount) {
-            // 初始位置大于总数，说明没有更多数据了
-            ToastUtils.makeToast(getContext(), R.string.no_more_data);
-            isLoadingMore = false;
             startIndex -= pageNumber;
-            getBinding().mpb.setVisibility(View.GONE);
-            return;
-        } else if (startIndex + pageNumber > modelsCount) { // 如果将要加载的总数超出了数目总数
-            timeLines = TimelineStore.getInstance(getContext()).getPage(startIndex, startIndex + pageNumber - modelsCount, TimelineSchema.ADDED_TIME + " DESC ", Status.NORMAL, false);
+            ToastUtils.makeToast(getContext(), R.string.no_more_data);
         } else {
-            timeLines = TimelineStore.getInstance(getContext()).getPage(startIndex, pageNumber, TimelineSchema.ADDED_TIME + " DESC ", Status.NORMAL, false);
+            List<TimeLine> list = TimelineStore.getInstance(getContext()).getPage(startIndex,
+                    pageNumber,
+                    TimelineSchema.ADDED_TIME + " DESC ",
+                    Status.NORMAL,
+                    false);
+            adapter.addData(list);
+            adapter.notifyDataSetChanged();
         }
-        adapter.addData(timeLines);
-        adapter.notifyDataSetChanged();
-        isLoadingMore = false;
         getBinding().mpb.setVisibility(View.GONE);
+        isLoadingMore = false;
     }
 }
