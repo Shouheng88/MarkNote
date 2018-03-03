@@ -1,7 +1,9 @@
 package my.shouheng.palmmarkdown;
 
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 
@@ -23,6 +25,8 @@ public class MarkdownEditor extends android.support.v7.widget.AppCompatEditText 
 
     /* 恢复栈 */
     private Stack<Action> historyBack = new Stack<>();
+
+    private boolean formatPasteEnable = true;
 
     private boolean flag = false;
 
@@ -188,6 +192,10 @@ public class MarkdownEditor extends android.support.v7.widget.AppCompatEditText 
         if (!historyBack.empty() && historyBack.peek().index == action.index) {
             redo();
         }
+    }
+
+    public void setFormatPasteEnable(boolean enable) {
+        formatPasteEnable = enable;
     }
 
     public final void setDefaultText(CharSequence text) {
@@ -393,5 +401,19 @@ public class MarkdownEditor extends android.support.v7.widget.AppCompatEditText 
         void setIndex(int index) {
             this.index = index;
         }
+    }
+
+    @Override
+    public boolean onTextContextMenuItem(int id) {
+        switch (id) {
+            case android.R.id.paste:
+                if (!formatPasteEnable) break;
+                ClipboardManager clip = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                String content;
+                if (clip != null && !TextUtils.isEmpty(content = clip.getText().toString()))
+                    clip.setText(content.replace("\t", "    "));
+                break;
+        }
+        return super.onTextContextMenuItem(id);
     }
 }

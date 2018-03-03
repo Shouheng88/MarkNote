@@ -273,6 +273,7 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
         getBinding().drawer.ivAddPreview.setOnClickListener(v -> showAttachmentPicker(AttachmentPickerType.PREVIEW_IMAGE));
         loadPreviewImage();
 
+        getBinding().drawer.tvSettings.setVisibility(View.GONE);
         getBinding().drawer.tvSettings.setOnClickListener(view -> {
             String content = getBinding().main.etContent.getText().toString();
             if (!TextUtils.isEmpty(content)) {
