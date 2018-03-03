@@ -91,10 +91,10 @@ public class ContentActivity extends CommonActivity<ActivityContentBinding> impl
         activity.startActivity(i);
     }
 
-    public static void resolveAction(Activity activity, String action, int requestCode) {
+    public static void resolveAction(Activity activity, @NonNull Note note, String action, int requestCode) {
         Intent i = new Intent(activity, ContentActivity.class);
         i.setAction(action);
-        i.putExtra(Constants.EXTRA_MODEL, (Parcelable) ModelFactory.getNote(activity));
+        i.putExtra(Constants.EXTRA_MODEL, (Parcelable) note);
         i.putExtra(Constants.EXTRA_FRAGMENT, Constants.VALUE_FRAGMENT_NOTE);
         i.putExtra(Constants.EXTRA_REQUEST_CODE, requestCode);
         i.putExtra(Constants.EXTRA_START_TYPE, Constants.VALUE_START_EDIT);

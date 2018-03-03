@@ -29,6 +29,7 @@ import com.github.clans.fab.FloatingActionButton;
 import org.polaric.colorful.PermissionUtils;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import me.shouheng.notepal.PalmApp;
@@ -226,17 +227,29 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
 
     private void startAddPhoto() {
         PermissionUtils.checkStoragePermission(this, () ->
-                ContentActivity.resolveAction(MainActivity.this, Constants.ACTION_TAKE_PHOTO, 0));
+                ContentActivity.resolveAction(
+                        MainActivity.this,
+                        getNewNote(),
+                        Constants.ACTION_TAKE_PHOTO,
+                        0));
     }
 
     private void startAddSketch() {
         PermissionUtils.checkStoragePermission(this, () ->
-                ContentActivity.resolveAction(MainActivity.this, Constants.ACTION_ADD_SKETCH, 0));
+                ContentActivity.resolveAction(
+                        MainActivity.this,
+                        getNewNote(),
+                        Constants.ACTION_ADD_SKETCH,
+                        0));
     }
 
     private void startAddFile() {
         PermissionUtils.checkStoragePermission(this, () ->
-                ContentActivity.resolveAction(MainActivity.this, Constants.ACTION_ADD_FILES, 0));
+                ContentActivity.resolveAction(
+                        MainActivity.this,
+                        getNewNote(),
+                        Constants.ACTION_ADD_FILES,
+                        0));
     }
     // endregion
 
@@ -334,14 +347,27 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
 
     private Note getNewNote() {
         Note note = ModelFactory.getNote(this);
+
+        boolean isNotes = isNotesFragment();
+
+        /**
+         * Add notebook filed according to current fragment */
         Notebook notebook;
-        if (isNotesFragment() && (notebook = ((NotesFragment) getCurrentFragment()).getNotebook()) != null) {
+        if (isNotes && (notebook = ((NotesFragment) getCurrentFragment()).getNotebook()) != null) {
             note.setParentCode(notebook.getCode());
             note.setTreePath(notebook.getTreePath() + "|" + note.getCode());
         } else {
             // The default tree path of note is itself
             note.setTreePath(String.valueOf(note.getCode()));
         }
+
+        /**
+         * Add category field according to current fragment */
+        Category category;
+        if (isNotes && (category = ((NotesFragment) getCurrentFragment()).getCategory()) != null) {
+            note.setTags(CategoryStore.getTags(Collections.singletonList(category)));
+        }
+
         return note;
     }
 
