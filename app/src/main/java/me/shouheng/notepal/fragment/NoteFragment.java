@@ -143,7 +143,8 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
                 ToastUtils.makeToast(getContext(), R.string.note_failed_to_read_file);
             }
         } else {
-            tempFile = FileHelper.createNewAttachmentFile(getContext(), preferencesUtils.getNoteFileExtension());
+            tempFile = FileHelper.createNewAttachmentFile(getContext(),
+                    "." + preferencesUtils.getNoteFileExtension());
             note.setContent("");
         }
 
