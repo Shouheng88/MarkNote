@@ -132,6 +132,7 @@ public class ModelFactory {
         Category category = getModel(context, Category.class);
         assert category != null;
         category.setPortrait(Portrait.FOLDER);
+        category.setCategoryOrder(0);
         // use the primary color as the category color
         category.setColor(ColorUtils.primaryColor(context));
         return category;

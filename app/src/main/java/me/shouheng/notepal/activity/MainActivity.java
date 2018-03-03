@@ -150,6 +150,26 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         toNotesFragment();
     }
 
+    private void configToolbar() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_white);
+        }
+        if (!isDarkTheme()) toolbar.setPopupTheme(R.style.AppTheme_PopupOverlay);
+    }
+
+    private void initHeaderView() {
+        View header = getBinding().nav.inflateHeaderView(R.layout.activity_main_nav_header);
+        ActivityMainNavHeaderBinding headerBinding = DataBindingUtil.bind(header);
+        if (PalmUtils.isLollipop()) headerBinding.fl.setForeground(getResources().getDrawable(R.drawable.ripple));
+        header.setOnLongClickListener(v -> true);
+        header.setOnClickListener(view -> startActivityForResult(UserInfoActivity.class, REQUEST_USER_INFO));
+    }
+
+    // region handle intent
     private void handleIntent(Intent intent) {
         String action = intent.getAction();
 
@@ -194,25 +214,6 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         }
     }
 
-    private void configToolbar() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_white);
-        }
-        if (!isDarkTheme()) toolbar.setPopupTheme(R.style.AppTheme_PopupOverlay);
-    }
-
-    private void initHeaderView() {
-        View header = getBinding().nav.inflateHeaderView(R.layout.activity_main_nav_header);
-        ActivityMainNavHeaderBinding headerBinding = DataBindingUtil.bind(header);
-        if (PalmUtils.isLollipop()) headerBinding.fl.setForeground(getResources().getDrawable(R.drawable.ripple));
-        header.setOnLongClickListener(v -> true);
-        header.setOnClickListener(view -> startActivityForResult(UserInfoActivity.class, REQUEST_USER_INFO));
-    }
-
     private void handleThirdPart() {
         Intent i = getIntent();
         if (IntentUtils.checkAction(i,
@@ -237,6 +238,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         PermissionUtils.checkStoragePermission(this, () ->
                 ContentActivity.startAction(MainActivity.this, Constants.ACTION_ADD_FILES, 0));
     }
+    // endregion
 
     // region fab
     private void initFloatButtons() {
@@ -409,16 +411,17 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     }
 
     private void editCategory() {
-        categoryEditDialog = CategoryEditDialog.newInstance(this, ModelFactory.getCategory(this), category -> {
-            CategoryStore.getInstance(this).saveModel(category);
+        categoryEditDialog = CategoryEditDialog.newInstance(this,
+                ModelFactory.getCategory(this), category -> {
+                    CategoryStore.getInstance(this).saveModel(category);
 
-            ToastUtils.makeToast(this, R.string.text_save_successfully);
+                    ToastUtils.makeToast(this, R.string.text_save_successfully);
 
-            Fragment fragment = getCurrentFragment();
-            if (fragment != null && fragment instanceof CategoriesFragment) {
-                ((CategoriesFragment) fragment).addCategory(category);
-            }
-        });
+                    Fragment fragment = getCurrentFragment();
+                    if (fragment != null && fragment instanceof CategoriesFragment) {
+                        ((CategoriesFragment) fragment).addCategory(category);
+                    }
+                });
         categoryEditDialog.show(getSupportFragmentManager(), "CATEGORY_EDIT_DIALOG");
     }
     // endregion
