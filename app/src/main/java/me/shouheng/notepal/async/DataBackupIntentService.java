@@ -105,9 +105,7 @@ public class DataBackupIntentService extends IntentService {
 
         if (includeSettings) exportSettings(backupDir);
 
-        String title = getString(R.string.backup_data_export_completed);
-        String text = backupDir.getPath();
-        createNotification(intent, this, title, text, backupDir);
+        createNotification(intent, this, getString(R.string.backup_data_export_completed), backupDir.getPath(), backupDir);
     }
 
     private boolean exportDB(File backupDir) {
