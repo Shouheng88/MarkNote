@@ -38,6 +38,7 @@ import me.shouheng.notepal.util.AppWidgetUtils;
 import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.ModelHelper;
+import me.shouheng.notepal.util.PalmUtils;
 import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.util.ViewUtils;
@@ -227,9 +228,9 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
                 ViewUtils.getScreenOrientation(getContext()) == Configuration.ORIENTATION_LANDSCAPE ? 3 : 2,
                 StaggeredGridLayoutManager.VERTICAL);
 
-        int dp4 = ViewUtils.dp2Px(getContext(), 4);
+        int margin = ViewUtils.dp2Px(getContext(), PalmUtils.isLollipop() ? 4 : 2);
         getBinding().rv.setLayoutManager(layoutManager);
-        getBinding().rv.addItemDecoration(new SpaceItemDecoration(dp4, dp4, dp4, dp4));
+        getBinding().rv.addItemDecoration(new SpaceItemDecoration(margin, margin, margin, margin));
         getBinding().fastscroller.setVisibility(View.GONE);
 
         getBinding().rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
