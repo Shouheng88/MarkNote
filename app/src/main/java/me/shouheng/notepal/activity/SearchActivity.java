@@ -253,20 +253,25 @@ public class SearchActivity extends ThemedActivity implements OnQueryTextListene
     public void onMindSnaggingSelected(MindSnagging mind, final int position) {
         new MindSnaggingDialog.Builder()
                 .setMindSnagging(mind)
-                .setOnConfirmListener((mindSnagging, attachment) -> {
-                    boolean isNewModel = AttachmentsStore.getInstance(SearchActivity.this).isNewModel(attachment.getCode());
-                    if (isNewModel) {
-                        attachment.setModelCode(mindSnagging.getCode());
-                        attachment.setModelType(ModelType.MIND_SNAGGING);
-                        AttachmentsStore.getInstance(SearchActivity.this).saveModel(attachment);
-                    }
-                    if (isNewModel) MindSnaggingStore.getInstance(SearchActivity.this).saveModel(mindSnagging);
-                    else MindSnaggingStore.getInstance(SearchActivity.this).update(mindSnagging);
-                    adapter.notifyItemChanged(position);
-                    ToastUtils.makeToast(SearchActivity.this, R.string.text_save_successfully);
-                })
+                .setOnConfirmListener(this::saveMindSnagging)
                 .setOnAttachmentClickListener(attachment -> resolveAttachmentClickEvent(attachment, Arrays.asList(attachment)))
                 .build().show(getSupportFragmentManager(), "VIEW_MIND_SNAGGING");
+    }
+
+    private void saveMindSnagging(MindSnagging mindSnagging, Attachment attachment) {
+        if (attachment != null && AttachmentsStore.getInstance(this).isNewModel(attachment.getCode())) {
+            attachment.setModelCode(mindSnagging.getCode());
+            attachment.setModelType(ModelType.MIND_SNAGGING);
+            AttachmentsStore.getInstance(this).saveModel(attachment);
+        }
+
+        if (MindSnaggingStore.getInstance(this).isNewModel(mindSnagging.getCode())) {
+            MindSnaggingStore.getInstance(this).saveModel(mindSnagging);
+        } else {
+            MindSnaggingStore.getInstance(this).update(mindSnagging);
+        }
+
+        ToastUtils.makeToast(this, R.string.text_save_successfully);
     }
 
     protected void resolveAttachmentClickEvent(Attachment attachment, List<Attachment> attachments) {
