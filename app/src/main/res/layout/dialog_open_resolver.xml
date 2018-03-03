@@ -9,7 +9,7 @@
         android:id="@+id/tv_text"
         style="@style/OpenResolver"
         android:text="@string/text"
-        android:drawableLeft="@drawable/ic_insert_drive_file"
+        android:drawableLeft="@drawable/ic_insert_drive_file_grey_24dp"
         android:layout_width="match_parent"
         android:layout_height="45dp" />
 
