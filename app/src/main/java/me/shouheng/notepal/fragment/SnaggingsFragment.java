@@ -119,7 +119,7 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
         status = getArguments() == null || !getArguments().containsKey(ARG_STATUS) ? Status.NORMAL : (Status) getArguments().get(ARG_STATUS);
         modelsCount = store.getCount(null, status, false);
 
-        adapter = new MindSnaggingAdapter(getContext(), mindSnaggingListType, getSnaggings());
+        adapter = new MindSnaggingAdapter(getContext(), mindSnaggingListType, getSnaggingList());
         adapter.setOnItemClickListener((adapter1, view, position) -> showEditor(position));
         adapter.setOnItemChildClickListener((adapter, view, position) -> {
             switch (view.getId()) {
@@ -249,7 +249,7 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
     }
 
     public void reload() {
-        adapter.setNewData(getSnaggings());
+        adapter.setNewData(getSnaggingList());
     }
 
     private void notifyListChanged() {
@@ -277,38 +277,29 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
         mindSnaggingDialog.show(getFragmentManager(), "snag");
     }
 
-    private List<MindSnagging> getSnaggings() {
-        startIndex = 0;
-
-        String orderSQL = MindSnaggingSchema.ADDED_TIME + " DESC ";
-
-        List<MindSnagging> snaggingList;
-        if (modelsCount <= pageNumber) { // per page count > total cont -> LOAD ALL
-            snaggingList = store.get(null, orderSQL, status, false);
-        } else { // load first page
-            snaggingList = store.getPage(startIndex, pageNumber, orderSQL, status, false);
-        }
-
-        return snaggingList;
+    private List<MindSnagging> getSnaggingList() {
+        return store.getPage(startIndex,
+                pageNumber,
+                MindSnaggingSchema.ADDED_TIME + " DESC ",
+                status,
+                false);
     }
 
     private void loadMoreData() {
         LogUtils.d("startIndex:" + startIndex);
         isLoadingMore = true;
-        // 初始位置移动20
         startIndex += pageNumber;
-        List<MindSnagging> timeLines;
         if (startIndex > modelsCount) {
-            isLoadingMore = false;
             startIndex -= pageNumber;
-            return;
-        } else if (startIndex + pageNumber > modelsCount) { // 如果将要加载的总数超出了数目总数
-            timeLines = store.getPage(startIndex, startIndex + pageNumber - modelsCount, MindSnaggingSchema.ADDED_TIME + " DESC ", Status.NORMAL, false);
         } else {
-            timeLines = store.getPage(startIndex, pageNumber, MindSnaggingSchema.ADDED_TIME + " DESC ", Status.NORMAL, false);
+            List<MindSnagging> list = store.getPage(startIndex,
+                    pageNumber,
+                    MindSnaggingSchema.ADDED_TIME + " DESC ",
+                    Status.NORMAL,
+                    false);
+            adapter.addData(list);
+            adapter.notifyDataSetChanged();
         }
-        adapter.addData(timeLines);
-        adapter.notifyDataSetChanged();
         isLoadingMore = false;
     }
 
