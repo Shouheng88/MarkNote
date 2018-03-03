@@ -133,7 +133,7 @@
     <!--region Fab-->
     <string name="fab_opt_note">笔记</string>
     <string name="fab_opt_notebook">笔记本</string>
-    <string name="fab_opt_category">标签</string>
+    <string name="fab_opt_tags">标签</string>
     <string name="fab_opt_capture">拍照</string>
     <string name="fab_opt_file">文件</string>
     <string name="fab_opt_draft">手写</string>
@@ -223,20 +223,20 @@
 
     <!--region Category-->
     <string name="pick_portrait">选择图标</string>
-    <string name="edit_category">编辑标签</string>
-    <string name="category_name">标签名称</string>
-    <string name="pick_category_color">选择标签颜色</string>
+    <string name="edit_tag">编辑标签</string>
+    <string name="tag_name">标签名称</string>
+    <string name="pick_tag_color">选择标签颜色</string>
 
-    <string name="no_selectable_category">没有可供选择的标签，在主界面添加标签后再次尝试。</string>
+    <string name="no_selectable_tag">没有可供选择的标签，在主界面添加标签后再次尝试。</string>
     <plurals name="notes_number">
         <item quantity="one">%d 个笔记</item>
         <item quantity="other">%d 个笔记</item>
     </plurals>
-    <string name="category_delete_message">删除该标签不会删除其相关的笔记。</string>
-    <string name="categories_list_empty">标签列表为空</string>
-    <string name="categories_list_empty_sub_normal">点击主界面的 + 按钮添加标签</string>
-    <string name="categories_list_empty_sub_archived">没有发现归档的标签</string>
-    <string name="categories_list_empty_sub_trashed">没有在垃圾箱中发现标签</string>
+    <string name="tag_delete_message">删除该标签不会删除其相关的笔记。</string>
+    <string name="tags_list_empty">标签列表为空</string>
+    <string name="tags_list_empty_sub_normal">点击主界面的 + 按钮添加标签</string>
+    <string name="tags_list_empty_sub_archived">没有发现归档的标签</string>
+    <string name="tags_list_empty_sub_trashed">没有在垃圾箱中发现标签</string>
     <!--endregion-->
 
     <!--region Alarm-->

@@ -124,13 +124,13 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
         if (status == null) return null;
         switch (status) {
             case NORMAL:
-                return getString(R.string.categories_list_empty_sub_normal);
+                return getString(R.string.tags_list_empty_sub_normal);
             case TRASHED:
-                return getString(R.string.categories_list_empty_sub_trashed);
+                return getString(R.string.tags_list_empty_sub_trashed);
             case ARCHIVED:
-                return getString(R.string.categories_list_empty_sub_archived);
+                return getString(R.string.tags_list_empty_sub_archived);
         }
-        return getString(R.string.categories_list_empty_sub_normal);
+        return getString(R.string.tags_list_empty_sub_normal);
     }
 
     private List<Category> getCategories() {
@@ -195,7 +195,7 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
     private void showDeleteDialog(int position, Category param) {
         new MaterialDialog.Builder(getContext())
                 .title(R.string.text_warning)
-                .content(R.string.category_delete_message)
+                .content(R.string.tag_delete_message)
                 .positiveText(R.string.text_confirm)
                 .onPositive((materialDialog, dialogAction) -> {
                     CategoryStore.getInstance(getContext()).update(param, Status.DELETED);
