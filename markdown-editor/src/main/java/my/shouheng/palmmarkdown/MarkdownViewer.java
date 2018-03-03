@@ -157,6 +157,8 @@ public class MarkdownViewer extends FastScrollWebView {
                             .setSecondaryToolbarColor(primaryDark)
                             .build();
                     customTabsIntent.launchUrl(webView.getContext(), Uri.parse(url));
+                    // stop to transfer the intent
+                    return true;
                 }
                 // open the resources
                 if (url.endsWith(_3GP) || url.endsWith(_MP4)) {

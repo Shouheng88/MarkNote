@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -146,9 +147,10 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
                     clickedAttachment, attachments, note.getTitle());
         });
         getBinding().mdView.setOnAttachmentClickedListener((Uri uri) -> {
-            OpenResolver.newInstance(mimeType -> {
-                startActivity(uri, mimeType.mimeType);
-            }).show(getFragmentManager(), "open resolver");
+            FragmentManager manager = getFragmentManager();
+            if (manager != null) {
+                OpenResolver.newInstance(mimeType -> startActivity(uri, mimeType.mimeType)).show(manager, "OPEN RESOLVER");
+            }
         });
     }
 
