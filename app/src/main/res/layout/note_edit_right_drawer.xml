@@ -80,7 +80,7 @@
                     android:layout_width="match_parent"
                     android:drawablePadding="13dp"
                     android:paddingStart="13dp"
-                    android:text="@string/text_add_labels"
+                    android:text="@string/text_add_tags"
                     android:gravity="center_vertical"
                     android:layout_height="50dp" />
 

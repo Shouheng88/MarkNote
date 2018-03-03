@@ -36,7 +36,7 @@
     </item>
 
     <item android:id="@+id/action_labs"
-        android:title="@string/text_labels"
+        android:title="@string/text_tags"
         app:showAsAction="never"/>
 
     <item android:id="@+id/action_location"

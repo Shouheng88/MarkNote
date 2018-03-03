@@ -6,8 +6,8 @@
     <string name="text_add_to_home_screen">Add shortcut</string>
     <string name="text_about">About</string>
     <string name="text_accept">Accept</string>
-    <string name="text_labels">Tags</string>
-    <string name="text_add_labels">Add Tags</string>
+    <string name="text_tags">Tags</string>
+    <string name="text_add_tags">Add Tags</string>
     <string name="text_add_location">Add location</string>
     <string name="text_clear">Clear</string>
     <string name="text_copy_text">Copy content</string>
@@ -121,7 +121,7 @@
     <!--region Common->DrawerItems-->
     <string name="drawer_menu_notes">Notes</string>
     <string name="drawer_menu_minds">Snagging</string>
-    <string name="drawer_menu_labels">Tags</string>
+    <string name="drawer_menu_tags">Tags</string>
     <string name="drawer_menu_notices">Notices</string>
     <string name="drawer_menu_setting">Settings</string>
     <string name="drawer_menu_trash">Trash</string>
@@ -275,41 +275,6 @@
     <string name="operation_archived">Archived</string>
     <string name="operation_synced">Synced</string>
     <string name="operation_uncompleted">Uncompleted</string>
-
-    <string name="portrait_name_folder">Folder</string>
-    <string name="portrait_name_lock">Lock</string>
-    <string name="portrait_name_envelope">Envelope</string>
-    <string name="portrait_name_write">Write</string>
-    <string name="portrait_name_timeline">Timeline</string>
-    <string name="portrait_name_demo">Demo</string>
-
-    <string name="portrait_name_growing">Growing</string>
-    <string name="portrait_name_corporate">Corporate</string>
-    <string name="portrait_name_book">Book</string>
-    <string name="portrait_name_tourism_book">Tourism book</string>
-    <string name="portrait_name_gift">Gift</string>
-    <string name="portrait_name_house">House</string>
-
-    <string name="portrait_name_cloud">Cloud</string>
-    <string name="portrait_name_attachment">Attachment</string>
-    <string name="portrait_name_music">Music</string>
-    <string name="portrait_name_flag">Flag</string>
-    <string name="portrait_name_star">Star</string>
-    <string name="portrait_name_medal">Medal</string>
-
-    <string name="portrait_name_link">Link</string>
-    <string name="portrait_name_bug">BUG</string>
-    <string name="portrait_name_album">Album</string>
-    <string name="portrait_name_location">Location</string>
-    <string name="portrait_name_message">Message</string>
-    <string name="portrait_name_label">Tags</string>
-
-    <string name="portrait_name_loving_label">Loving label</string>
-    <string name="portrait_name_loving_folder">Loving folder</string>
-    <string name="portrait_name_node">Node</string>
-    <string name="portrait_name_node_circle">Node circle</string>
-    <string name="portrait_name_football">Football</string>
-    <string name="portrait_name_collection">Collection</string>
     <!--endregion -->
 
     <!--region Setting-->

@@ -15,7 +15,6 @@ import android.widget.ImageView;
 
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.model.enums.Portrait;
-import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.util.ViewUtils;
 import me.shouheng.notepal.widget.CircleImageView;
 import me.shouheng.notepal.widget.tools.SpaceItemDecoration;
@@ -103,12 +102,6 @@ public class PortraitPickerDialog extends DialogFragment {
                         onPortraitSelectedListener.onPortraitSelected(portrait.id, portrait.iconRes);
                         dismiss();
                     }
-                });
-
-                this.itemView.setOnLongClickListener(v -> {
-                    Portrait portrait = portraits[getAdapterPosition()];
-                    ToastUtils.makeToast(getContext(), portrait.nameRes);
-                    return true;
                 });
             }
         }
