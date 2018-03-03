@@ -17,7 +17,7 @@
 
         <TextView
             android:textSize="20sp"
-            android:text="@string/edit_category"
+            android:text="@string/edit_tag"
             android:paddingBottom="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -29,7 +29,7 @@
             <EditText
                 android:id="@+id/et_category_name"
                 android:padding="8dp"
-                android:hint="@string/category_name"
+                android:hint="@string/tag_name"
                 android:maxLines="1"
                 android:maxLength="@integer/label_length"
                 android:singleLine="true"

@@ -133,7 +133,7 @@
     <!--region Fab-->
     <string name="fab_opt_note">筆記</string>
     <string name="fab_opt_notebook">筆記本</string>
-    <string name="fab_opt_category">標籤</string>
+    <string name="fab_opt_tags">標籤</string>
     <string name="fab_opt_capture">拍照</string>
     <string name="fab_opt_file">檔</string>
     <string name="fab_opt_draft">手寫</string>
@@ -223,20 +223,20 @@
 
     <!--region Category-->
     <string name="pick_portrait">選擇圖示</string>
-    <string name="edit_category">編輯標籤</string>
-    <string name="category_name">標籤名稱</string>
-    <string name="pick_category_color">選擇標籤顏色</string>
+    <string name="edit_tag">編輯標籤</string>
+    <string name="tag_name">標籤名稱</string>
+    <string name="pick_tag_color">選擇標籤顏色</string>
 
-    <string name="no_selectable_category">沒有可供選擇的標籤，在主介面添加標籤後再次嘗試。</string>
+    <string name="no_selectable_tag">沒有可供選擇的標籤，在主介面添加標籤後再次嘗試。</string>
     <plurals name="notes_number">
         <item quantity="one">%d 個筆記</item>
         <item quantity="other">%d 個筆記</item>
     </plurals>
-    <string name="category_delete_message">刪除該標籤不會刪除其相關的筆記。</string>
-    <string name="categories_list_empty">標籤列表為空</string>
-    <string name="categories_list_empty_sub_normal">點擊主介面的 + 按鈕添加標籤</string>
-    <string name="categories_list_empty_sub_archived">沒有發現歸檔的標籤</string>
-    <string name="categories_list_empty_sub_trashed">沒有在垃圾箱中發現標籤</string>
+    <string name="tag_delete_message">刪除該標籤不會刪除其相關的筆記。</string>
+    <string name="tags_list_empty">標籤列表為空</string>
+    <string name="tags_list_empty_sub_normal">點擊主介面的 + 按鈕添加標籤</string>
+    <string name="tags_list_empty_sub_archived">沒有發現歸檔的標籤</string>
+    <string name="tags_list_empty_sub_trashed">沒有在垃圾箱中發現標籤</string>
     <!--endregion-->
 
     <!--region Alarm-->

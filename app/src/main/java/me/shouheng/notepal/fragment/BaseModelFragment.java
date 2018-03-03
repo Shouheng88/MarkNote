@@ -236,7 +236,7 @@ public abstract class BaseModelFragment<T extends Model, V extends ViewDataBindi
     private void showCategoryEmptyDialog() {
         new AlertDialog.Builder(getContext())
                 .setTitle(R.string.text_tips)
-                .setMessage(R.string.no_selectable_category)
+                .setMessage(R.string.no_selectable_tag)
                 .setPositiveButton(R.string.text_confirm, null)
                 .create()
                 .show();

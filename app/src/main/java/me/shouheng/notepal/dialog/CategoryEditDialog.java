@@ -106,10 +106,10 @@ public class CategoryEditDialog extends DialogFragment {
 
     private void showColorPickerDialog() {
         assert getActivity() != null;
-        new ColorChooserDialog.Builder((CommonActivity) getActivity(), R.string.pick_category_color)
+        new ColorChooserDialog.Builder((CommonActivity) getActivity(), R.string.pick_tag_color)
                 .preselect(primaryColor)
                 .accentMode(false)
-                .titleSub(R.string.pick_category_color)
+                .titleSub(R.string.pick_tag_color)
                 .backButton(R.string.back)
                 .doneButton(R.string.done_label)
                 .cancelButton(R.string.cancel)

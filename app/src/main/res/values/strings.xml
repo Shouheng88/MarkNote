@@ -133,7 +133,7 @@
     <!--region Fab-->
     <string name="fab_opt_note">Note</string>
     <string name="fab_opt_notebook">Notebook</string>
-    <string name="fab_opt_category">Tags</string>
+    <string name="fab_opt_tags">Tags</string>
     <string name="fab_opt_capture">Capture</string>
     <string name="fab_opt_file">File</string>
     <string name="fab_opt_draft">Sketch</string>
@@ -221,22 +221,22 @@
     <string name="mind_snaggings_list_empty_sub_trashed">no trashed snagging found</string>
     <!--endregion-->
 
-    <!--region Category-->
+    <!--region Tag-->
     <string name="pick_portrait">Pick portrait</string>
-    <string name="edit_category">Edit category</string>
-    <string name="category_name">Category name</string>
-    <string name="pick_category_color">Pick category color</string>
+    <string name="edit_tag">Edit tag</string>
+    <string name="tag_name">Tag name</string>
+    <string name="pick_tag_color">Pick tag color</string>
 
-    <string name="no_selectable_category">No available category, try again after adding in dashboard</string>
+    <string name="no_selectable_tag">No available tag, try again after adding in dashboard</string>
     <plurals name="notes_number">
         <item quantity="one">%d note</item>
         <item quantity="other">%d notes</item>
     </plurals>
-    <string name="category_delete_message">Delete category will only delete the connection with notes, notes won\'t be deleted.</string>
-    <string name="categories_list_empty">Empty category list</string>
-    <string name="categories_list_empty_sub_normal">add category by licking + in dashboard</string>
-    <string name="categories_list_empty_sub_archived">no archived category found</string>
-    <string name="categories_list_empty_sub_trashed">no trashed category found</string>
+    <string name="tag_delete_message">Delete tag will only delete the connection with notes, notes won\'t be deleted.</string>
+    <string name="tags_list_empty">Empty tag list</string>
+    <string name="tags_list_empty_sub_normal">add tag by licking + in dashboard</string>
+    <string name="tags_list_empty_sub_archived">no archived tag found</string>
+    <string name="tags_list_empty_sub_trashed">no trashed tag found</string>
     <!--endregion-->
 
     <!--region Alarm-->
