@@ -1,17 +1,3 @@
 <resources>
     <string name="app_name">PalmMarkdown</string>
-
-
-    <string name="md_confirm">Confirm</string>
-    <string name="md_cancel">Cancel</string>
-
-    <string name="md_insert_table">Insert table</string>
-
-    <string name="md_input_rows_number">Rows</string>
-    <string name="md_input_cols_number">Columns</string>
-
-    <string name="md_rows_cannot_empty">The row number can\'t be empty.</string>
-    <string name="md_cols_cannot_empty">The column number can\'t be empty.</string>
-
-
 </resources>
