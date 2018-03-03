@@ -482,4 +482,19 @@
     <!--endregion-->
     <!--endregion-->
 
+    <!--region markdown-->
+    <string name="md_link">Link to insert</string>
+    <string name="md_insert_link">Insert link</string>
+    <string name="md_text_to_show">Text to show</string>
+    <string name="md_link_title_cannot_empty">Link title required</string>
+    <string name="md_link_cannot_empty">Link required</string>
+
+    <string name="openas">Open as</string>
+    <string name="text">Text</string>
+    <string name="audio">Audio</string>
+    <string name="video">Video</string>
+    <string name="image">Image</string>
+    <string name="other">Other</string>
+    <!--endregion-->
+
 </resources>

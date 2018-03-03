@@ -1,14 +1,9 @@
 <resources>
     <string name="app_name">PalmMarkdown</string>
 
-    <string name="md_insert_link">Insert link</string>
-    <string name="md_text_to_show">Text to show</string>
+
     <string name="md_confirm">Confirm</string>
     <string name="md_cancel">Cancel</string>
-    <string name="md_link">Link to insert</string>
-
-    <string name="md_link_title_cannot_empty">Link title required</string>
-    <string name="md_link_cannot_empty">Link required</string>
 
     <string name="md_insert_table">Insert table</string>
 
@@ -18,10 +13,5 @@
     <string name="md_rows_cannot_empty">The row number can\'t be empty.</string>
     <string name="md_cols_cannot_empty">The column number can\'t be empty.</string>
 
-    <string name="openas">Open as</string>
-    <string name="text">Text</string>
-    <string name="audio">Audio</string>
-    <string name="video">Video</string>
-    <string name="image">Image</string>
-    <string name="other">Other</string>
+
 </resources>

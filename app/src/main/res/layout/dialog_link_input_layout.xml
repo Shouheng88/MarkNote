@@ -60,7 +60,8 @@
             android:paddingLeft="12dp"
             android:paddingRight="12dp"
             android:paddingTop="8dp"
-            android:text="@string/md_confirm"
+            android:textColor="@color/colorAccent"
+            android:text="@string/text_confirm"
             android:textSize="15sp"
             android:visibility="visible"/>
 
@@ -76,7 +77,8 @@
             android:paddingLeft="12dp"
             android:paddingRight="12dp"
             android:paddingTop="8dp"
-            android:text="@string/md_cancel"
+            android:textColor="@color/colorAccent"
+            android:text="@string/text_cancel"
             android:textSize="15sp"/>
 
     </RelativeLayout>
