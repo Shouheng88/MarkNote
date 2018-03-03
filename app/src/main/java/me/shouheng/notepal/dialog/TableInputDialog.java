@@ -12,8 +12,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import me.shouheng.notepal.R;
 import me.shouheng.notepal.util.ColorUtils;
-import my.shouheng.palmmarkdown.R;
 
 /**
  * Created by wangshouheng on 2017/7/1. */
