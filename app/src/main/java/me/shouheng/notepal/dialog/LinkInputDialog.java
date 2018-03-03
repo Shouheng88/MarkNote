@@ -12,8 +12,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import me.shouheng.notepal.R;
 import me.shouheng.notepal.util.ColorUtils;
-import my.shouheng.palmmarkdown.R;
 
 /**
  * Created by wangshouheng on 2017/6/30. */
@@ -36,8 +36,8 @@ public class LinkInputDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         View rootView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_link_input_layout, null, false);
 
-        final TextInputLayout titleHint = rootView.findViewById(R.id.inputNameHint);
-        final TextInputLayout linkHint = rootView.findViewById(R.id.inputHint);
+        final TextInputLayout titleHint = rootView.findViewById(R.id.til_name);
+        final TextInputLayout linkHint = rootView.findViewById(R.id.til_hint);
 
         final EditText etTitle = rootView.findViewById(R.id.et_md_title);
         final EditText etLink = rootView.findViewById(R.id.et_md_link);

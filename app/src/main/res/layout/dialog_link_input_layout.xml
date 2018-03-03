@@ -8,7 +8,7 @@
     android:paddingTop="15dp">
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/inputNameHint"
+        android:id="@+id/til_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -25,7 +25,7 @@
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/inputHint"
+        android:id="@+id/til_hint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
