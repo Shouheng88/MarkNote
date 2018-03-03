@@ -72,7 +72,7 @@
             android:paddingLeft="12dp"
             android:paddingRight="12dp"
             android:paddingTop="8dp"
-            android:text="@string/md_confirm"
+            android:text="@string/text_confirm"
             android:textSize="15sp"
             android:visibility="visible"/>
 
@@ -88,7 +88,7 @@
             android:paddingLeft="12dp"
             android:paddingRight="12dp"
             android:paddingTop="8dp"
-            android:text="@string/md_cancel"
+            android:text="@string/text_cancel"
             android:textSize="15sp"/>
 
     </RelativeLayout>
