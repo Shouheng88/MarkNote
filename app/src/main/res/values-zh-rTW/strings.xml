@@ -486,6 +486,7 @@
     <!--endregion-->
     <!--endregion-->
 
+    <!--region markdown-->
     <string name="md_insert_link">插入鏈接</string>
     <string name="md_text_to_show">用於顯示的文本</string>
     <string name="md_link">要插入的鏈接</string>
@@ -498,5 +499,12 @@
     <string name="video">視頻</string>
     <string name="other">其他</string>
     <string name="image">圖片</string>
+
+    <string name="md_insert_table">插入表格</string>
+    <string name="md_input_rows_number">輸入行數</string>
+    <string name="md_input_cols_number">輸入列數</string>
+    <string name="md_rows_cannot_empty">輸入的行數不能為空</string>
+    <string name="md_cols_cannot_empty">輸入的列數不能為空</string>
+    <!--endregion-->
 
 </resources>

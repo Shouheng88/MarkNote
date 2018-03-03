@@ -42,6 +42,7 @@ import me.shouheng.notepal.databinding.FragmentNoteBinding;
 import me.shouheng.notepal.dialog.AttachmentPickerDialog;
 import me.shouheng.notepal.dialog.LinkInputDialog;
 import me.shouheng.notepal.dialog.NotebookPickerDialog;
+import me.shouheng.notepal.dialog.TableInputDialog;
 import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.model.Category;
 import me.shouheng.notepal.model.Location;
@@ -63,7 +64,6 @@ import me.shouheng.notepal.util.ModelHelper;
 import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.widget.FlowLayout;
-import my.shouheng.palmmarkdown.dialog.TableInputDialog;
 import my.shouheng.palmmarkdown.tools.MarkdownEffect;
 
 /**
