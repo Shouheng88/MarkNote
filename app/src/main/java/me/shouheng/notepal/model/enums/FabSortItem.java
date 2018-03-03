@@ -14,7 +14,7 @@ public enum FabSortItem {
     CATEGORY(R.string.fab_opt_tags, R.drawable.ic_labels_grey_24dp),
     FILE(R.string.fab_opt_file, R.drawable.ic_attach_file_white),
     CAPTURE(R.string.fab_opt_capture, R.drawable.ic_add_a_photo_white),
-    DRAFT(R.string.fab_opt_draft, R.drawable.ic_gesture_black_24dp),
+    DRAFT(R.string.fab_opt_draft, R.drawable.ic_gesture_grey_24dp),
 //    RECORD(R.string.fab_opt_record, R.drawable.ic_mic_white_24dp),
 //    NOTICE(R.string.fab_opt_notice, R.drawable.ic_access_alarm_white),
     MIND_SNAGGING(R.string.fab_mind_snagging, R.drawable.ic_lightbulb_outline_black_24dp);

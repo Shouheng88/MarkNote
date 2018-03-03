@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
         android:orientation="vertical"
@@ -18,9 +19,9 @@
         <TextView
             android:drawablePadding="13dp"
             android:visibility="gone"
-            android:drawableTint="#bbb"
+            tools:visibility="visible"
             android:paddingStart="13dp"
-            android:drawableLeft="@drawable/ic_photo_library_black_24dp"
+            android:drawableLeft="@drawable/ic_photo_library_grey_24dp"
             android:background="?attr/selectableItemBackground"
             android:text="@string/album"
             android:textSize="16sp"
@@ -32,9 +33,9 @@
         <TextView
             android:drawablePadding="13dp"
             android:visibility="gone"
-            android:drawableTint="#bbb"
+            tools:visibility="visible"
             android:paddingStart="13dp"
-            android:drawableLeft="@drawable/ic_insert_link_black_24dp"
+            android:drawableLeft="@drawable/ic_insert_link_grey_24dp"
             android:background="?attr/selectableItemBackground"
             android:text="@string/net_link"
             android:textSize="16sp"
@@ -46,7 +47,6 @@
         <TextView
             android:drawablePadding="13dp"
             android:paddingStart="13dp"
-            android:drawableTint="#bbb"
             android:drawableLeft="@drawable/ic_insert_drive_file_grey_24dp"
             android:background="?attr/selectableItemBackground"
             android:text="@string/file"
@@ -79,8 +79,7 @@
         <TextView
             android:drawablePadding="13dp"
             android:paddingStart="13dp"
-            android:drawableTint="#bbb"
-            android:drawableLeft="@drawable/ic_mic_black_24dp"
+            android:drawableLeft="@drawable/ic_mic_grey_24dp"
             android:background="?attr/selectableItemBackground"
             android:text="@string/sound_record"
             android:textSize="16sp"
@@ -92,8 +91,7 @@
         <TextView
             android:drawablePadding="13dp"
             android:paddingStart="13dp"
-            android:drawableTint="#bbb"
-            android:drawableLeft="@drawable/ic_videocam_black_24dp"
+            android:drawableLeft="@drawable/ic_videocam_grey_24dp"
             android:background="?attr/selectableItemBackground"
             android:text="@string/take_video"
             android:textSize="16sp"
@@ -105,8 +103,7 @@
         <TextView
             android:drawablePadding="13dp"
             android:paddingStart="13dp"
-            android:drawableTint="#bbb"
-            android:drawableLeft="@drawable/ic_gesture_black_24dp"
+            android:drawableLeft="@drawable/ic_gesture_grey_24dp"
             android:background="?attr/selectableItemBackground"
             android:text="@string/sketch"
             android:textSize="16sp"

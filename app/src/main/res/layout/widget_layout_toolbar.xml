@@ -55,7 +55,7 @@
         android:background="@drawable/icon_selector"
         android:layout_gravity="center_vertical"
         android:tint="@android:color/white"
-        android:src="@drawable/ic_gesture_black_24dp" />
+        android:src="@drawable/ic_gesture_grey_24dp" />
 
     <ImageView
         android:id="@+id/iv_setting"
