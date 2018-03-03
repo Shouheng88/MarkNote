@@ -33,7 +33,7 @@
             android:key="note_file_extension"
             android:entries="@array/note_file_extensions"
             android:entryValues="@array/note_file_extensions"
-            android:defaultValue="*.md"
+            android:defaultValue="md"
             android:summary="@string/setting_default_note_file_extension_sub"/>
 
     </PreferenceCategory>
