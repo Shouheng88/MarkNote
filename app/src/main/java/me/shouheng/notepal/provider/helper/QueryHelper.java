@@ -52,14 +52,17 @@ public class QueryHelper {
     }
 
     public List<MindSnagging> getMindSnaggings(String queryString) {
-        return MindSnaggingStore.getInstance(context).get(MindSnaggingSchema.CONTENT + " LIKE ? " + getQueryConditions(),
-                new String[]{"%" + queryString + "%"}, MindSnaggingSchema.ADDED_TIME + " DESC ");
+        return MindSnaggingStore.getInstance(context).get(
+                MindSnaggingSchema.CONTENT + " LIKE ? " + getQueryConditions(),
+                new String[]{"%" + queryString + "%"},
+                MindSnaggingSchema.ADDED_TIME + " DESC ");
     }
 
     private String getQueryConditions() {
         StringBuilder sb = new StringBuilder();
         sb.append(conditions.isIncludeArchived() ? "" : " AND " + BaseSchema.STATUS + " != " + Status.ARCHIVED.id);
         sb.append(conditions.isIncludeTrashed() ? "" : " AND " + BaseSchema.STATUS + " != " + Status.TRASHED.id);
+        sb.append(" AND " + BaseSchema.STATUS + " != ").append(Status.DELETED.id); // should not query the deleted item  out
         return sb.toString();
     }
 
