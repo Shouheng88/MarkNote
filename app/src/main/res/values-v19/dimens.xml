@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="archive_toolbar_top_margin">0dp</dimen>
+    <dimen name="archive_toolbar_top_margin">25dp</dimen>
+    <dimen name="main_navigation_header_top_margin">36dp</dimen>
 
 </resources>
