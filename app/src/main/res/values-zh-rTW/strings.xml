@@ -6,8 +6,8 @@
     <string name="text_add_to_home_screen">添加到手機主屏</string>
     <string name="text_about">關於</string>
     <string name="text_accept">接受</string>
-    <string name="text_labels">標籤</string>
-    <string name="text_add_labels">添加標籤</string>
+    <string name="text_tags">標籤</string>
+    <string name="text_add_tags">添加標籤</string>
     <string name="text_add_location">添加位置</string>
     <string name="text_clear">清除</string>
     <string name="text_copy_text">複製文本</string>
@@ -121,7 +121,7 @@
     <!--region Common->DrawerItems-->
     <string name="drawer_menu_notes">筆記資訊</string>
     <string name="drawer_menu_minds">小紙條</string>
-    <string name="drawer_menu_labels">標籤</string>
+    <string name="drawer_menu_tags">標籤</string>
     <string name="drawer_menu_notices">提醒資訊</string>
     <string name="drawer_menu_setting">設置</string>
     <string name="drawer_menu_trash">廢紙簍</string>
@@ -275,41 +275,6 @@
     <string name="operation_archived">歸檔</string>
     <string name="operation_synced">同步</string>
     <string name="operation_uncompleted">設置未完成</string>
-
-    <string name="portrait_name_folder">檔夾</string>
-    <string name="portrait_name_lock">加鎖</string>
-    <string name="portrait_name_envelope">信封</string>
-    <string name="portrait_name_write">書寫</string>
-    <string name="portrait_name_timeline">時間線</string>
-    <string name="portrait_name_demo">演示</string>
-
-    <string name="portrait_name_growing">增長</string>
-    <string name="portrait_name_corporate">合作</string>
-    <string name="portrait_name_book">筆記本</string>
-    <string name="portrait_name_tourism_book">旅行筆記</string>
-    <string name="portrait_name_gift">禮物</string>
-    <string name="portrait_name_house">房子</string>
-
-    <string name="portrait_name_cloud">雲</string>
-    <string name="portrait_name_attachment">附件</string>
-    <string name="portrait_name_music">音樂</string>
-    <string name="portrait_name_flag">書簽</string>
-    <string name="portrait_name_star">星星</string>
-    <string name="portrait_name_medal">金牌</string>
-
-    <string name="portrait_name_link">鏈接</string>
-    <string name="portrait_name_bug">BUG</string>
-    <string name="portrait_name_album">相冊</string>
-    <string name="portrait_name_location">位置</string>
-    <string name="portrait_name_message">資訊</string>
-    <string name="portrait_name_label">標籤</string>
-
-    <string name="portrait_name_loving_label">情感標籤</string>
-    <string name="portrait_name_loving_folder">情感檔夾</string>
-    <string name="portrait_name_node">結點</string>
-    <string name="portrait_name_node_circle">環形結點</string>
-    <string name="portrait_name_football">橄欖球</string>
-    <string name="portrait_name_collection">收藏</string>
     <!--endregion -->
 
     <!--region Setting-->

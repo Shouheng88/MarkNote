@@ -122,7 +122,7 @@ public class ModelHelper {
         FlowLayout flowLayout = root.findViewById(R.id.fl_labels);
         addTagsToLayout(context, flowLayout, tags);
         new AlertDialog.Builder(context)
-                .setTitle(R.string.text_labels)
+                .setTitle(R.string.text_tags)
                 .setView(root)
                 .setPositiveButton(R.string.text_confirm, null)
                 .create()

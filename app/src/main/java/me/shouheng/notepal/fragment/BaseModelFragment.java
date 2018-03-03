@@ -210,7 +210,7 @@ public abstract class BaseModelFragment<T extends Model, V extends ViewDataBindi
         /**
          * build dialog */
         new AlertDialog.Builder(getContext())
-                .setTitle(R.string.text_add_labels)
+                .setTitle(R.string.text_add_tags)
                 .setMultiChoiceItems(items, checked, (dialog, which, isChecked) -> checked[which] = isChecked)
                 .setPositiveButton(R.string.text_confirm, (dialog, which) -> {
                     LogUtils.d(checked);

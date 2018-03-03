@@ -83,7 +83,7 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
         if (getActivity() != null) {
             ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
             if (actionBar != null) {
-                actionBar.setTitle(R.string.drawer_menu_labels);
+                actionBar.setTitle(R.string.drawer_menu_tags);
                 actionBar.setSubtitle(null);
                 actionBar.setDisplayHomeAsUpEnabled(true);
                 actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_white);
