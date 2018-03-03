@@ -31,6 +31,7 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.ContentActivity;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.databinding.FragmentNoteViewBinding;
+import me.shouheng.notepal.dialog.OpenResolver;
 import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.model.Category;
 import me.shouheng.notepal.model.Location;
@@ -47,7 +48,6 @@ import me.shouheng.notepal.util.ModelHelper;
 import me.shouheng.notepal.util.PrintUtils;
 import me.shouheng.notepal.util.ShortcutHelper;
 import me.shouheng.notepal.util.ToastUtils;
-import my.shouheng.palmmarkdown.dialog.OpenResolver;
 
 /**
  * Created by wangshouheng on 2017/5/13.*/
@@ -120,9 +120,11 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
     }
 
     private void configToolbar() {
-        final ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        if (ab != null) ab.setDisplayHomeAsUpEnabled(false);
-        if (!isDarkTheme()) getBinding().toolbar.setPopupTheme(R.style.AppTheme_PopupOverlay);
+        if (getActivity() != null) {
+            final ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
+            if (ab != null) ab.setDisplayHomeAsUpEnabled(false);
+            if (!isDarkTheme()) getBinding().toolbar.setPopupTheme(R.style.AppTheme_PopupOverlay);
+        }
     }
 
     private void configViews() {
@@ -143,7 +145,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
             AttachmentHelper.resolveClickEvent(getContext(),
                     clickedAttachment, attachments, note.getTitle());
         });
-        getBinding().mdView.setOnAttachmentClickedListener(uri -> {
+        getBinding().mdView.setOnAttachmentClickedListener((Uri uri) -> {
             OpenResolver.newInstance(mimeType -> {
                 startActivity(uri, mimeType.mimeType);
             }).show(getFragmentManager(), "open resolver");
