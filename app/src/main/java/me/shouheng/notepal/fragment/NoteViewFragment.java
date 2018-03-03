@@ -210,7 +210,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_edit:
-                ContentActivity.startNoteEditForResult(this, note, null, REQUEST_FOR_EDIT);
+                ContentActivity.editNote(this, note, REQUEST_FOR_EDIT);
                 break;
             case R.id.action_share:
                 ModelHelper.share(getContext(), note.getTitle(), content, new ArrayList<>());

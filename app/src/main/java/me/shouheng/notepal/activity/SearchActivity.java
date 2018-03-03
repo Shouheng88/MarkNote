@@ -246,7 +246,7 @@ public class SearchActivity extends ThemedActivity implements OnQueryTextListene
 
     @Override
     public void onNoteSelected(Note note, int position) {
-        ContentActivity.startNoteViewForResult(this, note, position, REQUEST_FOR_NOTE);
+        ContentActivity.viewNote(this, note, REQUEST_FOR_NOTE);
     }
 
     @Override

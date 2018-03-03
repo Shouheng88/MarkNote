@@ -36,23 +36,52 @@ public class ContentActivity extends CommonActivity<ActivityContentBinding> impl
 
     public final static String EXTRA_HAS_TOOLBAR = "extra_has_toolbar";
 
-    public static void startNoteEditForResult(Fragment fragment, @NonNull Note note, Integer position, @NonNull Integer requestCode){
-        fragment.startActivityForResult(getNoteEditIntent(fragment.getContext(), note, position, requestCode), requestCode);
+    // region edit and view note
+    public static void editNote(Fragment fragment, @NonNull Note note, int requestCode){
+        fragment.startActivityForResult(
+                noteEditIntent(fragment.getContext(), note, requestCode),
+                requestCode);
     }
 
-    public static void startNoteViewForResult(Fragment fragment, @NonNull Note note, Integer position, @NonNull Integer requestCode){
-        fragment.startActivityForResult(getNoteViewIntent(fragment.getContext(), note, position, requestCode), requestCode);
+    public static void editNote(Activity activity, @NonNull Note note, int requestCode){
+        activity.startActivityForResult(
+                noteEditIntent(activity, note, requestCode),
+                requestCode);
     }
 
-    public static void startNoteEditForResult(Activity activity, @NonNull Note note, Integer position, @NonNull Integer requestCode){
-        activity.startActivityForResult(getNoteEditIntent(activity, note, position, requestCode), requestCode);
+    public static void viewNote(Fragment fragment, @NonNull Note note, int requestCode){
+        fragment.startActivityForResult(
+                noteViewIntent(fragment.getContext(), note, requestCode),
+                requestCode);
     }
 
-    public static void startNoteViewForResult(Activity activity, @NonNull Note note, Integer position, @NonNull Integer requestCode){
-        activity.startActivityForResult(getNoteViewIntent(activity, note, position, requestCode), requestCode);
+    public static void viewNote(Activity activity, @NonNull Note note, int requestCode){
+        activity.startActivityForResult(
+                noteViewIntent(activity, note, requestCode),
+                requestCode);
     }
 
-    public static void startThirdPartResult(Activity activity, Intent i, @NonNull Integer requestCode) {
+    private static Intent noteViewIntent(Context context, @NonNull Note note, int requestCode) {
+        Intent intent = new Intent(context, ContentActivity.class);
+        intent.putExtra(Constants.EXTRA_MODEL, (Serializable) note);
+        intent.putExtra(Constants.EXTRA_REQUEST_CODE, requestCode);
+        intent.putExtra(Constants.EXTRA_START_TYPE, Constants.VALUE_START_VIEW);
+        intent.putExtra(Constants.EXTRA_FRAGMENT, Constants.VALUE_FRAGMENT_NOTE);
+        intent.putExtra(EXTRA_HAS_TOOLBAR, true);
+        return intent;
+    }
+
+    private static Intent noteEditIntent(Context context, @NonNull Note note, int requestCode) {
+        Intent intent = new Intent(context, ContentActivity.class);
+        intent.putExtra(Constants.EXTRA_MODEL, (Serializable) note);
+        intent.putExtra(Constants.EXTRA_REQUEST_CODE, requestCode);
+        intent.putExtra(Constants.EXTRA_START_TYPE, Constants.VALUE_START_EDIT);
+        intent.putExtra(Constants.EXTRA_FRAGMENT, Constants.VALUE_FRAGMENT_NOTE);
+        return intent;
+    }
+    // endregion
+
+    public static void resolveThirdPart(Activity activity, Intent i, int requestCode) {
         i.setClass(activity, ContentActivity.class);
         i.putExtra(Constants.EXTRA_IS_GOOGLE_NOW, Constants.INTENT_GOOGLE_NOW.equals(i.getAction()));
         i.setAction(Constants.ACTION_TO_NOTE_FROM_THIRD_PART);
@@ -62,7 +91,7 @@ public class ContentActivity extends CommonActivity<ActivityContentBinding> impl
         activity.startActivity(i);
     }
 
-    public static void startAction(Activity activity, String action, @Nullable Integer requestCode) {
+    public static void resolveAction(Activity activity, String action, int requestCode) {
         Intent i = new Intent(activity, ContentActivity.class);
         i.setAction(action);
         i.putExtra(Constants.EXTRA_MODEL, (Parcelable) ModelFactory.getNote(activity));
@@ -70,27 +99,6 @@ public class ContentActivity extends CommonActivity<ActivityContentBinding> impl
         i.putExtra(Constants.EXTRA_REQUEST_CODE, requestCode);
         i.putExtra(Constants.EXTRA_START_TYPE, Constants.VALUE_START_EDIT);
         activity.startActivity(i);
-    }
-
-    private static Intent getNoteViewIntent(Context context, @NonNull Note note, Integer position, @NonNull Integer requestCode) {
-        Intent intent = new Intent(context, ContentActivity.class);
-        intent.putExtra(Constants.EXTRA_MODEL, (Serializable) note);
-        intent.putExtra(Constants.EXTRA_POSITION, position);
-        intent.putExtra(Constants.EXTRA_REQUEST_CODE, requestCode);
-        intent.putExtra(Constants.EXTRA_START_TYPE, Constants.VALUE_START_VIEW);
-        intent.putExtra(Constants.EXTRA_FRAGMENT, Constants.VALUE_FRAGMENT_NOTE);
-        intent.putExtra(EXTRA_HAS_TOOLBAR, true);
-        return intent;
-    }
-
-    private static Intent getNoteEditIntent(Context context, @NonNull Note note, Integer position, @NonNull Integer requestCode) {
-        Intent intent = new Intent(context, ContentActivity.class);
-        intent.putExtra(Constants.EXTRA_MODEL, (Serializable) note);
-        intent.putExtra(Constants.EXTRA_POSITION, position);
-        intent.putExtra(Constants.EXTRA_REQUEST_CODE, requestCode);
-        intent.putExtra(Constants.EXTRA_START_TYPE, Constants.VALUE_START_EDIT);
-        intent.putExtra(Constants.EXTRA_FRAGMENT, Constants.VALUE_FRAGMENT_NOTE);
-        return intent;
     }
 
     @Override

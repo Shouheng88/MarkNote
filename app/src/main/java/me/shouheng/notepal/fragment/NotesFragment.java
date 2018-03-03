@@ -141,7 +141,7 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
         adapter.setOnItemClickListener((adapter, view, position) -> {
             NotesAdapter.MultiItem item = (NotesAdapter.MultiItem) adapter.getData().get(position);
             if (item.itemType == NotesAdapter.MultiItem.ITEM_TYPE_NOTE) {
-                ContentActivity.startNoteViewForResult(NotesFragment.this, item.note, null, REQUEST_NOTE_VIEW);
+                ContentActivity.viewNote(NotesFragment.this, item.note, REQUEST_NOTE_VIEW);
             } else if (item.itemType == NotesAdapter.MultiItem.ITEM_TYPE_NOTEBOOK) {
                 if (getActivity() != null && getActivity() instanceof OnNotesInteractListener) {
                     ((OnNotesInteractListener) getActivity()).onNotebookSelected(item.notebook);
@@ -233,7 +233,7 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
                     moveNote(multiItem.note);
                     break;
                 case R.id.action_edit:
-                    ContentActivity.startNoteEditForResult(this, multiItem.note, null, REQUEST_NOTE_EDIT);
+                    ContentActivity.editNote(this, multiItem.note, REQUEST_NOTE_EDIT);
                     break;
                 case R.id.action_move_out:
                     NotesStore.getInstance(getContext()).update(multiItem.note, Status.NORMAL);

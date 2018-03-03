@@ -191,7 +191,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                 Model model;
                 if (intent.hasExtra(Constants.EXTRA_MODEL) && (model = (Model) intent.getSerializableExtra(Constants.EXTRA_MODEL)) != null) {
                     if (model instanceof Note) {
-                        ContentActivity.startNoteViewForResult(this, (Note) model, null, REQUEST_NOTE_VIEW);
+                        ContentActivity.viewNote(this, (Note) model, REQUEST_NOTE_VIEW);
                     } else if (model instanceof MindSnagging) {
                         editMindSnagging((MindSnagging) model);
                     }
@@ -220,23 +220,23 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                 Intent.ACTION_SEND,
                 Intent.ACTION_SEND_MULTIPLE,
                 Constants.INTENT_GOOGLE_NOW) && i.getType() != null) {
-            ContentActivity.startThirdPartResult(this, i, REQUEST_ADD_NOTE);
+            ContentActivity.resolveThirdPart(this, i, REQUEST_ADD_NOTE);
         }
     }
 
     private void startAddPhoto() {
         PermissionUtils.checkStoragePermission(this, () ->
-                ContentActivity.startAction(MainActivity.this, Constants.ACTION_TAKE_PHOTO, 0));
+                ContentActivity.resolveAction(MainActivity.this, Constants.ACTION_TAKE_PHOTO, 0));
     }
 
     private void startAddSketch() {
         PermissionUtils.checkStoragePermission(this, () ->
-                ContentActivity.startAction(MainActivity.this, Constants.ACTION_ADD_SKETCH, 0));
+                ContentActivity.resolveAction(MainActivity.this, Constants.ACTION_ADD_SKETCH, 0));
     }
 
     private void startAddFile() {
         PermissionUtils.checkStoragePermission(this, () ->
-                ContentActivity.startAction(MainActivity.this, Constants.ACTION_ADD_FILES, 0));
+                ContentActivity.resolveAction(MainActivity.this, Constants.ACTION_ADD_FILES, 0));
     }
     // endregion
 
@@ -328,7 +328,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
 
     private void editNote(@NonNull final Note note) {
         PermissionUtils.checkStoragePermission(this, () -> {
-            ContentActivity.startNoteEditForResult(this, note, null, REQUEST_ADD_NOTE);
+            ContentActivity.editNote(this, note, REQUEST_ADD_NOTE);
         });
     }
 
