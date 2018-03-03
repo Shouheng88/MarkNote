@@ -9,7 +9,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import my.shouheng.palmmarkdown.R;
+import me.shouheng.notepal.R;
 
 /**
  * Created by wang shouheng on 2018/1/3.*/
