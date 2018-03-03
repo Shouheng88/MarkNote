@@ -125,6 +125,16 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         regNoteChangeReceiver();
     }
 
+    private void checkPassword() {
+        if (preferencesUtils.isPasswordRequired()
+                && !PalmApp.isPasswordChecked()
+                && !TextUtils.isEmpty(preferencesUtils.getPassword())) {
+            LockActivity.requireLaunch(this, REQUEST_PASSWORD);
+        } else {
+            init();
+        }
+    }
+
     private void init() {
         handleIntent(getIntent());
 
@@ -138,14 +148,6 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         initDrawerMenu();
 
         toNotesFragment();
-    }
-
-    private void checkPassword() {
-        if (preferencesUtils.isPasswordRequired() && !PalmApp.isPasswordChecked()) {
-            LockActivity.requireLaunch(this, REQUEST_PASSWORD);
-        } else {
-            init();
-        }
     }
 
     private void handleIntent(Intent intent) {
@@ -192,9 +194,31 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         }
     }
 
+    private void configToolbar() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_white);
+        }
+        if (!isDarkTheme()) toolbar.setPopupTheme(R.style.AppTheme_PopupOverlay);
+    }
+
+    private void initHeaderView() {
+        View header = getBinding().nav.inflateHeaderView(R.layout.activity_main_nav_header);
+        ActivityMainNavHeaderBinding headerBinding = DataBindingUtil.bind(header);
+        if (PalmUtils.isLollipop()) headerBinding.fl.setForeground(getResources().getDrawable(R.drawable.ripple));
+        header.setOnLongClickListener(v -> true);
+        header.setOnClickListener(view -> startActivityForResult(UserInfoActivity.class, REQUEST_USER_INFO));
+    }
+
     private void handleThirdPart() {
         Intent i = getIntent();
-        if (IntentUtils.checkAction(i, Intent.ACTION_SEND, Intent.ACTION_SEND_MULTIPLE, Constants.INTENT_GOOGLE_NOW) && i.getType() != null) {
+        if (IntentUtils.checkAction(i,
+                Intent.ACTION_SEND,
+                Intent.ACTION_SEND_MULTIPLE,
+                Constants.INTENT_GOOGLE_NOW) && i.getType() != null) {
             ContentActivity.startThirdPartResult(this, i, REQUEST_ADD_NOTE);
         }
     }
@@ -212,26 +236,6 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     private void startAddFile() {
         PermissionUtils.checkStoragePermission(this, () ->
                 ContentActivity.startAction(MainActivity.this, Constants.ACTION_ADD_FILES, 0));
-    }
-
-    private void initHeaderView() {
-        View header = getBinding().nav.inflateHeaderView(R.layout.activity_main_nav_header);
-        ActivityMainNavHeaderBinding headerBinding = DataBindingUtil.bind(header);
-        if (PalmUtils.isLollipop()) headerBinding.fl.setForeground(getResources().getDrawable(R.drawable.ripple));
-        header.setOnClickListener(v -> {});
-        header.setOnLongClickListener(v -> true);
-        header.setOnClickListener(view -> startActivityForResult(UserInfoActivity.class, REQUEST_USER_INFO));
-    }
-
-    private void configToolbar() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_white);
-        }
-        if (!isDarkTheme()) toolbar.setPopupTheme(R.style.AppTheme_PopupOverlay);
     }
 
     // region fab
