@@ -375,6 +375,10 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
         return notebook;
     }
 
+    public Category getCategory() {
+        return category;
+    }
+
     public boolean isTopStack() {
         return isTopStack;
     }

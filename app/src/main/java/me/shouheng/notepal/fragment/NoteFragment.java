@@ -121,7 +121,8 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
     private void handleArguments() {
         Bundle arguments = getArguments();
 
-        if (arguments == null || !arguments.containsKey(Constants.EXTRA_MODEL)
+        if (arguments == null
+                || !arguments.containsKey(Constants.EXTRA_MODEL)
                 || (note = (Note) arguments.getSerializable(Constants.EXTRA_MODEL)) == null) {
             ToastUtils.makeToast(getContext(), R.string.text_no_such_note);
             if (getActivity() != null) getActivity().finish();
