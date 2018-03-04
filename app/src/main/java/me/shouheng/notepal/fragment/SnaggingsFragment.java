@@ -337,6 +337,12 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
     public void onPrepareOptionsMenu(Menu menu) {
         menu.findItem(R.id.action_list_type).setIcon(mindSnaggingListType == MindSnaggingListType.ONE_COL ?
                 R.drawable.ic_view_module_white_24dp : R.drawable.ic_view_stream_white_24dp);
+
+        /**
+         * set the menu item invisible when in archive and trash list */
+        if (status == Status.ARCHIVED || status == Status.TRASHED) {
+            menu.findItem(R.id.action_list_type).setVisible(false);
+        }
     }
 
     @Override
@@ -354,7 +360,7 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
         switch (item.getItemId()) {
             case R.id.action_list_type:
                 preferencesUtils.setMindSnaggingListType(getListTypeToSwitch());
-                getActivity().invalidateOptionsMenu();
+                if (getActivity() != null) getActivity().invalidateOptionsMenu();
                 if (getActivity() instanceof OnSnaggingInteractListener) {
                     ((OnSnaggingInteractListener) getActivity()).onListTypeChanged(mindSnaggingListType);
                 }
