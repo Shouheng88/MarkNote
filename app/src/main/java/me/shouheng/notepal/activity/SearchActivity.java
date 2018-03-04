@@ -253,12 +253,12 @@ public class SearchActivity extends ThemedActivity implements OnQueryTextListene
     public void onMindSnaggingSelected(MindSnagging mind, final int position) {
         new MindSnaggingDialog.Builder()
                 .setMindSnagging(mind)
-                .setOnConfirmListener(this::saveMindSnagging)
+                .setOnConfirmListener((mindSnagging, attachment) -> saveMindSnagging(position, mindSnagging, attachment))
                 .setOnAttachmentClickListener(attachment -> resolveAttachmentClickEvent(attachment, Arrays.asList(attachment)))
                 .build().show(getSupportFragmentManager(), "VIEW_MIND_SNAGGING");
     }
 
-    private void saveMindSnagging(MindSnagging mindSnagging, Attachment attachment) {
+    private void saveMindSnagging(int position, MindSnagging mindSnagging, Attachment attachment) {
         if (attachment != null && AttachmentsStore.getInstance(this).isNewModel(attachment.getCode())) {
             attachment.setModelCode(mindSnagging.getCode());
             attachment.setModelType(ModelType.MIND_SNAGGING);
@@ -272,6 +272,8 @@ public class SearchActivity extends ThemedActivity implements OnQueryTextListene
         }
 
         ToastUtils.makeToast(this, R.string.text_save_successfully);
+
+        adapter.notifyItemChanged(position);
     }
 
     protected void resolveAttachmentClickEvent(Attachment attachment, List<Attachment> attachments) {
