@@ -97,7 +97,10 @@ public class AttachmentHelper {
     // region Attachment adding events
 
     public static<T extends Fragment & OnAttachingFileListener> void resolveResult(
-            T fragment, int requestCode, Intent data, OnGetAttachmentListener onGetAttachmentListener) {
+            T fragment,
+            int requestCode,
+            Intent data,
+            OnGetAttachmentListener onGetAttachmentListener) {
         switch (requestCode){
             case REQUEST_TAKE_PHOTO:
                 onGetAttachmentListener.onGetAttachment(getAttachment(fragment.getContext(), Constants.MIME_TYPE_IMAGE));
