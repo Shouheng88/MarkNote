@@ -40,10 +40,10 @@
 
     <me.shouheng.notepal.widget.themed.SupportCardView
         android:id="@+id/cd"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="@dimen/timeline_card_left_right_margin"
+        android:layout_marginEnd="@dimen/timeline_card_left_right_margin"
+        android:layout_marginBottom="@dimen/timeline_card_top_bottom_margin"
+        android:layout_marginTop="@dimen/timeline_card_top_bottom_margin"
         app:cardCornerRadius="1dp"
         app:cardElevation="5dp"
         android:clickable="true"
