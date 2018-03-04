@@ -12,7 +12,7 @@
 
     <me.shouheng.notepal.widget.EmptyView
         android:id="@+id/iv_empty"
-        app:empty_image="@drawable/ic_search_white_24dp"
+        app:empty_image="@drawable/ic_search_large"
         app:title="@string/no_search_result_found"
         app:sub_title="@string/try_other_conditions"
         app:tint_drawable="true"
