@@ -5,13 +5,15 @@ import android.util.Log;
 import java.util.List;
 import java.util.Map;
 
-import me.shouheng.notepal.BuildConfig;
 import me.shouheng.notepal.config.Constants;
 
 
 public class LogUtils {
 
-    private static final boolean showLog = BuildConfig.DEBUG;
+    /**
+     * Always show log, you may use {@link me.shouheng.notepal.BuildConfig#DEBUG} to set only
+     * log in debug mode. */
+    private static final boolean showLog = true;
 
     public static final int V = 1;
     public static final int D = 2;
