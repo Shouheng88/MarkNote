@@ -7,11 +7,13 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.GalleryActivity;
 import me.shouheng.notepal.activity.SketchActivity;
@@ -103,49 +105,59 @@ public class AttachmentHelper {
             OnGetAttachmentListener onGetAttachmentListener) {
         switch (requestCode){
             case REQUEST_TAKE_PHOTO:
-                onGetAttachmentListener.onGetAttachment(getAttachment(fragment.getContext(), Constants.MIME_TYPE_IMAGE));
+                onGetAttachmentListener.onGetAttachment(
+                        getAttachment(fragment.getContext(), Constants.MIME_TYPE_IMAGE));
                 break;
             case REQUEST_SELECT_IMAGE:
                 startTask(fragment, data);
                 break;
             case REQUEST_TAKE_VIDEO:
-                onGetAttachmentListener.onGetAttachment(getVideo(fragment.getContext(), data));
+                onGetAttachmentListener.onGetAttachment(
+                        getVideo(fragment.getContext(), data));
                 break;
             case REQUEST_FILES:
                 startTask(fragment, data);
                 break;
             case REQUEST_SKETCH:
-                onGetAttachmentListener.onGetAttachment(getAttachment(fragment.getContext(), Constants.MIME_TYPE_SKETCH));
+                onGetAttachmentListener.onGetAttachment(
+                        getAttachment(fragment.getContext(), Constants.MIME_TYPE_SKETCH));
                 break;
         }
     }
 
     public static<T extends Activity & OnAttachingFileListener> void resolveResult(
-            T activity, int requestCode, Intent data, OnGetAttachmentListener onGetAttachmentListener) {
+            T activity,
+            int requestCode,
+            Intent data,
+            OnGetAttachmentListener onGetAttachmentListener) {
         switch (requestCode){
             case REQUEST_TAKE_PHOTO:
-                onGetAttachmentListener.onGetAttachment(getAttachment(activity, Constants.MIME_TYPE_IMAGE));
+                onGetAttachmentListener.onGetAttachment(
+                        getAttachment(activity, Constants.MIME_TYPE_IMAGE));
                 break;
             case REQUEST_SELECT_IMAGE:
                 startTask(activity, data);
                 break;
             case REQUEST_TAKE_VIDEO:
-                onGetAttachmentListener.onGetAttachment(getVideo(activity, data));
+                onGetAttachmentListener.onGetAttachment(
+                        getVideo(activity, data));
                 break;
             case REQUEST_FILES:
                 startTask(activity, data);
                 break;
             case REQUEST_SKETCH:
-                onGetAttachmentListener.onGetAttachment(getAttachment(activity, Constants.MIME_TYPE_SKETCH));
+                onGetAttachmentListener.onGetAttachment(
+                        getAttachment(activity, Constants.MIME_TYPE_SKETCH));
                 break;
         }
     }
 
     private static Attachment getAttachment(Context context, String mimeType) {
         Attachment photo = ModelFactory.getAttachment(context);
-        photo.setUri(attachmentUri);
+        LogUtils.d("Attachment uri when get attachment:" + attachmentUri);
+        photo.setUri(getAttachmentUri());
         photo.setMineType(mimeType);
-        photo.setPath(filePath);
+        photo.setPath(getFilePath());
         return photo;
     }
 
@@ -153,7 +165,7 @@ public class AttachmentHelper {
         Attachment attachment = ModelFactory.getAttachment(context);
         attachment.setUri(data.getData());
         attachment.setMineType(Constants.MIME_TYPE_VIDEO);
-        attachment.setPath(filePath);
+        attachment.setPath(getFilePath());
         return attachment;
     }
 
@@ -247,6 +259,7 @@ public class AttachmentHelper {
         }
 
         Uri attachmentUri = FileHelper.getUriFromFile(context, file);
+        LogUtils.d("Attachment uri when create file: " + attachmentUri);
         AttachmentHelper.setAttachmentUri(attachmentUri);
         AttachmentHelper.setFilePath(file.getPath());
 
@@ -317,18 +330,35 @@ public class AttachmentHelper {
     // endregion
 
     public static Uri getAttachmentUri() {
+        if (attachmentUri == null) {
+            /**
+             * Get attachment uri from preferences. */
+            String uriStr = PreferencesUtils.getInstance(PalmApp.getContext()).getAttachmentUri();
+            if (!TextUtils.isEmpty(uriStr)) {
+                attachmentUri = Uri.parse(uriStr);
+            }
+        }
         return attachmentUri;
     }
 
     public static void setAttachmentUri(Uri attachmentUri) {
         AttachmentHelper.attachmentUri = attachmentUri;
+        /**
+         * Persist the attachment uri at the preferences at the same time. */
+        if (attachmentUri != null) {
+            PreferencesUtils.getInstance(PalmApp.getContext()).setAttachmentUri(attachmentUri);
+        }
     }
 
     public static String getFilePath() {
+        if (TextUtils.isEmpty(filePath)) {
+            filePath = PreferencesUtils.getInstance(PalmApp.getContext()).getAttachmentFilePath();
+        }
         return filePath;
     }
 
     public static void setFilePath(String filePath) {
         AttachmentHelper.filePath = filePath;
+        PreferencesUtils.getInstance(PalmApp.getContext()).setAttachmentFilePath(filePath);
     }
 }
