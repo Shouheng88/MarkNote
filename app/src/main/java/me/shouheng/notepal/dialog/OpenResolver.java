@@ -1,6 +1,5 @@
 package me.shouheng.notepal.dialog;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,30 +8,31 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import java.io.Serializable;
+
 import me.shouheng.notepal.R;
 
 /**
  * Created by wang shouheng on 2018/1/3.*/
-@SuppressLint("ValidFragment")
 public class OpenResolver extends DialogFragment {
+
+    private final static String KEY_EXTRA_RESOLVER_LISTENER = "key_resolver_listener";
 
     private OnResolverTypeClickListener onResolverTypeClickListener;
 
     public static OpenResolver newInstance(OnResolverTypeClickListener onResolverTypeClickListener) {
         Bundle args = new Bundle();
-        OpenResolver fragment = new OpenResolver(onResolverTypeClickListener);
+        OpenResolver fragment = new OpenResolver();
+        args.putSerializable(KEY_EXTRA_RESOLVER_LISTENER, onResolverTypeClickListener);
         fragment.setArguments(args);
         return fragment;
-    }
-
-    @SuppressLint("ValidFragment")
-    public OpenResolver(OnResolverTypeClickListener onResolverTypeClickListener) {
-        this.onResolverTypeClickListener = onResolverTypeClickListener;
     }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        handleArgument();
+
         View root = LayoutInflater.from(getContext()).inflate(R.layout.dialog_open_resolver, null, false);
 
         root.findViewById(R.id.tv_text).setOnClickListener(view -> resolveClicked(MimeType.Text));
@@ -45,6 +45,13 @@ public class OpenResolver extends DialogFragment {
                 .setTitle(R.string.openas)
                 .setView(root)
                 .create();
+    }
+
+    private void handleArgument() {
+        Bundle bundle;
+        if ((bundle = getArguments()) != null && bundle.containsKey(KEY_EXTRA_RESOLVER_LISTENER)) {
+            onResolverTypeClickListener = (OnResolverTypeClickListener) bundle.get(KEY_EXTRA_RESOLVER_LISTENER);
+        }
     }
 
     private void resolveClicked(MimeType mimeType) {
@@ -67,7 +74,7 @@ public class OpenResolver extends DialogFragment {
         }
     }
 
-    public interface OnResolverTypeClickListener {
+    public interface OnResolverTypeClickListener extends Serializable {
         void onResolverClicked(MimeType mimeType);
     }
 }
