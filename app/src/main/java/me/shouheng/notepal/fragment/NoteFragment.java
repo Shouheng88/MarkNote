@@ -454,7 +454,10 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
         attachment.setModelType(ModelType.NOTE);
         LogUtils.d(attachment);
         // can't get the file
-        if (TextUtils.isEmpty(attachment.getUri().toString())) return;
+        if (attachment.getUri() == null || TextUtils.isEmpty(attachment.getUri().toString())) {
+            ToastUtils.makeToast(R.string.failed_to_create_file);
+            return;
+        }
         AttachmentsStore.getInstance(getContext()).saveModel(attachment);
 
         if (attachmentPickerType == AttachmentPickerType.PREVIEW_IMAGE) {
