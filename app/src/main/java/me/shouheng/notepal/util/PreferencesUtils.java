@@ -1,6 +1,8 @@
 package me.shouheng.notepal.util;
 
 import android.content.Context;
+import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import org.polaric.colorful.Colorful;
@@ -97,6 +99,33 @@ public class PreferencesUtils extends BasePreferencesUtils {
     private final String TOUR_ACTIVITY_SHOWED = "tour_activity_showed";
     private final String KEY_LAST_INPUT_ERROR_TIME = "last_input_error_time";
     private final String SEARCH_CONDITIONS = "search_conditions";
+
+    /**
+     * The key for attachment uri. This is used when try to capture image from camera, but the app
+     * is closed when capturing. So, it's not enough to only keep the {@link AttachmentHelper#attachmentUri}
+     * as static field. We need also persist it in the preferences.
+     * @see AttachmentHelper#setAttachmentUri(Uri)
+     * @see AttachmentHelper#getAttachmentUri()
+     * @see AttachmentHelper#getFilePath()
+     * @see AttachmentHelper#setFilePath(String) */
+    private final String KEY_ATTACHMENT_URI = "key_attachment_uri";
+    private final String KEY_ATTACHMENT_FILE_PATH = "key_attachment_file_path";
+
+    public void setAttachmentUri(@NonNull Uri uri) {
+        putString(KEY_ATTACHMENT_URI, uri.toString());
+    }
+
+    public String getAttachmentUri() {
+        return getString(KEY_ATTACHMENT_URI, "");
+    }
+
+    public void setAttachmentFilePath(String filePath) {
+        putString(KEY_ATTACHMENT_FILE_PATH, filePath);
+    }
+
+    public String getAttachmentFilePath() {
+        return getString(KEY_ATTACHMENT_FILE_PATH, "");
+    }
 
     public void setTourActivityShowed(boolean showed) {
         putBoolean(TOUR_ACTIVITY_SHOWED, showed);
