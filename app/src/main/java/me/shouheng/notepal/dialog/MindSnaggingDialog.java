@@ -1,6 +1,5 @@
 package me.shouheng.notepal.dialog;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
@@ -19,6 +18,7 @@ import android.view.View;
 import com.bumptech.glide.Glide;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
@@ -34,8 +34,9 @@ import me.shouheng.notepal.util.ToastUtils;
 
 /**
  * Created by wangshouheng on 2017/8/19. */
-@SuppressLint("ValidFragment")
 public class MindSnaggingDialog extends DialogFragment {
+
+    private final static String KEY_EXTRA_BUILDER = "key_extra_builder";
 
     private MindSnagging mindSnagging;
     private Attachment attachment;
@@ -49,20 +50,11 @@ public class MindSnaggingDialog extends DialogFragment {
 
     private DialogMindSnaggingLayoutBinding binding;
 
-    public MindSnaggingDialog(Builder builder) {
-        this.mindSnagging = builder.mindSnagging;
-        this.attachment = builder.attachment;
-        this.onConfirmListener = builder.onConfirmListener;
-        this.onAddAttachmentListener = builder.onAddAttachmentListener;
-        this.onAttachmentClickListener = builder.onAttachmentClickListener;
-        this.onLifeMethodCalledListener = builder.onLifeMethodCalledListener;
-
-        this.attachment = AttachmentsStore.getInstance(PalmApp.getContext()).getAttachment(ModelType.MIND_SNAGGING, mindSnagging.getCode());
-    }
-
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        handleArguments();
+
         binding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_mind_snagging_layout, null, false);
 
         binding.wtv.bindEditText(binding.et);
@@ -96,6 +88,23 @@ public class MindSnaggingDialog extends DialogFragment {
                 .setTitle(R.string.edit_mind_snagging)
                 .setView(binding.getRoot())
                 .create();
+    }
+
+    private void handleArguments() {
+        Bundle bundle;
+        Builder builder;
+        if ((bundle = getArguments()) != null
+                && bundle.containsKey(KEY_EXTRA_BUILDER)
+                && (builder = (Builder) bundle.get(KEY_EXTRA_BUILDER)) != null) {
+            this.mindSnagging = builder.mindSnagging;
+            this.attachment = builder.attachment;
+            this.onConfirmListener = builder.onConfirmListener;
+            this.onAddAttachmentListener = builder.onAddAttachmentListener;
+            this.onAttachmentClickListener = builder.onAttachmentClickListener;
+            this.onLifeMethodCalledListener = builder.onLifeMethodCalledListener;
+            this.attachment = AttachmentsStore.getInstance(PalmApp.getContext())
+                    .getAttachment(ModelType.MIND_SNAGGING, mindSnagging.getCode());
+        }
     }
 
     private void initButtons() {
@@ -223,7 +232,7 @@ public class MindSnaggingDialog extends DialogFragment {
         if (onLifeMethodCalledListener != null) onLifeMethodCalledListener.onDismiss();
     }
 
-    public static class Builder {
+    public static class Builder implements Serializable {
         private MindSnagging mindSnagging;
         private Attachment attachment;
 
@@ -263,7 +272,11 @@ public class MindSnaggingDialog extends DialogFragment {
         }
 
         public MindSnaggingDialog build() {
-            return new MindSnaggingDialog(this);
+            MindSnaggingDialog dialog = new MindSnaggingDialog();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(KEY_EXTRA_BUILDER, this);
+            dialog.setArguments(bundle);
+            return dialog;
         }
     }
 
