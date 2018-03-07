@@ -3,6 +3,7 @@ package me.shouheng.notepal.fragment;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -401,7 +402,7 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
     }
 
     @Override
-    protected void onGetAttachment(Attachment attachment) {
+    protected void onGetAttachment(@NonNull Attachment attachment) {
         mindSnaggingDialog.setAttachment(attachment);
     }
 
