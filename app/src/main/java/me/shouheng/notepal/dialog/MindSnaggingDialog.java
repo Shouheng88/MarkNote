@@ -7,6 +7,8 @@ import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
@@ -18,7 +20,6 @@ import android.view.View;
 import com.bumptech.glide.Glide;
 
 import java.io.IOException;
-import java.io.Serializable;
 
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
@@ -232,7 +233,7 @@ public class MindSnaggingDialog extends DialogFragment {
         if (onLifeMethodCalledListener != null) onLifeMethodCalledListener.onDismiss();
     }
 
-    public static class Builder implements Serializable {
+    public static class Builder implements Parcelable {
         private MindSnagging mindSnagging;
         private Attachment attachment;
 
@@ -240,6 +241,25 @@ public class MindSnaggingDialog extends DialogFragment {
         private OnAddAttachmentListener onAddAttachmentListener;
         private OnAttachmentClickListener onAttachmentClickListener;
         private OnLifeMethodCalledListener onLifeMethodCalledListener;
+
+        public Builder() {}
+
+        protected Builder(Parcel in) {
+            mindSnagging = in.readParcelable(MindSnagging.class.getClassLoader());
+            attachment = in.readParcelable(Attachment.class.getClassLoader());
+        }
+
+        public static final Creator<Builder> CREATOR = new Creator<Builder>() {
+            @Override
+            public Builder createFromParcel(Parcel in) {
+                return new Builder(in);
+            }
+
+            @Override
+            public Builder[] newArray(int size) {
+                return new Builder[size];
+            }
+        };
 
         public Builder setMindSnagging(MindSnagging mindSnagging) {
             this.mindSnagging = mindSnagging;
@@ -274,9 +294,20 @@ public class MindSnaggingDialog extends DialogFragment {
         public MindSnaggingDialog build() {
             MindSnaggingDialog dialog = new MindSnaggingDialog();
             Bundle bundle = new Bundle();
-            bundle.putSerializable(KEY_EXTRA_BUILDER, this);
+            bundle.putParcelable(KEY_EXTRA_BUILDER, this);
             dialog.setArguments(bundle);
             return dialog;
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeParcelable(mindSnagging, flags);
+            dest.writeParcelable(attachment, flags);
         }
     }
 
