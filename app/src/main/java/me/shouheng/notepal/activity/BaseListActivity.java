@@ -84,7 +84,9 @@ public abstract class BaseListActivity extends CommonActivity<ActivityListBaseWi
         });
         getBinding().navView.getMenu().findItem(R.id.nav_notes).setChecked(true);
 
-        execute(R.id.nav_notes);
+        /**
+         * Don't try to delay the execution due to the runtime exception.*/
+        FragmentHelper.replace(this, getNotesFragment(), R.id.fragment_container);
     }
 
     private void execute(@IdRes final int id) {
@@ -104,9 +106,8 @@ public abstract class BaseListActivity extends CommonActivity<ActivityListBaseWi
     }
 
     public void setDrawerLayoutLocked(boolean lock){
-        getBinding().drawerLayout.setDrawerLockMode(lock ?
-                DrawerLayout.LOCK_MODE_LOCKED_CLOSED :
-                DrawerLayout.LOCK_MODE_UNLOCKED);
+        getBinding().drawerLayout.setDrawerLockMode(
+                lock ? DrawerLayout.LOCK_MODE_LOCKED_CLOSED : DrawerLayout.LOCK_MODE_UNLOCKED);
     }
 
     protected Fragment getCurrentFragment(){
