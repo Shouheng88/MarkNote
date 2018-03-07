@@ -329,6 +329,17 @@ public class AttachmentHelper {
     }
     // endregion
 
+    public static boolean checkAttachment(Attachment attachment) {
+        LogUtils.d(attachment);
+        if (attachment == null
+                || attachment.getUri() == null
+                || TextUtils.isEmpty(attachment.getUri().toString())) {
+            ToastUtils.makeToast(R.string.failed_to_create_file);
+            return false;
+        }
+        return true;
+    }
+
     public static Uri getAttachmentUri() {
         if (attachmentUri == null) {
             /**

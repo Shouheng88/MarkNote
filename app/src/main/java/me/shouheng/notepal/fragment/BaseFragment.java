@@ -7,7 +7,6 @@ import android.databinding.ViewDataBinding;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.webkit.WebView;
 
 import org.polaric.colorful.BaseActivity;
@@ -20,7 +19,6 @@ import me.shouheng.notepal.listener.OnAttachingFileListener;
 import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.util.FileHelper;
-import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.ScreenShotHelper;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.util.tools.Callback;
@@ -164,16 +162,9 @@ public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFrag
 
     @Override
     public void onAttachingFileFinished(Attachment attachment) {
-        /**
-         * Can't get the file */
-        LogUtils.d(attachment);
-        if (attachment == null
-                || attachment.getUri() == null
-                || TextUtils.isEmpty(attachment.getUri().toString())) {
-            ToastUtils.makeToast(R.string.failed_to_create_file);
-            return;
+        if (AttachmentHelper.checkAttachment(attachment)) {
+            onGetAttachment(attachment);
         }
-        onGetAttachment(attachment);
     }
 
     @Override
