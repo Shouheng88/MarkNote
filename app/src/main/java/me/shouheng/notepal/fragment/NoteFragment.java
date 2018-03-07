@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
@@ -449,15 +450,9 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
     }
 
     @Override
-    protected void onGetAttachment(Attachment attachment) {
+    protected void onGetAttachment(@NonNull Attachment attachment) {
         attachment.setModelCode(note.getCode());
         attachment.setModelType(ModelType.NOTE);
-        LogUtils.d(attachment);
-        // can't get the file
-        if (attachment.getUri() == null || TextUtils.isEmpty(attachment.getUri().toString())) {
-            ToastUtils.makeToast(R.string.failed_to_create_file);
-            return;
-        }
         AttachmentsStore.getInstance(getContext()).saveModel(attachment);
 
         if (attachmentPickerType == AttachmentPickerType.PREVIEW_IMAGE) {
