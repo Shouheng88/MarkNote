@@ -158,6 +158,9 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
             note.setTitle(title);
 
             String content = intent.getStringExtra(Intent.EXTRA_TEXT);
+            if (!TextUtils.isEmpty(content)) {
+                content.replace("\t", "    ");
+            }
             note.setContent(content);
 
             // Single attachment data
