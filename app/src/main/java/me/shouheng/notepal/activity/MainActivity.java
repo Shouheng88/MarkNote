@@ -724,7 +724,9 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
 
     @Override
     public void onAttachingFileFinished(Attachment attachment) {
-        mindSnaggingDialog.setAttachment(attachment);
+        if (AttachmentHelper.checkAttachment(attachment)) {
+            mindSnaggingDialog.setAttachment(attachment);
+        }
     }
 
     @Override
