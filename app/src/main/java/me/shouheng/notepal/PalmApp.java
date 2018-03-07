@@ -37,7 +37,11 @@ public class PalmApp extends Application{
 
         Colorful.init(this);
 
-        Stetho.initializeWithDefaults(this);
+        /**
+         * Enable stetho only in debug mode. */
+        if (BuildConfig.DEBUG) {
+            Stetho.initializeWithDefaults(this);
+        }
     }
 
     public static boolean isPasswordChecked() {
