@@ -21,6 +21,7 @@ import java.util.Map;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.model.Attachment;
+import me.shouheng.notepal.model.Location;
 import me.shouheng.notepal.model.MindSnagging;
 import me.shouheng.notepal.model.Model;
 import me.shouheng.notepal.model.Note;
@@ -93,6 +94,13 @@ public class ModelHelper {
 
         ClipboardManager clipboardManager = (ClipboardManager) ctx.getSystemService(Context.CLIPBOARD_SERVICE);
         clipboardManager.setText(null);
+    }
+
+    public static String getFormatedLocation(Location location) {
+        return location.getCountry() + "|"
+                + location.getProvince() + "|"
+                + location.getCity() + "|"
+                + location.getDistrict();
     }
 
     public static void showStatistic(Context context, Note note) {

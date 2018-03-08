@@ -32,6 +32,7 @@ import org.polaric.colorful.PermissionUtils;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import me.shouheng.notepal.PalmApp;
@@ -75,13 +76,11 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
 
     private Note note;
     private Location location;
-    private Attachment noteFile, previewImage;
+    private Attachment atNoteFile, atPreviewImage;
 
-    private File file;
-    private File tempFile;
+    private File noteFile, tempFile;
     private Notebook notebook;
     private List<Category> selections;
-    private List<Category> allCategories;
 
     private AttachmentPickerType attachmentPickerType;
     private PreferencesUtils preferencesUtils;
@@ -114,6 +113,9 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
 
         configToolbar();
 
+        // Notify that the content is changed if the note fragment is called from sharing and other third part
+        if (getArguments() != null && getArguments().getBoolean(EXTRA_IS_THIRD_PART)) setContentChanged();
+
         configMain();
 
         configDrawer();
@@ -122,6 +124,7 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
     private void handleArguments() {
         Bundle arguments = getArguments();
 
+        // Check arguments
         if (arguments == null
                 || !arguments.containsKey(Constants.EXTRA_MODEL)
                 || (note = (Note) arguments.getSerializable(Constants.EXTRA_MODEL)) == null) {
@@ -130,27 +133,30 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
             return;
         }
 
-        noteFile = AttachmentsStore.getInstance(getContext()).get(note.getContentCode());
-        previewImage = AttachmentsStore.getInstance(getContext()).get(note.getPreviewCode());
+        // Get information from database
+        atNoteFile = AttachmentsStore.getInstance(getContext()).get(note.getContentCode());
+        atPreviewImage = AttachmentsStore.getInstance(getContext()).get(note.getPreviewCode());
         location = LocationsStore.getInstance(getContext()).getLocation(note);
         notebook = NotebookStore.getInstance(getContext()).get(note.getParentCode());
         selections = CategoryStore.getInstance(getContext()).getCategories(note);
 
-        if (noteFile != null) {
+        // Read content from file system
+        if (atNoteFile != null) {
             try {
-                file = new File(noteFile.getPath());
-                String content = FileUtils.readFileToString(file, "utf-8");
+                noteFile = new File(atNoteFile.getPath());
+                LogUtils.d(atNoteFile);
+                String content = FileUtils.readFileToString(noteFile, "utf-8");
                 note.setContent(content);
             } catch (IOException e) {
                 ToastUtils.makeToast(getContext(), R.string.note_failed_to_read_file);
             }
         } else {
-            tempFile = FileHelper.createNewAttachmentFile(getContext(),
-                    "." + preferencesUtils.getNoteFileExtension());
+            // Create a temporary file
+            tempFile = FileHelper.createNewAttachmentFile(getContext(), "." + preferencesUtils.getNoteFileExtension());
             note.setContent("");
         }
 
-        // handle arguments for intent from third part
+        // Handle arguments for intent from third part
         if (arguments.getBoolean(EXTRA_IS_THIRD_PART) && getActivity() instanceof OnNoteInteractListener) {
             Intent intent = ((OnNoteInteractListener) getActivity()).getIntentForThirdPart();
 
@@ -159,7 +165,7 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
 
             String content = intent.getStringExtra(Intent.EXTRA_TEXT);
             if (!TextUtils.isEmpty(content)) {
-                content.replace("\t", "    ");
+                content = content.replace("\t", "    ");
             }
             note.setContent(content);
 
@@ -182,23 +188,26 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
                 }
             }
         } else if(Constants.ACTION_ADD_SKETCH.equals(arguments.getString(EXTRA_ACTION))) {
-            assert getActivity() != null;
-            PermissionUtils.checkStoragePermission((BaseActivity) getActivity(),
-                    () -> AttachmentHelper.sketch(this));
+            if (getActivity() != null) {
+                PermissionUtils.checkStoragePermission((BaseActivity) getActivity(), () ->
+                        AttachmentHelper.sketch(this));
+            }
         } else if (Constants.ACTION_TAKE_PHOTO.equals(arguments.getString(EXTRA_ACTION))) {
-            assert getActivity() != null;
-            PermissionUtils.checkStoragePermission((BaseActivity) getActivity(),
-                    () -> AttachmentHelper.capture(this));
+            if (getActivity() != null) {
+                PermissionUtils.checkStoragePermission((BaseActivity) getActivity(), () ->
+                        AttachmentHelper.capture(this));
+            }
         } else if (Constants.ACTION_ADD_FILES.equals(arguments.getString(EXTRA_ACTION))) {
-            assert getActivity() != null;
-            PermissionUtils.checkStoragePermission((BaseActivity) getActivity(),
-                    () -> AttachmentHelper.pickFiles(this));
+            if (getActivity() != null) {
+                PermissionUtils.checkStoragePermission((BaseActivity) getActivity(), () ->
+                        AttachmentHelper.pickFiles(this));
+            }
         }
     }
 
     private void configToolbar() {
-        assert getContext() != null;
-        assert getActivity() != null;
+        if (getContext() == null || getActivity() == null) return;
+
         materialMenu = new MaterialMenuDrawable(getContext(), primaryColor(), MaterialMenuDrawable.Stroke.THIN);
         materialMenu.setIconState(MaterialMenuDrawable.IconState.ARROW);
         getBinding().main.toolbar.setNavigationIcon(materialMenu);
@@ -209,12 +218,9 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
             ab.setTitle("");
             setStatusBarColor(getResources().getColor(isDarkTheme() ? R.color.dark_theme_foreground : R.color.md_grey_500));
         }
-
-        if (getArguments() != null && getArguments().getBoolean(EXTRA_IS_THIRD_PART)) {
-            setContentChanged();
-        }
     }
 
+    // region Config main board
     private void configMain() {
         getBinding().main.etTitle.setText(TextUtils.isEmpty(note.getTitle()) ? "" : note.getTitle());
         getBinding().main.etTitle.setTextColor(primaryColor());
@@ -223,7 +229,10 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
         getBinding().main.etContent.setText(note.getContent());
         getBinding().main.etContent.addTextChangedListener(textWatcher);
 
-        if (notebook != null) getBinding().main.tvFolder.setText(notebook.getTitle());
+        if (notebook != null) {
+            getBinding().main.tvFolder.setText(notebook.getTitle());
+            getBinding().main.tvFolder.setTextColor(notebook.getColor());
+        }
         getBinding().main.llFolder.setOnClickListener(v -> showNotebookPicker());
 
         getBinding().main.rlBottomEditors.setVisibility(View.GONE);
@@ -233,58 +242,16 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
                 R.id.iv_line, R.id.iv_code, R.id.iv_xml, R.id.iv_quote,
                 R.id.iv_insert_picture, R.id.iv_insert_link, R.id.iv_insert_table,
                 R.id.iv_redo, R.id.iv_undo};
-        for (int id : ids) getRoot().findViewById(id).setOnClickListener(this::addEffect);
+        for (int id : ids) getRoot().findViewById(id).setOnClickListener(this::onFormatClick);
 
         getBinding().main.ivEnableFormat.setOnClickListener(v -> switchFormat());
 
         getBinding().main.fssv.getDelegate().setThumbSize(8, 32);
         getBinding().main.fssv.getDelegate().setThumbDynamicHeight(false);
-        getBinding().main.fssv.getDelegate().setThumbDrawable(ContextCompat.getDrawable(getContext(), R.drawable.recyclerview_fastscroller_handle));
-    }
-
-    private void configDrawer() {
-        getBinding().drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-
-        getBinding().drawer.drawerToolbar.setNavigationOnClickListener(v ->
-                getBinding().drawerLayout.closeDrawer(GravityCompat.END));
-        if (isDarkTheme()){
-            getBinding().drawer.drawerToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
-            getBinding().drawer.getRoot().setBackgroundColor(getResources().getColor(R.color.dark_theme_background));
+        if (getContext() != null) {
+            getBinding().main.fssv.getDelegate().setThumbDrawable(
+                    ContextCompat.getDrawable(getContext(), R.drawable.recyclerview_fastscroller_handle));
         }
-
-        updateCharsInfo();
-        getBinding().drawer.tvTimeInfo.setText(ModelHelper.getTimeInfo(note));
-
-        getBinding().drawer.flLabels.setOnClickListener(v -> showLabelsPicker());
-        getBinding().drawer.tvAddLabels.setOnClickListener(v -> showLabelsPicker());
-        addTagsToLayout(CategoryStore.getTagsName(selections));
-
-        getBinding().drawer.tvAddLocation.setOnClickListener(v -> tryToLocate());
-        showLocationInfo();
-
-        getBinding().drawer.tvCopyLink.setOnClickListener(v -> ModelHelper.copyLink(getActivity(), note));
-
-        getBinding().drawer.tvCopyText.setOnClickListener(v -> {
-            note.setContent(getBinding().main.etContent.getText().toString());
-            ModelHelper.copyToClipboard(getActivity(), getBinding().main.etContent.getText().toString());
-            ToastUtils.makeToast(getContext(), R.string.content_was_copied_to_clipboard);
-        });
-
-        getBinding().drawer.tvAddToHomeScreen.setOnClickListener(v -> addShortcut());
-
-        getBinding().drawer.tvStatistics.setOnClickListener(v -> showStatistics());
-
-        getBinding().drawer.ivAddPreview.setOnClickListener(v -> showAttachmentPicker(AttachmentPickerType.PREVIEW_IMAGE));
-        loadPreviewImage();
-
-        getBinding().drawer.tvSettings.setVisibility(View.GONE);
-        getBinding().drawer.tvSettings.setOnClickListener(view -> {
-            String content = getBinding().main.etContent.getText().toString();
-            if (!TextUtils.isEmpty(content)) {
-                content = content.replace("\t", "    ");
-                getBinding().main.etContent.setText(content);
-            }
-        });
     }
 
     private TextWatcher textWatcher = new TextWatcher() {
@@ -301,66 +268,7 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
         }
     };
 
-    private void updateCharsInfo() {
-        String charsInfo = getString(R.string.text_chars_number) + " : " + getBinding().main.etContent.getText().toString().length();
-        getBinding().drawer.tvCharsInfo.setText(charsInfo);
-    }
-
-    private void showStatistics() {
-        note.setContent(getBinding().main.etContent.getText().toString());
-        ModelHelper.showStatistic(getContext(), note);
-    }
-
-    private void showLabelsPicker() {
-        if (allCategories == null) {
-            allCategories = CategoryStore.getInstance(getContext()).get(null, null);
-        }
-        showCategoriesPicker(allCategories, selections);
-    }
-
-    private void showNotebookPicker() {
-        NotebookPickerDialog.newInstance().setOnItemSelectedListener((dialog, notebook1, position) -> {
-            note.setParentCode(notebook1.getCode());
-            note.setTreePath(notebook1.getTreePath() + "|" + notebook1.getCode());
-            getBinding().main.tvFolder.setText(notebook1.getTitle());
-            getBinding().main.tvFolder.setTextColor(notebook1.getColor());
-            setContentChanged();
-            dialog.dismiss();
-        }).show(getFragmentManager(), "NOTEBOOK_PICKER");
-    }
-
-    @Override
-    protected FlowLayout getTagsLayout() {
-        return getBinding().drawer.flLabels;
-    }
-
-    @Override
-    protected void onGetSelectedCategories(List<Category> categories) {
-        String tagsName = CategoryStore.getTagsName(categories);
-        selections = categories;
-        note.setTags(CategoryStore.getTags(categories));
-        note.setTagsName(tagsName);
-        addTagsToLayout(tagsName);
-        setContentChanged();
-    }
-
-    @Override
-    protected void onGetLocation(Location location) {
-        this.location = location;
-        location.setModelCode(note.getCode());
-        location.setModelType(ModelType.NOTE);
-        LocationsStore.getInstance(getContext()).saveModel(location);
-        showLocationInfo();
-    }
-
-    private void showLocationInfo(){
-        if (location == null) return;
-        String strLocation = location.getCountry() + "|" + location.getProvince() + "|" + location.getCity() + "|" + location.getDistrict();
-        getBinding().drawer.tvLocationInfo.setVisibility(View.VISIBLE);
-        getBinding().drawer.tvLocationInfo.setText(strLocation);
-    }
-
-    private void addEffect(View v) {
+    private void onFormatClick(View v) {
         MarkdownEffect effect = null;
         switch (v.getId()){
             case R.id.iv_undo:getBinding().main.etContent.undo();break;
@@ -388,23 +296,16 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
     }
 
     private void switchFormat() {
-        if (getBinding().main.rlBottomEditors.getVisibility() == View.VISIBLE) {
-            getBinding().main.rlBottomEditors.setVisibility(View.GONE);
-            getBinding().main.ivEnableFormat.setImageDrawable(ColorUtils.tintDrawable(
-                    getResources().getDrawable(R.drawable.ic_text_format_black_24dp), Color.WHITE));
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT, getBinding().main.ivEnableFormat.getHeight());
-            params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-            getBinding().main.rlBottom.setLayoutParams(params);
-        } else {
-            getBinding().main.rlBottomEditors.setVisibility(View.VISIBLE);
-            getBinding().main.ivEnableFormat.setImageDrawable(ColorUtils.tintDrawable(
-                    getResources().getDrawable(R.drawable.ic_text_format_black_24dp), primaryColor()));
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT, getBinding().main.ivEnableFormat.getHeight() * 2);
-            params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-            getBinding().main.rlBottom.setLayoutParams(params);
-        }
+        boolean rlBottomVisible = getBinding().main.rlBottomEditors.getVisibility() == View.VISIBLE;
+        getBinding().main.rlBottomEditors.setVisibility(rlBottomVisible ? View.GONE : View.VISIBLE);
+        getBinding().main.ivEnableFormat.setImageDrawable(ColorUtils.tintDrawable(
+                getResources().getDrawable(R.drawable.ic_text_format_black_24dp),
+                rlBottomVisible ? Color.WHITE : primaryColor()));
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                getBinding().main.ivEnableFormat.getHeight() * (rlBottomVisible ? 1 : 2));
+        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        getBinding().main.rlBottom.setLayoutParams(params);
     }
 
     private void addImageLink() {
@@ -447,6 +348,116 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
                 .build().show(getFragmentManager(), "Attachment picker");
     }
 
+    private void loadPreviewImage() {
+        if (atPreviewImage == null) return;
+        note.setPreviewCode(atPreviewImage.getCode());
+        Uri thumbnailUri = FileHelper.getThumbnailUri(getContext(), atPreviewImage.getUri());
+        Glide.with(PalmApp.getContext())
+                .load(thumbnailUri)
+                .centerCrop()
+                .crossFade()
+                .into(getBinding().drawer.ivPreview);
+    }
+    // endregion
+
+    // region Config drawer board
+    private void configDrawer() {
+        getBinding().drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+
+        getBinding().drawer.drawerToolbar.setNavigationOnClickListener(v ->
+                getBinding().drawerLayout.closeDrawer(GravityCompat.END));
+        if (isDarkTheme()){
+            getBinding().drawer.drawerToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+            getBinding().drawer.getRoot().setBackgroundColor(getResources().getColor(R.color.dark_theme_background));
+        }
+
+        updateCharsInfo();
+        getBinding().drawer.tvTimeInfo.setText(ModelHelper.getTimeInfo(note));
+
+        getBinding().drawer.flLabels.setOnClickListener(v -> showCategoriesPicker(selections));
+        getBinding().drawer.tvAddLabels.setOnClickListener(v -> showCategoriesPicker(selections));
+        addTagsToLayout(CategoryStore.getTagsName(selections));
+
+        getBinding().drawer.tvAddLocation.setOnClickListener(v -> tryToLocate());
+        showLocationInfo();
+
+        getBinding().drawer.tvCopyLink.setOnClickListener(v -> ModelHelper.copyLink(getActivity(), note));
+
+        getBinding().drawer.tvCopyText.setOnClickListener(v -> {
+            note.setContent(getBinding().main.etContent.getText().toString());
+            ModelHelper.copyToClipboard(getActivity(), getBinding().main.etContent.getText().toString());
+            ToastUtils.makeToast(getContext(), R.string.content_was_copied_to_clipboard);
+        });
+
+        getBinding().drawer.tvAddToHomeScreen.setOnClickListener(v -> addShortcut());
+
+        getBinding().drawer.tvStatistics.setOnClickListener(v -> showStatistics());
+
+        getBinding().drawer.ivAddPreview.setOnClickListener(v -> showAttachmentPicker(AttachmentPickerType.PREVIEW_IMAGE));
+        loadPreviewImage();
+
+        getBinding().drawer.tvSettings.setVisibility(View.GONE);
+        getBinding().drawer.tvSettings.setOnClickListener(view -> {
+            String content = getBinding().main.etContent.getText().toString();
+            if (!TextUtils.isEmpty(content)) {
+                content = content.replace("\t", "    ");
+                getBinding().main.etContent.setText(content);
+            }
+        });
+    }
+
+    private void updateCharsInfo() {
+        String charsInfo = getString(R.string.text_chars_number) + " : " + getBinding().main.etContent.getText().toString().length();
+        getBinding().drawer.tvCharsInfo.setText(charsInfo);
+    }
+
+    private void showStatistics() {
+        note.setContent(getBinding().main.etContent.getText().toString());
+        ModelHelper.showStatistic(getContext(), note);
+    }
+
+    private void showNotebookPicker() {
+        NotebookPickerDialog.newInstance().setOnItemSelectedListener((dialog, value, position) -> {
+            note.setParentCode(value.getCode());
+            note.setTreePath(value.getTreePath() + "|" + value.getCode());
+            getBinding().main.tvFolder.setText(value.getTitle());
+            getBinding().main.tvFolder.setTextColor(value.getColor());
+            setContentChanged();
+            dialog.dismiss();
+        }).show(getFragmentManager(), "NOTEBOOK_PICKER");
+    }
+
+    private void showLocationInfo(){
+        if (location == null) return;
+        getBinding().drawer.tvLocationInfo.setVisibility(View.VISIBLE);
+        getBinding().drawer.tvLocationInfo.setText(ModelHelper.getFormatedLocation(location));
+    }
+    // endregion
+
+    @Override
+    protected FlowLayout getTagsLayout() {
+        return getBinding().drawer.flLabels;
+    }
+
+    @Override
+    protected void onGetSelectedCategories(List<Category> categories) {
+        String tagsName = CategoryStore.getTagsName(categories);
+        selections = categories;
+        note.setTags(CategoryStore.getTags(categories));
+        note.setTagsName(tagsName);
+        addTagsToLayout(tagsName);
+        setContentChanged();
+    }
+
+    @Override
+    protected void onGetLocation(Location location) {
+        this.location = location;
+        location.setModelCode(note.getCode());
+        location.setModelType(ModelType.NOTE);
+        LocationsStore.getInstance(getContext()).saveModel(location);
+        showLocationInfo();
+    }
+
     @Override
     protected void onFailedGetAttachment(Attachment attachment) {
         ToastUtils.makeToast(getContext(), R.string.failed_to_save_attachment);
@@ -459,39 +470,20 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
         AttachmentsStore.getInstance(getContext()).saveModel(attachment);
 
         if (attachmentPickerType == AttachmentPickerType.PREVIEW_IMAGE) {
-            previewImage = attachment;
+            atPreviewImage = attachment;
             setContentChanged();
             loadPreviewImage();
         } else {
+            String title;
+            title = TextUtils.isEmpty(title = FileHelper.getNameFromUri(getContext(), attachment.getUri())) ?
+                    getString(R.string.text_attachment) : title;
             if (Constants.MIME_TYPE_IMAGE.equalsIgnoreCase(attachment.getMineType())
                     || Constants.MIME_TYPE_SKETCH.equalsIgnoreCase(attachment.getMineType())) {
-                getBinding().main.etContent.setEffect(MarkdownEffect.IMAGE,
-                        "image" ,
-                        attachment.getUri().toString());
+                getBinding().main.etContent.setEffect(MarkdownEffect.IMAGE, title , attachment.getUri().toString());
             } else {
-                getBinding().main.etContent.setEffect(MarkdownEffect.LINK,
-                        getAttachmentTitle(attachment.getPath()),
-                        attachment.getUri().toString());
+                getBinding().main.etContent.setEffect(MarkdownEffect.LINK, title, attachment.getUri().toString());
             }
         }
-    }
-
-    private String getAttachmentTitle(String path) {
-        if (!TextUtils.isEmpty(path) && path.contains("/")) {
-            return path.substring(path.lastIndexOf('/') + 1, path.length());
-        }
-        return getString(R.string.text_attachment);
-    }
-
-    private void loadPreviewImage() {
-        if (previewImage == null) return;
-        note.setPreviewCode(previewImage.getCode());
-        Uri thumbnailUri = FileHelper.getThumbnailUri(getContext(), previewImage.getUri());
-        Glide.with(PalmApp.getContext())
-                .load(thumbnailUri)
-                .centerCrop()
-                .crossFade()
-                .into(getBinding().drawer.ivPreview);
     }
 
     @Override
@@ -515,28 +507,34 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
 
     @Override
     protected void beforeSaveOrUpdate() {
-        if (noteFile == null) {
+        String noteContent = getBinding().main.etContent.getText().toString();
+
+        if (atNoteFile == null) {
             try {
-                FileUtils.writeStringToFile(tempFile, getBinding().main.etContent.getText().toString(), "utf-8");
+                FileUtils.writeStringToFile(tempFile, noteContent, "utf-8");
             } catch (IOException e) {
                 LogUtils.d("onClick: " + e);
             }
-            noteFile = ModelFactory.getAttachment(getContext());
-            noteFile.setUri(FileHelper.getUriFromFile(getContext(), tempFile));
-            noteFile.setSize(FileUtils.sizeOf(tempFile));
-            noteFile.setPath(tempFile.getPath());
-            noteFile.setName(tempFile.getName());
-            noteFile.setLength(noteFile.getLength());
-            AttachmentsStore.getInstance(getContext()).saveModel(noteFile);
+            atNoteFile = ModelFactory.getAttachment(getContext());
+            atNoteFile.setUri(FileHelper.getUriFromFile(getContext(), tempFile));
+            atNoteFile.setSize(FileUtils.sizeOf(tempFile));
+            atNoteFile.setPath(tempFile.getPath());
+            atNoteFile.setName(tempFile.getName());
+            atNoteFile.setLength(atNoteFile.getLength());
+            AttachmentsStore.getInstance(getContext()).saveModel(atNoteFile);
         } else {
             try {
-                FileUtils.writeStringToFile(file, getBinding().main.etContent.getText().toString(), "utf-8", false);
+                LogUtils.d(noteFile);
+                FileUtils.writeStringToFile(noteFile, noteContent, "utf-8", false);
+                // Whenever the attachment file is updated, remember to update its attachment.
+                atNoteFile.setLastModifiedTime(new Date());
+                AttachmentsStore.getInstance(getContext()).update(atNoteFile);
             } catch (IOException e) {
                 LogUtils.d("onClick: " + e);
             }
         }
 
-        note.setContentCode(noteFile.getCode());
+        note.setContentCode(atNoteFile.getCode());
         note.setTitle(getBinding().main.etTitle.getText().toString());
     }
 

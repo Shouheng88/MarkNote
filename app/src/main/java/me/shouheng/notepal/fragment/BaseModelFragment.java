@@ -184,15 +184,22 @@ public abstract class BaseModelFragment<T extends Model, V extends ViewDataBindi
     }
     // endregion
 
-    // region
-    protected void showCategoriesPicker(List<Category> all, List<Category> selected) {
+    // region Base logic about category
+    private List<Category> allCategories;
+
+    /**
+     * Call this method and override {@link #onGetSelectedCategories(List)} to implement
+     * the logic of getting categories.
+     *
+     * @param selected selected categories */
+    protected void showCategoriesPicker(List<Category> selected) {
+        List<Category> all = getAllCategories();
+
         if (all == null || all.isEmpty()) {
             showCategoryEmptyDialog();
             return;
         }
 
-        /**
-         * prepare selections and default selections */
         int len = all.size();
         String[] items = new String[len];
         boolean[] checked = new boolean[len];
@@ -207,25 +214,14 @@ public abstract class BaseModelFragment<T extends Model, V extends ViewDataBindi
             }
         }
 
-        /**
-         * build dialog */
         new AlertDialog.Builder(getContext())
                 .setTitle(R.string.text_add_tags)
                 .setMultiChoiceItems(items, checked, (dialog, which, isChecked) -> checked[which] = isChecked)
                 .setPositiveButton(R.string.text_confirm, (dialog, which) -> {
                     LogUtils.d(checked);
-
-                    /**
-                     * prepare selected categories and call {@link #onGetSelectedCategories(List)}
-                     * to return to the caller. */
-                    List<Category> rets = new LinkedList<>();
-                    for (int i=0; i<len; i++) {
-                        if (checked[i]) {
-                            rets.add(all.get(i));
-                        }
-                    }
-
-                    onGetSelectedCategories(rets);
+                    List<Category> ret = new LinkedList<>();
+                    for (int i=0; i<len; i++) if (checked[i]) ret.add(all.get(i));
+                    onGetSelectedCategories(ret);
                 })
                 .setNegativeButton(R.string.text_cancel, null)
                 .show();
@@ -242,10 +238,17 @@ public abstract class BaseModelFragment<T extends Model, V extends ViewDataBindi
                 .show();
     }
 
-    protected FlowLayout getTagsLayout() {
-        return null;
+    private List<Category> getAllCategories() {
+        if (allCategories == null) {
+            allCategories = CategoryStore.getInstance(getContext()).get(null, null);
+        }
+        return allCategories;
     }
 
+    /**
+     * Call this method and override {@link #getTagsLayout()} to implement the logic of showing tags.
+     *
+     * @param stringTags tags string */
     protected void addTagsToLayout(String stringTags) {
         if (getTagsLayout() == null) return;
         getTagsLayout().removeAllViews();
@@ -254,13 +257,18 @@ public abstract class BaseModelFragment<T extends Model, V extends ViewDataBindi
         for (String tag : tags) addTagToLayout(tag);
     }
 
-    protected void addTagToLayout(String tag) {
+    protected FlowLayout getTagsLayout() {
+        return null;
+    }
+
+    private void addTagToLayout(String tag) {
         if (getTagsLayout() == null) return;
 
         int margin = ViewUtils.dp2Px(getContext(), 2f);
         int padding = ViewUtils.dp2Px(getContext(), 5f);
         TextView tvLabel = new TextView(getContext());
-        tvLabel.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        tvLabel.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         ViewGroup.MarginLayoutParams params = new ViewGroup.MarginLayoutParams(tvLabel.getLayoutParams());
         params.setMargins(margin, margin, margin, margin);
         tvLabel.setLayoutParams(params);
