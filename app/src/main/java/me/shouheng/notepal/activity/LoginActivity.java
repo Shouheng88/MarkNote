@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 import me.shouheng.notepal.R;
+import me.shouheng.notepal.activity.base.CommonActivity;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.databinding.ActivityLoginBinding;
 import me.shouheng.notepal.dialog.RegisterDialog;

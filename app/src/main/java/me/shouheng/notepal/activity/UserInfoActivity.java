@@ -6,6 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import me.shouheng.notepal.R;
+import me.shouheng.notepal.activity.base.CommonActivity;
 import me.shouheng.notepal.databinding.ActivityUserInfoBinding;
 import me.shouheng.notepal.fragment.StatisticsFragment;
 import me.shouheng.notepal.fragment.TimeLineFragment;

@@ -19,7 +19,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.activity.CommonActivity;
+import me.shouheng.notepal.activity.base.CommonActivity;
 import me.shouheng.notepal.activity.ContentActivity;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.manager.LocationManager;

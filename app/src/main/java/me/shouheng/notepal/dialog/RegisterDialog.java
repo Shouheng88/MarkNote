@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.activity.ThemedActivity;
+import me.shouheng.notepal.activity.base.ThemedActivity;
 import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.widget.UIRippleButton;
 

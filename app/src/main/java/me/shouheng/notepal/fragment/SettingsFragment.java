@@ -8,8 +8,8 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.StackingBehavior;
 
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.activity.CommonActivity;
-import me.shouheng.notepal.activity.ThemedActivity;
+import me.shouheng.notepal.activity.base.CommonActivity;
+import me.shouheng.notepal.activity.base.ThemedActivity;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.dialog.DonateDialog;
 import me.shouheng.notepal.dialog.DonateDialog.DonateChannel;

@@ -15,6 +15,7 @@ import com.andrognito.pinlockview.PinLockListener;
 
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
+import me.shouheng.notepal.activity.base.CommonActivity;
 import me.shouheng.notepal.databinding.ActivityLockBinding;
 import me.shouheng.notepal.util.ActivityUtils;
 import me.shouheng.notepal.util.PreferencesUtils;
