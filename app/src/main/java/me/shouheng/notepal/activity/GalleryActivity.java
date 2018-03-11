@@ -149,14 +149,10 @@ public class GalleryActivity extends AppCompatActivity implements PullBackLayout
 
     private void hideSystemUI() {
         runOnUiThread(() -> {
-            toolbar.animate().translationY(- toolbar.getHeight()).setInterpolator(new AccelerateInterpolator()).setDuration(200).start();
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
-                    | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
-                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                    | View.SYSTEM_UI_FLAG_IMMERSIVE);
+            toolbar.animate().translationY(- toolbar.getHeight()).setInterpolator(
+                    new AccelerateInterpolator()).setDuration(200).start();
+            getWindow().getDecorView().setSystemUiVisibility(
+                    SystemUiVisibilityUtil.getSystemVisibility());
             fullScreenMode = true;
         });
     }
