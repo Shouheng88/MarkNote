@@ -73,10 +73,10 @@ public class ConfigActivity extends AppCompatActivity {
     protected void doCreateView() {
         binding.rgType.setOnCheckedChangeListener((group, checkedId) -> {
             switch (checkedId) {
-                case R.id.widget_config_notes:
+                case R.id.rb_notes:
                     binding.llFolder.setEnabled(true);
                     break;
-                case R.id.widget_config_minds:
+                case R.id.rb_minds:
                     binding.llFolder.setEnabled(false);
                     break;
                 default:
