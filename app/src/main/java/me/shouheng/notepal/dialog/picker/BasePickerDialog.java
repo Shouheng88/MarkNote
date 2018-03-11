@@ -1,4 +1,4 @@
-package me.shouheng.notepal.dialog;
+package me.shouheng.notepal.dialog.picker;
 
 import android.app.Dialog;
 import android.os.Bundle;
