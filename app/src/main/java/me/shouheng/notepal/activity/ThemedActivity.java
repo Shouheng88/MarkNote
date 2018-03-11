@@ -72,11 +72,11 @@ public class ThemedActivity extends ColorfulActivity {
 
     public void setTranslucentStatusBar() {
         Window window = getWindow();
-        ViewGroup mContentView = (ViewGroup) findViewById(Window.ID_ANDROID_CONTENT);
+        ViewGroup mContentView = findViewById(Window.ID_ANDROID_CONTENT);
         // set child View not fill the system window
         View mChildView = mContentView.getChildAt(0);
         if (mChildView != null) {
-            ViewCompat.setFitsSystemWindows(mChildView, false);
+            mChildView.setFitsSystemWindows(false);
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             int statusBarHeight = ViewUtils.getStatusBarHeight(this);
