@@ -12,7 +12,8 @@ import me.shouheng.notepal.fragment.TimeLineFragment;
 import me.shouheng.notepal.fragment.UserInfoFragment;
 import me.shouheng.notepal.util.FragmentHelper;
 
-public class UserInfoActivity extends CommonActivity<ActivityUserInfoBinding> implements UserInfoFragment.OnItemSelectedListener {
+public class UserInfoActivity extends CommonActivity<ActivityUserInfoBinding>
+        implements UserInfoFragment.OnItemSelectedListener {
 
     @Override
     protected int getLayoutResId() {

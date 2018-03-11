@@ -84,7 +84,7 @@ public abstract class BaseListActivity extends CommonActivity<ActivityListBaseWi
         });
         getBinding().navView.getMenu().findItem(R.id.nav_notes).setChecked(true);
 
-        /**
+        /*
          * Don't try to delay the execution due to the runtime exception.*/
         FragmentHelper.replace(this, getNotesFragment(), R.id.fragment_container);
     }

@@ -14,7 +14,7 @@ import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.databinding.ActivityWidgetConfigurationBinding;
 import me.shouheng.notepal.dialog.NotebookPickerDialog;
 import me.shouheng.notepal.model.Notebook;
-import me.shouheng.notepal.provider.schema.NoteSchema;
+import me.shouheng.notepal.provider.NotebookStore;
 import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.widget.desktop.ListRemoteViewsFactory;
 import me.shouheng.notepal.widget.desktop.ListWidgetType;
@@ -22,7 +22,6 @@ import me.shouheng.notepal.widget.desktop.ListWidgetType;
 public class ConfigActivity extends AppCompatActivity {
 
     private int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
-    private String sqlCondition;
     private Notebook selectedNotebook;
 
     private ListWidgetType listWidgetType;
@@ -34,24 +33,45 @@ public class ConfigActivity extends AppCompatActivity {
         setResult(RESULT_CANCELED);
         super.onCreate(savedInstanceState);
 
-        Intent intent = getIntent();
-        Bundle extras = intent.getExtras();
-        if (extras != null) mAppWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
-        if (mAppWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID) finish();
+        handleArguments();
 
-        binding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.activity_widget_configuration, null, false);
+        binding = DataBindingUtil.inflate(getLayoutInflater(),
+                R.layout.activity_widget_configuration, null, false);
         setContentView(binding.getRoot());
 
-        SharedPreferences sharedPreferences = getApplication().getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
-        listWidgetType = ListWidgetType.getListWidgetType(sharedPreferences.getInt(
-                Constants.PREF_WIDGET_TYPE_PREFIX + String.valueOf(mAppWidgetId), ListWidgetType.NOTES_LIST.id));
-        LogUtils.d(listWidgetType);
-
-        doCreateView(savedInstanceState);
+        doCreateView();
     }
 
-    protected void doCreateView(Bundle savedInstanceState) {
-        binding.widgetConfigRadiogroup.setOnCheckedChangeListener((group, checkedId) -> {
+    private void handleArguments() {
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        if (extras != null) {
+            mAppWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID,
+                    AppWidgetManager.INVALID_APPWIDGET_ID);
+        }
+        if (mAppWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
+            finish();
+            return;
+        }
+
+        SharedPreferences sharedPreferences = getApplication().getSharedPreferences(
+                Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
+        int widgetTypeId = sharedPreferences.getInt(
+                Constants.PREF_WIDGET_TYPE_PREFIX + String.valueOf(mAppWidgetId),
+                ListWidgetType.NOTES_LIST.id);
+        long nbCode = sharedPreferences.getLong(
+                Constants.PREF_WIDGET_NOTEBOOK_CODE_PREFIX + String.valueOf(mAppWidgetId),
+                0);
+        if (nbCode != 0) {
+            selectedNotebook = NotebookStore.getInstance(getApplicationContext()).get(nbCode);
+            updateWhenSelectNotebook();
+        }
+        listWidgetType = ListWidgetType.getListWidgetType(widgetTypeId);
+        LogUtils.d(listWidgetType);
+    }
+
+    protected void doCreateView() {
+        binding.rgType.setOnCheckedChangeListener((group, checkedId) -> {
             switch (checkedId) {
                 case R.id.widget_config_notes:
                     binding.llFolder.setEnabled(true);
@@ -63,50 +83,58 @@ public class ConfigActivity extends AppCompatActivity {
                     LogUtils.e("Wrong element choosen: " + checkedId);
             }
         });
-
         if (listWidgetType == ListWidgetType.MINDS_LIST) {
-            binding.widgetConfigRadiogroup.check(binding.widgetConfigMinds.getId());
+            binding.rgType.check(binding.rbMinds.getId());
         }
 
-        /**
-         * set whether enable the function of switching list type. We don't let the user switch the list type. */
-        if (getIntent().hasExtra(Constants.ACTION_CONFIG_SWITCH_ENABLE)
-                && !getIntent().getBooleanExtra(Constants.ACTION_CONFIG_SWITCH_ENABLE, false)) {
-            binding.widgetConfigRadiogroup.setEnabled(false);
-            binding.widgetConfigMinds.setEnabled(false);
-            binding.widgetConfigNotes.setEnabled(false);
+        /*
+         * set whether enable the function of switching list type.
+         * We don't let the user switch the list type. */
+        Intent i = getIntent();
+        if (i != null
+                && i.hasExtra(Constants.EXTRA_CONFIG_SWITCH_ENABLE)
+                && !i.getBooleanExtra(Constants.EXTRA_CONFIG_SWITCH_ENABLE, false)) {
+            binding.rgType.setEnabled(false);
+            binding.rbMinds.setEnabled(false);
+            binding.rbNotes.setEnabled(false);
         }
 
         binding.llFolder.setOnClickListener(view -> showNotebookPicker());
         binding.llFolder.setEnabled(listWidgetType == ListWidgetType.NOTES_LIST);
 
-        binding.btnPositive.setOnClickListener(view -> {
-            if (binding.widgetConfigRadiogroup.getCheckedRadioButtonId() == R.id.widget_config_notes) {
-                if (selectedNotebook != null) {
-                    sqlCondition = NoteSchema.TREE_PATH + " LIKE '" + selectedNotebook.getTreePath() + "'||'%'";
-                } else {
-                    sqlCondition = null;
-                }
-                ListRemoteViewsFactory.updateConfiguration(getApplicationContext(), mAppWidgetId, sqlCondition, ListWidgetType.NOTES_LIST);
-            } else {
-                sqlCondition = null;
-                ListRemoteViewsFactory.updateConfiguration(getApplicationContext(), mAppWidgetId, sqlCondition, ListWidgetType.MINDS_LIST);
-            }
+        binding.btnPositive.setOnClickListener(view -> onConfirm());
+    }
 
-            Intent resultValue = new Intent();
-            resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
-            setResult(RESULT_OK, resultValue);
-            finish();
-        });
+    private void onConfirm() {
+        boolean isNotes = binding.rgType.getCheckedRadioButtonId() == R.id.rb_notes;
+        ListRemoteViewsFactory.updateConfiguration(getApplicationContext(),
+                mAppWidgetId,
+                selectedNotebook,
+                isNotes ? ListWidgetType.NOTES_LIST : ListWidgetType.MINDS_LIST);
+        finishWithOK();
     }
 
     private void showNotebookPicker() {
         NotebookPickerDialog.newInstance()
                 .setOnItemSelectedListener((dialog, notebook, position) -> {
                     selectedNotebook = notebook;
-                    binding.tvFolder.setText(selectedNotebook.getTitle());
+                    updateWhenSelectNotebook();
                     dialog.dismiss();
                 })
                 .show(getSupportFragmentManager(), "NOTEBOOK_PICKER");
+    }
+
+    private void updateWhenSelectNotebook() {
+        if (selectedNotebook != null) {
+            binding.tvFolder.setText(selectedNotebook.getTitle());
+            binding.tvFolder.setTextColor(selectedNotebook.getColor());
+        }
+    }
+
+    private void finishWithOK() {
+        Intent intent = new Intent();
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 }

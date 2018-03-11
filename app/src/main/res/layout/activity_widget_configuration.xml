@@ -13,14 +13,14 @@
         tools:context="me.shouheng.notepal.activity.ConfigActivity">
 
         <RadioGroup
-            android:id="@+id/widget_config_radiogroup"
+            android:id="@+id/rg_type"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:orientation="horizontal" >
 
             <RadioButton
-                android:id="@+id/widget_config_notes"
+                android:id="@+id/rb_notes"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -28,7 +28,7 @@
                 android:text="@string/model_name_note" />
 
             <RadioButton
-                android:id="@+id/widget_config_minds"
+                android:id="@+id/rb_minds"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

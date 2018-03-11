@@ -17,7 +17,8 @@ import me.shouheng.notepal.util.ActivityUtils;
 /**
  * Created by wang shouheng on 2017/12/21.*/
 @SuppressLint("Registered")
-public abstract class CommonActivity<T extends ViewDataBinding> extends ThemedActivity implements ColorChooserDialog.ColorCallback {
+public abstract class CommonActivity<T extends ViewDataBinding> extends ThemedActivity
+        implements ColorChooserDialog.ColorCallback {
 
     private T binding;
 
