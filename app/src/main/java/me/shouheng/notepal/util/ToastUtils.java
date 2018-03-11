@@ -1,6 +1,5 @@
 package me.shouheng.notepal.util;
 
-import android.content.Context;
 import android.support.annotation.StringRes;
 import android.widget.Toast;
 
@@ -13,28 +12,22 @@ public class ToastUtils {
     private static Toast toast;
 
     public static void makeToast(String msg) {
-        Toast.makeText(PalmApp.getContext(), msg, Toast.LENGTH_SHORT).show();
+        if (toast == null){
+            toast = Toast.makeText(PalmApp.getContext(), msg, Toast.LENGTH_SHORT);
+            toast.show();
+        } else {
+            toast.setText(msg);
+            toast.show();
+        }
     }
 
-    public static void makeToasts(@StringRes int msgRes) {
-        Toast.makeText(PalmApp.getContext(), msgRes, Toast.LENGTH_SHORT).show();
-    }
-
-    public static void makeToast(@StringRes int msgRes){
+    public static void makeToast(@StringRes int msgRes) {
         if (toast == null){
             toast = Toast.makeText(PalmApp.getContext(), msgRes, Toast.LENGTH_SHORT);
+            toast.show();
         } else {
             toast.setText(msgRes);
+            toast.show();
         }
-        toast.show();
-    }
-
-    public static void makeToast(Context context, @StringRes int msgRes){
-        if (toast == null){
-            toast = Toast.makeText(context.getApplicationContext(), msgRes, Toast.LENGTH_SHORT);
-        } else {
-            toast.setText(msgRes);
-        }
-        toast.show();
     }
 }

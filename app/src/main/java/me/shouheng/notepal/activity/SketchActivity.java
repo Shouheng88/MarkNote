@@ -190,7 +190,7 @@ public class SketchActivity extends ThemedActivity implements OnDrawChangedListe
                 bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
                 out.close();
                 if (!bitmapFile.exists()) {
-                    ToastUtils.makeToast(this, R.string.file_not_exist);
+                    ToastUtils.makeToast(R.string.file_not_exist);
                 }
             } catch (Exception e) {
                 LogUtils.e("Error writing sketch image data", e);

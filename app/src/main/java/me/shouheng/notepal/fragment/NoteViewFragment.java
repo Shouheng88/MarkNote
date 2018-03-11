@@ -54,16 +54,15 @@ import me.shouheng.notepal.util.ToastUtils;
  * Created by wangshouheng on 2017/5/13.*/
 public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
 
-    private final int REQUEST_FOR_EDIT = 0x01;
+    private final static int REQUEST_FOR_EDIT = 0x01;
 
     private Note note;
-    private String content;
-    private String tags;
+    private String content, tags;
 
     private boolean isPreview = false;
     private boolean isContentChanged = false;
 
-    public static NoteViewFragment newInstance(@Nonnull Note note, Integer requestCode){
+    public static NoteViewFragment newInstance(@Nonnull Note note, Integer requestCode) {
         Bundle arg = new Bundle();
         arg.putSerializable(Constants.EXTRA_MODEL, note);
         if (requestCode != null) arg.putInt(Constants.EXTRA_REQUEST_CODE, requestCode);
@@ -92,7 +91,8 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
         Bundle arguments = getArguments();
 
         if (arguments == null || !arguments.containsKey(Constants.EXTRA_MODEL)) {
-            throw new IllegalArgumentException("Model is required.");
+            ToastUtils.makeToast(R.string.text_no_such_note);
+            return;
         }
 
         note = (Note) arguments.getSerializable(Constants.EXTRA_MODEL);
@@ -103,7 +103,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
             Attachment noteFile = AttachmentsStore.getInstance(getContext()).get(note.getContentCode());
             LogUtils.d("noteFile: " + noteFile);
             if (noteFile == null) {
-                ToastUtils.makeToast(getContext(), R.string.note_failed_to_get_note_content);
+                ToastUtils.makeToast(R.string.note_failed_to_get_note_content);
                 return;
             }
             File file = new File(noteFile.getPath());
@@ -112,7 +112,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
                 content = FileUtils.readFileToString(file, "utf-8");
             } catch (IOException e) {
                 LogUtils.d("IOException: " + e);
-                ToastUtils.makeToast(getContext(), R.string.note_failed_to_read_file);
+                ToastUtils.makeToast(R.string.note_failed_to_read_file);
             }
             note.setContent(content);
         } else {
@@ -161,7 +161,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
         if (IntentUtils.isAvailable(getContext(), intent, null)) {
             startActivity(intent);
         } else {
-            ToastUtils.makeToast(getContext(), R.string.activity_not_found_to_resolve);
+            ToastUtils.makeToast(R.string.activity_not_found_to_resolve);
         }
     }
 
@@ -251,11 +251,11 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
                 break;
             case R.id.action_copy_content:
                 ModelHelper.copyToClipboard(getActivity(), content);
-                ToastUtils.makeToast(getContext(), R.string.content_was_copied_to_clipboard);
+                ToastUtils.makeToast(R.string.content_was_copied_to_clipboard);
                 break;
             case R.id.action_add_shortcut:
                 ShortcutHelper.addShortcut(getActivity().getApplicationContext(), note);
-                ToastUtils.makeToast(getContext(), R.string.successfully_add_shortcut);
+                ToastUtils.makeToast(R.string.successfully_add_shortcut);
                 break;
             case R.id.action_statistic:
                 note.setContent(content);

@@ -128,7 +128,7 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
         if (arguments == null
                 || !arguments.containsKey(Constants.EXTRA_MODEL)
                 || (note = (Note) arguments.getSerializable(Constants.EXTRA_MODEL)) == null) {
-            ToastUtils.makeToast(getContext(), R.string.text_no_such_note);
+            ToastUtils.makeToast(R.string.text_no_such_note);
             if (getActivity() != null) getActivity().finish();
             return;
         }
@@ -148,7 +148,7 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
                 String content = FileUtils.readFileToString(noteFile, "utf-8");
                 note.setContent(content);
             } catch (IOException e) {
-                ToastUtils.makeToast(getContext(), R.string.note_failed_to_read_file);
+                ToastUtils.makeToast(R.string.note_failed_to_read_file);
             }
         } else {
             // Create a temporary file
@@ -386,7 +386,7 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
         getBinding().drawer.tvCopyText.setOnClickListener(v -> {
             note.setContent(getBinding().main.etContent.getText().toString());
             ModelHelper.copyToClipboard(getActivity(), getBinding().main.etContent.getText().toString());
-            ToastUtils.makeToast(getContext(), R.string.content_was_copied_to_clipboard);
+            ToastUtils.makeToast(R.string.content_was_copied_to_clipboard);
         });
 
         getBinding().drawer.tvAddToHomeScreen.setOnClickListener(v -> addShortcut());
@@ -460,7 +460,7 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
 
     @Override
     protected void onFailedGetAttachment(Attachment attachment) {
-        ToastUtils.makeToast(getContext(), R.string.failed_to_save_attachment);
+        ToastUtils.makeToast(R.string.failed_to_save_attachment);
     }
 
     @Override
@@ -489,7 +489,7 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
     @Override
     protected boolean checkInputInfo() {
         if (TextUtils.isEmpty(getBinding().main.etTitle.getText().toString())) {
-            ToastUtils.makeToast(getContext(), R.string.title_required);
+            ToastUtils.makeToast(R.string.title_required);
             return false;
         }
         return true;

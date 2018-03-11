@@ -86,7 +86,7 @@ public class UserInfoFragment extends CommonFragment<FragmentUserInfoBinding> {
 
     private void showSchoolEditor() {
         if (!logined) {
-            ToastUtils.makeToast(getContext(), R.string.not_login_try_after_login);
+            ToastUtils.makeToast(R.string.not_login_try_after_login);
             return;
         }
         String school = null;
@@ -97,7 +97,7 @@ public class UserInfoFragment extends CommonFragment<FragmentUserInfoBinding> {
 
     private void showMajorEditor() {
         if (!logined) {
-            ToastUtils.makeToast(getContext(), R.string.not_login_try_after_login);
+            ToastUtils.makeToast(R.string.not_login_try_after_login);
             return;
         }
         String major = null;

@@ -423,7 +423,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
             MindSnaggingStore.getInstance(this).update(mindSnagging);
         }
 
-        ToastUtils.makeToast(this, R.string.text_save_successfully);
+        ToastUtils.makeToast(R.string.text_save_successfully);
 
         if (isSnaggingFragment()) ((SnaggingsFragment) getCurrentFragment()).addSnagging(mindSnagging);
     }
@@ -441,7 +441,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                 ModelFactory.getCategory(this), category -> {
                     CategoryStore.getInstance(this).saveModel(category);
 
-                    ToastUtils.makeToast(this, R.string.text_save_successfully);
+                    ToastUtils.makeToast(R.string.text_save_successfully);
 
                     Fragment fragment = getCurrentFragment();
                     if (fragment != null && fragment instanceof CategoriesFragment) {
@@ -665,7 +665,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
             super.onBackPressed();
             return;
         } else {
-            ToastUtils.makeToast(this, R.string.text_tab_again_exit);
+            ToastUtils.makeToast(R.string.text_tab_again_exit);
         }
         onBackPressed = System.currentTimeMillis();
     }

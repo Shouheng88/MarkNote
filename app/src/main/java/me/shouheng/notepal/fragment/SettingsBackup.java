@@ -82,7 +82,7 @@ public class SettingsBackup extends PreferenceFragment {
                 .onPositive((dialog, which) -> {
                     String backupName;
                     if (TextUtils.isEmpty(backupName = tvFileName.getText().toString())) {
-                        ToastUtils.makeToast(getActivity(), R.string.backup_data_export_name_empty);
+                        ToastUtils.makeToast(R.string.backup_data_export_name_empty);
                         backupName = defName;
                     }
                     Intent service = new Intent(getActivity(), DataBackupIntentService.class);
@@ -96,7 +96,7 @@ public class SettingsBackup extends PreferenceFragment {
     private void showExternalBackupImport() {
         final String[] backups = getExternalBackups();
         if (backups.length == 0) {
-            ToastUtils.makeToast(getActivity(), R.string.backup_no_backups_available);
+            ToastUtils.makeToast(R.string.backup_no_backups_available);
             return;
         }
 
@@ -148,7 +148,7 @@ public class SettingsBackup extends PreferenceFragment {
     private void showExternalBackupDelete() {
         final String[] backups = getExternalBackups();
         if (backups.length == 0) {
-            ToastUtils.makeToast(getActivity(), R.string.backup_no_backups_to_delete);
+            ToastUtils.makeToast(R.string.backup_no_backups_to_delete);
             return;
         }
 

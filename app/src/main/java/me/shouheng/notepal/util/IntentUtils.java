@@ -26,8 +26,8 @@ public class IntentUtils {
             context.startActivity(intent);
         } else {
             ModelHelper.copyToClipboard(context, "mailto:" + Constants.DEVELOPER_EMAIL + "\n" + subject + ":\n" + body);
-            ToastUtils.makeToasts(R.string.failed_to_resolve_intent);
-            ToastUtils.makeToasts(R.string.content_was_copied_to_clipboard);
+            ToastUtils.makeToast(R.string.failed_to_resolve_intent);
+            ToastUtils.makeToast(R.string.content_was_copied_to_clipboard);
         }
     }
 
@@ -38,7 +38,7 @@ public class IntentUtils {
         } else if (IntentUtils.isAvailable(context, new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.GOOGLE_PLAY_WEB_PAGE)), null)) {
             ViewUtils.launchUrl(context, Constants.GOOGLE_PLAY_WEB_PAGE);
         } else {
-            ToastUtils.makeToast(context, R.string.failed_to_resolve_intent);
+            ToastUtils.makeToast(R.string.failed_to_resolve_intent);
         }
     }
 
@@ -67,7 +67,7 @@ public class IntentUtils {
         if (IntentUtils.isAvailable(context, intent, null)) {
             ViewUtils.launchUrl(context, url);
         } else {
-            ToastUtils.makeToast(context, R.string.failed_to_resolve_intent);
+            ToastUtils.makeToast(R.string.failed_to_resolve_intent);
         }
     }
 

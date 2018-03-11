@@ -86,25 +86,25 @@ public class FeedbackDialog extends DialogFragment implements AdapterView.OnItem
     private void copyContentIfNecessary() {
         if (!TextUtils.isEmpty(etQuestion.getText().toString())) {
             ModelHelper.copyToClipboard(getActivity(), etQuestion.getText().toString());
-            ToastUtils.makeToasts(R.string.content_was_copied_to_clipboard);
+            ToastUtils.makeToast(R.string.content_was_copied_to_clipboard);
         }
     }
 
     private boolean checkInput() {
         String email, details;
         if (TextUtils.isEmpty(email = etEmail.getText().toString())) {
-            ToastUtils.makeToasts(R.string.connect_email_required);
+            ToastUtils.makeToast(R.string.connect_email_required);
             copyContentIfNecessary();
             return false;
         }
         if (!StringUtils.validate(email)) {
-            ToastUtils.makeToasts(R.string.illegal_email_format);
+            ToastUtils.makeToast(R.string.illegal_email_format);
             copyContentIfNecessary();
             return false;
         }
         feedback.setEmail(email);
         if (TextUtils.isEmpty(details = etQuestion.getText().toString())) {
-            ToastUtils.makeToast(context, R.string.details_required);
+            ToastUtils.makeToast(R.string.details_required);
             return false;
         }
         feedback.setQuestion(details);

@@ -116,7 +116,7 @@ public class ContentActivity extends CommonActivity<ActivityContentBinding> impl
     private void handleIntent() {
         Intent intent = getIntent();
         if (intent == null || !intent.hasExtra(Constants.EXTRA_FRAGMENT)) {
-            ToastUtils.makeToast(this, R.string.content_failed_to_parse_intent);
+            ToastUtils.makeToast(R.string.content_failed_to_parse_intent);
             LogUtils.d("Faile to handle intent : " + intent);
             finish();
             return;
@@ -126,7 +126,7 @@ public class ContentActivity extends CommonActivity<ActivityContentBinding> impl
                 handleNoteIntent();
                 break;
             default:
-                ToastUtils.makeToast(this, R.string.content_failed_to_parse_intent);
+                ToastUtils.makeToast(R.string.content_failed_to_parse_intent);
                 finish();
                 break;
         }
@@ -147,7 +147,7 @@ public class ContentActivity extends CommonActivity<ActivityContentBinding> impl
         Intent intent = getIntent();
         if (intent.hasExtra(Constants.EXTRA_MODEL)) {
             if (!(intent.getSerializableExtra(Constants.EXTRA_MODEL) instanceof Note)) {
-                ToastUtils.makeToast(this, R.string.content_failed_to_parse_intent);
+                ToastUtils.makeToast(R.string.content_failed_to_parse_intent);
                 LogUtils.d("Failed to resolve note intent : " + intent);
                 finish();
                 return;
@@ -167,7 +167,7 @@ public class ContentActivity extends CommonActivity<ActivityContentBinding> impl
             int requestCode = intent.getIntExtra(Constants.EXTRA_REQUEST_CODE, -1);
             Note note = NotesStore.getInstance(this).get(code);
             if (note == null){
-                ToastUtils.makeToast(this, R.string.text_no_such_note);
+                ToastUtils.makeToast(R.string.text_no_such_note);
                 LogUtils.d("Failed to resolve intent : " + intent);
                 finish();
                 return;

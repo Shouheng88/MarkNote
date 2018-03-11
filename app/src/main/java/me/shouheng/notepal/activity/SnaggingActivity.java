@@ -105,7 +105,7 @@ public class SnaggingActivity extends BaseActivity implements OnAttachingFileLis
             MindSnaggingStore.getInstance(this).update(mindSnagging);
         }
 
-        ToastUtils.makeToast(this, R.string.text_save_successfully);
+        ToastUtils.makeToast(R.string.text_save_successfully);
 
         AppWidgetUtils.notifyAppWidgets(this);
     }

@@ -187,7 +187,7 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
             mAdapter.notifyItemChanged(position);
             categoryStore.update(category);
 
-            ToastUtils.makeToast(getContext(), R.string.text_save_successfully);
+            ToastUtils.makeToast(R.string.text_save_successfully);
         });
         categoryEditDialog.show(getFragmentManager(), "CATEGORY_EDIT_DIALOG");
     }

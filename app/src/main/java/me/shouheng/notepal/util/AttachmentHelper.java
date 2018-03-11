@@ -67,7 +67,7 @@ public class AttachmentHelper {
         if (IntentUtils.isAvailable(context.getApplicationContext(), intent, null)) {
             context.startActivity(intent);
         } else {
-            ToastUtils.makeToast(context, R.string.activity_not_found_to_resolve);
+            ToastUtils.makeToast(R.string.activity_not_found_to_resolve);
         }
     }
 
@@ -254,7 +254,7 @@ public class AttachmentHelper {
     private static Intent captureIntent(Context context) {
         File file = FileHelper.createNewAttachmentFile(context, Constants.MIME_TYPE_IMAGE_EXTENSION);
         if (file == null){
-            ToastUtils.makeToast(context, R.string.failed_to_create_file);
+            ToastUtils.makeToast(R.string.failed_to_create_file);
             return null;
         }
 
@@ -284,7 +284,7 @@ public class AttachmentHelper {
     private static Intent recordVideoIntent(Context context) {
         File file = FileHelper.createNewAttachmentFile(context, Constants.MIME_TYPE_SKETCH_EXTENSION);
         if (file == null) {
-            ToastUtils.makeToast(context, R.string.failed_to_create_file);
+            ToastUtils.makeToast(R.string.failed_to_create_file);
             return null;
         }
 
@@ -314,7 +314,7 @@ public class AttachmentHelper {
     private static Intent sketchIntent(Context context) {
         File file = FileHelper.createNewAttachmentFile(context, Constants.MIME_TYPE_SKETCH_EXTENSION);
         if (file == null) {
-            ToastUtils.makeToast(context, R.string.failed_to_create_file);
+            ToastUtils.makeToast(R.string.failed_to_create_file);
             return null;
         }
 

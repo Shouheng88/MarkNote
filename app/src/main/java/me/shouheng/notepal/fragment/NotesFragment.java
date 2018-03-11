@@ -302,7 +302,7 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
             note.setParentCode(toBook.getCode());
             note.setTreePath(toBook.getTreePath() + "|" + note.getCode());
             NotesStore.getInstance(getContext()).update(note);
-            ToastUtils.makeToast(getContext(), R.string.moved_successfully);
+            ToastUtils.makeToast(R.string.moved_successfully);
 
             reload();
             notifyListChanged();
@@ -316,7 +316,7 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
             if (toBook.getCode() == nb.getParentCode()) return;
 
             NotebookStore.getInstance(getContext()).move(nb, toBook);
-            ToastUtils.makeToast(getContext(), R.string.moved_successfully);
+            ToastUtils.makeToast(R.string.moved_successfully);
 
             reload();
             dialog.dismiss();

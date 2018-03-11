@@ -67,7 +67,7 @@ public class NotebookEditDialog extends DialogFragment {
                 .setView(rootView)
                 .setPositiveButton(R.string.text_confirm, (dialog, which) -> {
                     if (TextUtils.isEmpty(etNotebookName.getText())){
-                        ToastUtils.makeToast(getContext(), R.string.title_required);
+                        ToastUtils.makeToast(R.string.title_required);
                         return;
                     }
                     notebookName = etNotebookName.getText().toString();

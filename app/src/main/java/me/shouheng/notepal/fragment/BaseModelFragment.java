@@ -90,7 +90,7 @@ public abstract class BaseModelFragment<T extends Model, V extends ViewDataBindi
         } else {
             updateModel();
         }
-        ToastUtils.makeToast(getContext(), R.string.text_save_successfully);
+        ToastUtils.makeToast(R.string.text_save_successfully);
 
         resetEditState();
 
@@ -161,11 +161,11 @@ public abstract class BaseModelFragment<T extends Model, V extends ViewDataBindi
                     .onPositive((materialDialog, dialogAction) -> {
                         if (!saveOrUpdateData()) return;
                         ShortcutHelper.addShortcut(getContext(), getModel());
-                        ToastUtils.makeToast(getContext(), R.string.successfully_add_shortcut);
+                        ToastUtils.makeToast(R.string.successfully_add_shortcut);
                     }).show();
         } else {
             ShortcutHelper.addShortcut(getActivity().getApplicationContext(), getModel());
-            ToastUtils.makeToast(getContext(), R.string.successfully_add_shortcut);
+            ToastUtils.makeToast(R.string.successfully_add_shortcut);
         }
     }
 
@@ -283,7 +283,7 @@ public abstract class BaseModelFragment<T extends Model, V extends ViewDataBindi
     // region location
     protected void tryToLocate() {
         if (!NetworkUtils.isNetworkAvailable(getActivity())){
-            ToastUtils.makeToast(getActivity(), R.string.check_network_availability);
+            ToastUtils.makeToast(R.string.check_network_availability);
             return;
         }
         if (getActivity() != null) {
@@ -292,7 +292,7 @@ public abstract class BaseModelFragment<T extends Model, V extends ViewDataBindi
     }
 
     private void baiduLocate() {
-        ToastUtils.makeToast(getContext(), R.string.trying_to_get_location);
+        ToastUtils.makeToast(R.string.trying_to_get_location);
         LocationManager.getInstance(getContext()).locate(bdLocation -> {
             if (bdLocation != null && !TextUtils.isEmpty(bdLocation.getCity())){
                 Location location = ModelFactory.getLocation(getContext());
@@ -304,7 +304,7 @@ public abstract class BaseModelFragment<T extends Model, V extends ViewDataBindi
                 location.setDistrict(bdLocation.getDistrict());
                 onGetLocation(location);
             } else {
-                ToastUtils.makeToast(getContext(), R.string.failed_to_get_location);
+                ToastUtils.makeToast(R.string.failed_to_get_location);
             }
         });
     }
