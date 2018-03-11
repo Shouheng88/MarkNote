@@ -8,7 +8,6 @@ import android.support.v4.content.ContextCompat;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
-import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.andrognito.pinlockview.IndicatorDots;
@@ -20,6 +19,7 @@ import me.shouheng.notepal.databinding.ActivityLockBinding;
 import me.shouheng.notepal.util.ActivityUtils;
 import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.RSAUtil;
+import me.shouheng.notepal.util.SystemUiVisibilityUtil;
 import me.shouheng.notepal.util.ToastUtils;
 
 public class LockActivity extends CommonActivity<ActivityLockBinding> {
@@ -72,13 +72,8 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
     }
 
     private void configSystemUI() {
-        runOnUiThread(() -> getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
-                | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
-                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                | View.SYSTEM_UI_FLAG_IMMERSIVE));
+        runOnUiThread(() -> getWindow().getDecorView().setSystemUiVisibility(
+                SystemUiVisibilityUtil.getSystemVisibility()));
     }
 
     private void configViews() {
@@ -95,7 +90,7 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
         }
     }
 
-    /**
+    /*
      * If there is no password saved in preferences, pass the password check directly. */
     private void checkPassword() {
         if (ACTION_REQUIRE_PERMISSION.equals(getIntent().getAction())
@@ -128,14 +123,14 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
     private void onCompleteForRequirement(String var) {
         String encryptedPin = RSAUtil.getEncryptString(var);
 
-        /**
+        /*
          * If the saved password is empty, pass the password check logic. */
         if (TextUtils.isEmpty(savedPassword)) {
             passCheck();
             return;
         }
 
-        /**
+        /*
          * Check the freeze time first. */
         if (preferencesUtils.getLastInputErrorTime() + psdFreezeLength > System.currentTimeMillis()) {
             if (!TextUtils.isEmpty(preferencesUtils.getPasswordQuestion())
@@ -154,15 +149,15 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
         }
 
         if (savedPassword.equals(encryptedPin)) {
-            /**
+            /*
              * If the input password is the same as saved one -> back and record.*/
             passCheck();
         } else {
-            /**
+            /*
              * Input wrong password. */
             getBinding().pinLockView.resetPinLockView();
             if (++errorTimes == 5) {
-                /**
+                /*
                  * Input wrong password for too many times, record last error time and save the frozen state. */
                 preferencesUtils.setLastInputErrorTime(System.currentTimeMillis());
                 isPasswordFrozen = true;
@@ -182,7 +177,7 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
         String encryptedPin = RSAUtil.getEncryptString(var);
 
         if (TextUtils.isEmpty(lastInputPassword)) {
-            /**
+            /*
              * record last input password witch will be used to check twice-input-logic */
             lastInputPassword = encryptedPin;
             getBinding().profileName.setText(R.string.setting_input_password_again);
@@ -191,7 +186,7 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
             if (lastInputPassword.equals(encryptedPin)) {
                 passSetting(encryptedPin);
             } else {
-                /**
+                /*
                  * Clear last input password, need to input same password twice. */
                 lastInputPassword = null;
                 getBinding().profileName.setText(R.string.setting_input_password_newly);
@@ -201,7 +196,8 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
     }
 
     private void showFreezeToast() {
-        String msg = String.format(getString(R.string.setting_password_frozen_minutes), preferencesUtils.getPasswordFreezeTime());
+        String msg = String.format(getString(R.string.setting_password_frozen_minutes),
+                preferencesUtils.getPasswordFreezeTime());
         ToastUtils.makeToast(msg);
     }
 
@@ -257,7 +253,7 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
     }
 
     private void passSetting(String encryptedPin) {
-        /**
+        /*
          * The password input twice is the same, save it to settings and finish activity. */
         preferencesUtils.setPassword(encryptedPin);
         Intent intent = new Intent();
