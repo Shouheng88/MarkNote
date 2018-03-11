@@ -18,6 +18,7 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.model.MindSnagging;
 import me.shouheng.notepal.model.Note;
+import me.shouheng.notepal.model.Notebook;
 import me.shouheng.notepal.provider.MindSnaggingStore;
 import me.shouheng.notepal.provider.NotesStore;
 import me.shouheng.notepal.provider.schema.NoteSchema;
@@ -185,9 +186,15 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory, SharedPrefere
         return true;
     }
 
-    public static void updateConfiguration(Context mContext, int mAppWidgetId, String sqlCondition, ListWidgetType listWidgetType) {
+    public static void updateConfiguration(Context mContext, int mAppWidgetId, Notebook notebook, ListWidgetType listWidgetType) {
         LogUtils.d("Widget configuration updated");
+
         Editor editor = mContext.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS).edit();
+        String sqlCondition = null;
+        if (listWidgetType == ListWidgetType.NOTES_LIST && notebook != null) {
+            sqlCondition = NoteSchema.TREE_PATH + " LIKE '" + notebook.getTreePath() + "'||'%'";
+            editor.putLong(Constants.PREF_WIDGET_NOTEBOOK_CODE_PREFIX + String.valueOf(mAppWidgetId), notebook.getCode());
+        }
         editor.putString(Constants.PREF_WIDGET_SQL_PREFIX + String.valueOf(mAppWidgetId), sqlCondition).apply();
         editor.putInt(Constants.PREF_WIDGET_TYPE_PREFIX + String.valueOf(mAppWidgetId), listWidgetType.id).apply();
 
