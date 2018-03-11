@@ -1,4 +1,4 @@
-package me.shouheng.notepal.activity;
+package me.shouheng.notepal.activity.base;
 
 import android.app.Activity;
 import android.content.Intent;

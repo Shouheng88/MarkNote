@@ -8,7 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import org.polaric.colorful.Colorful;
 
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.activity.ThemedActivity;
+import me.shouheng.notepal.activity.base.ThemedActivity;
 import me.shouheng.notepal.adapter.ThemesListAdapter;
 import me.shouheng.notepal.databinding.FragmentPrimaryPickerBinding;
 import me.shouheng.notepal.listener.OnFragmentDestroyListener;

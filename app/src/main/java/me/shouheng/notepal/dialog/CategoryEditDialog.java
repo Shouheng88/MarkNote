@@ -16,7 +16,7 @@ import android.widget.LinearLayout;
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
 
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.activity.CommonActivity;
+import me.shouheng.notepal.activity.base.CommonActivity;
 import me.shouheng.notepal.model.Category;
 import me.shouheng.notepal.model.enums.Portrait;
 import me.shouheng.notepal.util.ColorUtils;

@@ -19,6 +19,7 @@ import com.afollestad.materialdialogs.color.ColorChooserDialog.ColorCallback;
 import java.io.Serializable;
 
 import me.shouheng.notepal.R;
+import me.shouheng.notepal.activity.base.CommonActivity;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.databinding.ActivityContentBinding;
 import me.shouheng.notepal.fragment.CommonFragment;

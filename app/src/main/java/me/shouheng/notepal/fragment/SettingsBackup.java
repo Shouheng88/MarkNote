@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.activity.CommonActivity;
+import me.shouheng.notepal.activity.base.CommonActivity;
 import me.shouheng.notepal.async.DataBackupIntentService;
 import me.shouheng.notepal.listener.OnFragmentDestroyListener;
 import me.shouheng.notepal.util.FileHelper;

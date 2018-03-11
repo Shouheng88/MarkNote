@@ -3,6 +3,7 @@ package me.shouheng.notepal.activity;
 import android.support.v4.app.Fragment;
 
 import me.shouheng.notepal.R;
+import me.shouheng.notepal.activity.base.BaseListActivity;
 import me.shouheng.notepal.fragment.CategoriesFragment;
 import me.shouheng.notepal.fragment.NotesFragment;
 import me.shouheng.notepal.fragment.SnaggingsFragment;

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.shouheng.notepal.R;
+import me.shouheng.notepal.activity.base.CommonActivity;
 import me.shouheng.notepal.adapter.FabSortAdapter;
 import me.shouheng.notepal.databinding.ActivityFabSortBinding;
 import me.shouheng.notepal.model.enums.FabSortItem;

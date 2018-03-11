@@ -17,6 +17,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import me.shouheng.notepal.R;
+import me.shouheng.notepal.activity.base.ThemedActivity;
 import me.shouheng.notepal.adapter.SearchItemsAdapter;
 import me.shouheng.notepal.adapter.SearchItemsAdapter.OnItemSelectedListener;
 import me.shouheng.notepal.dialog.MindSnaggingDialog;

@@ -15,6 +15,7 @@ import com.afollestad.materialdialogs.color.ColorChooserDialog;
 import org.polaric.colorful.Colorful;
 
 import me.shouheng.notepal.R;
+import me.shouheng.notepal.activity.base.CommonActivity;
 import me.shouheng.notepal.databinding.ActivitySettingsBinding;
 import me.shouheng.notepal.fragment.AppInfoFragment;
 import me.shouheng.notepal.fragment.PrimaryPickerFragment;

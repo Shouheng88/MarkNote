@@ -1,4 +1,4 @@
-package me.shouheng.notepal.activity;
+package me.shouheng.notepal.activity.base;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
