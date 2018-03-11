@@ -28,7 +28,6 @@ import com.github.clans.fab.FloatingActionButton;
 
 import org.polaric.colorful.PermissionUtils;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -262,9 +261,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
             return false;
         });
         getBinding().menu.setOnMenuToggleListener(opened -> getBinding().rlMenuContainer.setVisibility(opened ? View.VISIBLE : View.GONE));
-        getBinding().rlMenuContainer.setOnClickListener(view -> {
-            getBinding().menu.close(true);
-        });
+        getBinding().rlMenuContainer.setOnClickListener(view -> getBinding().menu.close(true));
 
         fabs = new FloatingActionButton[]{getBinding().fab1, getBinding().fab2, getBinding().fab3, getBinding().fab4, getBinding().fab5};
 
@@ -340,9 +337,8 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     }
 
     private void editNote(@NonNull final Note note) {
-        PermissionUtils.checkStoragePermission(this, () -> {
-            ContentActivity.editNote(this, note, REQUEST_ADD_NOTE);
-        });
+        PermissionUtils.checkStoragePermission(this, () ->
+                ContentActivity.editNote(this, note, REQUEST_ADD_NOTE));
     }
 
     private Note getNewNote() {
@@ -350,7 +346,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
 
         boolean isNotes = isNotesFragment();
 
-        /**
+        /*
          * Add notebook filed according to current fragment */
         Notebook notebook;
         if (isNotes && (notebook = ((NotesFragment) getCurrentFragment()).getNotebook()) != null) {
@@ -361,7 +357,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
             note.setTreePath(String.valueOf(note.getCode()));
         }
 
-        /**
+        /*
          * Add category field according to current fragment */
         Category category;
         if (isNotes && (category = ((NotesFragment) getCurrentFragment()).getCategory()) != null) {
@@ -406,7 +402,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         AttachmentHelper.resolveClickEvent(
                 this,
                 attachment,
-                Arrays.asList(attachment),
+                Collections.singletonList(attachment),
                 "");
     }
 
