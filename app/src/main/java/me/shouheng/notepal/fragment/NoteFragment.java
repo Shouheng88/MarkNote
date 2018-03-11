@@ -45,6 +45,7 @@ import me.shouheng.notepal.dialog.AttachmentPickerDialog;
 import me.shouheng.notepal.dialog.LinkInputDialog;
 import me.shouheng.notepal.dialog.picker.NotebookPickerDialog;
 import me.shouheng.notepal.dialog.TableInputDialog;
+import me.shouheng.notepal.fragment.base.BaseModelFragment;
 import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.model.Category;
 import me.shouheng.notepal.model.Location;

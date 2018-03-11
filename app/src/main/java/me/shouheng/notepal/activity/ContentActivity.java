@@ -22,7 +22,7 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.base.CommonActivity;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.databinding.ActivityContentBinding;
-import me.shouheng.notepal.fragment.CommonFragment;
+import me.shouheng.notepal.fragment.base.CommonFragment;
 import me.shouheng.notepal.fragment.NoteFragment;
 import me.shouheng.notepal.fragment.NoteFragment.OnNoteInteractListener;
 import me.shouheng.notepal.fragment.NoteViewFragment;

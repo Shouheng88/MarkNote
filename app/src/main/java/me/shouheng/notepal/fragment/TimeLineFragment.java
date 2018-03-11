@@ -12,6 +12,7 @@ import java.util.List;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.TimeLinesAdapter;
 import me.shouheng.notepal.databinding.FragmentTimeLineBinding;
+import me.shouheng.notepal.fragment.base.CommonFragment;
 import me.shouheng.notepal.model.TimeLine;
 import me.shouheng.notepal.model.enums.Status;
 import me.shouheng.notepal.provider.TimelineStore;

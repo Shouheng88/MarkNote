@@ -28,6 +28,7 @@ import me.shouheng.notepal.adapter.MindSnaggingAdapter;
 import me.shouheng.notepal.databinding.FragmentSnaggingsBinding;
 import me.shouheng.notepal.dialog.AttachmentPickerDialog;
 import me.shouheng.notepal.dialog.MindSnaggingDialog;
+import me.shouheng.notepal.fragment.base.BaseFragment;
 import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.model.MindSnagging;
 import me.shouheng.notepal.model.enums.ModelType;

@@ -12,6 +12,7 @@ import me.shouheng.notepal.config.TextLength;
 import me.shouheng.notepal.databinding.FragmentUserInfoBinding;
 import me.shouheng.notepal.dialog.NoticeDialog;
 import me.shouheng.notepal.dialog.SimpleEditDialog;
+import me.shouheng.notepal.fragment.base.CommonFragment;
 import me.shouheng.notepal.model.enums.ModelType;
 import me.shouheng.notepal.provider.helper.StatisticsHelper;
 import me.shouheng.notepal.util.PalmUtils;

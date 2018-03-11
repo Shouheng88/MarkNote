@@ -8,6 +8,7 @@ import de.psdev.licensesdialog.LicensesDialog;
 import me.shouheng.notepal.BuildConfig;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.FragmentAppInfoBinding;
+import me.shouheng.notepal.fragment.base.BaseFragment;
 import me.shouheng.notepal.listener.OnFragmentDestroyListener;
 import me.shouheng.notepal.util.IntentUtils;
 
