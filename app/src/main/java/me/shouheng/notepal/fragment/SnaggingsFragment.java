@@ -390,7 +390,7 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
         } else {
             MindSnaggingStore.getInstance(getContext()).update(mindSnagging);
         }
-        ToastUtils.makeToast(getContext(), R.string.text_save_successfully);
+        ToastUtils.makeToast(R.string.text_save_successfully);
         adapter.notifyItemChanged(position);
     }
 

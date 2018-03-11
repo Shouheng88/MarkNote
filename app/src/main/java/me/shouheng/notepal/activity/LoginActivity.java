@@ -284,6 +284,6 @@ public class LoginActivity extends CommonActivity<ActivityLoginBinding> {
 //    }
 
 //    private void updateUI(GoogleSignInAccount account) {
-//        if (account != null) ToastUtils.makeToast(this, account.zzaaq());
+//        if (account != null) ToastUtils.makeToast(account.zzaaq());
 //    }
 }

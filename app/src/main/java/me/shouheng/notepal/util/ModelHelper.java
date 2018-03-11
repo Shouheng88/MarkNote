@@ -88,7 +88,7 @@ public class ModelHelper {
 
     public static <T extends Model> void copyLink(Activity ctx, T model) {
         if (model.getLastSyncTime().getTime() == 0) {
-            ToastUtils.makeToast(ctx, R.string.cannot_get_link_of_not_synced_item);
+            ToastUtils.makeToast(R.string.cannot_get_link_of_not_synced_item);
             return;
         }
 

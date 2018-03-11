@@ -92,7 +92,7 @@ public class TimeLineFragment extends CommonFragment<FragmentTimeLineBinding> {
         startIndex += pageNumber;
         if (startIndex > modelsCount) {
             startIndex -= pageNumber;
-            ToastUtils.makeToast(getContext(), R.string.no_more_data);
+            ToastUtils.makeToast(R.string.no_more_data);
         } else {
             List<TimeLine> list = TimelineStore.getInstance(getContext()).getPage(startIndex,
                     pageNumber,

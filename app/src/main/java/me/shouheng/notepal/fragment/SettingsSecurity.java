@@ -92,16 +92,16 @@ public class SettingsSecurity extends PreferenceFragment {
                     try {
                         int minutes = Integer.parseInt(charSequence.toString());
                         if (minutes < 0) {
-                            ToastUtils.makeToast(getActivity(), R.string.illegal_number);
+                            ToastUtils.makeToast(R.string.illegal_number);
                             return;
                         }
                         if (minutes > 30) {
-                            ToastUtils.makeToast(getActivity(), R.string.freeze_time_too_long);
+                            ToastUtils.makeToast(R.string.freeze_time_too_long);
                             return;
                         }
                         preferencesUtils.setPasswordFreezeTime(minutes);
                     } catch (Exception e) {
-                        ToastUtils.makeToast(getActivity(), R.string.wrong_numeric_string);
+                        ToastUtils.makeToast(R.string.wrong_numeric_string);
                     }
                 }).show();
     }
@@ -159,19 +159,19 @@ public class SettingsSecurity extends PreferenceFragment {
 
     private boolean checkSecurityQuestion(String question, String answer, String confirmAnswer) {
         if (TextUtils.isEmpty(question)) {
-            ToastUtils.makeToast(getActivity(), R.string.setting_question_required);
+            ToastUtils.makeToast(R.string.setting_question_required);
             return false;
         }
         if (TextUtils.isEmpty(answer)) {
-            ToastUtils.makeToast(getActivity(), R.string.setting_answer_required);
+            ToastUtils.makeToast(R.string.setting_answer_required);
             return false;
         }
         if (TextUtils.isEmpty(confirmAnswer)) {
-            ToastUtils.makeToast(getActivity(), R.string.setting_confirm_answer_required);
+            ToastUtils.makeToast(R.string.setting_confirm_answer_required);
             return false;
         }
         if (!answer.equals(confirmAnswer)) {
-            ToastUtils.makeToast(getActivity(), R.string.setting_answer_different);
+            ToastUtils.makeToast(R.string.setting_answer_different);
             return false;
         }
         return true;

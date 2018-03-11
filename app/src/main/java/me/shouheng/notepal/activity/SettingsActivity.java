@@ -102,7 +102,7 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> im
         PreferencesUtils.getInstance(this).setAccentColor(Colorful.AccentColor.getByColorName(colorName));
         ColorUtils.forceUpdateThemeStatus(this);
         updateTheme();
-        ToastUtils.makeToast(this, R.string.set_successfully);
+        ToastUtils.makeToast(R.string.set_successfully);
     }
 
     private boolean isSettingsFragment() {

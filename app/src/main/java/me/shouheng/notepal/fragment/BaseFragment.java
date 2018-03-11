@@ -34,7 +34,7 @@ public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFrag
     // region Capture
     protected void createScreenCapture(final RecyclerView recyclerView) {
         if (recyclerView.getAdapter() == null || recyclerView.getAdapter().getItemCount() == 0) {
-            ToastUtils.makeToast(getContext(), R.string.empty_list_to_capture);
+            ToastUtils.makeToast(R.string.empty_list_to_capture);
             return;
         }
         if (getActivity() == null) return;
@@ -43,7 +43,7 @@ public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFrag
 
     protected void createScreenCapture(final RecyclerView recyclerView, final int itemHeight) {
         if (recyclerView.getAdapter() == null || recyclerView.getAdapter().getItemCount() == 0) {
-            ToastUtils.makeToast(getContext(), R.string.empty_list_to_capture);
+            ToastUtils.makeToast(R.string.empty_list_to_capture);
             return;
         }
         if (getActivity() == null) return;
@@ -90,7 +90,7 @@ public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFrag
                     ToastUtils.makeToast(String.format(getString(R.string.text_file_saved_to), message.getObj().getPath()));
                     onGetScreenCutFile(message.getObj());
                 } else {
-                    ToastUtils.makeToast(getActivity(), R.string.failed_to_create_file);
+                    ToastUtils.makeToast(R.string.failed_to_create_file);
                 }
             }
         }).start();
@@ -122,7 +122,7 @@ public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFrag
                     ToastUtils.makeToast(String.format(getString(R.string.text_file_saved_to), message.getObj().getPath()));
                     onGetScreenCutFile(message.getObj());
                 } else {
-                    ToastUtils.makeToast(getActivity(), R.string.failed_to_create_file);
+                    ToastUtils.makeToast(R.string.failed_to_create_file);
                 }
             }
         }).start();
@@ -149,7 +149,7 @@ public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFrag
                     ToastUtils.makeToast(String.format(getString(R.string.text_file_saved_to), message.getObj().getPath()));
                     onGetScreenCutFile(message.getObj());
                 } else {
-                    ToastUtils.makeToast(getActivity(), R.string.failed_to_create_file);
+                    ToastUtils.makeToast(R.string.failed_to_create_file);
                 }
             }
         }).start();

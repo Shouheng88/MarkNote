@@ -271,7 +271,7 @@ public class SearchActivity extends ThemedActivity implements OnQueryTextListene
             MindSnaggingStore.getInstance(this).update(mindSnagging);
         }
 
-        ToastUtils.makeToast(this, R.string.text_save_successfully);
+        ToastUtils.makeToast(R.string.text_save_successfully);
 
         adapter.notifyItemChanged(position);
     }
@@ -285,7 +285,7 @@ public class SearchActivity extends ThemedActivity implements OnQueryTextListene
                 if (IntentUtils.isAvailable(getApplicationContext(), intent, null)) {
                     startActivity(intent);
                 } else {
-                    ToastUtils.makeToast(SearchActivity.this, R.string.activity_not_found_to_resolve);
+                    ToastUtils.makeToast(R.string.activity_not_found_to_resolve);
                 }
                 break;
             }

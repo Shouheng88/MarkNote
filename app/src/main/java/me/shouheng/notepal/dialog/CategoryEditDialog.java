@@ -75,7 +75,7 @@ public class CategoryEditDialog extends DialogFragment {
                 .setView(rootView)
                 .setPositiveButton(R.string.confirm, (dialog, which) -> {
                     if (TextUtils.isEmpty(etCategoryName.getText())){
-                        ToastUtils.makeToast(getContext(), R.string.title_required);
+                        ToastUtils.makeToast(R.string.title_required);
                         return;
                     }
                     category.setName(etCategoryName.getText().toString());

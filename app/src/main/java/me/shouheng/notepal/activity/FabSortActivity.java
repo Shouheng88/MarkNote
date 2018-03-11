@@ -136,7 +136,7 @@ public class FabSortActivity extends CommonActivity<ActivityFabSortBinding> {
         everSaved = true;
         List<FabSortItem> fabSortItems = mAdapter.getFabSortItems();
         preferencesUtils.setFabSortResult(fabSortItems);
-        ToastUtils.makeToast(FabSortActivity.this, R.string.fab_sort_save_successfully);
+        ToastUtils.makeToast(R.string.fab_sort_save_successfully);
     }
 
     private void resetFabOrders(){
