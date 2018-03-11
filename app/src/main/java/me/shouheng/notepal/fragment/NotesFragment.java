@@ -26,6 +26,7 @@ import me.shouheng.notepal.adapter.NotesAdapter;
 import me.shouheng.notepal.databinding.FragmentNotesBinding;
 import me.shouheng.notepal.dialog.NotebookEditDialog;
 import me.shouheng.notepal.dialog.picker.NotebookPickerDialog;
+import me.shouheng.notepal.fragment.base.BaseFragment;
 import me.shouheng.notepal.model.Category;
 import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.model.Notebook;

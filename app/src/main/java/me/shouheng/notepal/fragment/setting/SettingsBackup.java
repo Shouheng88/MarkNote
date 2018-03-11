@@ -1,4 +1,4 @@
-package me.shouheng.notepal.fragment;
+package me.shouheng.notepal.fragment.setting;
 
 import android.content.Intent;
 import android.os.Bundle;

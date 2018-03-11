@@ -33,6 +33,7 @@ import me.shouheng.notepal.activity.ContentActivity;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.databinding.FragmentNoteViewBinding;
 import me.shouheng.notepal.dialog.OpenResolver;
+import me.shouheng.notepal.fragment.base.BaseFragment;
 import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.model.Category;
 import me.shouheng.notepal.model.Location;

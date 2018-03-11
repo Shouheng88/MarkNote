@@ -11,6 +11,7 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.base.ThemedActivity;
 import me.shouheng.notepal.adapter.ThemesListAdapter;
 import me.shouheng.notepal.databinding.FragmentPrimaryPickerBinding;
+import me.shouheng.notepal.fragment.base.BaseFragment;
 import me.shouheng.notepal.listener.OnFragmentDestroyListener;
 import me.shouheng.notepal.listener.OnThemeSelectedListener;
 import me.shouheng.notepal.util.ColorUtils;

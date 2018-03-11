@@ -9,6 +9,7 @@ import java.lang.ref.WeakReference;
 
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.FragmentStatisticsBinding;
+import me.shouheng.notepal.fragment.base.BaseFragment;
 import me.shouheng.notepal.model.Stats;
 import me.shouheng.notepal.provider.helper.StatisticsHelper;
 import me.shouheng.notepal.util.LogUtils;

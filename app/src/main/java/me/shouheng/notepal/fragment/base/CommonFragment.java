@@ -1,4 +1,4 @@
-package me.shouheng.notepal.fragment;
+package me.shouheng.notepal.fragment.base;
 
 import android.annotation.TargetApi;
 import android.databinding.DataBindingUtil;
