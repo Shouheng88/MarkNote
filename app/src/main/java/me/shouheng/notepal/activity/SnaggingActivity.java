@@ -8,7 +8,7 @@ import android.text.TextUtils;
 
 import org.polaric.colorful.BaseActivity;
 
-import java.util.Arrays;
+import java.util.Collections;
 
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
@@ -88,7 +88,7 @@ public class SnaggingActivity extends BaseActivity implements OnAttachingFileLis
         AttachmentHelper.resolveClickEvent(
                 this,
                 attachment,
-                Arrays.asList(attachment),
+                Collections.singletonList(attachment),
                 "");
     }
 
