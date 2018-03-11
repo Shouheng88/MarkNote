@@ -12,7 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.databinding.ActivityWidgetConfigurationBinding;
-import me.shouheng.notepal.dialog.NotebookPickerDialog;
+import me.shouheng.notepal.dialog.picker.NotebookPickerDialog;
 import me.shouheng.notepal.model.Notebook;
 import me.shouheng.notepal.provider.NotebookStore;
 import me.shouheng.notepal.util.LogUtils;

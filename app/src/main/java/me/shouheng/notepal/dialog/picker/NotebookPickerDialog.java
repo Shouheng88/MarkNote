@@ -1,4 +1,4 @@
-package me.shouheng.notepal.dialog;
+package me.shouheng.notepal.dialog.picker;
 
 import android.support.v7.app.AlertDialog;
 

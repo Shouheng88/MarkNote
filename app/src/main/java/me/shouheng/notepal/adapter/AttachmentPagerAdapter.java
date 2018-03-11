@@ -1,5 +1,6 @@
 package me.shouheng.notepal.adapter;
 
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -30,6 +31,7 @@ public class AttachmentPagerAdapter extends FragmentStatePagerAdapter {
         return ImageFragment.newInstance(attachment);
     }
 
+    @NonNull
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         Fragment fragment = (Fragment) super.instantiateItem(container, position);
@@ -44,7 +46,7 @@ public class AttachmentPagerAdapter extends FragmentStatePagerAdapter {
     }
 
     @Override
-    public int getItemPosition(Object object) {
+    public int getItemPosition(@NonNull Object object) {
         return PagerAdapter.POSITION_NONE;
     }
 

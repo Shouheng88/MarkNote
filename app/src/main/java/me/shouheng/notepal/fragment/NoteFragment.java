@@ -43,7 +43,7 @@ import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.databinding.FragmentNoteBinding;
 import me.shouheng.notepal.dialog.AttachmentPickerDialog;
 import me.shouheng.notepal.dialog.LinkInputDialog;
-import me.shouheng.notepal.dialog.NotebookPickerDialog;
+import me.shouheng.notepal.dialog.picker.NotebookPickerDialog;
 import me.shouheng.notepal.dialog.TableInputDialog;
 import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.model.Category;
