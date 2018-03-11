@@ -12,27 +12,23 @@ import me.shouheng.notepal.listener.OnAttachingFileListener;
 import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.util.FileHelper;
 
-
 public class AttachmentTask extends AsyncTask<Void, Void, Attachment> {
 
     private WeakReference<Fragment> mFragmentWeakReference;
-
     private WeakReference<Activity> mActivityWeakReference;
-
     private OnAttachingFileListener mOnAttachingFileListener;
-
     private Uri uri;
 
-    public AttachmentTask(Fragment mFragment, Uri uri, String fileName, OnAttachingFileListener mOnAttachingFileListener) {
+    public AttachmentTask(Fragment mFragment, Uri uri, String fileName, OnAttachingFileListener listener) {
         mFragmentWeakReference = new WeakReference<>(mFragment);
         this.uri = uri;
-        this.mOnAttachingFileListener = mOnAttachingFileListener;
+        this.mOnAttachingFileListener = listener;
     }
 
-    public AttachmentTask(Activity activity, Uri uri, String fileName, OnAttachingFileListener mOnAttachingFileListener) {
+    public AttachmentTask(Activity activity, Uri uri, String fileName, OnAttachingFileListener listener) {
         mActivityWeakReference = new WeakReference<>(activity);
         this.uri = uri;
-        this.mOnAttachingFileListener = mOnAttachingFileListener;
+        this.mOnAttachingFileListener = listener;
     }
 
     @Override

@@ -59,8 +59,11 @@ public abstract class BasePickerDialog<T extends Model> extends DialogFragment {
 
     protected ModelsPickerAdapter<T> getAdapter() {
         if (modelsPickerAdapter == null) modelsPickerAdapter = prepareAdapter();
-        modelsPickerAdapter.setOnItemClickListener((adapter, view, position) -> onItemSelectedListener.onItemSelected(
-                BasePickerDialog.this, modelsPickerAdapter.getItem(position), position));
+        modelsPickerAdapter.setOnItemClickListener((adapter, view, position) ->
+                onItemSelectedListener.onItemSelected(
+                        BasePickerDialog.this,
+                        modelsPickerAdapter.getItem(position),
+                        position));
         return modelsPickerAdapter;
     }
 
