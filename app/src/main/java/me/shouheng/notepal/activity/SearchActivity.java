@@ -3,7 +3,6 @@ package me.shouheng.notepal.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
@@ -12,17 +11,14 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.inputmethod.InputMethodManager;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.SearchItemsAdapter;
 import me.shouheng.notepal.adapter.SearchItemsAdapter.OnItemSelectedListener;
-import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.dialog.MindSnaggingDialog;
 import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.model.MindSnagging;
@@ -31,9 +27,8 @@ import me.shouheng.notepal.model.enums.ModelType;
 import me.shouheng.notepal.provider.AttachmentsStore;
 import me.shouheng.notepal.provider.MindSnaggingStore;
 import me.shouheng.notepal.provider.helper.QueryHelper;
-import me.shouheng.notepal.util.FileHelper;
+import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.util.GsonUtils;
-import me.shouheng.notepal.util.IntentUtils;
 import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.util.tools.SearchConditions;
@@ -45,17 +40,15 @@ public class SearchActivity extends ThemedActivity implements OnQueryTextListene
 
     private static final String EXTRA_NAME_REQUEST_CODE = "extra.request.code";
 
-    private InputMethodManager mImm;
+    private final int REQUEST_FOR_NOTE = 20004;
+
+//    private InputMethodManager mImm;
 
     private SearchItemsAdapter adapter;
     private SearchView mSearchView;
 
-    private final int REQUEST_FOR_NOTE = 20004;
-    private final int QUERY_FOR_MINDS = 20005;
-
     private String queryString;
     private List searchResults = new LinkedList();
-
     private List<Note> notes = new LinkedList<>();
     private List<MindSnagging> minds = new LinkedList<>();
 
@@ -67,13 +60,6 @@ public class SearchActivity extends ThemedActivity implements OnQueryTextListene
         intent.putExtra(EXTRA_NAME_REQUEST_CODE, requestCode);
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         mContext.startActivityForResult(intent, requestCode);
-    }
-
-    public static void startActivityForResult(Fragment fragment, int requestCode){
-        Intent intent = new Intent(fragment.getContext(), SearchActivity.class);
-        intent.putExtra(EXTRA_NAME_REQUEST_CODE, requestCode);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        fragment.startActivityForResult(intent, requestCode);
     }
 
     @Override
@@ -187,7 +173,7 @@ public class SearchActivity extends ThemedActivity implements OnQueryTextListene
 
     private void hideInputManager() {
         if (mSearchView != null) {
-            if (mImm != null) mImm.hideSoftInputFromWindow(mSearchView.getWindowToken(), 0);
+//            if (mImm != null) mImm.hideSoftInputFromWindow(mSearchView.getWindowToken(), 0);
             mSearchView.clearFocus();
         }
     }
@@ -253,9 +239,11 @@ public class SearchActivity extends ThemedActivity implements OnQueryTextListene
     public void onMindSnaggingSelected(MindSnagging mind, final int position) {
         new MindSnaggingDialog.Builder()
                 .setMindSnagging(mind)
-                .setOnConfirmListener((mindSnagging, attachment) -> saveMindSnagging(position, mindSnagging, attachment))
-                .setOnAttachmentClickListener(attachment -> resolveAttachmentClickEvent(attachment, Arrays.asList(attachment)))
-                .build().show(getSupportFragmentManager(), "VIEW_MIND_SNAGGING");
+                .setOnConfirmListener((mindSnagging, attachment) ->
+                        saveMindSnagging(position, mindSnagging, attachment))
+                .setOnAttachmentClickListener(this::resolveAttachmentClick)
+                .build()
+                .show(getSupportFragmentManager(), "VIEW_MIND_SNAGGING");
     }
 
     private void saveMindSnagging(int position, MindSnagging mindSnagging, Attachment attachment) {
@@ -276,42 +264,12 @@ public class SearchActivity extends ThemedActivity implements OnQueryTextListene
         adapter.notifyItemChanged(position);
     }
 
-    protected void resolveAttachmentClickEvent(Attachment attachment, List<Attachment> attachments) {
-        switch (attachment.getMineType()) {
-            case Constants.MIME_TYPE_FILES: {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setDataAndType(attachment.getUri(), FileHelper.getMimeType(SearchActivity.this, attachment.getUri()));
-                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-                if (IntentUtils.isAvailable(getApplicationContext(), intent, null)) {
-                    startActivity(intent);
-                } else {
-                    ToastUtils.makeToast(R.string.activity_not_found_to_resolve);
-                }
-                break;
-            }
-            case Constants.MIME_TYPE_IMAGE:
-            case Constants.MIME_TYPE_SKETCH:
-            case Constants.MIME_TYPE_VIDEO: {
-                int clickedImage = 0;
-                ArrayList<Attachment> images = new ArrayList<>();
-                for (Attachment mAttachment : attachments) {
-                    if (Constants.MIME_TYPE_IMAGE.equals(mAttachment.getMineType())
-                            || Constants.MIME_TYPE_SKETCH.equals(mAttachment.getMineType())
-                            || Constants.MIME_TYPE_VIDEO.equals(mAttachment.getMineType())) {
-                        images.add(mAttachment);
-                        if (mAttachment.equals(attachment)) {
-                            clickedImage = images.size() - 1;
-                        }
-                    }
-                }
-                Intent intent = new Intent(SearchActivity.this, GalleryActivity.class);
-                intent.putExtra(GalleryActivity.EXTRA_GALLERY_TITLE, "Mind Snagging");
-                intent.putParcelableArrayListExtra(GalleryActivity.EXTRA_GALLERY_IMAGES, images);
-                intent.putExtra(GalleryActivity.EXTRA_GALLERY_CLICKED_IMAGE, clickedImage);
-                startActivity(intent);
-                break;
-            }
-        }
+    protected void resolveAttachmentClick(Attachment attachment) {
+        AttachmentHelper.resolveClickEvent(
+                this,
+                attachment,
+                Collections.singletonList(attachment),
+                "");
     }
 
     @Override
@@ -320,12 +278,6 @@ public class SearchActivity extends ThemedActivity implements OnQueryTextListene
             switch (requestCode) {
                 case REQUEST_FOR_NOTE:
                     queryNotes(queryString);
-                    setupQueryResults();
-                    adapter.updateSearchResults(searchResults);
-                    adapter.notifyDataSetChanged();
-                    break;
-                case QUERY_FOR_MINDS:
-                    queryMinds(queryString);
                     setupQueryResults();
                     adapter.updateSearchResults(searchResults);
                     adapter.notifyDataSetChanged();
