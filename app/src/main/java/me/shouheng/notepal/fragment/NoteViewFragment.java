@@ -59,8 +59,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
     private Note note;
     private String content, tags;
 
-    private boolean isPreview = false;
-    private boolean isContentChanged = false;
+    private boolean isPreview = false, isContentChanged = false;
 
     public static NoteViewFragment newInstance(@Nonnull Note note, Integer requestCode) {
         Bundle arg = new Bundle();

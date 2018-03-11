@@ -132,7 +132,6 @@ public class MarkdownViewer extends FastScrollWebView {
 
         @Override
         public final void onPageFinished(WebView webView, String str) {
-            super.onPageFinished(webView, str);
             if (this.markdowmWebView.mLoadingFinishListener != null) {
                 this.markdowmWebView.mLoadingFinishListener.onLoadingFinish();
             }
@@ -148,7 +147,9 @@ public class MarkdownViewer extends FastScrollWebView {
             Log.d(TAG, "shouldOverrideUrlLoading: " + url);
             if (!TextUtils.isEmpty(url)){
                 Uri uri = Uri.parse(url);
-                // open the http or https link
+
+                /*
+                 * Open the http or https link from chrome tab. */
                 if (SCHEME_HTTPS.equalsIgnoreCase(uri.getScheme())
                         || SCHEME_HTTP.equalsIgnoreCase(uri.getScheme())) {
                     CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
@@ -157,10 +158,12 @@ public class MarkdownViewer extends FastScrollWebView {
                             .setSecondaryToolbarColor(primaryDark)
                             .build();
                     customTabsIntent.launchUrl(webView.getContext(), Uri.parse(url));
-                    // stop to transfer the intent
+                    // Consume the intent here.
                     return true;
                 }
-                // open the resources
+
+                /*
+                 * Open the files of given format. */
                 if (url.endsWith(_3GP) || url.endsWith(_MP4)) {
                     startActivity(uri, VIDEO_MIME_TYPE);
                     return true;
@@ -168,17 +171,15 @@ public class MarkdownViewer extends FastScrollWebView {
                     startActivity(uri, PDF_MIME_TYPE);
                     return true;
                 } else {
-                    startActivity(uri);
+                    /*
+                     * Let the callback resolve the intent. */
+                    if (onAttachmentClickedListener != null) {
+                        onAttachmentClickedListener.onAttachmentClicked(uri);
+                    }
                     return true;
                 }
             }
             return true;
-        }
-    }
-
-    private void startActivity(Uri uri) {
-        if (onAttachmentClickedListener != null) {
-            onAttachmentClickedListener.onAttachmentClicked(uri);
         }
     }
 
