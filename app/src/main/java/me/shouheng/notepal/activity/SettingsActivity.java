@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
-import android.support.annotation.StringRes;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -30,22 +29,15 @@ import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.ToastUtils;
 
 public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> implements
-        SettingsFragment.OnPreferenceClickListener, OnThemeSelectedListener, OnFragmentDestroyListener {
+        SettingsFragment.OnPreferenceClickListener,
+        OnThemeSelectedListener,
+        OnFragmentDestroyListener {
 
     private String keyForColor;
 
     private PreferencesUtils preferencesUtils;
 
     private final static int REQUEST_CODE_PASSWORD = 0x0201;
-
-    private static final String EXTRA_NAME_REQUEST_CODE = "extra.requestcode";
-
-    public static void startActivityForResult(Activity mContext, int requestCode){
-        Intent intent = new Intent(mContext, SearchActivity.class);
-        intent.putExtra(EXTRA_NAME_REQUEST_CODE, requestCode);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        mContext.startActivityForResult(intent, requestCode);
-    }
 
     @Override
     protected int getLayoutResId() {
@@ -90,14 +82,15 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> im
     public void onColorSelection(@NonNull ColorChooserDialog dialog, int selectedColor) {
         switch (keyForColor) {
             case PreferencesUtils.ACCENT_COLOR:
-                setupTheme(dialog, selectedColor);
-                if (isSettingsFragment()) ((SettingsFragment) getCurrentFragment())
-                        .notifyAccentColorChanged(selectedColor);
+                setupTheme(selectedColor);
+                if (isSettingsFragment()) {
+                    ((SettingsFragment) getCurrentFragment()).notifyAccentColorChanged(selectedColor);
+                }
                 break;
         }
     }
 
-    private void setupTheme(@NonNull ColorChooserDialog colorChooserDialog, @ColorInt int i) {
+    private void setupTheme(@ColorInt int i) {
         String colorName = ColorUtils.getColorName(i);
         PreferencesUtils.getInstance(this).setAccentColor(Colorful.AccentColor.getByColorName(colorName));
         ColorUtils.forceUpdateThemeStatus(this);
@@ -145,17 +138,6 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> im
         getBinding().bar.findViewById(R.id.toolbar).setBackgroundColor(primaryColor());
         if (isSettingsFragment()) ((SettingsFragment) getCurrentFragment())
                 .notifyPrimaryColorChanged(getResources().getColor(themeColor.getColorRes()));
-    }
-
-    private void showPrimaryColorPicker(@StringRes int titleRes, int defaultValue) {
-        new ColorChooserDialog.Builder(this, titleRes)
-                .preselect(defaultValue)
-                .accentMode(false)
-                .titleSub(titleRes)
-                .backButton(R.string.text_back)
-                .doneButton(R.string.done_label)
-                .cancelButton(R.string.text_cancel)
-                .show();
     }
 
     private void showAccentColorPicker() {
