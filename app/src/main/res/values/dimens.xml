@@ -30,7 +30,7 @@
     <dimen name="icon_width_height">24dp</dimen>
 
     <dimen name="archive_toolbar_top_margin">0dp</dimen>
-    <dimen name="main_navigation_header_top_margin">36dp</dimen>
+    <dimen name="main_navigation_header_top_margin">12dp</dimen>
 
     <dimen name="ui_radius">2dp</dimen>
 
@@ -61,4 +61,6 @@
 
     <dimen name="timeline_card_left_right_margin">11dp</dimen>
     <dimen name="timeline_card_top_bottom_margin">3dp</dimen>
+
+    <dimen name="nav_main_height">164dp</dimen>
 </resources>
