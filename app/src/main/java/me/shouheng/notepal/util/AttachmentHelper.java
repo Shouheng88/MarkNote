@@ -346,7 +346,7 @@ public class AttachmentHelper {
 
     public static Uri getAttachmentUri() {
         if (attachmentUri == null) {
-            /**
+            /*
              * Get attachment uri from preferences. */
             String uriStr = PreferencesUtils.getInstance(PalmApp.getContext()).getAttachmentUri();
             if (!TextUtils.isEmpty(uriStr)) {
@@ -358,7 +358,7 @@ public class AttachmentHelper {
 
     public static void setAttachmentUri(Uri attachmentUri) {
         AttachmentHelper.attachmentUri = attachmentUri;
-        /**
+        /*
          * Persist the attachment uri at the preferences at the same time. */
         if (attachmentUri != null) {
             PreferencesUtils.getInstance(PalmApp.getContext()).setAttachmentUri(attachmentUri);
