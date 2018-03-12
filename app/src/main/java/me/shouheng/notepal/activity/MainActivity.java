@@ -627,8 +627,14 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     }
 
     private void handleAttachmentResult(int requestCode, Intent data) {
-        AttachmentHelper.resolveResult(this, requestCode, data, attachment ->
-                mindSnaggingDialog.setAttachment(attachment));
+        AttachmentHelper.resolveResult(this, requestCode, data, attachment -> {
+            if (mindSnaggingDialog != null) {
+                mindSnaggingDialog.setAttachment(attachment);
+                LogUtils.d("The mind snagging dialog is null.");
+            } else {
+                ToastUtils.makeToast(R.string.failed_to_save_attachment);
+            }
+        });
     }
 
     @Override
