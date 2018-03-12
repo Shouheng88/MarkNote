@@ -3,6 +3,7 @@ package me.shouheng.notepal.adapter;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -28,7 +29,8 @@ public class MindSnaggingAdapter extends BaseQuickAdapter<MindSnagging, BaseView
 
     private MindSnaggingListType listType;
 
-    public MindSnaggingAdapter(Context context, MindSnaggingListType listType,
+    public MindSnaggingAdapter(Context context,
+                               MindSnaggingListType listType,
                                @Nullable List<MindSnagging> data) {
         super(listType == MindSnaggingListType.ONE_COL ?
                 R.layout.item_universal_layout : R.layout.item_universal_layout_two_cols, data);
@@ -56,8 +58,13 @@ public class MindSnaggingAdapter extends BaseQuickAdapter<MindSnagging, BaseView
 
     @Override
     public String getTextToShowInBubble(int pos) {
+        MindSnagging snagging = getItem(pos);
+        String content;
+        if (snagging == null || TextUtils.isEmpty(content = snagging.getContent())) {
+            return "";
+        }
         try {
-            return String.valueOf(getItem(pos).getContent().charAt(0));
+            return String.valueOf(content.charAt(0));
         } catch (Exception e) {
             return "";
         }

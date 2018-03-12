@@ -5,7 +5,7 @@
     <FrameLayout
         android:id="@+id/fl"
         android:layout_width="match_parent"
-        android:layout_height="188dp"
+        android:layout_height="@dimen/nav_main_height"
         android:background="?attr/colorPrimaryDark"
         android:theme="@style/ThemeOverlay.AppCompat.Dark"
         android:orientation="vertical"

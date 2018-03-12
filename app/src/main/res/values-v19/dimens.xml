@@ -6,4 +6,6 @@
 
     <dimen name="timeline_card_left_right_margin">16dp</dimen>
     <dimen name="timeline_card_top_bottom_margin">8dp</dimen>
+
+    <dimen name="nav_main_height">188dp</dimen>
 </resources>
