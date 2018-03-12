@@ -56,7 +56,8 @@ public class MindSnaggingDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         handleArguments();
 
-        binding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_mind_snagging_layout, null, false);
+        binding = DataBindingUtil.inflate(LayoutInflater.from(getContext()),
+                R.layout.dialog_mind_snagging_layout, null, false);
 
         binding.wtv.bindEditText(binding.et);
         binding.et.setText(mindSnagging.getContent());

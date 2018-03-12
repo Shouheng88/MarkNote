@@ -26,9 +26,7 @@ public class SimpleEditDialog extends DialogFragment {
 
     private OnAcceptListener onAcceptListener;
 
-    private String content = "";
-
-    private String previousContent = "";
+    private String content = "", previousContent = "";
 
     private EditText etContent;
     private TextView tv;
