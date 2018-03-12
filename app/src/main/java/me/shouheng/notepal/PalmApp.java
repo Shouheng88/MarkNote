@@ -10,14 +10,27 @@ import org.polaric.colorful.Colorful;
 
 import me.shouheng.notepal.model.Model;
 
-
 /**
  * TODO All the todo items in later version:
+ *
  * 1. Add ringtone to {@link me.shouheng.notepal.async.DataBackupIntentService} when included the notification logic;
- * 2. Enable copy link logic when the server is ready. {@link me.shouheng.notepal.util.ModelHelper#copyLink(Activity, Model)}
+ * 2. Enable copy link logic when the server is ready. {@link me.shouheng.notepal.util.ModelHelper#copyLink(Activity, Model)};
+ * 3. Add Google Drive logic, check if the file has backup time in google drive;
+ * 4. Make ripple.xml uniform in every place;
+ * 5. Use ViewModel to load data async;
+ * 6. Modify import from external logic, since current logic did nothing according to the db version and change,
+ *    You may also research the performance when the db version is different.
+ * 7. Refine NoteViewFragment performance;
+ * 8. Add sortable selections in list fragment.
+ * 9. Location logic of foreign country;
+ * 10. Weather logic, only add weather data in db;
+ * 11. Statistic;
+ * 12. Calendar + Timeline;
+ * 13. Google map location info;
+ * 14. Multiple platform statistics and user trace.
  *
  * Created by wangshouheng on 2017/2/26. */
-public class PalmApp extends Application{
+public class PalmApp extends Application {
 
     private static PalmApp mInstance;
 
@@ -37,7 +50,7 @@ public class PalmApp extends Application{
 
         Colorful.init(this);
 
-        /**
+        /*
          * Enable stetho only in debug mode. */
         if (BuildConfig.DEBUG) {
             Stetho.initializeWithDefaults(this);
@@ -48,7 +61,7 @@ public class PalmApp extends Application{
         return passwordChecked;
     }
 
-    public static void setPasswordChecked(boolean passwordChecked) {
-        PalmApp.passwordChecked = passwordChecked;
+    public static void setPasswordChecked() {
+        PalmApp.passwordChecked = true;
     }
 }

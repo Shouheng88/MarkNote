@@ -249,7 +249,7 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
     private void passCheck() {
         Intent intent = new Intent();
         setResult(Activity.RESULT_OK, intent);
-        PalmApp.setPasswordChecked(true);
+        PalmApp.setPasswordChecked();
         finish();
     }
 
