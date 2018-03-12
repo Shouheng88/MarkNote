@@ -17,11 +17,11 @@ import me.shouheng.notepal.util.ColorUtils;
 
 /**
  * Created by wangshouheng on 2017/7/1. */
-public class TableInputDialog extends DialogFragment{
+public class TableInputDialog extends DialogFragment {
 
     private OnConfirmClickListener onConfirmClickListener;
 
-    public static TableInputDialog getInstance(){
+    public static TableInputDialog getInstance() {
         return new TableInputDialog();
     }
 
