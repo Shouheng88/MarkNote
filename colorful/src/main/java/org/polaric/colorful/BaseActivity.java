@@ -43,28 +43,32 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-    private void showPermissionSettingDialog(int requestCode){
-        String msg = String.format(getString(R.string.set_permission_in_setting), PermissionUtils.getPermissionName(this, requestCode));
+    private void showPermissionSettingDialog(int requestCode) {
+        String msg = String.format(getString(R.string.set_permission_in_setting),
+                PermissionUtils.getPermissionName(this, requestCode));
         new AlertDialog.Builder(this)
                 .setTitle(R.string.setting_permission)
                 .setMessage(msg)
-                .setPositiveButton(R.string.to_set, (dialog, which) -> {
-                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                    Uri uri = Uri.fromParts("package", Util.getPackageName(BaseActivity.this), null);
-                    intent.setData(uri);
-                    startActivity(intent);
-                })
+                .setPositiveButton(R.string.to_set, (dialog, which) -> toSetPermission())
                 .setNegativeButton(R.string.text_cancel, null)
                 .create()
                 .show();
     }
 
-    private static void makeToast(Context context, @StringRes int msgRes){
+    private void toSetPermission() {
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", Util.getPackageName(BaseActivity.this), null);
+        intent.setData(uri);
+        startActivity(intent);
+    }
+
+    private static void makeToast(Context context, @StringRes int msgRes) {
         if (toast == null){
             toast = Toast.makeText(context.getApplicationContext(), msgRes, Toast.LENGTH_SHORT);
+            toast.show();
         } else {
             toast.setText(msgRes);
+            toast.show();
         }
-        toast.show();
     }
 }
