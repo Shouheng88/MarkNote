@@ -37,11 +37,6 @@ public class TrashedActivity extends BaseListActivity {
     }
 
     @Override
-    public void onResumeToCategory() {
-        setDrawerLayoutLocked(false);
-    }
-
-    @Override
     public void onCategorySelected(Category category) {
         NotesFragment notesFragment = NotesFragment.newInstance(category, Status.TRASHED);
         FragmentHelper.replaceWithCallback(this, notesFragment, R.id.fragment_container);
@@ -51,10 +46,5 @@ public class TrashedActivity extends BaseListActivity {
     public void onNotebookSelected(Notebook notebook) {
         NotesFragment notesFragment = NotesFragment.newInstance(notebook, Status.TRASHED);
         FragmentHelper.replaceWithCallback(this, notesFragment, R.id.fragment_container);
-    }
-
-    @Override
-    public void onActivityAttached(boolean isTopStack) {
-        setDrawerLayoutLocked(!isTopStack);
     }
 }
