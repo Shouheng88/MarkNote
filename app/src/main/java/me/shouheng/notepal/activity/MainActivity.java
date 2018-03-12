@@ -92,6 +92,8 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     private final int REQUEST_NOTE_VIEW = 0x0008;
     // endregion
 
+    private final static long TIME_INTERVAL_BACK = 2000;
+
     private long onBackPressed;
 
     private PreferencesUtils preferencesUtils;
@@ -663,7 +665,6 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     }
 
     private void againExit() {
-        long TIME_INTERVAL_BACK = 2000;
         if (onBackPressed + TIME_INTERVAL_BACK > System.currentTimeMillis()) {
             super.onBackPressed();
             return;
