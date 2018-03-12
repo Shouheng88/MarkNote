@@ -46,6 +46,10 @@ public class AttachmentHelper {
             Attachment attachment,
             List<Attachment> attachments,
             String galleryTitle) {
+        if (attachment == null) {
+            ToastUtils.makeToast(R.string.file_not_exist);
+            return;
+        }
         switch (attachment.getMineType()) {
             case Constants.MIME_TYPE_FILES: {
                 resolveFiles(context, attachment);

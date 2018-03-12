@@ -19,6 +19,7 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseViewHolder;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Nonnull;
@@ -268,7 +269,9 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
 
     private void showEditor(int position) {
         mindSnaggingDialog = new MindSnaggingDialog.Builder()
-                .setOnAttachmentClickListener(attachment -> AttachmentHelper.resolveClickEvent(getContext(), attachment, Arrays.asList(attachment), ""))
+                .setOnAttachmentClickListener(attachment ->
+                        AttachmentHelper.resolveClickEvent(getContext(),
+                                attachment, Collections.singletonList(attachment), ""))
                 .setOnConfirmListener((mindSnagging, attachment) -> {
                     saveMindSnagging(position, mindSnagging, attachment);
                     notifyListChanged();
