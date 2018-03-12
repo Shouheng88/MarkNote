@@ -150,4 +150,14 @@ public abstract class BaseListActivity extends CommonActivity<ActivityListBaseWi
     public void onSnaggingListChanged() {
         isListChanged = true;
     }
+
+    @Override
+    public void onResumeToCategory() {
+        setDrawerLayoutLocked(false);
+    }
+
+    @Override
+    public void onActivityAttached(boolean isTopStack) {
+        setDrawerLayoutLocked(!isTopStack);
+    }
 }
