@@ -1,6 +1,5 @@
 package me.shouheng.notepal.fragment;
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -18,8 +17,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.chad.library.adapter.base.BaseViewHolder;
-
 import java.util.Collections;
 
 import javax.annotation.Nonnull;
@@ -32,11 +29,8 @@ import me.shouheng.notepal.dialog.MindSnaggingDialog;
 import me.shouheng.notepal.fragment.base.BaseFragment;
 import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.model.MindSnagging;
-import me.shouheng.notepal.model.data.Resource;
 import me.shouheng.notepal.model.enums.ModelType;
 import me.shouheng.notepal.model.enums.Status;
-import me.shouheng.notepal.provider.AttachmentsStore;
-import me.shouheng.notepal.provider.MindSnaggingStore;
 import me.shouheng.notepal.util.AppWidgetUtils;
 import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.util.LogUtils;
@@ -46,6 +40,7 @@ import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.util.ViewUtils;
 import me.shouheng.notepal.util.enums.MindSnaggingListType;
+import me.shouheng.notepal.viewmodel.AttachmentViewModel;
 import me.shouheng.notepal.viewmodel.SnaggingViewModel;
 import me.shouheng.notepal.widget.tools.CustomItemAnimator;
 import me.shouheng.notepal.widget.tools.DividerItemDecoration;
@@ -66,7 +61,8 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
     private PreferencesUtils preferencesUtils;
 
     private MindSnaggingAdapter adapter;
-    private SnaggingViewModel viewModel;
+    private SnaggingViewModel snaggingViewModel;
+    private AttachmentViewModel attachmentViewModel;
 
     private Status status;
 
@@ -95,7 +91,8 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
     protected void doCreateView(Bundle savedInstanceState) {
         preferencesUtils = PreferencesUtils.getInstance(getContext());
 
-        viewModel = ViewModelProviders.of(this).get(SnaggingViewModel.class);
+        snaggingViewModel = ViewModelProviders.of(this).get(SnaggingViewModel.class);
+        attachmentViewModel = ViewModelProviders.of(this).get(AttachmentViewModel.class);
 
         configToolbar();
 
@@ -103,10 +100,12 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
     }
 
     private void configToolbar() {
-        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setTitle(R.string.drawer_menu_minds);
-            actionBar.setDisplayHomeAsUpEnabled(true);
+        if (getActivity() != null) {
+            ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setTitle(R.string.drawer_menu_minds);
+                actionBar.setDisplayHomeAsUpEnabled(true);
+            }
         }
     }
 
@@ -115,7 +114,7 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
 
         status = getArguments() == null || !getArguments().containsKey(ARG_STATUS) ?
                 Status.NORMAL : (Status) getArguments().get(ARG_STATUS);
-        getBinding().ivEmpty.setSubTitle(viewModel.getEmptySubTitle(status));
+        getBinding().ivEmpty.setSubTitle(snaggingViewModel.getEmptySubTitle(status));
 
         adapter = new MindSnaggingAdapter(getContext(), mindSnaggingListType, Collections.emptyList());
         adapter.setOnItemClickListener((adapter1, view, position) -> showEditor(position));
@@ -202,7 +201,7 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
                 int lastVisibleItem = layoutManager.findLastVisibleItemPosition();
                 int totalItemCount = layoutManager.getItemCount();
                 if (lastVisibleItem + 1 == totalItemCount && dy > 0) {
-                    if (!viewModel.isLoadingMore()) {
+                    if (!snaggingViewModel.isLoadingMore()) {
                         recyclerView.post(() -> loadMoreData());
                     }
                 }
@@ -226,7 +225,7 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
                 int lastVisibleItem = layoutManager.findLastVisibleItemPositions(null)[0];
                 int totalItemCount = layoutManager.getItemCount();
                 if (totalItemCount - lastVisibleItem < 10 && dy > 0) {
-                    if (!viewModel.isLoadingMore()) {
+                    if (!snaggingViewModel.isLoadingMore()) {
                         recyclerView.post(() -> loadMoreData());
                     }
                 }
@@ -236,22 +235,19 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
 
     // region Interaction with ViewModel
     private void loadFirstPage() {
-        viewModel.getCount(null, null, false).observe(this, new Observer<Resource<Integer>>() {
-            @Override
-            public void onChanged(@Nullable Resource<Integer> integerResource) {
-                if (integerResource == null) {
-                    return;
-                }
-                switch (integerResource.status) {
-                    case SUCCESS:
-                        viewModel.setModelsCount(integerResource.data == null ? 0 : integerResource.data);
-                        // Load the first page
-                        reload();
-                        break;
-                    case FAILED:
-                        LogUtils.d("Failed to get models count!");
-                        break;
-                }
+        snaggingViewModel.getCount(null, null, false).observe(this, integerResource -> {
+            if (integerResource == null) {
+                return;
+            }
+            switch (integerResource.status) {
+                case SUCCESS:
+                    snaggingViewModel.setModelsCount(integerResource.data == null ? 0 : integerResource.data);
+                    // Load the first page
+                    reload();
+                    break;
+                case FAILED:
+                    LogUtils.d("Failed to get models count!");
+                    break;
             }
         });
     }
@@ -259,7 +255,7 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
     /**
      * The reload method only load the first page. */
     public void reload() {
-        viewModel.loadSnagging(status).observe(this, listResource -> {
+        snaggingViewModel.loadSnagging(status).observe(this, listResource -> {
             if (listResource == null) {
                 ToastUtils.makeToast(R.string.text_failed_to_load_data);
                 return;
@@ -281,8 +277,8 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
     }
 
     private void loadMoreData() {
-        viewModel.loadMore(status).observe(this, listResource -> {
-            viewModel.setLoadingMore(false);
+        snaggingViewModel.loadMore(status).observe(this, listResource -> {
+            snaggingViewModel.setLoadingMore(false);
             if (listResource == null) {
                 return;
             }
@@ -307,7 +303,7 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
     }
 
     private void update(int position, MindSnagging snagging, Status toStatus) {
-        viewModel.update(snagging, toStatus).observe(this, resource -> {
+        snaggingViewModel.update(snagging, toStatus).observe(this, resource -> {
             if (resource == null) {
                 ToastUtils.makeToast(R.string.text_failed_to_modify_data);
                 return;
@@ -323,6 +319,32 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
                 case FAILED:
                     ToastUtils.makeToast(R.string.text_failed_to_modify_data);
                     break;
+            }
+        });
+    }
+
+    private void saveMindSnagging(int position, MindSnagging mindSnagging, Attachment attachment) {
+        if (attachment != null) {
+            attachment.setModelCode(mindSnagging.getCode());
+            attachment.setModelType(ModelType.MIND_SNAGGING);
+            attachmentViewModel.saveIfNew(attachment);
+        }
+
+        snaggingViewModel.saveOrUpdate(mindSnagging).observe(this, mindSnaggingResource -> {
+            if (mindSnaggingResource == null) {
+                ToastUtils.makeToast(R.string.text_failed_to_modify_data);
+                return;
+            }
+            switch (mindSnaggingResource.status) {
+                case SUCCESS:
+                    ToastUtils.makeToast(R.string.text_save_successfully);
+                    notifyDataChanged();
+                    adapter.notifyItemChanged(position);
+                    break;
+                case FAILED:
+                    ToastUtils.makeToast(R.string.text_failed_to_modify_data);
+                    break;
+                case LOADING:break;
             }
         });
     }
@@ -345,10 +367,8 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
                 .setOnAttachmentClickListener(attachment ->
                         AttachmentHelper.resolveClickEvent(getContext(),
                                 attachment, Collections.singletonList(attachment), ""))
-                .setOnConfirmListener((mindSnagging, attachment) -> {
-                    saveMindSnagging(position, mindSnagging, attachment);
-                    notifyDataChanged();
-                })
+                .setOnConfirmListener((mindSnagging, attachment) ->
+                        saveMindSnagging(position, mindSnagging, attachment))
                 .setOnAddAttachmentListener(mindSnagging -> showAttachmentPicker())
                 .setMindSnagging(adapter.getItem(position))
                 .build();
@@ -375,7 +395,7 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
         menu.findItem(R.id.action_list_type).setIcon(mindSnaggingListType == MindSnaggingListType.ONE_COL ?
                 R.drawable.ic_view_module_white_24dp : R.drawable.ic_view_stream_white_24dp);
 
-        /**
+        /*
          * set the menu item invisible when in archive and trash list */
         if (status == Status.ARCHIVED || status == Status.TRASHED) {
             menu.findItem(R.id.action_list_type).setVisible(false);
@@ -386,7 +406,7 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.mind_snaggings, menu);
-        /**
+        /*
          * DISABLED FUNCTION REASON: the Glide in {@link MindSnaggingAdapter#convert(BaseViewHolder, Object)}
          * must be called in the main thread. */
 //        inflater.inflate(R.menu.capture, menu);
@@ -413,21 +433,6 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
         mindSnaggingListType = mindSnaggingListType == MindSnaggingListType.ONE_COL ?
                 MindSnaggingListType.TWO_COLS : MindSnaggingListType.ONE_COL;
         return mindSnaggingListType;
-    }
-
-    private void saveMindSnagging(int position, MindSnagging mindSnagging, Attachment attachment) {
-        if (attachment != null && AttachmentsStore.getInstance(getContext()).isNewModel(attachment.getCode())) {
-            attachment.setModelCode(mindSnagging.getCode());
-            attachment.setModelType(ModelType.MIND_SNAGGING);
-            AttachmentsStore.getInstance(getContext()).saveModel(attachment);
-        }
-        if (MindSnaggingStore.getInstance(getContext()).isNewModel(mindSnagging.getCode())) {
-            MindSnaggingStore.getInstance(getContext()).saveModel(mindSnagging);
-        } else {
-            MindSnaggingStore.getInstance(getContext()).update(mindSnagging);
-        }
-        ToastUtils.makeToast(R.string.text_save_successfully);
-        adapter.notifyItemChanged(position);
     }
 
     private void showAttachmentPicker() {
