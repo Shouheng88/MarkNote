@@ -1,5 +1,6 @@
 package me.shouheng.notepal.fragment;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
@@ -16,7 +17,7 @@ import android.view.View;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
-import java.util.List;
+import java.util.Collections;
 
 import javax.annotation.Nonnull;
 
@@ -27,17 +28,18 @@ import me.shouheng.notepal.dialog.CategoryEditDialog;
 import me.shouheng.notepal.fragment.base.BaseFragment;
 import me.shouheng.notepal.model.Category;
 import me.shouheng.notepal.model.enums.Status;
-import me.shouheng.notepal.provider.CategoryStore;
-import me.shouheng.notepal.provider.schema.CategorySchema;
+import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.util.ViewUtils;
+import me.shouheng.notepal.viewmodel.CategoryViewModel;
 import me.shouheng.notepal.widget.tools.CustomItemAnimator;
 import me.shouheng.notepal.widget.tools.CustomItemTouchHelper;
 import me.shouheng.notepal.widget.tools.DividerItemDecoration;
 
 /**
  * Created by wangshouheng on 2017/3/29.*/
-public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> implements BaseQuickAdapter.OnItemClickListener {
+public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> implements
+        BaseQuickAdapter.OnItemClickListener {
 
     private final static String ARG_STATUS = "arg_status";
 
@@ -46,8 +48,8 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
 
     private CategoryEditDialog categoryEditDialog;
 
-    private CategoryStore categoryStore;
     private Status status;
+    private CategoryViewModel categoryViewModel;
 
     public static CategoriesFragment newInstance() {
         Bundle args = new Bundle();
@@ -75,6 +77,8 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
         if (getArguments() != null && getArguments().containsKey(ARG_STATUS))
             status = (Status) getArguments().get(ARG_STATUS);
 
+        categoryViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
+
         configToolbar();
 
         configCategories();
@@ -93,12 +97,9 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
     }
 
     private void configCategories() {
-        getBinding().ivEmpty.setSubTitle(getEmptySubTitle());
-
-        categoryStore = CategoryStore.getInstance(getContext());
         status = getArguments() == null || !getArguments().containsKey(ARG_STATUS) ? Status.NORMAL : (Status) getArguments().get(ARG_STATUS);
 
-        mAdapter = new CategoriesAdapter(getContext(), getCategories());
+        mAdapter = new CategoriesAdapter(getContext(), Collections.emptyList());
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             switch (view.getId()) {
                 case R.id.iv_more:
@@ -107,6 +108,8 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
             }
         });
         mAdapter.setOnItemClickListener(this);
+
+        getBinding().ivEmpty.setSubTitle(categoryViewModel.getEmptySubTitle(status));
 
         getBinding().rvCategories.setEmptyView(getBinding().ivEmpty);
         getBinding().rvCategories.setHasFixedSize(true);
@@ -119,39 +122,91 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
         ItemTouchHelper.Callback callback = new CustomItemTouchHelper(true, false, mAdapter);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(getBinding().rvCategories);
+
+        reload();
     }
 
-    private String getEmptySubTitle() {
-        if (status == null) return null;
-        switch (status) {
-            case NORMAL:
-                return getString(R.string.tags_list_empty_sub_normal);
-            case TRASHED:
-                return getString(R.string.tags_list_empty_sub_trashed);
-            case ARCHIVED:
-                return getString(R.string.tags_list_empty_sub_archived);
-        }
-        return getString(R.string.tags_list_empty_sub_normal);
-    }
-
-    private List<Category> getCategories() {
-        if (status == Status.ARCHIVED) {
-            return categoryStore.getArchived(null, CategorySchema.CATEGORY_ORDER);
-        } else if (status == Status.TRASHED) {
-            return categoryStore.getTrashed(null, CategorySchema.CATEGORY_ORDER);
-        } else {
-            return categoryStore.get(null, CategorySchema.CATEGORY_ORDER);
-        }
-    }
-
+    // region ViewModel
     public void reload() {
-        mAdapter.setNewData(getCategories());
+        categoryViewModel.getCategories(status).observe(this, listResource -> {
+            if (listResource == null) {
+                ToastUtils.makeToast(R.string.text_failed_to_load_data);
+                return;
+            }
+            switch (listResource.status) {
+                case SUCCESS:
+                    getBinding().sl.setVisibility(View.GONE);
+                    mAdapter.setNewData(listResource.data);
+                    break;
+                case LOADING:
+                    getBinding().sl.setVisibility(View.VISIBLE);
+                    break;
+                case FAILED:
+                    getBinding().sl.setVisibility(View.GONE);
+                    ToastUtils.makeToast(R.string.text_failed_to_load_data);
+                    break;
+            }
+        });
 
-        /**
+        notifyDataChanged();
+    }
+
+    private void update(int position, Category category) {
+        categoryViewModel.update(category).observe(this, categoryResource -> {
+            if (categoryResource == null) {
+                ToastUtils.makeToast(R.string.text_failed_to_modify_data);
+                return;
+            }
+            switch (categoryResource.status) {
+                case SUCCESS:
+                    mAdapter.notifyItemChanged(position);
+                    ToastUtils.makeToast(R.string.text_save_successfully);
+                    break;
+                case LOADING:
+                    break;
+                case FAILED:
+                    ToastUtils.makeToast(R.string.text_failed_to_modify_data);
+                    break;
+            }
+        });
+    }
+
+    private void update(int position, Category category, Status toStatus) {
+        categoryViewModel.update(category, toStatus).observe(this, categoryResource -> {
+            if (categoryResource == null) {
+                ToastUtils.makeToast(R.string.text_failed_to_modify_data);
+                return;
+            }
+            switch (categoryResource.status) {
+                case SUCCESS:
+                    mAdapter.remove(position);
+                    break;
+                case FAILED:
+                    ToastUtils.makeToast(R.string.text_failed_to_modify_data);
+                    break;
+                case LOADING:
+                    break;
+            }
+        });
+    }
+
+    private void updateOrders() {
+        categoryViewModel.updateOrders(mAdapter.getData()).observe(this, listResource -> {
+            if (listResource == null) {
+                LogUtils.d("listResource is null");
+                return;
+            }
+            LogUtils.d(listResource.message);
+        });
+    }
+    // endregion
+
+    private void notifyDataChanged() {
+          /*
          * Notify the snagging list is changed. The activity need to record the message, and
          * use it when set result to caller. */
         if (getActivity() != null && getActivity() instanceof OnCategoriesInteractListener) {
-            ((OnCategoriesInteractListener) getActivity()).onCategoryListChanged();
+            ((OnCategoriesInteractListener) getActivity()).onCategoryDataChanged();
         }
     }
 
@@ -183,13 +238,8 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
     }
 
     private void showEditor(int position, Category param) {
-        categoryEditDialog = CategoryEditDialog.newInstance(getContext(), param, category -> {
-            category.setContentChanged(true);
-            mAdapter.notifyItemChanged(position);
-            categoryStore.update(category);
-
-            ToastUtils.makeToast(R.string.text_save_successfully);
-        });
+        categoryEditDialog = CategoryEditDialog.newInstance(getContext(), param, category ->
+                update(position, category));
         categoryEditDialog.show(getFragmentManager(), "CATEGORY_EDIT_DIALOG");
     }
 
@@ -198,10 +248,7 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
                 .title(R.string.text_warning)
                 .content(R.string.tag_delete_message)
                 .positiveText(R.string.text_confirm)
-                .onPositive((materialDialog, dialogAction) -> {
-                    CategoryStore.getInstance(getContext()).update(param, Status.DELETED);
-                    mAdapter.remove(position);
-                })
+                .onPositive((materialDialog, dialogAction) -> update(position, param, Status.DELETED))
                 .negativeText(R.string.text_cancel)
                 .onNegative((materialDialog, dialogAction) -> materialDialog.dismiss())
                 .show();
@@ -237,7 +284,7 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
     public void onPause() {
         super.onPause();
         if (mAdapter.isPositionChanged()){
-            CategoryStore.getInstance(getContext()).updateOrders(mAdapter.getData());
+            updateOrders();
         }
     }
 
@@ -263,9 +310,8 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
          * This method as well as {@link NotesFragment.OnNotesInteractListener#onNoteDataChanged()} is only used
          * to record the list change message and handle in future.
          *
-         * @see NotesFragment.OnNotesInteractListener#onNoteDataChanged()
-         */
-        default void onCategoryListChanged(){}
+         * @see NotesFragment.OnNotesInteractListener#onNoteDataChanged() */
+        default void onCategoryDataChanged(){}
 
         default void onResumeToCategory() {}
 
