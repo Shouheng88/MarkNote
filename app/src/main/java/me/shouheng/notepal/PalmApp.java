@@ -29,7 +29,8 @@ import me.shouheng.notepal.model.Model;
  * 13. Google map location info;
  * 14. Multiple platform statistics and user trace;
  * 15, Bug in LockActivity when screen orientation changed. (Multiple input and headers);
- * 16. Enable pick category with icons.
+ * 16. Enable pick category with icons;
+ * 17. Solve all the bugs in fabric.
  *
  * Created by wangshouheng on 2017/2/26. */
 public class PalmApp extends Application {
