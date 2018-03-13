@@ -1,5 +1,7 @@
 package me.shouheng.notepal.fragment;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,7 +21,6 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseViewHolder;
 
 import java.util.Collections;
-import java.util.List;
 
 import javax.annotation.Nonnull;
 
@@ -31,11 +32,11 @@ import me.shouheng.notepal.dialog.MindSnaggingDialog;
 import me.shouheng.notepal.fragment.base.BaseFragment;
 import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.model.MindSnagging;
+import me.shouheng.notepal.model.data.Resource;
 import me.shouheng.notepal.model.enums.ModelType;
 import me.shouheng.notepal.model.enums.Status;
 import me.shouheng.notepal.provider.AttachmentsStore;
 import me.shouheng.notepal.provider.MindSnaggingStore;
-import me.shouheng.notepal.provider.schema.MindSnaggingSchema;
 import me.shouheng.notepal.util.AppWidgetUtils;
 import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.util.LogUtils;
@@ -45,6 +46,7 @@ import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.util.ViewUtils;
 import me.shouheng.notepal.util.enums.MindSnaggingListType;
+import me.shouheng.notepal.viewmodel.SnaggingViewModel;
 import me.shouheng.notepal.widget.tools.CustomItemAnimator;
 import me.shouheng.notepal.widget.tools.DividerItemDecoration;
 import me.shouheng.notepal.widget.tools.SpaceItemDecoration;
@@ -54,25 +56,19 @@ import me.shouheng.notepal.widget.tools.SpaceItemDecoration;
 public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
 
     private final static String ARG_STATUS = "arg_status";
+    private final static int REFRESH_DELAY = 500;
 
     private RecyclerView.OnScrollListener scrollListener;
-
-    private MindSnaggingAdapter adapter;
 
     private MindSnaggingDialog mindSnaggingDialog;
 
     private MindSnaggingListType mindSnaggingListType;
-
     private PreferencesUtils preferencesUtils;
 
-    private int modelsCount, pageNumber = 20, startIndex = 0;
-    private boolean isLoadingMore = false;
-
-    private final static int DATA_SET_CHANGE_NOTIFICATION_DELAY = 500;
+    private MindSnaggingAdapter adapter;
+    private SnaggingViewModel viewModel;
 
     private Status status;
-
-    private MindSnaggingStore store;
 
     public static SnaggingsFragment newInstance() {
         Bundle args = new Bundle();
@@ -99,6 +95,8 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
     protected void doCreateView(Bundle savedInstanceState) {
         preferencesUtils = PreferencesUtils.getInstance(getContext());
 
+        viewModel = ViewModelProviders.of(this).get(SnaggingViewModel.class);
+
         configToolbar();
 
         configSnagging();
@@ -113,15 +111,13 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
     }
 
     private void configSnagging() {
-        getBinding().ivEmpty.setSubTitle(getEmptySubTitle());
-
         mindSnaggingListType = preferencesUtils.getMindSnaggingListType();
 
-        store = MindSnaggingStore.getInstance(getContext());
-        status = getArguments() == null || !getArguments().containsKey(ARG_STATUS) ? Status.NORMAL : (Status) getArguments().get(ARG_STATUS);
-        modelsCount = store.getCount(null, status, false);
+        status = getArguments() == null || !getArguments().containsKey(ARG_STATUS) ?
+                Status.NORMAL : (Status) getArguments().get(ARG_STATUS);
+        getBinding().ivEmpty.setSubTitle(viewModel.getEmptySubTitle(status));
 
-        adapter = new MindSnaggingAdapter(getContext(), mindSnaggingListType, getSnaggingList());
+        adapter = new MindSnaggingAdapter(getContext(), mindSnaggingListType, Collections.emptyList());
         adapter.setOnItemClickListener((adapter1, view, position) -> showEditor(position));
         adapter.setOnItemChildClickListener((adapter, view, position) -> {
             switch (view.getId()) {
@@ -140,6 +136,8 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
             case ONE_COL:configForOneCol();break;
             case TWO_COLS:configForTwoCols();break;
         }
+
+        loadFirstPage();
     }
 
     // region More Menu
@@ -155,31 +153,19 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
                     ModelHelper.share(getContext(), adapter.getItem(position));
                     break;
                 case R.id.action_trash:
-                    MindSnaggingStore.getInstance(getContext()).update(adapter.getItem(position), Status.TRASHED);
-                    adapter.remove(position);
-                    refreshLayout();
-                    notifyListChanged();
+                    update(position, adapter.getItem(position), Status.TRASHED);
                     break;
                 case R.id.action_archive:
-                    MindSnaggingStore.getInstance(getContext()).update(adapter.getItem(position), Status.ARCHIVED);
-                    adapter.remove(position);
-                    refreshLayout();
-                    notifyListChanged();
+                    update(position, adapter.getItem(position), Status.ARCHIVED);
                     break;
                 case R.id.action_edit:
                     showEditor(position);
                     break;
                 case R.id.action_move_out:
-                    MindSnaggingStore.getInstance(getContext()).update(adapter.getItem(position), Status.NORMAL);
-                    adapter.remove(position);
-                    refreshLayout();
-                    notifyListChanged();
+                    update(position, adapter.getItem(position), Status.NORMAL);
                     break;
                 case R.id.action_delete:
-                    MindSnaggingStore.getInstance(getContext()).update(adapter.getItem(position), Status.DELETED);
-                    adapter.remove(position);
-                    refreshLayout();
-                    notifyListChanged();
+                    update(position, adapter.getItem(position), Status.DELETED);
                     break;
             }
             return true;
@@ -188,7 +174,7 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
     }
 
     private void refreshLayout() {
-        new Handler().postDelayed(() -> adapter.notifyDataSetChanged(), DATA_SET_CHANGE_NOTIFICATION_DELAY);
+        new Handler().postDelayed(() -> adapter.notifyDataSetChanged(), REFRESH_DELAY);
     }
 
     private void configPopMenu(PopupMenu popupMenu) {
@@ -213,11 +199,10 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
         getBinding().rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
                 int lastVisibleItem = layoutManager.findLastVisibleItemPosition();
                 int totalItemCount = layoutManager.getItemCount();
                 if (lastVisibleItem + 1 == totalItemCount && dy > 0) {
-                    if (!isLoadingMore) {
+                    if (!viewModel.isLoadingMore()) {
                         recyclerView.post(() -> loadMoreData());
                     }
                 }
@@ -238,11 +223,10 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
         getBinding().rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
                 int lastVisibleItem = layoutManager.findLastVisibleItemPositions(null)[0];
                 int totalItemCount = layoutManager.getItemCount();
                 if (totalItemCount - lastVisibleItem < 10 && dy > 0) {
-                    if (!isLoadingMore) {
+                    if (!viewModel.isLoadingMore()) {
                         recyclerView.post(() -> loadMoreData());
                     }
                 }
@@ -250,19 +234,109 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
         });
     }
 
-    public void reload() {
-        adapter.setNewData(getSnaggingList());
+    // region Interaction with ViewModel
+    private void loadFirstPage() {
+        viewModel.getCount(null, null, false).observe(this, new Observer<Resource<Integer>>() {
+            @Override
+            public void onChanged(@Nullable Resource<Integer> integerResource) {
+                if (integerResource == null) {
+                    return;
+                }
+                switch (integerResource.status) {
+                    case SUCCESS:
+                        viewModel.setModelsCount(integerResource.data == null ? 0 : integerResource.data);
+                        // Load the first page
+                        reload();
+                        break;
+                    case FAILED:
+                        LogUtils.d("Failed to get models count!");
+                        break;
+                }
+            }
+        });
     }
 
-    private void notifyListChanged() {
-        /**
+    /**
+     * The reload method only load the first page. */
+    public void reload() {
+        viewModel.loadSnagging(status).observe(this, listResource -> {
+            if (listResource == null) {
+                ToastUtils.makeToast(R.string.text_failed_to_load_data);
+                return;
+            }
+            switch (listResource.status) {
+                case SUCCESS:
+                    getBinding().sl.setVisibility(View.GONE);
+                    adapter.setNewData(listResource.data);
+                    break;
+                case LOADING:
+                    getBinding().sl.setVisibility(View.VISIBLE);
+                    break;
+                case FAILED:
+                    getBinding().sl.setVisibility(View.GONE);
+                    ToastUtils.makeToast(R.string.text_failed_to_load_data);
+                    break;
+            }
+        });
+    }
+
+    private void loadMoreData() {
+        viewModel.loadMore(status).observe(this, listResource -> {
+            viewModel.setLoadingMore(false);
+            if (listResource == null) {
+                return;
+            }
+            switch (listResource.status) {
+                case FAILED:
+                    if (SnaggingViewModel.ERROR_MSG_NO_MODE_DATA.equals(listResource.message)) {
+                        LogUtils.d(listResource.message);
+                    } else {
+                        ToastUtils.makeToast(R.string.text_failed_to_load_data);
+                    }
+                    break;
+                case SUCCESS:
+                    if (listResource.data != null) {
+                        adapter.addData(listResource.data);
+                        adapter.notifyDataSetChanged();
+                    }
+                    break;
+                case LOADING:
+                    break;
+            }
+        });
+    }
+
+    private void update(int position, MindSnagging snagging, Status toStatus) {
+        viewModel.update(snagging, toStatus).observe(this, resource -> {
+            if (resource == null) {
+                ToastUtils.makeToast(R.string.text_failed_to_modify_data);
+                return;
+            }
+            switch (resource.status) {
+                case LOADING:
+                    break;
+                case SUCCESS:
+                    adapter.remove(position);
+                    refreshLayout();
+                    notifyDataChanged();
+                    break;
+                case FAILED:
+                    ToastUtils.makeToast(R.string.text_failed_to_modify_data);
+                    break;
+            }
+        });
+    }
+    // endregion
+
+    private void notifyDataChanged() {
+        /*
          * notify the app widget that the list is changed. */
         AppWidgetUtils.notifyAppWidgets(getContext());
 
-        /**
+        /*
          * Notify the attached activity that the list is changed. */
         if (getActivity() != null && getActivity() instanceof OnSnaggingInteractListener) {
-            ((OnSnaggingInteractListener) getActivity()).onSnaggingListChanged();
+            ((OnSnaggingInteractListener) getActivity()).onSnaggingDataChanged();
         }
     }
 
@@ -273,38 +347,12 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
                                 attachment, Collections.singletonList(attachment), ""))
                 .setOnConfirmListener((mindSnagging, attachment) -> {
                     saveMindSnagging(position, mindSnagging, attachment);
-                    notifyListChanged();
+                    notifyDataChanged();
                 })
-                .setOnAddAttachmentListener(mindSnagging -> showSnaggingAttachmentPicker())
+                .setOnAddAttachmentListener(mindSnagging -> showAttachmentPicker())
                 .setMindSnagging(adapter.getItem(position))
                 .build();
         mindSnaggingDialog.show(getFragmentManager(), "snag");
-    }
-
-    private List<MindSnagging> getSnaggingList() {
-        return store.getPage(startIndex,
-                pageNumber,
-                MindSnaggingSchema.ADDED_TIME + " DESC ",
-                status,
-                false);
-    }
-
-    private void loadMoreData() {
-        LogUtils.d("startIndex:" + startIndex);
-        isLoadingMore = true;
-        startIndex += pageNumber;
-        if (startIndex > modelsCount) {
-            startIndex -= pageNumber;
-        } else {
-            List<MindSnagging> list = store.getPage(startIndex,
-                    pageNumber,
-                    MindSnaggingSchema.ADDED_TIME + " DESC ",
-                    Status.NORMAL,
-                    false);
-            adapter.addData(list);
-            adapter.notifyDataSetChanged();
-        }
-        isLoadingMore = false;
     }
 
     public void addSnagging(MindSnagging snagging) {
@@ -314,21 +362,6 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
 
     public void setScrollListener(RecyclerView.OnScrollListener scrollListener) {
         this.scrollListener = scrollListener;
-    }
-
-    private String getEmptySubTitle() {
-        if (getArguments() == null || !getArguments().containsKey(ARG_STATUS)) return null;
-        Status status = (Status) getArguments().get(ARG_STATUS);
-        if (status == null) return null;
-        switch (status) {
-            case NORMAL:
-                return getString(R.string.mind_snaggings_list_empty_sub_normal);
-            case TRASHED:
-                return getString(R.string.mind_snaggings_list_empty_sub_trashed);
-            case ARCHIVED:
-                return getString(R.string.mind_snaggings_list_empty_sub_archived);
-        }
-        return getString(R.string.mind_snaggings_list_empty_sub_normal);
     }
 
     @Override
@@ -397,7 +430,7 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
         adapter.notifyItemChanged(position);
     }
 
-    private void showSnaggingAttachmentPicker() {
+    private void showAttachmentPicker() {
         new AttachmentPickerDialog.Builder(this)
                 .setRecordVisible(false)
                 .setVideoVisible(false)
@@ -430,6 +463,6 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
          *
          * @see NotesFragment.OnNotesInteractListener#onNoteDataChanged()
          */
-        default void onSnaggingListChanged(){}
+        default void onSnaggingDataChanged(){}
     }
 }

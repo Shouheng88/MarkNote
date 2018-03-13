@@ -147,7 +147,7 @@ public abstract class BaseListActivity extends CommonActivity<ActivityListBaseWi
     }
 
     @Override
-    public void onSnaggingListChanged() {
+    public void onSnaggingDataChanged() {
         isListChanged = true;
     }
 
