@@ -18,7 +18,6 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseViewHolder;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -426,10 +425,10 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
 
         /**
          * This method will be called, when the snagging list is changed. Do not try to call {@link #reload()}
-         * This method as well as {@link NotesFragment.OnNotesInteractListener#onNoteListChanged()} is only used
+         * This method as well as {@link NotesFragment.OnNotesInteractListener#onNoteDataChanged()} is only used
          * to record the list change message and handle in future.
          *
-         * @see NotesFragment.OnNotesInteractListener#onNoteListChanged()
+         * @see NotesFragment.OnNotesInteractListener#onNoteDataChanged()
          */
         default void onSnaggingListChanged(){}
     }

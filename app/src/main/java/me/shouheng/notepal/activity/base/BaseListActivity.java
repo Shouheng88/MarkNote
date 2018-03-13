@@ -142,7 +142,7 @@ public abstract class BaseListActivity extends CommonActivity<ActivityListBaseWi
     }
 
     @Override
-    public void onNoteListChanged() {
+    public void onNoteDataChanged() {
         isListChanged = true;
     }
 

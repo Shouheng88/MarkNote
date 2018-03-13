@@ -74,6 +74,9 @@
     <string name="working">Working&#8230;</string>
     <string name="text_input_password_and_continue">Input password</string>
     <string name="text_ok">OK</string>
+    <!--todo translate text-->
+    <string name="text_failed_to_load_data">Failed to load data.</string>
+    <string name="text_failed_to_modify_data">Failed to modify data.</string>
 
     <string name="check_network_availability">Check network availability</string>
 
