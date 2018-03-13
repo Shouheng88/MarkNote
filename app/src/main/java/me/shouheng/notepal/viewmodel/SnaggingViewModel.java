@@ -61,6 +61,11 @@ public class SnaggingViewModel extends ViewModel {
         return snaggingRepository.update(model, toStatus);
     }
 
+    public LiveData<Resource<MindSnagging>> saveOrUpdate(MindSnagging mindSnagging) {
+        SnaggingRepository snaggingRepository = new SnaggingRepository();
+        return snaggingRepository.saveOrUpdate(mindSnagging);
+    }
+
     public String getEmptySubTitle(Status status) {
         if (status == null) return null;
         return PalmApp.getContext().getString(
