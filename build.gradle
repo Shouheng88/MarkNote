@@ -33,6 +33,7 @@ ext {
     minSdkVersion = 17
 
     supportLibVersion = '27.0.2'
+    archVersion = '1.0.0'
 }
 
 task clean(type: Delete) {
