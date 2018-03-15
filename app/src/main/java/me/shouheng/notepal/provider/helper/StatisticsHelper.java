@@ -2,6 +2,7 @@ package me.shouheng.notepal.provider.helper;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.annotation.MainThread;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -47,6 +48,7 @@ public class StatisticsHelper {
      * @param context the context
      * @return the Stats object contains the actions result.
      */
+    @MainThread
     public static Stats getStats(Context context) {
         Stats stats = new Stats();
 

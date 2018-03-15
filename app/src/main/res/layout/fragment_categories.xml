@@ -20,11 +20,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
-        <me.shouheng.notepal.widget.themed.SupportLoading
-            android:id="@+id/sl"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
     </RelativeLayout>
 
 </layout>

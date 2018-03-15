@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -18,6 +20,18 @@
             android:layout_height="@dimen/toolbar_evaluation"
             android:background="@drawable/toolbar_dropshadow"
             android:layout_below="@id/toolbar_layout"/>
+
+        <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+            android:id="@+id/top_mpb"
+            android:layout_below="@id/toolbar_layout"
+            app:mpb_progressStyle="horizontal"
+            style="@style/Widget.MaterialProgressBar.ProgressBar.Horizontal"
+            android:indeterminate="true"
+            android:visibility="gone"
+            tools:visibility="visible"
+            app:mpb_useIntrinsicPadding="false"
+            android:layout_width="match_parent"
+            android:layout_height="5dp" />
 
     </RelativeLayout>
 

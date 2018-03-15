@@ -1,5 +1,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -30,10 +31,18 @@
             android:layout_marginBottom="4dp"
             android:layout_marginTop="4dp" />
 
-        <me.shouheng.notepal.widget.themed.SupportLoading
-            android:id="@+id/sl"
+        <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+            android:id="@+id/mpb_bottom"
+            app:mpb_progressStyle="horizontal"
+            style="@style/Widget.MaterialProgressBar.ProgressBar.Horizontal"
+            android:indeterminate="true"
+            android:visibility="gone"
+            tools:visibility="visible"
+            app:mpb_useIntrinsicPadding="false"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="5dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true" />
 
     </RelativeLayout>
 

@@ -255,21 +255,26 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
     /**
      * The reload method only load the first page. */
     public void reload() {
+        if (getActivity() instanceof OnSnaggingInteractListener) {
+            ((OnSnaggingInteractListener) getActivity()).onSnaggingLoadStateChanged(
+                    me.shouheng.notepal.model.data.Status.LOADING);
+        }
+
         snaggingViewModel.loadSnagging(status).observe(this, listResource -> {
             if (listResource == null) {
                 ToastUtils.makeToast(R.string.text_failed_to_load_data);
                 return;
             }
+            if (getActivity() instanceof OnSnaggingInteractListener) {
+                ((OnSnaggingInteractListener) getActivity()).onSnaggingLoadStateChanged(listResource.status);
+            }
             switch (listResource.status) {
                 case SUCCESS:
-                    getBinding().sl.setVisibility(View.GONE);
                     adapter.setNewData(listResource.data);
                     break;
                 case LOADING:
-                    getBinding().sl.setVisibility(View.VISIBLE);
                     break;
                 case FAILED:
-                    getBinding().sl.setVisibility(View.GONE);
                     ToastUtils.makeToast(R.string.text_failed_to_load_data);
                     break;
             }
@@ -277,6 +282,7 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
     }
 
     private void loadMoreData() {
+        getBinding().mpbBottom.setVisibility(View.VISIBLE);
         snaggingViewModel.loadMore(status).observe(this, listResource -> {
             snaggingViewModel.setLoadingMore(false);
             if (listResource == null) {
@@ -284,6 +290,7 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
             }
             switch (listResource.status) {
                 case FAILED:
+                    getBinding().mpbBottom.setVisibility(View.GONE);
                     if (SnaggingViewModel.ERROR_MSG_NO_MODE_DATA.equals(listResource.message)) {
                         LogUtils.d(listResource.message);
                     } else {
@@ -291,12 +298,14 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
                     }
                     break;
                 case SUCCESS:
+                    getBinding().mpbBottom.setVisibility(View.GONE);
                     if (listResource.data != null) {
                         adapter.addData(listResource.data);
                         adapter.notifyDataSetChanged();
                     }
                     break;
                 case LOADING:
+                    getBinding().mpbBottom.setVisibility(View.VISIBLE);
                     break;
             }
         });
@@ -469,5 +478,7 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
          * @see NotesFragment.OnNotesInteractListener#onNoteDataChanged()
          */
         default void onSnaggingDataChanged(){}
+
+        default void onSnaggingLoadStateChanged(me.shouheng.notepal.model.data.Status status) {}
     }
 }
