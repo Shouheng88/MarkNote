@@ -737,4 +737,32 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     public void onListTypeChanged(MindSnaggingListType listType) {
         toSnaggingFragment(false);
     }
+
+
+    @Override
+    public void onCategoryLoadStateChanged(me.shouheng.notepal.model.data.Status status) {
+        onLoadStateChanged(status);
+    }
+
+    @Override
+    public void onSnaggingLoadStateChanged(me.shouheng.notepal.model.data.Status status) {
+        onLoadStateChanged(status);
+    }
+
+    @Override
+    public void onNoteLoadStateChanged(me.shouheng.notepal.model.data.Status status) {
+        onLoadStateChanged(status);
+    }
+
+    private void onLoadStateChanged(me.shouheng.notepal.model.data.Status status) {
+        switch (status) {
+            case SUCCESS:
+            case FAILED:
+                getBinding().sl.setVisibility(View.GONE);
+                break;
+            case LOADING:
+                getBinding().sl.setVisibility(View.VISIBLE);
+                break;
+        }
+    }
 }

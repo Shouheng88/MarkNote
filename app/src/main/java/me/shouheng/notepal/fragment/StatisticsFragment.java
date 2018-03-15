@@ -1,22 +1,24 @@
 package me.shouheng.notepal.fragment;
 
-import android.os.AsyncTask;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-
-import java.lang.ref.WeakReference;
 
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.FragmentStatisticsBinding;
 import me.shouheng.notepal.fragment.base.BaseFragment;
 import me.shouheng.notepal.model.Stats;
+import me.shouheng.notepal.model.data.Status;
 import me.shouheng.notepal.provider.helper.StatisticsHelper;
-import me.shouheng.notepal.util.LogUtils;
+import me.shouheng.notepal.util.ToastUtils;
+import me.shouheng.notepal.viewmodel.StatisticViewModel;
 
 /**
  * Created by wang shouheng on 2018/1/19. */
 public class StatisticsFragment extends BaseFragment<FragmentStatisticsBinding> {
+
+    private StatisticViewModel statisticViewModel;
 
     @Override
     protected int getLayoutResId() {
@@ -25,9 +27,13 @@ public class StatisticsFragment extends BaseFragment<FragmentStatisticsBinding> 
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {
+        statisticViewModel = ViewModelProviders.of(this).get(StatisticViewModel.class);
+
         configToolbar();
 
-        new StatsTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        showDefaultValues();
+
+        outputStats();
     }
 
     private void configToolbar() {
@@ -37,9 +43,34 @@ public class StatisticsFragment extends BaseFragment<FragmentStatisticsBinding> 
         }
     }
 
-    private void outputStats(Stats stats) {
-        LogUtils.d(stats);
+    private void showDefaultValues() {}
 
+    private void outputStats() {
+        if (getActivity() instanceof OnStatisticInteractListener) {
+            ((OnStatisticInteractListener) getActivity()).onStatisticLoadStateChanged(Status.LOADING);
+        }
+        statisticViewModel.getStats().observe(this, statsResource -> {
+            if (statsResource == null) {
+                ToastUtils.makeToast(R.string.text_failed_to_load_data);
+                return;
+            }
+            if (getActivity() instanceof OnStatisticInteractListener) {
+                ((OnStatisticInteractListener) getActivity()).onStatisticLoadStateChanged(statsResource.status);
+            }
+            switch (statsResource.status) {
+                case SUCCESS:
+                    outputStats(statsResource.data);
+                    break;
+                case LOADING:
+                    break;
+                case FAILED:
+                    ToastUtils.makeToast(R.string.text_failed_to_load_data);
+                    break;
+            }
+        });
+    }
+
+    private void outputStats(Stats stats) {
         getBinding().ccvModels.setColumnChartData(StatisticsHelper.getModelsData(getContext(), stats));
 
         getBinding().lcvNote.setValueSelectionEnabled(false);
@@ -48,25 +79,7 @@ public class StatisticsFragment extends BaseFragment<FragmentStatisticsBinding> 
         getBinding().ccvAttachment.setColumnChartData(StatisticsHelper.getAttachmentsData(getContext(), stats));
     }
 
-    private static class StatsTask extends AsyncTask<Void, Void, Stats> {
-
-        private WeakReference<StatisticsFragment> weakReference;
-
-        StatsTask(StatisticsFragment statisticsFragment) {
-            this.weakReference = new WeakReference<>(statisticsFragment);
-        }
-
-        @Override
-        protected Stats doInBackground(Void... params) {
-            if (weakReference.get() == null) return null;
-            return StatisticsHelper.getStats(weakReference.get().getContext());
-        }
-
-        @Override
-        protected void onPostExecute(Stats result) {
-            if (result != null && weakReference.get() != null) {
-                weakReference.get().outputStats(result);
-            }
-        }
+    public interface OnStatisticInteractListener {
+        void onStatisticLoadStateChanged(Status status);
     }
 }

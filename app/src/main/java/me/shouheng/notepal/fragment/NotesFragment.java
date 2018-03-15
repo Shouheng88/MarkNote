@@ -293,21 +293,26 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
 
     // region ViewModel interaction
     public void reload() {
+        if (getActivity() instanceof OnNotesInteractListener) {
+            ((OnNotesInteractListener) getActivity()).onNoteLoadStateChanged(
+                    me.shouheng.notepal.model.data.Status.LOADING);
+        }
+
         noteViewModel.getMultiItems(category, status, notebook).observe(this, multiItemResource -> {
             if (multiItemResource == null) {
                 ToastUtils.makeToast(R.string.text_failed_to_load_data);
                 return;
             }
+            if (getActivity() instanceof OnNotesInteractListener) {
+                ((OnNotesInteractListener) getActivity()).onNoteLoadStateChanged(multiItemResource.status);
+            }
             switch (multiItemResource.status) {
                 case SUCCESS:
-                    getBinding().sl.setVisibility(View.GONE);
                     adapter.setNewData(multiItemResource.data);
                     break;
                 case LOADING:
-                    getBinding().sl.setVisibility(View.VISIBLE);
                     break;
                 case FAILED:
-                    getBinding().sl.setVisibility(View.GONE);
                     ToastUtils.makeToast(R.string.text_failed_to_load_data);
                     break;
             }
@@ -518,5 +523,7 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
          *
          * @see SnaggingsFragment.OnSnaggingInteractListener#onSnaggingDataChanged() */
         default void onNoteDataChanged(){}
+
+        default void onNoteLoadStateChanged(me.shouheng.notepal.model.data.Status status) {}
     }
 }

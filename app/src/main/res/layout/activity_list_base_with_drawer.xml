@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/drawer_layout"
@@ -21,10 +22,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
+            <me.shouheng.notepal.widget.themed.SupportLoading
+                android:id="@+id/sl"
+                android:layout_below="@id/toolbar_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
             <View android:layout_width="match_parent"
                 android:layout_height="@dimen/toolbar_evaluation"
                 android:background="@drawable/toolbar_dropshadow"
                 android:layout_below="@id/toolbar_layout"/>
+
+            <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+                android:id="@+id/top_mpb"
+                android:layout_below="@id/toolbar_layout"
+                app:mpb_progressStyle="horizontal"
+                style="@style/Widget.MaterialProgressBar.ProgressBar.Horizontal"
+                android:indeterminate="true"
+                android:visibility="gone"
+                tools:visibility="visible"
+                app:mpb_useIntrinsicPadding="false"
+                android:layout_width="match_parent"
+                android:layout_height="5dp" />
 
         </RelativeLayout>
 

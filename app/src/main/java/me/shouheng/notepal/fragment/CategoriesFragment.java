@@ -128,21 +128,26 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
 
     // region ViewModel
     public void reload() {
+        if (getActivity() instanceof OnCategoriesInteractListener) {
+            ((OnCategoriesInteractListener) getActivity()).onCategoryLoadStateChanged(
+                    me.shouheng.notepal.model.data.Status.LOADING);
+        }
+
         categoryViewModel.getCategories(status).observe(this, listResource -> {
             if (listResource == null) {
                 ToastUtils.makeToast(R.string.text_failed_to_load_data);
                 return;
             }
+            if (getActivity() instanceof OnCategoriesInteractListener) {
+                ((OnCategoriesInteractListener) getActivity()).onCategoryLoadStateChanged(listResource.status);
+            }
             switch (listResource.status) {
                 case SUCCESS:
-                    getBinding().sl.setVisibility(View.GONE);
                     mAdapter.setNewData(listResource.data);
                     break;
                 case LOADING:
-                    getBinding().sl.setVisibility(View.VISIBLE);
                     break;
                 case FAILED:
-                    getBinding().sl.setVisibility(View.GONE);
                     ToastUtils.makeToast(R.string.text_failed_to_load_data);
                     break;
             }
@@ -316,5 +321,7 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
         default void onResumeToCategory() {}
 
         default void onCategorySelected(Category category) {}
+
+        default void onCategoryLoadStateChanged(me.shouheng.notepal.model.data.Status status) {}
     }
 }

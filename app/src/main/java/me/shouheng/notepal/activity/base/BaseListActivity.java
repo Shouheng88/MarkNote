@@ -18,6 +18,7 @@ import me.shouheng.notepal.databinding.ActivityListBaseWithDrawerBinding;
 import me.shouheng.notepal.fragment.CategoriesFragment;
 import me.shouheng.notepal.fragment.NotesFragment;
 import me.shouheng.notepal.fragment.SnaggingsFragment;
+import me.shouheng.notepal.model.data.Status;
 import me.shouheng.notepal.util.FragmentHelper;
 
 
@@ -159,5 +160,32 @@ public abstract class BaseListActivity extends CommonActivity<ActivityListBaseWi
     @Override
     public void onActivityAttached(boolean isTopStack) {
         setDrawerLayoutLocked(!isTopStack);
+    }
+
+    @Override
+    public void onCategoryLoadStateChanged(Status status) {
+        onLoadStateChanged(status);
+    }
+
+    @Override
+    public void onSnaggingLoadStateChanged(Status status) {
+        onLoadStateChanged(status);
+    }
+
+    @Override
+    public void onNoteLoadStateChanged(Status status) {
+        onLoadStateChanged(status);
+    }
+
+    private void onLoadStateChanged(Status status) {
+        switch (status) {
+            case SUCCESS:
+            case FAILED:
+                getBinding().sl.setVisibility(View.GONE);
+                break;
+            case LOADING:
+                getBinding().sl.setVisibility(View.VISIBLE);
+                break;
+        }
     }
 }
