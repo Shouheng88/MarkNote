@@ -35,6 +35,7 @@ import me.shouheng.notepal.util.AppWidgetUtils;
 import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.viewmodel.NoteViewModel;
+import me.shouheng.notepal.viewmodel.NotebookViewModel;
 import me.shouheng.notepal.widget.tools.CustomItemAnimator;
 import me.shouheng.notepal.widget.tools.DividerItemDecoration;
 
@@ -59,6 +60,7 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
 
     private NotesAdapter adapter;
     private NoteViewModel noteViewModel;
+    private NotebookViewModel notebookViewModel;
 
     public static NotesFragment newInstance(@Nonnull Status status) {
         Bundle args = new Bundle();
@@ -133,7 +135,8 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
 
     // region Config Notes List
     private void configNotesList() {
-        noteViewModel = ViewModelProviders.of(getActivity()).get(NoteViewModel.class);
+        noteViewModel = ViewModelProviders.of(this).get(NoteViewModel.class);
+        notebookViewModel = ViewModelProviders.of(this).get(NotebookViewModel.class);
 
         getBinding().ivEmpty.setSubTitle(noteViewModel.getEmptySubTitle(status));
 
@@ -361,7 +364,7 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
     }
 
     private void update(Notebook notebook, int position) {
-        noteViewModel.update(notebook).observe(this, notebookResource -> {
+        notebookViewModel.update(notebook).observe(this, notebookResource -> {
             if (notebookResource == null) {
                 ToastUtils.makeToast(R.string.text_failed_to_modify_data);
                 return;
@@ -381,7 +384,7 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
     }
 
     private void move(Notebook notebook, Notebook toNotebook) {
-        noteViewModel.move(notebook, toNotebook).observe(this, notebookResource -> {
+        notebookViewModel.move(notebook, toNotebook).observe(this, notebookResource -> {
             if (notebookResource == null) {
                 ToastUtils.makeToast(R.string.text_failed_to_modify_data);
                 return;
@@ -402,7 +405,7 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
     }
 
     private void update(Notebook notebook, Status fromStatus, Status toStatus) {
-        noteViewModel.update(notebook, fromStatus, toStatus).observe(this, notebookResource -> {
+        notebookViewModel.update(notebook, fromStatus, toStatus).observe(this, notebookResource -> {
             if (notebookResource == null) {
                 ToastUtils.makeToast(R.string.text_failed_to_modify_data);
                 return;
