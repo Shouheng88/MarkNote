@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.model.Alarm;
 import me.shouheng.notepal.model.DaysOfMonth;
 import me.shouheng.notepal.model.DaysOfWeek;
@@ -25,11 +26,11 @@ public class AlarmsStore extends BaseStore<Alarm> {
 
     private static AlarmsStore sInstance = null;
 
-    public static AlarmsStore getInstance(Context context){
+    public static AlarmsStore getInstance(){
         if (sInstance == null){
             synchronized (AlarmsStore.class) {
                 if (sInstance == null) {
-                    sInstance = new AlarmsStore(context.getApplicationContext());
+                    sInstance = new AlarmsStore(PalmApp.getContext());
                 }
             }
         }
