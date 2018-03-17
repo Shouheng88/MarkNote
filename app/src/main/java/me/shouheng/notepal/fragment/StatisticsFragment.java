@@ -5,12 +5,19 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 
+import java.util.Arrays;
+import java.util.List;
+
+import lecho.lib.hellocharts.model.Column;
+import lecho.lib.hellocharts.model.Line;
+import lecho.lib.hellocharts.model.PointValue;
+import lecho.lib.hellocharts.model.SubcolumnValue;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.FragmentStatisticsBinding;
 import me.shouheng.notepal.fragment.base.BaseFragment;
 import me.shouheng.notepal.model.Stats;
 import me.shouheng.notepal.model.data.Status;
-import me.shouheng.notepal.provider.helper.StatisticsHelper;
+import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.viewmodel.StatisticViewModel;
 
@@ -20,6 +27,8 @@ public class StatisticsFragment extends BaseFragment<FragmentStatisticsBinding> 
 
     private StatisticViewModel statisticViewModel;
 
+    private int primaryColor;
+
     @Override
     protected int getLayoutResId() {
         return R.layout.fragment_statistics;
@@ -27,13 +36,18 @@ public class StatisticsFragment extends BaseFragment<FragmentStatisticsBinding> 
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {
-        statisticViewModel = ViewModelProviders.of(this).get(StatisticViewModel.class);
+        configValues();
 
         configToolbar();
 
         showDefaultValues();
 
         outputStats();
+    }
+
+    private void configValues() {
+        statisticViewModel = ViewModelProviders.of(this).get(StatisticViewModel.class);
+        primaryColor = primaryColor();
     }
 
     private void configToolbar() {
@@ -43,13 +57,21 @@ public class StatisticsFragment extends BaseFragment<FragmentStatisticsBinding> 
         }
     }
 
-    private void showDefaultValues() {}
+    private void showDefaultValues() {
+        getBinding().lcvNote.setValueSelectionEnabled(false);
+        getBinding().lcvNote.setLineChartData(statisticViewModel.getDefaultNoteData(primaryColor));
+
+        getBinding().ccvModels.setColumnChartData(statisticViewModel.getDefaultModelsData());
+
+        getBinding().ccvAttachment.setColumnChartData(statisticViewModel.getDefaultAttachmentData());
+    }
 
     private void outputStats() {
         if (getActivity() instanceof OnStatisticInteractListener) {
             ((OnStatisticInteractListener) getActivity()).onStatisticLoadStateChanged(Status.LOADING);
         }
         statisticViewModel.getStats().observe(this, statsResource -> {
+            LogUtils.d(statsResource);
             if (statsResource == null) {
                 ToastUtils.makeToast(R.string.text_failed_to_load_data);
                 return;
@@ -71,12 +93,55 @@ public class StatisticsFragment extends BaseFragment<FragmentStatisticsBinding> 
     }
 
     private void outputStats(Stats stats) {
-        getBinding().ccvModels.setColumnChartData(StatisticsHelper.getModelsData(getContext(), stats));
+        outputNotesStats(stats.getNotesStats());
 
-        getBinding().lcvNote.setValueSelectionEnabled(false);
-        getBinding().lcvNote.setLineChartData(StatisticsHelper.getLineChartData(getContext(), stats));
+        outputModelsStats(Arrays.asList(
+                stats.getTotalNotes(),
+                stats.getTotalNotebooks(),
+                stats.getTotalMinds(),
+                stats.getTotalAttachments(),
+                stats.getTotalLocations()));
 
-        getBinding().ccvAttachment.setColumnChartData(StatisticsHelper.getAttachmentsData(getContext(), stats));
+        outputAttachmentStats(Arrays.asList(
+                stats.getFiles(),
+                stats.getImages(),
+                stats.getSketches(),
+                stats.getVideos(),
+                stats.getAudioRecordings()));
+    }
+
+    private void outputNotesStats(List<Integer> notes) {
+        for (Line line : getBinding().lcvNote.getLineChartData().getLines()) {
+            int length = line.getValues().size();
+            PointValue pointValue;
+            for (int i=0; i<length; i++) {
+                pointValue = line.getValues().get(i);
+                pointValue.setTarget(pointValue.getX(), notes.get(i));
+            }
+        }
+        getBinding().lcvNote.startDataAnimation();
+    }
+
+    private void outputModelsStats(List<Integer> addedModels) {
+        int i = 0;
+        for (Column column : getBinding().ccvModels.getChartData().getColumns()) {
+            for (SubcolumnValue subcolumnValue : column.getValues()) {
+                subcolumnValue.setTarget(addedModels.get(i));
+            }
+            i++;
+        }
+        getBinding().ccvModels.startDataAnimation();
+    }
+
+    private void outputAttachmentStats(List<Integer> attachments) {
+        int i = 0;
+        for (Column column : getBinding().ccvAttachment.getChartData().getColumns()) {
+            for (SubcolumnValue subcolumnValue : column.getValues()) {
+                subcolumnValue.setTarget(attachments.get(i));
+            }
+            i++;
+        }
+        getBinding().ccvAttachment.startDataAnimation();
     }
 
     public interface OnStatisticInteractListener {

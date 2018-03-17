@@ -267,6 +267,8 @@
     <string name="model_name_location">Location</string>
     <string name="model_name_mind_snagging">Snagging</string>
     <string name="model_name_timeline">Timeline</string>
+    <!--todo-->
+    <string name="model_name_category">Category</string>
 
     <string name="operation_none">None</string>
     <string name="operation_added">Added</string>

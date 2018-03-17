@@ -1,12 +1,17 @@
 package me.shouheng.notepal.fragment;
 
 import android.app.Activity;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import java.util.List;
+
+import lecho.lib.hellocharts.model.Line;
+import lecho.lib.hellocharts.model.PointValue;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.config.TextLength;
 import me.shouheng.notepal.databinding.FragmentUserInfoBinding;
@@ -14,10 +19,11 @@ import me.shouheng.notepal.dialog.NoticeDialog;
 import me.shouheng.notepal.dialog.SimpleEditDialog;
 import me.shouheng.notepal.fragment.base.CommonFragment;
 import me.shouheng.notepal.model.enums.ModelType;
-import me.shouheng.notepal.provider.helper.StatisticsHelper;
+import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.PalmUtils;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.util.UserUtil;
+import me.shouheng.notepal.viewmodel.StatisticViewModel;
 
 /**
  * Created by wangshouheng on 2017/8/11. */
@@ -27,6 +33,8 @@ public class UserInfoFragment extends CommonFragment<FragmentUserInfoBinding> {
 
     private boolean logined = false;
 
+    private StatisticViewModel statisticViewModel;
+
     @Override
     protected int getLayoutResId() {
         return R.layout.fragment_user_info;
@@ -34,16 +42,16 @@ public class UserInfoFragment extends CommonFragment<FragmentUserInfoBinding> {
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {
+        statisticViewModel = ViewModelProviders.of(this).get(StatisticViewModel.class);
+
         configAccountViews();
 
         getBinding().ctvTimeline.setOnCardTitleClickListener(this::toTimeLine);
 
-        getBinding().lcv.setValueSelectionEnabled(false);
-        getBinding().lcv.setLineChartData(StatisticsHelper.getLineChartData(getContext(), ModelType.NOTE, primaryColor()));
+        outputStatistic();
+        getBinding().ctvStatistic.setOnCardTitleClickListener(this::toStatistics);
 
         getBinding().llLogout.setOnClickListener(v -> logout());
-
-        getBinding().ctvStatistic.setOnCardTitleClickListener(this::toStatistics);
     }
 
     private void configAccountViews() {
@@ -65,6 +73,40 @@ public class UserInfoFragment extends CommonFragment<FragmentUserInfoBinding> {
         if (getActivity() != null && getActivity() instanceof OnItemSelectedListener) {
             ((OnItemSelectedListener) getActivity()).onTimelineSelected();
         }
+    }
+
+    private void outputStatistic() {
+        getBinding().lcv.setValueSelectionEnabled(false);
+        getBinding().lcv.setLineChartData(statisticViewModel.getDefaultNoteData(primaryColor()));
+        statisticViewModel.getAddedModelData(ModelType.NONE).observe(this, listResource -> {
+            LogUtils.d(listResource);
+            if (listResource == null) {
+                ToastUtils.makeToast(R.string.text_failed_to_load_data);
+                return;
+            }
+            switch (listResource.status) {
+                case FAILED:
+                    ToastUtils.makeToast(R.string.text_failed_to_load_data);
+                    break;
+                case LOADING:
+                    break;
+                case SUCCESS:
+                    outputNotesStats(listResource.data);
+                    break;
+            }
+        });
+    }
+
+    private void outputNotesStats(List<Integer> notes) {
+        for (Line line : getBinding().lcv.getLineChartData().getLines()) {
+            int length = line.getValues().size();
+            PointValue pointValue;
+            for (int i=0; i<length; i++) {
+                pointValue = line.getValues().get(i);
+                pointValue.setTarget(pointValue.getX(), notes.get(i));
+            }
+        }
+        getBinding().lcv.startDataAnimation();
     }
 
     private void toStatistics() {
