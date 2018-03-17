@@ -191,7 +191,8 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                 break;
             case Constants.ACTION_WIDGET_LIST:
                 Model model;
-                if (intent.hasExtra(Constants.EXTRA_MODEL) && (model = (Model) intent.getSerializableExtra(Constants.EXTRA_MODEL)) != null) {
+                if (intent.hasExtra(Constants.EXTRA_MODEL)
+                        && (model = (Model) intent.getSerializableExtra(Constants.EXTRA_MODEL)) != null) {
                     if (model instanceof Note) {
                         ContentActivity.viewNote(this, (Note) model, REQUEST_NOTE_VIEW);
                     } else if (model instanceof MindSnagging) {
@@ -526,7 +527,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     }
 
     private Fragment getCurrentFragment(){
-        return getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        return getCurrentFragment(R.id.fragment_container);
     }
 
     private boolean isNotesFragment(){
@@ -736,7 +737,6 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     public void onListTypeChanged(MindSnaggingListType listType) {
         toSnaggingFragment(false);
     }
-
 
     @Override
     public void onCategoryLoadStateChanged(me.shouheng.notepal.model.data.Status status) {

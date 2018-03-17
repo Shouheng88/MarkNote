@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
 import com.crashlytics.android.Crashlytics;
@@ -17,8 +19,8 @@ import me.shouheng.notepal.util.ActivityUtils;
 /**
  * Created by wang shouheng on 2017/12/21.*/
 @SuppressLint("Registered")
-public abstract class CommonActivity<T extends ViewDataBinding> extends ThemedActivity
-        implements ColorChooserDialog.ColorCallback {
+public abstract class CommonActivity<T extends ViewDataBinding> extends ThemedActivity implements
+        ColorChooserDialog.ColorCallback {
 
     private T binding;
 
@@ -58,6 +60,10 @@ public abstract class CommonActivity<T extends ViewDataBinding> extends ThemedAc
 
     protected <M extends Activity> void startActivityForResult(Class<M> activityClass, int requestCode) {
         startActivityForResult(new Intent(this, activityClass), requestCode);
+    }
+
+    protected Fragment getCurrentFragment(@IdRes int resId) {
+        return getSupportFragmentManager().findFragmentById(resId);
     }
 
     @Override
