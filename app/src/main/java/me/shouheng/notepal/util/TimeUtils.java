@@ -12,7 +12,6 @@ import java.util.Locale;
 
 import me.shouheng.notepal.PalmApp;
 
-
 /**
  * Created by wangshouheng on 2017/3/13. */
 public class TimeUtils {
@@ -35,12 +34,12 @@ public class TimeUtils {
     // region 获取格式化的日期字符串
     public static String formatDate(long millis, DateFormat dateFormat){
         Date d = new Date(millis);
-        SimpleDateFormat sdf = new SimpleDateFormat(dateFormat.format);
+        SimpleDateFormat sdf = new SimpleDateFormat(dateFormat.format, Locale.getDefault());
         return sdf.format(d);
     }
 
     public static String formatDate(Date date, DateFormat dateFormat) {
-        return date == null ? "null" : new SimpleDateFormat(dateFormat.format).format(date);
+        return date == null ? "null" : new SimpleDateFormat(dateFormat.format, Locale.getDefault()).format(date);
     }
     // endregion
 
@@ -66,8 +65,11 @@ public class TimeUtils {
     }
 
     public static String getLongDateTime(Context context, Date date) {
-        return DateUtils.formatDateTime(context, date.getTime(), DateUtils.FORMAT_NUMERIC_DATE
-                | DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR);
+        return DateUtils.formatDateTime(context, date.getTime(),
+                DateUtils.FORMAT_NUMERIC_DATE
+                        | DateUtils.FORMAT_SHOW_TIME
+                        | DateUtils.FORMAT_SHOW_DATE
+                        | DateUtils.FORMAT_SHOW_YEAR);
     }
 
 
@@ -79,7 +81,7 @@ public class TimeUtils {
             flags = flags | DateUtils.FORMAT_SHOW_YEAR;
         }
         return DateUtils.formatDateTime(context, calendar.getTime().getTime(), flags)
-                + new SimpleDateFormat(" | E ").format(calendar.getTime());
+                + new SimpleDateFormat(" | E ", Locale.getDefault()).format(calendar.getTime());
     }
 
     /**
