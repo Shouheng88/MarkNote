@@ -39,27 +39,19 @@ public class ContentActivity extends CommonActivity<ActivityContentBinding> impl
 
     // region edit and view note
     public static void editNote(Fragment fragment, @NonNull Note note, int requestCode){
-        fragment.startActivityForResult(
-                noteEditIntent(fragment.getContext(), note, requestCode),
-                requestCode);
+        fragment.startActivityForResult(noteEditIntent(fragment.getContext(), note, requestCode), requestCode);
     }
 
     public static void editNote(Activity activity, @NonNull Note note, int requestCode){
-        activity.startActivityForResult(
-                noteEditIntent(activity, note, requestCode),
-                requestCode);
+        activity.startActivityForResult(noteEditIntent(activity, note, requestCode), requestCode);
     }
 
     public static void viewNote(Fragment fragment, @NonNull Note note, int requestCode){
-        fragment.startActivityForResult(
-                noteViewIntent(fragment.getContext(), note, requestCode),
-                requestCode);
+        fragment.startActivityForResult(noteViewIntent(fragment.getContext(), note, requestCode),requestCode);
     }
 
     public static void viewNote(Activity activity, @NonNull Note note, int requestCode){
-        activity.startActivityForResult(
-                noteViewIntent(activity, note, requestCode),
-                requestCode);
+        activity.startActivityForResult(noteViewIntent(activity, note, requestCode), requestCode);
     }
 
     private static Intent noteViewIntent(Context context, @NonNull Note note, int requestCode) {
