@@ -19,8 +19,8 @@ import me.shouheng.notepal.dialog.NoticeDialog;
 import me.shouheng.notepal.dialog.SimpleEditDialog;
 import me.shouheng.notepal.fragment.base.CommonFragment;
 import me.shouheng.notepal.model.enums.ModelType;
+import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.LogUtils;
-import me.shouheng.notepal.util.PalmUtils;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.util.UserUtil;
 import me.shouheng.notepal.viewmodel.StatisticViewModel;
@@ -52,6 +52,7 @@ public class UserInfoFragment extends CommonFragment<FragmentUserInfoBinding> {
         getBinding().ctvStatistic.setOnCardTitleClickListener(this::toStatistics);
 
         getBinding().llLogout.setOnClickListener(v -> logout());
+        ColorUtils.addRipple(getBinding().llLogout);
     }
 
     private void configAccountViews() {
@@ -64,7 +65,7 @@ public class UserInfoFragment extends CommonFragment<FragmentUserInfoBinding> {
         }
 
         getBinding().llUser.setOnClickListener(v -> login());
-        if (PalmUtils.isMarshmallow()) getBinding().llUser.setForeground(getResources().getDrawable(R.drawable.ripple));
+        ColorUtils.addRipple(getBinding().llUser);
         getBinding().ctvSchool.setOnCardTitleClickListener(this::showSchoolEditor);
         getBinding().ctvMajor.setOnCardTitleClickListener(this::showMajorEditor);
     }

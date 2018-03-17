@@ -12,7 +12,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <android.support.v7.widget.CardView
+            <me.shouheng.notepal.widget.themed.SupportCardView
                 style="@style/ProfileCardStyle"
                 app:cardCornerRadius="@dimen/card_corner_radius"
                 app:cardElevation="@dimen/card_elevation"
@@ -118,9 +118,9 @@
 
                 </LinearLayout>
 
-            </android.support.v7.widget.CardView>
+            </me.shouheng.notepal.widget.themed.SupportCardView>
 
-            <android.support.v7.widget.CardView
+            <me.shouheng.notepal.widget.themed.SupportCardView
                 style="@style/ProfileCardStyle"
                 app:cardCornerRadius="@dimen/card_corner_radius"
                 app:cardElevation="@dimen/card_elevation"
@@ -144,9 +144,9 @@
 
                 </LinearLayout>
 
-            </android.support.v7.widget.CardView>
+            </me.shouheng.notepal.widget.themed.SupportCardView>
 
-            <android.support.v7.widget.CardView
+            <me.shouheng.notepal.widget.themed.SupportCardView
                 style="@style/ProfileCardStyle"
                 app:cardCornerRadius="@dimen/card_corner_radius"
                 app:cardElevation="@dimen/card_elevation"
@@ -198,9 +198,9 @@
 
                 </LinearLayout>
 
-            </android.support.v7.widget.CardView>
+            </me.shouheng.notepal.widget.themed.SupportCardView>
 
-            <android.support.v7.widget.CardView
+            <me.shouheng.notepal.widget.themed.SupportCardView
                 style="@style/ProfileCardStyle"
                 app:cardCornerRadius="@dimen/card_corner_radius"
                 app:cardElevation="@dimen/card_elevation"
@@ -232,7 +232,7 @@
 
                 </LinearLayout>
 
-            </android.support.v7.widget.CardView>
+            </me.shouheng.notepal.widget.themed.SupportCardView>
 
         </LinearLayout>
 
