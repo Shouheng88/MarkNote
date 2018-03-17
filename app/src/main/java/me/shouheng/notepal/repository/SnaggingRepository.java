@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 
 import me.shouheng.notepal.PalmApp;
+import me.shouheng.notepal.async.NormalAsyncTask;
 import me.shouheng.notepal.model.MindSnagging;
 import me.shouheng.notepal.model.data.Resource;
 import me.shouheng.notepal.provider.BaseStore;

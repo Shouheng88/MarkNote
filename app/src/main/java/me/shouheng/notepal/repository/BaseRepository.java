@@ -2,10 +2,10 @@ package me.shouheng.notepal.repository;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
-import android.os.AsyncTask;
 
 import java.util.List;
 
+import me.shouheng.notepal.async.NormalAsyncTask;
 import me.shouheng.notepal.model.Model;
 import me.shouheng.notepal.model.data.Resource;
 import me.shouheng.notepal.model.enums.Status;
@@ -16,36 +16,6 @@ import me.shouheng.notepal.provider.BaseStore;
 public abstract class BaseRepository<T extends Model> {
 
     protected abstract BaseStore<T> getStore();
-
-    protected static class NormalAsyncTask<M> extends AsyncTask<Void, Integer, Resource<M>> {
-
-        private MutableLiveData<Resource<M>> result;
-
-        private OnTaskExecutingListener<M> onTaskExecutingListener;
-
-        NormalAsyncTask(MutableLiveData<Resource<M>> result, OnTaskExecutingListener<M> listener) {
-            this.result = result;
-            this.onTaskExecutingListener = listener;
-        }
-
-        @Override
-        protected Resource<M> doInBackground(Void... voids) {
-            if (onTaskExecutingListener != null) {
-                M ret = onTaskExecutingListener.onExecuting();
-                return Resource.success(ret);
-            }
-            return Resource.error("Failed to load data", null);
-        }
-
-        @Override
-        protected void onPostExecute(Resource<M> mResource) {
-            result.setValue(mResource);
-        }
-    }
-
-    protected interface OnTaskExecutingListener<M> {
-        M onExecuting();
-    }
 
     public LiveData<Resource<T>> get(long code) {
         MutableLiveData<Resource<T>> result = new MutableLiveData<>();
