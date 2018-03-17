@@ -16,7 +16,7 @@ public class IntroSlide1 extends IntroFragment {
         background.setBackgroundResource(R.color.intro_color_1);
         title.setText(String.format(getString(R.string.intro_1_title), getString(R.string.app_name)));
         image.setVisibility(View.GONE);
-        imageSmall.setImageResource(R.mipmap.ic_launcher);
+        imageSmall.setImageResource(R.drawable.ic_intro_icon);
         imageSmall.setVisibility(View.VISIBLE);
         description.setText(String.format(getString(R.string.intro_1_description), getString(R.string.app_name)));
     }
