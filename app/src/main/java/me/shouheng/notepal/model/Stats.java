@@ -61,10 +61,6 @@ public class Stats {
      * Added notes last seven days */
     private List<Integer> notesStats;
 
-    /**
-     * Added notes last seven days */
-    private List<Integer> mindsStats;
-
     public int getTotalNotes() {
         return totalNotes;
     }
@@ -209,14 +205,6 @@ public class Stats {
         this.notesStats = notesStats;
     }
 
-    public List<Integer> getMindsStats() {
-        return mindsStats;
-    }
-
-    public void setMindsStats(List<Integer> mindsStats) {
-        this.mindsStats = mindsStats;
-    }
-
     @Override
     public String toString() {
         return "Stats{" +
@@ -238,7 +226,6 @@ public class Stats {
                 ", files=" + files +
                 ", totalAlarms=" + totalAlarms +
                 ", notesStats=" + notesStats +
-                ", mindsStats=" + mindsStats +
                 '}';
     }
 }
