@@ -184,13 +184,9 @@ public class ContentActivity extends CommonActivity<ActivityContentBinding> impl
     @Override
     public void onColorChooserDismissed(@NonNull ColorChooserDialog colorChooserDialog) {}
 
-    private Fragment getCurrentFragment() {
-        return getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-    }
-
     @Override
     public void onBackPressed() {
-        Fragment currentFragment = getCurrentFragment();
+        Fragment currentFragment = getCurrentFragment(R.id.fragment_container);
         if (currentFragment instanceof CommonFragment){
             ((CommonFragment) currentFragment).onBackPressed();
         }
