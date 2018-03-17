@@ -72,7 +72,7 @@ public class PermissionUtils {
         }
     }
 
-    public static String getPermissionName(Context context, int requestCode) {
+    static String getPermissionName(Context context, int requestCode) {
         switch (requestCode){
             case REQUEST_PERMISSION_STORAGE:
                 return context.getString(R.string.permission_storage_permission);
@@ -93,7 +93,7 @@ public class PermissionUtils {
             case REQUEST_PERMISSION_CALENDAR:
                 return context.getString(R.string.permission_calendar_permission);
         }
-        return null;
+        return context.getString(R.string.permission_default_permission_name);
     }
 
     public interface OnGetPermissionCallback{

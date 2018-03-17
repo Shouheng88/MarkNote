@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -24,7 +25,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
             if (onGetPermissionCallback != null){
@@ -32,20 +33,21 @@ public class BaseActivity extends AppCompatActivity {
             }
         } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-                if (!shouldShowRequestPermissionRationale(permissions[0])){
+                // Add array length check logic to avoid ArrayIndexOutOfBoundsException
+                if (permissions.length > 0 && !shouldShowRequestPermissionRationale(permissions[0])){
                     showPermissionSettingDialog(requestCode);
                 } else {
-                    makeToast(this, R.string.permission_denied_try_again_after_set);
+                    makeToast(this, getToastMessage(requestCode));
                 }
             } else {
-                makeToast(this, R.string.permission_denied_try_again_after_set);
+                makeToast(this, getToastMessage(requestCode));
             }
         }
     }
 
     private void showPermissionSettingDialog(int requestCode) {
-        String msg = String.format(getString(R.string.set_permission_in_setting),
-                PermissionUtils.getPermissionName(this, requestCode));
+        String permissionName = PermissionUtils.getPermissionName(this, requestCode);
+        String msg = String.format(getString(R.string.set_permission_in_setting), permissionName);
         new AlertDialog.Builder(this)
                 .setTitle(R.string.setting_permission)
                 .setMessage(msg)
@@ -69,6 +71,33 @@ public class BaseActivity extends AppCompatActivity {
         } else {
             toast.setText(msgRes);
             toast.show();
+        }
+    }
+
+    private static void makeToast(Context context, String msg) {
+        if (toast == null){
+            toast = Toast.makeText(context.getApplicationContext(), msg, Toast.LENGTH_SHORT);
+            toast.show();
+        } else {
+            toast.setText(msg);
+            toast.show();
+        }
+    }
+
+    /**
+     * Get the permission toast message according to request code. If the permission name can be found,
+     * we will show the permission name in the message, otherwise show the default message.
+     *
+     * @param requestCode the request code
+     * @return the message to toast
+     */
+    private String getToastMessage(int requestCode) {
+        String permissionName = PermissionUtils.getPermissionName(this, requestCode);
+        String defName = getString(R.string.permission_default_permission_name);
+        if (defName.equals(permissionName)) {
+            return getString(R.string.permission_denied_try_again_after_set);
+        } else {
+            return String.format(getString(R.string.permission_denied_try_again_after_set_given_permission), permissionName);
         }
     }
 }
