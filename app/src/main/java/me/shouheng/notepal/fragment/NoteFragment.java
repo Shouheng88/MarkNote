@@ -1,5 +1,6 @@
 package me.shouheng.notepal.fragment;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -23,19 +24,13 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.balysv.materialmenu.MaterialMenuDrawable;
-import com.bumptech.glide.Glide;
 
-import org.apache.commons.io.FileUtils;
 import org.polaric.colorful.BaseActivity;
 import org.polaric.colorful.PermissionUtils;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.ContentActivity;
 import me.shouheng.notepal.async.AttachmentTask;
@@ -43,30 +38,28 @@ import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.databinding.FragmentNoteBinding;
 import me.shouheng.notepal.dialog.AttachmentPickerDialog;
 import me.shouheng.notepal.dialog.LinkInputDialog;
-import me.shouheng.notepal.dialog.picker.NotebookPickerDialog;
 import me.shouheng.notepal.dialog.TableInputDialog;
+import me.shouheng.notepal.dialog.picker.NotebookPickerDialog;
 import me.shouheng.notepal.fragment.base.BaseModelFragment;
 import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.model.Category;
 import me.shouheng.notepal.model.Location;
-import me.shouheng.notepal.model.ModelFactory;
 import me.shouheng.notepal.model.Note;
-import me.shouheng.notepal.model.Notebook;
 import me.shouheng.notepal.model.enums.ModelType;
 import me.shouheng.notepal.provider.AttachmentsStore;
-import me.shouheng.notepal.provider.BaseStore;
 import me.shouheng.notepal.provider.CategoryStore;
-import me.shouheng.notepal.provider.LocationsStore;
-import me.shouheng.notepal.provider.NotebookStore;
-import me.shouheng.notepal.provider.NotesStore;
 import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.FileHelper;
-import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.ModelHelper;
-import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.StringUtils;
 import me.shouheng.notepal.util.ToastUtils;
+import me.shouheng.notepal.viewmodel.AttachmentViewModel;
+import me.shouheng.notepal.viewmodel.BaseViewModel;
+import me.shouheng.notepal.viewmodel.CategoryViewModel;
+import me.shouheng.notepal.viewmodel.LocationViewModel;
+import me.shouheng.notepal.viewmodel.NoteViewModel;
+import me.shouheng.notepal.viewmodel.NotebookViewModel;
 import me.shouheng.notepal.widget.FlowLayout;
 import my.shouheng.palmmarkdown.tools.MarkdownEffect;
 
@@ -74,21 +67,20 @@ import my.shouheng.palmmarkdown.tools.MarkdownEffect;
  * Created by wangshouheng on 2017/5/12.*/
 public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
 
+    private final static String EXTRA_IS_THIRD_PART = "extra_is_third_part";
+    private final static String EXTRA_ACTION = "extra_action";
+    private final static String TAB_REPLACEMENT = "    ";
+
     private MaterialMenuDrawable materialMenu;
 
     private Note note;
-    private Location location;
-    private Attachment atNoteFile, atPreviewImage;
-
-    private File noteFile, tempFile;
-    private Notebook notebook;
     private List<Category> selections;
 
-    private AttachmentPickerType attachmentPickerType;
-    private PreferencesUtils preferencesUtils;
-
-    private final static String EXTRA_IS_THIRD_PART = "extra_is_third_part";
-    private final static String EXTRA_ACTION = "extra_action";
+    private NoteViewModel noteViewModel;
+    private AttachmentViewModel attachmentViewModel;
+    private LocationViewModel locationViewModel;
+    private CategoryViewModel categoryViewModel;
+    private NotebookViewModel notebookViewModel;
 
     public static NoteFragment newInstance(Note note, Integer requestCode, boolean isThirdPart, String action) {
         Bundle arg = new Bundle();
@@ -109,20 +101,33 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {
-        preferencesUtils = PreferencesUtils.getInstance(getContext());
+        initViewModels();
 
         handleArguments();
 
         configToolbar();
 
         // Notify that the content is changed if the note fragment is called from sharing and other third part
-        if (getArguments() != null && getArguments().getBoolean(EXTRA_IS_THIRD_PART)) setContentChanged();
+        // The code must be here since the material menu might be null.
+        if (getArguments() != null && getArguments().getBoolean(EXTRA_IS_THIRD_PART)) {
+            setContentChanged();
+        }
 
-        configMain();
+        // Sync methods. Note that the other data may not be fetched for current.
+        configMain(note);
 
-        configDrawer();
+        configDrawer(note);
     }
 
+    private void initViewModels() {
+        noteViewModel = ViewModelProviders.of(this).get(NoteViewModel.class);
+        locationViewModel = ViewModelProviders.of(this).get(LocationViewModel.class);
+        attachmentViewModel = ViewModelProviders.of(this).get(AttachmentViewModel.class);
+        categoryViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
+        notebookViewModel = ViewModelProviders.of(this).get(NotebookViewModel.class);
+    }
+
+    // region handle arguments
     private void handleArguments() {
         Bundle arguments = getArguments();
 
@@ -135,77 +140,60 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
             return;
         }
 
-        // Get information from database
-        atNoteFile = AttachmentsStore.getInstance(getContext()).get(note.getContentCode());
-        atPreviewImage = AttachmentsStore.getInstance(getContext()).get(note.getPreviewCode());
-        location = LocationsStore.getInstance(getContext()).getLocation(note);
-        notebook = NotebookStore.getInstance(getContext()).get(note.getParentCode());
-        selections = CategoryStore.getInstance(getContext()).getCategories(note);
-
-        // Read content from file system
-        if (atNoteFile != null) {
-            try {
-                noteFile = new File(atNoteFile.getPath());
-                LogUtils.d(atNoteFile);
-                String content = FileUtils.readFileToString(noteFile, "utf-8");
-                note.setContent(content);
-            } catch (IOException e) {
-                ToastUtils.makeToast(R.string.note_failed_to_read_file);
-            }
-        } else {
-            // Create a temporary file
-            tempFile = FileHelper.createNewAttachmentFile(getContext(), "." + preferencesUtils.getNoteFileExtension());
-            note.setContent("");
-        }
-
         // Handle arguments for intent from third part
-        if (arguments.getBoolean(EXTRA_IS_THIRD_PART) && getActivity() instanceof OnNoteInteractListener) {
-            Intent intent = ((OnNoteInteractListener) getActivity()).getIntentForThirdPart();
-
-            String title = intent.getStringExtra(Intent.EXTRA_SUBJECT);
-            note.setTitle(title);
-
-            String content = intent.getStringExtra(Intent.EXTRA_TEXT);
-            if (!TextUtils.isEmpty(content)) {
-                content = content.replace("\t", "    ");
-            }
-            note.setContent(content);
-
-            // Single attachment data
-            Uri uri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
-
-            // Due to the fact that Google Now passes intent as text but with
-            // audio recording attached the case must be handled in specific way
-            if (uri != null && !Constants.INTENT_GOOGLE_NOW.equals(intent.getAction())) {
-                String name = FileHelper.getNameFromUri(getContext(), uri);
-                new AttachmentTask(this, uri, name, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            }
-
-            // Multiple attachment data
-            ArrayList<Uri> uris = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
-            if (uris != null) {
-                for (Uri uriSingle : uris) {
-                    String name = FileHelper.getNameFromUri(getContext(), uriSingle);
-                    new AttachmentTask(this, uriSingle, name, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-                }
-            }
+        if (arguments.getBoolean(EXTRA_IS_THIRD_PART)) {
+            handleThirdPart();
         } else if(Constants.ACTION_ADD_SKETCH.equals(arguments.getString(EXTRA_ACTION))) {
             if (getActivity() != null) {
-                PermissionUtils.checkStoragePermission((BaseActivity) getActivity(), () ->
-                        AttachmentHelper.sketch(this));
+                PermissionUtils.checkStoragePermission((BaseActivity) getActivity(), () -> AttachmentHelper.sketch(this));
             }
         } else if (Constants.ACTION_TAKE_PHOTO.equals(arguments.getString(EXTRA_ACTION))) {
             if (getActivity() != null) {
-                PermissionUtils.checkStoragePermission((BaseActivity) getActivity(), () ->
-                        AttachmentHelper.capture(this));
+                PermissionUtils.checkStoragePermission((BaseActivity) getActivity(), () -> AttachmentHelper.capture(this));
             }
         } else if (Constants.ACTION_ADD_FILES.equals(arguments.getString(EXTRA_ACTION))) {
             if (getActivity() != null) {
-                PermissionUtils.checkStoragePermission((BaseActivity) getActivity(), () ->
-                        AttachmentHelper.pickFiles(this));
+                PermissionUtils.checkStoragePermission((BaseActivity) getActivity(), () -> AttachmentHelper.pickFiles(this));
+            }
+        } else {
+            // The cases above is new model, don't need to fetch data.
+            fetchData(note);
+        }
+    }
+
+    private void handleThirdPart() {
+        if (!(getActivity() instanceof OnNoteInteractListener)) return;
+
+        Intent intent = ((OnNoteInteractListener) getActivity()).getIntentForThirdPart();
+
+        String title = intent.getStringExtra(Intent.EXTRA_SUBJECT);
+        note.setTitle(title);
+
+        String content = intent.getStringExtra(Intent.EXTRA_TEXT);
+        // todo check and show dialog tips
+        if (!TextUtils.isEmpty(content)) content = content.replace("\t", TAB_REPLACEMENT);
+        note.setContent(content);
+
+        // Single attachment data
+        Uri uri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
+
+        // Due to the fact that Google Now passes intent as text but with
+        // audio recording attached the case must be handled in specific way
+        if (uri != null && !Constants.INTENT_GOOGLE_NOW.equals(intent.getAction())) {
+            String name = FileHelper.getNameFromUri(getContext(), uri);
+            new AttachmentTask(this, uri, name, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }
+
+        // Multiple attachment data
+        ArrayList<Uri> uris = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
+        if (uris != null) {
+            for (Uri uriSingle : uris) {
+                String name = FileHelper.getNameFromUri(getContext(), uriSingle);
+                new AttachmentTask(this, uriSingle, name, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             }
         }
     }
+    // endregion
 
     private void configToolbar() {
         if (getContext() == null || getActivity() == null) return;
@@ -222,8 +210,85 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
         }
     }
 
+    // region fetch data
+    private void fetchData(Note note) {
+        fetchNoteContent(note);
+
+        fetchCategories(note);
+
+        fetchLocation(note);
+
+        fetchNotebook(note);
+    }
+
+    private void fetchNoteContent(Note note) {
+        attachmentViewModel.readNoteContent(note).observe(this, contentResource -> {
+            if (contentResource == null) {
+                ToastUtils.makeToast(R.string.text_failed_to_load_data);
+                return;
+            }
+            switch (contentResource.status) {
+                case SUCCESS:
+                    note.setContent(contentResource.data);
+                    getBinding().main.etContent.setTag(true);
+                    getBinding().main.etContent.setText(note.getContent());
+                    break;
+                case FAILED:
+                    ToastUtils.makeToast(R.string.note_failed_to_read_file);
+                    break;
+            }
+        });
+    }
+
+    private void fetchCategories(Note note) {
+        categoryViewModel.getCategories(note).observe(this, listResource -> {
+            if (listResource == null) {
+                ToastUtils.makeToast(R.string.text_failed_to_load_data);
+                return;
+            }
+            switch (listResource.status) {
+                case SUCCESS:
+                    selections = listResource.data;
+                    addTagsToLayout(CategoryStore.getTagsName(listResource.data));
+                    break;
+            }
+        });
+    }
+
+    private void fetchLocation(Note note) {
+        locationViewModel.getLocation(note).observe(this, locationResource -> {
+            if (locationResource == null) {
+                ToastUtils.makeToast(R.string.text_failed_to_load_data);
+                return;
+            }
+            switch (locationResource.status) {
+                case SUCCESS:
+                    showLocationInfo(locationResource.data);
+                    break;
+            }
+        });
+    }
+
+    private void fetchNotebook(Note note) {
+        notebookViewModel.get(note.getParentCode()).observe(this, notebookResource -> {
+            if (notebookResource == null) {
+                ToastUtils.makeToast(R.string.text_failed_to_load_data);
+                return;
+            }
+            switch (notebookResource.status) {
+                case SUCCESS:
+                    if (notebookResource.data != null) {
+                        getBinding().main.tvFolder.setText(notebookResource.data.getTitle());
+                        getBinding().main.tvFolder.setTextColor(notebookResource.data.getColor());
+                    }
+                    break;
+            }
+        });
+    }
+    // endregion
+
     // region Config main board
-    private void configMain() {
+    private void configMain(Note note) {
         getBinding().main.etTitle.setText(TextUtils.isEmpty(note.getTitle()) ? "" : note.getTitle());
         getBinding().main.etTitle.setTextColor(primaryColor());
         getBinding().main.etTitle.addTextChangedListener(textWatcher);
@@ -231,10 +296,6 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
         getBinding().main.etContent.setText(note.getContent());
         getBinding().main.etContent.addTextChangedListener(textWatcher);
 
-        if (notebook != null) {
-            getBinding().main.tvFolder.setText(notebook.getTitle());
-            getBinding().main.tvFolder.setTextColor(notebook.getColor());
-        }
         getBinding().main.llFolder.setOnClickListener(v -> showNotebookPicker());
 
         getBinding().main.rlBottomEditors.setVisibility(View.GONE);
@@ -265,8 +326,15 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
 
         @Override
         public void afterTextChanged(Editable s) {
-            setContentChanged();
-            updateCharsInfo();
+            // Ignore the text change if the tag is true
+            if (getBinding().main.etContent.getTag() != null ||
+                    (getBinding().main.etContent.getTag() instanceof Boolean
+                            && ((boolean) getBinding().main.etContent.getTag()))) {
+                getBinding().main.etContent.setTag(null);
+            } else {
+                setContentChanged();
+                updateCharsInfo();
+            }
         }
     };
 
@@ -290,7 +358,7 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
             case R.id.iv_stroke:effect = MarkdownEffect.STRIKE;break;
             case R.id.iv_line:effect = MarkdownEffect.H_LINE;break;
             case R.id.iv_xml:effect = MarkdownEffect.XML;break;
-            case R.id.iv_insert_picture:showAttachmentPicker(AttachmentPickerType.CONTENT_IMAGE);break;
+            case R.id.iv_insert_picture:showAttachmentPicker();break;
             case R.id.iv_insert_link:showLinkEditor();break;
             case R.id.iv_insert_table:showTableEditor();break;
         }
@@ -330,31 +398,20 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
         ).show(getFragmentManager(), "LINK INPUT");
     }
 
-    private void showAttachmentPicker(AttachmentPickerType attachmentPickerType) {
-        this.attachmentPickerType = attachmentPickerType;
+    private void showAttachmentPicker() {
         new AttachmentPickerDialog.Builder(this)
                 .setRecordVisible(false)
                 .setVideoVisible(false)
-                .setAddLinkVisible(attachmentPickerType != AttachmentPickerType.PREVIEW_IMAGE)
-                .setFilesVisible(attachmentPickerType != AttachmentPickerType.PREVIEW_IMAGE)
+                .setAddLinkVisible(true)
+                .setFilesVisible(true)
                 .setOnAddNetUriSelectedListener(this::addImageLink)
                 .build().show(getFragmentManager(), "Attachment picker");
     }
 
-    private void loadPreviewImage() {
-        if (atPreviewImage == null) return;
-        note.setPreviewCode(atPreviewImage.getCode());
-        Uri thumbnailUri = FileHelper.getThumbnailUri(getContext(), atPreviewImage.getUri());
-        Glide.with(PalmApp.getContext())
-                .load(thumbnailUri)
-                .centerCrop()
-                .crossFade()
-                .into(getBinding().drawer.ivPreview);
-    }
     // endregion
 
     // region Config drawer board
-    private void configDrawer() {
+    private void configDrawer(Note note) {
         getBinding().drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
         getBinding().drawer.drawerToolbar.setNavigationOnClickListener(v ->
@@ -372,7 +429,6 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
         addTagsToLayout(CategoryStore.getTagsName(selections));
 
         getBinding().drawer.tvAddLocation.setOnClickListener(v -> tryToLocate());
-        showLocationInfo();
 
         getBinding().drawer.tvCopyLink.setOnClickListener(v -> ModelHelper.copyLink(getActivity(), note));
 
@@ -385,18 +441,6 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
         getBinding().drawer.tvAddToHomeScreen.setOnClickListener(v -> addShortcut());
 
         getBinding().drawer.tvStatistics.setOnClickListener(v -> showStatistics());
-
-        getBinding().drawer.ivAddPreview.setOnClickListener(v -> showAttachmentPicker(AttachmentPickerType.PREVIEW_IMAGE));
-        loadPreviewImage();
-
-        getBinding().drawer.tvSettings.setVisibility(View.GONE);
-        getBinding().drawer.tvSettings.setOnClickListener(view -> {
-            String content = getBinding().main.etContent.getText().toString();
-            if (!TextUtils.isEmpty(content)) {
-                content = content.replace("\t", "    ");
-                getBinding().main.etContent.setText(content);
-            }
-        });
     }
 
     private void updateCharsInfo() {
@@ -420,8 +464,15 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
         }).show(getFragmentManager(), "NOTEBOOK_PICKER");
     }
 
-    private void showLocationInfo(){
-        if (location == null) return;
+    /**
+     * Show location information, if the location is null, hide the widget else show it.
+     *
+     * @param location location info */
+    private void showLocationInfo(@Nullable Location location){
+        if (location == null) {
+            getBinding().drawer.tvLocationInfo.setVisibility(View.GONE);
+            return;
+        }
         getBinding().drawer.tvLocationInfo.setVisibility(View.VISIBLE);
         getBinding().drawer.tvLocationInfo.setText(ModelHelper.getFormatedLocation(location));
     }
@@ -444,11 +495,10 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
 
     @Override
     protected void onGetLocation(Location location) {
-        this.location = location;
         location.setModelCode(note.getCode());
         location.setModelType(ModelType.NOTE);
-        LocationsStore.getInstance(getContext()).saveModel(location);
-        showLocationInfo();
+        showLocationInfo(location);
+        locationViewModel.saveModel(location);
     }
 
     @Override
@@ -462,25 +512,20 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
         attachment.setModelType(ModelType.NOTE);
         AttachmentsStore.getInstance(getContext()).saveModel(attachment);
 
-        if (attachmentPickerType == AttachmentPickerType.PREVIEW_IMAGE) {
-            atPreviewImage = attachment;
-            setContentChanged();
-            loadPreviewImage();
+        String title = FileHelper.getNameFromUri(getContext(), attachment.getUri());
+        if (TextUtils.isEmpty(title)) title = getString(R.string.text_attachment);
+
+        if (Constants.MIME_TYPE_IMAGE.equalsIgnoreCase(attachment.getMineType())
+                || Constants.MIME_TYPE_SKETCH.equalsIgnoreCase(attachment.getMineType())) {
+            getBinding().main.etContent.setEffect(MarkdownEffect.IMAGE, title , attachment.getUri().toString());
         } else {
-            String title;
-            title = TextUtils.isEmpty(title = FileHelper.getNameFromUri(getContext(), attachment.getUri())) ?
-                    getString(R.string.text_attachment) : title;
-            if (Constants.MIME_TYPE_IMAGE.equalsIgnoreCase(attachment.getMineType())
-                    || Constants.MIME_TYPE_SKETCH.equalsIgnoreCase(attachment.getMineType())) {
-                getBinding().main.etContent.setEffect(MarkdownEffect.IMAGE, title , attachment.getUri().toString());
-            } else {
-                getBinding().main.etContent.setEffect(MarkdownEffect.LINK, title, attachment.getUri().toString());
-            }
+            getBinding().main.etContent.setEffect(MarkdownEffect.LINK, title, attachment.getUri().toString());
         }
     }
 
     @Override
-    protected boolean checkInputInfo() {
+    protected boolean checkContent() {
+        // todo remove title check
         if (TextUtils.isEmpty(getBinding().main.etTitle.getText().toString())) {
             ToastUtils.makeToast(R.string.title_required);
             return false;
@@ -489,46 +534,28 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
     }
 
     @Override
-    protected void saveModel() {
-        NotesStore.getInstance(getActivity()).saveModel(note);
-    }
-
-    @Override
-    protected void updateModel() {
-        NotesStore.getInstance(getActivity()).update(note);
-    }
-
-    @Override
-    protected void beforeSaveOrUpdate() {
+    protected void beforeSaveOrUpdate(BeforePersistEventHandler handler) {
         String noteContent = getBinding().main.etContent.getText().toString();
-
-        if (atNoteFile == null) {
-            try {
-                FileUtils.writeStringToFile(tempFile, noteContent, "utf-8");
-            } catch (IOException e) {
-                LogUtils.d("onClick: " + e);
-            }
-            atNoteFile = ModelFactory.getAttachment(getContext());
-            atNoteFile.setUri(FileHelper.getUriFromFile(getContext(), tempFile));
-            atNoteFile.setSize(FileUtils.sizeOf(tempFile));
-            atNoteFile.setPath(tempFile.getPath());
-            atNoteFile.setName(tempFile.getName());
-            atNoteFile.setLength(atNoteFile.getLength());
-            AttachmentsStore.getInstance(getContext()).saveModel(atNoteFile);
-        } else {
-            try {
-                LogUtils.d(noteFile);
-                FileUtils.writeStringToFile(noteFile, noteContent, "utf-8", false);
-                // Whenever the attachment file is updated, remember to update its attachment.
-                atNoteFile.setLastModifiedTime(new Date());
-                AttachmentsStore.getInstance(getContext()).update(atNoteFile);
-            } catch (IOException e) {
-                LogUtils.d("onClick: " + e);
-            }
-        }
-
-        note.setContentCode(atNoteFile.getCode());
+        note.setContent(noteContent);
         note.setTitle(getBinding().main.etTitle.getText().toString());
+        attachmentViewModel.writeNoteContent(note).observe(this, attachmentResource -> {
+            if (attachmentResource == null) {
+                ToastUtils.makeToast(R.string.text_error_when_save);
+                return;
+            }
+            switch (attachmentResource.status) {
+                case SUCCESS:
+                    if (attachmentResource.data != null) {
+                        note.setContentCode(attachmentResource.data.getCode());
+                    }
+                    handler.onGetEventResult(true);
+                    break;
+                case FAILED:
+                    ToastUtils.makeToast(R.string.text_error_when_save);
+                    handler.onGetEventResult(false);
+                    break;
+            }
+        });
     }
 
     @Override
@@ -549,8 +576,8 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
     }
 
     @Override
-    protected BaseStore<Note> getStoreOfModel() {
-        return NotesStore.getInstance(getContext());
+    protected BaseViewModel<Note> getViewModel() {
+        return noteViewModel;
     }
 
     @Override
@@ -590,7 +617,7 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
-                if (isContentChanged()) saveOrUpdateData();
+                if (isContentChanged()) saveOrUpdateData(null);
                 else setResult();
                 break;
             case R.id.action_more:
@@ -621,11 +648,7 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
     private void sendNoteChangeBroadcast() {
         Intent intent = new Intent();
         intent.setAction(Constants.ACTION_NOTE_CHANGE_BROADCAST);
-        getContext().sendBroadcast(intent);
-    }
-
-    private enum AttachmentPickerType {
-        PREVIEW_IMAGE, CONTENT_IMAGE;
+        if (getContext() != null) getContext().sendBroadcast(intent);
     }
 
     public interface OnNoteInteractListener {

@@ -2,7 +2,6 @@ package me.shouheng.notepal.viewmodel;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModel;
 
 import java.util.List;
 
@@ -12,11 +11,12 @@ import me.shouheng.notepal.model.MindSnagging;
 import me.shouheng.notepal.model.data.Resource;
 import me.shouheng.notepal.model.enums.Status;
 import me.shouheng.notepal.provider.schema.MindSnaggingSchema;
+import me.shouheng.notepal.repository.BaseRepository;
 import me.shouheng.notepal.repository.SnaggingRepository;
 
 /**
  * Created by Employee on 2018/3/13.*/
-public class SnaggingViewModel extends ViewModel {
+public class SnaggingViewModel extends BaseViewModel<MindSnagging> {
 
     public final static String ERROR_MSG_NO_MODE_DATA = "ERROR_NO_MORE_DATA";
 
@@ -24,9 +24,9 @@ public class SnaggingViewModel extends ViewModel {
 
     private boolean isLoadingMore;
 
-    public LiveData<Resource<Integer>> getCount(String whereSQL, Status status, boolean exclude) {
-        SnaggingRepository snaggingRepository = new SnaggingRepository();
-        return snaggingRepository.getCount(whereSQL, status, exclude);
+    @Override
+    protected BaseRepository<MindSnagging> getRepository() {
+        return new SnaggingRepository();
     }
 
     public LiveData<Resource<List<MindSnagging>>> loadSnagging(Status status) {
@@ -54,16 +54,6 @@ public class SnaggingViewModel extends ViewModel {
         MutableLiveData<Resource<List<MindSnagging>>> result = new MutableLiveData<>();
         result.setValue(Resource.error(ERROR_MSG_NO_MODE_DATA, null));
         return result;
-    }
-
-    public LiveData<Resource<MindSnagging>> update(MindSnagging model, Status toStatus) {
-        SnaggingRepository snaggingRepository = new SnaggingRepository();
-        return snaggingRepository.update(model, toStatus);
-    }
-
-    public LiveData<Resource<MindSnagging>> saveOrUpdate(MindSnagging mindSnagging) {
-        SnaggingRepository snaggingRepository = new SnaggingRepository();
-        return snaggingRepository.saveOrUpdate(mindSnagging);
     }
 
     public String getEmptySubTitle(Status status) {

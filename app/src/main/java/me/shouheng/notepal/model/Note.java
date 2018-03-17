@@ -1,5 +1,6 @@
 package me.shouheng.notepal.model;
 
+import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -31,6 +32,9 @@ public class Note extends Model implements Parcelable {
 
     @Column(name = "preview_code")
     private long previewCode;
+
+    // todo
+    private Uri previewImage;
 
     // region Android端字段，不计入数据库
 

@@ -68,6 +68,10 @@ public abstract class BaseViewModel<T extends Model> extends ViewModel {
         return getRepository().update(model, toStatus);
     }
 
+    public LiveData<Resource<T>> saveOrUpdate(T model) {
+        return getRepository().saveOrUpdate(model);
+    }
+
     public LiveData<Resource<List<T>>> batchUpdate(List<T> models, Status toStatus) {
         return getRepository().batchUpdate(models, toStatus);
     }

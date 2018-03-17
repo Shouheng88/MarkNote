@@ -40,6 +40,7 @@
     <string name="text_search">Search</string>
     <string name="text_save_or_discard">Save or discard modification?</string>
     <string name="text_save_successfully">Saved successfully</string>
+    <string name="text_error_when_save">Error occurred when save data.</string>
     <string name="text_file_saved_to">File is saved to %s</string>
     <string name="text_save">Save</string>
     <string name="text_statistic">Statistics</string>

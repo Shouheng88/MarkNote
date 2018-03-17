@@ -104,6 +104,15 @@ public abstract class BaseRepository<T extends Model> {
         return result;
     }
 
+    public LiveData<Resource<T>> saveOrUpdate(T model) {
+        MutableLiveData<Resource<T>> result = new MutableLiveData<>();
+        new NormalAsyncTask<>(result, () -> {
+            getStore().saveOrUpdate(model);
+            return model;
+        }).execute();
+        return result;
+    }
+
     public LiveData<Resource<List<T>>> batchUpdate(List<T> models, Status toStatus) {
         MutableLiveData<Resource<List<T>>> result = new MutableLiveData<>();
         new NormalAsyncTask<>(result, () -> {
