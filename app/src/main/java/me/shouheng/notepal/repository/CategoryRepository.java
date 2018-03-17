@@ -8,6 +8,7 @@ import java.util.List;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.async.NormalAsyncTask;
 import me.shouheng.notepal.model.Category;
+import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.model.data.Resource;
 import me.shouheng.notepal.model.enums.Status;
 import me.shouheng.notepal.provider.BaseStore;
@@ -21,6 +22,12 @@ public class CategoryRepository extends BaseRepository<Category> {
     @Override
     protected BaseStore<Category> getStore() {
         return CategoryStore.getInstance(PalmApp.getContext());
+    }
+
+    public LiveData<Resource<List<Category>>> getCategories(Note note) {
+        MutableLiveData<Resource<List<Category>>> result = new MutableLiveData<>();
+        new NormalAsyncTask<>(result, () -> ((CategoryStore) getStore()).getCategories(note)).execute();
+        return result;
     }
 
     public LiveData<Resource<List<Category>>> getCategories(Status status) {

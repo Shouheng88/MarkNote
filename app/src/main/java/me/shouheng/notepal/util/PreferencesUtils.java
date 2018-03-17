@@ -238,7 +238,7 @@ public class PreferencesUtils extends BasePreferencesUtils {
     }
 
     public String getNoteFileExtension() {
-        return getString(NOTE_FILE_EXTENSION, "md");
+        return "." + getString(NOTE_FILE_EXTENSION, "md");
     }
 
     public void setNoteFileExtension(String extension) {

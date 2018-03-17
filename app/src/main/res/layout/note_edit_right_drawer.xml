@@ -24,17 +24,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-            <ImageView
-                android:id="@+id/iv_add_preview"
-                android:src="@drawable/ic_add_a_photo_grey_24dp"
-                android:scaleType="center"
-                android:padding="20dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
             <TextView
                 android:id="@+id/tv_chars_info"
                 tools:text="Total Chars : 4"
@@ -166,17 +155,6 @@
                     android:drawablePadding="13dp"
                     android:paddingStart="13dp"
                     android:text="@string/text_statistic"
-                    android:gravity="center_vertical"
-                    android:layout_height="50dp" />
-
-                <TextView
-                    android:id="@+id/tv_settings"
-                    android:background="?attr/selectableItemBackground"
-                    android:drawableStart="@drawable/ic_settings_grey"
-                    android:layout_width="match_parent"
-                    android:drawablePadding="13dp"
-                    android:paddingStart="13dp"
-                    android:text="@string/text_replace_tab_with_4_spaces"
                     android:gravity="center_vertical"
                     android:layout_height="50dp" />
 
