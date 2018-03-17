@@ -110,7 +110,7 @@ public class ContentActivity extends CommonActivity<ActivityContentBinding> impl
         Intent intent = getIntent();
         if (intent == null || !intent.hasExtra(Constants.EXTRA_FRAGMENT)) {
             ToastUtils.makeToast(R.string.content_failed_to_parse_intent);
-            LogUtils.d("Faile to handle intent : " + intent);
+            LogUtils.d("Failed to handle intent : " + intent);
             finish();
             return;
         }
