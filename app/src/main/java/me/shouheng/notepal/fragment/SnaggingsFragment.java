@@ -336,7 +336,7 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
         if (attachment != null) {
             attachment.setModelCode(mindSnagging.getCode());
             attachment.setModelType(ModelType.MIND_SNAGGING);
-            attachmentViewModel.saveIfNew(attachment);
+            attachmentViewModel.saveIfNew(attachment).observe(this, attachmentResource -> {});
         }
 
         snaggingViewModel.saveOrUpdate(mindSnagging).observe(this, mindSnaggingResource -> {
