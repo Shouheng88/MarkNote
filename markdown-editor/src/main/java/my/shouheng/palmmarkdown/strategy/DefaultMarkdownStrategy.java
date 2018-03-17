@@ -143,7 +143,7 @@ public class DefaultMarkdownStrategy implements MarkdownEffectStrategy{
         }
 
         sb.append("|");
-        for (i = 0; i < cols; i++) sb.append(" Header |");
+        for (i = 0; i < cols; i++) sb.append(" HEADER |");
 
         sb.append("\n|");
         for (i = 0; i < cols; i++) sb.append(":----------:|");
