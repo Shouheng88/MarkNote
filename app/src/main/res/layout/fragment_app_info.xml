@@ -30,7 +30,7 @@
 
                     <ImageView
                         android:layout_gravity="center_horizontal"
-                        android:src="@mipmap/ic_launcher"
+                        android:src="@drawable/ic_intro_icon"
                         android:layout_margin="20dp"
                         android:layout_width="160dp"
                         android:layout_height="160dp" />

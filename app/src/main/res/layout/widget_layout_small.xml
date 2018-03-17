@@ -3,5 +3,5 @@
     android:layout_width="56dp"
     android:layout_height="56dp"
     android:id="@+id/iv_launch_app"
-    android:src="@mipmap/ic_launcher"
+    android:src="@drawable/ic_intro_icon"
     android:padding="@dimen/widget_margin"/>
