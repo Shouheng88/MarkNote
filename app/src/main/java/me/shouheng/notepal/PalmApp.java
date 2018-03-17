@@ -2,6 +2,10 @@ package me.shouheng.notepal;
 
 import android.app.Activity;
 import android.app.Application;
+import android.os.Build;
+import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
+import android.support.annotation.StringRes;
 import android.support.multidex.MultiDex;
 
 import com.facebook.stetho.Stetho;
@@ -37,6 +41,7 @@ import me.shouheng.notepal.model.Model;
  * Created by wangshouheng on 2017/2/26. */
 public class PalmApp extends Application {
 
+    // todo don't forget to update app version in gradle
     private static PalmApp mInstance;
 
     private static boolean passwordChecked;
@@ -68,5 +73,17 @@ public class PalmApp extends Application {
 
     public static void setPasswordChecked() {
         PalmApp.passwordChecked = true;
+    }
+
+    public static String getStringCompact(@StringRes int resId) {
+        return PalmApp.getContext().getString(resId);
+    }
+
+    public static @ColorInt int getColorCompact(@ColorRes int colorRes) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return PalmApp.getContext().getColor(colorRes);
+        } else {
+            return PalmApp.getContext().getResources().getColor(colorRes);
+        }
     }
 }
