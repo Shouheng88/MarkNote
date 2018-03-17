@@ -104,7 +104,7 @@ public class StatisticsHelper {
                     + " AND " + TimelineSchema.ADDED_TIME + " < " + endMillis
                     + " AND " + TimelineSchema.MODEL_TYPE + " = " + modelType.id
                     + " AND " + TimelineSchema.OPERATION + " = " + Operation.ADD.id;
-            int count = TimelineStore.getInstance(PalmApp.getContext()).getCount(whereSQL, Status.NORMAL, false);
+            int count = TimelineStore.getInstance(PalmApp.getContext()).getCount(whereSQL, Status.DELETED, true);
             states.add(count);
         }
         return states;

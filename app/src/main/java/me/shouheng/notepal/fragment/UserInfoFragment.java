@@ -78,7 +78,7 @@ public class UserInfoFragment extends CommonFragment<FragmentUserInfoBinding> {
     private void outputStatistic() {
         getBinding().lcv.setValueSelectionEnabled(false);
         getBinding().lcv.setLineChartData(statisticViewModel.getDefaultNoteData(primaryColor()));
-        statisticViewModel.getAddedModelData(ModelType.NONE).observe(this, listResource -> {
+        statisticViewModel.getAddedModelData(ModelType.NOTE).observe(this, listResource -> {
             LogUtils.d(listResource);
             if (listResource == null) {
                 ToastUtils.makeToast(R.string.text_failed_to_load_data);
