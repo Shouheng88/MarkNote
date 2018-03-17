@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.WidgetCardTitleViewBinding;
+import me.shouheng.notepal.util.ColorUtils;
 
 /**
  * Created by wang shouheng on 2018/2/23.*/
@@ -37,6 +38,8 @@ public class CardTitleView extends LinearLayout {
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
         binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.widget_card_title_view, this, true);
+
+        ColorUtils.addRipple(binding.ll);
 
         TypedArray attr = context.obtainStyledAttributes(attrs, R.styleable.CardTitleView, 0, 0);
         int mIcon = attr.getResourceId(R.styleable.CardTitleView_card_icon, -1);

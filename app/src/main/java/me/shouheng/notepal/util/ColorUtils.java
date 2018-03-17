@@ -4,9 +4,17 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.view.View;
 
 import org.polaric.colorful.Colorful;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+import me.shouheng.notepal.PalmApp;
+import me.shouheng.notepal.R;
 
 /**
  * Created by wangshouheng on 2017/3/31.*/
@@ -94,6 +102,28 @@ public class ColorUtils {
             return Color.parseColor(colorHex);
         } catch (Exception e) {
             return defaultValue;
+        }
+    }
+
+    public static void addRipple(View view) {
+        Drawable drawable;
+        if (PalmUtils.isLollipop() && (drawable = PalmApp.getDrawableCompact(R.drawable.ripple)) != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                view.setForeground(drawable);
+            } else {
+                try {
+                    Method method = View.class.getMethod("setForeground", Drawable.class);
+                    if (method != null) {
+                        method.invoke(view, drawable);
+                    }
+                } catch (NoSuchMethodException e) {
+                    LogUtils.e("NoSuchMethodException" + e);
+                } catch (IllegalAccessException e) {
+                    LogUtils.e("IllegalAccessException" + e);
+                } catch (InvocationTargetException e) {
+                    LogUtils.e("InvocationTargetException" + e);
+                }
+            }
         }
     }
 }

@@ -6,8 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 
-import me.shouheng.notepal.R;
-import me.shouheng.notepal.util.PalmUtils;
+import me.shouheng.notepal.util.ColorUtils;
 
 /**
  * Created by WangShouheng on 2018/3/1. */
@@ -31,6 +30,6 @@ public class SupportCardView extends CardView {
     /**
      * Set the foreground only for above lollipop */
     private void init() {
-        if (PalmUtils.isLollipop()) setForeground(getResources().getDrawable(R.drawable.ripple));
+        ColorUtils.addRipple(this);
     }
 }
