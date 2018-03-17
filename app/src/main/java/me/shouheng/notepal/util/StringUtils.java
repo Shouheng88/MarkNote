@@ -174,4 +174,14 @@ public class StringUtils {
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_EXPORT);
         return sdf.format(Calendar.getInstance().getTime());
     }
+
+    public static int parseInteger(String intString, int defaultValue) {
+        int number;
+        try {
+            number = TextUtils.isEmpty(intString) ? defaultValue : Integer.parseInt(intString);
+        } catch (NumberFormatException e) {
+            number = defaultValue;
+        }
+        return number;
+    }
 }

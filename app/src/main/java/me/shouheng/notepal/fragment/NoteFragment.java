@@ -65,6 +65,7 @@ import me.shouheng.notepal.util.FileHelper;
 import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.ModelHelper;
 import me.shouheng.notepal.util.PreferencesUtils;
+import me.shouheng.notepal.util.StringUtils;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.widget.FlowLayout;
 import my.shouheng.palmmarkdown.tools.MarkdownEffect;
@@ -317,17 +318,8 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
 
     private void showTableEditor() {
         TableInputDialog.getInstance((rowsStr, colsStr) -> {
-            int rows, cols;
-            try {
-                rows = TextUtils.isEmpty(rowsStr) ? 3 : Integer.parseInt(rowsStr);
-            } catch (NumberFormatException e) {
-                rows = 3;
-            }
-            try {
-                cols = TextUtils.isEmpty(colsStr) ? 3 : Integer.parseInt(colsStr);
-            } catch (NumberFormatException e) {
-                cols = 3;
-            }
+            int rows = StringUtils.parseInteger(rowsStr, 3);
+            int cols = StringUtils.parseInteger(colsStr, 3);
             getBinding().main.etContent.setEffect(MarkdownEffect.TABLE, rows, cols);
         }).show(getFragmentManager(), "TABLE INPUT");
     }

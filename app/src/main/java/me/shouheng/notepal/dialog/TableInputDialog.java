@@ -1,18 +1,16 @@
 package me.shouheng.notepal.dialog;
 
 import android.app.Dialog;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import me.shouheng.notepal.R;
+import me.shouheng.notepal.databinding.DialogInputTableLayoutBinding;
 import me.shouheng.notepal.util.ColorUtils;
 
 /**
@@ -20,6 +18,8 @@ import me.shouheng.notepal.util.ColorUtils;
 public class TableInputDialog extends DialogFragment {
 
     private OnConfirmClickListener onConfirmClickListener;
+
+    private DialogInputTableLayoutBinding binding;
 
     public static TableInputDialog getInstance() {
         return new TableInputDialog();
@@ -34,42 +34,38 @@ public class TableInputDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        View rootView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_link_input_layout, null, false);
-
-        TextView tvConfirm = rootView.findViewById(R.id.tv_md_confirm);
-        TextView tvCancel = rootView.findViewById(R.id.tv_md_cancel);
+        binding = DataBindingUtil.inflate(LayoutInflater.from(getContext()),
+                R.layout.dialog_input_table_layout,
+                null,
+                false);
 
         int buttonColor = ColorUtils.accentColor(getContext());
-        tvCancel.setTextColor(buttonColor);
-        tvConfirm.setTextColor(buttonColor);
+        binding.tvMdCancel.setTextColor(buttonColor);
+        binding.tvMdConfirm.setTextColor(buttonColor);
 
-        final TextInputLayout rowNumberHint = rootView.findViewById(R.id.rowNumberHint);
-        final TextInputLayout columnNumberHint = rootView.findViewById(R.id.columnNumberHint);
+        binding.tvMdConfirm.setOnClickListener(v -> onConfirm());
 
-        final EditText etRows = rootView.findViewById(R.id.et_md_rows_number);
-        final EditText etCols = rootView.findViewById(R.id.et_md_cols_number);
-
-        tvConfirm.setOnClickListener(v -> {
-            String rowNumberStr = etRows.getText().toString().trim();
-            String columnNumberStr = etCols.getText().toString().trim();
-
-            if (TextUtils.isEmpty(rowNumberStr)) rowNumberHint.setError(getString(R.string.md_rows_cannot_empty));
-            if (TextUtils.isEmpty(columnNumberStr)) columnNumberHint.setError(getString(R.string.md_cols_cannot_empty));
-
-            if (rowNumberHint.isErrorEnabled()) rowNumberHint.setErrorEnabled(false);
-            if (columnNumberHint.isErrorEnabled()) columnNumberHint.setErrorEnabled(false);
-
-            if (onConfirmClickListener != null) onConfirmClickListener.onConfirmClick(rowNumberStr, columnNumberStr);
-
-            TableInputDialog.this.dismiss();
-        });
-
-        tvCancel.setOnClickListener(v -> TableInputDialog.this.dismiss());
+        binding.tvMdCancel.setOnClickListener(v -> dismiss());
 
         return new AlertDialog.Builder(getContext())
                 .setTitle(R.string.md_insert_table)
-                .setView(rootView)
+                .setView(binding.getRoot())
                 .create();
+    }
+
+    private void onConfirm() {
+        String rowNumberStr = binding.etMdRowsNumber.getText().toString().trim();
+        String columnNumberStr = binding.etMdColsNumber.getText().toString().trim();
+
+        if (TextUtils.isEmpty(rowNumberStr)) binding.rowNumberHint.setError(getString(R.string.md_rows_cannot_empty));
+        if (TextUtils.isEmpty(columnNumberStr)) binding.columnNumberHint.setError(getString(R.string.md_cols_cannot_empty));
+
+        if (binding.rowNumberHint.isErrorEnabled()) binding.rowNumberHint.setErrorEnabled(false);
+        if (binding.columnNumberHint.isErrorEnabled()) binding.columnNumberHint.setErrorEnabled(false);
+
+        if (onConfirmClickListener != null) onConfirmClickListener.onConfirmClick(rowNumberStr, columnNumberStr);
+
+        dismiss();
     }
 
     public void setOnConfirmClickListener(OnConfirmClickListener onConfirmClickListener) {
