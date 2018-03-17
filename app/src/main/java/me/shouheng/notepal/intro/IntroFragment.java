@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import javax.annotation.Nullable;
+
 import me.shouheng.notepal.R;
 
 
@@ -20,13 +22,16 @@ public class IntroFragment extends Fragment {
 	protected TextView description;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public View onCreateView(@Nullable LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		if (inflater == null) {
+			throw new IllegalArgumentException("The inflater is null exception.");
+		}
 		View root = inflater.inflate(R.layout.fragment_intro_slide, container, false);
 		background = root.findViewById(R.id.intro_background);
-		title = (TextView) root.findViewById(R.id.intro_title);
-		image = (ImageView) root.findViewById(R.id.intro_image);
-		imageSmall = (ImageView) root.findViewById(R.id.intro_image_small);
-		description = (TextView) root.findViewById(R.id.intro_description);
+		title = root.findViewById(R.id.intro_title);
+		image = root.findViewById(R.id.intro_image);
+		imageSmall = root.findViewById(R.id.intro_image_small);
+		description = root.findViewById(R.id.intro_description);
 		return root;
 	}
 }
