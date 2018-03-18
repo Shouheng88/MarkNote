@@ -445,7 +445,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                 this,
                 attachment,
                 Collections.singletonList(attachment),
-                "");
+                attachment.getName());
     }
 
     private void saveMindSnagging(MindSnagging mindSnagging, Attachment attachment) {
