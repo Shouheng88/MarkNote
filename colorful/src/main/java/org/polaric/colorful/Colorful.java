@@ -149,10 +149,18 @@ public class Colorful {
             return darkColorRes;
         }
 
+        /**
+         * The name of the color used to identify the color.
+         *
+         * @return the identify name of the color */
         public String getPrimaryName() {
             return primaryName;
         }
 
+        /**
+         * The display name of color item, which is only used to display, not identify the color.
+         *
+         * @return name */
         public String getColorName() {
             return colorName;
         }
