@@ -77,7 +77,9 @@ public abstract class BaseModelFragment<T extends Model, V extends ViewDataBindi
      * Check the model content before save or update.
      *
      * @return true if the content is legal otherwise false. */
-    protected abstract boolean checkContent();
+    protected boolean checkContent() {
+        return true;
+    }
 
     /**
      * This method will be called before save or update the model. */

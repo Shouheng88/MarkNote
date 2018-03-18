@@ -156,6 +156,8 @@
     <!--endregion-->
 
     <!--region Note-->
+    <string name="note_default_name">Untitled Note</string>
+
     <string name="content_failed_to_parse_intent">Failed to parse the intent</string>
     <string name="note_failed_to_read_file">Failed to read file</string>
     <string name="note_failed_to_get_note_content">Failed to read content</string>
