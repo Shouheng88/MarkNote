@@ -33,7 +33,7 @@ public class Note extends Model implements Parcelable {
     @Column(name = "preview_code")
     private long previewCode;
 
-    // todo
+    @Column(name = "previewImage")
     private Uri previewImage;
 
     // region Android端字段，不计入数据库

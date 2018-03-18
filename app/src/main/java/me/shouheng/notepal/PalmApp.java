@@ -67,9 +67,10 @@ public class PalmApp extends Application {
 
         /*
          * Enable stetho only in debug mode. */
-        if (BuildConfig.DEBUG) {
-            Stetho.initializeWithDefaults(this);
-        }
+//        if (BuildConfig.DEBUG) {
+        // todo disable when release
+        Stetho.initializeWithDefaults(this);
+//        }
     }
 
     public static boolean isPasswordChecked() {
