@@ -272,11 +272,10 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
             ToastUtils.makeToast(R.string.text_no_location_info);
             return;
         }
-        String strLocation = location.getCountry() + "|" + location.getProvince() + "|" + location.getCity() + "|" + location.getDistrict();
         new MaterialDialog.Builder(getContext())
                 .title(R.string.text_location_info)
                 .positiveText(R.string.text_confirm)
-                .content(strLocation)
+                .content(ModelHelper.getFormatLocation(location))
                 .build()
                 .show();
     }
@@ -342,7 +341,8 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
             getActivity().finish();
         } else {
             if (isContentChanged) {
-                if (getArguments().containsKey(Constants.EXTRA_REQUEST_CODE)) {
+                Bundle args;
+                if ((args = getArguments()) != null && args.containsKey(Constants.EXTRA_REQUEST_CODE)) {
                     Intent intent = new Intent();
                     intent.putExtra(Constants.EXTRA_MODEL, (Serializable) note);
                     if (getArguments().containsKey(Constants.EXTRA_POSITION)){
