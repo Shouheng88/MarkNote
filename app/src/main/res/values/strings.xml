@@ -78,6 +78,7 @@
     <!--todo translate text-->
     <string name="text_failed_to_load_data">Failed to load data.</string>
     <string name="text_failed_to_modify_data">Failed to modify data.</string>
+    <string name="text_pick_from_album">Pick from album</string>
 
     <string name="check_network_availability">Check network availability</string>
 
@@ -367,6 +368,16 @@
     <!--endregion-->
 
     <!--region Setting->Theme-->
+    <string name="setting_personalize_dashboard">Personalize dashboard</string>
+    <string name="setting_personalize_dashboard_sub">Decorate your dashboard</string>
+    <string name="setting_dashboard_user_info_bg_visible">Drawer background image</string>
+    <string name="setting_dashboard_user_info_bg_visible_sub">Set the dashboard drawer background visible</string>
+    <string name="setting_dashboard_user_info_bg">Drawer background image</string>
+    <string name="setting_dashboard_user_info_bg_sub">Setup your drawer dashboard background image</string>
+    <string name="setting_dashboard_user_motto">Drawer user motto</string>
+    <string name="setting_dashboard_user_motto_sub">Setup your onw motto in dashboard drawer</string>
+    <string name="setting_dashboard_user_motto_default">Welcome to NotePal</string>
+
     <string name="setting_theme">Theme</string>
     <string name="setting_dark_theme">Dark theme</string>
     <string name="setting_dark_theme_sub">Use dark theme in whole application</string>
@@ -442,7 +453,7 @@
     <!--endregion-->
 
     <!--region User Info-->
-    <string name="user_info_click_to_see_personal_info">Click to view personal info</string>
+    <string name="user_info_click_to_see_personal_info">User Info</string>
     <string name="user_info">User info</string>
     <string name="school">School | Company</string>
     <string name="major">Major | Carer</string>
