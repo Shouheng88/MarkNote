@@ -1,6 +1,7 @@
 package me.shouheng.notepal.activity;
 
 import android.appwidget.AppWidgetManager;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,32 +15,44 @@ import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.databinding.ActivityWidgetConfigurationBinding;
 import me.shouheng.notepal.dialog.picker.NotebookPickerDialog;
 import me.shouheng.notepal.model.Notebook;
-import me.shouheng.notepal.provider.NotebookStore;
 import me.shouheng.notepal.util.LogUtils;
+import me.shouheng.notepal.util.ToastUtils;
+import me.shouheng.notepal.viewmodel.NotebookViewModel;
 import me.shouheng.notepal.widget.desktop.ListRemoteViewsFactory;
 import me.shouheng.notepal.widget.desktop.ListWidgetType;
 
 public class ConfigActivity extends AppCompatActivity {
 
     private int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
+
     private Notebook selectedNotebook;
 
     private ListWidgetType listWidgetType;
 
     private ActivityWidgetConfigurationBinding binding;
 
+    private NotebookViewModel notebookViewModel;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setResult(RESULT_CANCELED);
         super.onCreate(savedInstanceState);
 
+        notebookViewModel = ViewModelProviders.of(this).get(NotebookViewModel.class);
+
+        bindContentView();
+
         handleArguments();
 
-        binding = DataBindingUtil.inflate(getLayoutInflater(),
-                R.layout.activity_widget_configuration, null, false);
-        setContentView(binding.getRoot());
-
         doCreateView();
+    }
+
+    private void bindContentView() {
+        binding = DataBindingUtil.inflate(getLayoutInflater(),
+                R.layout.activity_widget_configuration,
+                null,
+                false);
+        setContentView(binding.getRoot());
     }
 
     private void handleArguments() {
@@ -54,6 +67,7 @@ public class ConfigActivity extends AppCompatActivity {
             return;
         }
 
+        // Get preferences data
         SharedPreferences sharedPreferences = getApplication().getSharedPreferences(
                 Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
         int widgetTypeId = sharedPreferences.getInt(
@@ -62,15 +76,36 @@ public class ConfigActivity extends AppCompatActivity {
         long nbCode = sharedPreferences.getLong(
                 Constants.PREF_WIDGET_NOTEBOOK_CODE_PREFIX + String.valueOf(mAppWidgetId),
                 0);
-        if (nbCode != 0) {
-            selectedNotebook = NotebookStore.getInstance(getApplicationContext()).get(nbCode);
-            updateWhenSelectNotebook();
-        }
+
+        // fetch data from database
+        if (nbCode != 0) fetchNotebook(nbCode);
+
+        // get list widget type field
         listWidgetType = ListWidgetType.getListWidgetType(widgetTypeId);
         LogUtils.d(listWidgetType);
     }
 
-    protected void doCreateView() {
+    private void fetchNotebook(long nbCode) {
+        notebookViewModel.get(nbCode).observe(this, notebookResource -> {
+            if (notebookResource == null) {
+                ToastUtils.makeToast(R.string.text_failed_to_load_data);
+                return;
+            }
+            switch (notebookResource.status) {
+                case FAILED:
+                    ToastUtils.makeToast(R.string.text_failed_to_load_data);
+                    break;
+                case SUCCESS:
+                    if (notebookResource.data != null) {
+                        selectedNotebook = notebookResource.data;
+                        updateWhenSelectNotebook();
+                    }
+                    break;
+            }
+        });
+    }
+
+    private void doCreateView() {
         binding.rgType.setOnCheckedChangeListener((group, checkedId) -> {
             switch (checkedId) {
                 case R.id.rb_notes:
