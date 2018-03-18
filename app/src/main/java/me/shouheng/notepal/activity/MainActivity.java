@@ -1,5 +1,6 @@
 package me.shouheng.notepal.activity;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -58,10 +59,6 @@ import me.shouheng.notepal.model.Notebook;
 import me.shouheng.notepal.model.enums.FabSortItem;
 import me.shouheng.notepal.model.enums.ModelType;
 import me.shouheng.notepal.model.enums.Status;
-import me.shouheng.notepal.provider.AttachmentsStore;
-import me.shouheng.notepal.provider.CategoryStore;
-import me.shouheng.notepal.provider.MindSnaggingStore;
-import me.shouheng.notepal.provider.NotebookStore;
 import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.FragmentHelper;
@@ -70,7 +67,10 @@ import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.util.enums.MindSnaggingListType;
+import me.shouheng.notepal.viewmodel.AttachmentViewModel;
 import me.shouheng.notepal.viewmodel.CategoryViewModel;
+import me.shouheng.notepal.viewmodel.NotebookViewModel;
+import me.shouheng.notepal.viewmodel.SnaggingViewModel;
 import me.shouheng.notepal.widget.tools.CustomRecyclerScrollViewListener;
 
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
@@ -106,6 +106,11 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     private NotesChangedReceiver notesChangedReceiver;
 
     private FloatingActionButton[] fabs;
+
+    private NotebookViewModel notebookViewModel;
+    private AttachmentViewModel attachmentViewModel;
+    private SnaggingViewModel snaggingViewModel;
+    private CategoryViewModel categoryViewModel;
 
     @Override
     protected int getLayoutResId() {
@@ -143,14 +148,25 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
 
         configToolbar();
 
+        initViewModels();
+
         initHeaderView();
 
+        // init float action buttons
         initFloatButtons();
+
         initFabSortItems();
 
         initDrawerMenu();
 
         toNotesFragment();
+    }
+
+    private void initViewModels() {
+        attachmentViewModel = ViewModelProviders.of(this).get(AttachmentViewModel.class);
+        notebookViewModel = ViewModelProviders.of(this).get(NotebookViewModel.class);
+        snaggingViewModel = ViewModelProviders.of(this).get(SnaggingViewModel.class);
+        categoryViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
     }
 
     private void configToolbar() {
@@ -374,19 +390,42 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     private void editNotebook() {
         Notebook notebook = ModelFactory.getNotebook(this);
         notebookEditDialog = NotebookEditDialog.newInstance(this, notebook, (notebookName, notebookColor) -> {
+            // notebook fields
             notebook.setTitle(notebookName);
             notebook.setColor(notebookColor);
             notebook.setCount(0);
             notebook.setTreePath(String.valueOf(notebook.getCode()));
+
+            // notebook parent fields
             Notebook parent;
             if (isNotesFragment() && (parent = ((NotesFragment) getCurrentFragment()).getNotebook()) != null) {
                 notebook.setParentCode(parent.getCode());
                 notebook.setTreePath(parent.getTreePath() + "|" + notebook.getCode());
             }
-            NotebookStore.getInstance(this).saveModel(notebook);
-            Fragment fragment = getCurrentFragment();
-            if (fragment != null && fragment instanceof NotesFragment) {
-                ((NotesFragment) fragment).reload();
+
+            // do save
+            saveNotebook(notebook);
+        });
+        notebookEditDialog.show(getSupportFragmentManager(), "NotebookEditDialog");
+    }
+
+    private void saveNotebook(Notebook notebook) {
+        notebookViewModel.saveModel(notebook).observe(this, notebookResource -> {
+            if (notebookResource == null) {
+                ToastUtils.makeToast(R.string.text_error_when_save);
+                return;
+            }
+            switch (notebookResource.status) {
+                case SUCCESS:
+                    ToastUtils.makeToast(R.string.text_save_successfully);
+                    Fragment fragment = getCurrentFragment();
+                    if (fragment != null && fragment instanceof NotesFragment) {
+                        ((NotesFragment) fragment).reload();
+                    }
+                    break;
+                case FAILED:
+                    ToastUtils.makeToast(R.string.text_error_when_save);
+                    break;
             }
         });
         notebookEditDialog.show(getSupportFragmentManager(), "NotebookEditDialog");
@@ -411,21 +450,30 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     }
 
     private void saveMindSnagging(MindSnagging mindSnagging, Attachment attachment) {
-        if (attachment != null && AttachmentsStore.getInstance(this).isNewModel(attachment.getCode())) {
+        if (attachment != null) {
             attachment.setModelCode(mindSnagging.getCode());
             attachment.setModelType(ModelType.MIND_SNAGGING);
-            AttachmentsStore.getInstance(this).saveModel(attachment);
+            attachmentViewModel.saveIfNew(attachment).observe(this, attachmentResource -> {});
         }
 
-        if (MindSnaggingStore.getInstance(this).isNewModel(mindSnagging.getCode())) {
-            MindSnaggingStore.getInstance(this).saveModel(mindSnagging);
-        } else {
-            MindSnaggingStore.getInstance(this).update(mindSnagging);
-        }
-
-        ToastUtils.makeToast(R.string.text_save_successfully);
-
-        if (isSnaggingFragment()) ((SnaggingsFragment) getCurrentFragment()).addSnagging(mindSnagging);
+        snaggingViewModel.saveOrUpdate(mindSnagging).observe(this, mindSnaggingResource -> {
+            if (mindSnaggingResource == null) {
+                ToastUtils.makeToast(R.string.text_failed_to_modify_data);
+                return;
+            }
+            switch (mindSnaggingResource.status) {
+                case SUCCESS:
+                    ToastUtils.makeToast(R.string.text_save_successfully);
+                    if (isSnaggingFragment()) {
+                        ((SnaggingsFragment) getCurrentFragment()).addSnagging(mindSnagging);
+                    }
+                    break;
+                case FAILED:
+                    ToastUtils.makeToast(R.string.text_failed_to_modify_data);
+                    break;
+                case LOADING:break;
+            }
+        });
     }
 
     private void showAttachmentPicker() {
@@ -438,17 +486,30 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
 
     private void editCategory() {
         categoryEditDialog = CategoryEditDialog.newInstance(this,
-                ModelFactory.getCategory(this), category -> {
-                    CategoryStore.getInstance(this).saveModel(category);
+                ModelFactory.getCategory(this),
+                this::saveCategory);
+        categoryEditDialog.show(getSupportFragmentManager(), "CATEGORY_EDIT_DIALOG");
+    }
 
+    private void saveCategory(Category category) {
+        categoryViewModel.saveModel(category).observe(this, categoryResource -> {
+            if (categoryResource == null) {
+                ToastUtils.makeToast(R.string.text_error_when_save);
+                return;
+            }
+            switch (categoryResource.status) {
+                case SUCCESS:
                     ToastUtils.makeToast(R.string.text_save_successfully);
-
                     Fragment fragment = getCurrentFragment();
                     if (fragment != null && fragment instanceof CategoriesFragment) {
                         ((CategoriesFragment) fragment).addCategory(category);
                     }
-                });
-        categoryEditDialog.show(getSupportFragmentManager(), "CATEGORY_EDIT_DIALOG");
+                    break;
+                case FAILED:
+                    ToastUtils.makeToast(R.string.text_error_when_save);
+                    break;
+            }
+        });
     }
     // endregion
 
@@ -532,22 +593,25 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     }
 
     private boolean isNotesFragment(){
-        return getCurrentFragment() instanceof NotesFragment;
+        Fragment f = getCurrentFragment();
+        return f != null && f instanceof NotesFragment;
     }
 
     private boolean isSnaggingFragment() {
-        return getCurrentFragment() instanceof SnaggingsFragment;
+        Fragment f = getCurrentFragment();
+        return f != null && f instanceof SnaggingsFragment;
     }
 
     private boolean isCategoryFragment() {
-        return getCurrentFragment() instanceof CategoriesFragment;
+        Fragment f = getCurrentFragment();
+        return f != null && f instanceof CategoriesFragment;
     }
 
     private boolean isDashboard() {
-        Fragment currentFragment = getCurrentFragment();
-        return currentFragment instanceof NotesFragment
-                || currentFragment instanceof SnaggingsFragment
-                || currentFragment instanceof CategoriesFragment;
+        Fragment f = getCurrentFragment();
+        return f != null && (f instanceof NotesFragment
+                || f instanceof SnaggingsFragment
+                || f instanceof CategoriesFragment);
     }
     // endregion
 
