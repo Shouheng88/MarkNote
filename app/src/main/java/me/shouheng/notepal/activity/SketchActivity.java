@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,7 +25,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.activity.base.ThemedActivity;
+import me.shouheng.notepal.activity.base.CommonActivity;
+import me.shouheng.notepal.databinding.ActivitySketchBinding;
 import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.util.ViewUtils;
@@ -34,33 +34,42 @@ import me.shouheng.notepal.widget.SketchView;
 import me.shouheng.notepal.widget.tools.OnDrawChangedListener;
 
 
-public class SketchActivity extends ThemedActivity implements OnDrawChangedListener, View.OnClickListener{
+public class SketchActivity extends CommonActivity<ActivitySketchBinding> implements
+        OnDrawChangedListener,
+        View.OnClickListener {
 
-    private SketchView mSketchView;
-    private ImageView ivBrush, ivUndo, ivRedo, ivErase;
+    public final static String BASED_BITMAP = "base";
+
     private View popupLayout, popupEraserLayout;
-    private ImageView strokeImageView;
-    private ImageView eraserImageView;
+    private ImageView strokeImageView, eraserImageView;
     private ColorPicker mColorPicker;
     private MaterialMenuDrawable materialMenu;
     private Dialog eraserDialog, brushDialog;
 
     private int seekBarStrokeProgress;
     private int seekBarEraserProgress;
-    private int oldColor;
-    private int size;
-
-    public final static String BASED_BITMAP = "base";
+    private int oldColor, size;
 
     private boolean isContentChanged, onceSaved;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sketch);
+    protected int getLayoutResId() {
+        return R.layout.activity_sketch;
+    }
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+    @Override
+    protected void doCreateView(Bundle savedInstanceState) {
+        configToolbar();
+
+        configBackground();
+
+        configViews();
+
+        configDialogs();
+    }
+
+    private void configToolbar() {
+        setSupportActionBar(getBinding().toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -68,41 +77,44 @@ public class SketchActivity extends ThemedActivity implements OnDrawChangedListe
         }
         materialMenu = new MaterialMenuDrawable(this, primaryColor(), MaterialMenuDrawable.Stroke.THIN);
         materialMenu.setIconState(MaterialMenuDrawable.IconState.ARROW);
-        toolbar.setNavigationIcon(materialMenu);
+        getBinding().toolbar.setNavigationIcon(materialMenu);
         setStatusBarColor(getResources().getColor(R.color.dark_theme_foreground));
+    }
 
+    private void configBackground() {
         Uri baseUri = getIntent().getParcelableExtra(BASED_BITMAP);
         if (baseUri != null) {
             Bitmap bmp;
             try {
                 bmp = BitmapFactory.decodeStream(getContentResolver().openInputStream(baseUri));
-                mSketchView.setBackgroundBitmap(this, bmp);
+                getBinding().sketchView.setBackgroundBitmap(this, bmp);
             } catch (FileNotFoundException e) {
                 LogUtils.e("Error replacing sketch bitmap background", e);
             }
         }
+    }
 
-        ivBrush = findViewById(R.id.iv_brush);
-        ivBrush.setOnClickListener(this);
-        ivUndo = findViewById(R.id.iv_undo);
-        ivUndo.setOnClickListener(this);
-        ivRedo = findViewById(R.id.iv_redo);
-        ivRedo.setOnClickListener(this);
-        ivErase = findViewById(R.id.iv_eraser);
-        ViewUtils.setAlpha(ivErase, 0.4f);
-        ivErase.setOnClickListener(this);
-        mSketchView = findViewById(R.id.sketch_view);
-        mSketchView.setOnDrawChangedListener(this);
+    private void configViews() {
+        getBinding().ivBrush.setOnClickListener(this);
+        getBinding().ivUndo.setOnClickListener(this);
+        getBinding().ivRedo.setOnClickListener(this);
+        ViewUtils.setAlpha(getBinding().ivEraser, 0.4f);
+        getBinding().ivEraser.setOnClickListener(this);
+        getBinding().sketchView.setOnDrawChangedListener(this);
+    }
 
+    private void configDialogs() {
+        // stroke dialog
         popupLayout = getLayoutInflater().inflate(R.layout.popup_sketch_stroke, null);
         strokeImageView = popupLayout.findViewById(R.id.stroke_circle);
         mColorPicker = popupLayout.findViewById(R.id.stroke_color_picker);
         mColorPicker.addSVBar(popupLayout.findViewById(R.id.svbar));
         mColorPicker.addOpacityBar(popupLayout.findViewById(R.id.opacitybar));
-        mColorPicker.setOnColorChangedListener(color -> mSketchView.setStrokeColor(color));
-        mColorPicker.setColor(mSketchView.getStrokeColor());
-        mColorPicker.setOldCenterColor(mSketchView.getStrokeColor());
+        mColorPicker.setOnColorChangedListener(color -> getBinding().sketchView.setStrokeColor(color));
+        mColorPicker.setColor(getBinding().sketchView.getStrokeColor());
+        mColorPicker.setOldCenterColor(getBinding().sketchView.getStrokeColor());
 
+        // brush dialog
         brushDialog = new AlertDialog.Builder(this)
                 .setView(popupLayout)
                 .setOnDismissListener(dialog -> {
@@ -112,6 +124,7 @@ public class SketchActivity extends ThemedActivity implements OnDrawChangedListe
                 })
                 .create();
 
+        // eraser dialog
         popupEraserLayout = getLayoutInflater().inflate(R.layout.popup_sketch_eraser, null);
         eraserImageView = popupEraserLayout.findViewById(R.id.stroke_circle);
         eraserDialog = new AlertDialog.Builder(this)
@@ -147,7 +160,7 @@ public class SketchActivity extends ThemedActivity implements OnDrawChangedListe
             seekBarEraserProgress = progress;
         }
 
-        mSketchView.setSize(newSize, eraserOrStroke);
+        getBinding().sketchView.setSize(newSize, eraserOrStroke);
     }
 
     private void showPopup(final int eraserOrStroke) {
@@ -182,7 +195,7 @@ public class SketchActivity extends ThemedActivity implements OnDrawChangedListe
         isContentChanged = false;
         onceSaved = true;
         materialMenu.animateIconState(MaterialMenuDrawable.IconState.ARROW);
-        Bitmap bitmap = mSketchView.getBitmap();
+        Bitmap bitmap = getBinding().sketchView.getBitmap();
         if (bitmap != null) {
             try {
                 String path = getIntent().getStringExtra(MediaStore.EXTRA_OUTPUT);
@@ -201,7 +214,7 @@ public class SketchActivity extends ThemedActivity implements OnDrawChangedListe
     }
 
     public void onBack() {
-        if (mSketchView.getPaths().size() == 0){
+        if (getBinding().sketchView.getPaths().size() == 0){
             super.onBackPressed();
         }
         if (isContentChanged) {
@@ -226,20 +239,20 @@ public class SketchActivity extends ThemedActivity implements OnDrawChangedListe
 
     @Override
     public void onDrawChanged() {
-        if (mSketchView.getPaths().size() > 0) {
-            ViewUtils.setAlpha(ivUndo, 1f);
+        if (getBinding().sketchView.getPaths().size() > 0) {
+            ViewUtils.setAlpha(getBinding().ivUndo, 1f);
             if (!isContentChanged) {
                 setContentChanged();
             }
         } else {
-            ViewUtils.setAlpha(ivUndo, 0.4f);
+            ViewUtils.setAlpha(getBinding().ivUndo, 0.4f);
             isContentChanged = false;
             materialMenu.animateIconState(MaterialMenuDrawable.IconState.ARROW);
         }
-        if (mSketchView.getUndoneCount() > 0) {
-            ViewUtils.setAlpha(ivRedo, 1f);
+        if (getBinding().sketchView.getUndoneCount() > 0) {
+            ViewUtils.setAlpha(getBinding().ivRedo, 1f);
         } else {
-            ViewUtils.setAlpha(ivRedo, 0.4f);
+            ViewUtils.setAlpha(getBinding().ivRedo, 0.4f);
         }
     }
 
@@ -252,33 +265,33 @@ public class SketchActivity extends ThemedActivity implements OnDrawChangedListe
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.iv_brush:
-                if (mSketchView.getMode() == SketchView.STROKE) {
+                if (getBinding().sketchView.getMode() == SketchView.STROKE) {
                     showPopup(SketchView.STROKE);
                 } else {
-                    mSketchView.setMode(SketchView.STROKE);
-                    ViewUtils.setAlpha(ivErase, 0.4f);
-                    ViewUtils.setAlpha(ivBrush, 1f);
+                    getBinding().sketchView.setMode(SketchView.STROKE);
+                    ViewUtils.setAlpha(getBinding().ivEraser, 0.4f);
+                    ViewUtils.setAlpha(getBinding().ivBrush, 1f);
                 }
                 break;
             case R.id.iv_undo:
-                mSketchView.undo();
+                getBinding().sketchView.undo();
                 break;
             case R.id.iv_redo:
-                mSketchView.redo();
+                getBinding().sketchView.redo();
                 break;
             case R.id.iv_eraser:
-                if (mSketchView.getMode() == SketchView.ERASER) {
+                if (getBinding().sketchView.getMode() == SketchView.ERASER) {
                     showPopup(SketchView.ERASER);
                 } else {
-                    mSketchView.setMode(SketchView.ERASER);
-                    ViewUtils.setAlpha(ivBrush, 0.4f);
-                    ViewUtils.setAlpha(ivErase, 1f);
+                    getBinding().sketchView.setMode(SketchView.ERASER);
+                    ViewUtils.setAlpha(getBinding().ivBrush, 0.4f);
+                    ViewUtils.setAlpha(getBinding().ivEraser, 1f);
                 }
                 break;
         }
     }
 
-    private void setContentChanged(){
+    private void setContentChanged() {
         if (!isContentChanged) {
             isContentChanged = true;
             materialMenu.animateIconState(MaterialMenuDrawable.IconState.CHECK);
@@ -287,7 +300,7 @@ public class SketchActivity extends ThemedActivity implements OnDrawChangedListe
 
     private void clearAll() {
         isContentChanged = false;
-        mSketchView.erase();
+        getBinding().sketchView.erase();
         materialMenu.animateIconState(MaterialMenuDrawable.IconState.ARROW);
     }
 
@@ -295,7 +308,7 @@ public class SketchActivity extends ThemedActivity implements OnDrawChangedListe
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
-                if (mSketchView.getPaths().size() == 0){
+                if (getBinding().sketchView.getPaths().size() == 0){
                     finish();
                 } else {
                     if (isContentChanged) {
