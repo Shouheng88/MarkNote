@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -25,6 +26,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.RelativeLayout;
 
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
+import com.bumptech.glide.Glide;
 import com.github.clans.fab.FloatingActionButton;
 
 import org.polaric.colorful.PermissionUtils;
@@ -90,6 +92,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     private final int REQUEST_PASSWORD = 0x0006;
     private final int REQUEST_SEARCH = 0x0007;
     private final int REQUEST_NOTE_VIEW = 0x0008;
+    private final int REQUEST_SETTING = 0x0009;
     // endregion
 
     private final static long TIME_INTERVAL_BACK = 2000;
@@ -111,6 +114,8 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     private AttachmentViewModel attachmentViewModel;
     private SnaggingViewModel snaggingViewModel;
     private CategoryViewModel categoryViewModel;
+
+    private ActivityMainNavHeaderBinding headerBinding;
 
     @Override
     protected int getLayoutResId() {
@@ -181,12 +186,40 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     }
 
     private void initHeaderView() {
-        View header = getBinding().nav.inflateHeaderView(R.layout.activity_main_nav_header);
-        ActivityMainNavHeaderBinding headerBinding = DataBindingUtil.bind(header);
-        ColorUtils.addRipple(headerBinding.fl);
-        header.setOnLongClickListener(v -> true);
-        header.setOnClickListener(view -> startActivityForResult(UserInfoActivity.class, REQUEST_USER_INFO));
+        if (headerBinding == null) {
+            View header = getBinding().nav.inflateHeaderView(R.layout.activity_main_nav_header);
+            headerBinding = DataBindingUtil.bind(header);
+        }
+        setupHeader();
+        headerBinding.getRoot().setOnLongClickListener(v -> true);
+        headerBinding.llUserInfo.setOnClickListener(
+                view -> startActivityForResult(UserInfoActivity.class, REQUEST_USER_INFO));
     }
+
+    private void setupHeader() {
+        headerBinding.userMotto.setText(preferencesUtils.getUserMotto());
+
+        boolean enabled = preferencesUtils.isUserInfoBgEnable();
+        headerBinding.userBg.setVisibility(enabled ? View.VISIBLE : View.GONE);
+        if (enabled) {
+            Uri customUri = preferencesUtils.getUserInfoBG();
+            if (customUri != null) {
+                Glide.with(PalmApp.getContext())
+                        .load(customUri)
+                        .centerCrop()
+                        .crossFade()
+                        .into(headerBinding.userBg);
+            } else {
+                Glide.with(PalmApp.getContext())
+                        .load(R.drawable.theme_bg_1)
+                        .centerCrop()
+                        .crossFade()
+                        .into(headerBinding.userBg);
+            }
+        }
+    }
+
+
 
     // region handle intent
     private void handleIntent(Intent intent) {
@@ -542,7 +575,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                     NoticeDialog.newInstance().show(getSupportFragmentManager(), "NoticeDialog");
                     break;
                 case R.id.nav_settings:
-                    startActivity(SettingsActivity.class);
+                    SettingsActivity.start(this, REQUEST_SETTING);
                     break;
                 case R.id.nav_notes:
                     toNotesFragment();
@@ -682,6 +715,9 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                 break;
             case REQUEST_PASSWORD:
                 init();
+                break;
+            case REQUEST_SETTING:
+                setupHeader();
                 break;
         }
     }

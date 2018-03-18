@@ -31,7 +31,7 @@ public class ThemeDelegate {
 
         long curTime = System.currentTimeMillis();
 
-        styleResPrimary = context.getResources().getIdentifier(primaryColor.getPrimaryName(), "style", context.getPackageName());
+        styleResPrimary = context.getResources().getIdentifier(primaryColor.getIdentifyName(), "style", context.getPackageName());
         styleResAccent = context.getResources().getIdentifier(accentColor.getAccentName(), "style", context.getPackageName());
         styleResBase = dark ? R.style.Colorful_Dark : R.style.Colorful_Light;
 

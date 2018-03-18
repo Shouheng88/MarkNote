@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -20,6 +21,7 @@ import me.shouheng.notepal.databinding.ActivitySettingsBinding;
 import me.shouheng.notepal.fragment.AppInfoFragment;
 import me.shouheng.notepal.fragment.PrimaryPickerFragment;
 import me.shouheng.notepal.fragment.setting.SettingsBackup;
+import me.shouheng.notepal.fragment.setting.SettingsDashboard;
 import me.shouheng.notepal.fragment.setting.SettingsFragment;
 import me.shouheng.notepal.fragment.setting.SettingsSecurity;
 import me.shouheng.notepal.listener.OnFragmentDestroyListener;
@@ -32,13 +34,21 @@ import me.shouheng.notepal.util.ToastUtils;
 public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> implements
         SettingsFragment.OnPreferenceClickListener,
         OnThemeSelectedListener,
-        OnFragmentDestroyListener {
+        OnFragmentDestroyListener,
+        SettingsDashboard.DashboardSettingInteraction{
 
     private String keyForColor;
+
+    private boolean isDashboardContentChanged = false;
 
     private PreferencesUtils preferencesUtils;
 
     private final static int REQUEST_CODE_PASSWORD = 0x0201;
+
+    public static void start(Activity activity, int requestCode) {
+        Intent intent = new Intent(activity, SettingsActivity.class);
+        activity.startActivityForResult(intent, requestCode);
+    }
 
     @Override
     protected int getLayoutResId() {
@@ -73,7 +83,7 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> im
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
-                super.onBackPressed();
+                onBackPressed();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -112,26 +122,37 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> im
         keyForColor = key;
         switch (key) {
             case PreferencesUtils.PRIMARY_COLOR:
-                FragmentHelper.replaceWithCallback(this,
-                        PrimaryPickerFragment.newInstance(), R.id.fragment_container);
+                replaceWithCallback(PrimaryPickerFragment.newInstance());
                 break;
             case PreferencesUtils.ACCENT_COLOR:
                 showAccentColorPicker();
                 break;
             case SettingsFragment.KEY_DATA_BACKUP:
-                FragmentHelper.replaceWithCallback(this, new SettingsBackup(), R.id.fragment_container);
+                replaceWithCallback(new SettingsBackup());
                 break;
             case SettingsFragment.KEY_DATA_SECURITY:
-                if (preferencesUtils.isPasswordRequired() && !TextUtils.isEmpty(preferencesUtils.getPassword())) {
+                if (preferencesUtils.isPasswordRequired()
+                        && !TextUtils.isEmpty(preferencesUtils.getPassword())) {
                     LockActivity.requirePassword(this, REQUEST_CODE_PASSWORD);
                 } else {
-                    FragmentHelper.replaceWithCallback(this, new SettingsSecurity(), R.id.fragment_container);
+                    replaceWithCallback(new SettingsSecurity());
                 }
                 break;
             case SettingsFragment.KEY_ABOUT:
-                FragmentHelper.replaceWithCallback(this, new AppInfoFragment(), R.id.fragment_container);
+                replaceWithCallback(new AppInfoFragment());
+                break;
+            case SettingsFragment.KEY_SETUP_DASHBOARD:
+                replaceWithCallback(new SettingsDashboard());
                 break;
         }
+    }
+
+    private void replaceWithCallback(android.app.Fragment fragment) {
+        FragmentHelper.replaceWithCallback(this, fragment, R.id.fragment_container);
+    }
+
+    private void replaceWithCallback(Fragment fragment) {
+        FragmentHelper.replaceWithCallback(this, fragment, R.id.fragment_container);
     }
 
     @Override
@@ -172,5 +193,21 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> im
                 break;
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onDashboardSettingChanged() {
+        isDashboardContentChanged = true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (isDashboardContentChanged) {
+            Intent intent = new Intent();
+            setResult(Activity.RESULT_OK, intent);
+            super.onBackPressed();
+        } else {
+            super.onBackPressed();
+        }
     }
 }

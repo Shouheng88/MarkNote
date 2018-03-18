@@ -15,12 +15,21 @@ import me.shouheng.notepal.util.FileHelper;
 public class AttachmentTask extends AsyncTask<Void, Void, Attachment> {
 
     private WeakReference<Fragment> mFragmentWeakReference;
+    private WeakReference<android.app.Fragment> mAppFragmentWeakReference;
     private WeakReference<Activity> mActivityWeakReference;
+
     private OnAttachingFileListener mOnAttachingFileListener;
+
     private Uri uri;
 
     public AttachmentTask(Fragment mFragment, Uri uri, String fileName, OnAttachingFileListener listener) {
-        mFragmentWeakReference = new WeakReference<>(mFragment);
+        this.mFragmentWeakReference = new WeakReference<>(mFragment);
+        this.uri = uri;
+        this.mOnAttachingFileListener = listener;
+    }
+
+    public AttachmentTask(android.app.Fragment mFragment, Uri uri, String fileName, OnAttachingFileListener listener) {
+        this.mAppFragmentWeakReference = new WeakReference<>(mFragment);
         this.uri = uri;
         this.mOnAttachingFileListener = listener;
     }
@@ -39,7 +48,8 @@ public class AttachmentTask extends AsyncTask<Void, Void, Attachment> {
     @Override
     protected void onPostExecute(Attachment mAttachment) {
         if ((mFragmentWeakReference != null && isAlive(mFragmentWeakReference.get()))
-                || (mActivityWeakReference != null && isAlive(mActivityWeakReference.get()))) {
+                || (mActivityWeakReference != null && isAlive(mActivityWeakReference.get()))
+                || (mAppFragmentWeakReference != null && isAlive(mAppFragmentWeakReference.get()))) {
             if (mAttachment != null) {
                 mOnAttachingFileListener.onAttachingFileFinished(mAttachment);
             } else {
@@ -53,6 +63,13 @@ public class AttachmentTask extends AsyncTask<Void, Void, Attachment> {
     }
 
     private boolean isAlive(Fragment fragment) {
+        return fragment != null
+                && fragment.isAdded()
+                && fragment.getActivity() != null
+                && !fragment.getActivity().isFinishing();
+    }
+
+    private boolean isAlive(android.app.Fragment fragment) {
         return fragment != null
                 && fragment.isAdded()
                 && fragment.getActivity() != null
