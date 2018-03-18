@@ -428,7 +428,6 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                     break;
             }
         });
-        notebookEditDialog.show(getSupportFragmentManager(), "NotebookEditDialog");
     }
 
     private void editMindSnagging(@NonNull MindSnagging param) {
