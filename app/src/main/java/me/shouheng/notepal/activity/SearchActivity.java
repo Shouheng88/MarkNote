@@ -59,6 +59,10 @@ public class SearchActivity extends CommonActivity<ActivitySearchBinding> implem
     private AttachmentViewModel attachmentViewModel;
     private SnaggingViewModel snaggingViewModel;
 
+    /**
+     * Field to remark that is the content changed, will be used to set result to caller. */
+    private boolean isContentChanged = false;
+
     public static void start(Activity mContext, int requestCode){
         Intent intent = new Intent(mContext, SearchActivity.class);
         intent.putExtra(EXTRA_NAME_REQUEST_CODE, requestCode);
@@ -256,6 +260,8 @@ public class SearchActivity extends CommonActivity<ActivitySearchBinding> implem
     }
 
     private void saveMindSnagging(int position, MindSnagging mindSnagging, Attachment attachment) {
+        isContentChanged = true;
+
         if (attachment != null) {
             attachment.setModelCode(mindSnagging.getCode());
             attachment.setModelType(ModelType.MIND_SNAGGING);
@@ -293,9 +299,21 @@ public class SearchActivity extends CommonActivity<ActivitySearchBinding> implem
             switch (requestCode) {
                 case REQUEST_FOR_NOTE:
                     queryAll(queryString);
+                    isContentChanged = true;
                     break;
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (isContentChanged) {
+            Intent intent = new Intent();
+            setResult(Activity.RESULT_OK, intent);
+            finish();
+        } else {
+            super.onBackPressed();
+        }
     }
 }
