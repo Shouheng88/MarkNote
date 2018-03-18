@@ -1,46 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:fitsSystemWindows="true"
-    tools:context=".activity.SearchActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <include android:id="@+id/toolbar_layout"
-        layout="@layout/layout_toolbar"/>
-
-    <me.shouheng.notepal.widget.EmptyView
-        android:id="@+id/iv_empty"
-        app:empty_image="@drawable/ic_search_large"
-        app:title="@string/no_search_result_found"
-        app:sub_title="@string/try_other_conditions"
-        app:tint_drawable="true"
-        android:layout_centerInParent="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <me.shouheng.notepal.widget.EmptySupportRecyclerView
-        android:id="@+id/recyclerview"
-        android:layout_below="@id/toolbar_layout"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        tools:context=".activity.SearchActivity">
 
-    <View android:layout_width="match_parent"
-        android:layout_height="@dimen/toolbar_evaluation"
-        android:background="@drawable/toolbar_dropshadow"
-        android:layout_below="@id/toolbar_layout"/>
+        <include android:id="@+id/toolbar_layout"
+            layout="@layout/layout_toolbar"/>
 
-    <me.zhanghai.android.materialprogressbar.MaterialProgressBar
-        android:id="@+id/top_mpb"
-        android:layout_below="@id/toolbar_layout"
-        app:mpb_progressStyle="horizontal"
-        style="@style/Widget.MaterialProgressBar.ProgressBar.Horizontal"
-        android:indeterminate="true"
-        android:visibility="gone"
-        tools:visibility="visible"
-        app:mpb_useIntrinsicPadding="false"
-        android:layout_width="match_parent"
-        android:layout_height="5dp" />
+        <me.shouheng.notepal.widget.EmptyView
+            android:id="@+id/iv_empty"
+            app:empty_image="@drawable/ic_search_large"
+            app:title="@string/no_search_result_found"
+            app:sub_title="@string/try_other_conditions"
+            app:tint_drawable="true"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-</RelativeLayout>
+        <me.shouheng.notepal.widget.EmptySupportRecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_below="@id/toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <View android:layout_width="match_parent"
+            android:layout_height="@dimen/toolbar_evaluation"
+            android:background="@drawable/toolbar_dropshadow"
+            android:layout_below="@id/toolbar_layout"/>
+
+        <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+            android:id="@+id/top_mpb"
+            android:layout_below="@id/toolbar_layout"
+            app:mpb_progressStyle="horizontal"
+            style="@style/Widget.MaterialProgressBar.ProgressBar.Horizontal"
+            android:indeterminate="true"
+            android:visibility="gone"
+            tools:visibility="visible"
+            app:mpb_useIntrinsicPadding="false"
+            android:layout_width="match_parent"
+            android:layout_height="5dp" />
+
+    </RelativeLayout>
+
+</layout>
