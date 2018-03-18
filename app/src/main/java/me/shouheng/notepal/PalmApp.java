@@ -40,6 +40,9 @@ import me.shouheng.notepal.model.Model;
  * 18. Replace the snagging logic with note (the dialog is still avilable, but the snagging list is removed);
  * 19. Add picture to the theme.
  *
+ * 不要让用户做太多的选择！
+ * 只要一个主线功能就行！
+ *
  * Created by wangshouheng on 2017/2/26. */
 public class PalmApp extends Application {
 

@@ -25,7 +25,7 @@ public class ThemesAdapter extends BaseQuickAdapter<Colorful.ThemeColor, BaseVie
 
     private boolean isDarkTheme;
 
-    public ThemesAdapter(Context context, @Nullable List<Colorful.ThemeColor> data, Colorful.ThemeColor selectedTheme) {
+    ThemesAdapter(Context context, @Nullable List<Colorful.ThemeColor> data, Colorful.ThemeColor selectedTheme) {
         super(R.layout.item_theme_color, data);
         this.context = context;
         this.selectedTheme = selectedTheme;
@@ -54,7 +54,7 @@ public class ThemesAdapter extends BaseQuickAdapter<Colorful.ThemeColor, BaseVie
         }
     }
 
-    public void setSelectedTheme(Colorful.ThemeColor selectedTheme) {
+    void setSelectedTheme(Colorful.ThemeColor selectedTheme) {
         this.selectedTheme = selectedTheme;
     }
 }
