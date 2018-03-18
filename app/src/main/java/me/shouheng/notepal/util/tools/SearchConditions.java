@@ -4,15 +4,9 @@ package me.shouheng.notepal.util.tools;
  * Created by WngShhng on 2017/12/11.*/
 public class SearchConditions {
 
-    private boolean includeAssignment;
-
-    private boolean includeClass;
-
     private boolean includeNote;
 
     private boolean includeMindSnagging;
-
-    private boolean includePurpose;
 
     /**
      * For current version (1.0), don't include the filter option of tag.
@@ -27,29 +21,10 @@ public class SearchConditions {
         SearchConditions conditions = new SearchConditions();
         conditions.setIncludeArchived(true);
         conditions.setIncludeTrashed(false);
-        conditions.setIncludeTags(true);
-        conditions.setIncludeAssignment(true);
-        conditions.setIncludeClass(true);
+        conditions.setIncludeTags(false);
         conditions.setIncludeNote(true);
         conditions.setIncludeMindSnagging(true);
-        conditions.setIncludePurpose(true);
         return conditions;
-    }
-
-    public boolean isIncludeAssignment() {
-        return includeAssignment;
-    }
-
-    public void setIncludeAssignment(boolean includeAssignment) {
-        this.includeAssignment = includeAssignment;
-    }
-
-    public boolean isIncludeClass() {
-        return includeClass;
-    }
-
-    public void setIncludeClass(boolean includeClass) {
-        this.includeClass = includeClass;
     }
 
     public boolean isIncludeNote() {
@@ -66,14 +41,6 @@ public class SearchConditions {
 
     public void setIncludeMindSnagging(boolean includeMindSnagging) {
         this.includeMindSnagging = includeMindSnagging;
-    }
-
-    public boolean isIncludePurpose() {
-        return includePurpose;
-    }
-
-    public void setIncludePurpose(boolean includePurpose) {
-        this.includePurpose = includePurpose;
     }
 
     public boolean isIncludeTags() {
@@ -98,5 +65,16 @@ public class SearchConditions {
 
     public void setIncludeTrashed(boolean includeTrashed) {
         this.includeTrashed = includeTrashed;
+    }
+
+    @Override
+    public String toString() {
+        return "SearchConditions{" +
+                "includeNote=" + includeNote +
+                ", includeMindSnagging=" + includeMindSnagging +
+                ", includeTags=" + includeTags +
+                ", includeArchived=" + includeArchived +
+                ", includeTrashed=" + includeTrashed +
+                '}';
     }
 }

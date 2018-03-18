@@ -25,7 +25,7 @@ import me.shouheng.notepal.model.Location;
 import me.shouheng.notepal.model.MindSnagging;
 import me.shouheng.notepal.model.Model;
 import me.shouheng.notepal.model.Note;
-import me.shouheng.notepal.provider.CategoryStore;
+import me.shouheng.notepal.viewmodel.CategoryViewModel;
 import me.shouheng.notepal.widget.FlowLayout;
 
 /**
@@ -139,7 +139,7 @@ public class ModelHelper {
 
     private static void addTagsToLayout(Context context, FlowLayout flowLayout, String stringTags){
         if (TextUtils.isEmpty(stringTags)) return;
-        String[] tags = stringTags.split(CategoryStore.CATEGORY_SPLIT);
+        String[] tags = stringTags.split(CategoryViewModel.CATEGORY_SPLIT);
         for (String tag : tags) addTagToLayout(context, flowLayout, tag);
     }
 
