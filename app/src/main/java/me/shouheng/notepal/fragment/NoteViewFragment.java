@@ -50,6 +50,7 @@ import me.shouheng.notepal.util.ModelHelper;
 import me.shouheng.notepal.util.PrintUtils;
 import me.shouheng.notepal.util.ShortcutHelper;
 import me.shouheng.notepal.util.ToastUtils;
+import me.shouheng.notepal.viewmodel.CategoryViewModel;
 
 /**
  * Created by wangshouheng on 2017/5/13.*/
@@ -97,7 +98,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
 
         note = (Note) arguments.getSerializable(Constants.EXTRA_MODEL);
         List<Category> selections = CategoryStore.getInstance(getContext()).getCategories(note);
-        tags = CategoryStore.getTagsName(selections);
+        tags = CategoryViewModel.getTagsName(selections);
 
         if (TextUtils.isEmpty(note.getContent())) {
             Attachment noteFile = AttachmentsStore.getInstance(getContext()).get(note.getContentCode());

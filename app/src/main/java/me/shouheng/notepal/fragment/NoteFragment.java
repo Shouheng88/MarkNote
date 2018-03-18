@@ -46,11 +46,10 @@ import me.shouheng.notepal.model.Category;
 import me.shouheng.notepal.model.Location;
 import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.model.enums.ModelType;
-import me.shouheng.notepal.provider.AttachmentsStore;
-import me.shouheng.notepal.provider.CategoryStore;
 import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.FileHelper;
+import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.ModelHelper;
 import me.shouheng.notepal.util.StringUtils;
 import me.shouheng.notepal.util.ToastUtils;
@@ -249,7 +248,7 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
             switch (listResource.status) {
                 case SUCCESS:
                     selections = listResource.data;
-                    addTagsToLayout(CategoryStore.getTagsName(listResource.data));
+                    addTagsToLayout(CategoryViewModel.getTagsName(listResource.data));
                     break;
             }
         });
@@ -426,7 +425,6 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
 
         getBinding().drawer.flLabels.setOnClickListener(v -> showCategoriesPicker(selections));
         getBinding().drawer.tvAddLabels.setOnClickListener(v -> showCategoriesPicker(selections));
-        addTagsToLayout(CategoryStore.getTagsName(selections));
 
         getBinding().drawer.tvAddLocation.setOnClickListener(v -> tryToLocate());
 
@@ -485,9 +483,9 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
 
     @Override
     protected void onGetSelectedCategories(List<Category> categories) {
-        String tagsName = CategoryStore.getTagsName(categories);
+        String tagsName = CategoryViewModel.getTagsName(categories);
         selections = categories;
-        note.setTags(CategoryStore.getTags(categories));
+        note.setTags(CategoryViewModel.getTags(categories));
         note.setTagsName(tagsName);
         addTagsToLayout(tagsName);
         setContentChanged();
@@ -510,7 +508,7 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
     protected void onGetAttachment(@NonNull Attachment attachment) {
         attachment.setModelCode(note.getCode());
         attachment.setModelType(ModelType.NOTE);
-        AttachmentsStore.getInstance(getContext()).saveModel(attachment);
+        attachmentViewModel.saveModel(attachment).observe(this, LogUtils::d);
 
         String title = FileHelper.getNameFromUri(getContext(), attachment.getUri());
         if (TextUtils.isEmpty(title)) title = getString(R.string.text_attachment);

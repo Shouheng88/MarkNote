@@ -70,6 +70,7 @@ import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.util.enums.MindSnaggingListType;
+import me.shouheng.notepal.viewmodel.CategoryViewModel;
 import me.shouheng.notepal.widget.tools.CustomRecyclerScrollViewListener;
 
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
@@ -364,7 +365,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
          * Add category field according to current fragment */
         Category category;
         if (isNotes && (category = ((NotesFragment) getCurrentFragment()).getCategory()) != null) {
-            note.setTags(CategoryStore.getTags(Collections.singletonList(category)));
+            note.setTags(CategoryViewModel.getTags(Collections.singletonList(category)));
         }
 
         return note;

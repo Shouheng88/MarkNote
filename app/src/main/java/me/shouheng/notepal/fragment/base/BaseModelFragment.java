@@ -37,6 +37,7 @@ import me.shouheng.notepal.util.ShortcutHelper;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.util.ViewUtils;
 import me.shouheng.notepal.viewmodel.BaseViewModel;
+import me.shouheng.notepal.viewmodel.CategoryViewModel;
 import me.shouheng.notepal.widget.FlowLayout;
 
 /**
@@ -315,7 +316,7 @@ public abstract class BaseModelFragment<T extends Model, V extends ViewDataBindi
         if (getTagsLayout() == null) return;
         getTagsLayout().removeAllViews();
         if (TextUtils.isEmpty(stringTags)) return;
-        String[] tags = stringTags.split(CategoryStore.CATEGORY_SPLIT);
+        String[] tags = stringTags.split(CategoryViewModel.CATEGORY_SPLIT);
         for (String tag : tags) addTagToLayout(tag);
     }
 
