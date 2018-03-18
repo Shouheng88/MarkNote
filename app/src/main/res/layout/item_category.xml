@@ -73,7 +73,7 @@
 
         <me.shouheng.notepal.widget.themed.SupportTextView
             android:id="@+id/tv_title"
-            android:gravity="bottom"
+            android:gravity="center"
             android:textSize="14sp"
             android:ellipsize="end"
             tools:text="标题Title\nTitle"
