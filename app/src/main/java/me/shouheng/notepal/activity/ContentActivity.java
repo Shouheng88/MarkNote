@@ -9,7 +9,6 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -22,10 +21,10 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.base.CommonActivity;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.databinding.ActivityContentBinding;
-import me.shouheng.notepal.fragment.base.CommonFragment;
 import me.shouheng.notepal.fragment.NoteFragment;
 import me.shouheng.notepal.fragment.NoteFragment.OnNoteInteractListener;
 import me.shouheng.notepal.fragment.NoteViewFragment;
+import me.shouheng.notepal.fragment.base.CommonFragment;
 import me.shouheng.notepal.model.ModelFactory;
 import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.provider.NotesStore;
@@ -128,11 +127,10 @@ public class ContentActivity extends CommonActivity<ActivityContentBinding> impl
     private void configToolbar() {
         Intent intent = getIntent();
         if (intent.hasExtra(EXTRA_HAS_TOOLBAR) && intent.getBooleanExtra(EXTRA_HAS_TOOLBAR, false)) {
-            Toolbar toolbar = getBinding().bar.findViewById(R.id.toolbar);
-            getBinding().bar.setVisibility(View.VISIBLE);
+            getBinding().bar.getRoot().setVisibility(View.VISIBLE);
             getBinding().vShadow.setVisibility(View.VISIBLE);
-            setSupportActionBar(toolbar);
-            if (!isDarkTheme()) toolbar.setPopupTheme(R.style.AppTheme_PopupOverlay);
+            setSupportActionBar(getBinding().bar.toolbar);
+            if (!isDarkTheme()) getBinding().bar.toolbar.setPopupTheme(R.style.AppTheme_PopupOverlay);
         }
     }
 

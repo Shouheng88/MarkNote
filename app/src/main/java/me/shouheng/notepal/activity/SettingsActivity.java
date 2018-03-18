@@ -136,7 +136,7 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> im
 
     @Override
     public void onThemeSelected(Colorful.ThemeColor themeColor) {
-        getBinding().bar.findViewById(R.id.toolbar).setBackgroundColor(primaryColor());
+        getBinding().bar.toolbar.setBackgroundColor(primaryColor());
         if (isSettingsFragment()) ((SettingsFragment) getCurrentFragment())
                 .notifyPrimaryColorChanged(getResources().getColor(themeColor.getColorRes()));
     }
