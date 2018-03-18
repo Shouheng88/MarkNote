@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <CheckBoxPreference
+        android:key="key_user_info_bg_visible"
+        android:defaultValue="true"
+        android:title="@string/setting_dashboard_user_info_bg_visible"
+        android:summary="@string/setting_dashboard_user_info_bg_visible_sub"/>
+
+    <Preference
+        android:key="key_user_info_bg"
+        android:persistent="false"
+        android:title="@string/setting_dashboard_user_info_bg"
+        android:summary="@string/setting_dashboard_user_info_bg_sub"/>
+
+    <Preference
+        android:key="key_user_info_motto"
+        android:persistent="false"
+        android:title="@string/setting_dashboard_user_motto"
+        android:summary="@string/setting_dashboard_user_motto_sub" />
+
+</PreferenceScreen>

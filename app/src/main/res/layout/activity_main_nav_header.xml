@@ -13,8 +13,9 @@
         android:clickable="true"
         android:focusable="true">
 
-        <ImageView
+        <android.support.v7.widget.AppCompatImageView
             android:id="@+id/user_bg"
+            tools:src="@drawable/theme_bg_1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop" />
@@ -23,11 +24,13 @@
             android:id="@+id/user_head_portrait"
             android:layout_marginTop="@dimen/main_navigation_header_top_margin"
             android:layout_marginStart="10dp"
+            android:visibility="invisible"
             android:src="@drawable/ic_account_circle_white_48dp"
-            android:layout_width="80dp"
-            android:layout_height="80dp" />
+            android:layout_width="60dp"
+            android:layout_height="60dp" />
 
         <LinearLayout
+            android:id="@+id/ll_user_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -56,7 +59,7 @@
                 android:textColor="#ffffff"
                 android:ellipsize="end"
                 android:maxLines="2"
-                tools:text="Wow, it doesn't matter."
+                tools:text="Wow, it doesn't matter.\nSo what?"
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"

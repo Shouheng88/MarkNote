@@ -37,10 +37,10 @@ public class ThemesAdapter extends BaseQuickAdapter<Colorful.ThemeColor, BaseVie
         int primaryColor = context.getResources().getColor(themeColor.getColorRes());
 
         helper.setImageResource(R.id.civ_color, themeColor.getColorRes());
-        helper.setText(R.id.tv_theme_name, themeColor.getColorName());
+        helper.setText(R.id.tv_theme_name, themeColor.getDisplayName());
         helper.setTextColor(R.id.tv_theme_name, primaryColor);
 
-        if (selectedTheme != null && themeColor.getPrimaryName().equals(selectedTheme.getPrimaryName())) {
+        if (selectedTheme != null && themeColor.getIdentifyName().equals(selectedTheme.getIdentifyName())) {
             helper.setVisible(R.id.civ_checked_bg, true);
             helper.setImageResource(R.id.civ_checked_bg, isDarkTheme ? R.color.dark_theme_background : R.color.light_theme_background);
             helper.setVisible(R.id.iv_checked, true);

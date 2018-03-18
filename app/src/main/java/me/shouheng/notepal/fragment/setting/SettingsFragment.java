@@ -2,6 +2,7 @@ package me.shouheng.notepal.fragment.setting;
 
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
+import android.preference.Preference;
 import android.preference.PreferenceFragment;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -34,6 +35,7 @@ public class SettingsFragment extends PreferenceFragment {
     private final static String KEY_USER_INTRO = "user_intro";
     private final static String KEY_SUPPORT_DEVELOP = "support_develop";
 
+    public final static String KEY_SETUP_DASHBOARD = "setup_dashboard";
     public final static String KEY_ABOUT = "about";
     public final static String KEY_DATA_BACKUP = "data_backup";
     public final static String KEY_DATA_SECURITY = "data_security";
@@ -41,6 +43,15 @@ public class SettingsFragment extends PreferenceFragment {
     private CheckBoxPreference isDarkTheme, coloredNavigationBar;
 
     private ColorPreference primaryColor, accentColor;
+
+    /**
+     * Used to transfer click message to the activity. */
+    private Preference.OnPreferenceClickListener listener = preference -> {
+        if (getActivity() != null && getActivity() instanceof OnPreferenceClickListener) {
+            ((OnPreferenceClickListener) getActivity()).onPreferenceClick(preference.getKey());
+        }
+        return true;
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,18 +74,6 @@ public class SettingsFragment extends PreferenceFragment {
             updateThemeSettings();
             return true;
         });
-        primaryColor.setOnPreferenceClickListener(preference -> {
-            if (getActivity() != null && getActivity() instanceof OnPreferenceClickListener) {
-                ((OnPreferenceClickListener) getActivity()).onPreferenceClick(PreferencesUtils.PRIMARY_COLOR);
-            }
-            return true;
-        });
-        accentColor.setOnPreferenceClickListener(preference -> {
-            if (getActivity() != null && getActivity() instanceof OnPreferenceClickListener) {
-                ((OnPreferenceClickListener) getActivity()).onPreferenceClick(PreferencesUtils.ACCENT_COLOR);
-            }
-            return true;
-        });
         coloredNavigationBar.setOnPreferenceClickListener(preference -> {
             ((ThemedActivity) getActivity()).updateTheme();
             return true;
@@ -91,30 +90,17 @@ public class SettingsFragment extends PreferenceFragment {
             showIntroduction();
             return true;
         });
-
-        findPreference(KEY_DATA_BACKUP).setOnPreferenceClickListener(preference -> {
-            if (getActivity() != null && getActivity() instanceof OnPreferenceClickListener) {
-                ((OnPreferenceClickListener) getActivity()).onPreferenceClick(KEY_DATA_BACKUP);
-            }
-            return true;
-        });
-        findPreference(KEY_DATA_SECURITY).setOnPreferenceClickListener(preference -> {
-            if (getActivity() != null && getActivity() instanceof OnPreferenceClickListener) {
-                ((OnPreferenceClickListener) getActivity()).onPreferenceClick(KEY_DATA_SECURITY);
-            }
-            return true;
-        });
-
         findPreference(KEY_SUPPORT_DEVELOP).setOnPreferenceClickListener(preference -> {
             showSupport();
             return true;
         });
-        findPreference(KEY_ABOUT).setOnPreferenceClickListener(preference -> {
-            if (getActivity() != null && getActivity() instanceof OnPreferenceClickListener) {
-                ((OnPreferenceClickListener) getActivity()).onPreferenceClick(KEY_ABOUT);
-            }
-            return true;
-        });
+
+        primaryColor.setOnPreferenceClickListener(listener);
+        accentColor.setOnPreferenceClickListener(listener);
+        findPreference(KEY_SETUP_DASHBOARD).setOnPreferenceClickListener(listener);
+        findPreference(KEY_DATA_BACKUP).setOnPreferenceClickListener(listener);
+        findPreference(KEY_DATA_SECURITY).setOnPreferenceClickListener(listener);
+        findPreference(KEY_ABOUT).setOnPreferenceClickListener(listener);
     }
 
     private void showFeedbackEditor() {

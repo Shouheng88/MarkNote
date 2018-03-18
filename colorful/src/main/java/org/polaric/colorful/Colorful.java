@@ -63,7 +63,7 @@ public class Colorful {
     private static String generateThemeString() {
         return isDark + Util.SPLIT
                 + isTranslucent + Util.SPLIT
-                + primaryColor.getPrimaryName() + Util.SPLIT
+                + primaryColor.getIdentifyName() + Util.SPLIT
                 + accentColor.getAccentName() + Util.SPLIT
                 + isColoredNavigation;
     }
@@ -114,24 +114,26 @@ public class Colorful {
         OLD_9(R.color.theme_old_9, R.color.theme_old_9_dark, "primary_old_9", "#95A5A6"),
         OLD_10(R.color.theme_old_10, R.color.theme_old_10_dark, "primary_old_10", "#2574A9");
 
-        @ColorRes private int colorRes;
+        @ColorRes
+        private int colorRes;
 
-        @ColorRes private int darkColorRes;
+        @ColorRes
+        private int darkColorRes;
 
-        private String primaryName;
+        private String identifyName;
 
-        private String colorName;
+        private String displayName;
 
-        ThemeColor(@ColorRes int colorRes, @ColorRes int darkColorRes, String primaryName, String colorName) {
+        ThemeColor(@ColorRes int colorRes, @ColorRes int darkColorRes, String identifyName, String displayName) {
             this.colorRes = colorRes;
             this.darkColorRes = darkColorRes;
-            this.primaryName = primaryName;
-            this.colorName = colorName;
+            this.identifyName = identifyName;
+            this.displayName = displayName;
         }
 
         public static ThemeColor getByPrimaryName(String primaryName){
             for (ThemeColor themeColor : values()){
-                if (themeColor.primaryName.equals(primaryName)){
+                if (themeColor.identifyName.equals(primaryName)){
                     return themeColor;
                 }
             }
@@ -153,16 +155,16 @@ public class Colorful {
          * The name of the color used to identify the color.
          *
          * @return the identify name of the color */
-        public String getPrimaryName() {
-            return primaryName;
+        public String getIdentifyName() {
+            return identifyName;
         }
 
         /**
          * The display name of color item, which is only used to display, not identify the color.
          *
          * @return name */
-        public String getColorName() {
-            return colorName;
+        public String getDisplayName() {
+            return displayName;
         }
     }
 

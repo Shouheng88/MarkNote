@@ -16,6 +16,7 @@ public enum TextLength {
     TEACHER_TEXT_LENGTH(50),
     TIMELINE_TITLE_LENGTH(120),
     SCHOOL_TEXT_LENGTH(250),
+    MOTTO_TEXT_LENGTH(250),
     MAJOR_TEXT_LENGTH(250);
 
     public final int length;

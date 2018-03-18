@@ -3,6 +3,7 @@ package me.shouheng.notepal.util;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import org.polaric.colorful.Colorful;
@@ -67,11 +68,11 @@ public class PreferencesUtils extends BasePreferencesUtils {
     }
 
     public void setThemeColor(Colorful.ThemeColor themeColor){
-        putString(PRIMARY_COLOR, themeColor.getPrimaryName());
+        putString(PRIMARY_COLOR, themeColor.getIdentifyName());
     }
 
     public Colorful.ThemeColor getThemeColor(){
-        return Colorful.ThemeColor.getByPrimaryName(getString(PRIMARY_COLOR, Colorful.ThemeColor.GREEN.getPrimaryName()));
+        return Colorful.ThemeColor.getByPrimaryName(getString(PRIMARY_COLOR, Colorful.ThemeColor.GREEN.getIdentifyName()));
     }
 
     public Colorful.AccentColor getAccentColor() {
@@ -110,6 +111,42 @@ public class PreferencesUtils extends BasePreferencesUtils {
      * @see AttachmentHelper#setFilePath(String) */
     private final String KEY_ATTACHMENT_URI = "key_attachment_uri";
     private final String KEY_ATTACHMENT_FILE_PATH = "key_attachment_file_path";
+
+    private final String KEY_USER_INFO_BG = "key_user_info_background_image";
+    private final String KEY_USER_INFO_BG_ENABLE = "key_user_info_bg_visible";
+    private final String KEY_USER_INFO_MOTTO = "key_user_info_motto";
+
+    /**
+     * The user info background in main activity.
+     *
+     * @param themeBgId 1->theme_bg_1, 2->theme_bg_2,0->clear all */
+    public void setUserInfoBG(@Nullable Uri uri) {
+        putString(KEY_USER_INFO_BG, uri == null ? "" : uri.toString());
+    }
+
+    public Uri getUserInfoBG() {
+        String bgUri = getString(KEY_USER_INFO_BG, null);
+        if (!TextUtils.isEmpty(bgUri)) {
+            return Uri.parse(bgUri);
+        }
+        return null;
+    }
+
+    public void setUserInfoBGEnable(boolean enable) {
+        putBoolean(KEY_USER_INFO_BG_ENABLE, enable);
+    }
+
+    public boolean isUserInfoBgEnable() {
+        return getBoolean(KEY_USER_INFO_BG_ENABLE, true);
+    }
+
+    public void setUserMotto(String motto) {
+        putString(KEY_USER_INFO_MOTTO, motto);
+    }
+
+    public String getUserMotto() {
+        return getString(KEY_USER_INFO_MOTTO, PalmApp.getStringCompact(R.string.setting_dashboard_user_motto_default));
+    }
 
     public void setAttachmentUri(@NonNull Uri uri) {
         putString(KEY_ATTACHMENT_URI, uri.toString());

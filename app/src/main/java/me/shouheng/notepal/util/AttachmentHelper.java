@@ -129,6 +129,33 @@ public class AttachmentHelper {
         }
     }
 
+    public static<T extends android.app.Fragment & OnAttachingFileListener> void resolveResult(
+            T fragment,
+            int requestCode,
+            Intent data,
+            OnGetAttachmentListener onGetAttachmentListener) {
+        switch (requestCode){
+            case REQUEST_TAKE_PHOTO:
+                onGetAttachmentListener.onGetAttachment(
+                        getAttachment(fragment.getActivity(), Constants.MIME_TYPE_IMAGE));
+                break;
+            case REQUEST_SELECT_IMAGE:
+                startTask(fragment, data);
+                break;
+            case REQUEST_TAKE_VIDEO:
+                onGetAttachmentListener.onGetAttachment(
+                        getVideo(fragment.getActivity(), data));
+                break;
+            case REQUEST_FILES:
+                startTask(fragment, data);
+                break;
+            case REQUEST_SKETCH:
+                onGetAttachmentListener.onGetAttachment(
+                        getAttachment(fragment.getActivity(), Constants.MIME_TYPE_SKETCH));
+                break;
+        }
+    }
+
     public static<T extends Activity & OnAttachingFileListener> void resolveResult(
             T activity,
             int requestCode,
@@ -174,21 +201,27 @@ public class AttachmentHelper {
     }
 
     private static <T extends Activity & OnAttachingFileListener> void startTask(T activity, Intent data) {
-        List<Uri> uris = new ArrayList<>();
-        if (PalmUtils.isJellyBean() && data.getClipData() != null) {
-            for (int i = 0; i < data.getClipData().getItemCount(); i++) {
-                uris.add(data.getClipData().getItemAt(i).getUri());
-            }
-        } else {
-            uris.add(data.getData());
-        }
-        for (Uri uri : uris) {
+        for (Uri uri : getUrisFromIntent(data)) {
             String name = FileHelper.getNameFromUri(activity, uri);
             new AttachmentTask(activity, uri, name, activity).execute();
         }
     }
 
     private static <T extends Fragment & OnAttachingFileListener> void startTask(T fragment, Intent data) {
+        for (Uri uri : getUrisFromIntent(data)) {
+            String name = FileHelper.getNameFromUri(fragment.getContext(), uri);
+            new AttachmentTask(fragment, uri, name, fragment).execute();
+        }
+    }
+
+    private static <T extends android.app.Fragment & OnAttachingFileListener> void startTask(T fragment, Intent data) {
+        for (Uri uri : getUrisFromIntent(data)) {
+            String name = FileHelper.getNameFromUri(fragment.getActivity(), uri);
+            new AttachmentTask(fragment, uri, name, fragment).execute();
+        }
+    }
+
+    private static List<Uri> getUrisFromIntent(Intent data) {
         List<Uri> uris = new ArrayList<>();
         if (PalmUtils.isJellyBean() && data.getClipData() != null) {
             for (int i = 0; i < data.getClipData().getItemCount(); i++) {
@@ -197,10 +230,7 @@ public class AttachmentHelper {
         } else {
             uris.add(data.getData());
         }
-        for (Uri uri : uris) {
-            String name = FileHelper.getNameFromUri(fragment.getContext(), uri);
-            new AttachmentTask(fragment, uri, name, fragment).execute();
-        }
+        return uris;
     }
 
     public interface OnGetAttachmentListener {
@@ -215,6 +245,10 @@ public class AttachmentHelper {
     }
 
     public static void pickFromAlbum(Fragment fragment) {
+        fragment.startActivityForResult(pickFromAlbum(), AttachmentHelper.REQUEST_SELECT_IMAGE);
+    }
+
+    public static void pickFromAlbum(android.app.Fragment fragment) {
         fragment.startActivityForResult(pickFromAlbum(), AttachmentHelper.REQUEST_SELECT_IMAGE);
     }
 

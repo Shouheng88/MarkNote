@@ -65,6 +65,12 @@
             android:title="@string/setting_colored_navigation_bar"
             android:summary="@string/setting_colored_navigation_bar_sub"/>
 
+        <Preference
+            android:key="setup_dashboard"
+            android:persistent="false"
+            android:title="@string/setting_personalize_dashboard"
+            android:summary="@string/setting_personalize_dashboard_sub"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/setting_help">
