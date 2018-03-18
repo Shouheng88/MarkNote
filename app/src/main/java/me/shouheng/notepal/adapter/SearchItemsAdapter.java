@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import me.shouheng.notepal.PalmApp;
@@ -26,7 +26,7 @@ import me.shouheng.notepal.util.TimeUtils;
  * Created by wangshouheng on 2017/5/8.*/
 public class SearchItemsAdapter extends RecyclerView.Adapter<SearchItemsAdapter.ViewHolder>{
 
-    private List searchResults = new ArrayList();
+    private List searchResults = new LinkedList();
 
     private Context context;
 

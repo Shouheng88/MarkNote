@@ -119,7 +119,7 @@ public class LoginActivity extends CommonActivity<ActivityLoginBinding> {
 //
 //    private void signIn() {
 //        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-//        startActivityForResult(signInIntent, RC_SIGN_IN);
+//        start(signInIntent, RC_SIGN_IN);
 //    }
 //
 //    private void signOut() {

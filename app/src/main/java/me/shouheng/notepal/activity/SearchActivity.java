@@ -1,62 +1,65 @@
 package me.shouheng.notepal.activity;
 
 import android.app.Activity;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SearchView.OnQueryTextListener;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.activity.base.ThemedActivity;
+import me.shouheng.notepal.activity.base.CommonActivity;
 import me.shouheng.notepal.adapter.SearchItemsAdapter;
 import me.shouheng.notepal.adapter.SearchItemsAdapter.OnItemSelectedListener;
+import me.shouheng.notepal.databinding.ActivitySearchBinding;
 import me.shouheng.notepal.dialog.MindSnaggingDialog;
 import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.model.MindSnagging;
 import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.model.enums.ModelType;
-import me.shouheng.notepal.provider.AttachmentsStore;
-import me.shouheng.notepal.provider.MindSnaggingStore;
-import me.shouheng.notepal.provider.helper.QueryHelper;
 import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.util.GsonUtils;
+import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.util.tools.SearchConditions;
-import me.shouheng.notepal.widget.EmptySupportRecyclerView;
+import me.shouheng.notepal.viewmodel.AttachmentViewModel;
+import me.shouheng.notepal.viewmodel.SearchViewModel;
+import me.shouheng.notepal.viewmodel.SnaggingViewModel;
 import me.shouheng.notepal.widget.tools.CustomItemAnimator;
 import me.shouheng.notepal.widget.tools.DividerItemDecoration;
 
-public class SearchActivity extends ThemedActivity implements OnQueryTextListener, OnItemSelectedListener {
+public class SearchActivity extends CommonActivity<ActivitySearchBinding> implements
+        OnQueryTextListener,
+        OnItemSelectedListener {
 
-    private static final String EXTRA_NAME_REQUEST_CODE = "extra.request.code";
+    private final static String EXTRA_NAME_REQUEST_CODE = "extra.request.code";
 
-    private final int REQUEST_FOR_NOTE = 20004;
-
-//    private InputMethodManager mImm;
+    private final static int REQUEST_FOR_NOTE = 20004;
 
     private SearchItemsAdapter adapter;
+
     private SearchView mSearchView;
 
     private String queryString;
-    private List searchResults = new LinkedList();
-    private List<Note> notes = new LinkedList<>();
-    private List<MindSnagging> minds = new LinkedList<>();
 
-    private QueryHelper queryHelper;
     private SearchConditions conditions;
 
-    public static void startActivityForResult(Activity mContext, int requestCode){
+    private SearchViewModel searchViewModel;
+    private AttachmentViewModel attachmentViewModel;
+    private SnaggingViewModel snaggingViewModel;
+
+    public static void start(Activity mContext, int requestCode){
         Intent intent = new Intent(mContext, SearchActivity.class);
         intent.putExtra(EXTRA_NAME_REQUEST_CODE, requestCode);
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -64,36 +67,42 @@ public class SearchActivity extends ThemedActivity implements OnQueryTextListene
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
+    protected int getLayoutResId() {
+        return R.layout.activity_search;
+    }
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        if (!isDarkTheme()) toolbar.setPopupTheme(R.style.AppTheme_PopupOverlay);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        EmptySupportRecyclerView mRecyclerView = findViewById(R.id.recyclerview);
-        mRecyclerView.setEmptyView(findViewById(R.id.iv_empty));
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST, isDarkTheme()));
-        mRecyclerView.setItemAnimator(new CustomItemAnimator());
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+    @Override
+    protected void doCreateView(Bundle savedInstanceState) {
+        setSupportActionBar(getBinding().toolbarLayout.toolbar);
+        if (!isDarkTheme()){
+            getBinding().toolbarLayout.toolbar.setPopupTheme(R.style.AppTheme_PopupOverlay);
+        }
 
         adapter = new SearchItemsAdapter(this, this);
-        mRecyclerView.setAdapter(adapter);
 
-        queryHelper = QueryHelper.newInstance(this);
+        getBinding().recyclerview.setEmptyView(findViewById(R.id.iv_empty));
+        getBinding().recyclerview.addItemDecoration(new DividerItemDecoration(
+                this, DividerItemDecoration.VERTICAL_LIST, isDarkTheme()));
+        getBinding().recyclerview.setItemAnimator(new CustomItemAnimator());
+        getBinding().recyclerview.setLayoutManager(new LinearLayoutManager(this));
+        getBinding().recyclerview.setAdapter(adapter);
+
+        initViewModel();
 
         initSearchConditions();
     }
 
+    private void initViewModel() {
+        searchViewModel = ViewModelProviders.of(this).get(SearchViewModel.class);
+        attachmentViewModel = ViewModelProviders.of(this).get(AttachmentViewModel.class);
+        snaggingViewModel = ViewModelProviders.of(this).get(SnaggingViewModel.class);
+    }
+
     private void initSearchConditions() {
         String searchConditions = PreferencesUtils.getInstance(this).getSearchConditions();
-        if (TextUtils.isEmpty(searchConditions)) {
-            conditions = SearchConditions.getDefaultConditions();
-        } else {
-            conditions = GsonUtils.toObject(searchConditions, SearchConditions.class);
-        }
+        conditions = TextUtils.isEmpty(searchConditions) ? SearchConditions.getDefaultConditions()
+                : GsonUtils.toObject(searchConditions, SearchConditions.class);
+        searchViewModel.setConditions(conditions);
     }
 
     @Override
@@ -103,7 +112,7 @@ public class SearchActivity extends ThemedActivity implements OnQueryTextListene
         menu.findItem(R.id.item_include_tags).setChecked(conditions.isIncludeTags());
         menu.findItem(R.id.item_include_archived).setChecked(conditions.isIncludeArchived());
         menu.findItem(R.id.item_include_trashed).setChecked(conditions.isIncludeTrashed());
-        queryHelper.setConditions(conditions);
+        searchViewModel.setConditions(conditions);
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -174,7 +183,6 @@ public class SearchActivity extends ThemedActivity implements OnQueryTextListene
 
     private void hideInputManager() {
         if (mSearchView != null) {
-//            if (mImm != null) mImm.hideSoftInputFromWindow(mSearchView.getWindowToken(), 0);
             mSearchView.clearFocus();
         }
     }
@@ -189,38 +197,37 @@ public class SearchActivity extends ThemedActivity implements OnQueryTextListene
 
         if (!TextUtils.isEmpty(queryString)) {
             queryAll(queryString);
-            setupQueryResults();
         } else {
-            searchResults.clear();
+            setupQueryResults(null, null);
         }
-
-        adapter.updateSearchResults(searchResults);
-        adapter.notifyDataSetChanged();
 
         return true;
     }
 
-    private void queryAll(String queryString) {
-        queryNotes(queryString);
-        queryMinds(queryString);
+    private void queryAll(String queryText) {
+        getBinding().topMpb.setVisibility(View.VISIBLE);
+        searchViewModel.getSearchResult(queryText).observe(this, searchResultResource -> {
+            LogUtils.d(searchResultResource);
+            getBinding().topMpb.setVisibility(View.GONE);
+            if (searchResultResource == null) {
+                ToastUtils.makeToast(R.string.text_error_when_save);
+                return;
+            }
+            switch (searchResultResource.status) {
+                case SUCCESS:
+                    if (searchResultResource.data != null) {
+                        setupQueryResults(searchResultResource.data.getNotes(), searchResultResource.data.getMinds());
+                    }
+                    break;
+                case FAILED:
+                    ToastUtils.makeToast(R.string.text_error_when_save);
+                    break;
+            }
+        });
     }
 
-    private void queryNotes(String queryString) {
-        notes.clear();
-        if (conditions.isIncludeNote()) {
-            notes = queryHelper.getNotes(queryString);
-        }
-    }
-
-    private void queryMinds(String queryString) {
-        minds.clear();
-        if (conditions.isIncludeMindSnagging()) {
-            minds = queryHelper.getMindSnaggings(queryString);
-        }
-    }
-
-    private void setupQueryResults() {
-        searchResults.clear();
+    private void setupQueryResults(List<Note> notes, List<MindSnagging> minds) {
+        List searchResults = new LinkedList();
         if (notes != null && !notes.isEmpty()) {
             searchResults.add(getString(R.string.model_name_note));
             searchResults.addAll(notes);
@@ -229,6 +236,8 @@ public class SearchActivity extends ThemedActivity implements OnQueryTextListene
             searchResults.add(getString(R.string.model_name_mind_snagging));
             searchResults.addAll(minds);
         }
+        adapter.updateSearchResults(searchResults);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -240,37 +249,42 @@ public class SearchActivity extends ThemedActivity implements OnQueryTextListene
     public void onMindSnaggingSelected(MindSnagging mind, final int position) {
         new MindSnaggingDialog.Builder()
                 .setMindSnagging(mind)
-                .setOnConfirmListener((mindSnagging, attachment) ->
-                        saveMindSnagging(position, mindSnagging, attachment))
+                .setOnConfirmListener((mindSnagging, attachment) -> saveMindSnagging(position, mindSnagging, attachment))
                 .setOnAttachmentClickListener(this::resolveAttachmentClick)
                 .build()
                 .show(getSupportFragmentManager(), "VIEW_MIND_SNAGGING");
     }
 
     private void saveMindSnagging(int position, MindSnagging mindSnagging, Attachment attachment) {
-        if (attachment != null && AttachmentsStore.getInstance(this).isNewModel(attachment.getCode())) {
+        if (attachment != null) {
             attachment.setModelCode(mindSnagging.getCode());
             attachment.setModelType(ModelType.MIND_SNAGGING);
-            AttachmentsStore.getInstance(this).saveModel(attachment);
+            attachmentViewModel.saveIfNew(attachment).observe(this, attachmentResource -> {});
         }
 
-        if (MindSnaggingStore.getInstance(this).isNewModel(mindSnagging.getCode())) {
-            MindSnaggingStore.getInstance(this).saveModel(mindSnagging);
-        } else {
-            MindSnaggingStore.getInstance(this).update(mindSnagging);
-        }
-
-        ToastUtils.makeToast(R.string.text_save_successfully);
-
-        adapter.notifyItemChanged(position);
+        snaggingViewModel.saveOrUpdate(mindSnagging).observe(this, mindSnaggingResource -> {
+            if (mindSnaggingResource == null) {
+                ToastUtils.makeToast(R.string.text_failed_to_modify_data);
+                return;
+            }
+            switch (mindSnaggingResource.status) {
+                case SUCCESS:
+                    ToastUtils.makeToast(R.string.text_save_successfully);
+                    adapter.notifyItemChanged(position);
+                    break;
+                case FAILED:
+                    ToastUtils.makeToast(R.string.text_failed_to_modify_data);
+                    break;
+                case LOADING:break;
+            }
+        });
     }
 
     protected void resolveAttachmentClick(Attachment attachment) {
-        AttachmentHelper.resolveClickEvent(
-                this,
+        AttachmentHelper.resolveClickEvent(this,
                 attachment,
                 Collections.singletonList(attachment),
-                "");
+                getString(R.string.text_search));
     }
 
     @Override
@@ -278,10 +292,7 @@ public class SearchActivity extends ThemedActivity implements OnQueryTextListene
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_FOR_NOTE:
-                    queryNotes(queryString);
-                    setupQueryResults();
-                    adapter.updateSearchResults(searchResults);
-                    adapter.notifyDataSetChanged();
+                    queryAll(queryString);
                     break;
             }
         }
