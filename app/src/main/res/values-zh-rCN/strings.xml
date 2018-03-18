@@ -440,7 +440,7 @@
     <!--endregion-->
 
     <!--region User Info-->
-    <string name="user_info_click_to_see_personal_info">点击查看个人信息</string>
+    <string name="user_info_click_to_see_personal_info">个人信息</string>
     <string name="user_info">用户信息</string>
     <string name="school">学校|公司</string>
     <string name="major">专业|职位</string>
