@@ -247,6 +247,7 @@ public abstract class BaseModelFragment<T extends Model, V extends ViewDataBindi
     // endregion
 
     // region Base logic about category
+    // todo category can be added when use
     private List<Category> allCategories;
 
     /**

@@ -211,6 +211,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
+    // todo share logic - the shared content is note readable
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){

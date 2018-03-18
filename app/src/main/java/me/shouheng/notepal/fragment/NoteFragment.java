@@ -521,6 +521,7 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
         }
     }
 
+    // todo get the preview image
     @Override
     protected void beforeSaveOrUpdate(BeforePersistEventHandler handler) {
         String noteContent = getBinding().main.etContent.getText().toString();
