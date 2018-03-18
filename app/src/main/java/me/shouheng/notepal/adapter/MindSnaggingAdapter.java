@@ -27,15 +27,12 @@ public class MindSnaggingAdapter extends BaseQuickAdapter<MindSnagging, BaseView
 
     private Context context;
 
-    private MindSnaggingListType listType;
-
     public MindSnaggingAdapter(Context context,
                                MindSnaggingListType listType,
                                @Nullable List<MindSnagging> data) {
         super(listType == MindSnaggingListType.ONE_COL ?
                 R.layout.item_universal_layout : R.layout.item_universal_layout_two_cols, data);
         this.context = context;
-        this.listType = listType;
     }
 
     @Override
