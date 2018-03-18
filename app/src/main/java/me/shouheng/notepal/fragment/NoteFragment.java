@@ -522,20 +522,14 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
     }
 
     @Override
-    protected boolean checkContent() {
-        // todo remove title check
-        if (TextUtils.isEmpty(getBinding().main.etTitle.getText().toString())) {
-            ToastUtils.makeToast(R.string.title_required);
-            return false;
-        }
-        return true;
-    }
-
-    @Override
     protected void beforeSaveOrUpdate(BeforePersistEventHandler handler) {
         String noteContent = getBinding().main.etContent.getText().toString();
         note.setContent(noteContent);
-        note.setTitle(getBinding().main.etTitle.getText().toString());
+
+        // Use the default title or the input title
+        String title = getBinding().main.etTitle.getText().toString();
+        note.setTitle(TextUtils.isEmpty(title) ? getString(R.string.note_default_name) : title);
+
         attachmentViewModel.writeNoteContent(note).observe(this, attachmentResource -> {
             if (attachmentResource == null) {
                 ToastUtils.makeToast(R.string.text_error_when_save);
