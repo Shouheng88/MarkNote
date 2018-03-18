@@ -96,7 +96,7 @@ public class ModelHelper {
         clipboardManager.setText(null);
     }
 
-    public static String getFormatedLocation(Location location) {
+    public static String getFormatLocation(Location location) {
         return location.getCountry() + "|"
                 + location.getProvince() + "|"
                 + location.getCity() + "|"

@@ -472,7 +472,7 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
             return;
         }
         getBinding().drawer.tvLocationInfo.setVisibility(View.VISIBLE);
-        getBinding().drawer.tvLocationInfo.setText(ModelHelper.getFormatedLocation(location));
+        getBinding().drawer.tvLocationInfo.setText(ModelHelper.getFormatLocation(location));
     }
     // endregion
 
