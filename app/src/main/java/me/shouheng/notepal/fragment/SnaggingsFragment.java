@@ -375,7 +375,7 @@ public class SnaggingsFragment extends BaseFragment<FragmentSnaggingsBinding> {
         mindSnaggingDialog = new MindSnaggingDialog.Builder()
                 .setOnAttachmentClickListener(attachment ->
                         AttachmentHelper.resolveClickEvent(getContext(),
-                                attachment, Collections.singletonList(attachment), ""))
+                                attachment, Collections.singletonList(attachment), attachment.getName()))
                 .setOnConfirmListener((mindSnagging, attachment) ->
                         saveMindSnagging(position, mindSnagging, attachment))
                 .setOnAddAttachmentListener(mindSnagging -> showAttachmentPicker())

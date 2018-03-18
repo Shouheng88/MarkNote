@@ -290,7 +290,7 @@ public class SearchActivity extends CommonActivity<ActivitySearchBinding> implem
         AttachmentHelper.resolveClickEvent(this,
                 attachment,
                 Collections.singletonList(attachment),
-                getString(R.string.text_search));
+                attachment.getName());
     }
 
     @Override

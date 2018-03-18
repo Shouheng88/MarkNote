@@ -1,6 +1,7 @@
 package me.shouheng.notepal.activity;
 
 import android.app.Activity;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -22,19 +23,43 @@ import me.shouheng.notepal.model.MindSnagging;
 import me.shouheng.notepal.model.Model;
 import me.shouheng.notepal.model.ModelFactory;
 import me.shouheng.notepal.model.enums.ModelType;
-import me.shouheng.notepal.provider.AttachmentsStore;
-import me.shouheng.notepal.provider.MindSnaggingStore;
 import me.shouheng.notepal.util.AppWidgetUtils;
 import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.ToastUtils;
+import me.shouheng.notepal.viewmodel.AttachmentViewModel;
+import me.shouheng.notepal.viewmodel.SnaggingViewModel;
 
 public class SnaggingActivity extends BaseActivity implements OnAttachingFileListener {
 
+    private final static int REQUEST_PASSWORD = 0x0016;
+
     private MindSnaggingDialog mindSnaggingDialog;
 
-    private final int REQUEST_PASSWORD = 0x0016;
+    private AttachmentViewModel attachmentViewModel;
+    private SnaggingViewModel snaggingViewModel;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        checkPassword();
+    }
+
+    private void checkPassword() {
+        if (PreferencesUtils.getInstance(this).isPasswordRequired() && !PalmApp.isPasswordChecked()) {
+            LockActivity.requireLaunch(this, REQUEST_PASSWORD);
+        } else {
+            init();
+        }
+    }
+
+    private void init() {
+        handleIntent(getIntent());
+
+        snaggingViewModel = ViewModelProviders.of(this).get(SnaggingViewModel.class);
+        attachmentViewModel = ViewModelProviders.of(this).get(AttachmentViewModel.class);
+    }
 
     private void handleIntent(Intent intent) {
         String action = intent.getAction();
@@ -48,7 +73,8 @@ public class SnaggingActivity extends BaseActivity implements OnAttachingFileLis
         switch (action) {
             case Constants.ACTION_WIDGET_LIST:
                 Model model;
-                if (intent.hasExtra(Constants.EXTRA_MODEL) && (model = (Model) intent.getSerializableExtra(Constants.EXTRA_MODEL)) != null) {
+                if (intent.hasExtra(Constants.EXTRA_MODEL)
+                        && (model = (Model) intent.getSerializableExtra(Constants.EXTRA_MODEL)) != null) {
                     if (model instanceof MindSnagging) {
                         LogUtils.d(model);
                         editMindSnagging((MindSnagging) model);
@@ -81,7 +107,7 @@ public class SnaggingActivity extends BaseActivity implements OnAttachingFileLis
                 .setOnAttachmentClickListener(this::resolveAttachmentClick)
                 .setOnConfirmListener(this::saveMindSnagging)
                 .build();
-        mindSnaggingDialog.show(getSupportFragmentManager(), "mind snagging");
+        mindSnaggingDialog.show(getSupportFragmentManager(), "MIND SNAGGING");
     }
 
     private void resolveAttachmentClick(Attachment attachment) {
@@ -89,25 +115,31 @@ public class SnaggingActivity extends BaseActivity implements OnAttachingFileLis
                 this,
                 attachment,
                 Collections.singletonList(attachment),
-                "");
+                attachment.getName());
     }
 
     private void saveMindSnagging(MindSnagging mindSnagging, Attachment attachment) {
-        if (attachment != null && AttachmentsStore.getInstance(this).isNewModel(attachment.getCode())) {
+        if (attachment != null) {
             attachment.setModelCode(mindSnagging.getCode());
             attachment.setModelType(ModelType.MIND_SNAGGING);
-            AttachmentsStore.getInstance(this).saveModel(attachment);
+            attachmentViewModel.saveIfNew(attachment).observe(this, attachmentResource -> {});
         }
 
-        if (MindSnaggingStore.getInstance(this).isNewModel(mindSnagging.getCode())) {
-            MindSnaggingStore.getInstance(this).saveModel(mindSnagging);
-        } else {
-            MindSnaggingStore.getInstance(this).update(mindSnagging);
-        }
-
-        ToastUtils.makeToast(R.string.text_save_successfully);
-
-        AppWidgetUtils.notifyAppWidgets(this);
+        snaggingViewModel.saveOrUpdate(mindSnagging).observe(this, mindSnaggingResource -> {
+            if (mindSnaggingResource == null) {
+                ToastUtils.makeToast(R.string.text_failed_to_modify_data);
+                return;
+            }
+            switch (mindSnaggingResource.status) {
+                case SUCCESS:
+                    ToastUtils.makeToast(R.string.text_save_successfully);
+                    AppWidgetUtils.notifyAppWidgets(this);
+                    break;
+                case FAILED:
+                    ToastUtils.makeToast(R.string.text_failed_to_modify_data);
+                    break;
+            }
+        });
     }
 
     private void showAttachmentPicker() {
@@ -115,21 +147,7 @@ public class SnaggingActivity extends BaseActivity implements OnAttachingFileLis
                 .setAddLinkVisible(false)
                 .setRecordVisible(false)
                 .setVideoVisible(false)
-                .build().show(getSupportFragmentManager(), "Attachment picker");
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        checkPassword();
-    }
-
-    private void checkPassword() {
-        if (PreferencesUtils.getInstance(this).isPasswordRequired() && !PalmApp.isPasswordChecked()) {
-            LockActivity.requireLaunch(this, REQUEST_PASSWORD);
-        } else {
-            handleIntent(getIntent());
-        }
+                .build().show(getSupportFragmentManager(), "ATTACHMENT PICKER");
     }
 
     @Override
@@ -143,7 +161,7 @@ public class SnaggingActivity extends BaseActivity implements OnAttachingFileLis
         switch (requestCode) {
             case REQUEST_PASSWORD:
                 if (resultCode == RESULT_OK) {
-                    handleIntent(getIntent());
+                    init();
                 } else {
                     finish();
                 }
