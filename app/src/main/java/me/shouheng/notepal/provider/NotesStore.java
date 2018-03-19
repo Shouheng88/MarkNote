@@ -4,8 +4,11 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
+import android.text.TextUtils;
 
 import me.shouheng.notepal.model.Note;
+import me.shouheng.notepal.model.enums.NoteType;
 import me.shouheng.notepal.provider.schema.NoteSchema;
 
 
@@ -34,7 +37,15 @@ public class NotesStore extends BaseStore<Note> {
     protected void afterDBCreated(SQLiteDatabase db) {}
 
     @Override
-    protected void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {}
+    protected void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        switch (oldVersion) {
+            case 1:
+            case 2:
+                db.execSQL("ALTER TABLE gt_note ADD COLUMN preview_image TEXT");
+                db.execSQL("ALTER TABLE gt_note ADD COLUMN note_type INTEGER");
+                break;
+        }
+    }
 
     @Override
     public void fillModel(Note note, Cursor cursor) {
@@ -43,7 +54,9 @@ public class NotesStore extends BaseStore<Note> {
         note.setContentCode(cursor.getLong(cursor.getColumnIndex(NoteSchema.CONTENT_CODE)));
         note.setTags(cursor.getString(cursor.getColumnIndex(NoteSchema.TAGS)));
         note.setTreePath(cursor.getString(cursor.getColumnIndex(NoteSchema.TREE_PATH)));
-        note.setPreviewCode(cursor.getLong(cursor.getColumnIndex(NoteSchema.PREVIEW_CODE)));
+        String preUri = cursor.getString(cursor.getColumnIndex(NoteSchema.PREVIEW_IMAGE));
+        note.setPreviewImage(TextUtils.isEmpty(preUri) ? null : Uri.parse(preUri));
+        note.setNoteType(NoteType.getTypeById(cursor.getInt(cursor.getColumnIndex(NoteSchema.NOTE_TYPE))));
     }
 
     @Override
@@ -53,6 +66,8 @@ public class NotesStore extends BaseStore<Note> {
         values.put(NoteSchema.CONTENT_CODE, note.getContentCode());
         values.put(NoteSchema.TAGS, note.getTags());
         values.put(NoteSchema.TREE_PATH, note.getTreePath());
-        values.put(NoteSchema.PREVIEW_CODE, note.getPreviewCode());
+        Uri uri = note.getPreviewImage();
+        values.put(NoteSchema.PREVIEW_IMAGE, uri == null ? null : uri.toString());
+        values.put(NoteSchema.NOTE_TYPE, note.getNoteType().getId());
     }
 }

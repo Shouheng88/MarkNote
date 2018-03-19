@@ -45,7 +45,8 @@ public class AttachmentsStore extends BaseStore<Attachment> {
     public void fillModel(Attachment model, Cursor cursor) {
         model.setModelCode(cursor.getLong(cursor.getColumnIndex(AttachmentSchema.MODEL_CODE)));
         model.setModelType(ModelType.getTypeById(cursor.getInt(cursor.getColumnIndex(AttachmentSchema.MODEL_TYPE))));
-        model.setUri(Uri.parse(cursor.getString(cursor.getColumnIndex(AttachmentSchema.URI))));
+        String uriStr = cursor.getString(cursor.getColumnIndex(AttachmentSchema.URI));
+        model.setUri(TextUtils.isEmpty(uriStr) ? null : Uri.parse(uriStr));
         model.setPath(cursor.getString(cursor.getColumnIndex(AttachmentSchema.PATH)));
         model.setName(cursor.getString(cursor.getColumnIndex(AttachmentSchema.NAME)));
         model.setSize(cursor.getLong(cursor.getColumnIndex(AttachmentSchema.SIZE)));
@@ -57,7 +58,7 @@ public class AttachmentsStore extends BaseStore<Attachment> {
     protected void fillContentValues(ContentValues values, Attachment model) {
         values.put(AttachmentSchema.MODEL_CODE, model.getModelCode());
         values.put(AttachmentSchema.MODEL_TYPE, model.getModelType().id);
-        values.put(AttachmentSchema.URI, model.getUri().toString());
+        values.put(AttachmentSchema.URI, model.getUri() != null ? model.getUri().toString() : null);
         values.put(AttachmentSchema.PATH, model.getPath());
         values.put(AttachmentSchema.NAME, model.getName());
         values.put(AttachmentSchema.SIZE, model.getSize());
