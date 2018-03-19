@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.text.ClipboardManager;
 import android.text.TextUtils;
@@ -35,9 +36,11 @@ import me.shouheng.notepal.widget.FlowLayout;
  * Created by wangshouheng on 2017/11/4.*/
 public class ModelHelper {
 
+    @Nullable
     private static Pattern titlePattern;
 
-    private static Pattern imagePattern = Pattern.compile(Constants.IMAGE_REGEX);
+    @Nullable
+    private static Pattern imagePattern;
 
     public static <T extends Model> String getTimeInfo(T model) {
         return PalmApp.getContext().getString(R.string.text_created_time) + " : "
@@ -110,6 +113,7 @@ public class ModelHelper {
                 + location.getDistrict();
     }
 
+    // region statistic helper
     public static void showStatistic(Context context, Note note) {
         View root = LayoutInflater.from(context).inflate(R.layout.dialog_stats, null, false);
         LinearLayout llStats = root.findViewById(R.id.ll_stats);
@@ -131,6 +135,7 @@ public class ModelHelper {
         ((TextView) llStat.findViewById(R.id.tv_result)).setText(result);
         llStats.addView(llStat);
     }
+    // endregion
 
     public static void showLabels(Context context, String tags) {
         View root = LayoutInflater.from(context).inflate(R.layout.dialog_tags, null, false);
@@ -169,6 +174,11 @@ public class ModelHelper {
             return inputTitle;
         }
 
+        // Use default note title
+        if (TextUtils.isEmpty(noteContent)) {
+            return PalmApp.getStringCompact(R.string.note_default_name);
+        }
+
         // Get title from note content
         if (titlePattern == null) {
             titlePattern = Pattern.compile(Constants.TITLE_REGEX);
@@ -191,5 +201,23 @@ public class ModelHelper {
 
         // Use default note title
         return PalmApp.getStringCompact(R.string.note_default_name);
+    }
+
+    public static Uri getNotePreviewImage(String noteContent) {
+        if (TextUtils.isEmpty(noteContent)) {
+            return null;
+        }
+
+        if (imagePattern == null) {
+            imagePattern = Pattern.compile(Constants.IMAGE_REGEX);
+        }
+        Matcher matcher = imagePattern.matcher(noteContent);
+        if (matcher.find()) {
+            String urlStr = matcher.group();
+            if (!TextUtils.isEmpty(urlStr)) {
+                return Uri.parse(urlStr);
+            }
+        }
+        return null;
     }
 }
