@@ -528,8 +528,8 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
         note.setContent(noteContent);
 
         // Use the default title or the input title
-        String title = getBinding().main.etTitle.getText().toString();
-        note.setTitle(TextUtils.isEmpty(title) ? getString(R.string.note_default_name) : title);
+        String inputTitle = getBinding().main.etTitle.getText().toString();
+        note.setTitle(ModelHelper.getNoteTitle(inputTitle, noteContent));
 
         attachmentViewModel.writeNoteContent(note).observe(this, attachmentResource -> {
             if (attachmentResource == null) {

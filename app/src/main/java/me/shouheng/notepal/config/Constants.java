@@ -80,4 +80,7 @@ public class Constants {
             "edqc+uOKSJgq26tgy4wmELCw8gJkempBm8NPf+uSOdWPlPLWijSf3W2KfzMMvZQ2\n" +
             "tfNQPQu+gXgdXuZC+fhqVqNgYtWVRMIspveSm3AK+52AxxzTlfAU1fpCEFOf4AHc\n" +
             "/E33toB493pf9gS2xwIDAQAB";
+
+    public final static String TITLE_REGEX = "^(#+)(.*)";
+    public final static String IMAGE_REGEX = "!\\[.*]\\(.+.\\)";
 }

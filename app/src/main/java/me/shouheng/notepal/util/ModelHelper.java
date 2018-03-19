@@ -17,9 +17,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
+import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.model.Location;
 import me.shouheng.notepal.model.MindSnagging;
@@ -31,6 +34,10 @@ import me.shouheng.notepal.widget.FlowLayout;
 /**
  * Created by wangshouheng on 2017/11/4.*/
 public class ModelHelper {
+
+    private static Pattern titlePattern;
+
+    private static Pattern imagePattern = Pattern.compile(Constants.IMAGE_REGEX);
 
     public static <T extends Model> String getTimeInfo(T model) {
         return PalmApp.getContext().getString(R.string.text_created_time) + " : "
@@ -155,5 +162,34 @@ public class ModelHelper {
         tvLabel.setBackgroundResource(ColorUtils.isDarkTheme(context) ? R.drawable.label_background_dark : R.drawable.label_background);
         tvLabel.setText(tag);
         flowLayout.addView(tvLabel);
+    }
+
+    public static String getNoteTitle(String inputTitle, String noteContent) {
+        if (!TextUtils.isEmpty(inputTitle)) {
+            return inputTitle;
+        }
+
+        // Get title from note content
+        if (titlePattern == null) {
+            titlePattern = Pattern.compile(Constants.TITLE_REGEX);
+        }
+        Matcher matcher = titlePattern.matcher(noteContent);
+        if (matcher.find()) {
+            String mdTitle = matcher.group();
+            char[] chars = mdTitle.toCharArray();
+            int i = 0;
+            for (char c : chars) {
+                if (c != '#' && c != ' ') {
+                    break;
+                }
+                i++;
+            }
+            if (i < chars.length) {
+                return mdTitle.substring(i);
+            }
+        }
+
+        // Use default note title
+        return PalmApp.getStringCompact(R.string.note_default_name);
     }
 }
