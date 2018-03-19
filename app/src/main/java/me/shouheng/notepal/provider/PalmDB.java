@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class PalmDB extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "NotePal.db";
-    private static final int VERSION = 3;
+    private static final int VERSION = 4;
 
     private Context mContext;
     @SuppressLint("StaticFieldLeak")
@@ -44,6 +44,7 @@ public class PalmDB extends SQLiteOpenHelper {
         MindSnaggingStore.getInstance(mContext).onCreate(db);
         NotebookStore.getInstance(mContext).onCreate(db);
         CategoryStore.getInstance(mContext).onCreate(db);
+        WeatherStore.getInstance().onCreate(db);
     }
 
     @Override
@@ -57,6 +58,7 @@ public class PalmDB extends SQLiteOpenHelper {
         MindSnaggingStore.getInstance(mContext).onUpgrade(db, oldVersion, newVersion);
         NotebookStore.getInstance(mContext).onUpgrade(db, oldVersion, newVersion);
         CategoryStore.getInstance(mContext).onUpgrade(db, oldVersion, newVersion);
+        WeatherStore.getInstance().onUpgrade(db, oldVersion, newVersion);
     }
 
     @Override

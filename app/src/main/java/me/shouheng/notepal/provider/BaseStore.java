@@ -28,7 +28,7 @@ public abstract class BaseStore<T extends Model> {
 
     private PalmDB mPalmDatabase = null;
 
-    private Class<T> entityClass = null;
+    protected Class<T> entityClass = null;
 
     protected String tableName = null;
 
