@@ -12,38 +12,33 @@
         android:focusable="true"
         android:clickable="true">
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/rl_preview"
+            android:orientation="vertical"
+            android:layout_marginTop="60dp"
             android:layout_width="match_parent"
-            android:layout_height="200dp">
+            android:layout_height="wrap_content">
 
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/iv_preview"
-                tools:src="@drawable/ic_google_plus"
-                android:scaleType="center"
+            <TextView android:id="@+id/tv_chars_info"
+                tools:text="Total Chars: 4"
+                android:fontFamily="sans-serif"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textSize="12sp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <TextView
-                android:id="@+id/tv_chars_info"
-                tools:text="Total Chars : 4"
-                android:layout_alignParentBottom="true"
-                android:paddingStart="20dp"
-                android:paddingBottom="20dp"
-                android:textColor="#bbb"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <TextView
-                android:id="@+id/tv_time_info"
-                android:layout_above="@id/tv_chars_info"
+            <TextView android:id="@+id/tv_time_info"
                 tools:text="Last modified time: 3 days ago\nAdded time: 4 days ago."
-                android:paddingStart="20dp"
-                android:textColor="#bbb"
-                android:layout_width="wrap_content"
+                android:fontFamily="sans-serif"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="16dp"
+                android:textSize="12sp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-        </RelativeLayout>
+        </LinearLayout>
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/drawer_toolbar"
