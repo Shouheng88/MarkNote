@@ -186,7 +186,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
 
     private Attachment getAttachmentFormUrl(String url) {
         Uri uri = Uri.parse(url);
-        Attachment attachment = ModelFactory.getAttachment(getContext());
+        Attachment attachment = ModelFactory.getAttachment();
         attachment.setUri(uri);
         attachment.setMineType(Constants.MIME_TYPE_IMAGE);
         return attachment;

@@ -83,7 +83,7 @@ public class SnaggingActivity extends BaseActivity implements OnAttachingFileLis
                 }
                 break;
             case Constants.ACTION_ADD_MIND:
-                editMindSnagging(ModelFactory.getMindSnagging(this));
+                editMindSnagging(ModelFactory.getMindSnagging());
                 break;
             default:
                 finish();

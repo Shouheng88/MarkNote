@@ -384,7 +384,7 @@ public class FileHelper {
 
         /**
          * Create attachment object as return value. */
-        Attachment mAttachment = ModelFactory.getAttachment(mContext);
+        Attachment mAttachment = ModelFactory.getAttachment();
         if (file != null) {
             mAttachment.setUri(getUriFromFile(mContext, file));
             mAttachment.setMineType(getMimeTypeInternal(mContext, uri));

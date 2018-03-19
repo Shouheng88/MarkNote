@@ -65,7 +65,7 @@ public class AttachmentViewModel extends BaseViewModel<Attachment> {
                 File noteFile = FileHelper.createNewAttachmentFile(PalmApp.getContext(), extension);
                 try {
                     FileUtils.writeStringToFile(noteFile, note.getContent(), "utf-8");
-                    atFile = ModelFactory.getAttachment(PalmApp.getContext());
+                    atFile = ModelFactory.getAttachment();
                     atFile.setUri(FileHelper.getUriFromFile(PalmApp.getContext(), noteFile));
                     atFile.setSize(FileUtils.sizeOf(noteFile));
                     atFile.setPath(noteFile.getPath());

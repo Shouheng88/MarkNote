@@ -149,7 +149,7 @@ public class ContentActivity extends CommonActivity<ActivityContentBinding> impl
             toNoteFragment(note, requestCode == -1 ? null : requestCode, isEdit, false);
         } else if (Constants.ACTION_TO_NOTE_FROM_THIRD_PART.equals(intent.getAction())) {
             boolean isEdit = Constants.VALUE_START_EDIT.equals(intent.getStringExtra(Constants.EXTRA_START_TYPE));
-            toNoteFragment(ModelFactory.getNote(this), null, isEdit, true);
+            toNoteFragment(ModelFactory.getNote(), null, isEdit, true);
         }
 
         // The case below mainly used for the intent from shortcut
