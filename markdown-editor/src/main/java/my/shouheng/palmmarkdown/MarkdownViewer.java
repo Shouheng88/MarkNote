@@ -33,6 +33,7 @@ public class MarkdownViewer extends FastScrollWebView {
     private OnLoadingFinishListener mLoadingFinishListener;
     private OnImageClickedListener onImageClickedListener;
     private OnAttachmentClickedListener onAttachmentClickedListener;
+    private OnGetHtmlListener onGetHtmlListener;
 
     private static final String VIDEO_MIME_TYPE = "video/*";
     private static final String SCHEME_HTTPS = "https";
@@ -66,6 +67,7 @@ public class MarkdownViewer extends FastScrollWebView {
         this.setVerticalScrollBarEnabled(true);
         this.setHorizontalScrollBarEnabled(false);
         this.addJavascriptInterface(new JavaScriptInterface(), "showPhotos");
+        this.addJavascriptInterface(new OutHtmlJavaScriptInterface(), "outHtml");
         this.setWebViewClient(new MdWebViewClient(this));
     }
 
@@ -93,6 +95,10 @@ public class MarkdownViewer extends FastScrollWebView {
         this.loadUrl("javascript:(" + readJS("showPhotos.js") + ")()");
     }
 
+    public final void outHtml(OnGetHtmlListener onGetHtmlListener) {
+        this.onGetHtmlListener = onGetHtmlListener;
+        this.loadUrl("javascript:outHtml.processHTML(document.documentElement.outerHTML);");
+    }
 
     public void setOnLoadingFinishListener(OnLoadingFinishListener loadingFinishListener) {
         this.mLoadingFinishListener = loadingFinishListener;
@@ -205,6 +211,16 @@ public class MarkdownViewer extends FastScrollWebView {
         }
     }
 
+    private final class OutHtmlJavaScriptInterface {
+
+        @JavascriptInterface
+        public void processHTML(String html) {
+            if (onGetHtmlListener != null) {
+                onGetHtmlListener.onGetHtml(html);
+            }
+        }
+    }
+
     public interface OnImageClickedListener {
         void onImageClicked(String url, String[] urls);
     }
@@ -215,5 +231,9 @@ public class MarkdownViewer extends FastScrollWebView {
 
     public interface OnAttachmentClickedListener {
         void onAttachmentClicked(Uri uri);
+    }
+
+    public interface OnGetHtmlListener {
+        void onGetHtml(String html);
     }
 }
