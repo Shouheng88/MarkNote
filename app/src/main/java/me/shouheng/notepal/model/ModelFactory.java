@@ -1,13 +1,13 @@
 package me.shouheng.notepal.model;
 
-import android.content.Context;
-
 import java.util.Calendar;
 import java.util.Date;
 
+import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.config.TextLength;
 import me.shouheng.notepal.model.enums.AlarmType;
 import me.shouheng.notepal.model.enums.ModelType;
+import me.shouheng.notepal.model.enums.NoteType;
 import me.shouheng.notepal.model.enums.Operation;
 import me.shouheng.notepal.model.enums.Portrait;
 import me.shouheng.notepal.model.enums.Status;
@@ -19,11 +19,11 @@ import me.shouheng.notepal.util.UserUtil;
  * Created by wangshouheng on 2017/11/17. */
 public class ModelFactory {
 
-    private static long getLongCode(){
+    private static long getLongCode() {
         return System.currentTimeMillis();
     }
 
-    private static int getIntegerCode(){
+    private static int getIntegerCode() {
         Calendar now = Calendar.getInstance();
         int appendix = now.get(Calendar.HOUR_OF_DAY) * 3600000
                 + now.get(Calendar.MINUTE) * 60000
@@ -33,11 +33,11 @@ public class ModelFactory {
         return prefix * 100000000 + appendix;
     }
 
-    private static <T extends Model> T getModel(Context context, Class<T> itemType){
+    private static <T extends Model> T getModel(Class<T> itemType) {
         try {
             T newItem = itemType.newInstance();
             newItem.setCode(getLongCode());
-            newItem.setUserId(UserUtil.getInstance(context).getUserIdKept());
+            newItem.setUserId(UserUtil.getInstance(PalmApp.getContext()).getUserIdKept());
             newItem.setAddedTime(new Date());
             newItem.setLastModifiedTime(new Date());
             newItem.setLastSyncTime(new Date(0));
@@ -51,9 +51,9 @@ public class ModelFactory {
         return null;
     }
 
-    public static Alarm getAlarm(Context context){
+    public static Alarm getAlarm() {
         Calendar c = Calendar.getInstance();
-        Alarm alarm = getModel(context, Alarm.class);
+        Alarm alarm = getModel(Alarm.class);
 
         assert alarm != null;
         alarm.setCode(getIntegerCode());
@@ -77,34 +77,37 @@ public class ModelFactory {
         return alarm;
     }
 
-    public static Attachment getAttachment(Context context){
-        Attachment attachment = getModel(context, Attachment.class);
+    public static Attachment getAttachment() {
+        Attachment attachment = getModel(Attachment.class);
         assert attachment != null;
         attachment.setModelType(ModelType.NONE);
         attachment.setModelCode(0);
         return attachment;
     }
 
-    public static Location getLocation(Context context){
-        Location location = getModel(context, Location.class);
+    public static Location getLocation() {
+        Location location = getModel(Location.class);
         assert location != null;
         location.setModelType(ModelType.NONE);
         return location;
     }
 
-    public static MindSnagging getMindSnagging(Context context) {
-        return getModel(context, MindSnagging.class);
+    public static MindSnagging getMindSnagging() {
+        return getModel(MindSnagging.class);
     }
 
-    public static Notebook getNotebook(Context context) {
-        Notebook notebook = getModel(context, Notebook.class);
+    public static Notebook getNotebook() {
+        Notebook notebook = getModel(Notebook.class);
         assert notebook != null;
-        notebook.setColor(ColorUtils.primaryColor(context));
+        notebook.setColor(ColorUtils.primaryColor(PalmApp.getContext()));
         return notebook;
     }
 
-    public static Note getNote(Context context){
-        return getModel(context, Note.class);
+    public static Note getNote() {
+        Note note = getModel(Note.class);
+        assert note != null;
+        note.setNoteType(NoteType.NORMAL);
+        return note;
     }
 
     public static <T extends Model> TimeLine getTimeLine(T model, Operation operation) {
@@ -124,23 +127,23 @@ public class ModelFactory {
         return timeLine;
     }
 
-    public static Feedback getFeedback(Context context) {
-        return getModel(context, Feedback.class);
+    public static Feedback getFeedback() {
+        return getModel(Feedback.class);
     }
 
-    public static Category getCategory(Context context){
-        Category category = getModel(context, Category.class);
+    public static Category getCategory() {
+        Category category = getModel(Category.class);
         assert category != null;
         category.setPortrait(Portrait.FOLDER);
         category.setCategoryOrder(0);
         // use the primary color as the category color
-        category.setColor(ColorUtils.primaryColor(context));
+        category.setColor(ColorUtils.primaryColor(PalmApp.getContext()));
         return category;
     }
 
     private static <M extends Model> String getModelName(M model) {
         String modelName = null;
-         if (model instanceof Attachment) return ((Attachment) model).getUri().toString();
+        if (model instanceof Attachment) return ((Attachment) model).getUri().toString();
         else if (model instanceof MindSnagging) modelName = ((MindSnagging) model).getContent();
         else if (model instanceof Note) modelName = ((Note) model).getTitle();
         else if (model instanceof Notebook) modelName = ((Notebook) model).getTitle();

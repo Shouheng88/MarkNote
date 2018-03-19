@@ -361,7 +361,7 @@ public abstract class BaseModelFragment<T extends Model, V extends ViewDataBindi
         ToastUtils.makeToast(R.string.trying_to_get_location);
         LocationManager.getInstance(getContext()).locate(bdLocation -> {
             if (bdLocation != null && !TextUtils.isEmpty(bdLocation.getCity())){
-                Location location = ModelFactory.getLocation(getContext());
+                Location location = ModelFactory.getLocation();
                 location.setLongitude(bdLocation.getLongitude());
                 location.setLatitude(bdLocation.getLatitude());
                 location.setCountry(bdLocation.getCountry());

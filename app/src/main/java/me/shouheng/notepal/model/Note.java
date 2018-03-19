@@ -6,6 +6,7 @@ import android.os.Parcelable;
 
 import java.util.Date;
 
+import me.shouheng.notepal.model.enums.NoteType;
 import me.shouheng.notepal.model.enums.Status;
 import me.shouheng.notepal.provider.annotation.Column;
 import me.shouheng.notepal.provider.annotation.Table;
@@ -30,11 +31,11 @@ public class Note extends Model implements Parcelable {
     @Column(name = "tags")
     private String tags;
 
-    @Column(name = "preview_code")
-    private long previewCode;
-
     @Column(name = "previewImage")
     private Uri previewImage;
+
+    @Column(name = "noteType")
+    private NoteType noteType;
 
     // region Android端字段，不计入数据库
 
@@ -77,7 +78,7 @@ public class Note extends Model implements Parcelable {
         setContent(in.readString());
         setContentCode(in.readLong());
         setTags(in.readString());
-        setPreviewCode(in.readLong());
+        setNoteType(NoteType.getTypeById(in.readInt()));
 
         setTagsName(in.readString());
     }
@@ -134,12 +135,20 @@ public class Note extends Model implements Parcelable {
         this.tags = tags;
     }
 
-    public void setPreviewCode(long previewCode) {
-        this.previewCode = previewCode;
+    public Uri getPreviewImage() {
+        return previewImage;
     }
 
-    public long getPreviewCode() {
-        return previewCode;
+    public void setPreviewImage(Uri previewImage) {
+        this.previewImage = previewImage;
+    }
+
+    public NoteType getNoteType() {
+        return noteType;
+    }
+
+    public void setNoteType(NoteType noteType) {
+        this.noteType = noteType;
     }
 
     @Override
@@ -150,9 +159,11 @@ public class Note extends Model implements Parcelable {
                 ", title='" + title + '\'' +
                 ", contentCode=" + contentCode +
                 ", tags='" + tags + '\'' +
-                ", previewCode=" + previewCode +
+                ", previewImage=" + previewImage +
+                ", noteType=" + noteType +
                 ", content='" + content + '\'' +
-                "} " + super.toString();
+                ", tagsName='" + tagsName + '\'' +
+                '}';
     }
 
     @Override
@@ -176,7 +187,7 @@ public class Note extends Model implements Parcelable {
         dest.writeString(getContent());
         dest.writeLong(getContentCode());
         dest.writeString(getTags());
-        dest.writeLong(getPreviewCode());
+        dest.writeInt(getNoteType().getId());
 
         dest.writeString(getTagsName());
     }

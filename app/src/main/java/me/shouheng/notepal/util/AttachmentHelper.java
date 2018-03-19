@@ -184,7 +184,7 @@ public class AttachmentHelper {
     }
 
     private static Attachment getAttachment(Context context, String mimeType) {
-        Attachment photo = ModelFactory.getAttachment(context);
+        Attachment photo = ModelFactory.getAttachment();
         LogUtils.d("Attachment uri when get attachment:" + attachmentUri);
         photo.setUri(getAttachmentUri());
         photo.setMineType(mimeType);
@@ -193,7 +193,7 @@ public class AttachmentHelper {
     }
 
     private static Attachment getVideo(Context context, Intent data) {
-        Attachment attachment = ModelFactory.getAttachment(context);
+        Attachment attachment = ModelFactory.getAttachment();
         attachment.setUri(data.getData());
         attachment.setMineType(Constants.MIME_TYPE_VIDEO);
         attachment.setPath(getFilePath());

@@ -59,7 +59,7 @@ public class FeedbackDialog extends DialogFragment implements AdapterView.OnItem
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         View rootView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_feedback_layout, null);
 
-        feedback = feedback == null ? ModelFactory.getFeedback(context) : feedback;
+        feedback = feedback == null ? ModelFactory.getFeedback() : feedback;
         feedback.setFeedbackType(FeedbackType.ABRUPT_CRASH);
 
         etEmail = rootView.findViewById(R.id.et_email);

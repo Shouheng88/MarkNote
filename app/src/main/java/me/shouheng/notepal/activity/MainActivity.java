@@ -237,7 +237,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                 editNote(getNewNote());
                 break;
             case Constants.ACTION_ADD_MIND:
-                editMindSnagging(ModelFactory.getMindSnagging(this));
+                editMindSnagging(ModelFactory.getMindSnagging());
                 break;
             case Constants.ACTION_WIDGET_LIST:
                 Model model;
@@ -375,7 +375,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                 editCategory();
                 break;
             case MIND_SNAGGING:
-                editMindSnagging(ModelFactory.getMindSnagging(this));
+                editMindSnagging(ModelFactory.getMindSnagging());
                 break;
             case DRAFT:
                 startAddSketch();
@@ -395,7 +395,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     }
 
     private Note getNewNote() {
-        Note note = ModelFactory.getNote(this);
+        Note note = ModelFactory.getNote();
 
         boolean isNotes = isNotesFragment();
 
@@ -421,7 +421,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     }
 
     private void editNotebook() {
-        Notebook notebook = ModelFactory.getNotebook(this);
+        Notebook notebook = ModelFactory.getNotebook();
         notebookEditDialog = NotebookEditDialog.newInstance(this, notebook, (notebookName, notebookColor) -> {
             // notebook fields
             notebook.setTitle(notebookName);
@@ -518,7 +518,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
 
     private void editCategory() {
         categoryEditDialog = CategoryEditDialog.newInstance(this,
-                ModelFactory.getCategory(this),
+                ModelFactory.getCategory(),
                 this::saveCategory);
         categoryEditDialog.show(getSupportFragmentManager(), "CATEGORY_EDIT_DIALOG");
     }
