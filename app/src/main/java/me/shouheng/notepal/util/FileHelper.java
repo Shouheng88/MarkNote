@@ -351,7 +351,7 @@ public class FileHelper {
     public static File createNewAttachmentFile(Context context, String extension) {
         File file = null;
         if (isStorageWriteable()) {
-            file = new File(context.getExternalFilesDir(null), createNewAttachmentName(extension));
+            file = new File(context.getExternalFilesDir(null), getDefaultFileName(extension));
         }
         return file;
     }
@@ -430,7 +430,12 @@ public class FileHelper {
         return file;
     }
 
-    private static String createNewAttachmentName(String extension) {
+    /**
+     * Get default file name with given extension
+     *
+     * @param extension file extension
+     * @return the file name with given extension */
+    public static String getDefaultFileName(String extension) {
         Calendar now = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_SORTABLE, Locale.getDefault());
         String name = sdf.format(now.getTime());
@@ -586,6 +591,12 @@ public class FileHelper {
         FileHelper.saveImageToGallery(context, img, true, onSavedToGalleryListener);
     }
     // endregion
+
+    public static File getExportDir() {
+        File dir = new File(getExternalStoragePublicDir(), Constants.EXPORT_DIR_NAME);
+        if (!dir.exists()) dir.mkdirs();
+        return dir;
+    }
 
     // region Methods of backup.
     public static File getBackupDir(String backupName) {

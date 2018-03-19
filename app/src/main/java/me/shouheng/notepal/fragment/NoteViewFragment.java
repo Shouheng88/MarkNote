@@ -44,6 +44,7 @@ import me.shouheng.notepal.provider.CategoryStore;
 import me.shouheng.notepal.provider.LocationsStore;
 import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.util.ColorUtils;
+import me.shouheng.notepal.util.FileHelper;
 import me.shouheng.notepal.util.IntentUtils;
 import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.ModelHelper;
@@ -262,6 +263,19 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
             case R.id.action_statistic:
                 note.setContent(content);
                 ModelHelper.showStatistic(getContext(), note);
+                break;
+            case R.id.export_html:
+                // Export html
+                getBinding().mdView.outHtml(html -> {
+                    try {
+                        File exDir = FileHelper.getExportDir();
+                        File outFile = new File(exDir, FileHelper.getDefaultFileName(".html"));
+                        FileUtils.writeStringToFile(outFile, html, "utf-8");
+                        ToastUtils.makeToast(String.format(getString(R.string.text_file_saved_to), outFile.getPath()));
+                    } catch (IOException e) {
+                        ToastUtils.makeToast(R.string.failed_to_create_file);
+                    }
+                });
                 break;
         }
         return super.onOptionsItemSelected(item);

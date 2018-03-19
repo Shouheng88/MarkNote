@@ -83,4 +83,6 @@ public class Constants {
 
     public final static String TITLE_REGEX = "^(#+)(.*)";
     public final static String IMAGE_REGEX = "!\\[.*]\\(.+.\\)";
+
+    public final static String EXPORT_DIR_NAME = "ExportHtml";
 }

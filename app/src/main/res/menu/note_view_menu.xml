@@ -71,4 +71,8 @@
         android:title="@string/text_print_pdf"
         android:id="@+id/print"/>
 
+    <item app:showAsAction="never"
+        android:title="@string/text_export_html"
+        android:id="@+id/export_html"/>
+
 </menu>
