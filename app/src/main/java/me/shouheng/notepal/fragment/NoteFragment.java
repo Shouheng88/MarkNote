@@ -521,15 +521,17 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
         }
     }
 
-    // todo get the preview image
     @Override
     protected void beforeSaveOrUpdate(BeforePersistEventHandler handler) {
         String noteContent = getBinding().main.etContent.getText().toString();
         note.setContent(noteContent);
 
-        // Use the default title or the input title
+        // Get note title from title editor or note content
         String inputTitle = getBinding().main.etTitle.getText().toString();
         note.setTitle(ModelHelper.getNoteTitle(inputTitle, noteContent));
+
+        // Get preview image from note content
+        note.setPreviewImage(ModelHelper.getNotePreviewImage(noteContent));
 
         attachmentViewModel.writeNoteContent(note).observe(this, attachmentResource -> {
             if (attachmentResource == null) {
