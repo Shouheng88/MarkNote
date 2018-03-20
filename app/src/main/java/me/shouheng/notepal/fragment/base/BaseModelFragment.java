@@ -23,6 +23,7 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.ContentActivity;
 import me.shouheng.notepal.activity.base.CommonActivity;
 import me.shouheng.notepal.config.Constants;
+import me.shouheng.notepal.dialog.picker.CategoryPickerDialog;
 import me.shouheng.notepal.manager.LocationManager;
 import me.shouheng.notepal.model.Category;
 import me.shouheng.notepal.model.Location;
@@ -266,31 +267,43 @@ public abstract class BaseModelFragment<T extends Model, V extends ViewDataBindi
         // try to avoid NPE
         if (selected == null) selected = new LinkedList<>();
 
-        int len = all.size();
-        String[] items = new String[len];
-        boolean[] checked = new boolean[len];
-        for (int i=0; i<len; i++) {
-            Category current = all.get(i);
-            items[i] = current.getName();
-            for (Category category : selected) {
-                if (category.getCode() == current.getCode()) {
-                    checked[i] = true;
-                    break;
+//        int len = all.size();
+//        String[] items = new String[len];
+//        boolean[] checked = new boolean[len];
+//        for (int i=0; i<len; i++) {
+//            Category current = all.get(i);
+//            items[i] = current.getName();
+//            for (Category category : selected) {
+//                if (category.getCode() == current.getCode()) {
+//                    checked[i] = true;
+//                    break;
+//                }
+//            }
+//        }
+
+//        new AlertDialog.Builder(getContext())
+//                .setTitle(R.string.text_add_tags)
+//                .setMultiChoiceItems(items, checked, (dialog, which, isChecked) -> checked[which] = isChecked)
+//                .setPositiveButton(R.string.text_confirm, (dialog, which) -> {
+//                    LogUtils.d(checked);
+//                    List<Category> ret = new LinkedList<>();
+//                    for (int i=0; i<len; i++) if (checked[i]) ret.add(all.get(i));
+//                    onGetSelectedCategories(ret);
+//                })
+//                .setNegativeButton(R.string.text_cancel, null)
+//                .show();
+
+        for (Category c : selected) {
+            for (Category a : all) {
+                if (c.getCode() == a.getCode()) {
+                    a.setSelected(true);
                 }
             }
         }
 
-        new AlertDialog.Builder(getContext())
-                .setTitle(R.string.text_add_tags)
-                .setMultiChoiceItems(items, checked, (dialog, which, isChecked) -> checked[which] = isChecked)
-                .setPositiveButton(R.string.text_confirm, (dialog, which) -> {
-                    LogUtils.d(checked);
-                    List<Category> ret = new LinkedList<>();
-                    for (int i=0; i<len; i++) if (checked[i]) ret.add(all.get(i));
-                    onGetSelectedCategories(ret);
-                })
-                .setNegativeButton(R.string.text_cancel, null)
-                .show();
+        CategoryPickerDialog dialog = CategoryPickerDialog.newInstance(all);
+        dialog.setOnConfirmClickListener(this::onGetSelectedCategories);
+        dialog.show(getFragmentManager(), "CATEGORY_PICKER");
     }
 
     protected void onGetSelectedCategories(List<Category> categories) {}

@@ -188,6 +188,11 @@
     <string name="no_notebook_available">No available notebook</string>
     <!--endregion-->
 
+    <!--region Category-->
+    <string name="pick_category">Pick category</string>
+    <string name="no_category_available">No available category</string>
+    <!--endregion-->
+
     <!--region Attachment-->
     <string name="failed_to_create_file">Failed to create file</string>
     <string name="storage_not_available">Storage unavailable</string>

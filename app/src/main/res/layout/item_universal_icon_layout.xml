@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
+    <android.support.v7.widget.AppCompatImageView
         android:id="@+id/iv_icon"
         tools:src="@drawable/ic_announcement_grey_24dp"
         android:padding="13dp"
@@ -15,7 +15,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp" />
 
-    <ImageView
+    <android.support.v7.widget.AppCompatImageView
         android:id="@+id/iv_more"
         android:background="?attr/selectableItemBackgroundBorderless"
         tools:src="@drawable/ic_more_vert_black"

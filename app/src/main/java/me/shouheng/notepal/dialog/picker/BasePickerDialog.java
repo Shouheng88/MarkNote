@@ -9,9 +9,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.ModelsPickerAdapter;
 import me.shouheng.notepal.model.Model;
+import me.shouheng.notepal.model.Selectable;
 import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.widget.EmptySupportRecyclerView;
 import me.shouheng.notepal.widget.EmptyView;
@@ -20,7 +24,7 @@ import me.shouheng.notepal.widget.tools.DividerItemDecoration;
 
 /**
  * Created by wangshouheng on 2017/10/5.*/
-public abstract class BasePickerDialog<T extends Model> extends DialogFragment {
+public abstract class BasePickerDialog<T extends Model & Selectable> extends DialogFragment {
 
     private ModelsPickerAdapter<T> modelsPickerAdapter;
 
@@ -59,12 +63,31 @@ public abstract class BasePickerDialog<T extends Model> extends DialogFragment {
 
     protected ModelsPickerAdapter<T> getAdapter() {
         if (modelsPickerAdapter == null) modelsPickerAdapter = prepareAdapter();
-        modelsPickerAdapter.setOnItemClickListener((adapter, view, position) ->
+        modelsPickerAdapter.setOnItemClickListener((adapter, view, position) -> {
+            // Change the item data and performance
+            T t = modelsPickerAdapter.getItem(position);
+            assert t != null;
+            t.setSelected(!t.isSelected());
+            modelsPickerAdapter.notifyItemChanged(position);
+            // Call back
+            if (onItemSelectedListener != null) {
                 onItemSelectedListener.onItemSelected(
                         BasePickerDialog.this,
                         modelsPickerAdapter.getItem(position),
-                        position));
+                        position);
+            }
+        });
         return modelsPickerAdapter;
+    }
+
+    protected List<T> getSelected() {
+        List<T> ret = new LinkedList<>();
+        for (T t : modelsPickerAdapter.getData()) {
+            if (t.isSelected()) {
+                ret.add(t);
+            }
+        }
+        return ret;
     }
 
     protected View getDialogView() {
