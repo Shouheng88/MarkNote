@@ -67,6 +67,12 @@
         <license>Apache Software License 2.0</license>
     </notice>
     <notice>
+        <name>Joda-time</name>
+        <url>https://github.com/JodaOrg/joda-time</url>
+        <copyright>Version 2.0, January 2004</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
         <name>Hello Charts</name>
         <url>https://github.com/lecho/hellocharts-android</url>
         <copyright>Copyright 2014 Leszek Wach</copyright>
@@ -97,9 +103,21 @@
         <license>Apache Software License 2.0</license>
     </notice>
     <notice>
+        <name>ChangelogLib</name>
+        <url>https://github.com/gabrielemariotti/changeloglib</url>
+        <copyright>Copyright 2013-2015 Gabriele Mariotti</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
         <name>PinLockView</name>
         <url>https://github.com/aritraroy/PinLockView</url>
         <copyright>Copyright 2017 aritraroy</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>BottomSheet</name>
+        <url>https://github.com/Kennyc1012/BottomSheet</url>
+        <copyright>Copyright 2015 Kenny Campagna</copyright>
         <license>Apache Software License 2.0</license>
     </notice>
 </notices>

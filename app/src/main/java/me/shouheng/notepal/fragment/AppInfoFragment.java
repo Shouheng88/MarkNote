@@ -40,7 +40,7 @@ public class AppInfoFragment extends BaseFragment<FragmentAppInfoBinding> {
     }
 
     private void configViews() {
-        String verName = BuildConfig.FLAVOR + "-" + BuildConfig.VERSION_NAME + "-" + BuildConfig.BUILD_TYPE;
+        String verName = BuildConfig.FLAVOR + "-" + BuildConfig.VERSION_NAME;
         getBinding().tvVersionName.setText(verName);
 
         getBinding().ctvTranslation.setOnCardTitleClickListener(() -> IntentUtils.openGithubProject(getActivity()));
