@@ -50,7 +50,7 @@ public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFrag
         PermissionUtils.checkStoragePermission((BaseActivity) getActivity(), () -> doCapture(recyclerView, itemHeight));
     }
 
-    protected void createWebCapture(WebView webView) {
+    protected void createWebCapture(WebView webView, FileHelper.OnSavedToGalleryListener listener) {
         assert getActivity() != null;
         PermissionUtils.checkStoragePermission((BaseActivity) getActivity(), () -> {
             final ProgressDialog pd = new ProgressDialog(getContext());
@@ -58,7 +58,7 @@ public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFrag
             pd.setCancelable(false);
             pd.show();
 
-            new Handler().postDelayed(() -> doCapture(webView, pd), 500);
+            new Handler().postDelayed(() -> doCapture(webView, pd, listener), 500);
         });
     }
 
@@ -128,31 +128,11 @@ public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFrag
         }).start();
     }
 
-    private void doCapture(WebView webView, ProgressDialog pd) {
-        Bitmap bitmap = ScreenShotHelper.shotWebView(webView);
-        new Invoker<>(new Callback<File>(){
-            @Override
-            public void onBefore() {}
-
-            @Override
-            public Message<File> onRun() {
-                Message<File> message = new Message<>();
-                boolean succeed = FileHelper.saveImageToGallery(getContext(), bitmap, true, message::setObj);
-                message.setSucceed(succeed);
-                return message;
-            }
-
-            @Override
-            public void onAfter(Message<File> message) {
-                if (pd != null && pd.isShowing()) pd.dismiss();
-                if (message.isSucceed()) {
-                    ToastUtils.makeToast(String.format(getString(R.string.text_file_saved_to), message.getObj().getPath()));
-                    onGetScreenCutFile(message.getObj());
-                } else {
-                    ToastUtils.makeToast(R.string.failed_to_create_file);
-                }
-            }
-        }).start();
+    private void doCapture(WebView webView, ProgressDialog pd, FileHelper.OnSavedToGalleryListener listener) {
+        ScreenShotHelper.shotWebView(webView, listener);
+        if (pd != null && pd.isShowing()) {
+            pd.dismiss();
+        }
     }
     // endregion
 
