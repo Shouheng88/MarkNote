@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<changelog bulletedList="true">
+
+    <!--todo modify the chang log-->
+    <changelogversion versionName="1.1.0" changeDate="Nov 13, 2013">
+        <changelogtext>[b][u]Out of closed BETA![/u][/b]</changelogtext>
+        <changelogtext>[b]New! [/b]Italian localization</changelogtext>
+        <changelogtext>[b]New! [/b]Confirmation on batch deleting</changelogtext>
+        <changelogtext>Totally rewritten to achieve compatibility with tablet format</changelogtext>
+        <changelogtext>Fix Whatsapp sharing</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="1.0.0" changeDate="Mar 12, 2018">
+        <changelogtext>Initial release</changelogtext>
+    </changelogversion>
+
+</changelog>

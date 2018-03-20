@@ -441,6 +441,8 @@
     <string name="developer_name">WngShhng (shouheng2015@gmail.com)</string>
     <string name="open_source_libraries_permissions">Open source license</string>
     <string name="view_third_part_libraries">View the open source projects included in this application</string>
+    <string name="changelog">Changelog</string>
+    <string name="changelog_sub_title">Get the changelog of application</string>
     <!--endregion-->
 
     <!--region Setting->Feedback-->
