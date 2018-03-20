@@ -51,7 +51,6 @@ import me.shouheng.notepal.model.Model;
  * Created by wangshouheng on 2017/2/26. */
 public class PalmApp extends Application {
 
-    // todo don't forget to update app version in gradle
     private static PalmApp mInstance;
 
     private static boolean passwordChecked;
