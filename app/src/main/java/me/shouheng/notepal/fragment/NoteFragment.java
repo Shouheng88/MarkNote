@@ -169,8 +169,9 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
         note.setTitle(title);
 
         String content = intent.getStringExtra(Intent.EXTRA_TEXT);
-        // todo check and show dialog tips
-        if (!TextUtils.isEmpty(content)) content = content.replace("\t", TAB_REPLACEMENT);
+        if (!TextUtils.isEmpty(content)) {
+            content = content.replace("\t", TAB_REPLACEMENT);
+        }
         note.setContent(content);
 
         // Single attachment data
