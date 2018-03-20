@@ -101,6 +101,7 @@ dependencies {
     }
     implementation 'com.facebook.stetho:stetho:1.5.0'
     implementation 'joda-time:joda-time:2.9.9'
+    implementation 'com.github.Kennyc1012:BottomSheet:2.4.0'
     compile project(path: ':colorful')
     compile project(path: ':photoview')
     compile project(path: ':markdown-editor')

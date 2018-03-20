@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -94,6 +95,15 @@ public class ModelHelper {
         }
 
         context.startActivity(Intent.createChooser(shareIntent, context.getResources().getString(R.string.share_message_chooser)));
+    }
+
+    public static void shareFile(Context context, File file, String mimeType) {
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.setType(mimeType);
+        shareIntent.putExtra(Intent.EXTRA_STREAM, FileHelper.getUriFromFile(context, file));
+        context.startActivity(Intent.createChooser(shareIntent,
+                context.getResources().getString(R.string.share_message_chooser)));
     }
 
     public static <T extends Model> void copyLink(Activity ctx, T model) {
