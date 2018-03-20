@@ -17,6 +17,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import me.shouheng.notepal.PalmApp;
+
 /**
  * Created by wangshouheng on 2017/11/17. */
 public class ScreenShotHelper {
@@ -219,7 +221,11 @@ public class ScreenShotHelper {
     // endregion
 
     // region shot web view
-    public static Bitmap shotWebView(WebView webView) {
+    public static void shotWebView(WebView webView, FileHelper.OnSavedToGalleryListener listener) {
+        createType2(webView, listener);
+    }
+
+    private static Bitmap createType1(WebView webView, FileHelper.OnSavedToGalleryListener listener) {
         Picture picture = webView.capturePicture();
         int width = picture.getWidth();
         int height = picture.getHeight();
@@ -230,6 +236,20 @@ public class ScreenShotHelper {
             picture.draw(canvas);
         }
         return bitmap;
+    }
+
+    private static void createType2(WebView webView, FileHelper.OnSavedToGalleryListener listener) {
+        float scale = webView.getScale();
+        int webViewHeight = (int) (webView.getContentHeight() * scale + 0.5);
+        Bitmap bitmap = Bitmap.createBitmap(webView.getWidth(), webViewHeight, Bitmap.Config.RGB_565);
+        Canvas canvas = new Canvas(bitmap);
+        webView.draw(canvas);
+        try {
+            FileHelper.saveImageToGallery(PalmApp.getContext(), bitmap, true, listener);
+            bitmap.recycle();
+        } catch (Exception e) {
+            LogUtils.e(e.getMessage());
+        }
     }
     // endregion
 }

@@ -65,7 +65,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
     private Note note;
     private String content, tags;
 
-    private boolean isPreview = false, isContentChanged = false, isSharingCapture;
+    private boolean isPreview = false, isContentChanged = false;
 
     public static NoteViewFragment newInstance(@Nonnull Note note, Integer requestCode) {
         Bundle arg = new Bundle();
@@ -239,8 +239,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
                                         outHtml(true);
                                         break;
                                     case R.id.action_share_image:
-                                        isSharingCapture = true;
-                                        createWebCapture(getBinding().mdView);
+                                        createWebCapture(getBinding().mdView, file -> ModelHelper.shareFile(getContext(), file, Constants.MIME_TYPE_IMAGE));
                                         break;
                                 }
                             }
@@ -251,7 +250,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
                         .show();
                 break;
             case R.id.capture:
-                createWebCapture(getBinding().mdView);
+                createWebCapture(getBinding().mdView, file -> ToastUtils.makeToast(String.format(getString(R.string.text_file_saved_to), file.getPath())));
                 break;
             case R.id.print:
                 PrintUtils.print(getContext(), getBinding().mdView, note);
@@ -317,14 +316,6 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
                 ToastUtils.makeToast(R.string.failed_to_create_file);
             }
         });
-    }
-
-    @Override
-    protected void onGetScreenCutFile(File file) {
-        if (isSharingCapture) {
-            isSharingCapture = false;
-            ModelHelper.shareFile(getContext(), file, Constants.MIME_TYPE_IMAGE);
-        }
     }
 
     private void showLocation() {
