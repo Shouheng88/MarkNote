@@ -2,12 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:id="@+id/action_share_text"
+        android:icon="@drawable/ic_content_copy_black_24dp"
         android:title="@string/text_share_text"/>
 
     <item android:id="@+id/action_share_image"
+        android:icon="@drawable/ic_picture_black"
         android:title="@string/text_share_image"/>
 
     <item android:id="@+id/action_share_html"
+        android:icon="@drawable/ic_shortcut_xml_black"
         android:title="@string/text_share_html"/>
 
 </menu>
