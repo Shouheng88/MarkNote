@@ -47,4 +47,9 @@ public class NotebookPickerStrategy implements ModelsPickerStrategy<Notebook> {
     public boolean shouldShowMore() {
         return false;
     }
+
+    @Override
+    public boolean isMultiple() {
+        return false;
+    }
 }

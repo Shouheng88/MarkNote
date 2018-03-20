@@ -16,4 +16,6 @@ public interface ModelsPickerStrategy<T extends Model> {
     Drawable getIconDrawable(T model);
 
     boolean shouldShowMore();
+
+    boolean isMultiple();
 }

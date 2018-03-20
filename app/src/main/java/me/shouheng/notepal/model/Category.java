@@ -7,7 +7,7 @@ import me.shouheng.notepal.provider.annotation.Table;
 /**
  * Created by wangshouheng on 2017/3/31.*/
 @Table(name = "gt_category")
-public class Category extends Model {
+public class Category extends Model implements Selectable {
 
     @Column(name = "name")
     private String name;
@@ -26,6 +26,8 @@ public class Category extends Model {
     private boolean contentChanged;
 
     private int count;
+
+    private boolean isSelected;
 
     public boolean isContentChanged() {
         return contentChanged;
@@ -75,6 +77,16 @@ public class Category extends Model {
 
     public void setCategoryOrder(int categoryOrder) {
         this.categoryOrder = categoryOrder;
+    }
+
+    @Override
+    public void setSelected(boolean isSelected) {
+        this.isSelected = isSelected;
+    }
+
+    @Override
+    public boolean isSelected() {
+        return isSelected;
     }
 
     @Override

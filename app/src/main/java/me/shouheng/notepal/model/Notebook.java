@@ -6,7 +6,7 @@ import me.shouheng.notepal.provider.annotation.Table;
 /**
  * Created by wangshouheng on 2017/7/23.*/
 @Table(name = "gt_notebook")
-public class Notebook extends Model {
+public class Notebook extends Model implements Selectable {
 
     @Column(name = "title")
     private String title;
@@ -27,6 +27,8 @@ public class Notebook extends Model {
     private int count;
 
     private int notebookCount;
+
+    private boolean isSelected;
 
     public int getCount() {
         return count;
@@ -76,6 +78,16 @@ public class Notebook extends Model {
 
     public void setColor(int color) {
         this.color = color;
+    }
+
+    @Override
+    public void setSelected(boolean isSelected) {
+        this.isSelected = isSelected;
+    }
+
+    @Override
+    public boolean isSelected() {
+        return isSelected;
     }
 
     @Override
