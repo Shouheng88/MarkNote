@@ -43,6 +43,7 @@ import me.shouheng.notepal.model.Model;
  * 21. Share html and associated resources, note content and resources.
  * 22. Add share options icons.
  * 23. note title length limit.
+ * 24. Add change logs.
  *
  * 不要让用户做太多的选择！
  * 只要一个主线功能就行！
