@@ -27,6 +27,7 @@ public class Constants {
     public final static String MIME_TYPE_VIDEO = "video/mp4";
     public final static String MIME_TYPE_SKETCH = "image/png";
     public final static String MIME_TYPE_FILES = "file/*";
+    public final static String MIME_TYPE_HTML = "text/html";
     public final static String MIME_TYPE_IMAGE_EXTENSION = ".jpeg";
     public final static String MIME_TYPE_AUDIO_EXTENSION = ".amr";
     public final static String MIME_TYPE_VIDEO_EXTENSION = ".mp4";

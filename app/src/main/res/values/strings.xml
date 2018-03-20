@@ -37,6 +37,9 @@
     <string name="text_send">Send</string>
     <string name="text_settings">Settings</string>
     <string name="text_share">Share</string>
+    <string name="text_share_image">Share as image</string>
+    <string name="text_share_text">Share as text</string>
+    <string name="text_share_html">Share as html</string>
     <string name="text_search">Search</string>
     <string name="text_save_or_discard">Save or discard modification?</string>
     <string name="text_save_successfully">Saved successfully</string>

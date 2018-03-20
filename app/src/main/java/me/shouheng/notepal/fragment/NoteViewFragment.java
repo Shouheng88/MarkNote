@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
@@ -17,6 +18,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.kennyc.bottomsheet.BottomSheet;
+import com.kennyc.bottomsheet.BottomSheetListener;
 
 import org.apache.commons.io.FileUtils;
 
@@ -62,7 +65,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
     private Note note;
     private String content, tags;
 
-    private boolean isPreview = false, isContentChanged = false;
+    private boolean isPreview = false, isContentChanged = false, isSharingCapture;
 
     public static NoteViewFragment newInstance(@Nonnull Note note, Integer requestCode) {
         Bundle arg = new Bundle();
@@ -212,7 +215,6 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-    // todo share logic - the shared content is note readable
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
@@ -220,7 +222,33 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
                 ContentActivity.editNote(this, note, REQUEST_FOR_EDIT);
                 break;
             case R.id.action_share:
-                ModelHelper.share(getContext(), note.getTitle(), content, new ArrayList<>());
+                new BottomSheet.Builder(getActivity())
+                        .setSheet(R.menu.share)
+                        .setTitle(R.string.text_share)
+                        .setListener(new BottomSheetListener() {
+                            @Override
+                            public void onSheetShown(@NonNull BottomSheet bottomSheet, @Nullable Object o) {}
+
+                            @Override
+                            public void onSheetItemSelected(@NonNull BottomSheet bottomSheet, MenuItem menuItem, @Nullable Object o) {
+                                switch (menuItem.getItemId()) {
+                                    case R.id.action_share_text:
+                                        ModelHelper.share(getContext(), note.getTitle(), content, new ArrayList<>());
+                                        break;
+                                    case R.id.action_share_html:
+                                        outHtml(true);
+                                        break;
+                                    case R.id.action_share_image:
+                                        isSharingCapture = true;
+                                        createWebCapture(getBinding().mdView);
+                                        break;
+                                }
+                            }
+
+                            @Override
+                            public void onSheetDismissed(@NonNull BottomSheet bottomSheet, @Nullable Object o, int i) {}
+                        })
+                        .show();
                 break;
             case R.id.capture:
                 createWebCapture(getBinding().mdView);
@@ -266,19 +294,37 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
                 break;
             case R.id.export_html:
                 // Export html
-                getBinding().mdView.outHtml(html -> {
-                    try {
-                        File exDir = FileHelper.getExportDir();
-                        File outFile = new File(exDir, FileHelper.getDefaultFileName(".html"));
-                        FileUtils.writeStringToFile(outFile, html, "utf-8");
-                        ToastUtils.makeToast(String.format(getString(R.string.text_file_saved_to), outFile.getPath()));
-                    } catch (IOException e) {
-                        ToastUtils.makeToast(R.string.failed_to_create_file);
-                    }
-                });
+                outHtml(false);
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void outHtml(boolean isShare) {
+        getBinding().mdView.outHtml(html -> {
+            try {
+                File exDir = FileHelper.getExportDir();
+                File outFile = new File(exDir, FileHelper.getDefaultFileName(".html"));
+                FileUtils.writeStringToFile(outFile, html, "utf-8");
+                if (isShare) {
+                    // Share, do share option
+                    ModelHelper.shareFile(getContext(), outFile, Constants.MIME_TYPE_HTML);
+                } else {
+                    // Not share, just show a message
+                    ToastUtils.makeToast(String.format(getString(R.string.text_file_saved_to), outFile.getPath()));
+                }
+            } catch (IOException e) {
+                ToastUtils.makeToast(R.string.failed_to_create_file);
+            }
+        });
+    }
+
+    @Override
+    protected void onGetScreenCutFile(File file) {
+        if (isSharingCapture) {
+            isSharingCapture = false;
+            ModelHelper.shareFile(getContext(), file, Constants.MIME_TYPE_IMAGE);
+        }
     }
 
     private void showLocation() {
