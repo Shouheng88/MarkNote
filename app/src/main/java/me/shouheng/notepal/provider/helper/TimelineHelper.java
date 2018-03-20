@@ -10,6 +10,7 @@ import me.shouheng.notepal.model.ModelFactory;
 import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.model.Notebook;
 import me.shouheng.notepal.model.TimeLine;
+import me.shouheng.notepal.model.Weather;
 import me.shouheng.notepal.model.enums.Operation;
 import me.shouheng.notepal.provider.TimelineStore;
 
@@ -31,6 +32,7 @@ public class TimelineHelper {
         return model != null && (model instanceof Note
                 || model instanceof Notebook
                 || model instanceof MindSnagging
+                || (model instanceof Weather && Operation.ADD == operation)
                 || (model instanceof Location && Operation.ADD == operation)
                 || (model instanceof Attachment && Operation.ADD == operation));
     }

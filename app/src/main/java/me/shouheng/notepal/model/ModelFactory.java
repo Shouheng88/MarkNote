@@ -11,6 +11,7 @@ import me.shouheng.notepal.model.enums.NoteType;
 import me.shouheng.notepal.model.enums.Operation;
 import me.shouheng.notepal.model.enums.Portrait;
 import me.shouheng.notepal.model.enums.Status;
+import me.shouheng.notepal.model.enums.WeatherType;
 import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.TimeUtils;
 import me.shouheng.notepal.util.UserUtil;
@@ -141,6 +142,14 @@ public class ModelFactory {
         return category;
     }
 
+    public static Weather getWeather(WeatherType type, int temperature) {
+        Weather weather = getModel(Weather.class);
+        assert weather != null;
+        weather.setType(type);
+        weather.setTemperature(temperature);
+        return weather;
+    }
+
     private static <M extends Model> String getModelName(M model) {
         String modelName = null;
         if (model instanceof Attachment) return ((Attachment) model).getUri().toString();
@@ -150,6 +159,10 @@ public class ModelFactory {
         else if (model instanceof Location) {
             Location location = ((Location) model);
             modelName = location.getCountry() + "|" + location.getCity() + "|" + location.getDistrict();
+        }
+        else if (model instanceof Weather) {
+            Weather weather = ((Weather) model);
+            modelName = PalmApp.getStringCompact(weather.getType().nameRes) + "|" + weather.getTemperature();
         }
         if (modelName != null && modelName.length() > TextLength.TIMELINE_TITLE_LENGTH.length) {
             return modelName.substring(0, TextLength.TIMELINE_TITLE_LENGTH.length);

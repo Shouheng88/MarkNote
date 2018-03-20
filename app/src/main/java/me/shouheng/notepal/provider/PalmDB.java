@@ -6,6 +6,20 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 /**
+ * Resources need to modify when add new model:
+ *
+ * 1. Extends {@link me.shouheng.notepal.model.Model} to add model;
+ * 2. Implement {@link me.shouheng.notepal.provider.schema.BaseSchema} to add schema;
+ * 3. Extends {@link BaseStore} to add store;
+ * 4. Modify {@link me.shouheng.notepal.model.enums.ModelType} to register model type;
+ * 5. Modify {@link me.shouheng.notepal.provider.helper.TimelineHelper} to enable in time line;
+ * 6. Modify {@link me.shouheng.notepal.model.ModelFactory} to add model factory.
+ *
+ * Others:
+ * 7. Extends {@link me.shouheng.notepal.viewmodel.BaseViewModel} to add view mode;
+ * 8. Extends {@link me.shouheng.notepal.repository.BaseRepository} to add repository.
+ * 9. Most import modify {@link PalmDB#VERSION}.
+ *
  * Created by wangshouheng on 2017/3/13. */
 public class PalmDB extends SQLiteOpenHelper {
 

@@ -11,6 +11,7 @@ import me.shouheng.notepal.model.Model;
 import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.model.Notebook;
 import me.shouheng.notepal.model.TimeLine;
+import me.shouheng.notepal.model.Weather;
 
 
 /**
@@ -23,7 +24,8 @@ public enum ModelType {
     ATTACHMENT(11, Attachment.class, R.string.model_name_attachment),
     LOCATION(13, Location.class, R.string.model_name_location),
     MIND_SNAGGING(14, MindSnagging.class, R.string.model_name_mind_snagging),
-    TIME_LINE(15, TimeLine.class, R.string.model_name_timeline);
+    TIME_LINE(15, TimeLine.class, R.string.model_name_timeline),
+    WEATHER(16, Weather.class, R.string.model_name_weather);
 
     public final int id;
 
