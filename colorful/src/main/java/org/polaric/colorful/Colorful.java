@@ -94,7 +94,7 @@ public class Colorful {
         PINK(R.color.theme_pink, R.color.md_pink_300, "primary_pink", "#FB7299"),
         BLUE(R.color.md_indigo_500, R.color.md_indigo_700, "primary_blue", "#3F51B5"),
         TEAL(R.color.md_teal_500, R.color.md_teal_700, "primary_teal", "#009688"),
-        ORANGE(R.color.theme_orange, R.color.md_orange_700, "primary_orange", "#D98100"),
+        ORANGE(R.color.theme_orange, R.color.theme_orange_dark, "primary_orange", "#D98100"),
         DEEP_PURPLE(R.color.md_deep_purple_500, R.color.md_deep_purple_700, "primary_deep_purple", "#673AB7"),
         LIGHT_BLUE(R.color.theme_light_blue, R.color.theme_light_blue_dark, "primary_light_blue", "#617FDE"),
         BROWN(R.color.md_brown_500, R.color.md_brown_700, "primary_brown", "#795548"),
