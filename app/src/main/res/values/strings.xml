@@ -275,7 +275,6 @@
     <string name="model_name_location">Location</string>
     <string name="model_name_mind_snagging">Snagging</string>
     <string name="model_name_timeline">Timeline</string>
-    <!--todo-->
     <string name="model_name_weather">Weather</string>
     <string name="model_name_category">Category</string>
 
