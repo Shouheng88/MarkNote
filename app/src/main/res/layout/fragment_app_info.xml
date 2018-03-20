@@ -182,6 +182,14 @@
                         android:layout_height="wrap_content"/>
 
                     <me.shouheng.notepal.widget.themed.CardTitleView
+                        android:id="@+id/ctv_changelog"
+                        app:card_icon="@drawable/ic_description_black_24dp"
+                        app:card_title="@string/changelog"
+                        app:card_sub_title="@string/changelog_sub_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                    <me.shouheng.notepal.widget.themed.CardTitleView
                         android:id="@+id/ctv_license"
                         app:card_icon="@drawable/ic_insert_drive_file_grey_24dp"
                         app:card_title="@string/open_source_libraries_permissions"
