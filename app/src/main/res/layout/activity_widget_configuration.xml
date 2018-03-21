@@ -28,6 +28,7 @@
                 android:text="@string/model_name_note" />
 
             <RadioButton
+                android:visibility="gone"
                 android:id="@+id/rb_minds"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

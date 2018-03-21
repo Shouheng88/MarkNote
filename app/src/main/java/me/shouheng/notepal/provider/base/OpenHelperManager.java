@@ -14,7 +14,7 @@ public class OpenHelperManager {
 
     public static synchronized void releaseHelper(PalmDB helper) {
         instanceCount--;
-        LogUtils.e(String.format("releasing helper %s, instance count = %s", helper, instanceCount));
+        LogUtils.d(String.format("releasing helper %s, instance count = %s", helper, instanceCount));
         if (instanceCount <= 0) {
             if (helper != null) {
                 LogUtils.d(String.format("zero instances, closing helper %s", helper));

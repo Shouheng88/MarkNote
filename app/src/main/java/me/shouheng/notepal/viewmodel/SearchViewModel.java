@@ -37,9 +37,9 @@ public class SearchViewModel extends ViewModel {
                 notes = queryRepository.getNotes(queryText);
             }
             List<MindSnagging> snaggings = new LinkedList<>();
-            if (conditions.isIncludeMindSnagging()) {
-                snaggings = queryRepository.getMindSnaggings(queryText);
-            }
+//            if (conditions.isIncludeMindSnagging()) {
+//                snaggings = queryRepository.getMindSnaggings(queryText);
+//            }
 
             SearchResult searchResult = new SearchResult(notes, snaggings);
 

@@ -161,11 +161,11 @@ public class SearchItemsAdapter extends RecyclerView.Adapter<SearchItemsAdapter.
                         onItemSelectedListener.onNoteSelected((Note) searchResults.get(position), position);
                     }
                     break;
-                case MIND:
-                    if (onItemSelectedListener != null) {
-                        onItemSelectedListener.onMindSnaggingSelected((MindSnagging) searchResults.get(position), position);
-                    }
-                    break;
+//                case MIND:
+//                    if (onItemSelectedListener != null) {
+//                        onItemSelectedListener.onMindSnaggingSelected((MindSnagging) searchResults.get(position), position);
+//                    }
+//                    break;
             }
         }
     }
@@ -176,7 +176,6 @@ public class SearchItemsAdapter extends RecyclerView.Adapter<SearchItemsAdapter.
 
     public interface OnItemSelectedListener {
         void onNoteSelected(Note note, int position);
-
-        void onMindSnaggingSelected(MindSnagging mindSnagging, int position);
+//        void onMindSnaggingSelected(MindSnagging mindSnagging, int position);
     }
 }

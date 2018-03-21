@@ -9,6 +9,7 @@
             android:icon="@drawable/ic_note"/>
 
         <item android:id="@+id/nav_minds"
+            android:visible="false"
             android:title="@string/drawer_menu_minds"
             android:icon="@drawable/ic_lightbulb_outline_black_24dp"/>
 

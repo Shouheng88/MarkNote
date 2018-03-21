@@ -1,10 +1,12 @@
 package me.shouheng.notepal.activity;
 
 import android.app.Activity;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import org.polaric.colorful.BaseActivity;
@@ -22,23 +24,21 @@ import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.model.MindSnagging;
 import me.shouheng.notepal.model.Model;
 import me.shouheng.notepal.model.ModelFactory;
-import me.shouheng.notepal.model.enums.ModelType;
+import me.shouheng.notepal.model.Note;
+import me.shouheng.notepal.model.data.Resource;
 import me.shouheng.notepal.util.AppWidgetUtils;
 import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.ToastUtils;
-import me.shouheng.notepal.viewmodel.AttachmentViewModel;
-import me.shouheng.notepal.viewmodel.SnaggingViewModel;
+import me.shouheng.notepal.viewmodel.NoteViewModel;
 
 public class SnaggingActivity extends BaseActivity implements OnAttachingFileListener {
 
     private final static int REQUEST_PASSWORD = 0x0016;
 
     private MindSnaggingDialog mindSnaggingDialog;
-
-    private AttachmentViewModel attachmentViewModel;
-    private SnaggingViewModel snaggingViewModel;
+    private NoteViewModel noteViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +57,7 @@ public class SnaggingActivity extends BaseActivity implements OnAttachingFileLis
     private void init() {
         handleIntent(getIntent());
 
-        snaggingViewModel = ViewModelProviders.of(this).get(SnaggingViewModel.class);
-        attachmentViewModel = ViewModelProviders.of(this).get(AttachmentViewModel.class);
+        noteViewModel = ViewModelProviders.of(this).get(NoteViewModel.class);
     }
 
     private void handleIntent(Intent intent) {
@@ -119,25 +118,23 @@ public class SnaggingActivity extends BaseActivity implements OnAttachingFileLis
     }
 
     private void saveMindSnagging(MindSnagging mindSnagging, Attachment attachment) {
-        if (attachment != null) {
-            attachment.setModelCode(mindSnagging.getCode());
-            attachment.setModelType(ModelType.MIND_SNAGGING);
-            attachmentViewModel.saveIfNew(attachment).observe(this, attachmentResource -> {});
-        }
-
-        snaggingViewModel.saveOrUpdate(mindSnagging).observe(this, mindSnaggingResource -> {
-            if (mindSnaggingResource == null) {
-                ToastUtils.makeToast(R.string.text_failed_to_modify_data);
-                return;
-            }
-            switch (mindSnaggingResource.status) {
-                case SUCCESS:
-                    ToastUtils.makeToast(R.string.text_save_successfully);
-                    AppWidgetUtils.notifyAppWidgets(this);
-                    break;
-                case FAILED:
+        noteViewModel.saveSnagging(ModelFactory.getNote(), mindSnagging, attachment).observe(this, new Observer<Resource<Note>>() {
+            @Override
+            public void onChanged(@Nullable Resource<Note> noteResource) {
+                if (noteResource == null) {
                     ToastUtils.makeToast(R.string.text_failed_to_modify_data);
-                    break;
+                    return;
+                }
+                switch (noteResource.status) {
+                    case SUCCESS:
+                        ToastUtils.makeToast(R.string.text_save_successfully);
+                        AppWidgetUtils.notifyAppWidgets(SnaggingActivity.this);
+                        break;
+                    case FAILED:
+                        ToastUtils.makeToast(R.string.text_failed_to_modify_data);
+                        break;
+                    case LOADING:break;
+                }
             }
         });
     }

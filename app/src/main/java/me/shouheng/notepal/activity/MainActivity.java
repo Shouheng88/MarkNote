@@ -62,8 +62,8 @@ import me.shouheng.notepal.model.ModelFactory;
 import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.model.Notebook;
 import me.shouheng.notepal.model.enums.FabSortItem;
-import me.shouheng.notepal.model.enums.ModelType;
 import me.shouheng.notepal.model.enums.Status;
+import me.shouheng.notepal.provider.MindSnaggingStore;
 import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.FragmentHelper;
@@ -72,10 +72,9 @@ import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.util.enums.MindSnaggingListType;
-import me.shouheng.notepal.viewmodel.AttachmentViewModel;
 import me.shouheng.notepal.viewmodel.CategoryViewModel;
+import me.shouheng.notepal.viewmodel.NoteViewModel;
 import me.shouheng.notepal.viewmodel.NotebookViewModel;
-import me.shouheng.notepal.viewmodel.SnaggingViewModel;
 import me.shouheng.notepal.widget.tools.CustomRecyclerScrollViewListener;
 
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
@@ -114,9 +113,8 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     private FloatingActionButton[] fabs;
 
     private NotebookViewModel notebookViewModel;
-    private AttachmentViewModel attachmentViewModel;
-    private SnaggingViewModel snaggingViewModel;
     private CategoryViewModel categoryViewModel;
+    private NoteViewModel noteViewModel;
 
     private ActivityMainNavHeaderBinding headerBinding;
 
@@ -178,9 +176,8 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     }
 
     private void initViewModels() {
-        attachmentViewModel = ViewModelProviders.of(this).get(AttachmentViewModel.class);
         notebookViewModel = ViewModelProviders.of(this).get(NotebookViewModel.class);
-        snaggingViewModel = ViewModelProviders.of(this).get(SnaggingViewModel.class);
+        noteViewModel = ViewModelProviders.of(this).get(NoteViewModel.class);
         categoryViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
     }
 
@@ -231,6 +228,12 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
 
     private void showSnaggingNotice() {
         if (preferencesUtils.snaggingNoticeShowed()) return;
+
+        int count = MindSnaggingStore.getInstance(this).getCount(null, null, false);
+        if (count == 0) {
+            preferencesUtils.setSnaggingNoticeShowed();
+            return;
+        }
 
         new AlertDialog.Builder(this)
                 .setTitle(R.string.text_warning)
@@ -288,7 +291,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                 PermissionUtils.checkStoragePermission(this, this::handleThirdPart);
                 break;
             case Constants.ACTION_RESTART_APP:
-                // Recreate activity
+                // Recreate
                 recreate();
                 break;
         }
@@ -509,22 +512,17 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     }
 
     private void saveMindSnagging(MindSnagging mindSnagging, Attachment attachment) {
-        if (attachment != null) {
-            attachment.setModelCode(mindSnagging.getCode());
-            attachment.setModelType(ModelType.MIND_SNAGGING);
-            attachmentViewModel.saveIfNew(attachment).observe(this, attachmentResource -> {});
-        }
-
-        snaggingViewModel.saveOrUpdate(mindSnagging).observe(this, mindSnaggingResource -> {
-            if (mindSnaggingResource == null) {
+        noteViewModel.saveSnagging(getNewNote(), mindSnagging, attachment).observe(this, noteResource -> {
+            if (noteResource == null) {
                 ToastUtils.makeToast(R.string.text_failed_to_modify_data);
                 return;
             }
-            switch (mindSnaggingResource.status) {
+            switch (noteResource.status) {
                 case SUCCESS:
                     ToastUtils.makeToast(R.string.text_save_successfully);
-                    if (isSnaggingFragment()) {
-                        ((SnaggingsFragment) getCurrentFragment()).addSnagging(mindSnagging);
+                    Fragment fragment = getCurrentFragment();
+                    if (fragment != null && fragment instanceof NotesFragment) {
+                        ((NotesFragment) fragment).reload();
                     }
                     break;
                 case FAILED:
