@@ -22,8 +22,6 @@ import me.shouheng.notepal.model.Model;
  * 1. Add ringtone to {@link me.shouheng.notepal.async.DataBackupIntentService} when included the notification logic;
  * 2. Enable copy link logic when the server is ready. {@link me.shouheng.notepal.util.ModelHelper#copyLink(Activity, Model)};
  * 3. Add Google Drive logic, check if the file has backup time in google drive;
- * 4. Make ripple.xml uniform in every place;
- * 5. Use ViewModel to load data async;
  * 6. Modify import from external logic, since current logic did nothing according to the db version and change,
  *    You may also research the performance when the db version is different.
  * 7. Refine NoteViewFragment performance;
@@ -38,12 +36,8 @@ import me.shouheng.notepal.model.Model;
  * 16. Enable pick category with icons;
  * 17. Solve all the bugs in fabric;
  * 18. Replace the snagging logic with note (the dialog is still avilable, but the snagging list is removed);
- * 19. Add picture to the theme.
- * 20. Webview capture problem;
  * 21. Share html and associated resources, note content and resources.
- * 22. Add share options icons.
- * 23. note title length limit.
- * 24. Add change logs.
+ * 22. Remove mind snagging.
  *
  * 不要让用户做太多的选择！
  * 只要一个主线功能就行！
