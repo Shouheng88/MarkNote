@@ -32,7 +32,6 @@ import me.shouheng.notepal.model.Model;
  * 12. Calendar + Timeline;
  * 13. Google map location info;
  * 14. Multiple platform statistics and user trace;
- * 15, Bug in LockActivity when screen orientation changed. (Multiple input and headers);
  * 16. Enable pick category with icons;
  * 17. Solve all the bugs in fabric;
  * 18. Replace the snagging logic with note (the dialog is still avilable, but the snagging list is removed);
