@@ -182,6 +182,9 @@ public class ModelHelper {
 
     public static String getNoteTitle(String inputTitle, String noteContent) {
         if (!TextUtils.isEmpty(inputTitle)) {
+            if (inputTitle.length() >= TextLength.TITLE_TEXT_LENGTH.length) {
+                return inputTitle.substring(0, TextLength.TITLE_TEXT_LENGTH.length);
+            }
             return inputTitle;
         }
 
@@ -207,7 +210,7 @@ public class ModelHelper {
             }
             if (i < chars.length) {
                 String title = mdTitle.substring(i);
-                // The length of the matched title must be limit.
+                // The length of the matched title must be
                 if (title.length() >= TextLength.TITLE_TEXT_LENGTH.length) {
                     title = title.substring(0, TextLength.TITLE_TEXT_LENGTH.length);
                 }
@@ -217,6 +220,18 @@ public class ModelHelper {
 
         // Use default note title
         return PalmApp.getStringCompact(R.string.note_default_name);
+    }
+
+    public static String getNotePreview(String noteContent) {
+        if (TextUtils.isEmpty(noteContent)) {
+            return "";
+        }
+
+        if (noteContent.length() > TextLength.NOTE_CONTENT_PREVIEW_LENGTH.length) {
+            return noteContent.substring(0, TextLength.NOTE_CONTENT_PREVIEW_LENGTH.length).trim();
+        }
+
+        return noteContent.trim();
     }
 
     public static Uri getNotePreviewImage(String noteContent) {

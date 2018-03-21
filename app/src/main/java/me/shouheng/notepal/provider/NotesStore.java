@@ -43,6 +43,8 @@ public class NotesStore extends BaseStore<Note> {
             case 2:
                 db.execSQL("ALTER TABLE gt_note ADD COLUMN preview_image TEXT");
                 db.execSQL("ALTER TABLE gt_note ADD COLUMN note_type INTEGER");
+            case 4:
+                db.execSQL("ALTER TABLE gt_note ADD COLUMN preview_content TEXT");
                 break;
         }
     }
@@ -57,6 +59,7 @@ public class NotesStore extends BaseStore<Note> {
         String preUri = cursor.getString(cursor.getColumnIndex(NoteSchema.PREVIEW_IMAGE));
         note.setPreviewImage(TextUtils.isEmpty(preUri) ? null : Uri.parse(preUri));
         note.setNoteType(NoteType.getTypeById(cursor.getInt(cursor.getColumnIndex(NoteSchema.NOTE_TYPE))));
+        note.setPreviewContent(cursor.getString(cursor.getColumnIndex(NoteSchema.PREVIEW_CONTENT)));
     }
 
     @Override
@@ -69,5 +72,6 @@ public class NotesStore extends BaseStore<Note> {
         Uri uri = note.getPreviewImage();
         values.put(NoteSchema.PREVIEW_IMAGE, uri == null ? null : uri.toString());
         values.put(NoteSchema.NOTE_TYPE, note.getNoteType().getId());
+        values.put(NoteSchema.PREVIEW_CONTENT, note.getPreviewContent());
     }
 }

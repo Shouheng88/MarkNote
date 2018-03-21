@@ -78,6 +78,10 @@
     <string name="check_network_availability">检查网络连接是否可用</string>
 
     <!--region Common->Announcement-->
+    <string name="snagging_remove">用户，您好！为了避免迷惑用户，我们决定移除小纸条的功能。您的数据将会被自动转换成笔记，并被保存在“小纸条”笔记本下面，给您带来不便请谅解。</string>
+    <string name="snagging_transfer_title">转换完成</string>
+    <string name="snagging_transfer_message">小纸条转换已完成，点击刷新</string>
+
     <string name="need_to_complete">该功能尚待完善</string>
     <string name="dialog_notice_content_part1">用户你好！<![CDATA[<br/><br/>]]>由于时间限制仍然NotePal有许多不足。我们邀请你来一起完善：</string>
     <string name="dialog_notice_content_part2">1.如果你喜欢NotePal你可以在<![CDATA[<b>“设置->关于程序->翻译”</b> ]]>中协助开发者将NotePal翻译成其他语言，或者在应用商店给该应用好评。</string>

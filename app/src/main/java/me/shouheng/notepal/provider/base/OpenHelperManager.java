@@ -17,12 +17,12 @@ public class OpenHelperManager {
         LogUtils.e(String.format("releasing helper %s, instance count = %s", helper, instanceCount));
         if (instanceCount <= 0) {
             if (helper != null) {
-                LogUtils.e(String.format("zero instances, closing helper %s", helper));
+                LogUtils.d(String.format("zero instances, closing helper %s", helper));
                 helper.close();
                 isClosed = true;
             }
             if (instanceCount < 0) {
-                LogUtils.e(String.format("too many calls to release helper, instance count = %s", instanceCount));
+                LogUtils.d(String.format("too many calls to release helper, instance count = %s", instanceCount));
             }
         }
     }

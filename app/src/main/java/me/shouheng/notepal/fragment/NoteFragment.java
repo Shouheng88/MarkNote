@@ -534,6 +534,8 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
         // Get preview image from note content
         note.setPreviewImage(ModelHelper.getNotePreviewImage(noteContent));
 
+        note.setPreviewContent(ModelHelper.getNotePreview(noteContent));
+
         attachmentViewModel.writeNoteContent(note).observe(this, attachmentResource -> {
             if (attachmentResource == null) {
                 ToastUtils.makeToast(R.string.text_error_when_save);

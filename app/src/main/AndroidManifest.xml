@@ -127,6 +127,7 @@
         </provider>
 
         <service android:name=".async.DataBackupIntentService" />
+        <service android:name=".async.SnaggingTransferService" />
 
         <activity android:name=".activity.LockActivity"
             android:theme="@android:style/Theme.Holo.Dialog.NoActionBar"/>

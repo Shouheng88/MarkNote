@@ -37,6 +37,9 @@ public class Note extends Model implements Parcelable {
     @Column(name = "noteType")
     private NoteType noteType;
 
+    @Column(name = "preview_content")
+    private String previewContent;
+
     // region Android端字段，不计入数据库
 
     private String content;
@@ -79,6 +82,7 @@ public class Note extends Model implements Parcelable {
         setContentCode(in.readLong());
         setTags(in.readString());
         setNoteType(NoteType.getTypeById(in.readInt()));
+        setPreviewContent(in.readString());
 
         setTagsName(in.readString());
     }
@@ -151,6 +155,14 @@ public class Note extends Model implements Parcelable {
         this.noteType = noteType;
     }
 
+    public String getPreviewContent() {
+        return previewContent;
+    }
+
+    public void setPreviewContent(String previewContent) {
+        this.previewContent = previewContent;
+    }
+
     @Override
     public String toString() {
         return "Note{" +
@@ -161,9 +173,10 @@ public class Note extends Model implements Parcelable {
                 ", tags='" + tags + '\'' +
                 ", previewImage=" + previewImage +
                 ", noteType=" + noteType +
+                ", previewContent='" + previewContent + '\'' +
                 ", content='" + content + '\'' +
                 ", tagsName='" + tagsName + '\'' +
-                '}';
+                "} " + super.toString();
     }
 
     @Override
@@ -188,6 +201,7 @@ public class Note extends Model implements Parcelable {
         dest.writeLong(getContentCode());
         dest.writeString(getTags());
         dest.writeInt(getNoteType().getId());
+        dest.writeString(getPreviewContent());
 
         dest.writeString(getTagsName());
     }
