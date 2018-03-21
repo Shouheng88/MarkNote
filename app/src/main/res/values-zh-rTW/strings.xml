@@ -227,7 +227,6 @@
     <string name="tag_name">標籤名稱</string>
     <string name="pick_tag_color">選擇標籤顏色</string>
 
-    <string name="no_selectable_tag">沒有可供選擇的標籤，在主介面添加標籤後再次嘗試。</string>
     <plurals name="notes_number">
         <item quantity="one">%d 個筆記</item>
         <item quantity="other">%d 個筆記</item>

@@ -243,8 +243,7 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
     }
 
     private void showEditor(int position, Category param) {
-        categoryEditDialog = CategoryEditDialog.newInstance(getContext(), param, category ->
-                update(position, category));
+        categoryEditDialog = CategoryEditDialog.newInstance(param, category -> update(position, category));
         categoryEditDialog.show(getFragmentManager(), "CATEGORY_EDIT_DIALOG");
     }
 
