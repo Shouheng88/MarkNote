@@ -1,33 +1,44 @@
 package me.shouheng.notepal.adapter;
 
 import android.content.Context;
+import android.net.Uri;
+import android.view.View;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 
 import java.util.List;
 
+import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.model.Notebook;
 import me.shouheng.notepal.util.ColorUtils;
+import me.shouheng.notepal.util.FileHelper;
+import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.TimeUtils;
 import me.shouheng.notepal.widget.tools.BubbleTextGetter;
 
 /**
  * Created by wang shouheng on 2017/12/23.*/
-public class NotesAdapter extends BaseMultiItemQuickAdapter<NotesAdapter.MultiItem, BaseViewHolder> implements BubbleTextGetter {
+public class NotesAdapter extends BaseMultiItemQuickAdapter<NotesAdapter.MultiItem, BaseViewHolder> implements
+        BubbleTextGetter {
 
     private Context context;
 
     private int accentColor;
     private boolean isDarkTheme;
+    private boolean isExpanded;
 
     public NotesAdapter(Context context, List<NotesAdapter.MultiItem> data) {
         super(data);
+
+        this.isExpanded = PreferencesUtils.getInstance(context).isNoteExpanded();
         this.context = context;
-        addItemType(MultiItem.ITEM_TYPE_NOTE, R.layout.item_note);
+        addItemType(MultiItem.ITEM_TYPE_NOTE, isExpanded ? R.layout.item_note_expanded : R.layout.item_note);
         addItemType(MultiItem.ITEM_TYPE_NOTEBOOK, R.layout.item_note);
 
         accentColor = ColorUtils.accentColor(context);
@@ -39,7 +50,11 @@ public class NotesAdapter extends BaseMultiItemQuickAdapter<NotesAdapter.MultiIt
         if (isDarkTheme) helper.itemView.setBackgroundResource(R.color.dark_theme_background);
         switch (helper.getItemViewType()) {
             case MultiItem.ITEM_TYPE_NOTE:
-                convertNote(helper, item.note);
+                if (isExpanded) {
+                    convertNoteExpanded(helper, item.note);
+                } else {
+                    convertNote(helper, item.note);
+                }
                 break;
             case MultiItem.ITEM_TYPE_NOTEBOOK:
                 convertNotebook(helper, item.notebook);
@@ -53,6 +68,26 @@ public class NotesAdapter extends BaseMultiItemQuickAdapter<NotesAdapter.MultiIt
         helper.setText(R.id.tv_added_time, TimeUtils.getLongDateTime(context, note.getAddedTime()));
         helper.setImageDrawable(R.id.iv_icon, ColorUtils.tintDrawable(
                 context.getResources().getDrawable(R.drawable.ic_doc_text_alpha), accentColor));
+    }
+
+    private void convertNoteExpanded(BaseViewHolder holder, Note note) {
+        holder.itemView.setBackgroundColor(PalmApp.getColorCompact(isDarkTheme ?
+                R.color.dark_theme_background : R.color.light_theme_background));
+        holder.setText(R.id.tv_note_title, note.getTitle());
+        holder.setText(R.id.tv_content, note.getPreviewContent());
+        holder.setText(R.id.tv_time, TimeUtils.getPrettyTime(note.getAddedTime()));
+        holder.setTextColor(R.id.tv_time, accentColor);
+        if (note.getPreviewImage() != null) {
+            holder.getView(R.id.iv_image).setVisibility(View.VISIBLE);
+            Uri thumbnailUri = FileHelper.getThumbnailUri(context, note.getPreviewImage());
+            Glide.with(PalmApp.getContext())
+                    .load(thumbnailUri)
+                    .centerCrop()
+                    .crossFade()
+                    .into((ImageView) holder.getView(R.id.iv_image));
+        } else {
+            holder.getView(R.id.iv_image).setVisibility(View.GONE);
+        }
     }
 
     private void convertNotebook(BaseViewHolder helper, Notebook notebook) {

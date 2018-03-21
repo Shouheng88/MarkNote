@@ -244,9 +244,11 @@ public class ModelHelper {
         }
         Matcher matcher = imagePattern.matcher(noteContent);
         if (matcher.find()) {
-            String urlStr = matcher.group();
-            if (!TextUtils.isEmpty(urlStr)) {
-                return Uri.parse(urlStr);
+            String str = matcher.group();
+            if (!TextUtils.isEmpty(str)) {
+                int len = str.length();
+                str = str.substring(str.lastIndexOf('(') + 1, len - 1);
+                return Uri.parse(str);
             }
         }
         return null;
