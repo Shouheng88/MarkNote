@@ -16,6 +16,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -38,6 +39,7 @@ import java.util.List;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.base.CommonActivity;
+import me.shouheng.notepal.async.SnaggingTransferService;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.databinding.ActivityMainBinding;
 import me.shouheng.notepal.databinding.ActivityMainNavHeaderBinding;
@@ -171,6 +173,8 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         initDrawerMenu();
 
         toNotesFragment();
+
+        showSnaggingNotice();
     }
 
     private void initViewModels() {
@@ -225,6 +229,21 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         }
     }
 
+    private void showSnaggingNotice() {
+        if (preferencesUtils.snaggingNoticeShowed()) return;
+
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.text_warning)
+                .setMessage(R.string.snagging_remove)
+                .setPositiveButton(R.string.text_ok, (dialogInterface, i) -> {
+                    preferencesUtils.setSnaggingNoticeShowed();
+                    Intent service = new Intent(MainActivity.this, SnaggingTransferService.class);
+                    startService(service);
+                })
+                .setCancelable(false)
+                .create().show();
+    }
+
     // region handle intent
     private void handleIntent(Intent intent) {
         String action = intent.getAction();
@@ -267,6 +286,10 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
             case Intent.ACTION_SEND_MULTIPLE:
             case Constants.INTENT_GOOGLE_NOW:
                 PermissionUtils.checkStoragePermission(this, this::handleThirdPart);
+                break;
+            case Constants.ACTION_RESTART_APP:
+                // Recreate activity
+                recreate();
                 break;
         }
     }

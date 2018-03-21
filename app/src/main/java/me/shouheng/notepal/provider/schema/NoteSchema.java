@@ -11,4 +11,5 @@ public interface NoteSchema extends BaseSchema {
     String TREE_PATH = "tree_path";
     String PREVIEW_IMAGE = "preview_image";
     String NOTE_TYPE = "note_type";
+    String PREVIEW_CONTENT = "preview_content";
 }

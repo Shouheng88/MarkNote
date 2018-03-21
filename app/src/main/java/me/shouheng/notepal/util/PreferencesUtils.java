@@ -116,10 +116,18 @@ public class PreferencesUtils extends BasePreferencesUtils {
     private final String KEY_USER_INFO_BG_ENABLE = "key_user_info_bg_visible";
     private final String KEY_USER_INFO_MOTTO = "key_user_info_motto";
 
+    private final String KEY_SNAGGING_NOTICE_SHOWED = "key_snagging_notice_showed";
+
+    public boolean snaggingNoticeShowed() {
+        return getBoolean(KEY_SNAGGING_NOTICE_SHOWED, false);
+    }
+
+    public void setSnaggingNoticeShowed() {
+        putBoolean(KEY_SNAGGING_NOTICE_SHOWED, true);
+    }
+
     /**
-     * The user info background in main activity.
-     *
-     * @param themeBgId 1->theme_bg_1, 2->theme_bg_2,0->clear all */
+     * The user info background in main activity. */
     public void setUserInfoBG(@Nullable Uri uri) {
         putString(KEY_USER_INFO_BG, uri == null ? "" : uri.toString());
     }

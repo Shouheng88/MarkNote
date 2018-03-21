@@ -7,6 +7,7 @@ package me.shouheng.notepal.config;
 public enum TextLength {
     TITLE_TEXT_LENGTH(120),
     SUB_CONTENT_LENGTH(255),
+    NOTE_CONTENT_PREVIEW_LENGTH(255),
     COMMENT_TEXT_LENGTH(255),
     LABEL_TEXT_LENGTH(20),
     LABELS_NUMBER(4),
