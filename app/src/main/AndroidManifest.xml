@@ -45,6 +45,7 @@
         android:largeHeap="true"
         android:theme="@style/AppTheme.FullScreen.Light">
         <activity android:name=".activity.MainActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
