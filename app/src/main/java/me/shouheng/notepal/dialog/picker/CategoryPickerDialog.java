@@ -21,6 +21,8 @@ public class CategoryPickerDialog extends BasePickerDialog<Category> {
 
     private OnConfirmClickListener onConfirmClickListener;
 
+    private OnAddClickListener onAddClickListener;
+
     public static CategoryPickerDialog newInstance(List<Category> categories) {
         CategoryPickerDialog dialog = new CategoryPickerDialog();
         dialog.setCategories(categories);
@@ -45,6 +47,11 @@ public class CategoryPickerDialog extends BasePickerDialog<Category> {
                 onConfirmClickListener.onConfirm(getSelected());
             }
         });
+        builder.setNeutralButton(R.string.text_add_tags, (dialogInterface, i) -> {
+            if (onAddClickListener != null) {
+                onAddClickListener.onAdd();
+            }
+        });
         emptyView.setTitle(getString(R.string.no_category_available));
         emptyView.setIcon(ColorUtils.tintDrawable(
                 PalmApp.getDrawableCompact(R.drawable.ic_labels_grey_24dp), getImageTintColor()));
@@ -61,5 +68,13 @@ public class CategoryPickerDialog extends BasePickerDialog<Category> {
 
     public interface OnConfirmClickListener {
         void onConfirm(List<Category> selected);
+    }
+
+    public void setOnAddClickListener(OnAddClickListener onAddClickListener) {
+        this.onAddClickListener = onAddClickListener;
+    }
+
+    public interface OnAddClickListener {
+        void onAdd();
     }
 }

@@ -24,6 +24,7 @@ import me.shouheng.notepal.databinding.ActivityContentBinding;
 import me.shouheng.notepal.fragment.NoteFragment;
 import me.shouheng.notepal.fragment.NoteFragment.OnNoteInteractListener;
 import me.shouheng.notepal.fragment.NoteViewFragment;
+import me.shouheng.notepal.fragment.base.BaseModelFragment;
 import me.shouheng.notepal.fragment.base.CommonFragment;
 import me.shouheng.notepal.model.ModelFactory;
 import me.shouheng.notepal.model.Note;
@@ -32,7 +33,9 @@ import me.shouheng.notepal.util.FragmentHelper;
 import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.ToastUtils;
 
-public class ContentActivity extends CommonActivity<ActivityContentBinding> implements ColorCallback, OnNoteInteractListener {
+public class ContentActivity extends CommonActivity<ActivityContentBinding> implements
+        ColorCallback,
+        OnNoteInteractListener {
 
     public final static String EXTRA_HAS_TOOLBAR = "extra_has_toolbar";
 
@@ -176,8 +179,18 @@ public class ContentActivity extends CommonActivity<ActivityContentBinding> impl
         FragmentHelper.replace(this, fragment, R.id.fragment_container);
     }
 
+    /**
+     * Register your events here to receive the color selection message.
+     *
+     * @param colorChooserDialog the dialog
+     * @param i the color selected */
     @Override
-    public void onColorSelection(@NonNull ColorChooserDialog colorChooserDialog, @ColorInt int i) {}
+    public void onColorSelection(@NonNull ColorChooserDialog colorChooserDialog, @ColorInt int i) {
+        Fragment fragment = getCurrentFragment(R.id.fragment_container);
+        if (fragment instanceof BaseModelFragment) {
+            ((BaseModelFragment) fragment).onColorSelection(i);
+        }
+    }
 
     @Override
     public void onColorChooserDismissed(@NonNull ColorChooserDialog colorChooserDialog) {}

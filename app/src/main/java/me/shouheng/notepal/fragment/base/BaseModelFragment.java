@@ -2,10 +2,11 @@ package me.shouheng.notepal.fragment.base;
 
 import android.app.Activity;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
+import android.support.annotation.ColorInt;
 import android.text.TextUtils;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -23,6 +24,7 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.ContentActivity;
 import me.shouheng.notepal.activity.base.CommonActivity;
 import me.shouheng.notepal.config.Constants;
+import me.shouheng.notepal.dialog.CategoryEditDialog;
 import me.shouheng.notepal.dialog.picker.CategoryPickerDialog;
 import me.shouheng.notepal.manager.LocationManager;
 import me.shouheng.notepal.model.Category;
@@ -248,8 +250,10 @@ public abstract class BaseModelFragment<T extends Model, V extends ViewDataBindi
     // endregion
 
     // region Base logic about category
-    // todo category can be added when use
     private List<Category> allCategories;
+    private List<Category> cs = new LinkedList<>();
+
+    private CategoryEditDialog categoryEditDialog;
 
     /**
      * Call this method and override {@link #onGetSelectedCategories(List)} to implement
@@ -259,39 +263,9 @@ public abstract class BaseModelFragment<T extends Model, V extends ViewDataBindi
     protected void showCategoriesPicker(List<Category> selected) {
         List<Category> all = getAllCategories();
 
-        if (all == null || all.isEmpty()) {
-            showCategoryEmptyDialog();
-            return;
-        }
-
         // try to avoid NPE
         if (selected == null) selected = new LinkedList<>();
-
-//        int len = all.size();
-//        String[] items = new String[len];
-//        boolean[] checked = new boolean[len];
-//        for (int i=0; i<len; i++) {
-//            Category current = all.get(i);
-//            items[i] = current.getName();
-//            for (Category category : selected) {
-//                if (category.getCode() == current.getCode()) {
-//                    checked[i] = true;
-//                    break;
-//                }
-//            }
-//        }
-
-//        new AlertDialog.Builder(getContext())
-//                .setTitle(R.string.text_add_tags)
-//                .setMultiChoiceItems(items, checked, (dialog, which, isChecked) -> checked[which] = isChecked)
-//                .setPositiveButton(R.string.text_confirm, (dialog, which) -> {
-//                    LogUtils.d(checked);
-//                    List<Category> ret = new LinkedList<>();
-//                    for (int i=0; i<len; i++) if (checked[i]) ret.add(all.get(i));
-//                    onGetSelectedCategories(ret);
-//                })
-//                .setNegativeButton(R.string.text_cancel, null)
-//                .show();
+        cs = selected;
 
         for (Category c : selected) {
             for (Category a : all) {
@@ -303,19 +277,36 @@ public abstract class BaseModelFragment<T extends Model, V extends ViewDataBindi
 
         CategoryPickerDialog dialog = CategoryPickerDialog.newInstance(all);
         dialog.setOnConfirmClickListener(this::onGetSelectedCategories);
+        dialog.setOnAddClickListener(this::showCategoryEditor);
         dialog.show(getFragmentManager(), "CATEGORY_PICKER");
     }
 
-    protected void onGetSelectedCategories(List<Category> categories) {}
-
-    private void showCategoryEmptyDialog() {
-        new AlertDialog.Builder(getContext())
-                .setTitle(R.string.text_tips)
-                .setMessage(R.string.no_selectable_tag)
-                .setPositiveButton(R.string.text_confirm, null)
-                .create()
-                .show();
+    private void showCategoryEditor() {
+        categoryEditDialog = CategoryEditDialog.newInstance(ModelFactory.getCategory(), this::saveCategory);
+        categoryEditDialog.show(getFragmentManager(), "CATEGORY_EDIT_DIALOG");
     }
+
+    private void saveCategory(Category category) {
+        ViewModelProviders.of(this).get(CategoryViewModel.class)
+                .saveModel(category).observe(this, categoryResource -> {
+            if (categoryResource == null) {
+                ToastUtils.makeToast(R.string.text_error_when_save);
+                return;
+            }
+            switch (categoryResource.status) {
+                case SUCCESS:
+                    ToastUtils.makeToast(R.string.text_save_successfully);
+                    allCategories.add(0, category);
+                    showCategoriesPicker(cs);
+                    break;
+                case FAILED:
+                    ToastUtils.makeToast(R.string.text_error_when_save);
+                    break;
+            }
+        });
+    }
+
+    protected void onGetSelectedCategories(List<Category> categories) {}
 
     private List<Category> getAllCategories() {
         if (allCategories == null) {
@@ -391,4 +382,9 @@ public abstract class BaseModelFragment<T extends Model, V extends ViewDataBindi
     protected void onGetLocation(Location location) {}
     // endregion
 
+    public void onColorSelection(@ColorInt int i) {
+        if (categoryEditDialog != null) {
+            categoryEditDialog.updateUIBySelectedColor(i);
+        }
+    }
 }

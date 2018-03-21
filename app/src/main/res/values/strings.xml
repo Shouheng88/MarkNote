@@ -243,7 +243,6 @@
     <string name="tag_name">Tag name</string>
     <string name="pick_tag_color">Pick tag color</string>
 
-    <string name="no_selectable_tag">No available tag, try again after adding in dashboard</string>
     <plurals name="notes_number">
         <item quantity="one">%d note</item>
         <item quantity="other">%d notes</item>

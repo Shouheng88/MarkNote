@@ -219,8 +219,6 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         }
     }
 
-
-
     // region handle intent
     private void handleIntent(Intent intent) {
         String action = intent.getAction();
@@ -517,9 +515,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     }
 
     private void editCategory() {
-        categoryEditDialog = CategoryEditDialog.newInstance(this,
-                ModelFactory.getCategory(),
-                this::saveCategory);
+        categoryEditDialog = CategoryEditDialog.newInstance(ModelFactory.getCategory(), this::saveCategory);
         categoryEditDialog.show(getSupportFragmentManager(), "CATEGORY_EDIT_DIALOG");
     }
 
