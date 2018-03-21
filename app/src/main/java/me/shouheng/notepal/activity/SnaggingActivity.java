@@ -31,7 +31,6 @@ import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.viewmodel.AttachmentViewModel;
 import me.shouheng.notepal.viewmodel.SnaggingViewModel;
 
-// todo remove the logic of snagging
 public class SnaggingActivity extends BaseActivity implements OnAttachingFileListener {
 
     private final static int REQUEST_PASSWORD = 0x0016;
