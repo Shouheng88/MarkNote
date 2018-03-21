@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.net.Uri;
@@ -136,6 +137,11 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         checkPassword();
 
         regNoteChangeReceiver();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
     }
 
     private void checkPassword() {
