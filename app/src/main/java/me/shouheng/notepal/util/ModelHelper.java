@@ -25,6 +25,7 @@ import java.util.regex.Pattern;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.config.Constants;
+import me.shouheng.notepal.config.TextLength;
 import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.model.Location;
 import me.shouheng.notepal.model.MindSnagging;
@@ -205,7 +206,12 @@ public class ModelHelper {
                 i++;
             }
             if (i < chars.length) {
-                return mdTitle.substring(i);
+                String title = mdTitle.substring(i);
+                // The length of the matched title must be limit.
+                if (title.length() >= TextLength.TITLE_TEXT_LENGTH.length) {
+                    title = title.substring(0, TextLength.TITLE_TEXT_LENGTH.length);
+                }
+                return title;
             }
         }
 
