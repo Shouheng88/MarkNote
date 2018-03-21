@@ -36,7 +36,6 @@ import me.shouheng.notepal.model.Model;
  * 17. Solve all the bugs in fabric;
  * 18. Replace the snagging logic with note (the dialog is still avilable, but the snagging list is removed);
  * 21. Share html and associated resources, note content and resources.
- * 22. Remove mind snagging.
  *
  * 不要让用户做太多的选择！
  * 只要一个主线功能就行！
