@@ -10,6 +10,7 @@
 
         <item android:id="@+id/nav_minds"
             android:title="@string/drawer_menu_minds"
+            android:visible="false"
             android:icon="@drawable/ic_lightbulb_outline_black_24dp"/>
 
         <item android:id="@+id/nav_labels"

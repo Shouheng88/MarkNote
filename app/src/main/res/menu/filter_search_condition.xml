@@ -8,6 +8,7 @@
         <item android:id="@+id/item_mind_snagging"
             android:checkable="true"
             android:checked="true"
+            android:visible="false"
             android:title="@string/model_name_mind_snagging"/>
         <item android:id="@+id/item_include_tags"
             android:checkable="true"

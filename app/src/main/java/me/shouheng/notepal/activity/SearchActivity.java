@@ -13,7 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,20 +21,14 @@ import me.shouheng.notepal.activity.base.CommonActivity;
 import me.shouheng.notepal.adapter.SearchItemsAdapter;
 import me.shouheng.notepal.adapter.SearchItemsAdapter.OnItemSelectedListener;
 import me.shouheng.notepal.databinding.ActivitySearchBinding;
-import me.shouheng.notepal.dialog.MindSnaggingDialog;
-import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.model.MindSnagging;
 import me.shouheng.notepal.model.Note;
-import me.shouheng.notepal.model.enums.ModelType;
-import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.util.GsonUtils;
 import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.util.tools.SearchConditions;
-import me.shouheng.notepal.viewmodel.AttachmentViewModel;
 import me.shouheng.notepal.viewmodel.SearchViewModel;
-import me.shouheng.notepal.viewmodel.SnaggingViewModel;
 import me.shouheng.notepal.widget.tools.CustomItemAnimator;
 import me.shouheng.notepal.widget.tools.DividerItemDecoration;
 
@@ -56,8 +49,8 @@ public class SearchActivity extends CommonActivity<ActivitySearchBinding> implem
     private SearchConditions conditions;
 
     private SearchViewModel searchViewModel;
-    private AttachmentViewModel attachmentViewModel;
-    private SnaggingViewModel snaggingViewModel;
+//    private AttachmentViewModel attachmentViewModel;
+//    private SnaggingViewModel snaggingViewModel;
 
     /**
      * Field to remark that is the content changed, will be used to set result to caller. */
@@ -98,8 +91,8 @@ public class SearchActivity extends CommonActivity<ActivitySearchBinding> implem
 
     private void initViewModel() {
         searchViewModel = ViewModelProviders.of(this).get(SearchViewModel.class);
-        attachmentViewModel = ViewModelProviders.of(this).get(AttachmentViewModel.class);
-        snaggingViewModel = ViewModelProviders.of(this).get(SnaggingViewModel.class);
+//        attachmentViewModel = ViewModelProviders.of(this).get(AttachmentViewModel.class);
+//        snaggingViewModel = ViewModelProviders.of(this).get(SnaggingViewModel.class);
     }
 
     private void initSearchConditions() {
@@ -112,7 +105,7 @@ public class SearchActivity extends CommonActivity<ActivitySearchBinding> implem
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         menu.findItem(R.id.item_note).setChecked(conditions.isIncludeNote());
-        menu.findItem(R.id.item_mind_snagging).setChecked(conditions.isIncludeMindSnagging());
+//        menu.findItem(R.id.item_mind_snagging).setChecked(conditions.isIncludeMindSnagging());
         menu.findItem(R.id.item_include_tags).setChecked(conditions.isIncludeTags());
         menu.findItem(R.id.item_include_archived).setChecked(conditions.isIncludeArchived());
         menu.findItem(R.id.item_include_trashed).setChecked(conditions.isIncludeTrashed());
@@ -158,10 +151,10 @@ public class SearchActivity extends CommonActivity<ActivitySearchBinding> implem
                 conditions.setIncludeNote(!conditions.isIncludeNote());
                 invalidateOptionsMenu();
                 break;
-            case R.id.item_mind_snagging:
-                conditions.setIncludeMindSnagging(!conditions.isIncludeMindSnagging());
-                invalidateOptionsMenu();
-                break;
+//            case R.id.item_mind_snagging:
+//                conditions.setIncludeMindSnagging(!conditions.isIncludeMindSnagging());
+//                invalidateOptionsMenu();
+//                break;
             case R.id.item_include_tags:
                 conditions.setIncludeTags(!conditions.isIncludeTags());
                 invalidateOptionsMenu();
@@ -236,10 +229,10 @@ public class SearchActivity extends CommonActivity<ActivitySearchBinding> implem
             searchResults.add(getString(R.string.model_name_note));
             searchResults.addAll(notes);
         }
-        if (minds != null && !minds.isEmpty()) {
-            searchResults.add(getString(R.string.model_name_mind_snagging));
-            searchResults.addAll(minds);
-        }
+//        if (minds != null && !minds.isEmpty()) {
+//            searchResults.add(getString(R.string.model_name_mind_snagging));
+//            searchResults.addAll(minds);
+//        }
         adapter.updateSearchResults(searchResults);
         adapter.notifyDataSetChanged();
     }
@@ -249,6 +242,8 @@ public class SearchActivity extends CommonActivity<ActivitySearchBinding> implem
         ContentActivity.viewNote(this, note, REQUEST_FOR_NOTE);
     }
 
+    // region unused
+    /*
     @Override
     public void onMindSnaggingSelected(MindSnagging mind, final int position) {
         new MindSnaggingDialog.Builder()
@@ -291,7 +286,8 @@ public class SearchActivity extends CommonActivity<ActivitySearchBinding> implem
                 attachment,
                 Collections.singletonList(attachment),
                 attachment.getName());
-    }
+    }*/
+    // endregion
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

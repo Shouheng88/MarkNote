@@ -1,6 +1,9 @@
 package me.shouheng.notepal.model;
 
+import android.support.annotation.Nullable;
+
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 
 import me.shouheng.notepal.PalmApp;
@@ -15,6 +18,7 @@ import me.shouheng.notepal.model.enums.WeatherType;
 import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.TimeUtils;
 import me.shouheng.notepal.util.UserUtil;
+import me.shouheng.notepal.viewmodel.CategoryViewModel;
 
 /**
  * Created by wangshouheng on 2017/11/17. */
@@ -108,6 +112,22 @@ public class ModelFactory {
         Note note = getModel(Note.class);
         assert note != null;
         note.setNoteType(NoteType.NORMAL);
+        return note;
+    }
+
+    public static Note getNote(@Nullable Notebook notebook, @Nullable Category category) {
+        Note note = getNote();
+        if (notebook != null) {
+            note.setParentCode(notebook.getCode());
+            note.setTreePath(notebook.getTreePath() + "|" + note.getCode());
+        } else {
+            note.setTreePath(String.valueOf(note.getCode()));
+        }
+
+        if (category != null) {
+            note.setTags(CategoryViewModel.getTags(Collections.singletonList(category)));
+        }
+
         return note;
     }
 
