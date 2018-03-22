@@ -54,6 +54,7 @@ import me.shouheng.notepal.fragment.SnaggingsFragment;
 import me.shouheng.notepal.fragment.SnaggingsFragment.OnSnaggingInteractListener;
 import me.shouheng.notepal.intro.IntroActivity;
 import me.shouheng.notepal.listener.OnAttachingFileListener;
+import me.shouheng.notepal.listener.OnSettingsChangedListener;
 import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.model.Category;
 import me.shouheng.notepal.model.MindSnagging;
@@ -170,7 +171,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
 
         initDrawerMenu();
 
-        toNotesFragment();
+        toNotesFragment(true);
 
         showSnaggingNotice();
     }
@@ -601,7 +602,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                     SettingsActivity.start(this, REQUEST_SETTING);
                     break;
                 case R.id.nav_notes:
-                    toNotesFragment();
+                    toNotesFragment(true);
                     break;
                 case R.id.nav_minds:
                     toSnaggingFragment(true);
@@ -619,8 +620,8 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         }, 500);
     }
 
-    private void toNotesFragment() {
-        if (isNotesFragment()) return;
+    private void toNotesFragment(boolean checkDuplicate) {
+        if (checkDuplicate && isNotesFragment()) return;
         NotesFragment notesFragment = NotesFragment.newInstance(Status.NORMAL);
         notesFragment.setScrollListener(onScrollListener);
         FragmentHelper.replace(this, notesFragment, R.id.fragment_container);
@@ -740,7 +741,20 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                 init();
                 break;
             case REQUEST_SETTING:
-                setupHeader();
+                int[] changedTypes = data.getIntArrayExtra(SettingsActivity.KEY_CONTENT_CHANGE_TYPES);
+                boolean drawerUpdated = false, listUpdated = false;
+                for (int changedType : changedTypes) {
+                    if (changedType == OnSettingsChangedListener.ChangedType.DRAWER_CONTENT.id && !drawerUpdated) {
+                        setupHeader();
+                        drawerUpdated = true;
+                    }
+                    if (changedType == OnSettingsChangedListener.ChangedType.NOTE_LIST_TYPE.id && !listUpdated) {
+                        if (isNotesFragment()) {
+                            toNotesFragment(false);
+                        }
+                        listUpdated = true;
+                    }
+                }
                 break;
         }
     }
@@ -779,7 +793,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                         super.onBackPressed();
                     }
                 } else {
-                    toNotesFragment();
+                    toNotesFragment(true);
                 }
             }
         } else {

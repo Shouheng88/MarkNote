@@ -21,6 +21,7 @@ import me.shouheng.notepal.config.TextLength;
 import me.shouheng.notepal.databinding.DialogDrawerBgOptionsBinding;
 import me.shouheng.notepal.dialog.SimpleEditDialog;
 import me.shouheng.notepal.listener.OnAttachingFileListener;
+import me.shouheng.notepal.listener.OnSettingsChangedListener;
 import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.util.ColorUtils;
@@ -119,8 +120,8 @@ public class SettingsDashboard extends PreferenceFragment implements
     }
 
     private void notifyDashboardChanged() {
-        if (getActivity() != null && getActivity() instanceof DashboardSettingInteraction) {
-            ((DashboardSettingInteraction) getActivity()).onDashboardSettingChanged();
+        if (getActivity() != null && getActivity() instanceof OnSettingsChangedListener) {
+            ((OnSettingsChangedListener) getActivity()).onDashboardSettingChanged(OnSettingsChangedListener.ChangedType.DRAWER_CONTENT);
         }
     }
 
@@ -132,9 +133,5 @@ public class SettingsDashboard extends PreferenceFragment implements
     @Override
     public void onAttachingFileFinished(Attachment attachment) {
         onGetBackgroundImage(attachment);
-    }
-
-    public interface DashboardSettingInteraction {
-        void onDashboardSettingChanged();
     }
 }

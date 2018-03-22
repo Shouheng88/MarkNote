@@ -373,8 +373,11 @@
 
     <!--region Setting->Note-->
     <string name="setting_note">Note</string>
+    <string name="setting_note_sub">Set note performance</string>
     <string name="setting_default_note_file_extension">Default note file extension</string>
     <string name="setting_default_note_file_extension_sub">The extension when create note file</string>
+    <string name="setting_note_list_view_expand">Use expanded note list view</string>
+    <string name="setting_note_list_view_expand_sub">Checked to use expanded list widget, otherwise use the shrunk widget</string>
     <!--endregion-->
 
     <!--region Setting->Theme-->
