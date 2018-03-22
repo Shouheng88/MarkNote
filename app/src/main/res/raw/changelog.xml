@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog bulletedList="true">
 
-    <!--todo modify the chang log-->
     <changelogversion versionName="1.1.0" changeDate="Nov 13, 2013">
-        <changelogtext>[b][u]Out of closed BETA![/u][/b]</changelogtext>
-        <changelogtext>[b]New! [/b]Italian localization</changelogtext>
-        <changelogtext>[b]New! [/b]Confirmation on batch deleting</changelogtext>
-        <changelogtext>Totally rewritten to achieve compatibility with tablet format</changelogtext>
-        <changelogtext>Fix Whatsapp sharing</changelogtext>
+        <changelogtext>[b][u]Refined the database query logic and the program framework[/u][/b]</changelogtext>
+        <changelogtext>[b][u]Removed the logic of mind snagging[/u][/b]</changelogtext>
+        <changelogtext>[b]New! [/b]Automatically get preview image, content and title from note content</changelogtext>
+        <changelogtext>[b]New! [/b]Refine the logic of adding labels to note</changelogtext>
+        <changelogtext>[b]New! [/b]Add selectable note list type</changelogtext>
+        <changelogtext>Fixed the crash of drawable incompatible in some devices</changelogtext>
+        <changelogtext>Fixed the crash when confirm table input</changelogtext>
+        <changelogtext>Fixed the recreation when the screen orientation changed</changelogtext>
+        <changelogtext>Allow user add text and picture to dashboard</changelogtext>
+        <changelogtext>Modified the Markdown code font style</changelogtext>
+        <changelogtext>Refined the statistic dialog layout</changelogtext>
+        <changelogtext>Add mult-selections when share</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="1.0.0" changeDate="Mar 12, 2018">
