@@ -258,7 +258,7 @@ public class PreferencesUtils extends BasePreferencesUtils {
     private final String PASSWORD_ANSWER = "password_answer";
     private static final String NOTE_FILE_EXTENSION = "note_file_extension";
     private final String OPERATION_COLOR = "OPERATION_COLOR";
-    private final String KEY_SHOW_NOTE_EXPANDED = "key_show_note_expanded";
+    public static final String KEY_SHOW_NOTE_EXPANDED = "key_show_note_expanded";
 
     public void setShowNoteExpanded(boolean isExpanded) {
         putBoolean(KEY_SHOW_NOTE_EXPANDED, isExpanded);

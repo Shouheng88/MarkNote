@@ -15,6 +15,9 @@ import com.afollestad.materialdialogs.color.ColorChooserDialog;
 
 import org.polaric.colorful.Colorful;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.base.CommonActivity;
 import me.shouheng.notepal.databinding.ActivitySettingsBinding;
@@ -23,8 +26,10 @@ import me.shouheng.notepal.fragment.PrimaryPickerFragment;
 import me.shouheng.notepal.fragment.setting.SettingsBackup;
 import me.shouheng.notepal.fragment.setting.SettingsDashboard;
 import me.shouheng.notepal.fragment.setting.SettingsFragment;
+import me.shouheng.notepal.fragment.setting.SettingsNote;
 import me.shouheng.notepal.fragment.setting.SettingsSecurity;
 import me.shouheng.notepal.listener.OnFragmentDestroyListener;
+import me.shouheng.notepal.listener.OnSettingsChangedListener;
 import me.shouheng.notepal.listener.OnThemeSelectedListener;
 import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.FragmentHelper;
@@ -35,15 +40,19 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> im
         SettingsFragment.OnPreferenceClickListener,
         OnThemeSelectedListener,
         OnFragmentDestroyListener,
-        SettingsDashboard.DashboardSettingInteraction{
+        OnSettingsChangedListener {
+
+    private final static int REQUEST_CODE_PASSWORD = 0x0201;
+
+    public final static String KEY_CONTENT_CHANGE_TYPES = "key_content_change_types";
 
     private String keyForColor;
 
-    private boolean isDashboardContentChanged = false;
+    private boolean isDashboardSettingsChanged = false;
 
     private PreferencesUtils preferencesUtils;
 
-    private final static int REQUEST_CODE_PASSWORD = 0x0201;
+    private List<Integer> changedTypes = new LinkedList<>();
 
     public static void start(Activity activity, int requestCode) {
         Intent intent = new Intent(activity, SettingsActivity.class);
@@ -144,6 +153,9 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> im
             case SettingsFragment.KEY_SETUP_DASHBOARD:
                 replaceWithCallback(new SettingsDashboard());
                 break;
+            case SettingsFragment.KEY_NOTE_SETTINGS:
+                replaceWithCallback(new SettingsNote());
+                break;
         }
     }
 
@@ -196,14 +208,23 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> im
     }
 
     @Override
-    public void onDashboardSettingChanged() {
-        isDashboardContentChanged = true;
+    public void onDashboardSettingChanged(ChangedType changedType) {
+        isDashboardSettingsChanged = true;
+        changedTypes.add(changedType.id);
     }
 
     @Override
     public void onBackPressed() {
-        if (isDashboardContentChanged) {
+        if (isDashboardSettingsChanged) {
             Intent intent = new Intent();
+
+            int len = changedTypes.size();
+            int[] types = new int[len];
+            for (int i=0;i<len;i++) {
+                types[i] = changedTypes.get(i);
+            }
+
+            intent.putExtra(KEY_CONTENT_CHANGE_TYPES, types);
             setResult(Activity.RESULT_OK, intent);
             super.onBackPressed();
         } else {

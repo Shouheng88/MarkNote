@@ -35,6 +35,7 @@ public class SettingsFragment extends PreferenceFragment {
     private final static String KEY_USER_INTRO = "user_intro";
     private final static String KEY_SUPPORT_DEVELOP = "support_develop";
 
+    public final static String KEY_NOTE_SETTINGS = "key_note_settings";
     public final static String KEY_SETUP_DASHBOARD = "setup_dashboard";
     public final static String KEY_ABOUT = "about";
     public final static String KEY_DATA_BACKUP = "data_backup";
@@ -101,6 +102,7 @@ public class SettingsFragment extends PreferenceFragment {
         findPreference(KEY_DATA_BACKUP).setOnPreferenceClickListener(listener);
         findPreference(KEY_DATA_SECURITY).setOnPreferenceClickListener(listener);
         findPreference(KEY_ABOUT).setOnPreferenceClickListener(listener);
+        findPreference(KEY_NOTE_SETTINGS).setOnPreferenceClickListener(listener);
     }
 
     private void showFeedbackEditor() {
