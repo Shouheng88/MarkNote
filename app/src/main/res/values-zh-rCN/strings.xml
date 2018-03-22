@@ -74,6 +74,10 @@
     <string name="working">正在执行&#8230;</string>
     <string name="text_input_password_and_continue">输入密码继续</string>
     <string name="text_ok">好的</string>
+    <string name="text_export_html">导出html</string>
+    <string name="text_failed_to_load_data">加载数据失败</string>
+    <string name="text_failed_to_modify_data">修改数据失败</string>
+    <string name="text_pick_from_album">从相册中选择</string>
 
     <string name="check_network_availability">检查网络连接是否可用</string>
 
@@ -155,6 +159,8 @@
     <!--endregion-->
 
     <!--region Note-->
+    <string name="note_default_name">未命名笔记</string>
+
     <string name="content_failed_to_parse_intent">无法解析的意图</string>
     <string name="note_failed_to_read_file">读取文件内容失败</string>
     <string name="note_failed_to_get_note_content">读取笔记内容失败</string>
@@ -267,6 +273,8 @@
     <string name="model_name_location">位置</string>
     <string name="model_name_mind_snagging">小纸条</string>
     <string name="model_name_timeline">时间线</string>
+    <string name="model_name_weather">天气</string>
+    <string name="model_name_category">标签</string>
 
     <string name="operation_none">None</string>
     <string name="operation_added">添加</string>
@@ -358,11 +366,24 @@
 
     <!--region Setting->Note-->
     <string name="setting_note">笔记设置</string>
+    <string name="setting_note_sub">笔记相关的设置</string>
     <string name="setting_default_note_file_extension">笔记的默认文件拓展名</string>
     <string name="setting_default_note_file_extension_sub">创建的笔记文件的默认拓展名</string>
+    <string name="setting_note_list_view_expand">使用展开的笔记列表</string>
+    <string name="setting_note_list_view_expand_sub">勾选使用拓展的笔记列表视图，相反则使用简化版的笔记列表</string>
     <!--endregion-->
 
     <!--region Setting->Theme-->
+    <string name="setting_personalize_dashboard">个性化主界面</string>
+    <string name="setting_personalize_dashboard_sub">装饰主界面的抽屉</string>
+    <string name="setting_dashboard_user_info_bg_visible">使用背景图片</string>
+    <string name="setting_dashboard_user_info_bg_visible_sub">勾选在主界面的抽屉中使用背景图片</string>
+    <string name="setting_dashboard_user_info_bg">背景图片</string>
+    <string name="setting_dashboard_user_info_bg_sub">设置主界面中显示的背景图</string>
+    <string name="setting_dashboard_user_motto">座右铭</string>
+    <string name="setting_dashboard_user_motto_sub">设置用于主界面显示的文字</string>
+    <string name="setting_dashboard_user_motto_default">欢迎使用 NotePal</string>
+
     <string name="setting_theme">应用主题</string>
     <string name="setting_dark_theme">夜间主题</string>
     <string name="setting_dark_theme_sub">将整个程序的主题设置成暗色调的</string>
@@ -419,6 +440,8 @@
     <string name="developer_name">WngShhng (shouheng2015@gmail.com)</string>
     <string name="open_source_libraries_permissions">开源库许可</string>
     <string name="view_third_part_libraries">查看使用的第三方库</string>
+    <string name="changelog">更新日志</string>
+    <string name="changelog_sub_title">显示程序的更新日志</string>
     <!--endregion-->
 
     <!--region Setting->Feedback-->

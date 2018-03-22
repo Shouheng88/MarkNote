@@ -506,4 +506,37 @@
     <string name="md_cols_cannot_empty">輸入的列數不能為空</string>
     <!--endregion-->
 
+    <!--region 1.1.0 added-->
+    <string name="text_export_html">導出html</string>
+    <string name="text_failed_to_load_data">加載數據失敗</string>
+    <string name="text_failed_to_modify_data">修改數據失敗</string>
+    <string name="text_pick_from_album">從相冊中選擇</string>
+
+    <string name="note_default_name">未命名筆記</string>
+
+    <string name="model_name_weather">天氣</string>
+    <string name="model_name_category">標簽</string>
+
+    <string name="setting_note_sub">筆記相關的設置</string>
+    <string name="setting_note_list_view_expand">使用展開的筆記列表</string>
+    <string name="setting_note_list_view_expand_sub">勾選使用拓展的筆記列表視圖，相反則使用簡化版的筆記列表</string>
+
+    <string name="setting_personalize_dashboard">個性化主界面</string>
+    <string name="setting_personalize_dashboard_sub">裝飾主界面的抽屜</string>
+    <string name="setting_dashboard_user_info_bg_visible">使用背景圖片</string>
+    <string name="setting_dashboard_user_info_bg_visible_sub">勾選在主界面的抽屜中使用背景圖片</string>
+    <string name="setting_dashboard_user_info_bg">背景圖片</string>
+    <string name="setting_dashboard_user_info_bg_sub">設置主界面中顯示的背景圖</string>
+    <string name="setting_dashboard_user_motto">座右銘</string>
+    <string name="setting_dashboard_user_motto_sub">設置用于主界面顯示的文字</string>
+    <string name="setting_dashboard_user_motto_default">歡迎使用 NotePal</string>
+
+    <string name="changelog">更新日志</string>
+    <string name="changelog_sub_title">顯示程序的更新日志</string>
+
+    <string name="snagging_remove">用戶，您好！爲了避免迷惑用戶，我們決定移除小紙條的功能。您的數據將會被自動轉換成筆記，並被保存在“小紙條”筆記本下面，給您帶來不便請諒解。</string>
+    <string name="snagging_transfer_title">轉換完成</string>
+    <string name="snagging_transfer_message">小紙條轉換已完成，點擊刷新</string>
+    <!--endregion-->
+
 </resources>

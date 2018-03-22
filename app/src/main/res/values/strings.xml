@@ -79,7 +79,6 @@
     <string name="text_input_password_and_continue">Input password</string>
     <string name="text_ok">OK</string>
     <string name="text_export_html">Export html</string>
-    <!--todo translate text-->
     <string name="text_failed_to_load_data">Failed to load data.</string>
     <string name="text_failed_to_modify_data">Failed to modify data.</string>
     <string name="text_pick_from_album">Pick from album</string>
@@ -88,6 +87,10 @@
 
     <!--region Common->Announcement-->
     <string name="need_to_complete">Function unavailable</string>
+    <string name="snagging_remove">Hello, user! To avoid confuse users, we decide to remove mind snagging logic. Your data will be transfer to notes and saved to notebook named \"Snagging\". Please forgive for the trouble to you.</string>
+    <string name="snagging_transfer_title">Snagging transform completed</string>
+    <string name="snagging_transfer_message">Snagging transform completed, click to refresh</string>
+
     <string name="dialog_notice_content_part1">Hello, user!<![CDATA[<br/><br/>]]>Due to the limit of time, NotePal still has few weakness. Here we invite you to improve it with us:</string>
     <string name="dialog_notice_content_part2">1.If you like NotePal you may associate developer by translating it in to other languages(Find in <![CDATA[<b>\"Settings->About->Translation\"</b>]]>), or give rating and feedback in application market.</string>
     <string name="dialog_notice_content_part3">2.If you have special requirements, or if you are unsatisfied about current functions, feed back to developer by any of below ways: <![CDATA[<b>Google+ community, Twitter, Weibo or directly sending an email</b>]]>.</string>
