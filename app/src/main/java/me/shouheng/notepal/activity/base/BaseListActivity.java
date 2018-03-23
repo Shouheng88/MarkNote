@@ -17,7 +17,6 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.ActivityListBaseWithDrawerBinding;
 import me.shouheng.notepal.fragment.CategoriesFragment;
 import me.shouheng.notepal.fragment.NotesFragment;
-import me.shouheng.notepal.fragment.SnaggingsFragment;
 import me.shouheng.notepal.model.data.Status;
 import me.shouheng.notepal.util.FragmentHelper;
 
@@ -26,7 +25,6 @@ import me.shouheng.notepal.util.FragmentHelper;
  * Created by wangshouheng on 2017/10/10.*/
 public abstract class BaseListActivity extends CommonActivity<ActivityListBaseWithDrawerBinding> implements
         NotesFragment.OnNotesInteractListener,
-        SnaggingsFragment.OnSnaggingInteractListener,
         CategoriesFragment.OnCategoriesInteractListener {
 
     private boolean isListChanged;
@@ -34,8 +32,6 @@ public abstract class BaseListActivity extends CommonActivity<ActivityListBaseWi
     protected abstract CharSequence getActionbarTitle();
 
     protected abstract Fragment getNotesFragment();
-
-    protected abstract Fragment getSnaggingFragment();
 
     protected abstract Fragment getCategoryFragment();
 
@@ -96,9 +92,6 @@ public abstract class BaseListActivity extends CommonActivity<ActivityListBaseWi
                 case R.id.nav_notes:
                     FragmentHelper.replace(this, getNotesFragment(), R.id.fragment_container);
                     break;
-                case R.id.nav_minds:
-                    FragmentHelper.replace(this, getSnaggingFragment(), R.id.fragment_container);
-                    break;
                 case R.id.nav_labels:
                     FragmentHelper.replace(this, getCategoryFragment(), R.id.fragment_container);
                     break;
@@ -148,11 +141,6 @@ public abstract class BaseListActivity extends CommonActivity<ActivityListBaseWi
     }
 
     @Override
-    public void onSnaggingDataChanged() {
-        isListChanged = true;
-    }
-
-    @Override
     public void onResumeToCategory() {
         setDrawerLayoutLocked(false);
     }
@@ -164,11 +152,6 @@ public abstract class BaseListActivity extends CommonActivity<ActivityListBaseWi
 
     @Override
     public void onCategoryLoadStateChanged(Status status) {
-        onLoadStateChanged(status);
-    }
-
-    @Override
-    public void onSnaggingLoadStateChanged(Status status) {
         onLoadStateChanged(status);
     }
 

@@ -6,7 +6,6 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.base.BaseListActivity;
 import me.shouheng.notepal.fragment.CategoriesFragment;
 import me.shouheng.notepal.fragment.NotesFragment;
-import me.shouheng.notepal.fragment.SnaggingsFragment;
 import me.shouheng.notepal.model.Category;
 import me.shouheng.notepal.model.Notebook;
 import me.shouheng.notepal.model.enums.Status;
@@ -24,11 +23,6 @@ public class TrashedActivity extends BaseListActivity {
     @Override
     protected Fragment getNotesFragment() {
         return NotesFragment.newInstance(Status.TRASHED);
-    }
-
-    @Override
-    protected Fragment getSnaggingFragment() {
-        return SnaggingsFragment.newInstance(Status.TRASHED);
     }
 
     @Override

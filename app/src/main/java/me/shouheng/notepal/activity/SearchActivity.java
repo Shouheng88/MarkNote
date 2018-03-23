@@ -21,7 +21,6 @@ import me.shouheng.notepal.activity.base.CommonActivity;
 import me.shouheng.notepal.adapter.SearchItemsAdapter;
 import me.shouheng.notepal.adapter.SearchItemsAdapter.OnItemSelectedListener;
 import me.shouheng.notepal.databinding.ActivitySearchBinding;
-import me.shouheng.notepal.model.MindSnagging;
 import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.util.GsonUtils;
 import me.shouheng.notepal.util.LogUtils;
@@ -49,8 +48,6 @@ public class SearchActivity extends CommonActivity<ActivitySearchBinding> implem
     private SearchConditions conditions;
 
     private SearchViewModel searchViewModel;
-//    private AttachmentViewModel attachmentViewModel;
-//    private SnaggingViewModel snaggingViewModel;
 
     /**
      * Field to remark that is the content changed, will be used to set result to caller. */
@@ -91,8 +88,6 @@ public class SearchActivity extends CommonActivity<ActivitySearchBinding> implem
 
     private void initViewModel() {
         searchViewModel = ViewModelProviders.of(this).get(SearchViewModel.class);
-//        attachmentViewModel = ViewModelProviders.of(this).get(AttachmentViewModel.class);
-//        snaggingViewModel = ViewModelProviders.of(this).get(SnaggingViewModel.class);
     }
 
     private void initSearchConditions() {
@@ -104,8 +99,6 @@ public class SearchActivity extends CommonActivity<ActivitySearchBinding> implem
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        menu.findItem(R.id.item_note).setChecked(conditions.isIncludeNote());
-//        menu.findItem(R.id.item_mind_snagging).setChecked(conditions.isIncludeMindSnagging());
         menu.findItem(R.id.item_include_tags).setChecked(conditions.isIncludeTags());
         menu.findItem(R.id.item_include_archived).setChecked(conditions.isIncludeArchived());
         menu.findItem(R.id.item_include_trashed).setChecked(conditions.isIncludeTrashed());
@@ -147,14 +140,6 @@ public class SearchActivity extends CommonActivity<ActivitySearchBinding> implem
             case android.R.id.home:
                 finish();
                 break;
-            case R.id.item_note:
-                conditions.setIncludeNote(!conditions.isIncludeNote());
-                invalidateOptionsMenu();
-                break;
-//            case R.id.item_mind_snagging:
-//                conditions.setIncludeMindSnagging(!conditions.isIncludeMindSnagging());
-//                invalidateOptionsMenu();
-//                break;
             case R.id.item_include_tags:
                 conditions.setIncludeTags(!conditions.isIncludeTags());
                 invalidateOptionsMenu();
@@ -195,7 +180,7 @@ public class SearchActivity extends CommonActivity<ActivitySearchBinding> implem
         if (!TextUtils.isEmpty(queryString)) {
             queryAll(queryString);
         } else {
-            setupQueryResults(null, null);
+            setupQueryResults(null);
         }
 
         return true;
@@ -213,7 +198,7 @@ public class SearchActivity extends CommonActivity<ActivitySearchBinding> implem
             switch (searchResultResource.status) {
                 case SUCCESS:
                     if (searchResultResource.data != null) {
-                        setupQueryResults(searchResultResource.data.getNotes(), searchResultResource.data.getMinds());
+                        setupQueryResults(searchResultResource.data.getNotes());
                     }
                     break;
                 case FAILED:
@@ -223,16 +208,11 @@ public class SearchActivity extends CommonActivity<ActivitySearchBinding> implem
         });
     }
 
-    private void setupQueryResults(List<Note> notes, List<MindSnagging> minds) {
+    private void setupQueryResults(List<Note> notes) {
         List searchResults = new LinkedList();
         if (notes != null && !notes.isEmpty()) {
-            searchResults.add(getString(R.string.model_name_note));
             searchResults.addAll(notes);
         }
-//        if (minds != null && !minds.isEmpty()) {
-//            searchResults.add(getString(R.string.model_name_mind_snagging));
-//            searchResults.addAll(minds);
-//        }
         adapter.updateSearchResults(searchResults);
         adapter.notifyDataSetChanged();
     }
@@ -241,53 +221,6 @@ public class SearchActivity extends CommonActivity<ActivitySearchBinding> implem
     public void onNoteSelected(Note note, int position) {
         ContentActivity.viewNote(this, note, REQUEST_FOR_NOTE);
     }
-
-    // region unused
-    /*
-    @Override
-    public void onMindSnaggingSelected(MindSnagging mind, final int position) {
-        new MindSnaggingDialog.Builder()
-                .setMindSnagging(mind)
-                .setOnConfirmListener((mindSnagging, attachment) -> saveMindSnagging(position, mindSnagging, attachment))
-                .setOnAttachmentClickListener(this::resolveAttachmentClick)
-                .build()
-                .show(getSupportFragmentManager(), "VIEW_MIND_SNAGGING");
-    }
-
-    private void saveMindSnagging(int position, MindSnagging mindSnagging, Attachment attachment) {
-        isContentChanged = true;
-
-        if (attachment != null) {
-            attachment.setModelCode(mindSnagging.getCode());
-            attachment.setModelType(ModelType.MIND_SNAGGING);
-            attachmentViewModel.saveIfNew(attachment).observe(this, attachmentResource -> {});
-        }
-
-        snaggingViewModel.saveOrUpdate(mindSnagging).observe(this, mindSnaggingResource -> {
-            if (mindSnaggingResource == null) {
-                ToastUtils.makeToast(R.string.text_failed_to_modify_data);
-                return;
-            }
-            switch (mindSnaggingResource.status) {
-                case SUCCESS:
-                    ToastUtils.makeToast(R.string.text_save_successfully);
-                    adapter.notifyItemChanged(position);
-                    break;
-                case FAILED:
-                    ToastUtils.makeToast(R.string.text_failed_to_modify_data);
-                    break;
-                case LOADING:break;
-            }
-        });
-    }
-
-    protected void resolveAttachmentClick(Attachment attachment) {
-        AttachmentHelper.resolveClickEvent(this,
-                attachment,
-                Collections.singletonList(attachment),
-                attachment.getName());
-    }*/
-    // endregion
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

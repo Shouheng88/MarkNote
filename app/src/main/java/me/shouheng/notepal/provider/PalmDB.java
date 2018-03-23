@@ -55,7 +55,6 @@ public class PalmDB extends SQLiteOpenHelper {
         AlarmsStore.getInstance().onCreate(db);
         NotesStore.getInstance(mContext).onCreate(db);
         TimelineStore.getInstance(mContext).onCreate(db);
-        MindSnaggingStore.getInstance(mContext).onCreate(db);
         NotebookStore.getInstance(mContext).onCreate(db);
         CategoryStore.getInstance(mContext).onCreate(db);
         WeatherStore.getInstance().onCreate(db);
@@ -68,8 +67,6 @@ public class PalmDB extends SQLiteOpenHelper {
         AlarmsStore.getInstance().onUpgrade(db, oldVersion, newVersion);
         NotesStore.getInstance(mContext).onUpgrade(db, oldVersion, newVersion);
         TimelineStore.getInstance(mContext).onUpgrade(db, oldVersion, newVersion);
-        MindSnaggingStore.getInstance(mContext).onUpgrade(db, oldVersion, newVersion);
-        MindSnaggingStore.getInstance(mContext).onUpgrade(db, oldVersion, newVersion);
         NotebookStore.getInstance(mContext).onUpgrade(db, oldVersion, newVersion);
         CategoryStore.getInstance(mContext).onUpgrade(db, oldVersion, newVersion);
         WeatherStore.getInstance().onUpgrade(db, oldVersion, newVersion);

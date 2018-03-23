@@ -8,11 +8,6 @@
             android:title="@string/drawer_menu_notes"
             android:icon="@drawable/ic_note"/>
 
-        <item android:id="@+id/nav_minds"
-            android:title="@string/drawer_menu_minds"
-            android:visible="false"
-            android:icon="@drawable/ic_lightbulb_outline_black_24dp"/>
-
         <item android:id="@+id/nav_labels"
             android:title="@string/drawer_menu_tags"
             android:icon="@drawable/ic_labels_grey_24dp"/>

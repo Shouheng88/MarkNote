@@ -140,7 +140,7 @@
     <string name="fab_opt_link">鏈接</string>
     <string name="fab_opt_record">錄音</string>
     <string name="fab_opt_notice">提醒</string>
-    <string name="fab_mind_snagging">小紙條</string>
+    <string name="fab_quick_note">快速筆記</string>
 
     <string name="fab_sort_custom_fab">自定義浮動按鈕</string>
     <string name="fab_sort_custom">自定義&#8230;</string>
@@ -175,6 +175,22 @@
 
     <string name="pick_notebook">選擇筆記本</string>
     <string name="no_notebook_available">沒有可用的筆記本</string>
+
+    <string name="pick_portrait">選擇圖示</string>
+    <string name="edit_tag">編輯標籤</string>
+    <string name="tag_name">標籤名稱</string>
+    <string name="pick_tag_color">選擇標籤顏色</string>
+    <plurals name="notes_number">
+        <item quantity="one">%d 個筆記</item>
+        <item quantity="other">%d 個筆記</item>
+    </plurals>
+    <string name="tag_delete_message">刪除該標籤不會刪除其相關的筆記。</string>
+    <string name="tags_list_empty">標籤列表為空</string>
+    <string name="tags_list_empty_sub_normal">點擊主介面的 + 按鈕添加標籤</string>
+    <string name="tags_list_empty_sub_archived">沒有發現歸檔的標籤</string>
+    <string name="tags_list_empty_sub_trashed">沒有在垃圾箱中發現標籤</string>
+
+    <string name="edit_quick_note">快速創建筆記</string>
     <!--endregion-->
 
     <!--region Attachment-->
@@ -209,33 +225,6 @@
     <string name="opacity">透明度</string>
     <string name="saturation">飽和度</string>
     <string name="file_not_exist">檔不存在</string>
-    <!--endregion-->
-
-    <!--region MindSnagging-->
-    <string name="edit_mind_snagging">編輯小紙條</string>
-
-    <string name="mind_snaggings_list_type">列表顯示方式</string>
-    <string name="mind_snaggings_list_empty">小紙條列表為空</string>
-    <string name="mind_snaggings_list_empty_sub_normal">點擊主介面的 + 按鈕添加小紙條</string>
-    <string name="mind_snaggings_list_empty_sub_archived">沒有發現歸檔的小紙條</string>
-    <string name="mind_snaggings_list_empty_sub_trashed">沒有在垃圾箱中發現小紙條</string>
-    <!--endregion-->
-
-    <!--region Category-->
-    <string name="pick_portrait">選擇圖示</string>
-    <string name="edit_tag">編輯標籤</string>
-    <string name="tag_name">標籤名稱</string>
-    <string name="pick_tag_color">選擇標籤顏色</string>
-
-    <plurals name="notes_number">
-        <item quantity="one">%d 個筆記</item>
-        <item quantity="other">%d 個筆記</item>
-    </plurals>
-    <string name="tag_delete_message">刪除該標籤不會刪除其相關的筆記。</string>
-    <string name="tags_list_empty">標籤列表為空</string>
-    <string name="tags_list_empty_sub_normal">點擊主介面的 + 按鈕添加標籤</string>
-    <string name="tags_list_empty_sub_archived">沒有發現歸檔的標籤</string>
-    <string name="tags_list_empty_sub_trashed">沒有在垃圾箱中發現標籤</string>
     <!--endregion-->
 
     <!--region Alarm-->

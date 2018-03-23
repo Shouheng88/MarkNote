@@ -35,7 +35,7 @@ import me.shouheng.notepal.util.ToastUtils;
 
 /**
  * Created by wangshouheng on 2017/8/19. */
-public class MindSnaggingDialog extends DialogFragment {
+public class QuickNoteEditor extends DialogFragment {
 
     private final static String KEY_EXTRA_BUILDER = "key_extra_builder";
 
@@ -87,7 +87,7 @@ public class MindSnaggingDialog extends DialogFragment {
         });
 
         return new AlertDialog.Builder(getContext())
-                .setTitle(R.string.edit_mind_snagging)
+                .setTitle(R.string.edit_quick_note)
                 .setView(binding.getRoot())
                 .create();
     }
@@ -292,8 +292,8 @@ public class MindSnaggingDialog extends DialogFragment {
             return this;
         }
 
-        public MindSnaggingDialog build() {
-            MindSnaggingDialog dialog = new MindSnaggingDialog();
+        public QuickNoteEditor build() {
+            QuickNoteEditor dialog = new QuickNoteEditor();
             Bundle bundle = new Bundle();
             bundle.putParcelable(KEY_EXTRA_BUILDER, this);
             dialog.setArguments(bundle);

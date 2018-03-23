@@ -86,11 +86,6 @@
     <string name="check_network_availability">Check network availability</string>
 
     <!--region Common->Announcement-->
-    <string name="need_to_complete">Function unavailable</string>
-    <string name="snagging_remove">Hello, user! To avoid confuse users, we decide to remove mind snagging logic. Your data will be transfer to notes and saved to notebook named \"Snagging\". Please forgive for the trouble to you.</string>
-    <string name="snagging_transfer_title">Snagging transform completed</string>
-    <string name="snagging_transfer_message">Snagging transform completed, click to refresh</string>
-
     <string name="dialog_notice_content_part1">Hello, user!<![CDATA[<br/><br/>]]>Due to the limit of time, NotePal still has few weakness. Here we invite you to improve it with us:</string>
     <string name="dialog_notice_content_part2">1.If you like NotePal you may associate developer by translating it in to other languages(Find in <![CDATA[<b>\"Settings->About->Translation\"</b>]]>), or give rating and feedback in application market.</string>
     <string name="dialog_notice_content_part3">2.If you have special requirements, or if you are unsatisfied about current functions, feed back to developer by any of below ways: <![CDATA[<b>Google+ community, Twitter, Weibo or directly sending an email</b>]]>.</string>
@@ -152,7 +147,7 @@
     <string name="fab_opt_link">Link</string>
     <string name="fab_opt_record">Record</string>
     <string name="fab_opt_notice">Alarm</string>
-    <string name="fab_mind_snagging">Snagging</string>
+    <string name="fab_quick_note">Quick note</string>
 
     <string name="fab_sort_custom_fab">Custom fabs</string>
     <string name="fab_sort_custom">Custom&#8230;</string>
@@ -189,11 +184,24 @@
 
     <string name="pick_notebook">Pick notebook</string>
     <string name="no_notebook_available">No available notebook</string>
-    <!--endregion-->
 
-    <!--region Category-->
     <string name="pick_category">Pick category</string>
     <string name="no_category_available">No available category</string>
+    <string name="pick_portrait">Pick portrait</string>
+    <string name="edit_tag">Edit tag</string>
+    <string name="tag_name">Tag name</string>
+    <string name="pick_tag_color">Pick tag color</string>
+    <plurals name="notes_number">
+        <item quantity="one">%d note</item>
+        <item quantity="other">%d notes</item>
+    </plurals>
+    <string name="tag_delete_message">Delete tag will only delete the connection with notes, notes won\'t be deleted.</string>
+    <string name="tags_list_empty">Empty tag list</string>
+    <string name="tags_list_empty_sub_normal">add tag by licking + in dashboard</string>
+    <string name="tags_list_empty_sub_archived">no archived tag found</string>
+    <string name="tags_list_empty_sub_trashed">no trashed tag found</string>
+
+    <string name="edit_quick_note">Quick note</string>
     <!--endregion-->
 
     <!--region Attachment-->
@@ -228,33 +236,6 @@
     <string name="opacity">Opacity</string>
     <string name="saturation">Saturation</string>
     <string name="file_not_exist">File not found</string>
-    <!--endregion-->
-
-    <!--region MindSnagging-->
-    <string name="edit_mind_snagging">Edit snagging</string>
-
-    <string name="mind_snaggings_list_type">Snagging list type</string>
-    <string name="mind_snaggings_list_empty">Empty snagging list</string>
-    <string name="mind_snaggings_list_empty_sub_normal">add snagging by clicking + in dashboard</string>
-    <string name="mind_snaggings_list_empty_sub_archived">no archived snagging found</string>
-    <string name="mind_snaggings_list_empty_sub_trashed">no trashed snagging found</string>
-    <!--endregion-->
-
-    <!--region Tag-->
-    <string name="pick_portrait">Pick portrait</string>
-    <string name="edit_tag">Edit tag</string>
-    <string name="tag_name">Tag name</string>
-    <string name="pick_tag_color">Pick tag color</string>
-
-    <plurals name="notes_number">
-        <item quantity="one">%d note</item>
-        <item quantity="other">%d notes</item>
-    </plurals>
-    <string name="tag_delete_message">Delete tag will only delete the connection with notes, notes won\'t be deleted.</string>
-    <string name="tags_list_empty">Empty tag list</string>
-    <string name="tags_list_empty_sub_normal">add tag by licking + in dashboard</string>
-    <string name="tags_list_empty_sub_archived">no archived tag found</string>
-    <string name="tags_list_empty_sub_trashed">no trashed tag found</string>
     <!--endregion-->
 
     <!--region Alarm-->

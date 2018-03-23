@@ -17,8 +17,8 @@ import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.dialog.AttachmentPickerDialog;
-import me.shouheng.notepal.dialog.MindSnaggingDialog;
-import me.shouheng.notepal.dialog.MindSnaggingDialog.OnLifeMethodCalledListener;
+import me.shouheng.notepal.dialog.QuickNoteEditor;
+import me.shouheng.notepal.dialog.QuickNoteEditor.OnLifeMethodCalledListener;
 import me.shouheng.notepal.listener.OnAttachingFileListener;
 import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.model.MindSnagging;
@@ -37,7 +37,7 @@ public class SnaggingActivity extends BaseActivity implements OnAttachingFileLis
 
     private final static int REQUEST_PASSWORD = 0x0016;
 
-    private MindSnaggingDialog mindSnaggingDialog;
+    private QuickNoteEditor quickNoteEditor;
     private NoteViewModel noteViewModel;
 
     @Override
@@ -89,7 +89,7 @@ public class SnaggingActivity extends BaseActivity implements OnAttachingFileLis
     }
 
     private void editMindSnagging(@NonNull MindSnagging param) {
-        mindSnaggingDialog = new MindSnaggingDialog.Builder()
+        quickNoteEditor = new QuickNoteEditor.Builder()
                 .setMindSnagging(param)
                 .setOnAddAttachmentListener(mindSnagging -> showAttachmentPicker())
                 .setOnLifeMethodCalledListener(new OnLifeMethodCalledListener() {
@@ -106,7 +106,7 @@ public class SnaggingActivity extends BaseActivity implements OnAttachingFileLis
                 .setOnAttachmentClickListener(this::resolveAttachmentClick)
                 .setOnConfirmListener(this::saveMindSnagging)
                 .build();
-        mindSnaggingDialog.show(getSupportFragmentManager(), "MIND SNAGGING");
+        quickNoteEditor.show(getSupportFragmentManager(), "MIND SNAGGING");
     }
 
     private void resolveAttachmentClick(Attachment attachment) {
@@ -153,7 +153,7 @@ public class SnaggingActivity extends BaseActivity implements OnAttachingFileLis
             AttachmentHelper.resolveResult(this,
                     requestCode,
                     data,
-                    attachment -> mindSnaggingDialog.setAttachment(attachment));
+                    attachment -> quickNoteEditor.setAttachment(attachment));
         }
         switch (requestCode) {
             case REQUEST_PASSWORD:
@@ -174,7 +174,7 @@ public class SnaggingActivity extends BaseActivity implements OnAttachingFileLis
     @Override
     public void onAttachingFileFinished(Attachment attachment) {
         if (AttachmentHelper.checkAttachment(attachment)) {
-            mindSnaggingDialog.setAttachment(attachment);
+            quickNoteEditor.setAttachment(attachment);
         }
     }
 }
