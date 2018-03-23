@@ -173,7 +173,7 @@
         </activity>
 
         <activity
-            android:name=".activity.SnaggingActivity"
+            android:name=".activity.QuickNoteActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|navigation"
             android:excludeFromRecents="true"
             android:theme="@style/TransParentDialog"

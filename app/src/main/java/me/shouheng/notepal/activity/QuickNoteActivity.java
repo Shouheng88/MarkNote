@@ -33,7 +33,7 @@ import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.viewmodel.NoteViewModel;
 
-public class SnaggingActivity extends BaseActivity implements OnAttachingFileListener {
+public class QuickNoteActivity extends BaseActivity implements OnAttachingFileListener {
 
     private final static int REQUEST_PASSWORD = 0x0016;
 
@@ -128,7 +128,7 @@ public class SnaggingActivity extends BaseActivity implements OnAttachingFileLis
                 switch (noteResource.status) {
                     case SUCCESS:
                         ToastUtils.makeToast(R.string.text_save_successfully);
-                        AppWidgetUtils.notifyAppWidgets(SnaggingActivity.this);
+                        AppWidgetUtils.notifyAppWidgets(QuickNoteActivity.this);
                         break;
                     case FAILED:
                         ToastUtils.makeToast(R.string.text_failed_to_modify_data);
