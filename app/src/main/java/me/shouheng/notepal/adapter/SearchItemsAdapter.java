@@ -1,7 +1,6 @@
 package me.shouheng.notepal.adapter;
 
 import android.content.Context;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,17 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
 import java.util.LinkedList;
 import java.util.List;
 
-import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.model.MindSnagging;
 import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.util.ColorUtils;
-import me.shouheng.notepal.util.FileHelper;
 import me.shouheng.notepal.util.TimeUtils;
 
 /**
@@ -33,7 +27,7 @@ public class SearchItemsAdapter extends RecyclerView.Adapter<SearchItemsAdapter.
     private boolean isDarkTheme;
     private int accentColor, primaryColor;
 
-    private final int NOTE = 2, MIND = 3, STRING = 5;
+    private final int NOTE = 2, STRING = 5;
 
     private OnItemSelectedListener onItemSelectedListener;
 
@@ -49,7 +43,6 @@ public class SearchItemsAdapter extends RecyclerView.Adapter<SearchItemsAdapter.
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(context).inflate(viewType == NOTE ? R.layout.item_note
-                : viewType == MIND ? R.layout.item_universal_layout
                 : R.layout.item_section_title, parent, false));
     }
 
@@ -60,8 +53,6 @@ public class SearchItemsAdapter extends RecyclerView.Adapter<SearchItemsAdapter.
 
         if (viewType == NOTE) {
             onBindNote(holder, position);
-        } else if (viewType == MIND) {
-            bindMind(holder, position);
         } else {
             if (holder.getItemViewType() == STRING) {
                 holder.tvSectionTitle.setText((String) searchResults.get(position));
@@ -78,23 +69,6 @@ public class SearchItemsAdapter extends RecyclerView.Adapter<SearchItemsAdapter.
         holder.ivIcon.setImageDrawable(ColorUtils.tintDrawable(context.getResources().getDrawable(R.drawable.ic_doc_text_alpha), accentColor));
     }
 
-    private void bindMind(ViewHolder holder, int position) {
-        MindSnagging mindSnagging = (MindSnagging) searchResults.get(position);
-        if (mindSnagging.getPicture() != null) {
-            holder.ivCover.setVisibility(View.VISIBLE);
-            Uri thumbnailUri = FileHelper.getThumbnailUri(context, mindSnagging.getPicture());
-            Glide.with(PalmApp.getContext())
-                    .load(thumbnailUri)
-                    .centerCrop()
-                    .crossFade()
-                    .into(holder.ivCover);
-        } else {
-            holder.ivCover.setVisibility(View.GONE);
-        }
-        holder.tvMindTitle.setText(mindSnagging.getContent());
-        holder.tvAddedTime.setText(TimeUtils.getPrettyTime(mindSnagging.getAddedTime()));
-    }
-
     @Override
     public int getItemCount() {
         if (null != searchResults){
@@ -107,8 +81,6 @@ public class SearchItemsAdapter extends RecyclerView.Adapter<SearchItemsAdapter.
     public int getItemViewType(int position) {
         if (searchResults.get(position) instanceof Note) {
             return NOTE;
-        } else if (searchResults.get(position) instanceof MindSnagging) {
-            return MIND;
         }
         return STRING;
     }
@@ -161,11 +133,6 @@ public class SearchItemsAdapter extends RecyclerView.Adapter<SearchItemsAdapter.
                         onItemSelectedListener.onNoteSelected((Note) searchResults.get(position), position);
                     }
                     break;
-//                case MIND:
-//                    if (onItemSelectedListener != null) {
-//                        onItemSelectedListener.onMindSnaggingSelected((MindSnagging) searchResults.get(position), position);
-//                    }
-//                    break;
             }
         }
     }
@@ -176,6 +143,5 @@ public class SearchItemsAdapter extends RecyclerView.Adapter<SearchItemsAdapter.
 
     public interface OnItemSelectedListener {
         void onNoteSelected(Note note, int position);
-//        void onMindSnaggingSelected(MindSnagging mindSnagging, int position);
     }
 }

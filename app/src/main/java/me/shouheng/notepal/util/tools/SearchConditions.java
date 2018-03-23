@@ -4,9 +4,7 @@ package me.shouheng.notepal.util.tools;
  * Created by WngShhng on 2017/12/11.*/
 public class SearchConditions {
 
-    private boolean includeNote;
-
-    private boolean includeMindSnagging;
+    private boolean includeNote = true;
 
     /**
      * For current version (1.0), don't include the filter option of tag.
@@ -23,7 +21,6 @@ public class SearchConditions {
         conditions.setIncludeTrashed(false);
         conditions.setIncludeTags(false);
         conditions.setIncludeNote(true);
-        conditions.setIncludeMindSnagging(true);
         return conditions;
     }
 
@@ -33,14 +30,6 @@ public class SearchConditions {
 
     public void setIncludeNote(boolean includeNote) {
         this.includeNote = includeNote;
-    }
-
-    public boolean isIncludeMindSnagging() {
-        return includeMindSnagging;
-    }
-
-    public void setIncludeMindSnagging(boolean includeMindSnagging) {
-        this.includeMindSnagging = includeMindSnagging;
     }
 
     public boolean isIncludeTags() {
@@ -71,7 +60,6 @@ public class SearchConditions {
     public String toString() {
         return "SearchConditions{" +
                 "includeNote=" + includeNote +
-                ", includeMindSnagging=" + includeMindSnagging +
                 ", includeTags=" + includeTags +
                 ", includeArchived=" + includeArchived +
                 ", includeTrashed=" + includeTrashed +

@@ -5,13 +5,10 @@ import android.support.annotation.MainThread;
 import java.util.List;
 
 import me.shouheng.notepal.PalmApp;
-import me.shouheng.notepal.model.MindSnagging;
 import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.model.enums.Status;
-import me.shouheng.notepal.provider.MindSnaggingStore;
 import me.shouheng.notepal.provider.NotesStore;
 import me.shouheng.notepal.provider.schema.BaseSchema;
-import me.shouheng.notepal.provider.schema.MindSnaggingSchema;
 import me.shouheng.notepal.provider.schema.NoteSchema;
 import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.tools.SearchConditions;
@@ -25,25 +22,15 @@ public class QueryRepository {
 
     private NotesStore notesStore;
 
-    private MindSnaggingStore mindSnaggingStore;
-
     public QueryRepository(SearchConditions conditions) {
         this.conditions = conditions;
         LogUtils.d(conditions);
         notesStore = NotesStore.getInstance(PalmApp.getContext());
-        mindSnaggingStore = MindSnaggingStore.getInstance(PalmApp.getContext());
     }
 
     @MainThread
     public List<Note> getNotes(String queryString) {
         return notesStore.get(getNoteQuerySQL(queryString), NoteSchema.ADDED_TIME + " DESC ");
-    }
-
-    @MainThread
-    public List<MindSnagging> getMindSnaggings(String queryString) {
-        return mindSnaggingStore.get(
-                MindSnaggingSchema.CONTENT + " LIKE '%'||'" + queryString + "'||'%' " + getQueryConditions(),
-                MindSnaggingSchema.ADDED_TIME + " DESC ");
     }
 
     private String getNoteQuerySQL(String queryString) {

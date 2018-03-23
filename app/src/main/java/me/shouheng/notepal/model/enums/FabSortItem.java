@@ -17,7 +17,7 @@ public enum FabSortItem {
     DRAFT(R.string.fab_opt_draft, R.drawable.ic_gesture_grey_24dp),
 //    RECORD(R.string.fab_opt_record, R.drawable.ic_mic_white_24dp),
 //    NOTICE(R.string.fab_opt_notice, R.drawable.ic_access_alarm_white),
-    MIND_SNAGGING(R.string.fab_mind_snagging, R.drawable.ic_lightbulb_outline_black_24dp);
+    MIND_SNAGGING(R.string.fab_quick_note, R.drawable.ic_lightbulb_outline_black_24dp);
 
     @StringRes
     public final int nameRes;

@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService.RemoteViewsFactory;
 
@@ -16,10 +15,8 @@ import java.util.List;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.config.Constants;
-import me.shouheng.notepal.model.MindSnagging;
 import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.model.Notebook;
-import me.shouheng.notepal.provider.MindSnaggingStore;
 import me.shouheng.notepal.provider.NotesStore;
 import me.shouheng.notepal.provider.schema.NoteSchema;
 import me.shouheng.notepal.util.AppWidgetUtils;
@@ -31,7 +28,6 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory, SharedPrefere
     private PalmApp app;
     private int appWidgetId;
     private List<Note> notes;
-    private List<MindSnagging> minds;
     private ListWidgetType listWidgetType;
 
     private final int WIDTH = 128, HEIGHT = 128;
@@ -62,21 +58,12 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory, SharedPrefere
     private void setupModels() {
         if (listWidgetType == ListWidgetType.NOTES_LIST) {
             notes = getNotes();
-        } else if (listWidgetType == ListWidgetType.MINDS_LIST) {
-            minds = getMinds();
         }
     }
 
     private List<Note> getNotes() {
         String condition = sharedPreferences.getString(Constants.PREF_WIDGET_SQL_PREFIX + String.valueOf(appWidgetId), "");
         NotesStore store = NotesStore.getInstance(app);
-        LogUtils.d("Store Name: " + store + ", " + Thread.currentThread());
-        return store.get(condition, NoteSchema.LAST_MODIFIED_TIME + " DESC ");
-    }
-
-    private List<MindSnagging> getMinds() {
-        String condition = sharedPreferences.getString(Constants.PREF_WIDGET_SQL_PREFIX + String.valueOf(appWidgetId), "");
-        MindSnaggingStore store = MindSnaggingStore.getInstance(app);
         LogUtils.d("Store Name: " + store + ", " + Thread.currentThread());
         return store.get(condition, NoteSchema.LAST_MODIFIED_TIME + " DESC ");
     }
@@ -96,9 +83,7 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory, SharedPrefere
 
     @Override
     public int getCount() {
-        if (listWidgetType == ListWidgetType.MINDS_LIST) {
-            return minds.size();
-        } else if (listWidgetType == ListWidgetType.NOTES_LIST) {
+        if (listWidgetType == ListWidgetType.NOTES_LIST) {
             return notes.size();
         }
         return 0;
@@ -107,8 +92,6 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory, SharedPrefere
     @Override
     public RemoteViews getViewAt(int position) {
         switch (listWidgetType) {
-            case MINDS_LIST:
-                return getMindsViewAt(position);
             case NOTES_LIST:
                 return getNoteViewAt(position);
             default:
@@ -134,33 +117,6 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory, SharedPrefere
         return row;
     }
 
-    private RemoteViews getMindsViewAt(int position) {
-        RemoteViews row = new RemoteViews(app.getPackageName(), R.layout.item_universal_layout_widget);
-
-        MindSnagging mind = minds.get(position);
-
-        row.setTextViewText(R.id.text_view_title, mind.getContent());
-        row.setTextViewText(R.id.tv_added_time, TimeUtils.getLongDateTime(app.getApplicationContext(), mind.getAddedTime()));
-
-//        Uri uri = mind.getPicture();
-//        if (uri != null) {
-//            Bitmap bmp = BitmapHelper.getBitmap(app, uri, WIDTH, HEIGHT);
-//            row.setBitmap(R.id.image_view_cover, "setImageBitmap", bmp);
-//            row.setInt(R.id.image_view_cover, "setVisibility", View.VISIBLE);
-//        } else {
-        // for current version, we don't show the picture in minds list widget
-        row.setInt(R.id.image_view_cover, "setVisibility", View.GONE);
-//        }
-
-        Bundle extras = new Bundle();
-        extras.putParcelable(Constants.EXTRA_MODEL, mind);
-        Intent fillInIntent = new Intent();
-        fillInIntent.putExtras(extras);
-        row.setOnClickFillInIntent(R.id.root, fillInIntent);
-
-        return row;
-    }
-
     @Override
     public RemoteViews getLoadingView() {
         return null;
@@ -173,9 +129,7 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory, SharedPrefere
 
     @Override
     public long getItemId(int position) {
-        if (listWidgetType == ListWidgetType.MINDS_LIST) {
-            return minds.get(position).getCode();
-        } else if (listWidgetType == ListWidgetType.NOTES_LIST) {
+        if (listWidgetType == ListWidgetType.NOTES_LIST) {
             return notes.get(position).getCode();
         }
         return 0;

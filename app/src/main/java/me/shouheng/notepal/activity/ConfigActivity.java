@@ -40,19 +40,12 @@ public class ConfigActivity extends AppCompatActivity {
 
         notebookViewModel = ViewModelProviders.of(this).get(NotebookViewModel.class);
 
-        bindContentView();
+        binding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.activity_widget_configuration, null, false);
+        setContentView(binding.getRoot());
 
         handleArguments();
 
         doCreateView();
-    }
-
-    private void bindContentView() {
-        binding = DataBindingUtil.inflate(getLayoutInflater(),
-                R.layout.activity_widget_configuration,
-                null,
-                false);
-        setContentView(binding.getRoot());
     }
 
     private void handleArguments() {
@@ -83,6 +76,9 @@ public class ConfigActivity extends AppCompatActivity {
         // get list widget type field
         listWidgetType = ListWidgetType.getListWidgetType(widgetTypeId);
         LogUtils.d(listWidgetType);
+        if (listWidgetType == ListWidgetType.MINDS_LIST) {
+            finish();
+        }
     }
 
     private void fetchNotebook(long nbCode) {
@@ -106,34 +102,6 @@ public class ConfigActivity extends AppCompatActivity {
     }
 
     private void doCreateView() {
-        binding.rgType.setOnCheckedChangeListener((group, checkedId) -> {
-            switch (checkedId) {
-                case R.id.rb_notes:
-                    binding.llFolder.setEnabled(true);
-                    break;
-                case R.id.rb_minds:
-                    binding.llFolder.setEnabled(false);
-                    break;
-                default:
-                    LogUtils.e("Wrong element choosen: " + checkedId);
-            }
-        });
-        if (listWidgetType == ListWidgetType.MINDS_LIST) {
-            binding.rgType.check(binding.rbMinds.getId());
-        }
-
-        /*
-         * set whether enable the function of switching list type.
-         * We don't let the user switch the list type. */
-        Intent i = getIntent();
-        if (i != null
-                && i.hasExtra(Constants.EXTRA_CONFIG_SWITCH_ENABLE)
-                && !i.getBooleanExtra(Constants.EXTRA_CONFIG_SWITCH_ENABLE, false)) {
-            binding.rgType.setEnabled(false);
-            binding.rbMinds.setEnabled(false);
-            binding.rbNotes.setEnabled(false);
-        }
-
         binding.llFolder.setOnClickListener(view -> showNotebookPicker());
         binding.llFolder.setEnabled(listWidgetType == ListWidgetType.NOTES_LIST);
 
@@ -141,11 +109,10 @@ public class ConfigActivity extends AppCompatActivity {
     }
 
     private void onConfirm() {
-        boolean isNotes = binding.rgType.getCheckedRadioButtonId() == R.id.rb_notes;
         ListRemoteViewsFactory.updateConfiguration(getApplicationContext(),
                 mAppWidgetId,
                 selectedNotebook,
-                isNotes ? ListWidgetType.NOTES_LIST : ListWidgetType.MINDS_LIST);
+                ListWidgetType.NOTES_LIST);
         finishWithOK();
     }
 

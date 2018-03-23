@@ -16,7 +16,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -39,19 +38,16 @@ import java.util.List;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.base.CommonActivity;
-import me.shouheng.notepal.async.SnaggingTransferService;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.databinding.ActivityMainBinding;
 import me.shouheng.notepal.databinding.ActivityMainNavHeaderBinding;
 import me.shouheng.notepal.dialog.AttachmentPickerDialog;
 import me.shouheng.notepal.dialog.CategoryEditDialog;
-import me.shouheng.notepal.dialog.MindSnaggingDialog;
+import me.shouheng.notepal.dialog.QuickNoteEditor;
 import me.shouheng.notepal.dialog.NotebookEditDialog;
 import me.shouheng.notepal.dialog.NoticeDialog;
 import me.shouheng.notepal.fragment.CategoriesFragment;
 import me.shouheng.notepal.fragment.NotesFragment;
-import me.shouheng.notepal.fragment.SnaggingsFragment;
-import me.shouheng.notepal.fragment.SnaggingsFragment.OnSnaggingInteractListener;
 import me.shouheng.notepal.intro.IntroActivity;
 import me.shouheng.notepal.listener.OnAttachingFileListener;
 import me.shouheng.notepal.listener.OnSettingsChangedListener;
@@ -64,7 +60,6 @@ import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.model.Notebook;
 import me.shouheng.notepal.model.enums.FabSortItem;
 import me.shouheng.notepal.model.enums.Status;
-import me.shouheng.notepal.provider.MindSnaggingStore;
 import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.FragmentHelper;
@@ -72,7 +67,6 @@ import me.shouheng.notepal.util.IntentUtils;
 import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.ToastUtils;
-import me.shouheng.notepal.util.enums.MindSnaggingListType;
 import me.shouheng.notepal.viewmodel.CategoryViewModel;
 import me.shouheng.notepal.viewmodel.NoteViewModel;
 import me.shouheng.notepal.viewmodel.NotebookViewModel;
@@ -83,7 +77,6 @@ import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
 public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         NotesFragment.OnNotesInteractListener,
         OnAttachingFileListener,
-        OnSnaggingInteractListener,
         CategoriesFragment.OnCategoriesInteractListener {
 
     // region request codes
@@ -104,7 +97,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
 
     private PreferencesUtils preferencesUtils;
 
-    private MindSnaggingDialog mindSnaggingDialog;
+    private QuickNoteEditor quickNoteEditor;
     private NotebookEditDialog notebookEditDialog;
     private CategoryEditDialog categoryEditDialog;
 
@@ -172,8 +165,6 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         initDrawerMenu();
 
         toNotesFragment(true);
-
-        showSnaggingNotice();
     }
 
     private void initViewModels() {
@@ -225,27 +216,6 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                         .into(headerBinding.userBg);
             }
         }
-    }
-
-    private void showSnaggingNotice() {
-        if (preferencesUtils.snaggingNoticeShowed()) return;
-
-        int count = MindSnaggingStore.getInstance(this).getCount(null, null, false);
-        if (count == 0) {
-            preferencesUtils.setSnaggingNoticeShowed();
-            return;
-        }
-
-        new AlertDialog.Builder(this)
-                .setTitle(R.string.text_warning)
-                .setMessage(R.string.snagging_remove)
-                .setPositiveButton(R.string.text_ok, (dialogInterface, i) -> {
-                    preferencesUtils.setSnaggingNoticeShowed();
-                    Intent service = new Intent(MainActivity.this, SnaggingTransferService.class);
-                    startService(service);
-                })
-                .setCancelable(false)
-                .create().show();
     }
 
     // region handle intent
@@ -495,13 +465,13 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     }
 
     private void editMindSnagging(@NonNull MindSnagging param) {
-        mindSnaggingDialog = new MindSnaggingDialog.Builder()
+        quickNoteEditor = new QuickNoteEditor.Builder()
                 .setMindSnagging(param)
                 .setOnAddAttachmentListener(mindSnagging -> showAttachmentPicker())
                 .setOnAttachmentClickListener(this::resolveAttachmentClick)
                 .setOnConfirmListener(this::saveMindSnagging)
                 .build();
-        mindSnaggingDialog.show(getSupportFragmentManager(), "mind snagging");
+        quickNoteEditor.show(getSupportFragmentManager(), "mind snagging");
     }
 
     private void resolveAttachmentClick(Attachment attachment) {
@@ -581,7 +551,6 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
             getBinding().drawerLayout.closeDrawers();
             switch (menuItem.getItemId()) {
                 case R.id.nav_notes:
-                case R.id.nav_minds:
                 case R.id.nav_notices:
                 case R.id.nav_labels:
                     menuItem.setChecked(true);
@@ -604,9 +573,6 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                 case R.id.nav_notes:
                     toNotesFragment(true);
                     break;
-                case R.id.nav_minds:
-                    toSnaggingFragment(true);
-                    break;
                 case R.id.nav_labels:
                     toCategoriesFragment();
                     break;
@@ -628,14 +594,6 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         new Handler().postDelayed(() -> getBinding().nav.getMenu().findItem(R.id.nav_notes).setChecked(true), 300);
     }
 
-    private void toSnaggingFragment(boolean checkDuplicate) {
-        if (checkDuplicate && getCurrentFragment() instanceof SnaggingsFragment) return;
-        SnaggingsFragment snaggingsFragment = SnaggingsFragment.newInstance();
-        snaggingsFragment.setScrollListener(onScrollListener);
-        FragmentHelper.replace(this, snaggingsFragment, R.id.fragment_container);
-        new Handler().postDelayed(() -> getBinding().nav.getMenu().findItem(R.id.nav_minds).setChecked(true), 300);
-    }
-
     private void toCategoriesFragment() {
         if (getCurrentFragment() instanceof CategoriesFragment) return;
         CategoriesFragment categoriesFragment = CategoriesFragment.newInstance();
@@ -653,11 +611,6 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         return f != null && f instanceof NotesFragment;
     }
 
-    private boolean isSnaggingFragment() {
-        Fragment f = getCurrentFragment();
-        return f != null && f instanceof SnaggingsFragment;
-    }
-
     private boolean isCategoryFragment() {
         Fragment f = getCurrentFragment();
         return f != null && f instanceof CategoriesFragment;
@@ -666,7 +619,6 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     private boolean isDashboard() {
         Fragment f = getCurrentFragment();
         return f != null && (f instanceof NotesFragment
-                || f instanceof SnaggingsFragment
                 || f instanceof CategoriesFragment);
     }
     // endregion
@@ -761,14 +713,13 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
 
     private void updateListIfNecessary() {
         if (isNotesFragment()) ((NotesFragment) getCurrentFragment()).reload();
-        if (isSnaggingFragment()) ((SnaggingsFragment) getCurrentFragment()).reload();
         if (isCategoryFragment()) ((CategoriesFragment) getCurrentFragment()).reload();
     }
 
     private void handleAttachmentResult(int requestCode, Intent data) {
         AttachmentHelper.resolveResult(this, requestCode, data, attachment -> {
-            if (mindSnaggingDialog != null) {
-                mindSnaggingDialog.setAttachment(attachment);
+            if (quickNoteEditor != null) {
+                quickNoteEditor.setAttachment(attachment);
                 LogUtils.d("The mind snagging dialog is null.");
             } else {
                 ToastUtils.makeToast(R.string.failed_to_save_attachment);
@@ -866,22 +817,12 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     @Override
     public void onAttachingFileFinished(Attachment attachment) {
         if (AttachmentHelper.checkAttachment(attachment)) {
-            mindSnaggingDialog.setAttachment(attachment);
+            quickNoteEditor.setAttachment(attachment);
         }
     }
 
     @Override
-    public void onListTypeChanged(MindSnaggingListType listType) {
-        toSnaggingFragment(false);
-    }
-
-    @Override
     public void onCategoryLoadStateChanged(me.shouheng.notepal.model.data.Status status) {
-        onLoadStateChanged(status);
-    }
-
-    @Override
-    public void onSnaggingLoadStateChanged(me.shouheng.notepal.model.data.Status status) {
         onLoadStateChanged(status);
     }
 
