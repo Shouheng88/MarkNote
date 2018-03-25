@@ -35,7 +35,8 @@ public class IntentUtils {
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.MARKET_PAGE));
         if (IntentUtils.isAvailable(context, intent, null)){
             context.startActivity(intent);
-        } else if (IntentUtils.isAvailable(context, new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.GOOGLE_PLAY_WEB_PAGE)), null)) {
+        } else if (IntentUtils.isAvailable(context,
+                new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.GOOGLE_PLAY_WEB_PAGE)), null)) {
             ViewUtils.launchUrl(context, Constants.GOOGLE_PLAY_WEB_PAGE);
         } else {
             ToastUtils.makeToast(R.string.failed_to_resolve_intent);

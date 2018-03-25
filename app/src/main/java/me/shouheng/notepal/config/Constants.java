@@ -33,6 +33,14 @@ public class Constants {
     public final static String MIME_TYPE_VIDEO_EXTENSION = ".mp4";
     public final static String MIME_TYPE_SKETCH_EXTENSION = ".png";
     public final static String MIME_TYPE_CONTACT_EXTENSION = ".vcf";
+
+    public final static String VIDEO_MIME_TYPE = "video/*";
+    public final static String SCHEME_HTTPS = "https";
+    public final static String SCHEME_HTTP = "http";
+    public final static String PDF_MIME_TYPE = "application/pdf";
+    public final static String _3GP = ".3gp";
+    public final static String _MP4 = ".mp4";
+    public final static String _PDF = ".pdf";
     // endregion
 
     // region Action
@@ -85,5 +93,5 @@ public class Constants {
     public final static String TITLE_REGEX = "^(#+)(.*)";
     public final static String IMAGE_REGEX = "!\\[.*]\\(.+.\\)";
 
-    public final static String EXPORT_DIR_NAME = "ExportHtml";
+    public final static String EXPORT_DIR_NAME = "ExportedHtml";
 }
