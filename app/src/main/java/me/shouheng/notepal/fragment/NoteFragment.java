@@ -36,6 +36,7 @@ import me.shouheng.notepal.activity.ContentActivity;
 import me.shouheng.notepal.async.AttachmentTask;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.databinding.FragmentNoteBinding;
+import me.shouheng.notepal.dialog.AdvancedPicker;
 import me.shouheng.notepal.dialog.AttachmentPickerDialog;
 import me.shouheng.notepal.dialog.LinkInputDialog;
 import me.shouheng.notepal.dialog.TableInputDialog;
@@ -303,7 +304,7 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
         int[] ids = new int[] {R.id.iv_h1, R.id.iv_h2, R.id.iv_h3, R.id.iv_h4, R.id.iv_h5, R.id.iv_h6,
                 R.id.iv_bold, R.id.iv_italic, R.id.iv_stroke, R.id.iv_format_list, R.id.iv_number_list,
                 R.id.iv_line, R.id.iv_code, R.id.iv_xml, R.id.iv_quote,
-                R.id.iv_insert_picture, R.id.iv_insert_link, R.id.iv_insert_table,
+                R.id.iv_insert_picture, R.id.iv_insert_link, R.id.iv_advanced,
                 R.id.iv_redo, R.id.iv_undo};
         for (int id : ids) getRoot().findViewById(id).setOnClickListener(this::onFormatClick);
 
@@ -360,7 +361,7 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
             case R.id.iv_xml:effect = MarkdownEffect.XML;break;
             case R.id.iv_insert_picture:showAttachmentPicker();break;
             case R.id.iv_insert_link:showLinkEditor();break;
-            case R.id.iv_insert_table:showTableEditor();break;
+            case R.id.iv_advanced:showAdvancedPicker();break;
         }
         if (effect != null) getBinding().main.etContent.addEffect(effect);
     }
@@ -382,6 +383,21 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
         LinkInputDialog.getInstance((title, link) ->
                 getBinding().main.etContent.addLinkEffect(MarkdownEffect.IMAGE, title, link)
         ).show(getFragmentManager(), "Link Image");
+    }
+
+    private void showAdvancedPicker() {
+        AdvancedPicker.newInstance(advancedItem -> {
+            switch (advancedItem) {
+                case INSERT_LINK:break;
+                case INSERT_TABLE:
+                    showTableEditor();
+                    break;
+                case INSERT_CHECKBOX:
+                    break;
+                case INSERT_MATH_JAX:
+                    break;
+            }
+        }).show(getFragmentManager(), "ADVANCED PICKER");
     }
 
     private void showTableEditor() {

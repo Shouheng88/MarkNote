@@ -17,41 +17,29 @@
             android:layout_height="wrap_content" />
 
         <TextView
-            android:drawablePadding="13dp"
+            style="@style/OptionListItem"
             android:visibility="gone"
             tools:visibility="visible"
-            android:paddingStart="13dp"
             android:drawableLeft="@drawable/ic_photo_library_grey_24dp"
-            android:background="?attr/selectableItemBackground"
             android:text="@string/album"
-            android:textSize="16sp"
-            android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:id="@+id/tv_album" />
 
         <TextView
-            android:drawablePadding="13dp"
+            style="@style/OptionListItem"
             android:visibility="gone"
             tools:visibility="visible"
-            android:paddingStart="13dp"
-            android:drawableLeft="@drawable/ic_insert_link_grey_24dp"
-            android:background="?attr/selectableItemBackground"
+            android:drawableLeft="@drawable/ic_link"
             android:text="@string/net_image_link"
-            android:textSize="16sp"
-            android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:id="@+id/tv_link" />
 
         <TextView
-            android:drawablePadding="13dp"
-            android:paddingStart="13dp"
+            style="@style/OptionListItem"
             android:drawableLeft="@drawable/ic_insert_drive_file_grey_24dp"
-            android:background="?attr/selectableItemBackground"
             android:text="@string/file"
-            android:textSize="16sp"
-            android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:id="@+id/tv_file" />
@@ -65,50 +53,34 @@
             android:layout_height="wrap_content" />
 
         <TextView
+            style="@style/OptionListItem"
             android:id="@+id/tv_take_photo"
-            android:drawablePadding="13dp"
-            android:paddingStart="13dp"
             android:drawableLeft="@drawable/ic_add_a_photo_grey_24dp"
-            android:background="?attr/selectableItemBackground"
             android:text="@string/take_a_photo"
-            android:textSize="16sp"
-            android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="45dp" />
 
         <TextView
-            android:drawablePadding="13dp"
-            android:paddingStart="13dp"
+            style="@style/OptionListItem"
             android:drawableLeft="@drawable/ic_mic_grey_24dp"
-            android:background="?attr/selectableItemBackground"
             android:text="@string/sound_record"
-            android:textSize="16sp"
-            android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:id="@+id/tv_record_sound" />
 
         <TextView
-            android:drawablePadding="13dp"
-            android:paddingStart="13dp"
+            style="@style/OptionListItem"
             android:drawableLeft="@drawable/ic_videocam_grey_24dp"
-            android:background="?attr/selectableItemBackground"
             android:text="@string/take_video"
-            android:textSize="16sp"
-            android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:id="@+id/tv_take_video" />
 
         <TextView
-            android:drawablePadding="13dp"
-            android:paddingStart="13dp"
+            style="@style/OptionListItem"
             android:drawableLeft="@drawable/ic_gesture_grey_24dp"
-            android:background="?attr/selectableItemBackground"
             android:text="@string/sketch"
             android:textSize="16sp"
-            android:gravity="center_vertical"
-            android:layout_width="match_parent"
             android:layout_height="45dp"
             android:id="@+id/tv_sketch" />
 

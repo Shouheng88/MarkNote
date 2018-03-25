@@ -519,4 +519,11 @@
     <string name="md_cols_cannot_empty">The column number can\'t be empty.</string>
     <!--endregion-->
 
+    <string name="text_advanced">Advanced</string>
+    <string name="text_insert">Insert</string>
+    <string name="text_table">Insert table</string>
+    <string name="text_link">Insert link</string>
+    <string name="text_checkbox">Insert checkbox</string>
+    <string name="text_math_jax">Insert math jax</string>
+
 </resources>

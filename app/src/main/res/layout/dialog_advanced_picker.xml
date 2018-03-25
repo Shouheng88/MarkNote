@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:paddingStart="16dp"
+            android:paddingTop="16dp"
+            android:visibility="gone"
+            android:paddingBottom="5dp"
+            android:text="@string/text_insert"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            style="@style/OptionListItem"
+            android:drawableLeft="@drawable/ic_grid_on_grey_24dp"
+            android:text="@string/text_table"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:id="@+id/tv_insert_table" />
+
+        <TextView
+            style="@style/OptionListItem"
+            android:drawableLeft="@drawable/ic_link"
+            android:text="@string/text_link"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="45dp"
+            android:id="@+id/tv_insert_link" />
+
+        <TextView
+            style="@style/OptionListItem"
+            android:drawableLeft="@drawable/ic_check_box_black_24dp"
+            android:text="@string/text_checkbox"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:id="@+id/tv_insert_checkbox" />
+
+        <TextView
+            style="@style/OptionListItem"
+            android:drawableLeft="@drawable/ic_functions_grey_24dp"
+            android:text="@string/text_math_jax"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:id="@+id/tv_insert_math_jax" />
+
+    </LinearLayout>
+
+</layout>
