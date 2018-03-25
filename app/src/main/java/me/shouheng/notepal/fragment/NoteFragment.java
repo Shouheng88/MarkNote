@@ -305,7 +305,8 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
                 R.id.iv_bold, R.id.iv_italic, R.id.iv_stroke, R.id.iv_format_list, R.id.iv_number_list,
                 R.id.iv_line, R.id.iv_code, R.id.iv_xml, R.id.iv_quote,
                 R.id.iv_insert_picture, R.id.iv_insert_link, R.id.iv_advanced,
-                R.id.iv_redo, R.id.iv_undo};
+                R.id.iv_redo, R.id.iv_undo,
+                R.id.iv_sub, R.id.iv_sup, R.id.iv_mark};
         for (int id : ids) getRoot().findViewById(id).setOnClickListener(this::onFormatClick);
 
         getBinding().main.ivEnableFormat.setOnClickListener(v -> switchFormat());
@@ -350,6 +351,8 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
             case R.id.iv_h4:effect = MarkdownEffect.H4;break;
             case R.id.iv_h5:effect = MarkdownEffect.H5;break;
             case R.id.iv_h6:effect = MarkdownEffect.H6;break;
+            case R.id.iv_sub:effect = MarkdownEffect.SUB;break;
+            case R.id.iv_sup:effect = MarkdownEffect.SUP;break;
             case R.id.iv_format_list:effect = MarkdownEffect.NORMAL_LIST;break;
             case R.id.iv_number_list:effect = MarkdownEffect.NUMBER_LIST;break;
             case R.id.iv_quote:effect = MarkdownEffect.QUOTE;break;

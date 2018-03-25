@@ -48,9 +48,9 @@ public interface MdParseStrategy {
 
     void mathJax(String source, int selectionStart, int selectionEnd, String exp, boolean inline, EditText editor);
 
-    void sub(String source, int selectionStart, String name, int selectionEnd, EditText editor);
+    void sub(String source, int selectionStart, int selectionEnd, String selection, EditText editor);
 
-    void sup(String source, int selectionStart, String name, int selectionEnd, EditText editor);
+    void sup(String source, int selectionStart, int selectionEnd, String selection, EditText editor);
 
     void footNote(String source, int selectionStart, int selectionEnd, EditText editor);
 }
