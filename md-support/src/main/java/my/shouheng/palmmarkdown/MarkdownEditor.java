@@ -9,8 +9,8 @@ import android.util.AttributeSet;
 
 import java.util.Stack;
 
-import my.shouheng.palmmarkdown.strategy.DefaultMarkdownStrategy;
-import my.shouheng.palmmarkdown.strategy.MarkdownEffectStrategy;
+import my.shouheng.palmmarkdown.strategy.DefaultStrategy;
+import my.shouheng.palmmarkdown.strategy.MdParseStrategy;
 import my.shouheng.palmmarkdown.tools.MarkdownEffect;
 
 /**
@@ -30,7 +30,7 @@ public class MarkdownEditor extends android.support.v7.widget.AppCompatEditText 
 
     private boolean flag = false;
 
-    private MarkdownEffectStrategy markdownEffectStrategy = new DefaultMarkdownStrategy();
+    private MdParseStrategy mdParseStrategy = new DefaultStrategy();
 
     public MarkdownEditor(Context context) {
         super(context);
@@ -56,87 +56,83 @@ public class MarkdownEditor extends android.support.v7.widget.AppCompatEditText 
 
     protected void onTextChanged(Editable s) {}
 
-    public final void addEffect(MarkdownEffect markdownEffect){
+    public final void addEffect(MarkdownEffect markdownEffect) {
         String source = this.getText().toString();
         int selectionStart = getSelectionStart();
         int selectionEnd = getSelectionEnd();
         String selection = source.substring(selectionStart, selectionEnd);
         switch (markdownEffect){
             case H1:
-                markdownEffectStrategy.h1(source, selectionStart, selectionEnd, selection, this);
+                mdParseStrategy.h1(source, selectionStart, selectionEnd, selection, this);
                 break;
             case H2:
-                markdownEffectStrategy.h2(source, selectionStart, selectionEnd, selection, this);
+                mdParseStrategy.h2(source, selectionStart, selectionEnd, selection, this);
                 break;
             case H3:
-                markdownEffectStrategy.h3(source, selectionStart, selectionEnd, selection, this);
+                mdParseStrategy.h3(source, selectionStart, selectionEnd, selection, this);
                 break;
             case H4:
-                markdownEffectStrategy.h4(source, selectionStart, selectionEnd, selection, this);
+                mdParseStrategy.h4(source, selectionStart, selectionEnd, selection, this);
                 break;
             case H5:
-                markdownEffectStrategy.h5(source, selectionStart, selectionEnd, selection, this);
+                mdParseStrategy.h5(source, selectionStart, selectionEnd, selection, this);
                 break;
             case H6:
-                markdownEffectStrategy.h6(source, selectionStart, selectionEnd, selection, this);
+                mdParseStrategy.h6(source, selectionStart, selectionEnd, selection, this);
                 break;
             case QUOTE:
-                markdownEffectStrategy.quote(source, selectionStart, selectionEnd, selection, this);
+                mdParseStrategy.quote(source, selectionStart, selectionEnd, selection, this);
                 break;
             case BOLD:
-                markdownEffectStrategy.bold(source, selectionStart, selectionEnd, selection, this);
+                mdParseStrategy.bold(source, selectionStart, selectionEnd, selection, this);
                 break;
             case ITALIC:
-                markdownEffectStrategy.italic(source, selectionStart, selectionEnd, selection, this);
+                mdParseStrategy.italic(source, selectionStart, selectionEnd, selection, this);
                 break;
             case CODE_BLOCK:
-                markdownEffectStrategy.codeBlock(source, selectionStart, selectionEnd, selection, this);
+                mdParseStrategy.codeBlock(source, selectionStart, selectionEnd, selection, this);
                 break;
             case STRIKE:
-                markdownEffectStrategy.strike(source, selectionStart, selectionEnd, selection, this);
+                mdParseStrategy.strike(source, selectionStart, selectionEnd, selection, this);
                 break;
             case H_LINE:
-                markdownEffectStrategy.horizontalLine(source, selectionStart, selectionEnd, selection, this);
+                mdParseStrategy.horizontalLine(source, selectionStart, selectionEnd, selection, this);
                 break;
             case XML:
-                markdownEffectStrategy.xml(source, selectionStart, selectionEnd, selection, this);
+                mdParseStrategy.xml(source, selectionStart, selectionEnd, selection, this);
                 break;
             case LINK:
-                markdownEffectStrategy.h1(source, selectionStart, selectionEnd, selection, this);
+                mdParseStrategy.h1(source, selectionStart, selectionEnd, selection, this);
                 break;
             case TABLE:
-                markdownEffectStrategy.h1(source, selectionStart, selectionEnd, selection, this);
+                mdParseStrategy.h1(source, selectionStart, selectionEnd, selection, this);
                 break;
             case NORMAL_LIST:
-                markdownEffectStrategy.normalList(source, selectionStart, selectionEnd, this);
+                mdParseStrategy.normalList(source, selectionStart, selectionEnd, this);
                 break;
             case NUMBER_LIST:
-                markdownEffectStrategy.numberList(source, selectionStart, selectionEnd, this);
+                mdParseStrategy.numberList(source, selectionStart, selectionEnd, this);
                 break;
         }
     }
 
-    public final void addEffect(MarkdownEffect markdownEffect, int cols, int rows) {
+    public final void addTableEffect(int cols, int rows) {
         String source = this.getText().toString();
         int selectionStart = getSelectionStart();
         int selectionEnd = getSelectionEnd();
-        switch (markdownEffect){
-            case TABLE:
-                markdownEffectStrategy.table(source, selectionStart, selectionEnd, rows, cols, this);
-                break;
-        }
+        mdParseStrategy.table(source, selectionStart, selectionEnd, rows, cols, this);
     }
 
-    public final void addEffect(MarkdownEffect markdownEffect, String title, String link) {
+    public final void addLinkEffect(MarkdownEffect markdownEffect, String title, String link) {
         String source = this.getText().toString();
         int selectionStart = getSelectionStart();
         int selectionEnd = getSelectionEnd();
         switch (markdownEffect){
             case LINK:
-                markdownEffectStrategy.link(source, selectionStart, selectionEnd, title, link, this);
+                mdParseStrategy.link(source, selectionStart, selectionEnd, title, link, this);
                 break;
             case IMAGE:
-                markdownEffectStrategy.image(source, selectionStart, selectionEnd, title, link, this);
+                mdParseStrategy.image(source, selectionStart, selectionEnd, title, link, this);
                 break;
         }
     }
@@ -205,8 +201,8 @@ public class MarkdownEditor extends android.support.v7.widget.AppCompatEditText 
         flag = false;
     }
 
-    public void setMarkdownEffectStrategy(MarkdownEffectStrategy markdownEffectStrategy) {
-        this.markdownEffectStrategy = markdownEffectStrategy;
+    public void setMdParseStrategy(MdParseStrategy mdParseStrategy) {
+        this.mdParseStrategy = mdParseStrategy;
     }
 
     private class InputTextWatcher implements TextWatcher {
