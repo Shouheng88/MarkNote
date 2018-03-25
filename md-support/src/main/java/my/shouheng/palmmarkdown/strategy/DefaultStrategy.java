@@ -192,10 +192,28 @@ public class DefaultStrategy implements MdParseStrategy {
     public void mathJax(String source, int selectionStart, int selectionEnd, String exp, boolean inline, EditText editor) {}
 
     @Override
-    public void sub(String source, int selectionStart, String name, int selectionEnd, EditText editor) {}
+    public void sub(String source, int selectionStart, int selectionEnd, String selection, EditText editor) {
+        String result = "~" + selection + "~";
+        if (TextUtils.isEmpty(selection)) {
+            editor.getText().replace(selectionStart, selectionEnd, result);
+            editor.setSelection(selectionStart + result.length() - 1);
+            return;
+        }
+        editor.getText().replace(selectionStart, selectionEnd, result);
+        editor.setSelection(selectionStart + result.length());
+    }
 
     @Override
-    public void sup(String source, int selectionStart, String name, int selectionEnd, EditText editor) {}
+    public void sup(String source, int selectionStart, int selectionEnd, String selection, EditText editor) {
+        String result = "^" + selection + "^";
+        if (TextUtils.isEmpty(selection)) {
+            editor.getText().replace(selectionStart, selectionEnd, result);
+            editor.setSelection(selectionStart + result.length() - 1);
+            return;
+        }
+        editor.getText().replace(selectionStart, selectionEnd, result);
+        editor.setSelection(selectionStart + result.length());
+    }
 
     @Override
     public void footNote(String source, int selectionStart, int selectionEnd, EditText editor) {}

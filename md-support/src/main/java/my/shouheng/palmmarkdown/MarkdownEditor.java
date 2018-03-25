@@ -113,6 +113,12 @@ public class MarkdownEditor extends android.support.v7.widget.AppCompatEditText 
             case NUMBER_LIST:
                 mdParseStrategy.numberList(source, selectionStart, selectionEnd, this);
                 break;
+            case SUB:
+                mdParseStrategy.sub(source, selectionStart, selectionEnd, selection, this);
+                break;
+            case SUP:
+                mdParseStrategy.sup(source, selectionStart, selectionEnd, selection, this);
+                break;
         }
     }
 
