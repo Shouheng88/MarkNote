@@ -20,7 +20,13 @@ public enum  MarkdownEffect {
     TABLE(14),
     NUMBER_LIST(15),
     NORMAL_LIST(16),
-    IMAGE(17);
+    IMAGE(17),
+    MARK(18),
+    CHECKBOX(19),
+    MATH_JAX(20),
+    SUB(21),
+    SUP(22),
+    FOOTNOTE(23);
 
     public final int typeCode;
 

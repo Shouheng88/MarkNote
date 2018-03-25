@@ -380,7 +380,7 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
 
     private void addImageLink() {
         LinkInputDialog.getInstance((title, link) ->
-                getBinding().main.etContent.addEffect(MarkdownEffect.IMAGE, title, link)
+                getBinding().main.etContent.addLinkEffect(MarkdownEffect.IMAGE, title, link)
         ).show(getFragmentManager(), "Link Image");
     }
 
@@ -388,13 +388,13 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
         TableInputDialog.getInstance((rowsStr, colsStr) -> {
             int rows = StringUtils.parseInteger(rowsStr, 3);
             int cols = StringUtils.parseInteger(colsStr, 3);
-            getBinding().main.etContent.addEffect(MarkdownEffect.TABLE, rows, cols);
+            getBinding().main.etContent.addTableEffect(rows, cols);
         }).show(getFragmentManager(), "TABLE INPUT");
     }
 
     private void showLinkEditor() {
         LinkInputDialog.getInstance((title, link) ->
-                getBinding().main.etContent.addEffect(MarkdownEffect.LINK, title, link)
+                getBinding().main.etContent.addLinkEffect(MarkdownEffect.LINK, title, link)
         ).show(getFragmentManager(), "LINK INPUT");
     }
 
@@ -516,9 +516,9 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
 
         if (Constants.MIME_TYPE_IMAGE.equalsIgnoreCase(attachment.getMineType())
                 || Constants.MIME_TYPE_SKETCH.equalsIgnoreCase(attachment.getMineType())) {
-            getBinding().main.etContent.addEffect(MarkdownEffect.IMAGE, title , attachment.getUri().toString());
+            getBinding().main.etContent.addLinkEffect(MarkdownEffect.IMAGE, title , attachment.getUri().toString());
         } else {
-            getBinding().main.etContent.addEffect(MarkdownEffect.LINK, title, attachment.getUri().toString());
+            getBinding().main.etContent.addLinkEffect(MarkdownEffect.LINK, title, attachment.getUri().toString());
         }
     }
 
