@@ -119,6 +119,9 @@ public class MarkdownEditor extends android.support.v7.widget.AppCompatEditText 
             case SUP:
                 mdParseStrategy.sup(source, selectionStart, selectionEnd, selection, this);
                 break;
+            case MARK:
+                mdParseStrategy.mark(source, selectionStart, selectionEnd, selection, this);
+                break;
         }
     }
 

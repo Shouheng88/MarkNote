@@ -42,7 +42,7 @@ public interface MdParseStrategy {
 
     void image(String source, int selectionStart, int selectionEnd, String title, String imgUri, EditText editor);
 
-    void mark(String source, int selectionStart, int selectionEnd, EditText editor);
+    void mark(String source, int selectionStart, int selectionEnd, String selection, EditText editor);
 
     void checkbox(String source, int selectionStart, int selectionEnd, String name, boolean isChecked, EditText editor);
 
