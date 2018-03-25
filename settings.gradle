@@ -1,1 +1,1 @@
-include ':app', ':markdown-editor', ':photoview', ':colorful'
+include ':app', ':md-support', ':photoview', ':colorful'
