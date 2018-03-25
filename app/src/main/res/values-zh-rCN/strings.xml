@@ -212,7 +212,7 @@
     <string name="attachment_type_sketches">手写</string>
 
     <string name="album">相册</string>
-    <string name="net_link">网络链接</string>
+    <string name="net_image_link">图片链接</string>
     <string name="file">文件</string>
     <string name="create">创建</string>
     <string name="take_a_photo">拍摄照片</string>

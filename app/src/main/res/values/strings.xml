@@ -217,7 +217,7 @@
     <string name="attachment_type_sketches">Sketch</string>
 
     <string name="album">Album</string>
-    <string name="net_link">Link</string>
+    <string name="net_image_link">Image link</string>
     <string name="file">File</string>
     <string name="create">Create</string>
     <string name="take_a_photo">Take a photo</string>

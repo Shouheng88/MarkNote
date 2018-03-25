@@ -37,7 +37,7 @@
             android:paddingStart="13dp"
             android:drawableLeft="@drawable/ic_insert_link_grey_24dp"
             android:background="?attr/selectableItemBackground"
-            android:text="@string/net_link"
+            android:text="@string/net_image_link"
             android:textSize="16sp"
             android:gravity="center_vertical"
             android:layout_width="match_parent"
