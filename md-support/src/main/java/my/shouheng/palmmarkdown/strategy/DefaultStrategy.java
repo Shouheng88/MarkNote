@@ -195,7 +195,9 @@ public class DefaultStrategy implements MdParseStrategy {
     }
 
     @Override
-    public void checkbox(String source, int selectionStart, int selectionEnd, String name, boolean isChecked, EditText editor) {}
+    public void checkbox(String source, int selectionStart, int selectionEnd, String name, boolean isChecked, EditText editor) {
+        insertList((isChecked ? "- [x] " : "- [ ] ") + name, source, selectionStart, selectionEnd, editor);
+    }
 
     @Override
     public void mathJax(String source, int selectionStart, int selectionEnd, String exp, boolean inline, EditText editor) {}

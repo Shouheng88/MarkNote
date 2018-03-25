@@ -38,6 +38,7 @@ import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.databinding.FragmentNoteBinding;
 import me.shouheng.notepal.dialog.AdvancedPicker;
 import me.shouheng.notepal.dialog.AttachmentPickerDialog;
+import me.shouheng.notepal.dialog.CheckboxEditor;
 import me.shouheng.notepal.dialog.LinkInputDialog;
 import me.shouheng.notepal.dialog.TableInputDialog;
 import me.shouheng.notepal.dialog.picker.NotebookPickerDialog;
@@ -397,11 +398,23 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
                     showTableEditor();
                     break;
                 case INSERT_CHECKBOX:
+                    showCheckboxEditor();
                     break;
                 case INSERT_MATH_JAX:
+                    showMarkJaxEditor();
                     break;
             }
         }).show(getFragmentManager(), "ADVANCED PICKER");
+    }
+
+    private void showCheckboxEditor() {
+        CheckboxEditor.newInstance((content, isChecked) ->
+                getBinding().main.etContent.addCheckbox(content, isChecked)
+        ).show(getFragmentManager(), "CHECKBOX EDITOR");
+    }
+
+    private void showMarkJaxEditor() {
+
     }
 
     private void showTableEditor() {
