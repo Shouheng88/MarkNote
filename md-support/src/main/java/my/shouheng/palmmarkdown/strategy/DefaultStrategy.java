@@ -5,7 +5,7 @@ import android.widget.EditText;
 
 /**
  * Created by wangshouheng on 2017/10/7.*/
-public class DefaultMarkdownStrategy implements MarkdownEffectStrategy {
+public class DefaultStrategy implements MdParseStrategy {
 
     @Override
     public void h1(String source, int selectionStart, int selectionEnd, String selection, EditText editor) {
@@ -181,6 +181,24 @@ public class DefaultMarkdownStrategy implements MarkdownEffectStrategy {
         editor.setSelection(TextUtils.isEmpty(imgUri) ? result.length() + selectionStart - 1
                 : result.length() + selectionStart);
     }
+
+    @Override
+    public void mark(String source, int selectionStart, int selectionEnd, EditText editor) {}
+
+    @Override
+    public void checkbox(String source, int selectionStart, int selectionEnd, String name, boolean isChecked, EditText editor) {}
+
+    @Override
+    public void mathJax(String source, int selectionStart, int selectionEnd, String exp, boolean inline, EditText editor) {}
+
+    @Override
+    public void sub(String source, int selectionStart, String name, int selectionEnd, EditText editor) {}
+
+    @Override
+    public void sup(String source, int selectionStart, String name, int selectionEnd, EditText editor) {}
+
+    @Override
+    public void footNote(String source, int selectionStart, int selectionEnd, EditText editor) {}
 
     private void insertList(String listType, String source, int selectionStart, int selectionEnd, EditText editor){
         String substring = source.substring(0, selectionStart);

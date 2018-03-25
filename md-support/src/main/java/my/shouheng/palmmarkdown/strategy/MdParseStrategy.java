@@ -4,7 +4,7 @@ import android.widget.EditText;
 
 /**
  * Created by wangshouheng on 2017/10/7.*/
-public interface MarkdownEffectStrategy {
+public interface MdParseStrategy {
 
     void h1(String source, int selectionStart, int selectionEnd, String selection, EditText editor);
 
@@ -41,4 +41,16 @@ public interface MarkdownEffectStrategy {
     void numberList(String source, int selectionStart, int selectionEnd, EditText editor);
 
     void image(String source, int selectionStart, int selectionEnd, String title, String imgUri, EditText editor);
+
+    void mark(String source, int selectionStart, int selectionEnd, EditText editor);
+
+    void checkbox(String source, int selectionStart, int selectionEnd, String name, boolean isChecked, EditText editor);
+
+    void mathJax(String source, int selectionStart, int selectionEnd, String exp, boolean inline, EditText editor);
+
+    void sub(String source, int selectionStart, String name, int selectionEnd, EditText editor);
+
+    void sup(String source, int selectionStart, String name, int selectionEnd, EditText editor);
+
+    void footNote(String source, int selectionStart, int selectionEnd, EditText editor);
 }
