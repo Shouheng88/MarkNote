@@ -56,7 +56,7 @@ public class MarkdownEditor extends android.support.v7.widget.AppCompatEditText 
 
     protected void onTextChanged(Editable s) {}
 
-    public final void setEffect(MarkdownEffect markdownEffect){
+    public final void addEffect(MarkdownEffect markdownEffect){
         String source = this.getText().toString();
         int selectionStart = getSelectionStart();
         int selectionEnd = getSelectionEnd();
@@ -116,7 +116,7 @@ public class MarkdownEditor extends android.support.v7.widget.AppCompatEditText 
         }
     }
 
-    public final void setEffect(MarkdownEffect markdownEffect, int cols, int rows) {
+    public final void addEffect(MarkdownEffect markdownEffect, int cols, int rows) {
         String source = this.getText().toString();
         int selectionStart = getSelectionStart();
         int selectionEnd = getSelectionEnd();
@@ -127,7 +127,7 @@ public class MarkdownEditor extends android.support.v7.widget.AppCompatEditText 
         }
     }
 
-    public final void setEffect(MarkdownEffect markdownEffect, String title, String link) {
+    public final void addEffect(MarkdownEffect markdownEffect, String title, String link) {
         String source = this.getText().toString();
         int selectionStart = getSelectionStart();
         int selectionEnd = getSelectionEnd();

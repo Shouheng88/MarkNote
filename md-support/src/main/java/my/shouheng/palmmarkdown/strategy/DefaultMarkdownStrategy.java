@@ -4,10 +4,8 @@ import android.text.TextUtils;
 import android.widget.EditText;
 
 /**
- * 默认的Markdown编辑器的策略
- *
  * Created by wangshouheng on 2017/10/7.*/
-public class DefaultMarkdownStrategy implements MarkdownEffectStrategy{
+public class DefaultMarkdownStrategy implements MarkdownEffectStrategy {
 
     @Override
     public void h1(String source, int selectionStart, int selectionEnd, String selection, EditText editor) {
