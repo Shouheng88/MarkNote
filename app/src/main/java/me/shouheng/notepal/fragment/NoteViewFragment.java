@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -46,7 +45,6 @@ import me.shouheng.notepal.provider.AttachmentsStore;
 import me.shouheng.notepal.provider.CategoryStore;
 import me.shouheng.notepal.provider.LocationsStore;
 import me.shouheng.notepal.util.AttachmentHelper;
-import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.FileHelper;
 import me.shouheng.notepal.util.IntentUtils;
 import me.shouheng.notepal.util.LogUtils;
@@ -55,6 +53,15 @@ import me.shouheng.notepal.util.PrintUtils;
 import me.shouheng.notepal.util.ShortcutHelper;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.viewmodel.CategoryViewModel;
+import my.shouheng.palmmarkdown.listener.MarkdownParseListener;
+
+import static me.shouheng.notepal.config.Constants.PDF_MIME_TYPE;
+import static me.shouheng.notepal.config.Constants.SCHEME_HTTP;
+import static me.shouheng.notepal.config.Constants.SCHEME_HTTPS;
+import static me.shouheng.notepal.config.Constants.VIDEO_MIME_TYPE;
+import static me.shouheng.notepal.config.Constants._3GP;
+import static me.shouheng.notepal.config.Constants._MP4;
+import static me.shouheng.notepal.config.Constants._PDF;
 
 /**
  * Created by wangshouheng on 2017/5/13.*/
@@ -63,6 +70,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
     private final static int REQUEST_FOR_EDIT = 0x01;
 
     private Note note;
+
     private String content, tags;
 
     private boolean isPreview = false, isContentChanged = false;
@@ -134,12 +142,11 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
     }
 
     private void configViews() {
-        getBinding().mdView.getDelegate().setThumbDrawable(ContextCompat.getDrawable(getContext(), R.drawable.recyclerview_fastscroller_handle));
+        getBinding().mdView.getDelegate().setThumbDrawable(ContextCompat.getDrawable(getContext(),
+                R.drawable.recyclerview_fastscroller_handle));
         getBinding().mdView.getDelegate().setThumbSize(8, 32);
         getBinding().mdView.getDelegate().setThumbDynamicHeight(false);
-        getBinding().mdView.setWebViewTheme(isDarkTheme());
-        getBinding().mdView.setPrimaryColor(primaryColor());
-        getBinding().mdView.setPrimaryDark(ColorUtils.calStatusBarColor(primaryColor()));
+        getBinding().mdView.setHtmlResource(isDarkTheme());
         getBinding().mdView.setOnImageClickedListener((url, urls) -> {
             List<Attachment> attachments = new ArrayList<>();
             Attachment clickedAttachment = null;
@@ -148,13 +155,38 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
                 attachments.add(attachment);
                 if (u.equals(url)) clickedAttachment = attachment;
             }
-            AttachmentHelper.resolveClickEvent(getContext(),
-                    clickedAttachment, attachments, note.getTitle());
+            AttachmentHelper.resolveClickEvent(getContext(), clickedAttachment, attachments, note.getTitle());
         });
-        getBinding().mdView.setOnAttachmentClickedListener((Uri uri) -> {
-            FragmentManager manager = getFragmentManager();
-            if (manager != null) {
-                OpenResolver.newInstance(mimeType -> startActivity(uri, mimeType.mimeType)).show(manager, "OPEN RESOLVER");
+        getBinding().mdView.setOnAttachmentClickedListener(url -> {
+            if (!TextUtils.isEmpty(url)){
+                Uri uri = Uri.parse(url);
+
+                // Open the http or https link from chrome tab.
+                if (SCHEME_HTTPS.equalsIgnoreCase(uri.getScheme())
+                        || SCHEME_HTTP.equalsIgnoreCase(uri.getScheme())) {
+                    IntentUtils.openWebPage(getContext(), url);
+                }
+
+                // Open the files of given format.
+                if (url.endsWith(_3GP) || url.endsWith(_MP4)) {
+                    startActivity(uri, VIDEO_MIME_TYPE);
+                } else if (url.endsWith(_PDF)) {
+                    startActivity(uri, PDF_MIME_TYPE);
+                } else {
+                    OpenResolver.newInstance(mimeType -> startActivity(uri, mimeType.mimeType))
+                            .show(getFragmentManager(), "OPEN RESOLVER");
+                }
+            }
+        });
+        getBinding().mdView.setMarkdownParseListener(new MarkdownParseListener() {
+            @Override
+            public void onStart() {
+
+            }
+
+            @Override
+            public void onEnd() {
+
             }
         });
     }
@@ -170,13 +202,13 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
         }
     }
 
-    private void refreshLayout(boolean reload){
+    private void refreshLayout(boolean reload) {
         if (!TextUtils.isEmpty(note.getContent())) {
             if (reload) {
-                getBinding().mdView.parseMarkdown(note.getContent(), true);
+                getBinding().mdView.parseMarkdown(note.getContent());
             } else {
                 getBinding().mdView.setOnLoadingFinishListener(() ->
-                        getBinding().mdView.parseMarkdown(note.getContent(), true));
+                        getBinding().mdView.parseMarkdown(note.getContent()));
             }
         }
 
