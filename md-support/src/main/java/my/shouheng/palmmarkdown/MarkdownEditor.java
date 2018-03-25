@@ -146,6 +146,13 @@ public class MarkdownEditor extends android.support.v7.widget.AppCompatEditText 
         }
     }
 
+    public final void addCheckbox(String content, boolean isChecked) {
+        String source = this.getText().toString();
+        int selectionStart = getSelectionStart();
+        int selectionEnd = getSelectionEnd();
+        mdParseStrategy.checkbox(source, selectionStart, selectionEnd, content, isChecked, this);
+    }
+
     public final void clearHistory() {
         history.clear();
         historyBack.clear();
