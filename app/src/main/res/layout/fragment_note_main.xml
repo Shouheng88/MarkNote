@@ -23,7 +23,8 @@
             android:layout_gravity="bottom"
             android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/note_bottom_menu_height">
+            android:layout_height="@dimen/note_bottom_menu_height"
+            tools:layout_height="@dimen/note_bottom_menu_height_double">
 
             <RelativeLayout
                 android:id="@+id/rl_bottom_editors"
@@ -60,6 +61,27 @@
                             android:id="@+id/iv_stroke"
                             style="@style/style_note_bottom_button"
                             android:src="@drawable/ic_strikethrough_s_black_24dp"
+                            android:layout_width="@dimen/note_bottom_menu_height"
+                            android:layout_height="@dimen/note_bottom_menu_height" />
+
+                        <ImageView
+                            android:id="@+id/iv_mark"
+                            style="@style/style_note_bottom_button"
+                            android:src="@drawable/ic_font_download_black_24dp"
+                            android:layout_width="@dimen/note_bottom_menu_height"
+                            android:layout_height="@dimen/note_bottom_menu_height" />
+
+                        <ImageView
+                            android:id="@+id/iv_sub"
+                            style="@style/style_note_bottom_button"
+                            android:src="@drawable/ic_subscript"
+                            android:layout_width="@dimen/note_bottom_menu_height"
+                            android:layout_height="@dimen/note_bottom_menu_height" />
+
+                        <ImageView
+                            android:id="@+id/iv_sup"
+                            style="@style/style_note_bottom_button"
+                            android:src="@drawable/ic_superscript"
                             android:layout_width="@dimen/note_bottom_menu_height"
                             android:layout_height="@dimen/note_bottom_menu_height" />
 
@@ -189,15 +211,15 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:src="@drawable/ic_insert_link_grey_24dp" />
+                    android:src="@drawable/ic_link" />
 
                 <ImageView
-                    android:id="@+id/iv_insert_table"
+                    android:id="@+id/iv_advanced"
                     style="@style/style_note_bottom_button"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:src="@drawable/ic_shortcut_grid" />
+                    android:src="@drawable/ic_star" />
 
                 <ImageView
                     android:id="@+id/iv_enable_format"
