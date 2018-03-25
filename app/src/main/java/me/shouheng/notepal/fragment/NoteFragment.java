@@ -353,6 +353,7 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
             case R.id.iv_h6:effect = MarkdownEffect.H6;break;
             case R.id.iv_sub:effect = MarkdownEffect.SUB;break;
             case R.id.iv_sup:effect = MarkdownEffect.SUP;break;
+            case R.id.iv_mark:effect = MarkdownEffect.MARK;break;
             case R.id.iv_format_list:effect = MarkdownEffect.NORMAL_LIST;break;
             case R.id.iv_number_list:effect = MarkdownEffect.NUMBER_LIST;break;
             case R.id.iv_quote:effect = MarkdownEffect.QUOTE;break;

@@ -58,10 +58,10 @@ public class DefaultStrategy implements MdParseStrategy {
 
     @Override
     public void bold(String source, int selectionStart, int selectionEnd, String selection, EditText editor) {
-        String result = " **" + selection + "** ";
+        String result = "**" + selection + "**";
         if (TextUtils.isEmpty(selection)) {
             editor.getText().replace(selectionStart, selectionEnd, result);
-            editor.setSelection(selectionStart + result.length() - 3);
+            editor.setSelection(selectionStart + result.length() - 2);
             return;
         }
         editor.getText().replace(selectionStart, selectionEnd, result);
@@ -70,10 +70,10 @@ public class DefaultStrategy implements MdParseStrategy {
 
     @Override
     public void italic(String source, int selectionStart, int selectionEnd, String selection, EditText editor) {
-        String result = " *" + selection + "* ";
+        String result = "*" + selection + "*";
         if (TextUtils.isEmpty(selection)) {
             editor.getText().replace(selectionStart, selectionEnd, result);
-            editor.setSelection(selectionStart + result.length() - 2);
+            editor.setSelection(selectionStart + result.length() - 1);
             return;
         }
         editor.getText().replace(selectionStart, selectionEnd, result);
@@ -94,10 +94,10 @@ public class DefaultStrategy implements MdParseStrategy {
 
     @Override
     public void strike(String source, int selectionStart, int selectionEnd, String selection, EditText editor) {
-        String result = " ~~" + selection + "~~ ";
+        String result = "~~" + selection + "~~";
         if (TextUtils.isEmpty(selection)) {
             editor.getText().replace(selectionStart, selectionEnd, result);
-            editor.setSelection(selectionStart + result.length() - 3);
+            editor.setSelection(selectionStart + result.length() - 2);
             return;
         }
         editor.getText().replace(selectionStart, selectionEnd, result);
@@ -112,10 +112,10 @@ public class DefaultStrategy implements MdParseStrategy {
 
     @Override
     public void xml(String source, int selectionStart, int selectionEnd, String selection, EditText editor) {
-        String result = " `" + selection + "` ";
+        String result = "`" + selection + "`";
         if (TextUtils.isEmpty(selection)) {
             editor.getText().replace(selectionStart, selectionEnd, result);
-            editor.setSelection(selectionStart + result.length() - 2);
+            editor.setSelection(selectionStart + result.length() - 1);
             return;
         }
         editor.getText().replace(selectionStart, selectionEnd, result);
@@ -183,7 +183,16 @@ public class DefaultStrategy implements MdParseStrategy {
     }
 
     @Override
-    public void mark(String source, int selectionStart, int selectionEnd, EditText editor) {}
+    public void mark(String source, int selectionStart, int selectionEnd, String selection, EditText editor) {
+        String result = "==" + selection + "==";
+        if (TextUtils.isEmpty(selection)) {
+            editor.getText().replace(selectionStart, selectionEnd, result);
+            editor.setSelection(selectionStart + result.length() - 2);
+            return;
+        }
+        editor.getText().replace(selectionStart, selectionEnd, result);
+        editor.setSelection(selectionStart + result.length());
+    }
 
     @Override
     public void checkbox(String source, int selectionStart, int selectionEnd, String name, boolean isChecked, EditText editor) {}
