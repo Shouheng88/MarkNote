@@ -206,7 +206,7 @@
     <string name="attachment_type_sketches">手寫</string>
 
     <string name="album">相冊</string>
-    <string name="net_link">網路鏈接</string>
+    <string name="net_image_link">圖片鏈接</string>
     <string name="file">檔</string>
     <string name="create">創建</string>
     <string name="take_a_photo">拍攝照片</string>
