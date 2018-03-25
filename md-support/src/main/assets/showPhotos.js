@@ -6,7 +6,7 @@ function () {
     }
     for(var i = 0; i < imgs.length; i++){
         imgs[i].onclick = function() {
-            showPhotos.showPhotosInGallery(this.src, list);
+            jsCallback.showPhotosInGallery(this.src, list);
         }
     }
 }
