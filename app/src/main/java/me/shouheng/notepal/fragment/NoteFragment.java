@@ -40,6 +40,7 @@ import me.shouheng.notepal.dialog.AdvancedPicker;
 import me.shouheng.notepal.dialog.AttachmentPickerDialog;
 import me.shouheng.notepal.dialog.CheckboxEditor;
 import me.shouheng.notepal.dialog.LinkInputDialog;
+import me.shouheng.notepal.dialog.MathJaxEditor;
 import me.shouheng.notepal.dialog.TableInputDialog;
 import me.shouheng.notepal.dialog.picker.NotebookPickerDialog;
 import me.shouheng.notepal.fragment.base.BaseModelFragment;
@@ -414,7 +415,9 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
     }
 
     private void showMarkJaxEditor() {
-
+        MathJaxEditor.newInstance((exp, isSingleLine) ->
+                getBinding().main.etContent.addMathJax(exp, isSingleLine)
+        ).show(getFragmentManager(), "MATH JAX EDITOR");
     }
 
     private void showTableEditor() {

@@ -265,43 +265,11 @@ public abstract class BaseStore<T extends Model> {
     public synchronized void saveOrUpdate(T model) {
         if (model == null) return;
 
-        Operation operation;
-        StoreHelper.setLastModifiedInfo(model);
-        SQLiteDatabase database = getWritableDatabase();
-        database.beginTransaction();
-        Cursor cursor = null;
-
-        try {
-            // Check is new model
-            int count = 0;
-            cursor = database.rawQuery(" SELECT COUNT(*) AS count FROM " + tableName +
-                    " WHERE " + BaseSchema.USER_ID + " = " + userId
-                    + " AND " + BaseSchema.CODE + " = " + model.getCode(), new String[]{});
-            if (cursor != null && cursor.moveToFirst()) {
-                do {
-                    count = cursor.getInt(cursor.getColumnIndex("count"));
-                } while (cursor.moveToNext());
-            }
-
-            // Save if new otherwise update it
-            if (count > 0) {
-                database.update(tableName, getContentValues(model),
-                        BaseSchema.CODE + " = ? " + " AND " + BaseSchema.USER_ID + " = ? ",
-                        new String[]{String.valueOf(model.getCode()), String.valueOf(userId)});
-                operation = Operation.UPDATE;
-            } else {
-                database.insert(tableName, null, getContentValues(model));
-                operation = Operation.ADD;
-            }
-
-            database.setTransactionSuccessful();
-        } finally {
-            closeCursor(cursor);
-            database.endTransaction();
-            closeDatabase(database);
+        if (isNewModel(model.getCode())) {
+            saveModel(model);
+        } else {
+            update(model);
         }
-
-        TimelineHelper.addTimeLine(model, operation);
     }
 
     public synchronized void update(T model, Status toStatus) {

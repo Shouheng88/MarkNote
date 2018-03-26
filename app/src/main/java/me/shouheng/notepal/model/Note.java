@@ -31,10 +31,10 @@ public class Note extends Model implements Parcelable {
     @Column(name = "tags")
     private String tags;
 
-    @Column(name = "previewImage")
+    @Column(name = "preview_image")
     private Uri previewImage;
 
-    @Column(name = "noteType")
+    @Column(name = "note_type")
     private NoteType noteType;
 
     @Column(name = "preview_content")

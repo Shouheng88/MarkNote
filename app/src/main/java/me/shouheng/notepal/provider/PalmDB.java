@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 /**
  * Resources need to modify when add new model:
  *
+ * !!!!!Please mark sure that the Column is same to the Schema!!!!
+ *
  * 1. Extends {@link me.shouheng.notepal.model.Model} to add model;
  * 2. Implement {@link me.shouheng.notepal.provider.schema.BaseSchema} to add schema;
  * 3. Extends {@link BaseStore} to add store;
@@ -24,7 +26,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class PalmDB extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "NotePal.db";
-    private static final int VERSION = 5;
+    private static final int VERSION = 6;
 
     private Context mContext;
     @SuppressLint("StaticFieldLeak")
