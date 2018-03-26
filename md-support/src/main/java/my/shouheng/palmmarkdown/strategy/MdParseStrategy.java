@@ -46,7 +46,7 @@ public interface MdParseStrategy {
 
     void checkbox(String source, int selectionStart, int selectionEnd, String name, boolean isChecked, EditText editor);
 
-    void mathJax(String source, int selectionStart, int selectionEnd, String exp, boolean inline, EditText editor);
+    void mathJax(String source, int selectionStart, int selectionEnd, String exp, boolean isSingleLine, EditText editor);
 
     void sub(String source, int selectionStart, int selectionEnd, String selection, EditText editor);
 

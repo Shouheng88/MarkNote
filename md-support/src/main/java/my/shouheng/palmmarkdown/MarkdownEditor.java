@@ -153,6 +153,13 @@ public class MarkdownEditor extends android.support.v7.widget.AppCompatEditText 
         mdParseStrategy.checkbox(source, selectionStart, selectionEnd, content, isChecked, this);
     }
 
+    public final void addMathJax(String exp, boolean isSingleLine) {
+        String source = this.getText().toString();
+        int selectionStart = getSelectionStart();
+        int selectionEnd = getSelectionEnd();
+        mdParseStrategy.mathJax(source, selectionStart, selectionEnd, exp, isSingleLine, this);
+    }
+
     public final void clearHistory() {
         history.clear();
         historyBack.clear();

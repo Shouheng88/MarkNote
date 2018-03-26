@@ -200,7 +200,17 @@ public class DefaultStrategy implements MdParseStrategy {
     }
 
     @Override
-    public void mathJax(String source, int selectionStart, int selectionEnd, String exp, boolean inline, EditText editor) {}
+    public void mathJax(String source, int selectionStart, int selectionEnd, String exp, boolean isSingleLine, EditText editor) {
+        if (isSingleLine) {
+            String result = isSingleLine(source, selectionStart) ? "$$" + exp + "$$" : "\n$$" + exp + "$$";
+            editor.getText().insert(selectionStart, result);
+            editor.setSelection(result.length() + selectionStart);
+        } else {
+            String result = "$" + exp + "$";
+            editor.getText().replace(selectionStart, selectionEnd, result);
+            editor.setSelection(selectionStart + result.length() - 1);
+        }
+    }
 
     @Override
     public void sub(String source, int selectionStart, int selectionEnd, String selection, EditText editor) {
