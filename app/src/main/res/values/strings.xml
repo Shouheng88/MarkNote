@@ -527,5 +527,8 @@
     <string name="text_math_jax">Insert math jax</string>
     <string name="checkbox_content_hint">Input checked list item</string>
     <string name="is_checkbox_checked">Is checked</string>
+    <string name="input_math_jax_hint">Input your math jax expression</string>
+    <string name="is_math_jax_single">Is single line</string>
+    <string name="invalid_input_tips">Invalid input</string>
 
 </resources>
