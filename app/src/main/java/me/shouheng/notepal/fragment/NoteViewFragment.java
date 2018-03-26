@@ -165,6 +165,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
                 if (SCHEME_HTTPS.equalsIgnoreCase(uri.getScheme())
                         || SCHEME_HTTP.equalsIgnoreCase(uri.getScheme())) {
                     IntentUtils.openWebPage(getContext(), url);
+                    return;
                 }
 
                 // Open the files of given format.
@@ -173,8 +174,9 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
                 } else if (url.endsWith(_PDF)) {
                     startActivity(uri, PDF_MIME_TYPE);
                 } else {
-                    OpenResolver.newInstance(mimeType -> startActivity(uri, mimeType.mimeType))
-                            .show(getFragmentManager(), "OPEN RESOLVER");
+                    OpenResolver.newInstance(mimeType ->
+                            startActivity(uri, mimeType.mimeType)
+                    ).show(getFragmentManager(), "OPEN RESOLVER");
                 }
             }
         });
