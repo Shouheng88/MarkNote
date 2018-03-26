@@ -47,8 +47,20 @@ public class NotesStore extends BaseStore<Note> {
                 db.execSQL("ALTER TABLE gt_note ADD COLUMN " + NoteSchema.PREVIEW_CONTENT + " TEXT");
                 break;
             case 5:
-                db.execSQL("ALTER TABLE gt_note ADD COLUMN " + NoteSchema.PREVIEW_IMAGE + " TEXT");
-                db.execSQL("ALTER TABLE gt_note ADD COLUMN " + NoteSchema.NOTE_TYPE + " INTEGER");
+                // 判断指定的两个列是否存在，如果不存在的话就创建列
+                Cursor cursor = null ;
+                try{
+                    cursor = db.rawQuery( "SELECT * FROM " + tableName + " LIMIT 0 ", null );
+                    boolean isExist = cursor != null && cursor.getColumnIndex(NoteSchema.PREVIEW_IMAGE) != -1 ;
+                    if (!isExist) {
+                        db.execSQL("ALTER TABLE gt_note ADD COLUMN " + NoteSchema.PREVIEW_IMAGE + " TEXT");
+                        db.execSQL("ALTER TABLE gt_note ADD COLUMN " + NoteSchema.NOTE_TYPE + " INTEGER");
+                    }
+                } finally{
+                    if(null != cursor && !cursor.isClosed()){
+                        closeCursor(cursor);
+                    }
+                }
                 break;
         }
     }
