@@ -41,10 +41,14 @@ public class NotesStore extends BaseStore<Note> {
         switch (oldVersion) {
             case 1:
             case 2:
-                db.execSQL("ALTER TABLE gt_note ADD COLUMN preview_image TEXT");
-                db.execSQL("ALTER TABLE gt_note ADD COLUMN note_type INTEGER");
+                db.execSQL("ALTER TABLE gt_note ADD COLUMN " + NoteSchema.PREVIEW_IMAGE + " TEXT");
+                db.execSQL("ALTER TABLE gt_note ADD COLUMN " + NoteSchema.NOTE_TYPE + " INTEGER");
             case 4:
-                db.execSQL("ALTER TABLE gt_note ADD COLUMN preview_content TEXT");
+                db.execSQL("ALTER TABLE gt_note ADD COLUMN " + NoteSchema.PREVIEW_CONTENT + " TEXT");
+                break;
+            case 5:
+                db.execSQL("ALTER TABLE gt_note ADD COLUMN " + NoteSchema.PREVIEW_IMAGE + " TEXT");
+                db.execSQL("ALTER TABLE gt_note ADD COLUMN " + NoteSchema.NOTE_TYPE + " INTEGER");
                 break;
         }
     }

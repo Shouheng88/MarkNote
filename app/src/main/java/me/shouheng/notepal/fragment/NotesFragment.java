@@ -33,6 +33,7 @@ import me.shouheng.notepal.model.Notebook;
 import me.shouheng.notepal.model.enums.Status;
 import me.shouheng.notepal.util.AppWidgetUtils;
 import me.shouheng.notepal.util.LogUtils;
+import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.viewmodel.NoteViewModel;
 import me.shouheng.notepal.viewmodel.NotebookViewModel;
@@ -466,6 +467,16 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
     }
 
     @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        if (PreferencesUtils.getInstance(getContext()).isNoteExpanded()) {
+            // disable list capture when the note list is expanded
+            menu.findItem(R.id.action_capture).setVisible(false);
+        } else {
+            menu.findItem(R.id.action_capture).setVisible(true);
+        }
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -521,10 +532,6 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
          * @param isTopStack whether current fragment is the top stack of all fragments */
         default void onActivityAttached(boolean isTopStack){}
 
-        /**
-         * This method will be called when the notes list is changed -- moved out from or added to the list.
-         *
-         * @see SnaggingsFragment.OnSnaggingInteractListener#onSnaggingDataChanged() */
         default void onNoteDataChanged(){}
 
         default void onNoteLoadStateChanged(me.shouheng.notepal.model.data.Status status) {}
