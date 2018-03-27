@@ -152,6 +152,15 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
                 }
             }
         });
+        adapter.setOnItemLongClickListener((adapter, view, position) -> {
+            NotesAdapter.MultiItem item = (NotesAdapter.MultiItem) adapter.getData().get(position);
+            if (item.itemType == NotesAdapter.MultiItem.ITEM_TYPE_NOTE) {
+                popNoteMenu(view, item);
+            } else if (item.itemType == NotesAdapter.MultiItem.ITEM_TYPE_NOTEBOOK) {
+                popNotebookMenu(view, item, position);
+            }
+            return true;
+        });
         adapter.setOnItemChildClickListener((adapter, view, position) -> {
             NotesAdapter.MultiItem item = (NotesAdapter.MultiItem) adapter.getData().get(position);
             switch (view.getId()) {
