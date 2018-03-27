@@ -1,6 +1,3 @@
-<html>
-<head>
-    <meta charset="utf-8"/>
     <style type="text/css">
 body {
     /*width: 45em;*/
@@ -42,7 +39,7 @@ body .markdown-body {
 
 .markdown-body mark {
     background: #ff0;
-    color: #fff;
+    color: #000;
 }
 
 .markdown-body sub,
@@ -1009,18 +1006,3 @@ body .markdown-body {
     }
 }
     </style>
-    <script src="https://cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-</head>
-<body>
-	<article id="content" class="markdown-body"></article>
-	<script type="text/javascript">
-        function parseMarkdown() {
-            document.getElementById('content').innerHTML = jsCallback.getContent();
-            parseDone();
-        }
-        function parseDone() {
-            window.handler.onHTMLGenerated();
-        }
-    </script>
-</body>
-</html>
