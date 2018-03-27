@@ -530,4 +530,18 @@
     <string name="snagging_transfer_message">小紙條轉換已完成，點擊刷新</string>
     <!--endregion-->
 
+    <string name="text_advanced">高級</string>
+    <string name="text_insert">插入</string>
+    <string name="text_table">插入表格</string>
+    <string name="text_link">插入鏈接</string>
+    <string name="text_checkbox">插入複選框</string>
+    <string name="text_math_jax">插入數學表達式(MathJax)</string>
+    <string name="checkbox_content_hint">輸入複選框內容</string>
+    <string name="is_checkbox_checked">是否選中</string>
+    <string name="input_math_jax_hint">輸入數學表達式</string>
+    <string name="is_math_jax_single">是否獨立一行</string>
+    <string name="invalid_input_tips">無效的輸入</string>
+    <string name="text_export">導出</string>
+    <string name="text_export_text">導出文本文件</string>
+
 </resources>
