@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog bulletedList="true">
 
-    <changelogversion versionName="1.1.0" changeDate="Nov 13, 2013">
+    <changelogversion versionName="1.1.1" changeDate="Mar 27, 2018">
+        <changelogtext>[b][u]Solved the bug that the note can not be saved[/u][/b]</changelogtext>
+        <changelogtext>[b]New! [/b]Added mathJax, superscript, subscript, mark and checkbox support</changelogtext>
+        <changelogtext>Refined the UI of notes list, note view page and note preview content</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="1.1.0" changeDate="Mar 22, 2018">
         <changelogtext>[b][u]Refined the database query logic and the program framework[/u][/b]</changelogtext>
         <changelogtext>[b][u]Removed the logic of mind snagging[/u][/b]</changelogtext>
         <changelogtext>[b]New! [/b]Automatically get preview image, content and title from note content</changelogtext>
