@@ -15,7 +15,7 @@ import my.shouheng.palmmarkdown.listener.OnAttachmentClickedListener;
 import my.shouheng.palmmarkdown.listener.OnGetHtmlListener;
 import my.shouheng.palmmarkdown.listener.OnImageClickedListener;
 import my.shouheng.palmmarkdown.listener.OnLoadingFinishListener;
-import my.shouheng.palmmarkdown.tools.Constant;
+import my.shouheng.palmmarkdown.tools.FileHelper;
 import my.shouheng.palmmarkdown.tools.MdWebViewClient;
 
 /**
@@ -32,7 +32,7 @@ public class MarkdownViewer extends FastScrollWebView {
 
     private MdWebViewClient webViewClient;
 
-    private String htmlResult;
+    private String themeCss;
 
     public MarkdownViewer(Context context) {
         super(context);
@@ -60,23 +60,59 @@ public class MarkdownViewer extends FastScrollWebView {
         this.setWebViewClient(webViewClient);
     }
 
-    public void setHtmlResource(boolean isDarkTheme) {
-        this.loadUrl(isDarkTheme ? "file:///android_asset/markdown_night.html" : "file:///android_asset/markdown.html");
+    public void setHtmlResource(final boolean isDarkTheme) {
+        themeCss = FileHelper.readAssetsContent(getContext(), isDarkTheme ? "dark_theme.txt" : "light_theme.txt");
     }
 
     public final void parseMarkdown(String str) {
-        if (markdownParseListener != null) {
-            markdownParseListener.onStart();
-        }
+        if (markdownParseListener != null) markdownParseListener.onStart();
         new MarkdownParser(new MarkdownParser.OnGetResultListener() {
             @Override
             public void onGetResult(String html) {
-                htmlResult = html;
-                loadUrl("javascript:parseMarkdown()");
-                loadUrl("javascript:(" + Constant.SHOW_PHOTO_JS + ")()");
-                if (markdownParseListener != null) {
-                    markdownParseListener.onStart();
-                }
+                // You must use loadDataWithBaseURL method
+                loadDataWithBaseURL("",
+                        "<html>\n" +
+                                "<head>\n" +
+                                "    <meta charset=\"utf-8\"/>\n" +
+                                themeCss +
+                                "    <script type=\"text/x-mathjax-config\">\n" +
+                                "        MathJax.Hub.Config({\n" +
+                                "            showProcessingMessages: false,\n" +
+                                "            messageStyle: 'none',\n" +
+                                "            showMathMenu: false,\n" +
+                                "            tex2jax: {\n" +
+                                "                inlineMath: [ ['$','$'], [\"\\\\(\",\"\\\\)\"] ],\n" +
+                                "                displayMath: [ ['$$','$$'], [\"\\\\[\",\"\\\\]\"] ]\n" +
+                                "            }\n" +
+                                "        });\n" +
+                                "    </script>\n" +
+                                "    <script type=\"text/javascript\" async\n" +
+                                "        src=\"https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-MML-AM_CHTML\">\n" +
+                                "    </script>\n" +
+                                "    <link rel=\"dns-prefetch\" href=\"//cdn.mathjax.org\" />\n" +
+                                "</head>\n" +
+                                "<body>\n" +
+                                "    <article id=\"content\" class=\"markdown-body\">"
+                                + html +
+                                "</article>\n" +
+                                "<script>" +
+                                "    var imgs = document.getElementsByTagName(\"img\");\n" +
+                                "    var list = new Array();\n" +
+                                "    for(var i = 0; i < imgs.length; i++){\n" +
+                                "        list[i] = imgs[i].src;\n" +
+                                "    }\n" +
+                                "    for(var i = 0; i < imgs.length; i++){\n" +
+                                "        imgs[i].onclick = function() {\n" +
+                                "            jsCallback.showPhotosInGallery(this.src, list);\n" +
+                                "        }\n" +
+                                "    }\n" +
+                                "</script>" +
+                                "</body>\n" +
+                                "</html>",
+                        "text/html",
+                        "UTF-8",
+                        "");
+                if (markdownParseListener != null) markdownParseListener.onEnd();
             }
         }).execute(str);
     }
@@ -121,10 +157,5 @@ public class MarkdownViewer extends FastScrollWebView {
         if (onGetHtmlListener != null) {
             onGetHtmlListener.onGetHtml(html);
         }
-    }
-
-    @JavascriptInterface
-    public String getContent() {
-        return htmlResult;
     }
 }
