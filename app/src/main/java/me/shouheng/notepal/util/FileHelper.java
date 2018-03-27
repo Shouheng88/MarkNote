@@ -592,8 +592,14 @@ public class FileHelper {
     }
     // endregion
 
-    public static File getExportDir() {
-        File dir = new File(getExternalStoragePublicDir(), Constants.EXPORT_DIR_NAME);
+    public static File getHtmlExportDir() {
+        File dir = new File(getExternalStoragePublicDir(), Constants.HTML_EXPORT_DIR_NAME);
+        if (!dir.exists()) dir.mkdirs();
+        return dir;
+    }
+
+    public static File getTextExportDir() {
+        File dir = new File(getExternalStoragePublicDir(), Constants.TEXT_EXPORT_DIR_NAME);
         if (!dir.exists()) dir.mkdirs();
         return dir;
     }
