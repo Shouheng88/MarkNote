@@ -265,12 +265,6 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
                         })
                         .show();
                 break;
-            case R.id.capture:
-                createWebCapture(getBinding().mdView, file -> ToastUtils.makeToast(String.format(getString(R.string.text_file_saved_to), file.getPath())));
-                break;
-            case R.id.print:
-                PrintUtils.print(getContext(), getBinding().mdView, note);
-                break;
             case R.id.font_cursive:
                 getBinding().mdView.getSettings().setCursiveFontFamily("cursive");
                 break;
@@ -307,9 +301,37 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
                 note.setContent(content);
                 ModelHelper.showStatistic(getContext(), note);
                 break;
-            case R.id.export_html:
-                // Export html
-                outHtml(false);
+            case R.id.action_export:
+                new BottomSheet.Builder(getActivity())
+                        .setSheet(R.menu.export)
+                        .setTitle(R.string.text_export)
+                        .setListener(new BottomSheetListener() {
+                            @Override
+                            public void onSheetShown(@NonNull BottomSheet bottomSheet, @Nullable Object o) {}
+
+                            @Override
+                            public void onSheetItemSelected(@NonNull BottomSheet bottomSheet, MenuItem menuItem, @Nullable Object o) {
+                                switch (menuItem.getItemId()) {
+                                    case R.id.export_html:
+                                        // Export html
+                                        outHtml(false);
+                                        break;
+                                    case R.id.capture:
+                                        createWebCapture(getBinding().mdView, file -> ToastUtils.makeToast(String.format(getString(R.string.text_file_saved_to), file.getPath())));
+                                        break;
+                                    case R.id.print:
+                                        PrintUtils.print(getContext(), getBinding().mdView, note);
+                                        break;
+                                    case R.id.export_text:
+                                        outText(false);
+                                        break;
+                                }
+                            }
+
+                            @Override
+                            public void onSheetDismissed(@NonNull BottomSheet bottomSheet, @Nullable Object o, int i) {}
+                        })
+                        .show();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -318,7 +340,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
     private void outHtml(boolean isShare) {
         getBinding().mdView.outHtml(html -> {
             try {
-                File exDir = FileHelper.getExportDir();
+                File exDir = FileHelper.getHtmlExportDir();
                 File outFile = new File(exDir, FileHelper.getDefaultFileName(".html"));
                 FileUtils.writeStringToFile(outFile, html, "utf-8");
                 if (isShare) {
@@ -332,6 +354,23 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
                 ToastUtils.makeToast(R.string.failed_to_create_file);
             }
         });
+    }
+
+    private void outText(boolean isShare) {
+        try {
+            File exDir = FileHelper.getTextExportDir();
+            File outFile = new File(exDir, FileHelper.getDefaultFileName(".text"));
+            FileUtils.writeStringToFile(outFile, note.getContent(), "utf-8");
+            if (isShare) {
+                // Share, do share option
+                ModelHelper.shareFile(getContext(), outFile, Constants.MIME_TYPE_FILES);
+            } else {
+                // Not share, just show a message
+                ToastUtils.makeToast(String.format(getString(R.string.text_file_saved_to), outFile.getPath()));
+            }
+        } catch (IOException e) {
+            ToastUtils.makeToast(R.string.failed_to_create_file);
+        }
     }
 
     private void showLocation() {

@@ -63,16 +63,8 @@
         android:title="@string/text_share"
         app:showAsAction="never"/>
 
-    <item app:showAsAction="never"
-        android:title="@string/note_capture_note"
-        android:id="@+id/capture"/>
-
-    <item app:showAsAction="never"
-        android:title="@string/text_print_pdf"
-        android:id="@+id/print"/>
-
-    <item app:showAsAction="never"
-        android:title="@string/text_export_html"
-        android:id="@+id/export_html"/>
+    <item android:id="@+id/action_export"
+        android:title="@string/text_export"
+        app:showAsAction="never"/>
 
 </menu>

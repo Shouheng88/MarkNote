@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:icon="@drawable/ic_content_copy_black_24dp"
+        android:title="@string/text_export_text"
+        android:id="@+id/export_text"/>
+
+    <item android:icon="@drawable/ic_shortcut_xml_black"
+        android:title="@string/text_export_html"
+        android:id="@+id/export_html"/>
+
+    <item android:icon="@drawable/ic_picture_black"
+        android:title="@string/note_capture_note"
+        android:id="@+id/capture"/>
+
+    <item android:icon="@drawable/ic_local_printshop_black_24dp"
+        android:title="@string/text_print_pdf"
+        android:id="@+id/print"/>
+
+</menu>
