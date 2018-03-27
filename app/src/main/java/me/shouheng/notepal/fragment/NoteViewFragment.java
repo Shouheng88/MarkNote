@@ -53,7 +53,6 @@ import me.shouheng.notepal.util.PrintUtils;
 import me.shouheng.notepal.util.ShortcutHelper;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.viewmodel.CategoryViewModel;
-import my.shouheng.palmmarkdown.listener.MarkdownParseListener;
 
 import static me.shouheng.notepal.config.Constants.PDF_MIME_TYPE;
 import static me.shouheng.notepal.config.Constants.SCHEME_HTTP;
@@ -96,8 +95,6 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
         configToolbar();
 
         configViews();
-
-        refreshLayout(false);
     }
 
     private void handleArguments() {
@@ -147,6 +144,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
         getBinding().mdView.getDelegate().setThumbSize(8, 32);
         getBinding().mdView.getDelegate().setThumbDynamicHeight(false);
         getBinding().mdView.setHtmlResource(isDarkTheme());
+        getBinding().mdView.parseMarkdown(note.getContent());
         getBinding().mdView.setOnImageClickedListener((url, urls) -> {
             List<Attachment> attachments = new ArrayList<>();
             Attachment clickedAttachment = null;
@@ -180,17 +178,6 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
                 }
             }
         });
-        getBinding().mdView.setMarkdownParseListener(new MarkdownParseListener() {
-            @Override
-            public void onStart() {
-
-            }
-
-            @Override
-            public void onEnd() {
-
-            }
-        });
     }
 
     private void startActivity(Uri uri, String mimeType) {
@@ -204,14 +191,9 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
         }
     }
 
-    private void refreshLayout(boolean reload) {
+    private void refreshLayout() {
         if (!TextUtils.isEmpty(note.getContent())) {
-            if (reload) {
-                getBinding().mdView.parseMarkdown(note.getContent());
-            } else {
-                getBinding().mdView.setOnLoadingFinishListener(() ->
-                        getBinding().mdView.parseMarkdown(note.getContent()));
-            }
+            getBinding().mdView.parseMarkdown(note.getContent());
         }
 
         if (getActivity() != null) {
@@ -450,7 +432,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
                     isContentChanged = true;
                     note = (Note) data.getSerializableExtra(Constants.EXTRA_MODEL);
                     tags = note.getTagsName();
-                    refreshLayout(true);
+                    refreshLayout();
                 }
                 break;
         }
