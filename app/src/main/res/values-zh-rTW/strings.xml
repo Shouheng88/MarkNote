@@ -37,9 +37,13 @@
     <string name="text_send">發送</string>
     <string name="text_settings">設置</string>
     <string name="text_share">分享</string>
+    <string name="text_share_image">分享圖片</string>
+    <string name="text_share_text">分享文本</string>
+    <string name="text_share_html">分享Html</string>
     <string name="text_search">搜索</string>
     <string name="text_save_or_discard">保存還是放棄所做的修改？</string>
     <string name="text_save_successfully">保存成功</string>
+    <string name="text_error_when_save">保存數據的時候發生了錯誤</string>
     <string name="text_file_saved_to">檔被保存到%s</string>
     <string name="text_save">保存</string>
     <string name="text_statistic">數據統計</string>
@@ -74,6 +78,10 @@
     <string name="working">正在執行&#8230;</string>
     <string name="text_input_password_and_continue">輸入密碼繼續</string>
     <string name="text_ok">好的</string>
+    <string name="text_export_html">导出html</string>
+    <string name="text_failed_to_load_data">加载数据失败</string>
+    <string name="text_failed_to_modify_data">修改数据失败</string>
+    <string name="text_pick_from_album">从相册中选择</string>
 
     <string name="check_network_availability">檢查網路連接是否可用</string>
 
@@ -151,6 +159,8 @@
     <!--endregion-->
 
     <!--region Note-->
+    <string name="note_default_name">未命名筆記</string>
+
     <string name="content_failed_to_parse_intent">無法解析的意圖</string>
     <string name="note_failed_to_read_file">讀取檔內容失敗</string>
     <string name="note_failed_to_get_note_content">讀取筆記內容失敗</string>
@@ -254,6 +264,8 @@
     <string name="model_name_location">位置</string>
     <string name="model_name_mind_snagging">小紙條</string>
     <string name="model_name_timeline">時間線</string>
+    <string name="model_name_weather">天氣</string>
+    <string name="model_name_category">標簽</string>
 
     <string name="operation_none">None</string>
     <string name="operation_added">添加</string>
@@ -304,12 +316,13 @@
     <string name="setting_question_required">需要輸入密保問題</string>
     <string name="setting_answer_required">需要輸入密保答案</string>
     <string name="setting_confirm_answer_required">需要再次輸入密保答案</string>
-    <string name="setting_no_security_question_message">你還沒有設置密保問題，為防止忘記密碼，請設置密保問題。</string>
 
     <string name="wrong_numeric_string">輸入的數字包含非法字元</string>
     <string name="input_the_freeze_minutes_in_minute">輸入凍結時間(0至30分鐘)</string>
     <string name="freeze_time_too_long">設置的時間過長</string>
     <string name="illegal_number">不合法的數字</string>
+
+    <string name="setting_no_security_question_message">你還沒有設置密保問題，為防止忘記密碼，請設置密保問題。</string>
     <!--endregion-->
 
     <!--region Setting->Backup-->
@@ -347,9 +360,22 @@
     <string name="setting_note">筆記設置</string>
     <string name="setting_default_note_file_extension">筆記的默認檔拓展名</string>
     <string name="setting_default_note_file_extension_sub">創建的筆記檔的默認拓展名</string>
+    <string name="setting_note_sub">筆記相關的設置</string>
+    <string name="setting_note_list_view_expand">使用展開的筆記列表</string>
+    <string name="setting_note_list_view_expand_sub">勾選使用拓展的筆記列表視圖，相反則使用簡化版的筆記列表</string>
     <!--endregion-->
 
     <!--region Setting->Theme-->
+    <string name="setting_personalize_dashboard">個性化主界面</string>
+    <string name="setting_personalize_dashboard_sub">裝飾主界面的抽屜</string>
+    <string name="setting_dashboard_user_info_bg_visible">使用背景圖片</string>
+    <string name="setting_dashboard_user_info_bg_visible_sub">勾選在主界面的抽屜中使用背景圖片</string>
+    <string name="setting_dashboard_user_info_bg">背景圖片</string>
+    <string name="setting_dashboard_user_info_bg_sub">設置主界面中顯示的背景圖</string>
+    <string name="setting_dashboard_user_motto">座右銘</string>
+    <string name="setting_dashboard_user_motto_sub">設置用于主界面顯示的文字</string>
+    <string name="setting_dashboard_user_motto_default">歡迎使用 NotePal</string>
+
     <string name="setting_theme">應用主題</string>
     <string name="setting_dark_theme">夜間主題</string>
     <string name="setting_dark_theme_sub">將整個程式的主題設置成暗色調的</string>
@@ -406,6 +432,8 @@
     <string name="developer_name">WngShhng (shouheng2015@gmail.com)</string>
     <string name="open_source_libraries_permissions">開源庫許可</string>
     <string name="view_third_part_libraries">查看使用的第三方庫</string>
+    <string name="changelog">更新日志</string>
+    <string name="changelog_sub_title">顯示程序的更新日志</string>
     <!--endregion-->
 
     <!--region Setting->Feedback-->
@@ -495,39 +523,6 @@
     <string name="md_input_cols_number">輸入列數</string>
     <string name="md_rows_cannot_empty">輸入的行數不能為空</string>
     <string name="md_cols_cannot_empty">輸入的列數不能為空</string>
-    <!--endregion-->
-
-    <!--region 1.1.0 added-->
-    <string name="text_export_html">導出html</string>
-    <string name="text_failed_to_load_data">加載數據失敗</string>
-    <string name="text_failed_to_modify_data">修改數據失敗</string>
-    <string name="text_pick_from_album">從相冊中選擇</string>
-
-    <string name="note_default_name">未命名筆記</string>
-
-    <string name="model_name_weather">天氣</string>
-    <string name="model_name_category">標簽</string>
-
-    <string name="setting_note_sub">筆記相關的設置</string>
-    <string name="setting_note_list_view_expand">使用展開的筆記列表</string>
-    <string name="setting_note_list_view_expand_sub">勾選使用拓展的筆記列表視圖，相反則使用簡化版的筆記列表</string>
-
-    <string name="setting_personalize_dashboard">個性化主界面</string>
-    <string name="setting_personalize_dashboard_sub">裝飾主界面的抽屜</string>
-    <string name="setting_dashboard_user_info_bg_visible">使用背景圖片</string>
-    <string name="setting_dashboard_user_info_bg_visible_sub">勾選在主界面的抽屜中使用背景圖片</string>
-    <string name="setting_dashboard_user_info_bg">背景圖片</string>
-    <string name="setting_dashboard_user_info_bg_sub">設置主界面中顯示的背景圖</string>
-    <string name="setting_dashboard_user_motto">座右銘</string>
-    <string name="setting_dashboard_user_motto_sub">設置用于主界面顯示的文字</string>
-    <string name="setting_dashboard_user_motto_default">歡迎使用 NotePal</string>
-
-    <string name="changelog">更新日志</string>
-    <string name="changelog_sub_title">顯示程序的更新日志</string>
-
-    <string name="snagging_remove">用戶，您好！爲了避免迷惑用戶，我們決定移除小紙條的功能。您的數據將會被自動轉換成筆記，並被保存在“小紙條”筆記本下面，給您帶來不便請諒解。</string>
-    <string name="snagging_transfer_title">轉換完成</string>
-    <string name="snagging_transfer_message">小紙條轉換已完成，點擊刷新</string>
     <!--endregion-->
 
     <string name="text_advanced">高級</string>
