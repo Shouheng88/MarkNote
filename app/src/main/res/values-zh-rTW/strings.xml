@@ -176,6 +176,8 @@
     <string name="pick_notebook">選擇筆記本</string>
     <string name="no_notebook_available">沒有可用的筆記本</string>
 
+    <string name="pick_category">選擇標簽</string>
+    <string name="no_category_available">沒有可用標簽</string>
     <string name="pick_portrait">選擇圖示</string>
     <string name="edit_tag">編輯標籤</string>
     <string name="tag_name">標籤名稱</string>

@@ -182,6 +182,8 @@
     <string name="pick_notebook">选择笔记本</string>
     <string name="no_notebook_available">没有可用的笔记本</string>
 
+    <string name="pick_category">选择标签</string>
+    <string name="no_category_available">没有可用标签</string>
     <string name="pick_portrait">选择图标</string>
     <string name="edit_tag">编辑标签</string>
     <string name="tag_name">标签名称</string>
