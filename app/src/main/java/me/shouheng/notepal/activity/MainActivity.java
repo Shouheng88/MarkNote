@@ -191,7 +191,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         }
         setupHeader();
         headerBinding.getRoot().setOnLongClickListener(v -> true);
-        headerBinding.llUserInfo.setOnClickListener(
+        headerBinding.getRoot().setOnClickListener(
                 view -> startActivityForResult(UserInfoActivity.class, REQUEST_USER_INFO));
     }
 
