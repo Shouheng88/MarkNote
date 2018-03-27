@@ -228,10 +228,10 @@ public class ModelHelper {
         }
 
         if (noteContent.length() > TextLength.NOTE_CONTENT_PREVIEW_LENGTH.length) {
-            return noteContent.substring(0, TextLength.NOTE_CONTENT_PREVIEW_LENGTH.length).trim();
+            return noteContent.substring(0, TextLength.NOTE_CONTENT_PREVIEW_LENGTH.length).trim().replace('\n', ' ');
         }
 
-        return noteContent.trim();
+        return noteContent.trim().replace('\n', ' ');
     }
 
     public static Uri getNotePreviewImage(String noteContent) {
