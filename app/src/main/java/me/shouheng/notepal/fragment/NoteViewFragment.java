@@ -133,7 +133,10 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
     private void configToolbar() {
         if (getActivity() != null) {
             final ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
-            if (ab != null) ab.setDisplayHomeAsUpEnabled(false);
+            if (ab != null) {
+                ab.setTitle(note.getTitle());
+                ab.setDisplayHomeAsUpEnabled(false);
+            }
             if (!isDarkTheme()) getBinding().toolbar.setPopupTheme(R.style.AppTheme_PopupOverlay);
         }
     }
