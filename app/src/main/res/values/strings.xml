@@ -530,5 +530,7 @@
     <string name="input_math_jax_hint">Input your math jax expression</string>
     <string name="is_math_jax_single">Is single line</string>
     <string name="invalid_input_tips">Invalid input</string>
+    <string name="text_export">Export</string>
+    <string name="text_export_text">Export text</string>
 
 </resources>
