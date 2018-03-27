@@ -520,4 +520,18 @@
     <string name="md_cols_cannot_empty">输入的列数不能为空</string>
     <!--endregion-->
 
+    <string name="text_advanced">高级</string>
+    <string name="text_insert">插入</string>
+    <string name="text_table">插入表格</string>
+    <string name="text_link">插入链接</string>
+    <string name="text_checkbox">插入复选框</string>
+    <string name="text_math_jax">插入数学表达式(MathJax)</string>
+    <string name="checkbox_content_hint">输入复选框内容</string>
+    <string name="is_checkbox_checked">是否选中</string>
+    <string name="input_math_jax_hint">输入数学表达式</string>
+    <string name="is_math_jax_single">是否独立一行</string>
+    <string name="invalid_input_tips">无效的输入</string>
+    <string name="text_export">导出</string>
+    <string name="text_export_text">导出文本文件</string>
+
 </resources>
