@@ -37,9 +37,13 @@
     <string name="text_send">发送</string>
     <string name="text_settings">设置</string>
     <string name="text_share">分享</string>
+    <string name="text_share_image">分享图片</string>
+    <string name="text_share_text">分享文本</string>
+    <string name="text_share_html">分享Html</string>
     <string name="text_search">搜索</string>
     <string name="text_save_or_discard">保存还是放弃所做的修改？</string>
     <string name="text_save_successfully">保存成功</string>
+    <string name="text_error_when_save">保存数据的时候发生了错误</string>
     <string name="text_file_saved_to">文件被保存到%s</string>
     <string name="text_save">保存</string>
     <string name="text_statistic">数据统计</string>
@@ -312,12 +316,13 @@
     <string name="setting_question_required">需要输入密保问题</string>
     <string name="setting_answer_required">需要输入密保答案</string>
     <string name="setting_confirm_answer_required">需要再次输入密保答案</string>
-    <string name="setting_no_security_question_message">你还没有设置密保问题，为防止忘记密码，请设置密保问题。</string>
 
     <string name="wrong_numeric_string">输入的数字包含非法字符</string>
     <string name="input_the_freeze_minutes_in_minute">输入冻结时间(0至30分钟)</string>
     <string name="freeze_time_too_long">设置的时间过长</string>
     <string name="illegal_number">不合法的数字</string>
+
+    <string name="setting_no_security_question_message">你还没有设置密保问题，为防止忘记密码，请设置密保问题。</string>
     <!--endregion-->
 
     <!--region Setting->Backup-->

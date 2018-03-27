@@ -86,6 +86,7 @@
     <string name="check_network_availability">Check network availability</string>
 
     <!--region Common->Announcement-->
+    <string name="need_to_complete">该功能尚待完善</string>
     <string name="dialog_notice_content_part1">Hello, user!<![CDATA[<br/><br/>]]>Due to the limit of time, NotePal still has few weakness. Here we invite you to improve it with us:</string>
     <string name="dialog_notice_content_part2">1.If you like NotePal you may associate developer by translating it in to other languages(Find in <![CDATA[<b>\"Settings->About->Translation\"</b>]]>), or give rating and feedback in application market.</string>
     <string name="dialog_notice_content_part3">2.If you have special requirements, or if you are unsatisfied about current functions, feed back to developer by any of below ways: <![CDATA[<b>Google+ community, Twitter, Weibo or directly sending an email</b>]]>.</string>
@@ -208,7 +209,7 @@
     <string name="failed_to_create_file">Failed to create file</string>
     <string name="storage_not_available">Storage unavailable</string>
     <string name="failed_to_save_attachment">Failed to save attachment</string>
-    <string name="add_attachment">Attachment</string>
+    <string name="add_attachment">Attach</string>
 
     <string name="attachment_type_files">File</string>
     <string name="attachment_type_images">Image</string>
@@ -444,6 +445,11 @@
     <string name="illegal_email_format">Illegal email</string>
 
     <string name="feedback_types">Feedback type</string>
+    <string name="feedback_email_to_find_you">Email to contact you</string>
+    <string name="feedback_details">Details</string>
+    <string name="feedback_connect_email_required">Email requied</string>
+    <string name="feedback_details_required">Details required</string>
+    <string name="feedback_illegal_email_format">Illegal email format</string>
 
     <string name="feedback_abrupt_crash">Abrupt crash</string>
     <string name="feedback_function_improvement">Function improvement</string>
