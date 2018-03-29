@@ -33,6 +33,7 @@ public class MarkdownViewer extends FastScrollWebView {
     private MdWebViewClient webViewClient;
 
     private String themeCss;
+    private String noteHtml;
 
     public MarkdownViewer(Context context) {
         super(context);
@@ -70,8 +71,9 @@ public class MarkdownViewer extends FastScrollWebView {
             @Override
             public void onGetResult(String html) {
                 // You must use loadDataWithBaseURL method
-                loadDataWithBaseURL("",
-                        "<html>\n" +
+                Log.d(TAG, "onGetResult: " + html);
+                loadDataWithBaseURL("", noteHtml =
+                                "<html>\n" +
                                 "<head>\n" +
                                 "    <meta charset=\"utf-8\"/>\n" +
                                 themeCss +
@@ -119,7 +121,10 @@ public class MarkdownViewer extends FastScrollWebView {
 
     public final void outHtml(OnGetHtmlListener onGetHtmlListener) {
         this.onGetHtmlListener = onGetHtmlListener;
-        this.loadUrl("javascript:jsCallback.processHTML(document.documentElement.outerHTML);");
+//        this.loadUrl("javascript:jsCallback.processHTML(document.documentElement.outerHTML);");
+        if (onGetHtmlListener != null) {
+            onGetHtmlListener.onGetHtml(noteHtml);
+        }
     }
 
     public void setOnLoadingFinishListener(OnLoadingFinishListener finishListener) {
