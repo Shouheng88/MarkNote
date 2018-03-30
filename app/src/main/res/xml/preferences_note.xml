@@ -11,6 +11,7 @@
 
     <CheckBoxPreference
         android:key="key_show_note_expanded"
+        android:defaultValue="true"
         android:title="@string/setting_note_list_view_expand"
         android:summary="@string/setting_note_list_view_expand_sub"/>
 
