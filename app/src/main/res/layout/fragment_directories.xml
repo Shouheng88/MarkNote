@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <me.shouheng.notepal.widget.EmptyView
+            android:id="@+id/iv_empty"
+            app:empty_image="@drawable/ic_folder_large"
+            app:title="@string/text_no_more_folders"
+            app:tint_drawable="true"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <me.shouheng.notepal.widget.EmptySupportRecyclerView
+            android:id="@+id/rv_directories"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <me.shouheng.notepal.widget.themed.SupportLoading
+            android:id="@+id/sl"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </RelativeLayout>
+
+</layout>
