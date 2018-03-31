@@ -15,4 +15,11 @@ public class NetworkUtils {
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         return ((networkInfo != null) && (networkInfo.isAvailable()));
     }
+
+    public static boolean isWifi(Context mContext) {
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetInfo != null && activeNetInfo.getType() == ConnectivityManager.TYPE_WIFI;
+    }
 }

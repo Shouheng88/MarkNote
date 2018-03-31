@@ -86,7 +86,7 @@
     <string name="check_network_availability">Check network availability</string>
 
     <!--region Common->Announcement-->
-    <string name="need_to_complete">该功能尚待完善</string>
+    <string name="need_to_complete">Need to complete</string>
     <string name="dialog_notice_content_part1">Hello, user!<![CDATA[<br/><br/>]]>Due to the limit of time, NotePal still has few weakness. Here we invite you to improve it with us:</string>
     <string name="dialog_notice_content_part2">1.If you like NotePal you may associate developer by translating it in to other languages(Find in <![CDATA[<b>\"Settings->About->Translation\"</b>]]>), or give rating and feedback in application market.</string>
     <string name="dialog_notice_content_part3">2.If you have special requirements, or if you are unsatisfied about current functions, feed back to developer by any of below ways: <![CDATA[<b>Google+ community, Twitter, Weibo or directly sending an email</b>]]>.</string>
@@ -538,5 +538,23 @@
     <string name="invalid_input_tips">Invalid input</string>
     <string name="text_export">Export</string>
     <string name="text_export_text">Export text</string>
+
+    <string name="text_external_storage">External Storage</string>
+    <string name="text_one_drive">One drive</string>
+    <string name="one_drive_backup_title">Backup to One Drive</string>
+    <string name="one_drive_backup_sub_title">Login to backup files to One Drive</string>
+    <string name="one_drive_backup_account">Currently backup folder is %1$s, you can sign out to stop backup.</string>
+    <string name="text_error">Error</string>
+    <string name="text_successfully_logout">Successfully logout</string>
+    <string name="backup_only_wifi">Only in WiFi environment</string>
+    <string name="backup_only_wifi_sub">Backup only in WiFi environment</string>
+    <string name="text_sync_settings">Sync settings</string>
+    <string name="failed_query_sync_cloud">Known error occurred!</string>
+    <string name="text_done">Done</string>
+    <string name="text_folder_explore">Folder explorer</string>
+    <string name="text_no_more_folders">No more folders</string>
+    <string name="text_please_wait">Please wait&#8230;</string>
+    <string name="one_drive_sing_in_message">Sign in your one drive account and pick one folder to backup resources to it. The application will crate a folder named \"NotePal\" under given folder you selected. Confirm to continue?</string>
+    <string name="text_sing_out">Sign out</string>
 
 </resources>

@@ -49,6 +49,7 @@ import static java.lang.Long.parseLong;
 public class FileHelper {
 
     private static final String EXTERNAL_STORAGE_FOLDER = "NotePal";
+    private static final String EXTERNAL_STORAGE_BACKUP_DIR = "Backup";
 
     private static boolean isStorageWriteable() {
         boolean isExternalStorageAvailable;
@@ -605,17 +606,18 @@ public class FileHelper {
     }
 
     // region Methods of backup.
-    public static File getBackupDir(String backupName) {
-        File backupDir = new File(getExternalStoragePublicDir(), backupName);
-        if (!backupDir.exists()) backupDir.mkdirs();
-        return backupDir;
-    }
-
     public static File getExternalStoragePublicDir() {
         String path = Environment.getExternalStorageDirectory() + File.separator + EXTERNAL_STORAGE_FOLDER + File.separator;
         File dir = new File(path);
         if (!dir.exists()) dir.mkdirs();
         return dir;
+    }
+
+    // todo change external backup dir
+    public static File getBackupDir(String backupName) {
+        File backupDir = new File(getExternalStoragePublicDir(), backupName);
+        if (!backupDir.exists()) backupDir.mkdirs();
+        return backupDir;
     }
 
     public static File getAttachmentDir(Context mContext) {

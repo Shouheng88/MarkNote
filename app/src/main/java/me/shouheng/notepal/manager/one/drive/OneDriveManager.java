@@ -1,0 +1,152 @@
+package me.shouheng.notepal.manager.one.drive;
+
+import android.app.Activity;
+
+import com.onedrive.sdk.authentication.MSAAuthenticator;
+import com.onedrive.sdk.concurrency.ICallback;
+import com.onedrive.sdk.core.ClientException;
+import com.onedrive.sdk.core.DefaultClientConfig;
+import com.onedrive.sdk.core.IClientConfig;
+import com.onedrive.sdk.extensions.IOneDriveClient;
+import com.onedrive.sdk.extensions.Item;
+import com.onedrive.sdk.extensions.OneDriveClient;
+import com.onedrive.sdk.logger.LoggerLevel;
+
+import java.util.concurrent.atomic.AtomicReference;
+
+import me.shouheng.notepal.R;
+import me.shouheng.notepal.model.Directory;
+import me.shouheng.notepal.util.ToastUtils;
+
+/**
+ * Created by shouh on 2018/3/29.*/
+public class OneDriveManager {
+
+    /**
+     * Expansion options to get all children, thumbnails of children, and thumbnails */
+    private static final String EXPAND_OPTIONS_FOR_CHILDREN_AND_THUMBNAILS = "children(expand=thumbnails),thumbnails";
+
+    /**
+     * Expansion options to get all children, thumbnails of children, and thumbnails when limited */
+    private static final String EXPAND_OPTIONS_FOR_CHILDREN_AND_THUMBNAILS_LIMITED = "children,thumbnails";
+
+    private static OneDriveManager instance;
+
+    public static synchronized OneDriveManager getInstance() {
+        if (instance == null) {
+            synchronized (OneDriveManager.class) {
+                if (instance == null) {
+                    instance = new OneDriveManager();
+                }
+            }
+        }
+        return instance;
+    }
+
+    private OneDriveManager() {}
+
+    private final AtomicReference<IOneDriveClient> mClient = new AtomicReference<>();
+
+    public synchronized IOneDriveClient getOneDriveClient() {
+        if (mClient.get() == null) {
+            throw new UnsupportedOperationException("Unable to generate a new service object");
+        }
+        return mClient.get();
+    }
+
+    public synchronized void createOneDriveClient(final Activity activity, final ICallback<Void> serviceCreated) {
+        new OneDriveClient.Builder()
+                .fromConfig(createConfig())
+                .loginAndBuildClient(activity, new DefaultCallback<IOneDriveClient>(activity) {
+                    @Override
+                    public void success(final IOneDriveClient result) {
+                        // add one instance to the atomic preference
+                        mClient.set(result);
+                        serviceCreated.success(null);
+                    }
+
+                    @Override
+                    public void failure(final ClientException error) {
+                        serviceCreated.failure(error);
+                    }
+                });
+    }
+
+    private IClientConfig createConfig() {
+        IClientConfig config = DefaultClientConfig.createWithAuthenticator(new MSAAuthenticator() {
+            @Override
+            public String getClientId() {
+                return "493c9a39-1906-4205-96eb-444911bd7e37";
+            }
+
+            @Override
+            public String[] getScopes() {
+                return new String[] {"onedrive.readwrite", "onedrive.appfolder", "wl.offline_access"};
+            }
+        });
+        config.getLogger().setLoggingLevel(LoggerLevel.Debug);
+        return config;
+    }
+
+    public void signOut() {
+        if (mClient.get() == null) {
+            return;
+        }
+        mClient.get().getAuthenticator().logout(new ICallback<Void>() {
+            @Override
+            public void success(final Void result) {
+                ToastUtils.makeToast(R.string.text_successfully_logout);
+            }
+
+            @Override
+            public void failure(final ClientException ex) {
+                ToastUtils.makeToast("Logout error " + ex);
+            }
+        });
+    }
+
+    /**
+     * Get directories of given directory
+     *
+     * @param itemId the directory id
+     * @param callback the callback to resolve calling result */
+    public void getDirectories(String itemId, ICallback<Item> callback) {
+        IOneDriveClient oneDriveClient = OneDriveManager.getInstance().getOneDriveClient();
+        oneDriveClient.getDrive()
+                .getItems(itemId)
+                .buildRequest()
+                .expand(getExpansionOptions(oneDriveClient))
+                .get(callback);
+    }
+
+    public void create(String itemId, Item newItem, ICallback<Item> callback) {
+        IOneDriveClient oneDriveClient = OneDriveManager.getInstance().getOneDriveClient();
+        oneDriveClient.getDrive()
+                .getItems(itemId)
+                .getChildren()
+                .buildRequest()
+                .create(newItem, callback);
+    }
+
+    public static Directory getDirectory(Item item) {
+        Directory directory = new Directory();
+        directory.setId(item.id);
+        directory.setName(item.name);
+        directory.setPath(item.parentReference.path + "/" + item.name);
+        directory.setLastModifiedDateTime(item.lastModifiedDateTime.getTime());
+        return directory;
+    }
+
+    private String getExpansionOptions(final IOneDriveClient oneDriveClient) {
+        final String expansionOption;
+        switch (oneDriveClient.getAuthenticator().getAccountInfo().getAccountType()) {
+            case MicrosoftAccount:
+                expansionOption = EXPAND_OPTIONS_FOR_CHILDREN_AND_THUMBNAILS;
+                break;
+            default:
+                expansionOption = EXPAND_OPTIONS_FOR_CHILDREN_AND_THUMBNAILS_LIMITED;
+                break;
+        }
+        return expansionOption;
+    }
+}
