@@ -549,7 +549,7 @@
     <string name="backup_only_wifi">Only in WiFi environment</string>
     <string name="backup_only_wifi_sub">Backup only in WiFi environment</string>
     <string name="text_sync_settings">Sync settings</string>
-    <string name="failed_query_sync_cloud">Known error occurred!</string>
+    <string name="failed_query_sync_cloud">Unknown error occurred!</string>
     <string name="text_done">Done</string>
     <string name="text_folder_explore">Folder explorer</string>
     <string name="text_no_more_folders">No more folders</string>
