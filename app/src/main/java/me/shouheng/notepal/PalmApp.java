@@ -37,6 +37,11 @@ import me.shouheng.notepal.model.Model;
  * 不要让用户做太多的选择！
  * 只要一个主线功能就行！
  *
+ * Official account:
+ * 1. Contact email: shouheng2015@gmail.com
+ * 2. Fabric: shouheng2015@gmail.com
+ * 3. One Drive: w_shouheng@163.com
+ *
  * Created by wangshouheng on 2017/2/26. */
 public class PalmApp extends Application {
 
