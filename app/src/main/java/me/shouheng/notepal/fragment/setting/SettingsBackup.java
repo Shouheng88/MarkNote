@@ -129,7 +129,6 @@ public class SettingsBackup extends PreferenceFragment {
                                 });
                     })
                     .dismissListener(dialogInterface -> pd.dismiss())
-                    .negativeText(R.string.text_cancel)
                     .build().show();
         }
     }
@@ -145,7 +144,6 @@ public class SettingsBackup extends PreferenceFragment {
                     .content(String.format(getString(R.string.one_drive_backup_account),
                             preferencesUtils.getOneDriveBackupName()))
                     .positiveText(R.string.text_sing_out)
-                    .negativeText(R.string.text_cancel)
                     .onPositive((dialog, which) -> {
                         OneDriveManager oneDriveManager = OneDriveManager.getInstance();
                         oneDriveManager.signOut();
