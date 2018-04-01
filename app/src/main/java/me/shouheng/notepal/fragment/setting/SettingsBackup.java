@@ -30,7 +30,6 @@ import me.shouheng.notepal.async.DataBackupIntentService;
 import me.shouheng.notepal.listener.OnFragmentDestroyListener;
 import me.shouheng.notepal.manager.one.drive.DefaultCallback;
 import me.shouheng.notepal.manager.one.drive.OneDriveManager;
-import me.shouheng.notepal.model.Directory;
 import me.shouheng.notepal.util.FileHelper;
 import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.PreferencesUtils;
@@ -47,7 +46,7 @@ public class SettingsBackup extends PreferenceFragment {
     private final static String KEY_ONE_DRIVE_BACKUP = "key_one_drive_backup";
 
     private final int REQUEST_PICK_FOLDER = 0x000F;
-    private Preference prefOneDrive;
+    private Preference prefOneDrive, prefOneDriveSignOut;
 
     private PreferencesUtils preferencesUtils;
 
@@ -83,15 +82,26 @@ public class SettingsBackup extends PreferenceFragment {
         });
 
         prefOneDrive = findPreference(KEY_ONE_DRIVE_BACKUP);
-        refreshOneDriveMessage();
         prefOneDrive.setOnPreferenceClickListener(preference -> {
-            PermissionUtils.checkStoragePermission((CommonActivity) getActivity(), this::showOneDriveBackupDialog);
+            PermissionUtils.checkStoragePermission((CommonActivity) getActivity(), this::connectOneDrive);
             return true;
         });
+
+        prefOneDriveSignOut = findPreference("key_one_drive_sign_out");
+        prefOneDriveSignOut.setOnPreferenceClickListener(preference -> {
+            OneDriveManager oneDriveManager = OneDriveManager.getInstance();
+            oneDriveManager.signOut();
+            preferencesUtils.setOneDriveBackupItemId(null);
+            preferencesUtils.setOneDriveFilesBackupItemId(null);
+            refreshOneDriveMessage();
+            return true;
+        });
+
+        refreshOneDriveMessage();
     }
 
     // region One Drive backup
-    private void showOneDriveBackupDialog() {
+    private void connectOneDrive() {
         final ProgressDialog pd = new ProgressDialog(getActivity());
         pd.setTitle(R.string.text_please_wait);
         pd.setCancelable(false);
@@ -104,32 +114,20 @@ public class SettingsBackup extends PreferenceFragment {
             onLoginSuccess();
         } catch (final UnsupportedOperationException ignored) {
             LogUtils.d(ignored);
-            new MaterialDialog.Builder(getActivity())
-                    .title(R.string.text_tips)
-                    .content(R.string.one_drive_sing_in_message)
-                    .positiveText(R.string.text_confirm)
-                    .onPositive((dialog, which) -> {
-                        final ProgressDialog newPb = new ProgressDialog(getActivity());
-                        newPb.setTitle(R.string.text_please_wait);
-                        newPb.setCancelable(false);
-                        newPb.show();
-                        oneDriveManager.createOneDriveClient(getActivity(),
-                                new DefaultCallback<Void>(getActivity()) {
-                                    @Override
-                                    public void success(Void aVoid) {
-                                        newPb.dismiss();
-                                        onLoginSuccess();
-                                    }
+            oneDriveManager.createOneDriveClient(getActivity(),
+                    new DefaultCallback<Void>(getActivity()) {
+                        @Override
+                        public void success(Void aVoid) {
+                            pd.dismiss();
+                            onLoginSuccess();
+                        }
 
-                                    @Override
-                                    public void failure(ClientException error) {
-                                        newPb.dismiss();
-                                        super.failure(error);
-                                    }
-                                });
-                    })
-                    .dismissListener(dialogInterface -> pd.dismiss())
-                    .build().show();
+                        @Override
+                        public void failure(ClientException error) {
+                            pd.dismiss();
+                            super.failure(error);
+                        }
+                    });
         }
     }
 
@@ -138,19 +136,6 @@ public class SettingsBackup extends PreferenceFragment {
         boolean isDirSpecified = !TextUtils.isEmpty(itemId);
         if (!isDirSpecified) {
             pickBackupDir();
-        } else {
-            new MaterialDialog.Builder(getActivity())
-                    .title(R.string.text_tips)
-                    .content(String.format(getString(R.string.one_drive_backup_account),
-                            preferencesUtils.getOneDriveBackupName()))
-                    .positiveText(R.string.text_sing_out)
-                    .onPositive((dialog, which) -> {
-                        OneDriveManager oneDriveManager = OneDriveManager.getInstance();
-                        oneDriveManager.signOut();
-                        preferencesUtils.setOneDriveBackupItemId(null);
-                        refreshOneDriveMessage();
-                    })
-                    .build().show();
         }
     }
 
@@ -161,10 +146,11 @@ public class SettingsBackup extends PreferenceFragment {
     private void refreshOneDriveMessage() {
         String backItemId = preferencesUtils.getOneDriveBackupItemId();
         if (!TextUtils.isEmpty(backItemId)) {
-            prefOneDrive.setSummary(String.format(getString(R.string.one_drive_backup_account),
-                    preferencesUtils.getOneDriveBackupName()));
+            prefOneDrive.setSummary(String.format(getString(R.string.one_drive_backup_folder), backItemId));
+            prefOneDriveSignOut.setEnabled(true);
         } else {
             prefOneDrive.setSummary(R.string.one_drive_backup_sub_title);
+            prefOneDriveSignOut.setEnabled(false);
         }
     }
 
@@ -297,11 +283,7 @@ public class SettingsBackup extends PreferenceFragment {
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_PICK_FOLDER:
-                    Directory directory = (Directory) data.getSerializableExtra(DirectoryActivity.KEY_EXTRA_DATA);
-                    preferencesUtils.setOneDriveBackupItemId(directory.getId());
-                    preferencesUtils.setOneDriveBackupName(directory.getName());
                     refreshOneDriveMessage();
-                    ToastUtils.makeToast(String.format(getString(R.string.one_drive_backup_account), directory.getName()));
                     break;
             }
         }

@@ -1,5 +1,6 @@
 package me.shouheng.notepal.fragment;
 
+import android.app.ProgressDialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,11 +12,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.DirectoriesAdapter;
 import me.shouheng.notepal.databinding.FragmentDirectoriesBinding;
 import me.shouheng.notepal.fragment.base.BaseFragment;
 import me.shouheng.notepal.model.Directory;
+import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.viewmodel.DirectoryViewModel;
 import me.shouheng.notepal.widget.tools.CustomItemAnimator;
@@ -33,6 +36,8 @@ public class DirectoriesFragment extends BaseFragment<FragmentDirectoriesBinding
 
     private DirectoriesAdapter adapter;
 
+    private PreferencesUtils preferencesUtils;
+
     public static DirectoriesFragment newInstance(Directory directory) {
         Bundle args = new Bundle();
         DirectoriesFragment fragment = new DirectoriesFragment();
@@ -48,6 +53,8 @@ public class DirectoriesFragment extends BaseFragment<FragmentDirectoriesBinding
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {
+        preferencesUtils = PreferencesUtils.getInstance(getContext());
+
         assert getArguments() != null;
         directory = (Directory) getArguments().get(KEY_DIRECTORY);
         directoryViewModel = ViewModelProviders.of(this).get(DirectoryViewModel.class);
@@ -110,12 +117,37 @@ public class DirectoriesFragment extends BaseFragment<FragmentDirectoriesBinding
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_done:
-                if (getActivity() != null && getActivity() instanceof OnFragmentInteractionListener) {
-                    ((OnFragmentInteractionListener) getActivity()).onDirectoryPicked(directory);
-                }
+                createFolder();
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void createFolder() {
+        final ProgressDialog pd = new ProgressDialog(getActivity());
+        pd.setTitle(R.string.text_please_wait);
+        pd.setCancelable(false);
+        pd.show();
+
+        directoryViewModel.createBackupDir(directory).observe(this, directoryResource -> {
+            pd.dismiss();
+            if (directoryResource == null) {
+                ToastUtils.makeToast(R.string.failed_query_sync_cloud);
+                return;
+            }
+            switch (directoryResource.status) {
+                case FAILED:
+                    ToastUtils.makeToast(String.format(PalmApp.getStringCompact(R.string.error_when_try_to_backup),
+                            directoryResource.message));
+                    break;
+                case SUCCESS:
+                    ToastUtils.makeToast(R.string.backup_dir_selected_message);
+                    if (getActivity() != null && getActivity() instanceof OnFragmentInteractionListener) {
+                        ((OnFragmentInteractionListener) getActivity()).onDirectoryPicked(directory);
+                    }
+                    break;
+            }
+        });
     }
 
     public interface OnFragmentInteractionListener {
