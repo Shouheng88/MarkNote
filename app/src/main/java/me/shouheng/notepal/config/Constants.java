@@ -95,4 +95,7 @@ public class Constants {
 
     public final static String HTML_EXPORT_DIR_NAME = "ExportedHtml";
     public final static String TEXT_EXPORT_DIR_NAME = "ExportedText";
+
+    public final static String BACKUP_DIR_NAME = "NotePal";
+    public final static String FILES_BACKUP_DIR_NAME = "files";
 }
