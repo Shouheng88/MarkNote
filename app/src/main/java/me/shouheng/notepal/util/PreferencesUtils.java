@@ -119,8 +119,12 @@ public class PreferencesUtils extends BasePreferencesUtils {
     private final String KEY_SNAGGING_NOTICE_SHOWED = "key_snagging_notice_showed";
 
     private final String KEY_BACKUP_ONLY_WIFI = "key_backup_only_wifi";
+    /**
+     * One drive database and preferences backup directory item id. */
     private final String KEY_ONE_DRIVE_BACKUP_DIRECTORY_ITEM_ID = "key_one_drive_backup_dir_item_id";
-    private final String KEY_ONE_DRIVE_BACKUP_DIRECTORY_NAME = "key_one_drive_backup_dir_name";
+    /**
+     * One drive files backup directory item id. */
+    private final String KEY_ONE_DRIVE_FILES_BACKUP_DIRECTORY_ITEM_ID = "key_one_drive_files_backup_dir_item_id";
 
     public boolean snaggingNoticeShowed() {
         return getBoolean(KEY_SNAGGING_NOTICE_SHOWED, false);
@@ -146,12 +150,12 @@ public class PreferencesUtils extends BasePreferencesUtils {
         putString(KEY_ONE_DRIVE_BACKUP_DIRECTORY_ITEM_ID, itemId);
     }
 
-    public String getOneDriveBackupName() {
-        return getString(KEY_ONE_DRIVE_BACKUP_DIRECTORY_NAME, null);
+    public void setOneDriveFilesBackupItemId(String itemId) {
+        putString(KEY_ONE_DRIVE_FILES_BACKUP_DIRECTORY_ITEM_ID, itemId);
     }
 
-    public void setOneDriveBackupName(String name) {
-        putString(KEY_ONE_DRIVE_BACKUP_DIRECTORY_NAME, name);
+    public String getOneDriveFilesBackupItemId() {
+        return getString(KEY_ONE_DRIVE_FILES_BACKUP_DIRECTORY_ITEM_ID, null);
     }
 
     /**
