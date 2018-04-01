@@ -7,6 +7,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.base.CommonActivity;
 import me.shouheng.notepal.databinding.ActivityDirectoryBinding;
@@ -15,14 +17,9 @@ import me.shouheng.notepal.model.Directory;
 import me.shouheng.notepal.util.FragmentHelper;
 
 public class DirectoryActivity extends CommonActivity<ActivityDirectoryBinding> implements
-        DirectoriesFragment.OnFragmentInteractionListener{
+        DirectoriesFragment.OnFragmentInteractionListener {
 
     public final static String KEY_EXTRA_DATA = "key_extra_data";
-
-    public static void startExplore(Activity activity, int req) {
-        Intent intent = new Intent(activity, DirectoryActivity.class);
-        activity.startActivityForResult(intent, req);
-    }
 
     public static void startExplore(android.app.Fragment fragment, int req) {
         Intent intent = new Intent(fragment.getActivity(), DirectoryActivity.class);
@@ -42,6 +39,12 @@ public class DirectoryActivity extends CommonActivity<ActivityDirectoryBinding> 
         directory.setId("root");
         directory.setPath("root");
         FragmentHelper.replace(this, DirectoriesFragment.newInstance(directory), R.id.fragment_container);
+
+        new MaterialDialog.Builder(this)
+                .title(R.string.text_tips)
+                .positiveText(R.string.text_ok)
+                .content(R.string.pick_backup_directory_message)
+                .build().show();
     }
 
     private void configToolbar() {

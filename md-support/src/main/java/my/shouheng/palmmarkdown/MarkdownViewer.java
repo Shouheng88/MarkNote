@@ -71,7 +71,7 @@ public class MarkdownViewer extends FastScrollWebView {
             @Override
             public void onGetResult(String html) {
                 // You must use loadDataWithBaseURL method
-                Log.d(TAG, "onGetResult: " + html);
+//                Log.d(TAG, "onGetResult: " + html);
                 loadDataWithBaseURL("", noteHtml =
                                 "<html>\n" +
                                 "<head>\n" +
