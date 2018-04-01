@@ -30,6 +30,11 @@
             android:title="@string/one_drive_backup_title"
             android:summary="@string/one_drive_backup_sub_title"/>
 
+        <Preference android:key="key_one_drive_sign_out"
+            android:persistent="false"
+            android:title="@string/sign_out_one_drive"
+            android:summary="@string/sign_out_one_drive_sub"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/text_sync_settings">
