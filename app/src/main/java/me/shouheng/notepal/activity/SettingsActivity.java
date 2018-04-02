@@ -42,9 +42,10 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> im
         OnFragmentDestroyListener,
         OnSettingsChangedListener {
 
-    private final static int REQUEST_CODE_PASSWORD = 0x0201;
-
     public final static String KEY_CONTENT_CHANGE_TYPES = "key_content_change_types";
+    public final static String ACTION_NAV_TO_BACKUP_FRAGMENT = "action_navigate_to_backup_settings_fragment";
+
+    private final static int REQUEST_CODE_PASSWORD = 0x0201;
 
     private String keyForColor;
 
@@ -56,6 +57,12 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> im
 
     public static void start(Activity activity, int requestCode) {
         Intent intent = new Intent(activity, SettingsActivity.class);
+        activity.startActivityForResult(intent, requestCode);
+    }
+
+    public static void start(Activity activity, String action, int requestCode) {
+        Intent intent = new Intent(activity, SettingsActivity.class);
+        intent.setAction(action);
         activity.startActivityForResult(intent, requestCode);
     }
 
@@ -85,7 +92,12 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> im
     }
 
     private void configFragment() {
-        FragmentHelper.replace(this, new SettingsFragment(), R.id.fragment_container);
+        String action = getIntent().getAction();
+        if (TextUtils.isEmpty(action)) {
+            FragmentHelper.replace(this, new SettingsFragment(), R.id.fragment_container);
+        } else if (ACTION_NAV_TO_BACKUP_FRAGMENT.equals(action)){
+            FragmentHelper.replace(this, new SettingsBackup(), R.id.fragment_container);
+        }
     }
 
     @Override
@@ -170,8 +182,9 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> im
     @Override
     public void onThemeSelected(Colorful.ThemeColor themeColor) {
         getBinding().bar.toolbar.setBackgroundColor(primaryColor());
-        if (isSettingsFragment()) ((SettingsFragment) getCurrentFragment())
-                .notifyPrimaryColorChanged(getResources().getColor(themeColor.getColorRes()));
+        if (isSettingsFragment())
+            ((SettingsFragment) getCurrentFragment())
+                    .notifyPrimaryColorChanged(getResources().getColor(themeColor.getColorRes()));
     }
 
     private void showAccentColorPicker() {
