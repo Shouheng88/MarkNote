@@ -294,10 +294,10 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
     private void configMain(Note note) {
         getBinding().main.etTitle.setText(TextUtils.isEmpty(note.getTitle()) ? "" : note.getTitle());
         getBinding().main.etTitle.setTextColor(primaryColor());
-        getBinding().main.etTitle.addTextChangedListener(textWatcher);
+        getBinding().main.etTitle.addTextChangedListener(titleWatcher);
 
         getBinding().main.etContent.setText(note.getContent());
-        getBinding().main.etContent.addTextChangedListener(textWatcher);
+        getBinding().main.etContent.addTextChangedListener(contentWatcher);
 
         getBinding().main.llFolder.setOnClickListener(v -> showNotebookPicker());
 
@@ -321,7 +321,22 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
         }
     }
 
-    private TextWatcher textWatcher = new TextWatcher() {
+    private TextWatcher titleWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+            note.setTitle(editable.toString());
+            setContentChanged();
+            updateCharsInfo();
+        }
+    };
+
+    private TextWatcher contentWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
@@ -336,6 +351,7 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
                             && ((boolean) getBinding().main.etContent.getTag()))) {
                 getBinding().main.etContent.setTag(null);
             } else {
+                note.setContent(s.toString());
                 setContentChanged();
                 updateCharsInfo();
             }
