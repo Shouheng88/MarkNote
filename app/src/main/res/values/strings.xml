@@ -560,5 +560,7 @@
     <string name="error_when_try_to_backup">Error when try to backup : %1$s</string>
     <string name="backup_dir_selected_message">Successfully get backup directory</string>
     <string name="pick_backup_directory_message">Get into the folder you want to backup to and select \"DONE\".</string>
+    <string name="login_drive_message">Login your one drive account before sync.</string>
+    <string name="text_syncing">Syncing&#8230;</string>
 
 </resources>

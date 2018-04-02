@@ -1,7 +1,6 @@
 package me.shouheng.notepal.util;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Build;
 import android.text.TextUtils;
 
@@ -83,14 +82,14 @@ public class PalmUtils {
         OneDriveManager oneDriveManager = OneDriveManager.getInstance();
         try {
             oneDriveManager.getOneDriveClient();
-            Intent service = new Intent(activity, OneDriveBackupService.class);
-            activity.startService(service);
+            OneDriveBackupService.start(activity);
+            ToastUtils.makeToast(R.string.text_syncing);
         } catch (final UnsupportedOperationException ignored) {
             oneDriveManager.createOneDriveClient(activity, new DefaultCallback<Void>(activity) {
                 @Override
                 public void success(Void aVoid) {
-                    Intent service = new Intent(activity, OneDriveBackupService.class);
-                    activity.startService(service);
+                    OneDriveBackupService.start(activity);
+                    ToastUtils.makeToast(R.string.text_syncing);
                 }
 
                 @Override
