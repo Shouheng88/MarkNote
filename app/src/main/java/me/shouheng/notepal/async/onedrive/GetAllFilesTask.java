@@ -11,7 +11,7 @@ import com.onedrive.sdk.extensions.Item;
 import java.util.HashMap;
 import java.util.Map;
 
-import me.shouheng.notepal.manager.one.drive.OneDriveManager;
+import me.shouheng.notepal.manager.onedrive.OneDriveManager;
 import me.shouheng.notepal.util.LogUtils;
 
 /**

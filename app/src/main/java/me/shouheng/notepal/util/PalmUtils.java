@@ -10,8 +10,8 @@ import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.SettingsActivity;
 import me.shouheng.notepal.async.onedrive.OneDriveBackupService;
-import me.shouheng.notepal.manager.one.drive.DefaultCallback;
-import me.shouheng.notepal.manager.one.drive.OneDriveManager;
+import me.shouheng.notepal.manager.onedrive.DefaultCallback;
+import me.shouheng.notepal.manager.onedrive.OneDriveManager;
 
 /**
  * Created by wang shouheng on 2017/12/23.*/
