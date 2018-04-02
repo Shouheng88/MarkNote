@@ -637,14 +637,18 @@ public class FileHelper {
     }
 
     public static File getSharedPreferencesFile(Context mContext) {
+        return new File(getSharedPreferencesName(mContext));
+    }
+
+    public static String getSharedPreferencesName(Context mContext) {
         File appData = mContext.getFilesDir().getParentFile();
         String packageName = mContext.getApplicationContext().getPackageName();
-        return new File(appData
+        return appData
                 + System.getProperty("file.separator")
                 + "shared_prefs"
                 + System.getProperty("file.separator")
                 + packageName
-                + "_preferences.xml");
+                + "_preferences.xml";
     }
     // endregion
 
