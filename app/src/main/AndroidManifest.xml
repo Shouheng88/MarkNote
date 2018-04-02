@@ -128,7 +128,7 @@
         </provider>
 
         <service android:name=".async.DataBackupIntentService" />
-        <service android:name=".async.OneDriveOperator" />
+        <service android:name=".async.OneDriveBackupService" />
 
         <activity
             android:name=".activity.LockActivity"
