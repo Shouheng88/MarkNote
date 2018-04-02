@@ -1,9 +1,11 @@
 package me.shouheng.notepal.manager.one.drive;
 
 import android.app.Activity;
+import android.os.RemoteException;
 
 import com.onedrive.sdk.authentication.MSAAuthenticator;
 import com.onedrive.sdk.concurrency.ICallback;
+import com.onedrive.sdk.concurrency.IProgressCallback;
 import com.onedrive.sdk.core.ClientException;
 import com.onedrive.sdk.core.DefaultClientConfig;
 import com.onedrive.sdk.core.IClientConfig;
@@ -11,7 +13,12 @@ import com.onedrive.sdk.extensions.IOneDriveClient;
 import com.onedrive.sdk.extensions.Item;
 import com.onedrive.sdk.extensions.OneDriveClient;
 import com.onedrive.sdk.logger.LoggerLevel;
+import com.onedrive.sdk.options.Option;
+import com.onedrive.sdk.options.QueryOption;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Collections;
 import java.util.concurrent.atomic.AtomicReference;
 
 import me.shouheng.notepal.R;
@@ -29,6 +36,8 @@ public class OneDriveManager {
     /**
      * Expansion options to get all children, thumbnails of children, and thumbnails when limited */
     private static final String EXPAND_OPTIONS_FOR_CHILDREN_AND_THUMBNAILS_LIMITED = "children,thumbnails";
+
+    private final Option option = new QueryOption("@name.conflictBehavior", "fail");
 
     private static OneDriveManager instance;
 
@@ -119,13 +128,65 @@ public class OneDriveManager {
                 .get(callback);
     }
 
-    public void create(String itemId, Item newItem, ICallback<Item> callback) {
+    public void create(String toItemId, Item newItem, ICallback<Item> callback) {
         IOneDriveClient oneDriveClient = OneDriveManager.getInstance().getOneDriveClient();
         oneDriveClient.getDrive()
-                .getItems(itemId)
+                .getItems(toItemId)
                 .getChildren()
                 .buildRequest()
                 .create(newItem, callback);
+    }
+
+    public void delete(String itemId, ICallback<Void> callback) {
+        OneDriveManager.getInstance().getOneDriveClient()
+                .getDrive()
+                .getItems(itemId)
+                .buildRequest()
+                .delete(callback);
+    }
+
+    public void upload(String toItemId, File file, UploadProgressCallback<Item> callback) {
+        final String filename = FileContent.getFileName(file);
+        final byte[] fileInMemory;
+        try {
+            fileInMemory = FileContent.getFileBytes(file);
+            getOneDriveClient().getDrive()
+                    .getItems(toItemId)
+                    .getChildren()
+                    .byId(filename)
+                    .getContent()
+                    .buildRequest(Collections.singletonList(option))
+                    .put(fileInMemory, new IProgressCallback<Item>() {
+                        @Override
+                        public void progress(long current, long max) {
+                            if (callback != null) {
+                                callback.progress(current, max);
+                            }
+                        }
+
+                        @Override
+                        public void success(Item item) {
+                            if (callback != null) {
+                                callback.success(item);
+                            }
+                        }
+
+                        @Override
+                        public void failure(ClientException ex) {
+                            if (callback != null) {
+                                callback.failure(ex);
+                            }
+                        }
+                    });
+        } catch (IOException e) {
+            if (callback != null) {
+                callback.failure(e);
+            }
+        } catch (RemoteException e) {
+            if (callback != null) {
+                callback.failure(e);
+            }
+        }
     }
 
     public static Directory getDirectory(Item item) {
@@ -148,5 +209,11 @@ public class OneDriveManager {
                 break;
         }
         return expansionOption;
+    }
+
+    public interface UploadProgressCallback<Result> {
+        void progress(final long current, final long max);
+        void success(final Result result);
+        void failure(final Exception e);
     }
 }
