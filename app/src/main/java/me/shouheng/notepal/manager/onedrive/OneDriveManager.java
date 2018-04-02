@@ -1,10 +1,7 @@
 package me.shouheng.notepal.manager.onedrive;
 
 import android.app.Activity;
-import android.os.AsyncTask;
-import android.os.RemoteException;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 
 import com.onedrive.sdk.authentication.MSAAuthenticator;
 import com.onedrive.sdk.concurrency.ICallback;
@@ -12,6 +9,7 @@ import com.onedrive.sdk.concurrency.IProgressCallback;
 import com.onedrive.sdk.core.ClientException;
 import com.onedrive.sdk.core.DefaultClientConfig;
 import com.onedrive.sdk.core.IClientConfig;
+import com.onedrive.sdk.core.OneDriveErrorCodes;
 import com.onedrive.sdk.extensions.IItemCollectionPage;
 import com.onedrive.sdk.extensions.IItemCollectionRequestBuilder;
 import com.onedrive.sdk.extensions.IOneDriveClient;
@@ -22,14 +20,11 @@ import com.onedrive.sdk.options.Option;
 import com.onedrive.sdk.options.QueryOption;
 
 import java.io.File;
-import java.io.IOException;
-import java.lang.ref.WeakReference;
 import java.util.Collections;
 import java.util.concurrent.atomic.AtomicReference;
 
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.model.Directory;
-import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.ToastUtils;
 
 /**
@@ -63,14 +58,14 @@ public class OneDriveManager {
 
     private final AtomicReference<IOneDriveClient> mClient = new AtomicReference<>();
 
-    public synchronized IOneDriveClient getOneDriveClient() {
+    private synchronized IOneDriveClient getOneDriveClient() throws Exception {
         if (mClient.get() == null) {
-            throw new UnsupportedOperationException("Unable to generate a new service object");
+            throw new Exception("The client is not initialized.");
         }
         return mClient.get();
     }
 
-    public synchronized void createOneDriveClient(final Activity activity, @Nullable ICallback<Void> serviceCreated) {
+    private synchronized void createOneDriveClient(final Activity activity, @Nullable ICallback<Void> serviceCreated) {
         new OneDriveClient.Builder()
                 .fromConfig(createConfig())
                 .loginAndBuildClient(activity, new DefaultCallback<IOneDriveClient>(activity) {
@@ -96,41 +91,14 @@ public class OneDriveManager {
      * Init one drive account, that is put the IOneDriveClient to mClient.
      *
      * @param activity activity */
-    public void connectOneDrive(Activity activity) {
-        String itemId = PreferencesUtils.getInstance().getOneDriveBackupItemId();
-        String filesItemId = PreferencesUtils.getInstance().getOneDriveFilesBackupItemId();
-        if (TextUtils.isEmpty(itemId) || TextUtils.isEmpty(filesItemId)) {
-            // No backup requirement, return
-            return;
-        }
-
-        new OneDriveInitTask(activity, this).execute();
-    }
-
-    private static class OneDriveInitTask extends AsyncTask<Void, Integer, String> {
-
-        private WeakReference<OneDriveManager> oneDriveManagerWeakReference;
-        private WeakReference<Activity> activityWeakReference;
-
-        OneDriveInitTask(Activity activity, OneDriveManager oneDriveManager) {
-            activityWeakReference = new WeakReference<>(activity);
-            oneDriveManagerWeakReference = new WeakReference<>(oneDriveManager);
-        }
-
-        @Override
-        protected String doInBackground(Void... voids) {
-            OneDriveManager oneDriveManager;
-            if ((oneDriveManager = oneDriveManagerWeakReference.get()) != null) {
-                try {
-                    oneDriveManager.getOneDriveClient();
-                } catch (UnsupportedOperationException e) {
-                    Activity activity = activityWeakReference.get();
-                    if (activity != null) {
-                        oneDriveManager.createOneDriveClient(activity, null);
-                    }
-                }
+    public void connectOneDrive(Activity activity, ICallback<Void> callback) {
+        try {
+            getOneDriveClient();
+            if (callback != null) {
+                callback.success(null);
             }
-            return "executed";
+        } catch (final Exception ignored) {
+            createOneDriveClient(activity, callback);
         }
     }
 
@@ -173,21 +141,36 @@ public class OneDriveManager {
      * @param itemId the directory id
      * @param callback the callback to resolve calling result */
     public void getItems(String itemId, ICallback<Item> callback) {
-        IOneDriveClient oneDriveClient = OneDriveManager.getInstance().getOneDriveClient();
-        oneDriveClient.getDrive()
-                .getItems(itemId)
-                .buildRequest()
-                .expand(getExpansionOptions(oneDriveClient))
-                .get(callback);
+        IOneDriveClient oneDriveClient;
+        try {
+            oneDriveClient = getOneDriveClient();
+            oneDriveClient
+                    .getDrive()
+                    .getItems(itemId)
+                    .buildRequest()
+                    .expand(getExpansionOptions(oneDriveClient))
+                    .get(callback);
+        } catch (Exception e) {
+            if (callback != null) {
+                callback.failure(new ClientException(e.getMessage(), e, OneDriveErrorCodes.AuthenticationCancelled));
+            }
+        }
     }
 
     public void getFirstPageItems(String itemId, ICallback<IItemCollectionPage> callback) {
-        IOneDriveClient oneDriveClient = OneDriveManager.getInstance().getOneDriveClient();
-        oneDriveClient.getDrive()
-                .getItems(itemId)
-                .getChildren()
-                .buildRequest()
-                .get(callback);
+        try {
+            IOneDriveClient oneDriveClient = getOneDriveClient();
+            oneDriveClient
+                    .getDrive()
+                    .getItems(itemId)
+                    .getChildren()
+                    .buildRequest()
+                    .get(callback);
+        } catch (Exception e) {
+            if (callback != null) {
+                callback.failure(new ClientException(e.getMessage(), e, OneDriveErrorCodes.AuthenticationCancelled));
+            }
+        }
     }
 
     public void getNextPageItems(IItemCollectionRequestBuilder builder, ICallback<IItemCollectionPage> callback) {
@@ -195,20 +178,34 @@ public class OneDriveManager {
     }
 
     public void create(String toItemId, Item newItem, ICallback<Item> callback) {
-        IOneDriveClient oneDriveClient = OneDriveManager.getInstance().getOneDriveClient();
-        oneDriveClient.getDrive()
-                .getItems(toItemId)
-                .getChildren()
-                .buildRequest()
-                .create(newItem, callback);
+        IOneDriveClient oneDriveClient;
+        try {
+            oneDriveClient = getOneDriveClient();
+            oneDriveClient
+                    .getDrive()
+                    .getItems(toItemId)
+                    .getChildren()
+                    .buildRequest()
+                    .create(newItem, callback);
+        } catch (Exception e) {
+            if (callback != null) {
+                callback.failure(new ClientException(e.getMessage(), e, OneDriveErrorCodes.AuthenticationCancelled));
+            }
+        }
     }
 
     public void delete(String itemId, ICallback<Void> callback) {
-        OneDriveManager.getInstance().getOneDriveClient()
-                .getDrive()
-                .getItems(itemId)
-                .buildRequest()
-                .delete(callback);
+        try {
+            getOneDriveClient()
+                    .getDrive()
+                    .getItems(itemId)
+                    .buildRequest()
+                    .delete(callback);
+        } catch (Exception e) {
+            if (callback != null) {
+                callback.failure(new ClientException(e.getMessage(), e, OneDriveErrorCodes.AuthenticationCancelled));
+            }
+        }
     }
 
     public void upload(String toItemId, File file, UploadProgressCallback<Item> callback) {
@@ -216,7 +213,8 @@ public class OneDriveManager {
         final byte[] fileInMemory;
         try {
             fileInMemory = FileContent.getFileBytes(file);
-            getOneDriveClient().getDrive()
+            getOneDriveClient()
+                    .getDrive()
                     .getItems(toItemId)
                     .getChildren()
                     .byId(filename)
@@ -244,13 +242,9 @@ public class OneDriveManager {
                             }
                         }
                     });
-        } catch (IOException e) {
+        } catch (Exception e) {
             if (callback != null) {
-                callback.failure(e);
-            }
-        } catch (RemoteException e) {
-            if (callback != null) {
-                callback.failure(e);
+                callback.failure(new ClientException(e.getMessage(), e, OneDriveErrorCodes.AuthenticationCancelled));
             }
         }
     }

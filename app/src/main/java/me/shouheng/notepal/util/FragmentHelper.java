@@ -19,6 +19,17 @@ public class FragmentHelper {
         replace(activity, fragment, containerId, false);
     }
 
+    public static void replace(AppCompatActivity activity,
+                               Fragment fragment,
+                               @IdRes int containerId,
+                               String tag) {
+        if (activity.isFinishing()) return;
+        FragmentManager fragmentManager = activity.getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        setCustomAnimations(transaction);
+        transaction.replace(containerId, fragment, tag).commit();
+    }
+
     public static void replaceWithCallback(AppCompatActivity activity,
                                            Fragment fragment,
                                            @IdRes int containerId) {
