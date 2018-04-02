@@ -43,9 +43,8 @@ import me.shouheng.notepal.databinding.ActivityMainBinding;
 import me.shouheng.notepal.databinding.ActivityMainNavHeaderBinding;
 import me.shouheng.notepal.dialog.AttachmentPickerDialog;
 import me.shouheng.notepal.dialog.CategoryEditDialog;
-import me.shouheng.notepal.dialog.QuickNoteEditor;
 import me.shouheng.notepal.dialog.NotebookEditDialog;
-import me.shouheng.notepal.dialog.NoticeDialog;
+import me.shouheng.notepal.dialog.QuickNoteEditor;
 import me.shouheng.notepal.fragment.CategoriesFragment;
 import me.shouheng.notepal.fragment.NotesFragment;
 import me.shouheng.notepal.intro.IntroActivity;
@@ -65,6 +64,7 @@ import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.FragmentHelper;
 import me.shouheng.notepal.util.IntentUtils;
 import me.shouheng.notepal.util.LogUtils;
+import me.shouheng.notepal.util.PalmUtils;
 import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.viewmodel.CategoryViewModel;
@@ -89,6 +89,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     private final int REQUEST_SEARCH = 0x0007;
     private final int REQUEST_NOTE_VIEW = 0x0008;
     private final int REQUEST_SETTING = 0x0009;
+    private final int REQUEST_SETTING_BACKUP = 0x000A;
     // endregion
 
     private final static long TIME_INTERVAL_BACK = 2000;
@@ -565,7 +566,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         new Handler().postDelayed(() -> {
             switch (menuItem.getItemId()) {
                 case R.id.nav_sync:
-                    NoticeDialog.newInstance().show(getSupportFragmentManager(), "NoticeDialog");
+                    PalmUtils.syncOneDrive(this, REQUEST_SETTING_BACKUP);
                     break;
                 case R.id.nav_settings:
                     SettingsActivity.start(this, REQUEST_SETTING);
