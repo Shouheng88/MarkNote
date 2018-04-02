@@ -124,7 +124,6 @@ public final class FileContent {
      * @param fileName the file name to remove invalid characters from
      * @return The sanitized name */
     private static String removeInvalidCharacters(final String fileName) {
-        // TODO: This is not complete as there are UNICODE specific characters that also need to be removed.
         String fixedUpString = Uri.decode(fileName);
         for (int i = 0; i < ANSI_INVALID_CHARACTERS.length(); i++) {
             fixedUpString = fixedUpString.replace(ANSI_INVALID_CHARACTERS.charAt(i), '_');
