@@ -1,8 +1,18 @@
 package me.shouheng.notepal.util;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
+import android.text.TextUtils;
+
+import com.onedrive.sdk.core.ClientException;
 
 import me.shouheng.notepal.PalmApp;
+import me.shouheng.notepal.R;
+import me.shouheng.notepal.activity.SettingsActivity;
+import me.shouheng.notepal.async.OneDriveBackupService;
+import me.shouheng.notepal.manager.one.drive.DefaultCallback;
+import me.shouheng.notepal.manager.one.drive.OneDriveManager;
 
 /**
  * Created by wang shouheng on 2017/12/23.*/
@@ -54,5 +64,40 @@ public class PalmUtils {
 
     public static String getPackageName(){
         return PalmApp.getContext().getApplicationContext().getPackageName();
+    }
+
+    /**
+     * Sync to one drive.
+     *
+     * @param activity current activity
+     * @param req the request code for opening setting activity */
+    public static void syncOneDrive(Activity activity, int req) {
+        String itemId = PreferencesUtils.getInstance().getOneDriveBackupItemId();
+        String filesItemId = PreferencesUtils.getInstance().getOneDriveFilesBackupItemId();
+        if (TextUtils.isEmpty(itemId) || TextUtils.isEmpty(filesItemId)) {
+            ToastUtils.makeToast(R.string.login_drive_message);
+            SettingsActivity.start(activity, SettingsActivity.ACTION_NAV_TO_BACKUP_FRAGMENT, req);
+            return;
+        }
+
+        OneDriveManager oneDriveManager = OneDriveManager.getInstance();
+        try {
+            oneDriveManager.getOneDriveClient();
+            Intent service = new Intent(activity, OneDriveBackupService.class);
+            activity.startService(service);
+        } catch (final UnsupportedOperationException ignored) {
+            oneDriveManager.createOneDriveClient(activity, new DefaultCallback<Void>(activity) {
+                @Override
+                public void success(Void aVoid) {
+                    Intent service = new Intent(activity, OneDriveBackupService.class);
+                    activity.startService(service);
+                }
+
+                @Override
+                public void failure(ClientException error) {
+                    super.failure(error);
+                }
+            });
+        }
     }
 }
