@@ -1,9 +1,8 @@
 package me.shouheng.notepal.util;
 
-import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Build;
+
+import me.shouheng.notepal.PalmApp;
 
 /**
  * Created by wang shouheng on 2017/12/23.*/
@@ -53,14 +52,7 @@ public class PalmUtils {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
     }
 
-    public static String getPackageName(Context ctx){
-        PackageInfo info;
-        try {
-            info = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), 0);
-            return info.packageName;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public static String getPackageName(){
+        return PalmApp.getContext().getApplicationContext().getPackageName();
     }
 }
