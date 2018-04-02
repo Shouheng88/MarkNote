@@ -40,7 +40,8 @@ public class AttachmentViewModel extends BaseViewModel<Attachment> {
         new ResourceAsyncTask<>(result, () -> {
             Attachment atFile = AttachmentsStore.getInstance(PalmApp.getContext()).get(note.getContentCode());
             if (atFile == null) {
-                return Resource.success("");
+                // return the note content field
+                return Resource.success(note.getContent());
             } else {
                 try {
                     File noteFile = new File(atFile.getPath());
