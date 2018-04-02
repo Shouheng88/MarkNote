@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import me.shouheng.notepal.manager.one.drive.FileContent;
+import me.shouheng.notepal.manager.onedrive.FileContent;
 import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.provider.AttachmentsStore;
 

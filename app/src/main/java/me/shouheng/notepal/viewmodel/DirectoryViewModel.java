@@ -14,7 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import me.shouheng.notepal.PalmApp;
-import me.shouheng.notepal.manager.one.drive.OneDriveManager;
+import me.shouheng.notepal.manager.onedrive.OneDriveManager;
 import me.shouheng.notepal.model.Directory;
 import me.shouheng.notepal.model.data.Resource;
 import me.shouheng.notepal.util.LogUtils;

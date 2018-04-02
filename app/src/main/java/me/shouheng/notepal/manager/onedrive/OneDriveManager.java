@@ -1,4 +1,4 @@
-package me.shouheng.notepal.manager.one.drive;
+package me.shouheng.notepal.manager.onedrive;
 
 import android.app.Activity;
 import android.os.RemoteException;

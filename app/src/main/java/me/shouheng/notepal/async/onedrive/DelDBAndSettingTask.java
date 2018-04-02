@@ -7,7 +7,7 @@ import com.onedrive.sdk.core.ClientException;
 import com.onedrive.sdk.extensions.Item;
 
 import me.shouheng.notepal.PalmApp;
-import me.shouheng.notepal.manager.one.drive.OneDriveManager;
+import me.shouheng.notepal.manager.onedrive.OneDriveManager;
 import me.shouheng.notepal.provider.PalmDB;
 import me.shouheng.notepal.util.LogUtils;
 

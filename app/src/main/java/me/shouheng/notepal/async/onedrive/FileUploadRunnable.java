@@ -7,7 +7,7 @@ import com.onedrive.sdk.extensions.Item;
 import java.io.File;
 import java.util.concurrent.CountDownLatch;
 
-import me.shouheng.notepal.manager.one.drive.OneDriveManager;
+import me.shouheng.notepal.manager.onedrive.OneDriveManager;
 import me.shouheng.notepal.model.Attachment;
 
 /**
