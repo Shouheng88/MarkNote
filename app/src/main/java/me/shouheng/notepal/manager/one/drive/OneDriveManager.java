@@ -9,6 +9,8 @@ import com.onedrive.sdk.concurrency.IProgressCallback;
 import com.onedrive.sdk.core.ClientException;
 import com.onedrive.sdk.core.DefaultClientConfig;
 import com.onedrive.sdk.core.IClientConfig;
+import com.onedrive.sdk.extensions.IItemCollectionPage;
+import com.onedrive.sdk.extensions.IItemCollectionRequestBuilder;
 import com.onedrive.sdk.extensions.IOneDriveClient;
 import com.onedrive.sdk.extensions.Item;
 import com.onedrive.sdk.extensions.OneDriveClient;
@@ -119,13 +121,26 @@ public class OneDriveManager {
      *
      * @param itemId the directory id
      * @param callback the callback to resolve calling result */
-    public void getDirectories(String itemId, ICallback<Item> callback) {
+    public void getItems(String itemId, ICallback<Item> callback) {
         IOneDriveClient oneDriveClient = OneDriveManager.getInstance().getOneDriveClient();
         oneDriveClient.getDrive()
                 .getItems(itemId)
                 .buildRequest()
                 .expand(getExpansionOptions(oneDriveClient))
                 .get(callback);
+    }
+
+    public void getFirstPageItems(String itemId, ICallback<IItemCollectionPage> callback) {
+        IOneDriveClient oneDriveClient = OneDriveManager.getInstance().getOneDriveClient();
+        oneDriveClient.getDrive()
+                .getItems(itemId)
+                .getChildren()
+                .buildRequest()
+                .get(callback);
+    }
+
+    public void getNextPageItems(IItemCollectionRequestBuilder builder, ICallback<IItemCollectionPage> callback) {
+        builder.buildRequest().get(callback);
     }
 
     public void create(String toItemId, Item newItem, ICallback<Item> callback) {

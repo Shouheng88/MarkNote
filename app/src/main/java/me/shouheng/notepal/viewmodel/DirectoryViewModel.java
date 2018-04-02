@@ -29,7 +29,7 @@ public class DirectoryViewModel extends ViewModel {
 
     public LiveData<Resource<List<Directory>>> getDirectories(String itemId) {
         MutableLiveData<Resource<List<Directory>>> result = new MutableLiveData<>();
-        OneDriveManager.getInstance().getDirectories(itemId, new ICallback<Item>() {
+        OneDriveManager.getInstance().getItems(itemId, new ICallback<Item>() {
             @Override
             public void success(Item item) {
                 if (item.children == null || item.children.getCurrentPage().isEmpty()) {
@@ -103,7 +103,7 @@ public class DirectoryViewModel extends ViewModel {
 
         private void checkBackupFolder(String itemId) {
             try {
-                OneDriveManager.getInstance().getDirectories(itemId, new ICallback<Item>() {
+                OneDriveManager.getInstance().getItems(itemId, new ICallback<Item>() {
                     /**
                      * @param item parent of "NotePal" folder. */
                     @Override
@@ -141,7 +141,7 @@ public class DirectoryViewModel extends ViewModel {
          * @param toItem "NotePal" folder */
         private void checkFilesFolder(Item toItem) {
             try {
-                OneDriveManager.getInstance().getDirectories(toItem.id, new ICallback<Item>() {
+                OneDriveManager.getInstance().getItems(toItem.id, new ICallback<Item>() {
                     @Override
                     public void success(Item item) {
                         if (checkFolderExist(item, FILES_BACKUP_DIR_NAME)) {
