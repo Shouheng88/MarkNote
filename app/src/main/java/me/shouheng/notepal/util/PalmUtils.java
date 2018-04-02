@@ -9,7 +9,7 @@ import com.onedrive.sdk.core.ClientException;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.SettingsActivity;
-import me.shouheng.notepal.async.OneDriveBackupService;
+import me.shouheng.notepal.async.onedrive.OneDriveBackupService;
 import me.shouheng.notepal.manager.one.drive.DefaultCallback;
 import me.shouheng.notepal.manager.one.drive.OneDriveManager;
 
