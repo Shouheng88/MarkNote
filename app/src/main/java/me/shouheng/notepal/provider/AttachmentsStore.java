@@ -9,6 +9,7 @@ import android.text.TextUtils;
 
 import java.util.List;
 
+import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.model.enums.ModelType;
 import me.shouheng.notepal.model.enums.Status;
@@ -25,6 +26,17 @@ public class AttachmentsStore extends BaseStore<Attachment> {
             synchronized (AttachmentsStore.class) {
                 if (sInstance == null) {
                     sInstance = new AttachmentsStore(context.getApplicationContext());
+                }
+            }
+        }
+        return sInstance;
+    }
+
+    public static AttachmentsStore getInstance(){
+        if (sInstance == null){
+            synchronized (AttachmentsStore.class) {
+                if (sInstance == null) {
+                    sInstance = new AttachmentsStore(PalmApp.getContext());
                 }
             }
         }
