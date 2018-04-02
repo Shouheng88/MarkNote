@@ -1,7 +1,10 @@
 package me.shouheng.notepal.manager.onedrive;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.RemoteException;
+import android.support.annotation.Nullable;
+import android.text.TextUtils;
 
 import com.onedrive.sdk.authentication.MSAAuthenticator;
 import com.onedrive.sdk.concurrency.ICallback;
@@ -20,11 +23,13 @@ import com.onedrive.sdk.options.QueryOption;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.util.Collections;
 import java.util.concurrent.atomic.AtomicReference;
 
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.model.Directory;
+import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.ToastUtils;
 
 /**
@@ -65,7 +70,7 @@ public class OneDriveManager {
         return mClient.get();
     }
 
-    public synchronized void createOneDriveClient(final Activity activity, final ICallback<Void> serviceCreated) {
+    public synchronized void createOneDriveClient(final Activity activity, @Nullable ICallback<Void> serviceCreated) {
         new OneDriveClient.Builder()
                 .fromConfig(createConfig())
                 .loginAndBuildClient(activity, new DefaultCallback<IOneDriveClient>(activity) {
@@ -73,14 +78,60 @@ public class OneDriveManager {
                     public void success(final IOneDriveClient result) {
                         // add one instance to the atomic preference
                         mClient.set(result);
-                        serviceCreated.success(null);
+                        if (serviceCreated != null) {
+                            serviceCreated.success(null);
+                        }
                     }
 
                     @Override
                     public void failure(final ClientException error) {
-                        serviceCreated.failure(error);
+                        if (serviceCreated != null) {
+                            serviceCreated.failure(error);
+                        }
                     }
                 });
+    }
+
+    /**
+     * Init one drive account, that is put the IOneDriveClient to mClient.
+     *
+     * @param activity activity */
+    public void connectOneDrive(Activity activity) {
+        String itemId = PreferencesUtils.getInstance().getOneDriveBackupItemId();
+        String filesItemId = PreferencesUtils.getInstance().getOneDriveFilesBackupItemId();
+        if (TextUtils.isEmpty(itemId) || TextUtils.isEmpty(filesItemId)) {
+            // No backup requirement, return
+            return;
+        }
+
+        new OneDriveInitTask(activity, this).execute();
+    }
+
+    private static class OneDriveInitTask extends AsyncTask<Void, Integer, String> {
+
+        private WeakReference<OneDriveManager> oneDriveManagerWeakReference;
+        private WeakReference<Activity> activityWeakReference;
+
+        OneDriveInitTask(Activity activity, OneDriveManager oneDriveManager) {
+            activityWeakReference = new WeakReference<>(activity);
+            oneDriveManagerWeakReference = new WeakReference<>(oneDriveManager);
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            OneDriveManager oneDriveManager;
+            if ((oneDriveManager = oneDriveManagerWeakReference.get()) != null) {
+                try {
+                    oneDriveManager.getOneDriveClient();
+                } catch (UnsupportedOperationException e) {
+                    Activity activity = activityWeakReference.get();
+                    if (activity != null) {
+                        oneDriveManager.createOneDriveClient(activity, null);
+                    }
+                }
+            }
+            return "executed";
+        }
     }
 
     private IClientConfig createConfig() {

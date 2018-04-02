@@ -1,7 +1,7 @@
 package me.shouheng.notepal.async.onedrive;
 
-import android.app.Activity;
 import android.app.IntentService;
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -18,9 +18,9 @@ import me.shouheng.notepal.util.PreferencesUtils;
  * Created by shouh on 2018/3/30.*/
 public class OneDriveBackupService extends IntentService {
 
-    public static void start(Activity activity) {
-        Intent service = new Intent(activity, OneDriveBackupService.class);
-        activity.startService(service);
+    public static void start(Context context) {
+        Intent service = new Intent(context, OneDriveBackupService.class);
+        context.startService(service);
     }
 
     public OneDriveBackupService() {
