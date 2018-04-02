@@ -49,6 +49,17 @@ public class PreferencesUtils extends BasePreferencesUtils {
         return sInstance;
     }
 
+    public static PreferencesUtils getInstance() {
+        if (sInstance == null) {
+            synchronized (PreferencesUtils.class) {
+                if (sInstance == null){
+                    sInstance = new PreferencesUtils(PalmApp.getContext());
+                }
+            }
+        }
+        return sInstance;
+    }
+
     protected PreferencesUtils(Context context) {
         super(context);
     }
