@@ -107,28 +107,19 @@ public class SettingsBackup extends PreferenceFragment {
         pd.setCancelable(false);
         pd.show();
 
-        OneDriveManager oneDriveManager = OneDriveManager.getInstance();
-        try {
-            oneDriveManager.getOneDriveClient();
-            pd.dismiss();
-            onLoginSuccess();
-        } catch (final UnsupportedOperationException ignored) {
-            LogUtils.d(ignored);
-            oneDriveManager.createOneDriveClient(getActivity(),
-                    new DefaultCallback<Void>(getActivity()) {
-                        @Override
-                        public void success(Void aVoid) {
-                            pd.dismiss();
-                            onLoginSuccess();
-                        }
+        OneDriveManager.getInstance().connectOneDrive(getActivity(), new DefaultCallback<Void>(getActivity()) {
+            @Override
+            public void success(Void aVoid) {
+                pd.dismiss();
+                onLoginSuccess();
+            }
 
-                        @Override
-                        public void failure(ClientException error) {
-                            pd.dismiss();
-                            super.failure(error);
-                        }
-                    });
-        }
+            @Override
+            public void failure(ClientException error) {
+                pd.dismiss();
+                super.failure(error);
+            }
+        });
     }
 
     private void onLoginSuccess() {

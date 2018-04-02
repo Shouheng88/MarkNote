@@ -88,24 +88,17 @@ public class PalmUtils {
             return;
         }
 
-        OneDriveManager oneDriveManager = OneDriveManager.getInstance();
-        try {
-            oneDriveManager.getOneDriveClient();
-            OneDriveBackupService.start(activity);
-            ToastUtils.makeToast(R.string.text_syncing);
-        } catch (final UnsupportedOperationException ignored) {
-            oneDriveManager.createOneDriveClient(activity, new DefaultCallback<Void>(activity) {
-                @Override
-                public void success(Void aVoid) {
-                    OneDriveBackupService.start(activity);
-                    ToastUtils.makeToast(R.string.text_syncing);
-                }
+        OneDriveManager.getInstance().connectOneDrive(activity, new DefaultCallback<Void>(activity) {
+            @Override
+            public void success(Void aVoid) {
+                OneDriveBackupService.start(activity);
+                ToastUtils.makeToast(R.string.text_syncing);
+            }
 
-                @Override
-                public void failure(ClientException error) {
-                    super.failure(error);
-                }
-            });
-        }
+            @Override
+            public void failure(ClientException error) {
+                super.failure(error);
+            }
+        });
     }
 }
