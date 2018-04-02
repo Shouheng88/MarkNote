@@ -39,6 +39,12 @@ public class ContentActivity extends CommonActivity<ActivityContentBinding> impl
 
     public final static String EXTRA_HAS_TOOLBAR = "extra_has_toolbar";
 
+    private final String BUNDLE_KEY_NOTE = "key_bundle_note";
+
+    /**
+     * Current working note */
+    private Note note;
+
     // region edit and view note
     public static void editNote(Fragment fragment, @NonNull Note note, int requestCode){
         fragment.startActivityForResult(noteEditIntent(fragment.getContext(), note, requestCode), requestCode);
@@ -103,9 +109,19 @@ public class ContentActivity extends CommonActivity<ActivityContentBinding> impl
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            note = (Note) savedInstanceState.get(BUNDLE_KEY_NOTE);
+        }
+
         handleIntent();
 
         configToolbar();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable(BUNDLE_KEY_NOTE, note);
     }
 
     private void handleIntent() {
@@ -146,20 +162,21 @@ public class ContentActivity extends CommonActivity<ActivityContentBinding> impl
                 finish();
                 return;
             }
-            Note note = (Note) intent.getSerializableExtra(Constants.EXTRA_MODEL);
+            note = note != null ? note : (Note) intent.getSerializableExtra(Constants.EXTRA_MODEL);
             int requestCode = intent.getIntExtra(Constants.EXTRA_REQUEST_CODE, -1);
             boolean isEdit = Constants.VALUE_START_EDIT.equals(intent.getStringExtra(Constants.EXTRA_START_TYPE));
             toNoteFragment(note, requestCode == -1 ? null : requestCode, isEdit, false);
         } else if (Constants.ACTION_TO_NOTE_FROM_THIRD_PART.equals(intent.getAction())) {
+            note = note != null ? note : ModelFactory.getNote();
             boolean isEdit = Constants.VALUE_START_EDIT.equals(intent.getStringExtra(Constants.EXTRA_START_TYPE));
-            toNoteFragment(ModelFactory.getNote(), null, isEdit, true);
+            toNoteFragment(note, null, isEdit, true);
         }
 
         // The case below mainly used for the intent from shortcut
         if (intent.hasExtra(Constants.EXTRA_CODE)) {
             long code = intent.getLongExtra(Constants.EXTRA_CODE, -1);
             int requestCode = intent.getIntExtra(Constants.EXTRA_REQUEST_CODE, -1);
-            Note note = NotesStore.getInstance(this).get(code);
+            note = note != null ? note : NotesStore.getInstance(this).get(code);
             if (note == null){
                 ToastUtils.makeToast(R.string.text_no_such_note);
                 LogUtils.d("Failed to resolve intent : " + intent);
@@ -173,10 +190,18 @@ public class ContentActivity extends CommonActivity<ActivityContentBinding> impl
 
     private void toNoteFragment(Note note, @Nullable Integer requestCode, boolean isEdit, boolean isThirdPart){
         String action = getIntent() == null || TextUtils.isEmpty(getIntent().getAction()) ? null : getIntent().getAction();
-        Fragment fragment = isEdit ?
-                NoteFragment.newInstance(note, requestCode, isThirdPart, action) :
-                NoteViewFragment.newInstance(note, requestCode);
-        FragmentHelper.replace(this, fragment, R.id.fragment_container);
+        Fragment fragment;
+        if (isEdit) {
+            String TAG_NOTE_FRAGMENT = "note_fragment_tag";
+            fragment = getSupportFragmentManager().findFragmentByTag(TAG_NOTE_FRAGMENT);
+            if (fragment == null) {
+                fragment = NoteFragment.newInstance(note, requestCode, isThirdPart, action);
+            }
+            FragmentHelper.replace(this, fragment, R.id.fragment_container, TAG_NOTE_FRAGMENT);
+        } else {
+            fragment = NoteViewFragment.newInstance(note, requestCode);
+            FragmentHelper.replace(this, fragment, R.id.fragment_container);
+        }
     }
 
     /**
