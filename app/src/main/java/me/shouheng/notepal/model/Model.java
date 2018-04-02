@@ -13,25 +13,25 @@ import me.shouheng.notepal.util.TimeUtils;
 public class Model implements Serializable {
 
     @Column(name = "id")
-    private long id;
+    protected long id;
 
     @Column(name = "code")
-    private long code;
+    protected long code;
 
     @Column(name = "user_id")
-    private long userId;
+    protected long userId;
 
     @Column(name = "added_time")
-    private Date addedTime;
+    protected Date addedTime;
 
     @Column(name = "last_modified_time")
-    private Date lastModifiedTime;
+    protected Date lastModifiedTime;
 
     @Column(name = "last_sync_time")
-    private Date lastSyncTime;
+    protected Date lastSyncTime;
 
     @Column(name = "status")
-    private Status status;
+    protected Status status;
 
     public long getId() {
         return id;
