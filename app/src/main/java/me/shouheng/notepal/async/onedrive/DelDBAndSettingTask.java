@@ -1,4 +1,4 @@
-package me.shouheng.notepal.async;
+package me.shouheng.notepal.async.onedrive;
 
 import android.os.AsyncTask;
 
@@ -27,7 +27,7 @@ public class DelDBAndSettingTask extends AsyncTask<String, Integer, String> {
 
     @Override
     protected String doInBackground(String... params) {
-        OneDriveManager.getInstance().getDirectories(params[0], new ICallback<Item>() {
+        OneDriveManager.getInstance().getItems(params[0], new ICallback<Item>() {
 
             @Override
             public void success(Item item) {
