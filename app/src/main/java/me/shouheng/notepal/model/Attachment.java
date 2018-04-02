@@ -210,4 +210,19 @@ public class Attachment extends Model implements Parcelable {
                 ", mineType='" + mineType + '\'' +
                 "} " + super.toString();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Attachment that = (Attachment) o;
+
+        return code == that.code;
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (code ^ (code >>> 32));
+    }
 }
