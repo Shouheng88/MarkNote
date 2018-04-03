@@ -12,4 +12,6 @@ public interface AttachmentSchema extends BaseSchema {
     String SIZE = "size";
     String LENGTH = "length";
     String MINE_TYPE = "mine_type";
+    String ONE_DRIVE_SYNC_TIME = "one_drive_sync_time";
+    String ONE_DRIVE_ITEM_ID = "one_drive_item_id";
 }

@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.text.TextUtils;
 
+import java.util.Date;
 import java.util.List;
 
 import me.shouheng.notepal.PalmApp;
@@ -51,7 +52,14 @@ public class AttachmentsStore extends BaseStore<Attachment> {
     protected void afterDBCreated(SQLiteDatabase db) {}
 
     @Override
-    public void onUpgrade(final SQLiteDatabase db, final int oldVersion, final int newVersion){}
+    public void onUpgrade(final SQLiteDatabase db, final int oldVersion, final int newVersion){
+        switch (oldVersion) {
+            case 6:
+                db.execSQL("ALTER TABLE " + tableName +  " ADD COLUMN " + AttachmentSchema.ONE_DRIVE_SYNC_TIME + " INTEGER ");
+                db.execSQL("ALTER TABLE " + tableName +  " ADD COLUMN " + AttachmentSchema.ONE_DRIVE_ITEM_ID + " TEXT ");
+                break;
+        }
+    }
 
     @Override
     public void fillModel(Attachment model, Cursor cursor) {
@@ -64,6 +72,8 @@ public class AttachmentsStore extends BaseStore<Attachment> {
         model.setSize(cursor.getLong(cursor.getColumnIndex(AttachmentSchema.SIZE)));
         model.setLength(cursor.getLong(cursor.getColumnIndex(AttachmentSchema.LENGTH)));
         model.setMineType(cursor.getString(cursor.getColumnIndex(AttachmentSchema.MINE_TYPE)));
+        model.setOneDriveSyncTime(new Date(cursor.getLong(cursor.getColumnIndex(AttachmentSchema.ONE_DRIVE_SYNC_TIME))));
+        model.setOneDriveItemId(cursor.getString(cursor.getColumnIndex(AttachmentSchema.ONE_DRIVE_ITEM_ID)));
     }
 
     @Override
@@ -76,6 +86,8 @@ public class AttachmentsStore extends BaseStore<Attachment> {
         values.put(AttachmentSchema.SIZE, model.getSize());
         values.put(AttachmentSchema.LENGTH, model.getLength());
         values.put(AttachmentSchema.MINE_TYPE, model.getMineType());
+        values.put(AttachmentSchema.ONE_DRIVE_SYNC_TIME, model.getOneDriveSyncTime() == null ? 0 : model.getOneDriveSyncTime().getTime());
+        values.put(AttachmentSchema.ONE_DRIVE_ITEM_ID, model.getOneDriveItemId());
     }
 
     public synchronized Attachment getAttachment(ModelType modelType, long modelCode) {
