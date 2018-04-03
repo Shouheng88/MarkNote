@@ -54,8 +54,10 @@ public class ContentActivity extends CommonActivity<ActivityContentBinding> impl
         activity.startActivityForResult(noteEditIntent(activity, note, requestCode), requestCode);
     }
 
-    public static void viewNote(Fragment fragment, @NonNull Note note, int requestCode){
-        fragment.startActivityForResult(noteViewIntent(fragment.getContext(), note, requestCode),requestCode);
+    public static void viewNote(Fragment fragment, @NonNull Note note, boolean isPreview, int requestCode){
+        Intent intent = noteViewIntent(fragment.getContext(), note, requestCode);
+        intent.putExtra(Constants.EXTRA_IS_PREVIEW, isPreview);
+        fragment.startActivityForResult(intent, requestCode);
     }
 
     public static void viewNote(Activity activity, @NonNull Note note, int requestCode){
@@ -199,7 +201,9 @@ public class ContentActivity extends CommonActivity<ActivityContentBinding> impl
             }
             FragmentHelper.replace(this, fragment, R.id.fragment_container, TAG_NOTE_FRAGMENT);
         } else {
-            fragment = NoteViewFragment.newInstance(note, requestCode);
+            boolean isPreview = !(getIntent() == null || !getIntent().hasExtra(Constants.EXTRA_IS_PREVIEW))
+                    && getIntent().getBooleanExtra(Constants.EXTRA_IS_PREVIEW, false);
+            fragment = NoteViewFragment.newInstance(note, isPreview, requestCode);
             FragmentHelper.replace(this, fragment, R.id.fragment_container);
         }
     }

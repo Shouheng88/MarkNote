@@ -679,7 +679,7 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
                 String content = getBinding().main.etContent.getText().toString();
                 if (TextUtils.isEmpty(content)) content = "  ";
                 note.setContent(content);
-                ContentActivity.viewNote(this, note, 0);
+                ContentActivity.viewNote(this, note, true, 0);
                 break;
         }
         return super.onOptionsItemSelected(item);

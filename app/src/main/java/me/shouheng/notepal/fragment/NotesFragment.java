@@ -145,7 +145,7 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
         adapter.setOnItemClickListener((adapter, view, position) -> {
             NotesAdapter.MultiItem item = (NotesAdapter.MultiItem) adapter.getData().get(position);
             if (item.itemType == NotesAdapter.MultiItem.ITEM_TYPE_NOTE) {
-                ContentActivity.viewNote(NotesFragment.this, item.note, REQUEST_NOTE_VIEW);
+                ContentActivity.viewNote(NotesFragment.this, item.note, false, REQUEST_NOTE_VIEW);
             } else if (item.itemType == NotesAdapter.MultiItem.ITEM_TYPE_NOTEBOOK) {
                 if (getActivity() != null && getActivity() instanceof OnNotesInteractListener) {
                     ((OnNotesInteractListener) getActivity()).onNotebookSelected(item.notebook);

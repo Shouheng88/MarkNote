@@ -54,6 +54,7 @@ import me.shouheng.notepal.util.ShortcutHelper;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.viewmodel.CategoryViewModel;
 
+import static me.shouheng.notepal.config.Constants.EXTRA_IS_PREVIEW;
 import static me.shouheng.notepal.config.Constants.PDF_MIME_TYPE;
 import static me.shouheng.notepal.config.Constants.SCHEME_HTTP;
 import static me.shouheng.notepal.config.Constants.SCHEME_HTTPS;
@@ -74,10 +75,11 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
 
     private boolean isPreview = false, isContentChanged = false;
 
-    public static NoteViewFragment newInstance(@Nonnull Note note, Integer requestCode) {
+    public static NoteViewFragment newInstance(@Nonnull Note note, boolean isPreview, Integer requestCode) {
         Bundle arg = new Bundle();
         arg.putSerializable(Constants.EXTRA_MODEL, note);
         if (requestCode != null) arg.putInt(Constants.EXTRA_REQUEST_CODE, requestCode);
+        arg.putBoolean(Constants.EXTRA_IS_PREVIEW, isPreview);
         NoteViewFragment fragment = new NoteViewFragment();
         fragment.setArguments(arg);
         return fragment;
@@ -109,7 +111,9 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
         List<Category> selections = CategoryStore.getInstance(getContext()).getCategories(note);
         tags = CategoryViewModel.getTagsName(selections);
 
-        if (TextUtils.isEmpty(note.getContent())) {
+        isPreview = getArguments().getBoolean(EXTRA_IS_PREVIEW);
+
+        if (!isPreview) {
             Attachment noteFile = AttachmentsStore.getInstance(getContext()).get(note.getContentCode());
             LogUtils.d("noteFile: " + noteFile);
             if (noteFile == null) {
@@ -125,8 +129,6 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
                 ToastUtils.makeToast(R.string.note_failed_to_read_file);
             }
             note.setContent(content);
-        } else {
-            isPreview = true;
         }
     }
 
