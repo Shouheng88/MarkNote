@@ -16,6 +16,7 @@ public class Constants {
     public final static String EXTRA_FRAGMENT = "extra_fragment";
     public final static String VALUE_FRAGMENT_NOTE = "value_fragment_note";
     public final static String EXTRA_IS_GOOGLE_NOW = "extra_is_from_google_now";
+    public final static String EXTRA_IS_PREVIEW = "extra_is_preview";
 
     public final static String ACTION_TO_NOTE_FROM_THIRD_PART = "to_note_from_third_part";
     // endregion
