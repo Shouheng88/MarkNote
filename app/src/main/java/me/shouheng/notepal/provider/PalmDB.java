@@ -26,7 +26,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class PalmDB extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "NotePal.db";
-    private static final int VERSION = 6;
+    private static final int VERSION = 7;
 
     private Context mContext;
     @SuppressLint("StaticFieldLeak")

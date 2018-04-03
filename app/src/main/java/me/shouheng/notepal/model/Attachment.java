@@ -10,6 +10,7 @@ import me.shouheng.notepal.model.enums.ModelType;
 import me.shouheng.notepal.model.enums.Status;
 import me.shouheng.notepal.provider.annotation.Column;
 import me.shouheng.notepal.provider.annotation.Table;
+import me.shouheng.notepal.provider.schema.AttachmentSchema;
 
 
 /**
@@ -40,6 +41,12 @@ public class Attachment extends Model implements Parcelable {
 
     @Column(name = "mine_type")
     private String mineType;
+
+    @Column(name = AttachmentSchema.ONE_DRIVE_SYNC_TIME)
+    private Date oneDriveSyncTime;
+
+    @Column(name = AttachmentSchema.ONE_DRIVE_ITEM_ID)
+    private String oneDriveItemId;
 
     // region Android端字段，不计入数据库
 
@@ -174,6 +181,22 @@ public class Attachment extends Model implements Parcelable {
         this.mineType = mineType;
     }
 
+    public Date getOneDriveSyncTime() {
+        return oneDriveSyncTime;
+    }
+
+    public void setOneDriveSyncTime(Date oneDriveSyncTime) {
+        this.oneDriveSyncTime = oneDriveSyncTime;
+    }
+
+    public String getOneDriveItemId() {
+        return oneDriveItemId;
+    }
+
+    public void setOneDriveItemId(String oneDriveItemId) {
+        this.oneDriveItemId = oneDriveItemId;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -201,14 +224,27 @@ public class Attachment extends Model implements Parcelable {
     @Override
     public String toString() {
         return "Attachment{" +
-                "modelCode=" + modelCode +
+                "id=" + id +
+                ", code=" + code +
+                ", userId=" + userId +
+                ", modelCode=" + modelCode +
+                ", addedTime=" + addedTime +
+                ", modelType=" + modelType +
+                ", lastModifiedTime=" + lastModifiedTime +
                 ", uri=" + uri +
+                ", lastSyncTime=" + lastSyncTime +
                 ", path='" + path + '\'' +
+                ", status=" + status +
                 ", name='" + name + '\'' +
                 ", size=" + size +
                 ", length=" + length +
                 ", mineType='" + mineType + '\'' +
-                "} " + super.toString();
+                ", oneDriveSyncTime=" + oneDriveSyncTime +
+                ", oneDriveItemId='" + oneDriveItemId + '\'' +
+                ", audioPlaying=" + audioPlaying +
+                ", isNew=" + isNew +
+                ", fake=" + fake +
+                '}';
     }
 
     @Override
