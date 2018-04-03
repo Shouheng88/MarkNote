@@ -72,6 +72,7 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
     private final static String EXTRA_IS_THIRD_PART = "extra_is_third_part";
     private final static String EXTRA_ACTION = "extra_action";
     private final static String TAB_REPLACEMENT = "    ";
+    public final static String KEY_ARGS_RESTORE = "key_args_restore";
 
     private MaterialMenuDrawable materialMenu;
 
@@ -225,6 +226,14 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
     }
 
     private void fetchNoteContent(Note note) {
+        // 恢复现场，不需要重新加载数据
+        if (!TextUtils.isEmpty(note.getContent())
+                && getArguments() != null
+                && getArguments().containsKey(KEY_ARGS_RESTORE)
+                && getArguments().getBoolean(KEY_ARGS_RESTORE)) {
+            return;
+        }
+
         attachmentViewModel.readNoteContent(note).observe(this, contentResource -> {
             if (contentResource == null) {
                 ToastUtils.makeToast(R.string.text_failed_to_load_data);

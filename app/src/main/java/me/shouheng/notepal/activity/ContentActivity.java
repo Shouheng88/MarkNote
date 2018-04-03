@@ -198,6 +198,10 @@ public class ContentActivity extends CommonActivity<ActivityContentBinding> impl
             fragment = getSupportFragmentManager().findFragmentByTag(TAG_NOTE_FRAGMENT);
             if (fragment == null) {
                 fragment = NoteFragment.newInstance(note, requestCode, isThirdPart, action);
+            } else {
+                Bundle args = fragment.getArguments();
+                assert args != null;
+                args.putBoolean(NoteFragment.KEY_ARGS_RESTORE, true);
             }
             FragmentHelper.replace(this, fragment, R.id.fragment_container, TAG_NOTE_FRAGMENT);
         } else {
