@@ -8,7 +8,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -31,6 +30,7 @@ import org.polaric.colorful.PermissionUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.ContentActivity;
 import me.shouheng.notepal.async.AttachmentTask;
@@ -322,11 +322,11 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
 
         getBinding().main.ivEnableFormat.setOnClickListener(v -> switchFormat());
 
-        getBinding().main.fssv.getDelegate().setThumbSize(8, 32);
+        getBinding().main.fssv.getDelegate().setThumbSize(16, 40);
         getBinding().main.fssv.getDelegate().setThumbDynamicHeight(false);
         if (getContext() != null) {
             getBinding().main.fssv.getDelegate().setThumbDrawable(
-                    ContextCompat.getDrawable(getContext(), R.drawable.recyclerview_fastscroller_handle));
+                    PalmApp.getDrawableCompact(isDarkTheme() ? R.drawable.fast_scroll_bar_dark : R.drawable.fast_scroll_bar_light));
         }
     }
 
