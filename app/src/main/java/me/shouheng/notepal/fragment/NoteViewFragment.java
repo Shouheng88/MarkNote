@@ -118,6 +118,8 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
             LogUtils.d("noteFile: " + noteFile);
             if (noteFile == null) {
                 ToastUtils.makeToast(R.string.note_failed_to_get_note_content);
+                // default content is empty string, to avoid NPE
+                note.setContent("");
                 return;
             }
             File file = new File(noteFile.getPath());
