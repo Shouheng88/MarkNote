@@ -3,8 +3,11 @@ package me.shouheng.notepal.util.base;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.annotation.StringRes;
 
 import java.util.Set;
+
+import me.shouheng.notepal.PalmApp;
 
 /**
  * Created by WangShouheng on 2018/3/3. */
@@ -22,6 +25,10 @@ public class BasePreferencesUtils {
 
     public void unregisterOnSharedPreferenceChangeListener(SharedPreferences.OnSharedPreferenceChangeListener listener) {
         mPreferences.unregisterOnSharedPreferenceChangeListener(listener);
+    }
+
+    protected String getKey(@StringRes int resId) {
+        return PalmApp.getStringCompact(resId);
     }
 
     protected String getString(String key, String defaultValue) {
