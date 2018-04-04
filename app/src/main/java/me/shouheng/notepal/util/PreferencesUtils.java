@@ -126,8 +126,6 @@ public class PreferencesUtils extends BasePreferencesUtils {
     private final String KEY_USER_INFO_BG_ENABLE = "key_user_info_bg_visible";
     private final String KEY_USER_INFO_MOTTO = "key_user_info_motto";
 
-    private final String KEY_SNAGGING_NOTICE_SHOWED = "key_snagging_notice_showed";
-
     private final String KEY_BACKUP_ONLY_WIFI = "key_backup_only_wifi";
     /**
      * One drive database and preferences backup directory item id. */
@@ -144,12 +142,12 @@ public class PreferencesUtils extends BasePreferencesUtils {
         putInt(getKey(R.string.key_sync_time_interval), syncTimeInterval.id);
     }
 
-    public boolean snaggingNoticeShowed() {
-        return getBoolean(KEY_SNAGGING_NOTICE_SHOWED, false);
+    public long getOneDriveLastSyncTime() {
+        return getLong(getKey(R.string.key_one_drive_last_sync_time), 0);
     }
 
-    public void setSnaggingNoticeShowed() {
-        putBoolean(KEY_SNAGGING_NOTICE_SHOWED, true);
+    public void setOneDriveLastSyncTime(long lastSyncTime) {
+        putLong(getKey(R.string.key_one_drive_last_sync_time), lastSyncTime);
     }
 
     public void setBackupOnlyInWifi(boolean isOnlyWifi) {
