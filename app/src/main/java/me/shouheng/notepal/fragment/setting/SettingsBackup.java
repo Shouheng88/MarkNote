@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.Preference;
-import android.preference.PreferenceFragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +22,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.DirectoryActivity;
 import me.shouheng.notepal.activity.base.CommonActivity;
@@ -35,10 +35,11 @@ import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.StringUtils;
 import me.shouheng.notepal.util.ToastUtils;
+import me.shouheng.notepal.util.enums.SyncTimeInterval;
 
 /**
  * Created by wang shouheng on 2018/1/5.*/
-public class SettingsBackup extends PreferenceFragment {
+public class SettingsBackup extends BaseFragment {
 
     private final static String KEY_BACKUP_TO_EXTERNAL_STORAGE = "backup_to_external_storage";
     private final static String KEY_IMPORT_FROM_EXTERNAL_STORAGE = "import_from_external_storage";
@@ -46,7 +47,9 @@ public class SettingsBackup extends PreferenceFragment {
     private final static String KEY_ONE_DRIVE_BACKUP = "key_one_drive_backup";
 
     private final int REQUEST_PICK_FOLDER = 0x000F;
-    private Preference prefOneDrive, prefOneDriveSignOut;
+    private Preference prefOneDrive;
+    private Preference prefOneDriveSignOut;
+    private Preference prefTimeInterval;
 
     private PreferencesUtils preferencesUtils;
 
@@ -80,6 +83,13 @@ public class SettingsBackup extends PreferenceFragment {
             PermissionUtils.checkStoragePermission((CommonActivity) getActivity(), this::showExternalBackupDelete);
             return true;
         });
+
+        prefTimeInterval = findPreference(getKey(R.string.key_sync_time_interval));
+        prefTimeInterval.setOnPreferenceClickListener(preference -> {
+            timeIntervalPicker();
+            return true;
+        });
+        refreshTimeInterval();
 
         prefOneDrive = findPreference(KEY_ONE_DRIVE_BACKUP);
         prefOneDrive.setOnPreferenceClickListener(preference -> {
@@ -266,6 +276,28 @@ public class SettingsBackup extends PreferenceFragment {
                     service.putStringArrayListExtra(DataBackupIntentService.INTENT_BACKUP_NAME, selected);
                     getActivity().startService(service);
                 }).build().show();
+    }
+    // endregion
+
+    // region Sync time interval
+    private void timeIntervalPicker() {
+        SyncTimeInterval[] timeIntervals = SyncTimeInterval.values();
+        String[] items = new String[timeIntervals.length];
+        int length = timeIntervals.length;
+        for (int i=0; i<length; i++) {
+            items[i] = PalmApp.getStringCompact(timeIntervals[i].resName);
+        }
+
+        new MaterialDialog.Builder(getActivity())
+                .items(items)
+                .itemsCallback((dialog, itemView, position, text) -> {
+                    preferencesUtils.setSyncTimeInterval(SyncTimeInterval.getTypeById(position));
+                    refreshTimeInterval();
+                }).show();
+    }
+
+    private void refreshTimeInterval() {
+        prefTimeInterval.setSummary(preferencesUtils.getSyncTimeInterval().resName);
     }
     // endregion
 
