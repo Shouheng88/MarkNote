@@ -550,6 +550,7 @@
     <string name="text_successfully_logout">Successfully logout</string>
     <string name="backup_only_wifi">Only in WiFi environment</string>
     <string name="backup_only_wifi_sub">Backup only in WiFi environment</string>
+    <string name="backup_time_interval">Synchronization time interval</string>
     <string name="text_sync_settings">Sync settings</string>
     <string name="failed_query_sync_cloud">Unknown error occurred!</string>
     <string name="text_done">Done</string>
@@ -562,5 +563,13 @@
     <string name="pick_backup_directory_message">Get into the folder you want to backup to and select \"DONE\".</string>
     <string name="login_drive_message">Login your one drive account before sync.</string>
     <string name="text_syncing">Syncing&#8230;</string>
+
+    <string name="sync_every_15_minutes">Every 15 minutes</string>
+    <string name="sync_every_30_minutes">Every 30 minutes</string>
+    <string name="sync_every_hour">Every hour</string>
+    <string name="sync_every_2_hours">Every 2 hours</string>
+    <string name="sync_every_6_hours">Every 6 hours</string>
+    <string name="sync_every_12_hours">Every 12 hours</string>
+    <string name="sync_every_day">Daily</string>
 
 </resources>

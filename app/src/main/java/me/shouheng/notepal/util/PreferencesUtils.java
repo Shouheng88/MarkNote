@@ -17,6 +17,7 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.model.enums.FabSortItem;
 import me.shouheng.notepal.model.enums.Operation;
 import me.shouheng.notepal.util.base.BasePreferencesUtils;
+import me.shouheng.notepal.util.enums.SyncTimeInterval;
 
 /**
  * Created by Wang Shouheng on 2017/12/5. */
@@ -134,6 +135,14 @@ public class PreferencesUtils extends BasePreferencesUtils {
     /**
      * One drive files backup directory item id. */
     private final String KEY_ONE_DRIVE_FILES_BACKUP_DIRECTORY_ITEM_ID = "key_one_drive_files_backup_dir_item_id";
+
+    public SyncTimeInterval getSyncTimeInterval() {
+        return SyncTimeInterval.getTypeById(getInt(getKey(R.string.key_sync_time_interval), SyncTimeInterval.EVERY_30_MINUTES.id));
+    }
+
+    public void setSyncTimeInterval(SyncTimeInterval syncTimeInterval) {
+        putInt(getKey(R.string.key_sync_time_interval), syncTimeInterval.id);
+    }
 
     public boolean snaggingNoticeShowed() {
         return getBoolean(KEY_SNAGGING_NOTICE_SHOWED, false);
