@@ -17,7 +17,6 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.model.enums.FabSortItem;
 import me.shouheng.notepal.model.enums.Operation;
 import me.shouheng.notepal.util.base.BasePreferencesUtils;
-import me.shouheng.notepal.util.enums.MindSnaggingListType;
 
 /**
  * Created by Wang Shouheng on 2017/12/5. */
@@ -107,7 +106,6 @@ public class PreferencesUtils extends BasePreferencesUtils {
     private final String FIRST_DAY_OF_WEEK = "first_day_of_week";
     private final String VIDEO_SIZE_LIMIT = "video_size_limit";
     private final String FAB_SORT_RESULT = "fab_sort_result";
-    private final String MIND_SNAGGING_LIST_TYPE = "mind_snagging_list_type";
     private final String TOUR_ACTIVITY_SHOWED = "tour_activity_showed";
     private final String KEY_LAST_INPUT_ERROR_TIME = "last_input_error_time";
     private final String SEARCH_CONDITIONS = "search_conditions";
@@ -264,14 +262,6 @@ public class PreferencesUtils extends BasePreferencesUtils {
 
     public int getVideoSizeLimit(){
         return getInt(VIDEO_SIZE_LIMIT, 10);
-    }
-
-    public MindSnaggingListType getMindSnaggingListType() {
-        return MindSnaggingListType.getTypeById(getInt(MIND_SNAGGING_LIST_TYPE, MindSnaggingListType.TWO_COLS.id));
-    }
-
-    public void setMindSnaggingListType(MindSnaggingListType type) {
-        putInt(MIND_SNAGGING_LIST_TYPE, type.id);
     }
 
     public void setLastInputErrorTime(long millis) {
