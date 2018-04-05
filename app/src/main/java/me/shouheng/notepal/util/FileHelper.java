@@ -41,6 +41,7 @@ import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.manager.MediaStoreFactory;
 import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.model.ModelFactory;
+import me.shouheng.notepal.provider.PalmDB;
 
 import static java.lang.Long.parseLong;
 
@@ -605,7 +606,6 @@ public class FileHelper {
         return dir;
     }
 
-    // region Methods of backup.
     public static File getExternalStoragePublicDir() {
         String path = Environment.getExternalStorageDirectory() + File.separator + EXTERNAL_STORAGE_FOLDER + File.separator;
         File dir = new File(path);
@@ -636,21 +636,25 @@ public class FileHelper {
         return destination;
     }
 
-    public static File getSharedPreferencesFile(Context mContext) {
-        return new File(getSharedPreferencesName(mContext));
+    public static File getDatabaseFile(Context context) {
+        return context.getDatabasePath(PalmDB.DATABASE_NAME);
     }
 
-    public static String getSharedPreferencesName(Context mContext) {
+    public static File getPreferencesFile(Context mContext) {
+        return new File(getPreferencesPath(mContext));
+    }
+
+    private static String getPreferencesPath(Context mContext) {
         File appData = mContext.getFilesDir().getParentFile();
-        String packageName = mContext.getApplicationContext().getPackageName();
-        return appData
-                + System.getProperty("file.separator")
+        return appData + System.getProperty("file.separator")
                 + "shared_prefs"
                 + System.getProperty("file.separator")
-                + packageName
-                + "_preferences.xml";
+                + getPreferencesName(mContext);
     }
-    // endregion
+
+    public static String getPreferencesName(Context mContext) {
+        return mContext.getApplicationContext().getPackageName() + "_preferences.xml";
+    }
 
     public interface OnSavedToGalleryListener {
         void OnSavedToGallery(File file);

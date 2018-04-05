@@ -129,7 +129,7 @@ public class DataBackupIntentService extends IntentService {
     }
 
     private boolean exportSettings(File backupDir) {
-        File preferences = FileHelper.getSharedPreferencesFile(this);
+        File preferences = FileHelper.getPreferencesFile(this);
         return (FileHelper.copyFile(preferences, new File(backupDir, preferences.getName())));
     }
     // endregion
@@ -177,7 +177,7 @@ public class DataBackupIntentService extends IntentService {
     }
 
     private boolean importSettings(File backupDir) {
-        File preferences = FileHelper.getSharedPreferencesFile(this);
+        File preferences = FileHelper.getPreferencesFile(this);
         File preferenceBackup = new File(backupDir, preferences.getName());
         return (FileHelper.copyFile(preferenceBackup, preferences));
     }
