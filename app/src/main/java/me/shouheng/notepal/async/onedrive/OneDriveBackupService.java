@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
-import com.onedrive.sdk.core.ClientException;
 import com.onedrive.sdk.extensions.Item;
 
 import java.io.File;
@@ -50,21 +49,13 @@ public class OneDriveBackupService extends IntentService {
 
     private void uploadDatabaseAndPreferences() {
         String itemId = preferencesUtils.getOneDriveBackupItemId();
-        if (!TextUtils.isEmpty(itemId) && (
-                SynchronizeUtils.shouldOneDriveDatabaseSync()
-                        || SynchronizeUtils.shouldOneDrivePreferencesSync())) {
-            new DelDBAndPrefTask(new DelDBAndPrefTask.OnFilesDeletedListener() {
-                @Override
-                public void onDeleted() {
-                    uploadDatabase(itemId);
-                    uploadPreferences(itemId);
-                }
-
-                @Override
-                public void onFailed(ClientException ex) {
-                    LogUtils.e(ex);
-                }
-            }).execute(itemId);
+        if (!TextUtils.isEmpty(itemId)) {
+            if (SynchronizeUtils.shouldOneDriveDatabaseSync()) {
+                uploadDatabase(itemId);
+            }
+            if (SynchronizeUtils.shouldOneDrivePreferencesSync()) {
+                uploadPreferences(itemId);
+            }
         }
     }
 
@@ -79,7 +70,7 @@ public class OneDriveBackupService extends IntentService {
 
     private void uploadDatabase(String itemId) {
         File database = getDatabasePath(PalmDB.DATABASE_NAME);
-        new FileUploadTask(itemId, new OneDriveManager.UploadProgressCallback<Item>() {
+        new FileUploadTask(itemId, ConflictBehavior.REPLACE, new OneDriveManager.UploadProgressCallback<Item>() {
             @Override
             public void success(Item item) {
                 preferencesUtils.setOneDriveDatabaseItemId(item.id);
@@ -95,7 +86,7 @@ public class OneDriveBackupService extends IntentService {
 
     private void uploadPreferences(String itemId) {
         File preferences = FileHelper.getPreferencesFile(this);
-        new FileUploadTask(itemId, new OneDriveManager.UploadProgressCallback<Item>() {
+        new FileUploadTask(itemId, ConflictBehavior.REPLACE, new OneDriveManager.UploadProgressCallback<Item>() {
 
             @Override
             public void success(Item item) {
