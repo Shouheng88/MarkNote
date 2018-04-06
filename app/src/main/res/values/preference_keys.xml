@@ -9,4 +9,8 @@
     <string name="key_one_drive_preferences_last_sync_time" translatable="false">key_one_drive_preferences_last_sync_time</string>
     <string name="key_one_drive_database_item_id" translatable="false">key_one_drive_database_item_id</string>
     <string name="key_one_drive_preferences_item_id" translatable="false">key_one_drive_preferences_item_id</string>
+
+    <string name="key_auto_compress_image" translatable="false">key_auto_compress_image</string>
+    <string name="key_note_file_extension" translatable="false">note_file_extension</string>
+    <string name="key_key_show_note_expanded" translatable="false">key_show_note_expanded</string>
 </resources>

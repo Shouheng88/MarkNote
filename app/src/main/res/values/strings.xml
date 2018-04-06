@@ -563,7 +563,7 @@
     <string name="pick_backup_directory_message">Get into the folder you want to synchronize to and select \"DONE\".</string>
     <string name="available_directory_found">Available folder \"NotePal\" is found in current folder. You can press \"Done\" to complete selection.</string>
     <string name="login_drive_message">Sign in your OneDrive account before synchronize.</string>
-    <string name="text_syncing">Syncing&#8230;</string>
+    <string name="text_syncing">Synchronizing&#8230;</string>
 
     <string name="sync_every_15_minutes">Every 15 minutes</string>
     <string name="sync_every_30_minutes">Every 30 minutes</string>
@@ -574,5 +574,8 @@
     <string name="sync_every_day">Daily</string>
 
     <string name="text_get_it">Get it</string>
+
+    <string name="auto_compress_image_title">Auto compress image</string>
+    <string name="auto_compress_image_sub_title">The compressed image will save a lot of storage and data usage</string>
 
 </resources>

@@ -111,14 +111,6 @@ public class PreferencesUtils extends BasePreferencesUtils {
     private final String KEY_LAST_INPUT_ERROR_TIME = "last_input_error_time";
     private final String SEARCH_CONDITIONS = "search_conditions";
 
-    /**
-     * The key for attachment uri. This is used when try to capture image from camera, but the app
-     * is closed when capturing. So, it's not enough to only keep the {@link AttachmentHelper#attachmentUri}
-     * as static field. We need also persist it in the preferences.
-     * @see AttachmentHelper#setAttachmentUri(Uri)
-     * @see AttachmentHelper#getAttachmentUri()
-     * @see AttachmentHelper#getFilePath()
-     * @see AttachmentHelper#setFilePath(String) */
     private final String KEY_ATTACHMENT_URI = "key_attachment_uri";
     private final String KEY_ATTACHMENT_FILE_PATH = "key_attachment_file_path";
 
@@ -323,17 +315,7 @@ public class PreferencesUtils extends BasePreferencesUtils {
     public static final String PASSWORD_INPUT_FREEZE_TIME = "password_input_freeze_time";
     private final String PASSWORD_QUESTION = "password_question";
     private final String PASSWORD_ANSWER = "password_answer";
-    private static final String NOTE_FILE_EXTENSION = "note_file_extension";
     private final String OPERATION_COLOR = "OPERATION_COLOR";
-    public static final String KEY_SHOW_NOTE_EXPANDED = "key_show_note_expanded";
-
-    public void setShowNoteExpanded(boolean isExpanded) {
-        putBoolean(KEY_SHOW_NOTE_EXPANDED, isExpanded);
-    }
-
-    public boolean isNoteExpanded() {
-        return getBoolean(KEY_SHOW_NOTE_EXPANDED, true);
-    }
 
     public int getTimeLineColor(Operation operation) {
         return getInt(OPERATION_COLOR + operation.name(), defaultTimeLineColor(operation));
@@ -356,14 +338,6 @@ public class PreferencesUtils extends BasePreferencesUtils {
 
     public void setTimeLineColor(Operation operation, int color) {
         putInt(OPERATION_COLOR + operation.name(), color);
-    }
-
-    public String getNoteFileExtension() {
-        return "." + getString(NOTE_FILE_EXTENSION, "md");
-    }
-
-    public void setNoteFileExtension(String extension) {
-        putString(NOTE_FILE_EXTENSION, extension);
     }
 
     public void enableListAnimation(boolean enable){
@@ -420,6 +394,28 @@ public class PreferencesUtils extends BasePreferencesUtils {
 
     public String getPasswordAnswer() {
         return getString(PASSWORD_ANSWER, null);
+    }
+    // endregion
+
+    // region Note
+    public void setShowNoteExpanded(boolean isExpanded) {
+        putBoolean(getKey(R.string.key_key_show_note_expanded), isExpanded);
+    }
+
+    public boolean isNoteExpanded() {
+        return getBoolean(getKey(R.string.key_key_show_note_expanded), true);
+    }
+
+    public void setNoteFileExtension(String extension) {
+        putString(getKey(R.string.key_note_file_extension), extension);
+    }
+
+    public String getNoteFileExtension() {
+        return "." + getString(getKey(R.string.key_note_file_extension), "md");
+    }
+
+    public boolean isImageAutoCompress() {
+        return getBoolean(getKey(R.string.key_auto_compress_image), true);
     }
     // endregion
 

@@ -109,7 +109,7 @@ public class SettingsDashboard extends PreferenceFragment implements
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
-            AttachmentHelper.resolveResult(SettingsDashboard.this, requestCode, data, this::onGetBackgroundImage);
+            AttachmentHelper.resolveResult(SettingsDashboard.this, requestCode, data);
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
