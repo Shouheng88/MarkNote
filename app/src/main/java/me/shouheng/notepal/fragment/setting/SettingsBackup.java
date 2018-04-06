@@ -205,7 +205,7 @@ public class SettingsBackup extends BaseFragment {
     }
 
     private void showExternalBackupImportConfirm(String backup) {
-        File backupDir = FileHelper.getBackupDir(backup);
+        File backupDir = FileHelper.getExternalBackupDir(backup);
         long size = FileHelper.getSize(backupDir) / 1024;
         String sizeString = size > 1024 ? size / 1024 + "Mb" : size + "Kb";
 
@@ -228,7 +228,7 @@ public class SettingsBackup extends BaseFragment {
     }
 
     private String[] getExternalBackups() {
-        String[] backups = FileHelper.getExternalStoragePublicDir().list();
+        String[] backups = FileHelper.getExternalBackupRootDir().list();
         Arrays.sort(backups);
         return backups;
     }

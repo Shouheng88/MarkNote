@@ -38,6 +38,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import me.shouheng.notepal.BuildConfig;
+import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.manager.MediaStoreFactory;
@@ -644,6 +645,13 @@ public class FileHelper {
     }
     // endregion
 
+    public static File getExternalStoragePublicDir() {
+        String path = Environment.getExternalStorageDirectory() + File.separator + EXTERNAL_STORAGE_FOLDER + File.separator;
+        File dir = new File(path);
+        if (!dir.exists()) dir.mkdirs();
+        return dir;
+    }
+
     public static File getHtmlExportDir() {
         File dir = new File(getExternalStoragePublicDir(), Constants.HTML_EXPORT_DIR_NAME);
         if (!dir.exists()) dir.mkdirs();
@@ -656,18 +664,22 @@ public class FileHelper {
         return dir;
     }
 
-    public static File getExternalStoragePublicDir() {
-        String path = Environment.getExternalStorageDirectory() + File.separator + EXTERNAL_STORAGE_FOLDER + File.separator;
-        File dir = new File(path);
-        if (!dir.exists()) dir.mkdirs();
-        return dir;
-    }
-
-    // todo change external backup dir
-    public static File getBackupDir(String backupName) {
-        File backupDir = new File(getExternalStoragePublicDir(), backupName);
+    public static File getExternalBackupRootDir() {
+        File backupDir = new File(getExternalStoragePublicDir(), EXTERNAL_STORAGE_BACKUP_DIR);
         if (!backupDir.exists()) backupDir.mkdirs();
         return backupDir;
+    }
+
+    public static File getExternalBackupDir(String backupName) {
+        File root = getExternalBackupRootDir();
+        File backupDir = new File(root, backupName);
+        if (!backupDir.exists()) backupDir.mkdirs();
+        return backupDir;
+    }
+
+    public static File getExternalFilesBackupDir(File backupDir) {
+        File attachmentsDir = FileHelper.getAttachmentDir(PalmApp.getContext());
+        return new File(backupDir, attachmentsDir.getName());
     }
 
     public static File getAttachmentDir(Context mContext) {
