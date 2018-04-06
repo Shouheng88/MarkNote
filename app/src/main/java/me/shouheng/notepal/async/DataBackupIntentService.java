@@ -93,11 +93,11 @@ public class DataBackupIntentService extends IntentService {
         boolean includeSettings = intent.getBooleanExtra(INTENT_BACKUP_INCLUDE_SETTINGS, false);
         String backupName = intent.getStringExtra(INTENT_BACKUP_NAME);
 
-        File backupDir = FileHelper.getBackupDir(backupName);
+        File backupDir = FileHelper.getExternalBackupDir(backupName);
         // delete previous backup if exist
         FileHelper.delete(this, backupDir.getAbsolutePath());
 
-        backupDir = FileHelper.getBackupDir(backupName);
+        backupDir = FileHelper.getExternalBackupDir(backupName);
 
         exportDB(backupDir);
 
@@ -114,8 +114,7 @@ public class DataBackupIntentService extends IntentService {
     }
 
     private boolean exportAttachments(File backupDir) {
-        File attachmentsDir = FileHelper.getAttachmentDir(this);
-        File destDir = new File(backupDir, attachmentsDir.getName());
+        File destDir = FileHelper.getExternalFilesBackupDir(backupDir);
 
         AttachmentsStore store = AttachmentsStore.getInstance(this);
         List<Attachment> list = store.get(null, null);
@@ -137,7 +136,7 @@ public class DataBackupIntentService extends IntentService {
     // region import data
     synchronized private void importData(Intent intent) {
         String backupName = intent.getStringExtra(INTENT_BACKUP_NAME);
-        File backupDir = FileHelper.getBackupDir(backupName);
+        File backupDir = FileHelper.getExternalBackupDir(backupName);
 
         importDB(backupDir);
 
@@ -189,7 +188,7 @@ public class DataBackupIntentService extends IntentService {
 
         StringBuilder names = new StringBuilder();
         for (String backup : backups) {
-            File backupDir = FileHelper.getBackupDir(backup);
+            File backupDir = FileHelper.getExternalBackupDir(backup);
             FileHelper.delete(this, backupDir.getAbsolutePath());
             names.append(backup);
             names.append(",");
