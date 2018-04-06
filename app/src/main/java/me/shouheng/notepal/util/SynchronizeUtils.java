@@ -84,12 +84,14 @@ public class SynchronizeUtils {
     public static boolean shouldOneDriveDatabaseSync() {
         long lastSyncTime = PreferencesUtils.getInstance().getOneDriveDatabaseLastSyncTime();
         File database = FileHelper.getDatabaseFile(PalmApp.getContext());
-        return database.lastModified() > lastSyncTime;
+        long lastModifiedTime = database.lastModified();
+        return lastModifiedTime > lastSyncTime;
     }
 
     public static boolean shouldOneDrivePreferencesSync() {
         long lastSyncTime = PreferencesUtils.getInstance().getOneDrivePreferenceLastSyncTime();
         File preferences = FileHelper.getPreferencesFile(PalmApp.getContext());
-        return preferences.lastModified() > lastSyncTime;
+        long lastModifiedTime = preferences.lastModified();
+        return lastModifiedTime > lastSyncTime;
     }
 }

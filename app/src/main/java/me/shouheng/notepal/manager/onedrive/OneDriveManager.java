@@ -24,7 +24,9 @@ import java.util.Collections;
 import java.util.concurrent.atomic.AtomicReference;
 
 import me.shouheng.notepal.R;
+import me.shouheng.notepal.async.onedrive.ConflictBehavior;
 import me.shouheng.notepal.model.Directory;
+import me.shouheng.notepal.util.FileHelper;
 import me.shouheng.notepal.util.ToastUtils;
 
 /**
@@ -38,8 +40,6 @@ public class OneDriveManager {
     /**
      * Expansion options to get all children, thumbnails of children, and thumbnails when limited */
     private static final String EXPAND_OPTIONS_FOR_CHILDREN_AND_THUMBNAILS_LIMITED = "children,thumbnails";
-
-    private final Option option = new QueryOption("@name.conflictBehavior", "fail");
 
     private static OneDriveManager instance;
 
@@ -208,11 +208,12 @@ public class OneDriveManager {
         }
     }
 
-    public void upload(String toItemId, File file, UploadProgressCallback<Item> callback) {
-        final String filename = FileContent.getFileName(file);
+    public void upload(String toItemId, File file, ConflictBehavior conflictBehavior, UploadProgressCallback<Item> callback) {
+        final Option option = new QueryOption("@name.conflictBehavior", conflictBehavior.value);
+        final String filename = FileHelper.getFileName(file);
         final byte[] fileInMemory;
         try {
-            fileInMemory = FileContent.getFileBytes(file);
+            fileInMemory = FileHelper.getFileBytes(file);
             getOneDriveClient()
                     .getDrive()
                     .getItems(toItemId)
