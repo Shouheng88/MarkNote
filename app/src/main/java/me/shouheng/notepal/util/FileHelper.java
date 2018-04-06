@@ -12,6 +12,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.os.RemoteException;
 import android.os.StatFs;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
@@ -23,6 +24,7 @@ import android.webkit.MimeTypeMap;
 
 import org.apache.commons.io.FileUtils;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -51,28 +53,84 @@ public class FileHelper {
 
     private static final String EXTERNAL_STORAGE_FOLDER = "NotePal";
     private static final String EXTERNAL_STORAGE_BACKUP_DIR = "Backup";
+    private final static String DATE_FORMAT_SORTABLE = "yyyyMMdd_HHmmss_SSS";
+    private static final String ANSI_INVALID_CHARACTERS = "\\/:*?\"<>|";
 
-    private static boolean isStorageWriteable() {
+    private static boolean isStorageWritable() {
         boolean isExternalStorageAvailable;
-        boolean isExternalStorageWriteable;
+        boolean isExternalStorageWritable;
         String state = Environment.getExternalStorageState();
         switch (state) {
             case Environment.MEDIA_MOUNTED:
-                isExternalStorageAvailable = isExternalStorageWriteable = true;
+                isExternalStorageAvailable = true;
+                isExternalStorageWritable = true;
                 break;
             case Environment.MEDIA_MOUNTED_READ_ONLY:
                 isExternalStorageAvailable = true;
-                isExternalStorageWriteable = false;
+                isExternalStorageWritable = false;
                 break;
             default:
-                isExternalStorageAvailable = isExternalStorageWriteable = false;
+                isExternalStorageAvailable = false;
+                isExternalStorageWritable = false;
                 break;
         }
-        return isExternalStorageAvailable && isExternalStorageWriteable;
+        return isExternalStorageAvailable && isExternalStorageWritable;
     }
 
-    // region Get file path
+    // region Name
+    public static String getDefaultFileName(String extension) {
+        Calendar now = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_SORTABLE, Locale.getDefault());
+        String name = sdf.format(now.getTime());
+        name += extension != null ? extension : "";
+        return removeInvalidCharacters(name);
+    }
 
+    public static String getNameFromUri(Context mContext, Uri uri) {
+        String fileName = "";
+        Cursor cursor = null;
+        try {
+            cursor = mContext.getContentResolver().query(uri, new String[]{OpenableColumns.DISPLAY_NAME}, null, null, null);
+            if (cursor != null) {
+                try {
+                    if (cursor.moveToFirst()) {
+                        fileName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                    }
+                } catch (Exception e) {
+                    LogUtils.e("Error managing diskk cache", e);
+                }
+            } else {
+                fileName = uri.getLastPathSegment();
+            }
+        } catch (SecurityException e) {
+            return null;
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return fileName;
+    }
+
+    public static String getFileName(File file) {
+        return getFileName(file.getPath());
+    }
+
+    public static String getFileName(String path) {
+        String name = path.substring(path.lastIndexOf(System.getProperty("file.separator")) + 1, path.length());
+        return removeInvalidCharacters(name);
+    }
+
+    private static String removeInvalidCharacters(final String fileName) {
+        String fixedUpString = Uri.decode(fileName);
+        for (int i = 0; i < ANSI_INVALID_CHARACTERS.length(); i++) {
+            fixedUpString = fixedUpString.replace(ANSI_INVALID_CHARACTERS.charAt(i), '_');
+        }
+        return Uri.encode(fixedUpString);
+    }
+    // endregion
+
+    // region Path
     @SuppressLint("NewApi")
     public static String getPath(final Context context, final Uri uri) {
         if (uri == null) return null;
@@ -141,6 +199,7 @@ public class FileHelper {
     }
     // endregion
 
+    // region Size
     public static long getSize(File directory) {
         StatFs statFs = new StatFs(directory.getAbsolutePath());
         long blockSize = 0;
@@ -184,7 +243,37 @@ public class FileHelper {
         }
     }
 
-    // region Get file MIME.
+    public static byte[] getFileBytes(File file) throws IOException, RemoteException {
+        return getFileBytes(file, 0, (int) file.length());
+    }
+
+    private static byte[] getFileBytes(File file, final int offset, final int size) throws IOException, RemoteException {
+        final FileInputStream fis = new FileInputStream(file);
+        final ByteArrayOutputStream memorySteam = new ByteArrayOutputStream(size);
+        int ret = copyStreamContents(offset, size, fis, memorySteam);
+        return memorySteam.toByteArray();
+    }
+
+    private static int copyStreamContents(final long offset,
+                                          final int size,
+                                          final InputStream input,
+                                          final OutputStream output) throws IOException {
+        byte[] buffer = new byte[size];
+        int count = 0, n;
+        final long skipAmount = input.skip(offset);
+        if (skipAmount != offset) {
+            throw new RuntimeException(String.format(Locale.getDefault(),
+                    "Unable to skip in the input stream actual %d, expected %d", skipAmount, offset));
+        }
+        while (-1 != (n = input.read(buffer))) {
+            output.write(buffer, 0, n);
+            count += n;
+        }
+        return count;
+    }
+    // endregion
+
+    // region MimeType
 
     /**
      * Get mime type of given uri.
@@ -240,7 +329,7 @@ public class FileHelper {
     }
     // endregion
 
-    // region Get file EXTENSION
+    // region Extension
     /**
      * Get file extension from file name.
      *
@@ -280,7 +369,7 @@ public class FileHelper {
     }
     // endregion
 
-    // region Get THUMBNAIL from uri
+    // region Thumbnail
     public static Uri getThumbnailUri(Context mContext, Uri uri) {
         String mimeType = getMimeType(uri.toString());
         if (!TextUtils.isEmpty(mimeType)) {
@@ -324,35 +413,9 @@ public class FileHelper {
     }
     // endregion
 
-    public static String getNameFromUri(Context mContext, Uri uri) {
-        String fileName = "";
-        Cursor cursor = null;
-        try {
-            cursor = mContext.getContentResolver().query(uri, new String[]{OpenableColumns.DISPLAY_NAME}, null, null, null);
-            if (cursor != null) {
-                try {
-                    if (cursor.moveToFirst()) {
-                        fileName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
-                    }
-                } catch (Exception e) {
-                    LogUtils.e("Error managing diskk cache", e);
-                }
-            } else {
-                fileName = uri.getLastPathSegment();
-            }
-        } catch (SecurityException e) {
-            return null;
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-        return fileName;
-    }
-
     public static File createNewAttachmentFile(Context context, String extension) {
         File file = null;
-        if (isStorageWriteable()) {
+        if (isStorageWritable()) {
             file = new File(context.getExternalFilesDir(null), getDefaultFileName(extension));
         }
         return file;
@@ -399,7 +462,7 @@ public class FileHelper {
     }
 
     private static File createExternalStoragePrivateFile(Context mContext, Uri uri, String extension) {
-        if (!isStorageWriteable()) {
+        if (!isStorageWritable()) {
             ToastUtils.makeToast(R.string.storage_not_available);
             return null;
         }
@@ -432,20 +495,7 @@ public class FileHelper {
         return file;
     }
 
-    /**
-     * Get default file name with given extension
-     *
-     * @param extension file extension
-     * @return the file name with given extension */
-    public static String getDefaultFileName(String extension) {
-        Calendar now = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_SORTABLE, Locale.getDefault());
-        String name = sdf.format(now.getTime());
-        name += extension != null ? extension : "";
-        return name;
-    }
-
-    // region File operations
+    // region Operations
     public static void moveFile(File srcFile, File destFile) throws IOException {
         if (srcFile == null) {
             throw new NullPointerException("Source must not be null");
@@ -478,7 +528,7 @@ public class FileHelper {
 
     public static boolean delete(Context mContext, String name) {
         boolean res = false;
-        if (!isStorageWriteable()) {
+        if (!isStorageWritable()) {
             ToastUtils.makeToast(R.string.storage_not_available);
             return false;
         }
@@ -625,7 +675,7 @@ public class FileHelper {
     }
 
     public static File copyToBackupDir(File backupDir, File file) {
-        if (!isStorageWriteable()) {
+        if (!isStorageWritable()) {
             return null;
         }
         if (!backupDir.exists()) {
