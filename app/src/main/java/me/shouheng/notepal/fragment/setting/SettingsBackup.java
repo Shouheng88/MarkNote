@@ -47,6 +47,7 @@ public class SettingsBackup extends BaseFragment {
     private final static String KEY_ONE_DRIVE_BACKUP = "key_one_drive_backup";
 
     private final int REQUEST_PICK_FOLDER = 0x000F;
+
     private Preference prefOneDrive;
     private Preference prefOneDriveSignOut;
     private Preference prefTimeInterval;
@@ -110,7 +111,7 @@ public class SettingsBackup extends BaseFragment {
         refreshOneDriveMessage();
     }
 
-    // region One Drive backup
+    // region OneDrive synchronization
     private void connectOneDrive() {
         final ProgressDialog pd = new ProgressDialog(getActivity());
         pd.setTitle(R.string.text_please_wait);
@@ -136,12 +137,8 @@ public class SettingsBackup extends BaseFragment {
         String itemId = preferencesUtils.getOneDriveBackupItemId();
         boolean isDirSpecified = !TextUtils.isEmpty(itemId);
         if (!isDirSpecified) {
-            pickBackupDir();
+            DirectoryActivity.startExplore(this, REQUEST_PICK_FOLDER);
         }
-    }
-
-    private void pickBackupDir() {
-        DirectoryActivity.startExplore(this, REQUEST_PICK_FOLDER);
     }
 
     private void refreshOneDriveMessage() {
@@ -154,7 +151,9 @@ public class SettingsBackup extends BaseFragment {
             prefOneDriveSignOut.setEnabled(false);
         }
     }
+    // endregion
 
+    // region External storage backup
     private void showBackupNameEditor() {
         View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_backup_layout, null);
 
@@ -182,9 +181,6 @@ public class SettingsBackup extends BaseFragment {
                 }).build().show();
     }
 
-    // endregion
-
-    // region External storage backup
     private void showExternalBackupImport() {
         final String[] backups = getExternalBackups();
         if (backups.length == 0) {
@@ -213,7 +209,7 @@ public class SettingsBackup extends BaseFragment {
         long size = FileHelper.getSize(backupDir) / 1024;
         String sizeString = size > 1024 ? size / 1024 + "Mb" : size + "Kb";
 
-        String prefName = FileHelper.getSharedPreferencesFile(getActivity()).getName();
+        String prefName = FileHelper.getPreferencesFile(getActivity()).getName();
         boolean hasPreferences = (new File(backupDir, prefName)).exists();
 
         String message = getString(R.string.backup_data_import_message_warning) + "\n\n"
@@ -279,7 +275,7 @@ public class SettingsBackup extends BaseFragment {
     }
     // endregion
 
-    // region Sync time interval
+    // region Synchronization time interval
     private void timeIntervalPicker() {
         SyncTimeInterval[] timeIntervals = SyncTimeInterval.values();
         String[] items = new String[timeIntervals.length];
