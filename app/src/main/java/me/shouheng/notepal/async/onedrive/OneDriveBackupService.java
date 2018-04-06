@@ -43,7 +43,7 @@ public class OneDriveBackupService extends IntentService {
 
         if (isNetworkAvailable && (!isOnlyWifi || isWifi)) {
             uploadDatabaseAndPreferences();
-//            updateAttachments();
+            updateAttachments();
         }
     }
 
@@ -62,7 +62,10 @@ public class OneDriveBackupService extends IntentService {
     private void updateAttachments() {
         String filesItemId = preferencesUtils.getOneDriveFilesBackupItemId();
         if (!TextUtils.isEmpty(filesItemId)) {
-            new BatchUploadUtil(filesItemId, 5).begin();
+            BatchUploadPool batchUploadPool = BatchUploadPool.getInstance(filesItemId, 5);
+            if (!batchUploadPool.isExecuting()) {
+                batchUploadPool.begin();
+            }
         } else {
             LogUtils.e("Error! No files backup item id.");
         }
@@ -75,6 +78,7 @@ public class OneDriveBackupService extends IntentService {
             public void success(Item item) {
                 preferencesUtils.setOneDriveDatabaseItemId(item.id);
                 preferencesUtils.setOneDriveDatabaseLastSyncTime(System.currentTimeMillis());
+                preferencesUtils.setOneDriveLastSyncTime(System.currentTimeMillis());
             }
 
             @Override
@@ -92,6 +96,7 @@ public class OneDriveBackupService extends IntentService {
             public void success(Item item) {
                 preferencesUtils.setOneDrivePreferencesItemId(item.id);
                 preferencesUtils.setOneDrivePreferenceLastSyncTime(System.currentTimeMillis());
+                preferencesUtils.setOneDriveLastSyncTime(System.currentTimeMillis());
             }
 
             @Override
