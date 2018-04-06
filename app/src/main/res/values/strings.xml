@@ -525,6 +525,7 @@
     <string name="md_cols_cannot_empty">The column number can\'t be empty.</string>
     <!--endregion-->
 
+    <!--region v1.1.1-->
     <string name="text_advanced">Advanced</string>
     <string name="text_insert">Insert</string>
     <string name="text_table">Insert table</string>
@@ -538,7 +539,9 @@
     <string name="invalid_input_tips">Invalid input</string>
     <string name="text_export">Export</string>
     <string name="text_export_text">Export text</string>
+    <!--endregion-->
 
+    <!--region v1.1.2-->
     <string name="text_external_storage">External Storage</string>
     <string name="text_one_drive">OneDrive</string>
     <string name="one_drive_backup_title">Connect OneDrive</string>
@@ -577,5 +580,5 @@
 
     <string name="auto_compress_image_title">Auto compress image</string>
     <string name="auto_compress_image_sub_title">The compressed image will save a lot of storage and data usage</string>
-
+    <!--endregion-->
 </resources>
