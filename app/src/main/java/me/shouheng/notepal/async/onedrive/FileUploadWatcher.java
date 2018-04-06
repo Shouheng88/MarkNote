@@ -1,6 +1,7 @@
 package me.shouheng.notepal.async.onedrive;
 
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by shouh on 2018/4/2.*/
@@ -16,23 +17,19 @@ public class FileUploadWatcher implements Runnable {
     @Override
     public void run() {
         try {
-            downLatch.await();
+            downLatch.await(10, TimeUnit.MINUTES);
             if (onWatchListener != null) {
-                onWatchListener.onState(State.FINISH, null);
+                onWatchListener.onFinish();
             }
         } catch (InterruptedException e) {
             if (onWatchListener != null) {
-                onWatchListener.onState(State.FAILED, e.getMessage());
+                onWatchListener.onFail(e.getMessage());
             }
         }
     }
 
     public interface OnWatchListener {
-        void onState(State watchedStatus, String msg);
-    }
-
-    public enum State {
-        FINISH,
-        FAILED
+        void onFinish();
+        void onFail(String msg);
     }
 }
