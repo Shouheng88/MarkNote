@@ -2,4 +2,11 @@
 <resources>
     <string name="key_sync_time_interval" translatable="false">key_sync_time_interval</string>
     <string name="key_one_drive_last_sync_time" translatable="false">key_one_drive_last_sync_time</string>
+    <string name="key_backup_only_wifi" translatable="false">key_backup_only_wifi</string>
+    <string name="key_one_drive_backup_dir_item_id" translatable="false">key_one_drive_backup_dir_item_id</string>
+    <string name="key_one_drive_files_backup_dir_item_id" translatable="false">key_one_drive_files_backup_dir_item_id</string>
+    <string name="key_one_drive_database_last_sync_time" translatable="false">key_one_drive_database_last_sync_time</string>
+    <string name="key_one_drive_preferences_last_sync_time" translatable="false">key_one_drive_preferences_last_sync_time</string>
+    <string name="key_one_drive_database_item_id" translatable="false">key_one_drive_database_item_id</string>
+    <string name="key_one_drive_preferences_item_id" translatable="false">key_one_drive_preferences_item_id</string>
 </resources>
