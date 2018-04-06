@@ -15,28 +15,18 @@ public class FileUploadTask extends AsyncTask<File, Integer, String> {
 
     private String itemId;
 
-    FileUploadTask(String itemId) {
+    private OneDriveManager.UploadProgressCallback<Item> uploadProgressCallback;
+
+    FileUploadTask(String itemId, OneDriveManager.UploadProgressCallback<Item> uploadProgressCallback) {
         this.itemId = itemId;
+        this.uploadProgressCallback = uploadProgressCallback;
     }
 
     @Override
     protected String doInBackground(File... files) {
         LogUtils.d(files.length);
         for (File file : files) {
-            OneDriveManager.getInstance().upload(itemId, file, new OneDriveManager.UploadProgressCallback<Item>() {
-                @Override
-                public void progress(long current, long max) {}
-
-                @Override
-                public void success(Item item) {
-                    LogUtils.d(item);
-                }
-
-                @Override
-                public void failure(Exception e) {
-                    LogUtils.e(e.getMessage());
-                }
-            });
+            OneDriveManager.getInstance().upload(itemId, file, uploadProgressCallback);
         }
         return "executed";
     }
