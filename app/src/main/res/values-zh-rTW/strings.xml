@@ -525,6 +525,7 @@
     <string name="md_cols_cannot_empty">輸入的列數不能為空</string>
     <!--endregion-->
 
+    <!--region v1.1.1-->
     <string name="text_advanced">高級</string>
     <string name="text_insert">插入</string>
     <string name="text_table">插入表格</string>
@@ -538,5 +539,46 @@
     <string name="invalid_input_tips">無效的輸入</string>
     <string name="text_export">導出</string>
     <string name="text_export_text">導出文本文件</string>
+    <!--endregion-->
 
+    <!--region v1.1.2-->
+    <string name="text_external_storage">外部存儲</string>
+    <string name="text_one_drive">OneDrive</string>
+    <string name="one_drive_backup_title">連接 OneDrive</string>
+    <string name="one_drive_backup_sub_title">登錄 OneDrive 以同步文件</string>
+    <string name="sign_out_one_drive">登出 OneDrive</string>
+    <string name="sign_out_one_drive_sub">登出 OneDrive 停止同步</string>
+    <string name="one_drive_backup_folder">當前同步的文件ID是 %1$s</string>
+    <string name="text_error">錯誤</string>
+    <string name="text_successfully_logout">成功登出</string>
+    <string name="backup_only_wifi">只在 WiFi 環境下進行同步</string>
+    <string name="backup_only_wifi_sub">勾選則只在 WiFi 環境下進行同步</string>
+    <string name="backup_time_interval">同步的時間間隔</string>
+    <string name="text_sync_settings">同步設置</string>
+    <string name="failed_query_sync_cloud">未知的錯誤類型！</string>
+    <string name="text_done">完成</string>
+    <string name="text_folder_explore">選擇同步的文件夾</string>
+    <string name="text_no_more_folders">沒有更多可選文件夾了</string>
+    <string name="text_please_wait">請等待&#8230;</string>
+    <string name="text_sing_out">登出</string>
+    <string name="error_when_try_to_backup">當同步到 %1$s 的時候發生了錯誤</string>
+    <string name="backup_dir_selected_message">成功地設置了同步的文件夾</string>
+    <string name="pick_backup_directory_message">進入你想要同步的文件夾，然後選擇 \"完成\".</string>
+    <string name="available_directory_found">在當前的文件夾中發現了可用的 \"NotePal\". 你可以按下 \"完成\" 來完成選擇。</string>
+    <string name="login_drive_message">請登錄你的 OneDrive 賬號後再次嘗試</string>
+    <string name="text_syncing">正在同步&#8230;</string>
+
+    <string name="sync_every_15_minutes">每隔 15 分鍾</string>
+    <string name="sync_every_30_minutes">每隔 30 分鍾</string>
+    <string name="sync_every_hour">每小時</string>
+    <string name="sync_every_2_hours">每隔 2 小時</string>
+    <string name="sync_every_6_hours">每隔 6 小時</string>
+    <string name="sync_every_12_hours">每隔 12 小時</string>
+    <string name="sync_every_day">每天</string>
+
+    <string name="text_get_it">知道了</string>
+
+    <string name="auto_compress_image_title">自動壓縮圖片</string>
+    <string name="auto_compress_image_sub_title">壓縮後的圖片可以節省大量的存儲空間和上傳流量</string>
+    <!--endregion-->
 </resources>
