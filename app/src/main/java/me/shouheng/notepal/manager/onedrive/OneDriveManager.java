@@ -272,7 +272,12 @@ public class OneDriveManager {
     }
 
     public interface UploadProgressCallback<Result> {
-        void progress(final long current, final long max);
+        /**
+         * Use default method, don't force user to implement this method.
+         *
+         * @param current current progress.
+         * @param max max progress. */
+        default void progress(final long current, final long max){}
         void success(final Result result);
         void failure(final Exception e);
     }
