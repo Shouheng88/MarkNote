@@ -1,6 +1,8 @@
 package me.shouheng.notepal.util;
 
+import android.app.Activity;
 import android.os.Build;
+import android.support.v4.app.Fragment;
 
 import me.shouheng.notepal.PalmApp;
 
@@ -54,5 +56,25 @@ public class PalmUtils {
 
     public static String getPackageName(){
         return PalmApp.getContext().getApplicationContext().getPackageName();
+    }
+
+    public static boolean isAlive(Fragment fragment) {
+        return fragment != null
+                && fragment.isAdded()
+                && fragment.getActivity() != null
+                && !fragment.getActivity().isFinishing();
+    }
+
+    public static boolean isAlive(android.app.Fragment fragment) {
+        return fragment != null
+                && fragment.isAdded()
+                && fragment.getActivity() != null
+                && !fragment.getActivity().isFinishing();
+    }
+
+    public static boolean isAlive(Activity activity) {
+        return activity != null
+                && !activity.isFinishing()
+                && !activity.isDestroyed();
     }
 }

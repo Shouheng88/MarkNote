@@ -3,14 +3,20 @@
 
     <ListPreference
         android:title="@string/setting_default_note_file_extension"
-        android:key="note_file_extension"
+        android:key="@string/key_note_file_extension"
         android:entries="@array/note_file_extensions"
         android:entryValues="@array/note_file_extensions"
         android:defaultValue="md"
         android:summary="@string/setting_default_note_file_extension_sub"/>
 
     <CheckBoxPreference
-        android:key="key_show_note_expanded"
+        android:key="@string/key_auto_compress_image"
+        android:defaultValue="true"
+        android:title="@string/auto_compress_image_title"
+        android:summary="@string/auto_compress_image_sub_title" />
+
+    <CheckBoxPreference
+        android:key="@string/key_key_show_note_expanded"
         android:defaultValue="true"
         android:title="@string/setting_note_list_view_expand"
         android:summary="@string/setting_note_list_view_expand_sub"/>

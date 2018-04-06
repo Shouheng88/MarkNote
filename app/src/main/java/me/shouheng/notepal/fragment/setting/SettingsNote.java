@@ -1,7 +1,6 @@
 package me.shouheng.notepal.fragment.setting;
 
 import android.os.Bundle;
-import android.preference.PreferenceFragment;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -9,11 +8,10 @@ import android.support.v7.app.AppCompatActivity;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.listener.OnFragmentDestroyListener;
 import me.shouheng.notepal.listener.OnSettingsChangedListener;
-import me.shouheng.notepal.util.PreferencesUtils;
 
 /**
  * Created by shouh on 2018/3/21.*/
-public class SettingsNote extends PreferenceFragment {
+public class SettingsNote extends BaseFragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,7 +30,7 @@ public class SettingsNote extends PreferenceFragment {
     }
 
     private void setPreferenceClickListeners() {
-        findPreference(PreferencesUtils.KEY_SHOW_NOTE_EXPANDED).setOnPreferenceClickListener(preference -> {
+        findPreference(getKey(R.string.key_key_show_note_expanded)).setOnPreferenceClickListener(preference -> {
             notifyDashboardChanged();
             return true;
         });

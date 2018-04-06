@@ -33,7 +33,7 @@ import java.util.List;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.ContentActivity;
-import me.shouheng.notepal.async.AttachmentTask;
+import me.shouheng.notepal.async.CreateAttachmentTask;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.databinding.FragmentNoteBinding;
 import me.shouheng.notepal.dialog.AdvancedPicker;
@@ -184,16 +184,14 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
         // Due to the fact that Google Now passes intent as text but with
         // audio recording attached the case must be handled in specific way
         if (uri != null && !Constants.INTENT_GOOGLE_NOW.equals(intent.getAction())) {
-            String name = FileHelper.getNameFromUri(getContext(), uri);
-            new AttachmentTask(this, uri, name, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            new CreateAttachmentTask(this, uri, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
 
         // Multiple attachment data
         ArrayList<Uri> uris = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
         if (uris != null) {
             for (Uri uriSingle : uris) {
-                String name = FileHelper.getNameFromUri(getContext(), uriSingle);
-                new AttachmentTask(this, uriSingle, name, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                new CreateAttachmentTask(this, uriSingle, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             }
         }
     }

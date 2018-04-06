@@ -150,10 +150,7 @@ public class QuickNoteActivity extends BaseActivity implements OnAttachingFileLi
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
-            AttachmentHelper.resolveResult(this,
-                    requestCode,
-                    data,
-                    attachment -> quickNoteEditor.setAttachment(attachment));
+            AttachmentHelper.resolveResult(this, requestCode, data);
         }
         switch (requestCode) {
             case REQUEST_PASSWORD:

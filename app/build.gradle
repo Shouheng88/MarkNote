@@ -108,6 +108,7 @@ dependencies {
     implementation('com.onedrive.sdk:onedrive-sdk-android:1.3+') {
         transitive = false
     }
+    implementation 'top.zibin:Luban:1.1.3'
     compile project(path: ':colorful')
     compile project(path: ':photoview')
     compile project(path: ':md-support')

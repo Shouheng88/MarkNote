@@ -718,14 +718,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     }
 
     private void handleAttachmentResult(int requestCode, Intent data) {
-        AttachmentHelper.resolveResult(this, requestCode, data, attachment -> {
-            if (quickNoteEditor != null) {
-                quickNoteEditor.setAttachment(attachment);
-                LogUtils.d("The mind snagging dialog is null.");
-            } else {
-                ToastUtils.makeToast(R.string.failed_to_save_attachment);
-            }
-        });
+        AttachmentHelper.resolveResult(this, requestCode, data);
     }
 
     @Override
@@ -819,7 +812,11 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     @Override
     public void onAttachingFileFinished(Attachment attachment) {
         if (AttachmentHelper.checkAttachment(attachment)) {
-            quickNoteEditor.setAttachment(attachment);
+            if (quickNoteEditor != null) {
+                quickNoteEditor.setAttachment(attachment);
+            }
+        } else {
+            ToastUtils.makeToast(R.string.failed_to_save_attachment);
         }
     }
 
