@@ -15,6 +15,7 @@ import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.model.enums.ModelType;
 import me.shouheng.notepal.model.enums.Status;
 import me.shouheng.notepal.provider.schema.AttachmentSchema;
+import me.shouheng.notepal.provider.schema.BaseSchema;
 
 /**
  * Created by wangshouheng on 2017/4/9.*/
@@ -90,12 +91,45 @@ public class AttachmentsStore extends BaseStore<Attachment> {
         values.put(AttachmentSchema.ONE_DRIVE_ITEM_ID, model.getOneDriveItemId());
     }
 
+    public synchronized List<Attachment> getUploadForOneDrive() {
+        Cursor cursor = null;
+        List<Attachment> models = null;
+        SQLiteDatabase database = getWritableDatabase();
+        try {
+            cursor = database.rawQuery(" SELECT * FROM " + tableName + " AS t "
+                    + " WHERE t." + AttachmentSchema.USER_ID + " = " + userId
+                    + " AND ( t." + AttachmentSchema.ONE_DRIVE_SYNC_TIME + " IS NULL "
+                    + " OR t." + AttachmentSchema.ONE_DRIVE_SYNC_TIME + " < t." + AttachmentSchema.LAST_MODIFIED_TIME + " ) ", new String[]{});
+            models = getList(cursor);
+        } finally {
+            closeCursor(cursor);
+            closeDatabase(database);
+        }
+        return models;
+    }
+
+    @Override
+    public synchronized void update(Attachment model) {
+        if (model == null) return;
+        SQLiteDatabase database = getWritableDatabase();
+        database.beginTransaction();
+        try {
+            database.update(tableName, getContentValues(model),
+                    BaseSchema.CODE + " = ? " + " AND " + BaseSchema.USER_ID + " = ? ",
+                    new String[]{String.valueOf(model.getCode()), String.valueOf(userId)});
+            database.setTransactionSuccessful();
+        } finally {
+            database.endTransaction();
+            closeDatabase(database);
+        }
+    }
+
     public synchronized Attachment getAttachment(ModelType modelType, long modelCode) {
         List<Attachment> list = getAttachments(modelType, modelCode, AttachmentSchema.ADDED_TIME + " DESC ");
         return list.size() > 0 ? list.get(0) : null;
     }
 
-    public synchronized List<Attachment> getAttachments(ModelType modelType, long modelCode, String orderSQL) {
+    private synchronized List<Attachment> getAttachments(ModelType modelType, long modelCode, String orderSQL) {
         Cursor cursor = null;
         List<Attachment> models = null;
         SQLiteDatabase database = getWritableDatabase();
