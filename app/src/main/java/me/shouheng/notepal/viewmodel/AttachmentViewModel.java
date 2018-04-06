@@ -15,6 +15,7 @@ import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.model.ModelFactory;
 import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.model.data.Resource;
+import me.shouheng.notepal.model.enums.ModelType;
 import me.shouheng.notepal.provider.AttachmentsStore;
 import me.shouheng.notepal.repository.AttachmentRepository;
 import me.shouheng.notepal.repository.BaseRepository;
@@ -71,6 +72,8 @@ public class AttachmentViewModel extends BaseViewModel<Attachment> {
                     atFile.setSize(FileUtils.sizeOf(noteFile));
                     atFile.setPath(noteFile.getPath());
                     atFile.setName(noteFile.getName());
+                    atFile.setModelType(ModelType.NOTE);
+                    atFile.setModelCode(note.getCode());
                     AttachmentsStore.getInstance(PalmApp.getContext()).saveModel(atFile);
                     return Resource.success(atFile);
                 } catch (IOException e) {

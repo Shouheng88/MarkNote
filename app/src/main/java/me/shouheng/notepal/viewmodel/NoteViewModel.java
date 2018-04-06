@@ -91,6 +91,8 @@ public class NoteViewModel extends BaseViewModel<Note> {
                 atFile.setSize(FileUtils.sizeOf(noteFile));
                 atFile.setPath(noteFile.getPath());
                 atFile.setName(noteFile.getName());
+                atFile.setModelType(ModelType.NOTE);
+                atFile.setModelCode(note.getCode());
                 AttachmentsStore.getInstance(PalmApp.getContext()).saveModel(atFile);
 
                 note.setContentCode(atFile.getCode());
