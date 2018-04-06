@@ -12,13 +12,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.DirectoriesAdapter;
+import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.databinding.FragmentDirectoriesBinding;
 import me.shouheng.notepal.fragment.base.BaseFragment;
 import me.shouheng.notepal.model.Directory;
-import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.viewmodel.DirectoryViewModel;
 import me.shouheng.notepal.widget.tools.CustomItemAnimator;
@@ -36,8 +38,6 @@ public class DirectoriesFragment extends BaseFragment<FragmentDirectoriesBinding
 
     private DirectoriesAdapter adapter;
 
-    private PreferencesUtils preferencesUtils;
-
     public static DirectoriesFragment newInstance(Directory directory) {
         Bundle args = new Bundle();
         DirectoriesFragment fragment = new DirectoriesFragment();
@@ -53,8 +53,6 @@ public class DirectoriesFragment extends BaseFragment<FragmentDirectoriesBinding
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {
-        preferencesUtils = PreferencesUtils.getInstance(getContext());
-
         assert getArguments() != null;
         directory = (Directory) getArguments().get(KEY_DIRECTORY);
         directoryViewModel = ViewModelProviders.of(this).get(DirectoryViewModel.class);
@@ -66,7 +64,8 @@ public class DirectoriesFragment extends BaseFragment<FragmentDirectoriesBinding
             }
         });
 
-        getBinding().rvDirectories.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST, isDarkTheme()));
+        getBinding().rvDirectories.addItemDecoration(new DividerItemDecoration(
+                getContext(), DividerItemDecoration.VERTICAL_LIST, isDarkTheme()));
         getBinding().rvDirectories.setItemAnimator(new CustomItemAnimator());
         getBinding().rvDirectories.setLayoutManager(new LinearLayoutManager(getContext()));
         getBinding().rvDirectories.setEmptyView(getBinding().ivEmpty);
@@ -96,10 +95,33 @@ public class DirectoriesFragment extends BaseFragment<FragmentDirectoriesBinding
                     ToastUtils.makeToast(listResource.message);
                     break;
                 case SUCCESS:
+                    assert listResource.data != null;
                     adapter.setNewData(listResource.data);
+                    for (Directory dir : listResource.data) {
+                        if (Constants.BACKUP_DIR_NAME.equals(dir.getName())) {
+                            showSelectionTips();
+                            break;
+                        }
+                    }
                     break;
             }
         });
+    }
+
+    private void showSelectionTips() {
+        new MaterialDialog.Builder(getContext())
+                .title(R.string.text_tips)
+                .content(R.string.available_directory_found)
+                .positiveText(R.string.text_get_it)
+                .show();
+    }
+
+    public Directory getDirectory() {
+        return directory;
+    }
+
+    public void addCategory(Directory directory) {
+        adapter.addData(directory);
     }
 
     @Override
@@ -117,19 +139,19 @@ public class DirectoriesFragment extends BaseFragment<FragmentDirectoriesBinding
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_done:
-                createFolder();
+                createBackupFolder();
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void createFolder() {
+    private void createBackupFolder() {
         final ProgressDialog pd = new ProgressDialog(getActivity());
         pd.setTitle(R.string.text_please_wait);
         pd.setCancelable(false);
         pd.show();
 
-        directoryViewModel.createBackupDir(directory).observe(this, directoryResource -> {
+        directoryViewModel.createBackupDir(directory, adapter.getData()).observe(this, directoryResource -> {
             pd.dismiss();
             if (directoryResource == null) {
                 ToastUtils.makeToast(R.string.failed_query_sync_cloud);
@@ -137,7 +159,8 @@ public class DirectoriesFragment extends BaseFragment<FragmentDirectoriesBinding
             }
             switch (directoryResource.status) {
                 case FAILED:
-                    ToastUtils.makeToast(String.format(PalmApp.getStringCompact(R.string.error_when_try_to_backup),
+                    ToastUtils.makeToast(String.format(
+                            PalmApp.getStringCompact(R.string.error_when_try_to_backup),
                             directoryResource.message));
                     break;
                 case SUCCESS:

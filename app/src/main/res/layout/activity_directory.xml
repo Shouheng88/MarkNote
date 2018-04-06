@@ -10,8 +10,18 @@
 
         <include android:id="@+id/bar" layout="@layout/layout_toolbar"/>
 
-        <FrameLayout android:id="@+id/fragment_container"
+        <TextView
+            android:id="@+id/tips"
             android:layout_below="@id/bar"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:text="@string/pick_backup_directory_message"
+            android:padding="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <FrameLayout android:id="@+id/fragment_container"
+            android:layout_below="@id/tips"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
@@ -32,6 +42,17 @@
             app:mpb_useIntrinsicPadding="false"
             android:layout_width="match_parent"
             android:layout_height="5dp" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_create"
+            app:menu_icon="@drawable/fab_add"
+            app:menu_colorRipple="#99FFFFFF"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
     </RelativeLayout>
 
