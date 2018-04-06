@@ -22,7 +22,6 @@ public class Constants {
     // endregion
 
     // region Attachment
-    public final static String DATE_FORMAT_SORTABLE = "yyyyMMdd_HHmmss_SSS";
     public final static String MIME_TYPE_IMAGE = "image/jpeg";
     public final static String MIME_TYPE_AUDIO = "audio/amr";
     public final static String MIME_TYPE_VIDEO = "video/mp4";
