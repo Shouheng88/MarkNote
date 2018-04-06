@@ -64,8 +64,8 @@ import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.FragmentHelper;
 import me.shouheng.notepal.util.IntentUtils;
 import me.shouheng.notepal.util.LogUtils;
-import me.shouheng.notepal.util.PalmUtils;
 import me.shouheng.notepal.util.PreferencesUtils;
+import me.shouheng.notepal.util.SynchronizeUtils;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.viewmodel.CategoryViewModel;
 import me.shouheng.notepal.viewmodel.NoteViewModel;
@@ -566,7 +566,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         new Handler().postDelayed(() -> {
             switch (menuItem.getItemId()) {
                 case R.id.nav_sync:
-                    PalmUtils.syncOneDrive(this, REQUEST_SETTING_BACKUP, true);
+                    SynchronizeUtils.syncOneDrive(this, REQUEST_SETTING_BACKUP, true);
                     break;
                 case R.id.nav_settings:
                     SettingsActivity.start(this, REQUEST_SETTING);
@@ -755,7 +755,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
 
     private void againExit() {
         if (onBackPressed + TIME_INTERVAL_BACK > System.currentTimeMillis()) {
-            PalmUtils.syncOneDrive(this);
+            SynchronizeUtils.syncOneDrive(this);
             super.onBackPressed();
             return;
         } else {
