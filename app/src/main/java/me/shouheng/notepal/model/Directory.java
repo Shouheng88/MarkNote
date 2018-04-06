@@ -15,6 +15,12 @@ public class Directory implements Serializable {
 
     private Date lastModifiedDateTime;
 
+    public Directory() {}
+
+    public Directory(String id) {
+        this.id = id;
+    }
+
     public String getId() {
         return id;
     }
