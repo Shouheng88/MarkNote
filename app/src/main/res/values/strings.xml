@@ -540,28 +540,29 @@
     <string name="text_export_text">Export text</string>
 
     <string name="text_external_storage">External Storage</string>
-    <string name="text_one_drive">One drive</string>
-    <string name="one_drive_backup_title">Connect One Drive</string>
-    <string name="one_drive_backup_sub_title">Login to backup files to One Drive</string>
-    <string name="sign_out_one_drive">Sign out One Drive</string>
-    <string name="sign_out_one_drive_sub">Sign out One Drive to stop backup</string>
-    <string name="one_drive_backup_folder">Currently backup folder is %1$s</string>
+    <string name="text_one_drive">OneDrive</string>
+    <string name="one_drive_backup_title">Connect OneDrive</string>
+    <string name="one_drive_backup_sub_title">Sign in to synchronize files to OneDrive</string>
+    <string name="sign_out_one_drive">Sign out OneDrive</string>
+    <string name="sign_out_one_drive_sub">Sign out OneDrive to stop synchronize</string>
+    <string name="one_drive_backup_folder">Currently synchronization folder is %1$s</string>
     <string name="text_error">Error</string>
     <string name="text_successfully_logout">Successfully logout</string>
     <string name="backup_only_wifi">Only in WiFi environment</string>
     <string name="backup_only_wifi_sub">Backup only in WiFi environment</string>
     <string name="backup_time_interval">Synchronization time interval</string>
-    <string name="text_sync_settings">Sync settings</string>
+    <string name="text_sync_settings">Synchronization settings</string>
     <string name="failed_query_sync_cloud">Unknown error occurred!</string>
     <string name="text_done">Done</string>
     <string name="text_folder_explore">Pick folder</string>
     <string name="text_no_more_folders">No more folders</string>
     <string name="text_please_wait">Please wait&#8230;</string>
     <string name="text_sing_out">Sign out</string>
-    <string name="error_when_try_to_backup">Error when try to backup : %1$s</string>
-    <string name="backup_dir_selected_message">Successfully get backup directory</string>
-    <string name="pick_backup_directory_message">Get into the folder you want to backup to and select \"DONE\".</string>
-    <string name="login_drive_message">Login your one drive account before sync.</string>
+    <string name="error_when_try_to_backup">Error when try to synchronize : %1$s</string>
+    <string name="backup_dir_selected_message">Successfully get synchronization directory</string>
+    <string name="pick_backup_directory_message">Get into the folder you want to synchronize to and select \"DONE\".</string>
+    <string name="available_directory_found">Available folder \"NotePal\" is found in current folder. You can press \"Done\" to complete selection.</string>
+    <string name="login_drive_message">Sign in your OneDrive account before synchronize.</string>
     <string name="text_syncing">Syncing&#8230;</string>
 
     <string name="sync_every_15_minutes">Every 15 minutes</string>
@@ -571,5 +572,7 @@
     <string name="sync_every_6_hours">Every 6 hours</string>
     <string name="sync_every_12_hours">Every 12 hours</string>
     <string name="sync_every_day">Daily</string>
+
+    <string name="text_get_it">Get it</string>
 
 </resources>
