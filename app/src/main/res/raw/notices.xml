@@ -120,4 +120,10 @@
         <copyright>Copyright 2015 Kenny Campagna</copyright>
         <license>Apache Software License 2.0</license>
     </notice>
+    <notice>
+        <name>Luban</name>
+        <url>https://github.com/Curzibn/Luban</url>
+        <copyright>Copyright 2016 Zheng Zibin</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
 </notices>
