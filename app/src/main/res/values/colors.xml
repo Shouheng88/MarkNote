@@ -49,4 +49,9 @@
 
     <color name="kitkat_gray_dark">#25000000</color>
     <color name="kitkat_gray_light">#19000000</color>
+
+    <!--region color for App Widget-->
+    <color name="black_translucent">#66000000</color>
+    <color name="white_translucent">#B0ffffff</color>
+    <!--endregion-->
 </resources>

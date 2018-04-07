@@ -7,7 +7,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.RemoteViews;
+import android.widget.RemoteViewsService;
 import android.widget.RemoteViewsService.RemoteViewsFactory;
 
 import java.util.List;
@@ -20,6 +22,7 @@ import me.shouheng.notepal.model.Notebook;
 import me.shouheng.notepal.provider.NotesStore;
 import me.shouheng.notepal.provider.schema.NoteSchema;
 import me.shouheng.notepal.util.AppWidgetUtils;
+import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.TimeUtils;
 
@@ -33,8 +36,11 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory, SharedPrefere
 
     private SharedPreferences sharedPreferences;
 
-    ListRemoteViewsFactory(Application app, Intent intent) {
+    private RemoteViewsService remoteViewsService;
+
+    ListRemoteViewsFactory(RemoteViewsService remoteViewsService, Application app, Intent intent) {
         this.app = (PalmApp) app;
+        this.remoteViewsService = remoteViewsService;
         appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
         sharedPreferences = app.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
@@ -80,9 +86,17 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory, SharedPrefere
         Note note = notes.get(position);
 
         row.setTextViewText(R.id.tv_note_title, note.getTitle());
-        row.setTextViewText(R.id.tv_added_time, TimeUtils.getLongDateTime(app.getApplicationContext(), note.getAddedTime()));
-        row.setImageViewResource(R.id.iv_icon, R.drawable.ic_doc_text_alpha);
+        row.setTextViewText(R.id.tv_added_time, note.getPreviewContent());
+        row.setTextViewText(R.id.tv_sub_title, TimeUtils.getLongDateTime(app.getApplicationContext(), note.getAddedTime()));
+        row.setTextColor(R.id.tv_sub_title, ColorUtils.accentColor(app));
         row.setInt(R.id.root, "setBackgroundColor", app.getResources().getColor(R.color.white_translucent));
+        row.setViewVisibility(R.id.iv_icon, View.GONE);
+//        if (note.getPreviewImage() != null) {
+//            Bitmap bmp = BitmapHelper.getBitmap(app, remoteViewsService, note.getPreviewImage(), WIDTH, HEIGHT);
+//            row.setBitmap(R.id.iv_icon, "setImageBitmap", bmp);
+//            row.setViewVisibility(R.id.iv_icon, View.VISIBLE);
+//        } else {
+//        }
 
         Bundle extras = new Bundle();
         extras.putParcelable(Constants.EXTRA_MODEL, note);
@@ -113,7 +127,7 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory, SharedPrefere
         return true;
     }
 
-    public static void updateConfiguration(Context mContext, int mAppWidgetId, Notebook notebook, ListWidgetType listWidgetType) {
+    public static void updateConfiguration(Context mContext, int mAppWidgetId, Notebook notebook) {
         Editor editor = mContext.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS).edit();
         String sqlCondition = null;
         if (notebook != null) {
@@ -121,7 +135,6 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory, SharedPrefere
             editor.putLong(Constants.PREF_WIDGET_NOTEBOOK_CODE_PREFIX + String.valueOf(mAppWidgetId), notebook.getCode());
         }
         editor.putString(Constants.PREF_WIDGET_SQL_PREFIX + String.valueOf(mAppWidgetId), sqlCondition).apply();
-        editor.putInt(Constants.PREF_WIDGET_TYPE_PREFIX + String.valueOf(mAppWidgetId), listWidgetType.id).apply();
         AppWidgetUtils.notifyAppWidgets(mContext);
     }
 

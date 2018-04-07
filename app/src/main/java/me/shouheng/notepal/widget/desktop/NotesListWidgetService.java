@@ -7,6 +7,6 @@ public class NotesListWidgetService extends RemoteViewsService {
 
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
-        return new ListRemoteViewsFactory(this.getApplication(), intent);
+        return new ListRemoteViewsFactory(this, this.getApplication(), intent);
     }
 }
