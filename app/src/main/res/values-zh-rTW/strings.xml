@@ -567,6 +567,7 @@
     <string name="available_directory_found">在當前的文件夾中發現了可用的 \"NotePal\". 你可以按下 \"完成\" 來完成選擇。</string>
     <string name="login_drive_message">請登錄你的 OneDrive 賬號後再次嘗試</string>
     <string name="text_syncing">正在同步&#8230;</string>
+    <string name="synchronize_path_changed_message">系統檢測到你更換了備份目錄，所有的同步狀態都將會被清理掉，這意味著會重新對所有的文件進行同步。這可能需要一定的時間才能完成。</string>
 
     <string name="sync_every_15_minutes">每隔 15 分鍾</string>
     <string name="sync_every_30_minutes">每隔 30 分鍾</string>
@@ -577,6 +578,7 @@
     <string name="sync_every_day">每天</string>
 
     <string name="text_get_it">知道了</string>
+    <string name="text_config_widget">自定義桌面小控件</string>
 
     <string name="auto_compress_image_title">自動壓縮圖片</string>
     <string name="auto_compress_image_sub_title">壓縮後的圖片可以節省大量的存儲空間和上傳流量</string>
