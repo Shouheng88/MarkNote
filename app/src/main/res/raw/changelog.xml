@@ -4,6 +4,7 @@
     <changelogversion versionName="1.1.2" changeDate="Apr. 7, 2018">
         <changelogtext>[b]New! Add OneDrive synchronization[/b]</changelogtext>
         <changelogtext>[b]New! Add image compress logic[/b]</changelogtext>
+        <changelogtext>[b]New! Refined App widget[/b]</changelogtext>
         <changelogtext>Modified external backup directory</changelogtext>
         <changelogtext>Add screen orientation change support for note editor</changelogtext>
         <changelogtext>Use pared result as exported html</changelogtext>
