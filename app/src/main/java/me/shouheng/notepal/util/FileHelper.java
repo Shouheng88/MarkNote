@@ -167,15 +167,15 @@ public class FileHelper {
         return null;
     }
 
-    private static boolean isMediaDocument(Uri uri) {
+    static boolean isMediaDocument(Uri uri) {
         return "com.android.providers.media.documents".equals(uri.getAuthority());
     }
 
-    private static boolean isExternalStorageDocument(Uri uri) {
+    static boolean isExternalStorageDocument(Uri uri) {
         return "com.android.externalstorage.documents".equals(uri.getAuthority());
     }
 
-    private static boolean isDownloadsDocument(Uri uri) {
+    static boolean isDownloadsDocument(Uri uri) {
         return "com.android.providers.downloads.documents".equals(uri.getAuthority());
     }
 
@@ -330,7 +330,7 @@ public class FileHelper {
     }
     // endregion
 
-    // region Extension
+    // region extension
     /**
      * Get file extension from file name.
      *
@@ -370,7 +370,7 @@ public class FileHelper {
     }
     // endregion
 
-    // region Thumbnail
+    // region thumbnail
     public static Uri getThumbnailUri(Context mContext, Uri uri) {
         String mimeType = getMimeType(uri.toString());
         if (!TextUtils.isEmpty(mimeType)) {
@@ -496,7 +496,7 @@ public class FileHelper {
         return file;
     }
 
-    // region Operations
+    // region file operations
     public static void moveFile(File srcFile, File destFile) throws IOException {
         if (srcFile == null) {
             throw new NullPointerException("Source must not be null");
@@ -581,7 +581,7 @@ public class FileHelper {
         }
     }
 
-    // region Save image to EXTERNAL storage
+    // region save image external
     /**
      * 保存图标到相册中
      *
@@ -645,6 +645,7 @@ public class FileHelper {
     }
     // endregion
 
+    // region export and import
     public static File getExternalStoragePublicDir() {
         String path = Environment.getExternalStorageDirectory() + File.separator + EXTERNAL_STORAGE_FOLDER + File.separator;
         File dir = new File(path);
@@ -717,6 +718,7 @@ public class FileHelper {
     public static String getPreferencesName(Context mContext) {
         return mContext.getApplicationContext().getPackageName() + "_preferences.xml";
     }
+    // endregion
 
     public interface OnSavedToGalleryListener {
         void OnSavedToGallery(File file);

@@ -19,6 +19,7 @@ import android.net.Uri;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
+import android.widget.RemoteViewsService;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -32,8 +33,6 @@ import me.shouheng.notepal.R;
 /**
  * Created by wang shouheng on 2018/1/25.*/
 public class BitmapUtils {
-
-    public BitmapUtils() {}
 
     public static Bitmap getThumbnail(Context mContext, Uri uri, int reqWidth, int reqHeight) {
         Bitmap srcBmp = decodeSampledFromUri(mContext, uri, reqWidth, reqHeight);
@@ -55,6 +54,39 @@ public class BitmapUtils {
             }
 
             String path = FileHelper.getPath(mContext, uri);
+            int rotation = neededRotation(new File(path));
+            if(rotation != 0) {
+                Matrix matrix = new Matrix();
+                matrix.postRotate((float)rotation);
+                dstBmp = Bitmap.createBitmap(srcBmp, x, y, width, height, matrix, true);
+            } else {
+                dstBmp = Bitmap.createBitmap(srcBmp, x, y, width, height);
+            }
+        }
+
+        return dstBmp;
+    }
+
+    public static Bitmap getThumbnail(Context mContext, RemoteViewsService remoteViewsService, Uri uri, int reqWidth, int reqHeight) {
+        Bitmap srcBmp = decodeSampledFromUri(mContext, uri, reqWidth, reqHeight);
+        Bitmap dstBmp;
+        if(srcBmp.getWidth() < reqWidth && srcBmp.getHeight() < reqHeight) {
+            dstBmp = ThumbnailUtils.extractThumbnail(srcBmp, reqWidth, reqHeight);
+        } else {
+            int x = 0;
+            int y = 0;
+            int width = srcBmp.getWidth();
+            int height = srcBmp.getHeight();
+            float ratio = (float)reqWidth / (float)reqHeight * ((float)srcBmp.getHeight() / (float)srcBmp.getWidth());
+            if(ratio < 1.0F) {
+                x = (int)((float)srcBmp.getWidth() - (float)srcBmp.getWidth() * ratio) / 2;
+                width = (int)((float)srcBmp.getWidth() * ratio);
+            } else {
+                y = (int)((float)srcBmp.getHeight() - (float)srcBmp.getHeight() / ratio) / 2;
+                height = (int)((float)srcBmp.getHeight() / ratio);
+            }
+
+            String path = BitmapHelper.getPath(mContext, remoteViewsService, uri);
             int rotation = neededRotation(new File(path));
             if(rotation != 0) {
                 Matrix matrix = new Matrix();

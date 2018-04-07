@@ -15,19 +15,15 @@ import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.databinding.ActivityWidgetConfigurationBinding;
 import me.shouheng.notepal.dialog.picker.NotebookPickerDialog;
 import me.shouheng.notepal.model.Notebook;
-import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.viewmodel.NotebookViewModel;
 import me.shouheng.notepal.widget.desktop.ListRemoteViewsFactory;
-import me.shouheng.notepal.widget.desktop.ListWidgetType;
 
 public class ConfigActivity extends AppCompatActivity {
 
     private int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
 
     private Notebook selectedNotebook;
-
-    private ListWidgetType listWidgetType;
 
     private ActivityWidgetConfigurationBinding binding;
 
@@ -52,33 +48,17 @@ public class ConfigActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
         if (extras != null) {
-            mAppWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID,
-                    AppWidgetManager.INVALID_APPWIDGET_ID);
+            mAppWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
         }
         if (mAppWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
             finish();
             return;
         }
 
-        // Get preferences data
-        SharedPreferences sharedPreferences = getApplication().getSharedPreferences(
-                Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
-        int widgetTypeId = sharedPreferences.getInt(
-                Constants.PREF_WIDGET_TYPE_PREFIX + String.valueOf(mAppWidgetId),
-                ListWidgetType.NOTES_LIST.id);
-        long nbCode = sharedPreferences.getLong(
-                Constants.PREF_WIDGET_NOTEBOOK_CODE_PREFIX + String.valueOf(mAppWidgetId),
-                0);
+        SharedPreferences sharedPreferences = getApplication().getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
+        long nbCode = sharedPreferences.getLong(Constants.PREF_WIDGET_NOTEBOOK_CODE_PREFIX + String.valueOf(mAppWidgetId), 0);
 
-        // fetch data from database
         if (nbCode != 0) fetchNotebook(nbCode);
-
-        // get list widget type field
-        listWidgetType = ListWidgetType.getListWidgetType(widgetTypeId);
-        LogUtils.d(listWidgetType);
-        if (listWidgetType == ListWidgetType.MINDS_LIST) {
-            finish();
-        }
     }
 
     private void fetchNotebook(long nbCode) {
@@ -103,16 +83,11 @@ public class ConfigActivity extends AppCompatActivity {
 
     private void doCreateView() {
         binding.llFolder.setOnClickListener(view -> showNotebookPicker());
-        binding.llFolder.setEnabled(listWidgetType == ListWidgetType.NOTES_LIST);
-
         binding.btnPositive.setOnClickListener(view -> onConfirm());
     }
 
     private void onConfirm() {
-        ListRemoteViewsFactory.updateConfiguration(getApplicationContext(),
-                mAppWidgetId,
-                selectedNotebook,
-                ListWidgetType.NOTES_LIST);
+        ListRemoteViewsFactory.updateConfiguration(getApplicationContext(), mAppWidgetId, selectedNotebook);
         finishWithOK();
     }
 
