@@ -567,6 +567,7 @@
     <string name="available_directory_found">Available folder \"NotePal\" is found in current folder. You can press \"Done\" to complete selection.</string>
     <string name="login_drive_message">Sign in your OneDrive account before synchronize.</string>
     <string name="text_syncing">Synchronizing&#8230;</string>
+    <string name="synchronize_path_changed_message">The system detected that you have changed the synchronization path. All the synchronization state will be cleared. That means you have to re-synchronize everything again, which may take few time to accomplish.</string>
 
     <string name="sync_every_15_minutes">Every 15 minutes</string>
     <string name="sync_every_30_minutes">Every 30 minutes</string>
