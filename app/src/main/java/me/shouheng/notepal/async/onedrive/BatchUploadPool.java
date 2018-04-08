@@ -10,92 +10,75 @@ import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.PreferencesUtils;
 
 /**
- * todo find out why two files are not synchronized to OneDrive
+ * todo 1. Find out why two files are not synchronized to OneDrive; 2. Test new strategy.
  *
  * Created by shouh on 2018/4/1.*/
 public class BatchUploadPool {
 
-    /**
-     * Core thread number, real thread number will increased one for count down latch water.
-     * The same as per page files count. */
-    private final int threadCore;
+    private static final int CPU_COUNT = Runtime.getRuntime().availableProcessors();
 
     /**
-     * Thread pool */
+     * Thread number region at least 2 and at most 4. Real thread number is CORE_POOL_SIZE + 1 */
+    private static final int CORE_POOL_SIZE = Math.max(2, Math.min(CPU_COUNT - 1, 3));
+
+    /**
+     * Max upload files count for one shot. */
+    private static final int MAX_BATCH_UPLOAD_COUNT = 20;
+
     private ExecutorService executor;
 
     private String itemId;
 
     private int filesUploaded = 0;
 
-    private int releasedCount = 0;
-
-    private boolean isExecuting = false;
-
-    private CountDownLatch downLatch;
-
     private List<Attachment> attachmentToUpload;
-
-//    private List<Attachment> attachmentUploaded = new LinkedList<>();
 
     private static BatchUploadPool instance;
 
-    public static BatchUploadPool getInstance(String itemId, int threadCore) {
+    public static BatchUploadPool getInstance(String itemId) {
         if (instance == null) {
             synchronized (BatchUploadPool.class) {
                 if (instance == null) {
-                    instance = new BatchUploadPool(itemId, threadCore);
+                    instance = new BatchUploadPool(itemId);
                 }
             }
         }
         return instance;
     }
 
-    private BatchUploadPool(String itemId, int threadCore) {
-        this.threadCore = threadCore > 4 ? 4 : threadCore < 2 ? 2 : threadCore;
+    private BatchUploadPool(String itemId) {
         this.itemId = itemId;
-        executor = Executors.newFixedThreadPool(this.threadCore + 1);
     }
 
     void begin() {
-        new GetUploadAttachmentTask(attachments -> {
-            attachmentToUpload = attachments;
-            isExecuting = true;
-            doTask();
-        }).execute();
+        this.executor = Executors.newFixedThreadPool(CORE_POOL_SIZE + 1);
+        new GetUploadAttachmentTask(this::onGetAttachment).execute(MAX_BATCH_UPLOAD_COUNT);
     }
 
-    boolean isExecuting() {
-        return isExecuting;
+    private void onGetAttachment(List<Attachment> attachments) {
+        attachmentToUpload = attachments;
+        doTask();
     }
 
-    void shutDown() {
-        isExecuting = false;
-        LogUtils.d("Executor shut down.");
+    boolean isTerminated() {
+        return executor == null || executor.isTerminated();
+    }
+
+    private void shutDown() {
         executor.shutdown();
     }
 
     private void doTask() {
         /* Latch to control the upload event. */
-        downLatch = new CountDownLatch(attachmentToUpload.size());
-        // Initialize the released thread count.
-        releasedCount = 0;
+        int countDownLatch = attachmentToUpload.size() > MAX_BATCH_UPLOAD_COUNT ? MAX_BATCH_UPLOAD_COUNT : attachmentToUpload.size();
+        CountDownLatch downLatch = new CountDownLatch(countDownLatch);
         // Submit a new task to watch the executor.
         executor.submit(new FileUploadWatcher(downLatch, new FileUploadWatcher.OnWatchListener() {
             @Override
             public void onFinish() {
-                LogUtils.d("Batch upload finished!");
-                // On upload finished. Remove the items from upload list and update database.
-//                onUploaded();
-                // If the list to update is empty, shutdown the executor else continue to upload.
-//                if (attachmentToUpload.isEmpty()) {
-                    LogUtils.d("All uploaded!");
-                    PreferencesUtils.getInstance().setOneDriveLastSyncTime(System.currentTimeMillis());
-                    shutDown();
-//                }
-//                else if (isExecuting) {
-//                    doTask();
-//                }
+                LogUtils.d("All uploaded!");
+                PreferencesUtils.getInstance().setOneDriveLastSyncTime(System.currentTimeMillis());
+                shutDown();
             }
 
             @Override
@@ -103,47 +86,26 @@ public class BatchUploadPool {
                 LogUtils.e("Error in watcher : " + msg);
             }
         }));
-
         // Start upload for the first time
         batchUpload(downLatch);
     }
 
     private void batchUpload(CountDownLatch countDownLatch) {
         LogUtils.d("Batch upload started!");
-//        int count = 0;
         for (Attachment attachment : attachmentToUpload) {
             LogUtils.d(attachment.getCode() + " to upload.");
-//            attachmentUploaded.add(attachment);
             executor.submit(new FileUploadRunnable(attachment, itemId, countDownLatch, new FileUploadRunnable.OnUploadListener() {
                 @Override
                 public void onSuccess() {
-                    releasedCount++;
                     LogUtils.d(attachment.getCode() + " uploaded.");
                     LogUtils.d(++filesUploaded + " files are synchronized.");
                 }
 
                 @Override
                 public void onFail(String msg) {
-                    releasedCount++;
                     LogUtils.e("Error when synchronize file : " + msg);
                 }
             }));
-//            if (++count == threadCore) {
-//                break;
-//            }
         }
-
-//        int left = threadCore - count;
-//        for (int i=0; i<left; i++) {
-//            countDownLatch.countDown();
-//            releasedCount++;
-//        }
     }
-//
-//    private void onUploaded() {
-//        LogUtils.d("attachmentUploaded/attachmentToUpload = " + attachmentUploaded.size() + "/" + attachmentToUpload.size());
-//        // Remove items from list to update
-//        attachmentToUpload.removeAll(attachmentUploaded);
-//        attachmentUploaded.clear();
-//    }
 }

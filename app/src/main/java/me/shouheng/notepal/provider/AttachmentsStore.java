@@ -91,15 +91,17 @@ public class AttachmentsStore extends BaseStore<Attachment> {
         values.put(AttachmentSchema.ONE_DRIVE_ITEM_ID, model.getOneDriveItemId());
     }
 
-    public synchronized List<Attachment> getUploadForOneDrive() {
+    public synchronized List<Attachment> getUploadForOneDrive(int pageCount) {
         Cursor cursor = null;
-        List<Attachment> models = null;
+        List<Attachment> models;
         SQLiteDatabase database = getWritableDatabase();
         try {
             cursor = database.rawQuery(" SELECT * FROM " + tableName + " AS t "
                     + " WHERE t." + AttachmentSchema.USER_ID + " = " + userId
                     + " AND ( t." + AttachmentSchema.ONE_DRIVE_SYNC_TIME + " IS NULL "
-                    + " OR t." + AttachmentSchema.ONE_DRIVE_SYNC_TIME + " < t." + AttachmentSchema.LAST_MODIFIED_TIME + " ) ", new String[]{});
+                    + " OR t." + AttachmentSchema.ONE_DRIVE_SYNC_TIME + " < t." + AttachmentSchema.LAST_MODIFIED_TIME + " ) "
+                    + " ORDER BY " + AttachmentSchema.ADDED_TIME
+                    + " LIMIT ?, ?  ", new String[]{String.valueOf(0), String.valueOf(pageCount)});
             models = getList(cursor);
         } finally {
             closeCursor(cursor);

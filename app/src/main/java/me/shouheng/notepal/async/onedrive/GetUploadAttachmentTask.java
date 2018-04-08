@@ -9,7 +9,7 @@ import me.shouheng.notepal.provider.AttachmentsStore;
 
 /**
  * Created by shouh on 2018/4/3.*/
-public class GetUploadAttachmentTask extends AsyncTask<Void, String, List<Attachment>>{
+public class GetUploadAttachmentTask extends AsyncTask<Integer, String, List<Attachment>>{
 
     private GetUploadAttachmentListener getUploadAttachmentListener;
 
@@ -18,8 +18,8 @@ public class GetUploadAttachmentTask extends AsyncTask<Void, String, List<Attach
     }
 
     @Override
-    protected List<Attachment> doInBackground(Void... voids) {
-        return AttachmentsStore.getInstance().getUploadForOneDrive();
+    protected List<Attachment> doInBackground(Integer... pageCount) {
+        return AttachmentsStore.getInstance().getUploadForOneDrive(pageCount[0]);
     }
 
     @Override
