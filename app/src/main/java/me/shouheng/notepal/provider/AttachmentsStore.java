@@ -124,6 +124,20 @@ public class AttachmentsStore extends BaseStore<Attachment> {
         }
     }
 
+    public synchronized void clearOneDriveBackupState() {
+        SQLiteDatabase database = getWritableDatabase();
+        database.beginTransaction();
+        try {
+            database.execSQL(" UPDATE " + tableName
+                            + " SET " + AttachmentSchema.ONE_DRIVE_SYNC_TIME + " = null , " + AttachmentSchema.ONE_DRIVE_ITEM_ID + " = null "
+                            + " WHERE " + BaseSchema.USER_ID + " = " + userId, new String[]{});
+            database.setTransactionSuccessful();
+        } finally {
+            database.endTransaction();
+            closeDatabase(database);
+        }
+    }
+
     public synchronized Attachment getAttachment(ModelType modelType, long modelCode) {
         List<Attachment> list = getAttachments(modelType, modelCode, AttachmentSchema.ADDED_TIME + " DESC ");
         return list.size() > 0 ? list.get(0) : null;

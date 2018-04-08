@@ -72,9 +72,15 @@ public class SynchronizeUtils {
      *
      * @return true if should synchronize. */
     private static boolean shouldOneDriveSync() {
+
+        boolean isNetworkAvailable = NetworkUtils.isNetworkAvailable(PalmApp.getContext());
+        boolean isWifi = NetworkUtils.isWifi(PalmApp.getContext());
+        boolean isOnlyWifi = PreferencesUtils.getInstance(PalmApp.getContext()).isBackupOnlyInWifi();
+
         long lastSyncTime = PreferencesUtils.getInstance().getOneDriveLastSyncTime();
         long syncTimeInterval = PreferencesUtils.getInstance().getSyncTimeInterval().millis;
-        return lastSyncTime + syncTimeInterval < System.currentTimeMillis();
+
+        return isNetworkAvailable && (!isOnlyWifi || isWifi) && lastSyncTime + syncTimeInterval < System.currentTimeMillis();
     }
 
     /**

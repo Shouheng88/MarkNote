@@ -52,7 +52,7 @@ public class BatchUploadPool {
     }
 
     private BatchUploadPool(String itemId, int threadCore) {
-        this.threadCore = threadCore > 5 ? 5 : threadCore < 2 ? 2 : threadCore;
+        this.threadCore = threadCore > 4 ? 4 : threadCore < 2 ? 2 : threadCore;
         this.itemId = itemId;
         executor = Executors.newFixedThreadPool(this.threadCore + 1);
     }

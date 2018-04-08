@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MenuItem;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.onedrive.sdk.concurrency.ICallback;
 import com.onedrive.sdk.core.ClientException;
 import com.onedrive.sdk.extensions.Folder;
@@ -17,18 +18,25 @@ import com.onedrive.sdk.extensions.Item;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.base.CommonActivity;
+import me.shouheng.notepal.async.onedrive.ClearBackupStateTask;
 import me.shouheng.notepal.databinding.ActivityDirectoryBinding;
 import me.shouheng.notepal.dialog.SimpleEditDialog;
 import me.shouheng.notepal.fragment.DirectoriesFragment;
 import me.shouheng.notepal.manager.onedrive.OneDriveManager;
 import me.shouheng.notepal.model.Directory;
 import me.shouheng.notepal.util.FragmentHelper;
+import me.shouheng.notepal.util.PreferencesUtils;
 import me.shouheng.notepal.util.ToastUtils;
 
 public class DirectoryActivity extends CommonActivity<ActivityDirectoryBinding> implements
         DirectoriesFragment.OnFragmentInteractionListener {
 
-    public final static String KEY_EXTRA_DATA = "key_extra_data";
+    private String oldOneDriveBackupItemId;
+    private String oldOneDriveFilesBackupItemId;
+    private String oldOneDriveDatabaseItemId;
+    private String oldOneDrivePreferencesItemId;
+
+    private PreferencesUtils preferencesUtils;
 
     public static void startExplore(android.app.Fragment fragment, int req) {
         Intent intent = new Intent(fragment.getActivity(), DirectoryActivity.class);
@@ -42,6 +50,8 @@ public class DirectoryActivity extends CommonActivity<ActivityDirectoryBinding> 
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {
+        preferencesUtils = PreferencesUtils.getInstance();
+
         configToolbar();
 
         Directory directory = new Directory();
@@ -53,6 +63,11 @@ public class DirectoryActivity extends CommonActivity<ActivityDirectoryBinding> 
         getBinding().fabCreate.setColorPressed(accentColor());
         getBinding().fabCreate.setOnClickListener(view -> createFolder());
         getBinding().fabCreate.setImageResource(R.drawable.fab_add);
+
+        oldOneDriveBackupItemId = preferencesUtils.getOneDriveLastBackupItemId();
+        oldOneDriveFilesBackupItemId = preferencesUtils.getOneDriveFilesBackupItemId();
+        oldOneDriveDatabaseItemId = preferencesUtils.getOneDriveDatabaseItemId();
+        oldOneDrivePreferencesItemId = preferencesUtils.getOneDrivePreferencesItemId();
     }
 
     private void configToolbar() {
@@ -118,8 +133,41 @@ public class DirectoryActivity extends CommonActivity<ActivityDirectoryBinding> 
 
     @Override
     public void onDirectoryPicked(Directory directory) {
+        String newBackupDir = preferencesUtils.getOneDriveBackupItemId();
+        if (!TextUtils.isEmpty(oldOneDriveBackupItemId) && !oldOneDriveBackupItemId.equals(newBackupDir)) {
+            new MaterialDialog.Builder(this)
+                    .title(R.string.text_warning)
+                    .content(R.string.synchronize_path_changed_message)
+                    .positiveText(R.string.confirm)
+                    .onPositive((dialog, which) -> {
+                        clearLastSyncState();
+                        finishWithOK();
+                    })
+                    .negativeText(R.string.text_undone)
+                    .onNegative((dialog, which) -> {
+                        preferencesUtils.setOneDriveBackupItemId(oldOneDriveBackupItemId);
+                        preferencesUtils.setOneDriveLastBackupItemId(oldOneDriveBackupItemId);
+                        preferencesUtils.setOneDriveFilesBackupItemId(oldOneDriveFilesBackupItemId);
+                        preferencesUtils.setOneDriveDatabaseItemId(oldOneDriveDatabaseItemId);
+                        preferencesUtils.setOneDrivePreferencesItemId(oldOneDrivePreferencesItemId);
+                        finish();
+                    })
+                    .dismissListener(dialogInterface -> {
+                        clearLastSyncState();
+                        finishWithOK();
+                    })
+                    .show();
+        } else {
+            finishWithOK();
+        }
+    }
+
+    private void clearLastSyncState() {
+        new ClearBackupStateTask().execute();
+    }
+
+    private void finishWithOK() {
         Intent intent = new Intent();
-        intent.putExtra(KEY_EXTRA_DATA, directory);
         setResult(Activity.RESULT_OK, intent);
         finish();
     }

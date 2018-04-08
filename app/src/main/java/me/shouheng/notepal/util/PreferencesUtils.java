@@ -266,6 +266,14 @@ public class PreferencesUtils extends BasePreferencesUtils {
         putString(getKey(R.string.key_one_drive_backup_dir_item_id), itemId);
     }
 
+    public String getOneDriveLastBackupItemId() {
+        return getString(getKey(R.string.key_one_drive_last_backup_dir_item_id), null);
+    }
+
+    public void setOneDriveLastBackupItemId(String itemId) {
+        putString(getKey(R.string.key_one_drive_last_backup_dir_item_id), itemId);
+    }
+
     public void setOneDriveFilesBackupItemId(String itemId) {
         putString(getKey(R.string.key_one_drive_files_backup_dir_item_id), itemId);
     }

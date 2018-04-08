@@ -578,6 +578,7 @@
     <string name="sync_every_day">Daily</string>
 
     <string name="text_get_it">Get it</string>
+    <string name="text_undone">Undone</string>
     <string name="text_config_widget">Widget configuration</string>
 
     <string name="auto_compress_image_title">Auto compress image</string>
