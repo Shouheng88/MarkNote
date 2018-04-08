@@ -70,6 +70,7 @@ public class DirectoryViewModel extends ViewModel {
             @Override
             public void onGetBackupDir(String itemId) {
                 preferencesUtils.setOneDriveBackupItemId(itemId);
+                preferencesUtils.setOneDriveLastBackupItemId(itemId);
                 onGetResult(itemId, 0L);
             }
 
