@@ -62,8 +62,8 @@ public class OneDriveBackupService extends IntentService {
     private void updateAttachments() {
         String filesItemId = preferencesUtils.getOneDriveFilesBackupItemId();
         if (!TextUtils.isEmpty(filesItemId)) {
-            BatchUploadPool batchUploadPool = BatchUploadPool.getInstance(filesItemId, 5);
-            if (!batchUploadPool.isExecuting()) {
+            BatchUploadPool batchUploadPool = BatchUploadPool.getInstance(filesItemId);
+            if (batchUploadPool.isTerminated()) {
                 batchUploadPool.begin();
             }
         } else {
