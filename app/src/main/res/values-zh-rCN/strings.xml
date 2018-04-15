@@ -533,7 +533,7 @@
     <string name="text_checkbox">插入复选框</string>
     <string name="text_math_jax">插入数学表达式(MathJax)</string>
     <string name="checkbox_content_hint">输入复选框内容</string>
-    <string name="is_checkbox_checked">是否选中</string>
+    <string name="is_checkbox_checked">选中</string>
     <string name="input_math_jax_hint">输入数学表达式</string>
     <string name="is_math_jax_single">是否独立一行</string>
     <string name="invalid_input_tips">无效的输入</string>
