@@ -7,7 +7,7 @@ NotePalÊÇÒ»¿î¿ªÔ´µÄMarkdown±Ê¼ÇÓ¦ÓÃ£¬¿ÉÒÔ¹©³õ¼¶»òÖĞ¼¶°²×¿¿ª·¢Õß½øĞĞÑ§Ï°¡£¸Ã±Ê¼ÇÄ
 
 ÔÚÕâÀï£¬ÎÒ´Ó¸ÃÈí¼şµÄ»ù±¾¹¦ÄÜºÍÕâĞ©¹¦ÄÜµÄÊµÏÖ·½Ê½Á½¸ö·½Ãæ½éÉÜÒ»ÏÂÕâ¿îÓ¦ÓÃ¡£²»¹ıÊ×ÏÈ£¬ÎÒÃÇ»¹ÊÇÀ´¿´Ò»ÏÂ¸ÃÈí¼şµÄÒ»Ğ©½ØÍ¼£º
 
-#### ²¿·Ö½ØÍ¼
+### ²¿·Ö½ØÍ¼
 
 ![Screenshots](https://github.com/Shouheng88/NotePal/blob/master/screenshots/note_view_page.png)
 
@@ -15,4 +15,101 @@ NotePalÊÇÒ»¿î¿ªÔ´µÄMarkdown±Ê¼ÇÓ¦ÓÃ£¬¿ÉÒÔ¹©³õ¼¶»òÖĞ¼¶°²×¿¿ª·¢Õß½øĞĞÑ§Ï°¡£¸Ã±Ê¼ÇÄ
 
 ÈçÍ¼£¬¸ÃÈí¼ş²ÉÓÃÁËMateriald DesignµÄÉè¼Æ·ç¸ñ£¬ÆäÖĞÉæ¼°µ½ÁËÒ»Ğ©»ù±¾µÄÖ§³Ö°üÀïµÄ¿Ø¼ş£¬µ±È»Ò²ÒıÓÃÁËGithubÉÏÃæÒ»Ğ©¿ªÔ´µÄ¿â¡£Èç¹ûÄãÊÇÒ»¸ö³õÑ§Õß£¬²¢ÇÒ¶ÔMaterial Design¸ĞĞËÈ¤µÄ»°£¬²»·Á²Î¿¼Ò»ÏÂËüµÄ´úÂë¡£
 
-#### 
+### ¹¦ÄÜÌØĞÔ
+
+* »ù±¾µÄ**Ôö¼Ó**, **¹éµµ**, **·Å½øÀ¬»øÏä**ºÍ**³¹µ×É¾³ı** ²Ù×÷
+* MarkdownÓï·¨Ö§³Ö£¬°üÀ¨: **±êÌâ, Êı×ÖÁĞ±í, ¶àÑ¡¿ò, ÉÏÏÂ½Å±ê, ¼Ó´Ö, ÇãĞ±, ÊıÑ§¹«Ê½, ±í¸ñ, Ñ¡ÖĞ, Í¼Æ¬ºÍÁ´½ÓµÈ**
+* **Ê±¼äÏß**ÓÃÀ´¼ÇÂ¼ÔÚ³ÌĞòÖĞµÄ²Ù×÷£¬ÌØ±ğÊÇÒ»Ğ©Êı¾İ¿âµÄ²Ù×÷
+* **ÎÄ¼ş, ÊÓÆµ, ÒôÆµ, Í¼Æ¬, ÊÖĞ´, Î»ÖÃ**ÒÔ¼°ÆäËûµÄ¶àÃ½ÌåÖ§³Ö
+* ¶à²ÊµÄ**Í¼±í**ÓÃÓÚÍ³¼ÆÓÃ»§ĞÅÏ¢
+* ¶àÖ÷ÌâÖ§³Ö£¬°üÀ¨£º**ÈÕÒ¹¼äÖ÷Ìâ, 13ÖÖÖ÷ÌâÉ«, 16ÖÖÇ¿µ÷É«ÒÔ¼°ÊÇ·ñ¶Ôµ¼º½À¸×ÅÉ«**
+* **×ÀÃæĞ¡¿Ø¼ş**°üÀ¨ÁĞ±íºÍ¹¤¾ßÀ¸£¬ÒÔ¼°**×ÀÃæ¿ì½İ·½Ê½**
+* ¶à²ÊµÄ**±êÇ©**£¬¿ÉÒÔÑ¡ÔñÍ¼±êºÍÑÕÉ«
+* Á½ÖÖ±Ê¼Ç¹ÜÀí·½Ê½£¬°üÀ¨±êÇ©ºÍ**²ã¼¶½á¹¹**
+* ¶àÖÖ±Ê¼Çµ¼³ö·½Ê½£¬°üÀ¨£º**PDF, txt, mdÒÔ¼°html**
+* **Ó¦ÓÃ¶ÀÁ¢Ëø**
+* **±¸·İµ½Íâ²¿´æ´¢Éè±¸**ÒÔ¼°**±¸·İµ½OneDrive**
+* **Í¼Æ¬Ñ¹Ëõ**
+
+### ¹¦ÄÜÊµÏÖ
+
+#### 1.Êı¾İ¿âÉè¼Æ
+
+¸ù¾İÉÏÃæµÄ½éÉÜ£¬±¾³ÌĞòÖĞÊ¹ÓÃÁË±êÇ©ºÍ²ã¼¶½á¹¹Á½ÖÖ¹ÜÀí·½Ê½£¬Ë³±ã»¹ÓĞÊ±¼äÏßµÄ¹¦ÄÜ£¬ËùÒÔÎÒÃÇÏÈ½éÉÜÒ»ÏÂÊı¾İ¿â±íµÄÉè¼Æ¡£
+
+¸ÃÈí¼şÖĞËùÓĞµÄÊı¾İ¿â¶ÔÏó¾ù¼Ì³Ğ×ÔModelÀà£¬ËüÆäÖĞ¶¨ÒåÁË»ù±¾µÄÁĞĞÅÏ¢£¬×¢ÒâÔÚ³ÌĞòÖĞÎÒÃÇÓÃÁËÁ½¸ö×Ô¶¨ÒåµÄ×¢½âColumnºÍTable£¬·Ö±ğÓÃÀ´Ö¸¶¨Êı¾İ¿âµÄÁĞÃûºÍ±íÃû¡£
+
+```
+
+	public class Model implements Serializable {
+
+		@Column(name = "id")
+		protected long id;
+
+		@Column(name = "code")
+		protected long code;
+
+		@Column(name = "user_id")
+		protected long userId;
+
+		// ....
+	}
+	
+	@Table(name = "gt_note")
+	public class Note extends Model implements Parcelable {
+
+		@Column(name = "parent_code")
+		private long parentCode;
+		
+		// ....		
+	}
+
+```
+
+ÈçÉÏËùÊ¾£¬ÎÒÃÇÔÚModelÖĞÓÃColumnÖ¸¶¨ÁËËùÓĞµÄÊı¾İ¿â¶ÔÏó¶¼ĞèÒªµÄ×Ö¶Î¡£È»ºó£¬¶Ô±Ê¼ÇÀàĞÍNote£¬ÈÃËü¼Ì³ĞModel£¬²¢ÇÒÓÃTableÖ¸¶¨ÁËËüµÄ±íÃû¡£×îºó£¬ÔÚNoteÖĞ¶¨ÒåÁËÒ»Ğ©±Ê¼Ç¶ÔÏóµÄÊı¾İ¿âĞÅÏ¢¡£
+
+ËµÍêÁËÊı¾İ¿â¶ÔÏó£¬ÎÒÃÇ¿´Ò»ÏÂÊı¾İ¿â²éÑ¯¶ÔÏó¡£ÒòÎªÔÚÎÒÃÇµÄ³ÌĞòÖĞĞèÒª¶ÔÊı¾İ¿â²éÑ¯µÈµÄ·½·¨×öÒ»Ğ©¶îÍâµÄ²Ù×÷£¬ËùÒÔÃ»ÓĞÖ±½ÓÊ¹ÓÃ¿ªÔ´µÄÊı¾İ¿âµÄ¿â£¬±ÈÈçRoomµÈ£¬¶øÊÇ×Ô¼ºÉè¼ÆÁËÒ»Ì×¡£ÔÚÎÒÃÇµÄÊı¾İ¿â²Ù×÷ÖĞÒ²ÓĞÒ»Ğ©±ãÀûµÄµØ·½£¬±ÈÈçÎÒÃÇ¿ÉÒÔÖ»½øĞĞ¼òµ¥µÄÅäÖÃ¾ÍÄÜÍê³ÉÒ»¸öĞÂµÄ¶ÔÏóµÄÊı¾İ¿â²éÑ¯²Ù×÷£¬¶ø²»ÓÃÎªÆäÌí¼ÓÈÎºÎSQL¡£ÕâÖÖÊı¾İ¿âµÄÉè¼ÆÓÃµ½µÄ¶¼ÊÇÔ­ÉúAndroidÊı¾İ¿âµÄÖªÊ¶£¬ËùÒÔÈç¹û»ù´¡ÔúÊµµÄ»°²¢²»ÄÑÀí½â¡£
+
+public class PalmDB extends SQLiteOpenHelper {
+
+    public static final String DATABASE_NAME = "NotePal.db";
+    private static final int VERSION = 7;
+
+    private Context mContext;
+    @SuppressLint("StaticFieldLeak")
+    private static PalmDB sInstance = null;
+
+    private volatile boolean isOpen = true;
+
+    public static PalmDB getInstance(final Context context){
+        if (sInstance == null){
+            synchronized (PalmDB.class) {
+                if (sInstance == null) {
+                    sInstance = new PalmDB(context.getApplicationContext());
+                }
+            }
+        }
+        return sInstance;
+    }
+
+    private PalmDB(Context context) {
+        super(context, DATABASE_NAME, null, VERSION);
+        this.mContext = context;
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        NotesStore.getInstance(mContext).onCreate(db);
+        // ... 
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        NotesStore.getInstance(mContext).onUpgrade(db, oldVersion, newVersion);
+		// ...
+    }
+}
+
+ÈçÉÏËùÊ¾£¬ÎÒÃÇÓÃPalmDB¼Ì³ĞÁËSQLiteOpenHelper£¬²¢ÔÚËüµÄonUpgradeºÍonCreateµ÷ÓÃ¸÷¸ö²éÑ¯¶ÔÏóµÄ¸üĞÂºÍ´´½¨·½·¨¡£¶øÇÒÕâÊÇÒ»¸öµ¥ÀıµÄ¶ÔÏó£¬ÒòÎªÒ»¸öÊı¾İ¿âÖ»ÒªÓĞÒ»¸öSQLiteOpenHelper¾Í¹»ÁË£¬ËùÒÔÎÒÃÇÖ»ÒªÒ»¸öµ¥ÀıµÄ¾Í¹»ÁË¡£
+
+
