@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">NotePal</string>
+    <string name="app_name">马克笔记</string>
 
     <!--region Common-->
     <string name="text_add_more">添加&#8230;</string>
