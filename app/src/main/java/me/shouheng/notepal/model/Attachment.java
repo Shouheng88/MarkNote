@@ -15,31 +15,31 @@ import me.shouheng.notepal.provider.schema.AttachmentSchema;
 
 /**
  * Created by wangshouheng on 2017/4/6.*/
-@Table(name = "gt_attachment")
+@Table(name = AttachmentSchema.TABLE_NAME)
 public class Attachment extends Model implements Parcelable {
 
-    @Column(name = "model_code")
+    @Column(name = AttachmentSchema.MODEL_CODE)
     private long modelCode;
 
-    @Column(name = "model_type")
+    @Column(name = AttachmentSchema.MODEL_TYPE)
     private ModelType modelType;
 
-    @Column(name = "uri")
+    @Column(name = AttachmentSchema.URI)
     private Uri uri;
 
-    @Column(name = "path")
+    @Column(name = AttachmentSchema.PATH)
     private String path;
 
-    @Column(name = "name")
+    @Column(name = AttachmentSchema.NAME)
     private String name;
 
-    @Column(name = "size")
+    @Column(name = AttachmentSchema.SIZE)
     private long size;
 
-    @Column(name = "length")
+    @Column(name = AttachmentSchema.LENGTH)
     private long length;
 
-    @Column(name = "mine_type")
+    @Column(name = AttachmentSchema.MINE_TYPE)
     private String mineType;
 
     @Column(name = AttachmentSchema.ONE_DRIVE_SYNC_TIME)
