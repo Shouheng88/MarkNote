@@ -10,45 +10,46 @@ import me.shouheng.notepal.model.enums.AlarmType;
 import me.shouheng.notepal.model.enums.ModelType;
 import me.shouheng.notepal.provider.annotation.Column;
 import me.shouheng.notepal.provider.annotation.Table;
+import me.shouheng.notepal.provider.schema.AlarmSchema;
 import me.shouheng.notepal.util.TimeUtils;
 
 
 /**
  * Created by wangshouheng on 2017/4/18. */
-@Table(name = "gt_alarm")
+@Table(name = AlarmSchema.TABLE_NAME)
 public class Alarm extends Model {
 
-    @Column(name = "model_code")
+    @Column(name = AlarmSchema.MODEL_CODE)
     private long modelCode;
 
-    @Column(name = "model_type")
+    @Column(name = AlarmSchema.MODEL_TYPE)
     private ModelType modelType;
 
-    @Column(name = "alarm_type")
+    @Column(name = AlarmSchema.ALARM_TYPE)
     private AlarmType alarmType;
 
-    @Column(name = "hour")
+    @Column(name = AlarmSchema.HOUR)
     private int hour;
 
-    @Column(name = "minute")
+    @Column(name = AlarmSchema.MINUTE)
     private int minute;
 
-    @Column(name = "days_of_week")
+    @Column(name = AlarmSchema.DAYS_OF_WEEK)
     private DaysOfWeek daysOfWeek;
 
-    @Column(name = "days_of_month")
+    @Column(name = AlarmSchema.DAYS_OF_MONTH)
     private DaysOfMonth daysOfMonth;
 
-    @Column(name = "start_date")
+    @Column(name = AlarmSchema.START_DATE)
     private Date startDate;
 
-    @Column(name = "end_date")
+    @Column(name = AlarmSchema.END_DATE)
     private Date endDate;
 
-    @Column(name = "next_time")
+    @Column(name = AlarmSchema.NEXT_TIME)
     private Calendar nextTime;
 
-    @Column(name = "enabled")
+    @Column(name = AlarmSchema.ENABLED)
     private boolean enabled;
 
     @Override
