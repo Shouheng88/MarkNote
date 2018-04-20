@@ -4,34 +4,35 @@ package me.shouheng.notepal.model;
 import me.shouheng.notepal.model.enums.ModelType;
 import me.shouheng.notepal.provider.annotation.Column;
 import me.shouheng.notepal.provider.annotation.Table;
+import me.shouheng.notepal.provider.schema.LocationSchema;
 
 /**
  * Created by wangshouheng on 2017/4/6.*/
-@Table(name = "gt_location")
+@Table(name = LocationSchema.TABLE_NAME)
 public class Location extends Model {
 
-    @Column(name = "longitude")
+    @Column(name = LocationSchema.LONGITUDE)
     private double longitude;
 
-    @Column(name = "latitude")
+    @Column(name = LocationSchema.LATITUDE)
     private double latitude;
 
-    @Column(name = "country")
+    @Column(name = LocationSchema.COUNTRY)
     private String country;
 
-    @Column(name = "province")
+    @Column(name = LocationSchema.PROVINCE)
     private String province;
 
-    @Column(name = "city")
+    @Column(name = LocationSchema.CITY)
     private String city;
 
-    @Column(name = "district")
+    @Column(name = LocationSchema.DISTRICT)
     private String district;
 
-    @Column(name = "model_code")
+    @Column(name = LocationSchema.MODEL_CODE)
     private long modelCode;
 
-    @Column(name = "model_type")
+    @Column(name = LocationSchema.MODEL_TYPE)
     private ModelType modelType;
 
     public double getLongitude() {
