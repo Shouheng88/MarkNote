@@ -3,22 +3,23 @@ package me.shouheng.notepal.model;
 import me.shouheng.notepal.model.enums.Portrait;
 import me.shouheng.notepal.provider.annotation.Column;
 import me.shouheng.notepal.provider.annotation.Table;
+import me.shouheng.notepal.provider.schema.CategorySchema;
 
 /**
  * Created by wangshouheng on 2017/3/31.*/
-@Table(name = "gt_category")
+@Table(name = CategorySchema.TABLE_NAME)
 public class Category extends Model implements Selectable {
 
-    @Column(name = "name")
+    @Column(name = CategorySchema.NAME)
     private String name;
 
-    @Column(name = "color")
+    @Column(name = CategorySchema.COLOR)
     private int color;
 
-    @Column(name = "portrait")
+    @Column(name = CategorySchema.PORTRAIT)
     private Portrait portrait;
 
-    @Column(name = "category_order")
+    @Column(name = CategorySchema.CATEGORY_ORDER)
     private int categoryOrder;
 
     // region Android端字段，不计入数据库
