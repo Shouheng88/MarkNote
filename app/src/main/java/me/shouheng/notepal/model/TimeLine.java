@@ -5,22 +5,23 @@ import me.shouheng.notepal.model.enums.ModelType;
 import me.shouheng.notepal.model.enums.Operation;
 import me.shouheng.notepal.provider.annotation.Column;
 import me.shouheng.notepal.provider.annotation.Table;
+import me.shouheng.notepal.provider.schema.TimelineSchema;
 
 /**
  * Created by wangshouheng on 2017/8/13. */
-@Table(name = "gt_timeline")
+@Table(name = TimelineSchema.TABLE_NAME)
 public class TimeLine extends Model {
 
-    @Column(name = "operation")
+    @Column(name = TimelineSchema.OPERATION)
     private Operation operation;
 
-    @Column(name = "model_code")
+    @Column(name = TimelineSchema.MODEL_CODE)
     private long modelCode;
 
-    @Column(name = "model_name")
+    @Column(name = TimelineSchema.MODEL_NAME)
     private String modelName;
 
-    @Column(name = "model_type")
+    @Column(name = TimelineSchema.MODEL_TYPE)
     private ModelType modelType;
 
     public Operation getOperation() {
