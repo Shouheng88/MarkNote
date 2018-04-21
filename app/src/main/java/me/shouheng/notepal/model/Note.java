@@ -10,34 +10,35 @@ import me.shouheng.notepal.model.enums.NoteType;
 import me.shouheng.notepal.model.enums.Status;
 import me.shouheng.notepal.provider.annotation.Column;
 import me.shouheng.notepal.provider.annotation.Table;
+import me.shouheng.notepal.provider.schema.NoteSchema;
 
 /**
  * Created by wangshouheng on 2017/5/12.*/
-@Table(name = "gt_note")
+@Table(name = NoteSchema.TABLE_NAME)
 public class Note extends Model implements Parcelable {
 
-    @Column(name = "parent_code")
+    @Column(name = NoteSchema.PARENT_CODE)
     private long parentCode;
 
-    @Column(name = "tree_path")
+    @Column(name = NoteSchema.TREE_PATH)
     private String treePath;
 
-    @Column(name = "title")
+    @Column(name = NoteSchema.TITLE)
     private String title;
 
-    @Column(name = "content_code")
+    @Column(name = NoteSchema.CONTENT_CODE)
     private long contentCode;
 
-    @Column(name = "tags")
+    @Column(name = NoteSchema.TAGS)
     private String tags;
 
-    @Column(name = "preview_image")
+    @Column(name = NoteSchema.PREVIEW_IMAGE)
     private Uri previewImage;
 
-    @Column(name = "note_type")
+    @Column(name = NoteSchema.NOTE_TYPE)
     private NoteType noteType;
 
-    @Column(name = "preview_content")
+    @Column(name = NoteSchema.PREVIEW_CONTENT)
     private String previewContent;
 
     // region Android端字段，不计入数据库
