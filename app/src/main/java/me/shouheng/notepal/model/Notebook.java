@@ -2,22 +2,23 @@ package me.shouheng.notepal.model;
 
 import me.shouheng.notepal.provider.annotation.Column;
 import me.shouheng.notepal.provider.annotation.Table;
+import me.shouheng.notepal.provider.schema.NotebookSchema;
 
 /**
  * Created by wangshouheng on 2017/7/23.*/
-@Table(name = "gt_notebook")
+@Table(name = NotebookSchema.TABLE_NAME)
 public class Notebook extends Model implements Selectable {
 
-    @Column(name = "title")
+    @Column(name = NotebookSchema.TITLE)
     private String title;
 
-    @Column(name = "parent_code")
+    @Column(name = NotebookSchema.PARENT_CODE)
     private long parentCode;
 
-    @Column(name = "tree_path")
+    @Column(name = NotebookSchema.TREE_PATH)
     private String treePath;
 
-    @Column(name = "color")
+    @Column(name = NotebookSchema.COLOR)
     private int color;
 
     // region Android端字段，不计入数据库
