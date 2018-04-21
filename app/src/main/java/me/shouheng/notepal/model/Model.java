@@ -5,6 +5,7 @@ import java.util.Date;
 
 import me.shouheng.notepal.model.enums.Status;
 import me.shouheng.notepal.provider.annotation.Column;
+import me.shouheng.notepal.provider.schema.BaseSchema;
 import me.shouheng.notepal.util.TimeUtils;
 
 
@@ -12,25 +13,25 @@ import me.shouheng.notepal.util.TimeUtils;
  * Created by wangshouheng on 2017/3/13. */
 public class Model implements Serializable {
 
-    @Column(name = "id")
+    @Column(name = BaseSchema.ID)
     protected long id;
 
-    @Column(name = "code")
+    @Column(name = BaseSchema.CODE)
     protected long code;
 
-    @Column(name = "user_id")
+    @Column(name = BaseSchema.USER_ID)
     protected long userId;
 
-    @Column(name = "added_time")
+    @Column(name = BaseSchema.ADDED_TIME)
     protected Date addedTime;
 
-    @Column(name = "last_modified_time")
+    @Column(name = BaseSchema.LAST_MODIFIED_TIME)
     protected Date lastModifiedTime;
 
-    @Column(name = "last_sync_time")
+    @Column(name = BaseSchema.LAST_SYNC_TIME)
     protected Date lastSyncTime;
 
-    @Column(name = "status")
+    @Column(name = BaseSchema.STATUS)
     protected Status status;
 
     public long getId() {
