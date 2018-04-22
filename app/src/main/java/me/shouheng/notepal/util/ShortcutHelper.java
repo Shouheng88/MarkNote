@@ -24,7 +24,7 @@ public class ShortcutHelper {
         addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
         addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, getShortcutName(model));
         addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
-                Intent.ShortcutIconResource.fromContext(mContext, R.drawable.notepal_note));
+                Intent.ShortcutIconResource.fromContext(mContext, R.drawable.note_shortcut));
         addIntent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
 
         context.sendBroadcast(addIntent);
