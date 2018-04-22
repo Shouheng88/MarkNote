@@ -101,8 +101,8 @@
     <string name="intro_1_description">感谢您使用 %s\n\n一款帮助您提升工作效率\n记录生活中精彩时刻的\nMarkdown笔记应用</string>
     <string name="intro_2_title">Markdown</string>
     <string name="intro_2_description">Markdown语法支持\n分享、导出图片和PDF</string>
-    <string name="intro_3_title">小纸条</string>
-    <string name="intro_3_description">轻量型笔记\n随时随地记录精彩时刻</string>
+    <string name="intro_3_title">导出</string>
+    <string name="intro_3_description">Html md/text png pdf等\n多种格式导出笔记</string>
     <string name="intro_4_title">主题</string>
     <string name="intro_4_description">日夜主题\n13种主色调 16种强调色</string>
     <string name="intro_5_title">附件</string>

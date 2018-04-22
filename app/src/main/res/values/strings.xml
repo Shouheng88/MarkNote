@@ -101,8 +101,8 @@
     <string name="intro_1_description">Thanks for using %s\nthe markdown support application\nfor productivity\n and leisure note-taking</string>
     <string name="intro_2_title">Markdown</string>
     <string name="intro_2_description">Markdown grammar support\nshare and export note\nas pictures and PDF files</string>
-    <string name="intro_3_title">Snagging</string>
-    <string name="intro_3_description">Light weight note\nnote anywhere and anytime</string>
+    <string name="intro_3_title">Export</string>
+    <string name="intro_3_description">Multiple file formats\nto export</string>
     <string name="intro_4_title">Colorful</string>
     <string name="intro_4_description">Light and dark\n13 kinds of primary color\n16 kinds of accent color</string>
     <string name="intro_5_title">Attachment</string>
