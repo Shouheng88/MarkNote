@@ -4,6 +4,6 @@
     android:initialLayout="@layout/desktop_shortcut_app_widget"
     android:minHeight="40dp"
     android:minWidth="40dp"
-    android:previewImage="@drawable/ic_intro_icon"
+    android:previewImage="@drawable/mark_note"
     android:updatePeriodMillis="300000"
     android:widgetCategory="home_screen"/>
