@@ -309,6 +309,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         });
         getBinding().menu.setOnMenuToggleListener(opened -> getBinding().rlMenuContainer.setVisibility(opened ? View.VISIBLE : View.GONE));
         getBinding().rlMenuContainer.setOnClickListener(view -> getBinding().menu.close(true));
+        getBinding().rlMenuContainer.setBackgroundResource(isDarkTheme() ? R.color.menu_container_dark : R.color.menu_container_light);
 
         fabs = new FloatingActionButton[]{getBinding().fab1, getBinding().fab2, getBinding().fab3, getBinding().fab4, getBinding().fab5};
 
