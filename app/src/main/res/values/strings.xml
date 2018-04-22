@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">NotePal</string>
+    <string name="app_name">Mark Note</string>
 
     <!--region Common-->
     <string name="text_add_more">Add&#8230;</string>
