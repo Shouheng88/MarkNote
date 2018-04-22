@@ -6,9 +6,9 @@
 
     <!--region introduction-->
     <color name="intro_color_1">#222222</color>
-    <color name="intro_color_2">#f44336</color>
-    <color name="intro_color_3">#8BC34A</color>
-    <color name="intro_color_4">#2196f3</color>
+    <color name="intro_color_2">#c52829</color>
+    <color name="intro_color_3">#f77910</color>
+    <color name="intro_color_4">#21dba4</color>
     <color name="intro_color_5">#9C27B0</color>
     <!--endregion introduction-->
 
