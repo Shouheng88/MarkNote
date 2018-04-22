@@ -97,5 +97,6 @@ public abstract class WidgetProvider extends AppWidgetProvider {
         return PendingIntent.getActivity(context, widgetId, intentSetting, PendingIntent.FLAG_CANCEL_CURRENT);
     }
 
-    abstract protected RemoteViews getRemoteViews(Context context, int widgetId, boolean isSmall, boolean isSingleLine, SparseArray<PendingIntent> pendingIntentsMap);
+    abstract protected RemoteViews getRemoteViews(
+            Context context, int widgetId, boolean isSmall, boolean isSingleLine, SparseArray<PendingIntent> map);
 }

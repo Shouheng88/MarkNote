@@ -12,11 +12,12 @@ import me.shouheng.notepal.util.ColorUtils;
 public class SimpleWidgetProvider extends WidgetProvider {
 
     @Override
-    protected RemoteViews getRemoteViews(Context context, int widgetId, boolean isSmall, boolean isSingleLine, SparseArray<PendingIntent> pendingIntentsMap) {
+    protected RemoteViews getRemoteViews(Context context, int widgetId, boolean isSmall,
+                                         boolean isSingleLine, SparseArray<PendingIntent> map) {
         if (isSmall) {
-            return configSmall(context, pendingIntentsMap);
+            return configSmall(context, map);
         } else {
-            return configSingleLine(context, pendingIntentsMap);
+            return configSingleLine(context, map);
         }
     }
 

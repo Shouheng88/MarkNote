@@ -21,15 +21,15 @@ import me.shouheng.notepal.util.LogUtils;
 public class ListWidgetProvider extends WidgetProvider {
 
     @Override
-    protected RemoteViews getRemoteViews(Context context, int widgetId, boolean isSmall, boolean isSingleLine, SparseArray<PendingIntent> pendingIntentsMap) {
+    protected RemoteViews getRemoteViews(Context context, int widgetId, boolean isSmall, boolean isSingleLine, SparseArray<PendingIntent> map) {
         LogUtils.d(isSingleLine + " " + isSmall);
 
         if (isSmall) {
-            return configSmall(context, pendingIntentsMap);
+            return configSmall(context, map);
         } else if (isSingleLine) {
-            return configSingleLine(context, pendingIntentsMap);
+            return configSingleLine(context, map);
         } else {
-            return configList(context, widgetId, pendingIntentsMap);
+            return configList(context, widgetId, map);
         }
     }
 
@@ -49,6 +49,8 @@ public class ListWidgetProvider extends WidgetProvider {
     private RemoteViews configList(Context context, int widgetId, SparseArray<PendingIntent> pendingIntentsMap) {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_layout_list);
         configToolbar(context, views, pendingIntentsMap);
+
+        views.setViewVisibility(R.id.tv_app_name, View.GONE);
 
         Intent intent = new Intent(context, NotesListWidgetService.class);
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);

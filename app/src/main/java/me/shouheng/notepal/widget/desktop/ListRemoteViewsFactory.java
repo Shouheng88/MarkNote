@@ -32,8 +32,6 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory, SharedPrefere
     private int appWidgetId;
     private List<Note> notes;
 
-    private final int WIDTH = 128, HEIGHT = 128;
-
     private SharedPreferences sharedPreferences;
 
     private RemoteViewsService remoteViewsService;
@@ -91,12 +89,6 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory, SharedPrefere
         row.setTextColor(R.id.tv_sub_title, ColorUtils.accentColor(app));
         row.setInt(R.id.root, "setBackgroundColor", app.getResources().getColor(R.color.white_translucent));
         row.setViewVisibility(R.id.iv_icon, View.GONE);
-//        if (note.getPreviewImage() != null) {
-//            Bitmap bmp = BitmapHelper.getBitmap(app, remoteViewsService, note.getPreviewImage(), WIDTH, HEIGHT);
-//            row.setBitmap(R.id.iv_icon, "setImageBitmap", bmp);
-//            row.setViewVisibility(R.id.iv_icon, View.VISIBLE);
-//        } else {
-//        }
 
         Bundle extras = new Bundle();
         extras.putParcelable(Constants.EXTRA_MODEL, note);
