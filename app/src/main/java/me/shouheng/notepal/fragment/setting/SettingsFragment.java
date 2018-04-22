@@ -15,6 +15,7 @@ import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.dialog.DonateDialog;
 import me.shouheng.notepal.dialog.DonateDialog.DonateChannel;
 import me.shouheng.notepal.dialog.FeedbackDialog;
+import me.shouheng.notepal.dialog.NoticeDialog;
 import me.shouheng.notepal.intro.IntroActivity;
 import me.shouheng.notepal.model.Feedback;
 import me.shouheng.notepal.util.ColorUtils;
@@ -84,15 +85,13 @@ public class SettingsFragment extends PreferenceFragment {
             showFeedbackEditor();
             return true;
         });
-        findPreference(KEY_USER_GUIDE).setOnPreferenceClickListener(preference -> {
-            return true;
-        });
+        findPreference(KEY_USER_GUIDE).setOnPreferenceClickListener(preference -> true);
         findPreference(KEY_USER_INTRO).setOnPreferenceClickListener(preference -> {
             showIntroduction();
             return true;
         });
         findPreference(KEY_SUPPORT_DEVELOP).setOnPreferenceClickListener(preference -> {
-            showSupport();
+            NoticeDialog.newInstance().show(((CommonActivity) getActivity()).getSupportFragmentManager(), "Notice");
             return true;
         });
 

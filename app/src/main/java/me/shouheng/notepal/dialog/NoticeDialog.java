@@ -47,7 +47,7 @@ public class NoticeDialog extends DialogFragment {
         binding.sivWeibo.setOnClickListener(view -> IntentUtils.openWeiboPage(getActivity()));
 
         return new AlertDialog.Builder(getContext())
-                .setTitle(R.string.need_to_complete)
+                .setTitle(R.string.setting_support_development)
                 .setView(binding.getRoot())
                 .setPositiveButton(R.string.text_ok, null)
                 .create();
