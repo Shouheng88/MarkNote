@@ -6,14 +6,11 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.afollestad.materialdialogs.StackingBehavior;
 
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.base.CommonActivity;
 import me.shouheng.notepal.activity.base.ThemedActivity;
 import me.shouheng.notepal.config.Constants;
-import me.shouheng.notepal.dialog.DonateDialog;
-import me.shouheng.notepal.dialog.DonateDialog.DonateChannel;
 import me.shouheng.notepal.dialog.FeedbackDialog;
 import me.shouheng.notepal.dialog.NoticeDialog;
 import me.shouheng.notepal.intro.IntroActivity;
@@ -115,11 +112,6 @@ public class SettingsFragment extends PreferenceFragment {
         IntentUtils.sendEmail(getActivity(), subject, body);
     }
 
-    private void showDonateDialog(DonateChannel donateChannel) {
-        DonateDialog.newInstance(donateChannel)
-                .show(((CommonActivity) getActivity()).getSupportFragmentManager(), "Donate Dialog");
-    }
-
     private void showIntroduction() {
         new MaterialDialog.Builder(getActivity())
                 .title(R.string.text_tips)
@@ -127,19 +119,6 @@ public class SettingsFragment extends PreferenceFragment {
                 .positiveText(R.string.text_ok)
                 .negativeText(R.string.text_cancel)
                 .onPositive((materialDialog, dialogAction) -> IntroActivity.launch(getActivity()))
-                .show();
-    }
-
-    private void showSupport() {
-        new MaterialDialog.Builder(getActivity())
-                .title(R.string.setting_support_development)
-                .content(R.string.support_development_content)
-                .positiveText(R.string.alipay)
-                .onPositive((dialog, which) -> showDonateDialog(DonateChannel.AliPay))
-                .negativeText(R.string.wechat)
-                .onNegative((dialog, which) -> showDonateDialog(DonateChannel.WeChat))
-                .neutralText(R.string.next_time)
-                .stackingBehavior(StackingBehavior.ADAPTIVE)
                 .show();
     }
 
