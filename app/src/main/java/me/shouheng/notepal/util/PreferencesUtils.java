@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import org.polaric.colorful.Colorful;
+import org.polaric.colorful.Defaults;
 
 import java.util.Calendar;
 import java.util.LinkedList;
@@ -82,19 +83,19 @@ public class PreferencesUtils extends BasePreferencesUtils {
         putString(PRIMARY_COLOR, themeColor.getIdentifyName());
     }
 
-    public Colorful.ThemeColor getThemeColor(){
-        return Colorful.ThemeColor.getByPrimaryName(getString(PRIMARY_COLOR, Colorful.ThemeColor.GREEN.getIdentifyName()));
+    public Colorful.ThemeColor getThemeColor() {
+        return Colorful.ThemeColor.getByPrimaryName(getString(PRIMARY_COLOR, Defaults.primaryColor.getIdentifyName()));
     }
 
     public Colorful.AccentColor getAccentColor() {
-        return Colorful.AccentColor.getByAccentName(getString(ACCENT_COLOR, Colorful.AccentColor.GREEN_700.getColorName()));
+        return Colorful.AccentColor.getByAccentName(getString(ACCENT_COLOR, Defaults.accentColor.getColorName()));
     }
 
-    public void setAccentColor(Colorful.AccentColor accentColor){
+    public void setAccentColor(Colorful.AccentColor accentColor) {
         putString(ACCENT_COLOR, accentColor.getAccentName());
     }
 
-    public void setColoredNavigationBar(boolean coloredNavigationBar) {
+    public void setColoredNavigationBar(boolean coloredNavigationBar)  {
         putBoolean(COLORED_NAVIGATION_BAR, coloredNavigationBar);
     }
 

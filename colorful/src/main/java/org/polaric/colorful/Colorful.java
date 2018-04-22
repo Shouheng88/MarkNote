@@ -11,6 +11,8 @@ public class Colorful {
 
     private static ThemeDelegate delegate;
 
+    private static String themeString;
+
     private static ThemeColor primaryColor = Defaults.primaryColor;
 
     private static AccentColor accentColor = Defaults.accentColor;
@@ -20,8 +22,6 @@ public class Colorful {
     private static boolean isDark = Defaults.darkTheme;
 
     private static boolean isColoredNavigation = Defaults.isColoredNavigation;
-
-    private static String themeString;
 
     public static void init(Context context) {
         themeString = PreferenceManager.getDefaultSharedPreferences(context).getString(Util.PREFERENCE_KEY, null);
@@ -303,44 +303,6 @@ public class Colorful {
 
         public String getColorName() {
             return colorName;
-        }
-    }
-
-    public static class Defaults {
-
-        private static ThemeColor primaryColor = ThemeColor.GREEN;
-
-        private static AccentColor accentColor = AccentColor.GREEN_700;
-
-        private static boolean trans = false;
-
-        private static boolean darkTheme = false;
-
-        private static boolean isColoredNavigation = false;
-
-        public Defaults primaryColor(ThemeColor primary) {
-            primaryColor = primary;
-            return this;
-        }
-
-        public Defaults accentColor(AccentColor accent) {
-            accentColor = accent;
-            return this;
-        }
-
-        public Defaults translucent(boolean translucent) {
-            trans = translucent;
-            return this;
-        }
-
-        public Defaults dark(boolean dark) {
-            darkTheme = dark;
-            return this;
-        }
-
-        public Defaults coloredNavigation(boolean colored) {
-            isColoredNavigation = colored;
-            return this;
         }
     }
 
