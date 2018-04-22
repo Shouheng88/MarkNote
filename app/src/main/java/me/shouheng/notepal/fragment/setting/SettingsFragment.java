@@ -82,7 +82,10 @@ public class SettingsFragment extends PreferenceFragment {
             showFeedbackEditor();
             return true;
         });
-        findPreference(KEY_USER_GUIDE).setOnPreferenceClickListener(preference -> true);
+        findPreference(KEY_USER_GUIDE).setOnPreferenceClickListener(preference -> {
+            IntentUtils.openWiki(getActivity());
+            return true;
+        });
         findPreference(KEY_USER_INTRO).setOnPreferenceClickListener(preference -> {
             showIntroduction();
             return true;

@@ -63,6 +63,10 @@ public class IntentUtils {
         openWebPage(context, Constants.GITHUB_DEVELOPER);
     }
 
+    public static void openWiki(Context context) {
+        openWebPage(context, Constants.WIKI);
+    }
+
     public static void openWebPage(Context context, String url) {
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         if (IntentUtils.isAvailable(context, intent, null)) {

@@ -61,6 +61,7 @@ public class Constants {
     public final static String GOOGLE_PLUS_URL = "https://plus.google.com/u/1/communities/102252970668657211916";
     public final static String WEIBO_PAGE = "https://weibo.com/5401152113/profile?rightmod=1&wvr=6&mod=personinfo";
     public final static String TWITTER_PAGE = "https://twitter.com/ShouhengWang";
+    public final static String WIKI = "https://github.com/Shouheng88/MarkNote/wiki";
 
     public final static String DEVELOPER_EMAIL = "shouheng2015@gmail.com";
     public final static String DEVELOPER_EMAIL_PREFIX = "【NotePal|%s】";
