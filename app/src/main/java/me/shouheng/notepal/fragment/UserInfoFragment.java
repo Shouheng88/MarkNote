@@ -15,7 +15,6 @@ import lecho.lib.hellocharts.model.PointValue;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.config.TextLength;
 import me.shouheng.notepal.databinding.FragmentUserInfoBinding;
-import me.shouheng.notepal.dialog.NoticeDialog;
 import me.shouheng.notepal.dialog.SimpleEditDialog;
 import me.shouheng.notepal.fragment.base.CommonFragment;
 import me.shouheng.notepal.model.enums.ModelType;
@@ -116,17 +115,9 @@ public class UserInfoFragment extends CommonFragment<FragmentUserInfoBinding> {
         }
     }
 
-    private void login() {
-        NoticeDialog.newInstance().show(getFragmentManager(), "NoticeDialog");
-        /*
-        if (!logined) {
-            LoginActivity.startForResult(this, REQUEST_FOR_LOGIN);
-        }*/
-    }
+    private void login() { }
 
-    private void logout() {
-        NoticeDialog.newInstance().show(getFragmentManager(), "NoticeDialog");
-    }
+    private void logout() { }
 
     private void showSchoolEditor() {
         if (!logined) {
