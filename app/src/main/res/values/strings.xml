@@ -419,7 +419,7 @@
 
     <!--region Setting->AppInfo-->
     <string name="app_info">App info</string>
-    <string name="app_description">A material design markdown note-taking application</string>\
+    <string name="app_description">A material designed open source markdown note-taking application</string>\
     <string name="help_development">Associations</string>
     <string name="translation">Translation</string>
     <string name="translate_to_other_languages">Translate %s into other languages</string>

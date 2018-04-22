@@ -419,7 +419,7 @@
 
     <!--region Setting->AppInfo-->
     <string name="app_info">程式資訊</string>
-    <string name="app_description">一款基於Material Design的Markdown筆記應用</string>\
+    <string name="app_description">一款基於Material Design的Markdown開源筆記應用</string>\
     <string name="help_development">協助開發</string>
     <string name="translation">翻譯</string>
     <string name="translate_to_other_languages">將 %s 翻譯成其他語言</string>

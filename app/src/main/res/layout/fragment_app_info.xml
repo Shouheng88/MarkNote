@@ -28,9 +28,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <ImageView
+                    <android.support.v7.widget.AppCompatImageView
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/ic_intro_icon"
+                        android:src="@drawable/mark_note"
                         android:layout_margin="20dp"
                         android:layout_width="160dp"
                         android:layout_height="160dp" />
