@@ -15,6 +15,7 @@ import java.util.List;
 
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
+import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.model.enums.FabSortItem;
 import me.shouheng.notepal.model.enums.Operation;
 import me.shouheng.notepal.util.base.BasePreferencesUtils;
@@ -130,7 +131,7 @@ public class PreferencesUtils extends BasePreferencesUtils {
         if (!TextUtils.isEmpty(bgUri)) {
             return Uri.parse(bgUri);
         }
-        return null;
+        return Uri.parse(Constants.DEFAULT_USER_INFO_BG);
     }
 
     public void setUserInfoBGEnable(boolean enable) {

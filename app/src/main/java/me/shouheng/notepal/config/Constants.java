@@ -65,6 +65,8 @@ public class Constants {
     public final static String DEVELOPER_EMAIL = "shouheng2015@gmail.com";
     public final static String DEVELOPER_EMAIL_PREFIX = "【NotePal|%s】";
     public final static String DEVELOPER_EMAIL_EMAIL_PREFIX = "\nContact Email:";
+
+    public final static String DEFAULT_USER_INFO_BG = "https://cdn1.tnwcdn.com/wp-content/blogs.dir/1/files/2014/06/wallpaper_51.jpg";
     // endregion
 
     // region App Widgets

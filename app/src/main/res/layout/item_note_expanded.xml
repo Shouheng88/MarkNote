@@ -9,7 +9,7 @@
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/iv_image"
-        android:src="@drawable/theme_bg_1"
+        tools:src="@drawable/ic_google_plus"
         android:scaleType="centerCrop"
         android:visibility="gone"
         tools:visibility="visible"

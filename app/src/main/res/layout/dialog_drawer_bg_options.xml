@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
         android:orientation="vertical"
@@ -16,7 +17,8 @@
             android:layout_height="60dp">
 
             <me.shouheng.notepal.widget.CircleImageView
-                android:src="@drawable/theme_bg_1"
+                android:id="@+id/civ_default"
+                tools:src="@drawable/ic_google_plus"
                 android:layout_margin="10dp"
                 android:layout_width="40dp"
                 android:layout_height="40dp" />

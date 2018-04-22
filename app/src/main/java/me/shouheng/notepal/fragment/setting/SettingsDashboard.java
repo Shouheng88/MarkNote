@@ -13,10 +13,14 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
+
 import org.polaric.colorful.BaseActivity;
 import org.polaric.colorful.PermissionUtils;
 
+import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
+import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.config.TextLength;
 import me.shouheng.notepal.databinding.DialogDrawerBgOptionsBinding;
 import me.shouheng.notepal.dialog.SimpleEditDialog;
@@ -90,8 +94,14 @@ public class SettingsDashboard extends PreferenceFragment implements
         dialog.show();
 
         bgOptionsBinding.civBg1.setFillingCircleColor(
-                preferencesUtils.getUserInfoBG() == null ? ColorUtils.accentColor(getActivity())
-                        : Color.parseColor("#cccccc"));
+                Constants.DEFAULT_USER_INFO_BG.equals(preferencesUtils.getUserInfoBG().toString()) ?
+                        ColorUtils.accentColor(getActivity()) : Color.parseColor("#cccccc"));
+
+        Glide.with(PalmApp.getContext())
+                .load(Constants.DEFAULT_USER_INFO_BG)
+                .centerCrop()
+                .crossFade()
+                .into(bgOptionsBinding.civDefault);
 
         bgOptionsBinding.rlBg1.setOnClickListener(view -> {
             preferencesUtils.setUserInfoBG(null);

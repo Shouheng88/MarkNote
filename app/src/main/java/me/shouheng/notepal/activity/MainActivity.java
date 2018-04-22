@@ -203,19 +203,11 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         headerBinding.userBg.setVisibility(enabled ? View.VISIBLE : View.GONE);
         if (enabled) {
             Uri customUri = preferencesUtils.getUserInfoBG();
-            if (customUri != null) {
-                Glide.with(PalmApp.getContext())
-                        .load(customUri)
-                        .centerCrop()
-                        .crossFade()
-                        .into(headerBinding.userBg);
-            } else {
-                Glide.with(PalmApp.getContext())
-                        .load(R.drawable.theme_bg_1)
-                        .centerCrop()
-                        .crossFade()
-                        .into(headerBinding.userBg);
-            }
+            Glide.with(PalmApp.getContext())
+                    .load(customUri)
+                    .centerCrop()
+                    .crossFade()
+                    .into(headerBinding.userBg);
         }
     }
 
