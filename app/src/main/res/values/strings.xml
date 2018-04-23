@@ -87,13 +87,13 @@
 
     <!--region Common->Announcement-->
     <string name="need_to_complete">Need to complete</string>
-    <string name="dialog_notice_content_part1">Hello, user!<![CDATA[<br/><br/>]]>Due to the limit of time, NotePal still has few weakness. Here we invite you to improve it with us:</string>
-    <string name="dialog_notice_content_part2">1.If you like NotePal you may associate developer by translating it in to other languages(Find in <![CDATA[<b>\"Settings->About->Translation\"</b>]]>), or give rating and feedback in application market.</string>
+    <string name="dialog_notice_content_part1">Hello, user!<![CDATA[<br/><br/>]]>Due to the limit of time, MarkNote still has few weakness. Here we invite you to improve it with us:</string>
+    <string name="dialog_notice_content_part2">1.If you like MarkNote you may associate developer by translating it in to other languages(Find in <![CDATA[<b>\"Settings->About->Translation\"</b>]]>), or give rating and feedback in application market.</string>
     <string name="dialog_notice_content_part3">2.If you have special requirements, or if you are unsatisfied about current functions, feed back to developer by any of below ways: <![CDATA[<b>Google+ community, Twitter, Weibo or directly sending an email</b>]]>.</string>
-    <string name="dialog_notice_content_part4">3.If you find bugs or crashes in NotePal, you can feed back in <![CDATA[<b>"Settings->Feedback"</b>]]> or <![CDATA[<b>directly sending an email to developer</b>]]>.</string>
-    <string name="dialog_notice_content_part5">4.NotePal will continue to push out many new functions and features, if you like this application, you may support developing in <![CDATA[<b>"Settings->Support developing"</b>]]>.</string>
+    <string name="dialog_notice_content_part4">3.If you find bugs or crashes in MarkNote, you can feed back in <![CDATA[<b>"Settings->Feedback"</b>]]> or <![CDATA[<b>directly sending an email to developer</b>]]>.</string>
+    <string name="dialog_notice_content_part5">4.MarkNote will continue to push out many new functions and features, if you like this application, you may support developing in <![CDATA[<b>"Settings->Support developing"</b>]]>.</string>
     <string name="dialog_notice_content_part6">5.Furthermore, you can also get latest developing messages by subscribe our <![CDATA[<b>Google+ community, Twitter or Weibo</b>]]>. You may even join the beta test.</string>
-    <string name="dialog_notice_content_part7">Please give more patience to NotePal, we will work better.<![CDATA[<br/><br/>]]>Last, wish you have a happy journey with NotePal!</string>
+    <string name="dialog_notice_content_part7">Please give more patience to MarkNote, we will work better.<![CDATA[<br/><br/>]]>Last, wish you have a happy journey with MarkNote!</string>
     <!--endregion-->
 
     <!--region Common->Intro Page-->
@@ -374,7 +374,7 @@
     <string name="setting_dashboard_user_info_bg_sub">Setup your drawer dashboard background image</string>
     <string name="setting_dashboard_user_motto">Drawer user motto</string>
     <string name="setting_dashboard_user_motto_sub">Setup your onw motto in dashboard drawer</string>
-    <string name="setting_dashboard_user_motto_default">Welcome to NotePal</string>
+    <string name="setting_dashboard_user_motto_default">Welcome to MarkNote</string>
 
     <string name="setting_theme">Theme</string>
     <string name="setting_dark_theme">Dark theme</string>
@@ -469,7 +469,7 @@
     <string name="storage_left_monthly">Storage left</string>
     <string name="storage_left_and_click_grant_tips">%d MB left, click to get more storage</string>
     <string name="not_login_try_after_login">Not login, try again after login</string>
-    <string name="timeline_detail">What you have done in NotePal</string>
+    <string name="timeline_detail">What you have done in MarkNote</string>
     <string name="statistic_of_this_week">Statistics of current week</string>
     <string name="activities_in_seven_days">Notes added during recent 7 days</string>
     <string name="logout">Logout</string>

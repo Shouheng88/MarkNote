@@ -87,13 +87,13 @@
 
     <!--region Common->Announcement-->
     <string name="need_to_complete">該功能尚待完善</string>
-    <string name="dialog_notice_content_part1">用戶你好！<![CDATA[<br/><br/>]]>由於時間限制仍然NotePal有許多不足。我們邀請你來一起完善：</string>
-    <string name="dialog_notice_content_part2">1.如果你喜歡NotePal你可以在<![CDATA[<b>“設置->關於程式->翻譯”</b> ]]>中協助開發者將NotePal翻譯成其他語言，或者在應用商店給該應用好評。</string>
-    <string name="dialog_notice_content_part3">2.如果你有其他的需求想要實現，或者對NotePal的功能有不滿意的地方，可以通過<![CDATA[<b>Google+社區、Twitter、Weibo或者直接郵件</b>]]>的方式與開發者討論需求。</string>
-    <string name="dialog_notice_content_part4">3.如果你發現了NotePal中存在BUG和意外崩潰，可以在<![CDATA[<b>“設置->資訊回饋”</b>]]>或者<![CDATA[<b>直接郵件開發者</b>]]>進行回饋。</string>
-    <string name="dialog_notice_content_part5">4.NotePal會在後續推出一些新的功能和特性，如果你喜歡該應用，可以在<![CDATA[<b>“設置->支持開發”</b>]]>中支持程式的開發。</string>
+    <string name="dialog_notice_content_part1">用戶你好！<![CDATA[<br/><br/>]]>由於時間限制仍然馬克筆記有許多不足。我們邀請你來一起完善：</string>
+    <string name="dialog_notice_content_part2">1.如果你喜歡馬克筆記你可以在<![CDATA[<b>“設置->關於程式->翻譯”</b> ]]>中協助開發者將馬克筆記翻譯成其他語言，或者在應用商店給該應用好評。</string>
+    <string name="dialog_notice_content_part3">2.如果你有其他的需求想要實現，或者對馬克筆記的功能有不滿意的地方，可以通過<![CDATA[<b>Google+社區、Twitter、Weibo或者直接郵件</b>]]>的方式與開發者討論需求。</string>
+    <string name="dialog_notice_content_part4">3.如果你發現了馬克筆記中存在BUG和意外崩潰，可以在<![CDATA[<b>“設置->資訊回饋”</b>]]>或者<![CDATA[<b>直接郵件開發者</b>]]>進行回饋。</string>
+    <string name="dialog_notice_content_part5">4.馬克筆記會在後續推出一些新的功能和特性，如果你喜歡該應用，可以在<![CDATA[<b>“設置->支持開發”</b>]]>中支持程式的開發。</string>
     <string name="dialog_notice_content_part6">5.另外，你也可以通過<![CDATA[<b>Google+社區、Twitter和Weibo</b>]]>獲取程式開發的最新動態，並可以參與測試。</string>
-    <string name="dialog_notice_content_part7">請給予NotePal更多的耐心，我們會努力做得更好。<![CDATA[<br/><br/>]]>最後，祝你使用愉快！</string>
+    <string name="dialog_notice_content_part7">請給予馬克筆記更多的耐心，我們會努力做得更好。<![CDATA[<br/><br/>]]>最後，祝你使用愉快！</string>
     <!--endregion-->
 
     <!--region Common->Intro Page-->
@@ -374,7 +374,7 @@
     <string name="setting_dashboard_user_info_bg_sub">設置主界面中顯示的背景圖</string>
     <string name="setting_dashboard_user_motto">座右銘</string>
     <string name="setting_dashboard_user_motto_sub">設置用于主界面顯示的文字</string>
-    <string name="setting_dashboard_user_motto_default">歡迎使用 NotePal</string>
+    <string name="setting_dashboard_user_motto_default">歡迎使用 馬克筆記</string>
 
     <string name="setting_theme">應用主題</string>
     <string name="setting_dark_theme">夜間主題</string>
