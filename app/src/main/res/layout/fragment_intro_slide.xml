@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/intro_background"
     android:background="#2196f3"
     android:orientation="vertical"
@@ -21,6 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="5"
+        tools:src="@drawable/mark_note"
         android:layout_gravity="center"
         android:paddingLeft="@dimen/intro_side_padding"
         android:paddingStart="@dimen/intro_side_padding"
