@@ -32,7 +32,7 @@ import me.shouheng.notepal.repository.NoteRepository;
 import me.shouheng.notepal.util.FileHelper;
 import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.ModelHelper;
-import me.shouheng.notepal.util.PreferencesUtils;
+import me.shouheng.notepal.util.preferences.PreferencesUtils;
 
 /**
  * Created by wang shouheng on 2018/3/13.*/

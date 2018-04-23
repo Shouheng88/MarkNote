@@ -1,4 +1,4 @@
-package me.shouheng.notepal.util;
+package me.shouheng.notepal.util.preferences;
 
 import android.content.Context;
 import android.net.Uri;
@@ -18,7 +18,7 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.model.enums.FabSortItem;
 import me.shouheng.notepal.model.enums.Operation;
-import me.shouheng.notepal.util.base.BasePreferences;
+import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.enums.SyncTimeInterval;
 
 /**

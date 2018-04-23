@@ -7,7 +7,7 @@ import java.util.concurrent.Executors;
 
 import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.util.LogUtils;
-import me.shouheng.notepal.util.PreferencesUtils;
+import me.shouheng.notepal.util.preferences.PreferencesUtils;
 
 /**
  * todo 1. Find out why two files are not synchronized to OneDrive; 2. Test new strategy.

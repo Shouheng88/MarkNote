@@ -8,7 +8,7 @@ import android.os.Bundle;
 import com.github.paolorotolo.appintro.AppIntro2;
 
 import me.shouheng.notepal.PalmApp;
-import me.shouheng.notepal.util.PreferencesUtils;
+import me.shouheng.notepal.util.preferences.PreferencesUtils;
 
 @SuppressLint("Registered")
 public class IntroActivity extends AppIntro2 {

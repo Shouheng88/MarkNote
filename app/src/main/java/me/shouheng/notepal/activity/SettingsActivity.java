@@ -33,7 +33,7 @@ import me.shouheng.notepal.listener.OnSettingsChangedListener;
 import me.shouheng.notepal.listener.OnThemeSelectedListener;
 import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.FragmentHelper;
-import me.shouheng.notepal.util.PreferencesUtils;
+import me.shouheng.notepal.util.preferences.PreferencesUtils;
 import me.shouheng.notepal.util.ToastUtils;
 
 public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> implements

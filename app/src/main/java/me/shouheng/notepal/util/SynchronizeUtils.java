@@ -13,6 +13,7 @@ import me.shouheng.notepal.activity.SettingsActivity;
 import me.shouheng.notepal.async.onedrive.OneDriveBackupService;
 import me.shouheng.notepal.manager.onedrive.DefaultCallback;
 import me.shouheng.notepal.manager.onedrive.OneDriveManager;
+import me.shouheng.notepal.util.preferences.PreferencesUtils;
 
 /**
  * Created by shouh on 2018/4/5.*/

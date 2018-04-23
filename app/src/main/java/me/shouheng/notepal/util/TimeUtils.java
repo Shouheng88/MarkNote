@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import me.shouheng.notepal.PalmApp;
+import me.shouheng.notepal.util.preferences.PreferencesUtils;
 
 /**
  * Created by wangshouheng on 2017/3/13. */

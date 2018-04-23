@@ -16,7 +16,7 @@ import me.shouheng.notepal.manager.onedrive.OneDriveManager;
 import me.shouheng.notepal.model.Directory;
 import me.shouheng.notepal.model.data.Resource;
 import me.shouheng.notepal.util.LogUtils;
-import me.shouheng.notepal.util.PreferencesUtils;
+import me.shouheng.notepal.util.preferences.PreferencesUtils;
 
 /**
  * Created by shouh on 2018/3/31.*/

@@ -15,7 +15,7 @@ import me.shouheng.notepal.fragment.base.BaseFragment;
 import me.shouheng.notepal.listener.OnFragmentDestroyListener;
 import me.shouheng.notepal.listener.OnThemeSelectedListener;
 import me.shouheng.notepal.util.ColorUtils;
-import me.shouheng.notepal.util.PreferencesUtils;
+import me.shouheng.notepal.util.preferences.PreferencesUtils;
 
 /**
  * Created by wangshouheng on 2017/8/5. */

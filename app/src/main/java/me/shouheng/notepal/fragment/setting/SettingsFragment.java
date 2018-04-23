@@ -17,7 +17,7 @@ import me.shouheng.notepal.intro.IntroActivity;
 import me.shouheng.notepal.model.Feedback;
 import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.IntentUtils;
-import me.shouheng.notepal.util.PreferencesUtils;
+import me.shouheng.notepal.util.preferences.PreferencesUtils;
 import me.shouheng.notepal.widget.ColorPreference;
 
 /**

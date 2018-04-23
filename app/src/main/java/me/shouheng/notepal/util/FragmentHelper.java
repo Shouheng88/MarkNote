@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
+import me.shouheng.notepal.util.preferences.PreferencesUtils;
 
 /**
  * Created by wang shouheng on 2017/12/23.*/

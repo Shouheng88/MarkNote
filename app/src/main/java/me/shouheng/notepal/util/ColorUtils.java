@@ -15,6 +15,7 @@ import java.lang.reflect.Method;
 
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
+import me.shouheng.notepal.util.preferences.PreferencesUtils;
 
 /**
  * Created by wangshouheng on 2017/3/31.*/

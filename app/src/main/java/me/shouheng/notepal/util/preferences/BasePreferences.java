@@ -1,4 +1,4 @@
-package me.shouheng.notepal.util.base;
+package me.shouheng.notepal.util.preferences;
 
 import android.content.Context;
 import android.content.SharedPreferences;

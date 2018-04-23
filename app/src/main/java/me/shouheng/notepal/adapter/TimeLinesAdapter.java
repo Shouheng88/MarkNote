@@ -13,7 +13,7 @@ import java.util.List;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.model.TimeLine;
 import me.shouheng.notepal.util.ColorUtils;
-import me.shouheng.notepal.util.PreferencesUtils;
+import me.shouheng.notepal.util.preferences.PreferencesUtils;
 import me.shouheng.notepal.util.TimeUtils;
 import me.shouheng.notepal.widget.CircleImageView;
 import me.shouheng.notepal.widget.Timeline;

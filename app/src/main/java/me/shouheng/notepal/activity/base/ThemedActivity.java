@@ -16,7 +16,7 @@ import org.polaric.colorful.Colorful;
 import org.polaric.colorful.ColorfulActivity;
 
 import me.shouheng.notepal.util.ColorUtils;
-import me.shouheng.notepal.util.PreferencesUtils;
+import me.shouheng.notepal.util.preferences.PreferencesUtils;
 import me.shouheng.notepal.util.ViewUtils;
 
 /**

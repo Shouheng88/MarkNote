@@ -23,6 +23,7 @@ import me.shouheng.notepal.listener.DefaultCompressListener;
 import me.shouheng.notepal.listener.OnAttachingFileListener;
 import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.model.ModelFactory;
+import me.shouheng.notepal.util.preferences.PreferencesUtils;
 import top.zibin.luban.Luban;
 
 /**
