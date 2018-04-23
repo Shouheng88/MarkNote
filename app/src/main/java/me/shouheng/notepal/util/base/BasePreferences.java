@@ -11,11 +11,11 @@ import me.shouheng.notepal.PalmApp;
 
 /**
  * Created by WangShouheng on 2018/3/3. */
-public class BasePreferencesUtils {
+public class BasePreferences {
 
     private static SharedPreferences mPreferences;
 
-    public BasePreferencesUtils(Context context) {
+    public BasePreferences(Context context) {
         mPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 

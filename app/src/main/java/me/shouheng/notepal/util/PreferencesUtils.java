@@ -18,12 +18,12 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.model.enums.FabSortItem;
 import me.shouheng.notepal.model.enums.Operation;
-import me.shouheng.notepal.util.base.BasePreferencesUtils;
+import me.shouheng.notepal.util.base.BasePreferences;
 import me.shouheng.notepal.util.enums.SyncTimeInterval;
 
 /**
  * Created by Wang Shouheng on 2017/12/5. */
-public class PreferencesUtils extends BasePreferencesUtils {
+public class PreferencesUtils extends BasePreferences {
 
     public static List<FabSortItem> defaultFabOrders;
 
