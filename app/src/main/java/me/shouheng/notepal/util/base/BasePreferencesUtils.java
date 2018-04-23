@@ -70,4 +70,44 @@ public class BasePreferencesUtils {
     protected Set<String> getStringSet(String key, Set<String> defaultStringSet) {
         return mPreferences.getStringSet(key, defaultStringSet);
     }
+
+    protected String getString(@StringRes int keyResId, String defaultValue) {
+        return mPreferences.getString(getKey(keyResId), defaultValue);
+    }
+
+    protected void putString(@StringRes int keyResId, String value) {
+        mPreferences.edit().putString(getKey(keyResId), value).apply();
+    }
+
+    protected int getInt(@StringRes int keyResId, int defaultValue) {
+        return mPreferences.getInt(getKey(keyResId), defaultValue);
+    }
+
+    protected void putInt(@StringRes int keyResId, int value) {
+        mPreferences.edit().putInt(getKey(keyResId), value).apply();
+    }
+
+    protected long getLong(@StringRes int keyResId, long defaultValue) {
+        return mPreferences.getLong(getKey(keyResId), defaultValue);
+    }
+
+    protected void putLong(@StringRes int keyResId, long value) {
+        mPreferences.edit().putLong(getKey(keyResId), value).apply();
+    }
+
+    protected boolean getBoolean(@StringRes int keyResId, boolean defaultValue) {
+        return mPreferences.getBoolean(getKey(keyResId), defaultValue);
+    }
+
+    protected void putBoolean(@StringRes int keyResId, boolean value) {
+        mPreferences.edit().putBoolean(getKey(keyResId), value).apply();
+    }
+
+    protected void putStringSet(@StringRes int keyResId, Set<String> stringSet) {
+        mPreferences.edit().putStringSet(getKey(keyResId), stringSet).apply();
+    }
+
+    protected Set<String> getStringSet(@StringRes int keyResId, Set<String> defaultStringSet) {
+        return mPreferences.getStringSet(getKey(keyResId), defaultStringSet);
+    }
 }
