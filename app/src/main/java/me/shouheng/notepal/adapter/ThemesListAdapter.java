@@ -54,7 +54,7 @@ public class ThemesListAdapter extends RecyclerView.Adapter<ThemesListAdapter.Vi
     public void onBindViewHolder(ViewHolder holder, int position) {
         if (position == 0) {
             holder.tvListTitle.setText(title1);
-            adapter1 = new ThemesAdapter(context, themes1, ColorUtils.getThemeColor(context));
+            adapter1 = new ThemesAdapter(context, themes1, ColorUtils.getThemeColor());
             holder.rvThemes.setAdapter(adapter1);
             adapter1.setOnItemClickListener((adapter, view, position1) -> {
                 if (onThemeSelectedListener != null) {
@@ -63,7 +63,7 @@ public class ThemesListAdapter extends RecyclerView.Adapter<ThemesListAdapter.Vi
             });
         } else if (position == 1) {
             holder.tvListTitle.setText(title2);
-            adapter2 = new ThemesAdapter(context, themes2, ColorUtils.getThemeColor(context));
+            adapter2 = new ThemesAdapter(context, themes2, ColorUtils.getThemeColor());
             holder.rvThemes.setAdapter(adapter2);
             adapter2.setOnItemClickListener((adapter, view, position1) -> {
                 if (onThemeSelectedListener != null) {

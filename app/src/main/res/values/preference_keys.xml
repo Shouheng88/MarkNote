@@ -14,4 +14,11 @@
     <string name="key_auto_compress_image" translatable="false">key_auto_compress_image</string>
     <string name="key_note_file_extension" translatable="false">note_file_extension</string>
     <string name="key_key_show_note_expanded" translatable="false">key_show_note_expanded</string>
+
+    <!--region theme-->
+    <string name="key_is_dark_theme" translatable="false">is_dark_theme</string>
+    <string name="key_primary_color" translatable="false">primary_color</string>
+    <string name="key_accent_color" translatable="false">accent_color</string>
+    <string name="key_is_colored_navigation_bar" translatable="false">colored_navigation_bar</string>
+    <!--endregion-->
 </resources>

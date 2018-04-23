@@ -17,7 +17,6 @@ import me.shouheng.notepal.intro.IntroActivity;
 import me.shouheng.notepal.model.Feedback;
 import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.IntentUtils;
-import me.shouheng.notepal.util.preferences.PreferencesUtils;
 import me.shouheng.notepal.widget.ColorPreference;
 
 /**
@@ -58,10 +57,10 @@ public class SettingsFragment extends PreferenceFragment {
 
         addPreferencesFromResource(R.xml.preferences);
 
-        isDarkTheme = (CheckBoxPreference) findPreference(PreferencesUtils.IS_DARK_THEME);
-        primaryColor = (ColorPreference) findPreference(PreferencesUtils.PRIMARY_COLOR);
-        accentColor = (ColorPreference) findPreference(PreferencesUtils.ACCENT_COLOR);
-        coloredNavigationBar = (CheckBoxPreference) findPreference(PreferencesUtils.COLORED_NAVIGATION_BAR);
+        isDarkTheme = (CheckBoxPreference) findPreference(getString(R.string.key_is_dark_theme));
+        primaryColor = (ColorPreference) findPreference(getString(R.string.key_primary_color));
+        accentColor = (ColorPreference) findPreference(getString(R.string.key_accent_color));
+        coloredNavigationBar = (CheckBoxPreference) findPreference(getString(R.string.key_is_colored_navigation_bar));
         primaryColor.setValue(ColorUtils.primaryColor(getActivity()));
         accentColor.setValue(ColorUtils.accentColor(getActivity()));
 

@@ -15,7 +15,7 @@ import me.shouheng.notepal.fragment.base.BaseFragment;
 import me.shouheng.notepal.listener.OnFragmentDestroyListener;
 import me.shouheng.notepal.listener.OnThemeSelectedListener;
 import me.shouheng.notepal.util.ColorUtils;
-import me.shouheng.notepal.util.preferences.PreferencesUtils;
+import me.shouheng.notepal.util.preferences.ThemePreferences;
 
 /**
  * Created by wangshouheng on 2017/8/5. */
@@ -59,7 +59,7 @@ public class PrimaryPickerFragment extends BaseFragment<FragmentPrimaryPickerBin
 
     @Override
     public void onThemeSelected(Colorful.ThemeColor themeColor) {
-        PreferencesUtils.getInstance(getContext()).setThemeColor(themeColor);
+        ThemePreferences.getInstance().setThemeColor(themeColor);
 
         ColorUtils.forceUpdateThemeStatus(getContext());
 

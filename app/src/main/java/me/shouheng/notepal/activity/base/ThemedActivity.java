@@ -16,8 +16,8 @@ import org.polaric.colorful.Colorful;
 import org.polaric.colorful.ColorfulActivity;
 
 import me.shouheng.notepal.util.ColorUtils;
-import me.shouheng.notepal.util.preferences.PreferencesUtils;
 import me.shouheng.notepal.util.ViewUtils;
+import me.shouheng.notepal.util.preferences.ThemePreferences;
 
 /**
  * Created by wang shouheng on 2017/12/21.*/
@@ -44,11 +44,11 @@ public class ThemedActivity extends ColorfulActivity {
 
     public void updateTheme() {
         Colorful.config(this)
-                .primaryColor(ColorUtils.getThemeColor(this))
-                .accentColor(ColorUtils.getAccentColor(this))
+                .primaryColor(ColorUtils.getThemeColor())
+                .accentColor(ColorUtils.getAccentColor())
                 .translucent(false)
-                .dark(PreferencesUtils.getInstance(this).isDarkTheme())
-                .coloredNavigationBar(PreferencesUtils.getInstance(this).isColoredNavigationBar())
+                .dark(ThemePreferences.getInstance().isDarkTheme())
+                .coloredNavigationBar(ThemePreferences.getInstance().isColoredNavigationBar())
                 .apply();
         updateNavigationBar();
     }
@@ -59,7 +59,7 @@ public class ThemedActivity extends ColorfulActivity {
     }
 
     public void updateNavigationBar() {
-        if (PreferencesUtils.getInstance(this).isColoredNavigationBar()) {
+        if (ThemePreferences.getInstance().isColoredNavigationBar()) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 getWindow().setNavigationBarColor(ColorUtils.primaryColor(this));
             }

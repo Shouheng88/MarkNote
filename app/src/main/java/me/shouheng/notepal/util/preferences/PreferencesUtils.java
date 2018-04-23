@@ -6,9 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
-import org.polaric.colorful.Colorful;
-import org.polaric.colorful.Defaults;
-
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
@@ -65,45 +62,6 @@ public class PreferencesUtils extends BasePreferences {
     protected PreferencesUtils(Context context) {
         super(context);
     }
-
-    // region theme values preferences
-    public final static String IS_DARK_THEME = "is_dark_theme";
-    public final static String PRIMARY_COLOR = "primary_color";
-    public final static String ACCENT_COLOR = "accent_color";
-    public final static String COLORED_NAVIGATION_BAR = "colored_navigation_bar";
-
-    public void setDarkTheme(boolean isDarkTheme) {
-        putBoolean(IS_DARK_THEME, isDarkTheme);
-    }
-
-    public boolean isDarkTheme() {
-        return getBoolean(IS_DARK_THEME, false);
-    }
-
-    public void setThemeColor(Colorful.ThemeColor themeColor){
-        putString(PRIMARY_COLOR, themeColor.getIdentifyName());
-    }
-
-    public Colorful.ThemeColor getThemeColor() {
-        return Colorful.ThemeColor.getByPrimaryName(getString(PRIMARY_COLOR, Defaults.primaryColor.getIdentifyName()));
-    }
-
-    public Colorful.AccentColor getAccentColor() {
-        return Colorful.AccentColor.getByAccentName(getString(ACCENT_COLOR, Defaults.accentColor.getColorName()));
-    }
-
-    public void setAccentColor(Colorful.AccentColor accentColor) {
-        putString(ACCENT_COLOR, accentColor.getAccentName());
-    }
-
-    public void setColoredNavigationBar(boolean coloredNavigationBar)  {
-        putBoolean(COLORED_NAVIGATION_BAR, coloredNavigationBar);
-    }
-
-    public boolean isColoredNavigationBar() {
-        return getBoolean(COLORED_NAVIGATION_BAR, false);
-    }
-    // endregion
 
     // region user preferences
     private final String FIRST_DAY_OF_WEEK = "first_day_of_week";

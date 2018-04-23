@@ -15,7 +15,7 @@ import java.lang.reflect.Method;
 
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.util.preferences.PreferencesUtils;
+import me.shouheng.notepal.util.preferences.ThemePreferences;
 
 /**
  * Created by wangshouheng on 2017/3/31.*/
@@ -29,50 +29,50 @@ public class ColorUtils {
 
     public static boolean isDarkTheme(Context context) {
         if (isDarkTheme == null) {
-            isDarkTheme = PreferencesUtils.getInstance(context).isDarkTheme();
+            isDarkTheme = ThemePreferences.getInstance().isDarkTheme();
         }
         return isDarkTheme;
     }
 
-    public static int primaryColor(Context context){
+    public static int primaryColor(Context context) {
         if (primaryColor == null) {
-            Colorful.ThemeColor primaryColor = PreferencesUtils.getInstance(context).getThemeColor();
+            Colorful.ThemeColor primaryColor = ThemePreferences.getInstance().getThemeColor();
             ColorUtils.primaryColor = context.getResources().getColor(primaryColor.getColorRes());
         }
         return primaryColor;
     }
 
-    public static int accentColor(Context context){
+    public static int accentColor(Context context) {
         if (accentColor == null) {
-            Colorful.AccentColor accentColor = PreferencesUtils.getInstance(context).getAccentColor();
+            Colorful.AccentColor accentColor = ThemePreferences.getInstance().getAccentColor();
             ColorUtils.accentColor = context.getResources().getColor(accentColor.getColorRes());
         }
         return accentColor;
     }
 
-    public static Colorful.ThemeColor getThemeColor(Context context) {
-        return PreferencesUtils.getInstance(context).getThemeColor();
+    public static Colorful.ThemeColor getThemeColor() {
+        return ThemePreferences.getInstance().getThemeColor();
     }
 
-    public static Colorful.AccentColor getAccentColor(Context context) {
-        return PreferencesUtils.getInstance(context).getAccentColor();
+    public static Colorful.AccentColor getAccentColor() {
+        return ThemePreferences.getInstance().getAccentColor();
     }
 
     public static void forceUpdateThemeStatus(Context context) {
-        Colorful.ThemeColor primaryColor = PreferencesUtils.getInstance(context).getThemeColor();
+        Colorful.ThemeColor primaryColor = ThemePreferences.getInstance().getThemeColor();
         ColorUtils.primaryColor = context.getResources().getColor(primaryColor.getColorRes());
 
-        Colorful.AccentColor accentColor = PreferencesUtils.getInstance(context).getAccentColor();
+        Colorful.AccentColor accentColor = ThemePreferences.getInstance().getAccentColor();
         ColorUtils.accentColor = context.getResources().getColor(accentColor.getColorRes());
 
-        isDarkTheme = PreferencesUtils.getInstance(context).isDarkTheme();
+        isDarkTheme = ThemePreferences.getInstance().isDarkTheme();
     }
 
     public static String getColorName(int color) {
         return "#" + getHexString(Color.red(color)) + getHexString(Color.green(color)) + getHexString( Color.blue(color));
     }
 
-    private static String getHexString(int i){
+    private static String getHexString(int i) {
         String s = Integer.toHexString(i).toUpperCase();
         return s.length() == 1 ? "0" + s : s;
     }

@@ -33,8 +33,9 @@ import me.shouheng.notepal.listener.OnSettingsChangedListener;
 import me.shouheng.notepal.listener.OnThemeSelectedListener;
 import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.FragmentHelper;
-import me.shouheng.notepal.util.preferences.PreferencesUtils;
 import me.shouheng.notepal.util.ToastUtils;
+import me.shouheng.notepal.util.preferences.PreferencesUtils;
+import me.shouheng.notepal.util.preferences.ThemePreferences;
 
 public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> implements
         SettingsFragment.OnPreferenceClickListener,
@@ -112,19 +113,17 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> im
 
     @Override
     public void onColorSelection(@NonNull ColorChooserDialog dialog, int selectedColor) {
-        switch (keyForColor) {
-            case PreferencesUtils.ACCENT_COLOR:
-                setupTheme(selectedColor);
-                if (isSettingsFragment()) {
-                    ((SettingsFragment) getCurrentFragment()).notifyAccentColorChanged(selectedColor);
-                }
-                break;
+        if (getString(R.string.key_accent_color).equals(keyForColor)) {
+            setupTheme(selectedColor);
+            if (isSettingsFragment()) {
+                ((SettingsFragment) getCurrentFragment()).notifyAccentColorChanged(selectedColor);
+            }
         }
     }
 
     private void setupTheme(@ColorInt int i) {
         String colorName = ColorUtils.getColorName(i);
-        PreferencesUtils.getInstance(this).setAccentColor(Colorful.AccentColor.getByColorName(colorName));
+        ThemePreferences.getInstance().setAccentColor(Colorful.AccentColor.getByColorName(colorName));
         ColorUtils.forceUpdateThemeStatus(this);
         updateTheme();
         ToastUtils.makeToast(R.string.set_successfully);
@@ -141,13 +140,12 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> im
     @Override
     public void onPreferenceClick(String key) {
         keyForColor = key;
+        if (getString(R.string.key_primary_color).equals(key)) {
+            replaceWithCallback(PrimaryPickerFragment.newInstance());
+        } else if (getString(R.string.key_accent_color).equals(key)) {
+            showAccentColorPicker();
+        }
         switch (key) {
-            case PreferencesUtils.PRIMARY_COLOR:
-                replaceWithCallback(PrimaryPickerFragment.newInstance());
-                break;
-            case PreferencesUtils.ACCENT_COLOR:
-                showAccentColorPicker();
-                break;
             case SettingsFragment.KEY_DATA_BACKUP:
                 replaceWithCallback(new SettingsBackup());
                 break;
