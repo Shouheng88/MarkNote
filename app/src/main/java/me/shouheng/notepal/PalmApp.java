@@ -42,6 +42,12 @@ import me.shouheng.notepal.model.Model;
  * 2. Fabric: shouheng2015@gmail.com
  * 3. One Drive: w_shouheng@163.com
  *
+ * 重点：
+ * 1.自动刷新到新的笔记历史栈里面，防止数据丢失；
+ * 2.笔记编辑界面底部的按钮可以自定义，现在的按钮位置需要调整；
+ * 3.打开笔记的时候先从OneDrive上面检查备份信息；
+ * 4.备份的文件的名称需要改；
+ *
  * Created by wangshouheng on 2017/2/26. */
 public class PalmApp extends Application {
 
