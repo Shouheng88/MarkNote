@@ -7,7 +7,7 @@ import java.util.concurrent.Executors;
 
 import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.util.LogUtils;
-import me.shouheng.notepal.util.preferences.PreferencesUtils;
+import me.shouheng.notepal.util.preferences.SyncPreferences;
 
 /**
  * todo 1. Find out why two files are not synchronized to OneDrive; 2. Test new strategy.
@@ -77,7 +77,7 @@ public class BatchUploadPool {
             @Override
             public void onFinish() {
                 LogUtils.d("All uploaded!");
-                PreferencesUtils.getInstance().setOneDriveLastSyncTime(System.currentTimeMillis());
+                SyncPreferences.getInstance().setOneDriveLastSyncTime(System.currentTimeMillis());
                 shutDown();
             }
 

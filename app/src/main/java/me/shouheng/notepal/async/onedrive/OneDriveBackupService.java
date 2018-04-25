@@ -15,14 +15,14 @@ import me.shouheng.notepal.provider.PalmDB;
 import me.shouheng.notepal.util.FileHelper;
 import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.NetworkUtils;
-import me.shouheng.notepal.util.preferences.PreferencesUtils;
 import me.shouheng.notepal.util.SynchronizeUtils;
+import me.shouheng.notepal.util.preferences.SyncPreferences;
 
 /**
  * Created by shouh on 2018/3/30.*/
 public class OneDriveBackupService extends IntentService {
 
-    private PreferencesUtils preferencesUtils;
+    private SyncPreferences syncPreferences;
 
     public static void start(Context context) {
         Intent service = new Intent(context, OneDriveBackupService.class);
@@ -35,11 +35,11 @@ public class OneDriveBackupService extends IntentService {
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        preferencesUtils = PreferencesUtils.getInstance(getApplicationContext());
+        syncPreferences = SyncPreferences.getInstance();
 
         boolean isNetworkAvailable = NetworkUtils.isNetworkAvailable(getApplicationContext());
         boolean isWifi = NetworkUtils.isWifi(getApplicationContext());
-        boolean isOnlyWifi = PreferencesUtils.getInstance(getApplicationContext()).isBackupOnlyInWifi();
+        boolean isOnlyWifi = syncPreferences.isBackupOnlyInWifi();
 
         if (isNetworkAvailable && (!isOnlyWifi || isWifi)) {
             uploadDatabaseAndPreferences();
@@ -48,7 +48,7 @@ public class OneDriveBackupService extends IntentService {
     }
 
     private void uploadDatabaseAndPreferences() {
-        String itemId = preferencesUtils.getOneDriveBackupItemId();
+        String itemId = syncPreferences.getOneDriveBackupItemId();
         if (!TextUtils.isEmpty(itemId)) {
             if (SynchronizeUtils.shouldOneDriveDatabaseSync()) {
                 uploadDatabase(itemId);
@@ -60,7 +60,7 @@ public class OneDriveBackupService extends IntentService {
     }
 
     private void updateAttachments() {
-        String filesItemId = preferencesUtils.getOneDriveFilesBackupItemId();
+        String filesItemId = syncPreferences.getOneDriveFilesBackupItemId();
         if (!TextUtils.isEmpty(filesItemId)) {
             BatchUploadPool batchUploadPool = BatchUploadPool.getInstance(filesItemId);
             if (batchUploadPool.isTerminated()) {
@@ -76,9 +76,9 @@ public class OneDriveBackupService extends IntentService {
         new FileUploadTask(itemId, ConflictBehavior.REPLACE, new OneDriveManager.UploadProgressCallback<Item>() {
             @Override
             public void success(Item item) {
-                preferencesUtils.setOneDriveDatabaseItemId(item.id);
-                preferencesUtils.setOneDriveDatabaseLastSyncTime(System.currentTimeMillis());
-                preferencesUtils.setOneDriveLastSyncTime(System.currentTimeMillis());
+                syncPreferences.setOneDriveDatabaseItemId(item.id);
+                syncPreferences.setOneDriveDatabaseLastSyncTime(System.currentTimeMillis());
+                syncPreferences.setOneDriveLastSyncTime(System.currentTimeMillis());
             }
 
             @Override
@@ -94,9 +94,9 @@ public class OneDriveBackupService extends IntentService {
 
             @Override
             public void success(Item item) {
-                preferencesUtils.setOneDrivePreferencesItemId(item.id);
-                preferencesUtils.setOneDrivePreferenceLastSyncTime(System.currentTimeMillis());
-                preferencesUtils.setOneDriveLastSyncTime(System.currentTimeMillis());
+                syncPreferences.setOneDrivePreferencesItemId(item.id);
+                syncPreferences.setOneDrivePreferenceLastSyncTime(System.currentTimeMillis());
+                syncPreferences.setOneDriveLastSyncTime(System.currentTimeMillis());
             }
 
             @Override

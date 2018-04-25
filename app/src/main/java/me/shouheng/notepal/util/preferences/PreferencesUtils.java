@@ -16,7 +16,6 @@ import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.model.enums.FabSortItem;
 import me.shouheng.notepal.model.enums.Operation;
 import me.shouheng.notepal.util.ColorUtils;
-import me.shouheng.notepal.util.enums.SyncTimeInterval;
 
 /**
  * Created by Wang Shouheng on 2017/12/5. */
@@ -189,89 +188,6 @@ public class PreferencesUtils extends BasePreferences {
 
     public String getSearchConditions() {
         return getString(SEARCH_CONDITIONS, null);
-    }
-    // endregion
-
-    // region Synchronization
-    public void setBackupOnlyInWifi(boolean isOnlyWifi) {
-        putBoolean(getKey(R.string.key_backup_only_wifi), isOnlyWifi);
-    }
-
-    public boolean isBackupOnlyInWifi() {
-        return getBoolean(getKey(R.string.key_backup_only_wifi), true);
-    }
-
-    public SyncTimeInterval getSyncTimeInterval() {
-        return SyncTimeInterval.getTypeById(getInt(getKey(R.string.key_sync_time_interval), SyncTimeInterval.EVERY_30_MINUTES.id));
-    }
-
-    public void setSyncTimeInterval(SyncTimeInterval syncTimeInterval) {
-        putInt(getKey(R.string.key_sync_time_interval), syncTimeInterval.id);
-    }
-
-
-    public long getOneDriveLastSyncTime() {
-        return getLong(getKey(R.string.key_one_drive_last_sync_time), 0);
-    }
-
-    public void setOneDriveLastSyncTime(long lastSyncTime) {
-        putLong(getKey(R.string.key_one_drive_last_sync_time), lastSyncTime);
-    }
-
-    public String getOneDriveBackupItemId() {
-        return getString(getKey(R.string.key_one_drive_backup_dir_item_id), null);
-    }
-
-    public void setOneDriveBackupItemId(String itemId) {
-        putString(getKey(R.string.key_one_drive_backup_dir_item_id), itemId);
-    }
-
-    public String getOneDriveLastBackupItemId() {
-        return getString(getKey(R.string.key_one_drive_last_backup_dir_item_id), null);
-    }
-
-    public void setOneDriveLastBackupItemId(String itemId) {
-        putString(getKey(R.string.key_one_drive_last_backup_dir_item_id), itemId);
-    }
-
-    public void setOneDriveFilesBackupItemId(String itemId) {
-        putString(getKey(R.string.key_one_drive_files_backup_dir_item_id), itemId);
-    }
-
-    public String getOneDriveFilesBackupItemId() {
-        return getString(getKey(R.string.key_one_drive_files_backup_dir_item_id), null);
-    }
-
-    public long getOneDriveDatabaseLastSyncTime() {
-        return getLong(getKey(R.string.key_one_drive_database_last_sync_time), 0);
-    }
-
-    public void setOneDriveDatabaseLastSyncTime(long lastSyncTime) {
-        putLong(getKey(R.string.key_one_drive_database_last_sync_time), lastSyncTime);
-    }
-
-    public long getOneDrivePreferenceLastSyncTime() {
-        return getLong(getKey(R.string.key_one_drive_preferences_last_sync_time), 0);
-    }
-
-    public void setOneDrivePreferenceLastSyncTime(long lastSyncTime) {
-        putLong(getKey(R.string.key_one_drive_preferences_last_sync_time), lastSyncTime);
-    }
-
-    public String getOneDriveDatabaseItemId() {
-        return getString(getKey(R.string.key_one_drive_database_item_id), null);
-    }
-
-    public void setOneDriveDatabaseItemId(String itemId) {
-        putString(getKey(R.string.key_one_drive_database_item_id), itemId);
-    }
-
-    public String getOneDrivePreferencesItemId() {
-        return getString(getKey(R.string.key_one_drive_preferences_item_id), null);
-    }
-
-    public void setOneDrivePreferencesItemId(String itemId) {
-        putString(getKey(R.string.key_one_drive_preferences_item_id), itemId);
     }
     // endregion
 

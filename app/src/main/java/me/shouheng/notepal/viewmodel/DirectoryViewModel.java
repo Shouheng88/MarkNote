@@ -16,7 +16,7 @@ import me.shouheng.notepal.manager.onedrive.OneDriveManager;
 import me.shouheng.notepal.model.Directory;
 import me.shouheng.notepal.model.data.Resource;
 import me.shouheng.notepal.util.LogUtils;
-import me.shouheng.notepal.util.preferences.PreferencesUtils;
+import me.shouheng.notepal.util.preferences.SyncPreferences;
 
 /**
  * Created by shouh on 2018/3/31.*/
@@ -59,7 +59,7 @@ public class DirectoryViewModel extends ViewModel {
         MutableLiveData<Resource<Directory>> result = new MutableLiveData<>();
         new PrepareBackupDirTask(toDir, children, new PrepareBackupDirTask.OnGetResultListener() {
 
-            PreferencesUtils preferencesUtils = PreferencesUtils.getInstance();
+            SyncPreferences syncPreferences = SyncPreferences.getInstance();
 
             private void onGetResult(String itemId, long udf1) {
                 Resource<Directory> ret = Resource.success(new Directory(itemId));
@@ -69,26 +69,26 @@ public class DirectoryViewModel extends ViewModel {
 
             @Override
             public void onGetBackupDir(String itemId) {
-                preferencesUtils.setOneDriveBackupItemId(itemId);
-                preferencesUtils.setOneDriveLastBackupItemId(itemId);
+                syncPreferences.setOneDriveBackupItemId(itemId);
+                syncPreferences.setOneDriveLastBackupItemId(itemId);
                 onGetResult(itemId, 0L);
             }
 
             @Override
             public void onGetFilesBackupDir(String itemId) {
-                preferencesUtils.setOneDriveFilesBackupItemId(itemId);
+                syncPreferences.setOneDriveFilesBackupItemId(itemId);
                 onGetResult(itemId, 1L);
             }
 
             @Override
             public void onGetDatabaseFile(String itemId) {
-                preferencesUtils.setOneDriveDatabaseItemId(itemId);
+                syncPreferences.setOneDriveDatabaseItemId(itemId);
                 onGetResult(itemId, 2L);
             }
 
             @Override
             public void onGetPreferencesFile(String itemId) {
-                preferencesUtils.setOneDrivePreferencesItemId(itemId);
+                syncPreferences.setOneDrivePreferencesItemId(itemId);
                 onGetResult(itemId, 3L);
             }
 

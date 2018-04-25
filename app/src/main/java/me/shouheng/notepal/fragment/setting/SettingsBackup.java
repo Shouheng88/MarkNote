@@ -36,6 +36,7 @@ import me.shouheng.notepal.util.preferences.PreferencesUtils;
 import me.shouheng.notepal.util.StringUtils;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.util.enums.SyncTimeInterval;
+import me.shouheng.notepal.util.preferences.SyncPreferences;
 
 /**
  * Created by wang shouheng on 2018/1/5.*/
@@ -54,12 +55,15 @@ public class SettingsBackup extends BaseFragment {
 
     private PreferencesUtils preferencesUtils;
 
+    private SyncPreferences syncPreferences;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         configToolbar();
 
         preferencesUtils = PreferencesUtils.getInstance(getActivity());
+        syncPreferences = SyncPreferences.getInstance();
 
         addPreferencesFromResource(R.xml.preferences_data_backup);
 
@@ -102,8 +106,8 @@ public class SettingsBackup extends BaseFragment {
         prefOneDriveSignOut.setOnPreferenceClickListener(preference -> {
             OneDriveManager oneDriveManager = OneDriveManager.getInstance();
             oneDriveManager.signOut();
-            preferencesUtils.setOneDriveBackupItemId(null);
-            preferencesUtils.setOneDriveFilesBackupItemId(null);
+            syncPreferences.setOneDriveBackupItemId(null);
+            syncPreferences.setOneDriveFilesBackupItemId(null);
             refreshOneDriveMessage();
             return true;
         });
@@ -134,7 +138,7 @@ public class SettingsBackup extends BaseFragment {
     }
 
     private void onLoginSuccess() {
-        String itemId = preferencesUtils.getOneDriveBackupItemId();
+        String itemId = syncPreferences.getOneDriveBackupItemId();
         boolean isDirSpecified = !TextUtils.isEmpty(itemId);
         if (!isDirSpecified) {
             DirectoryActivity.startExplore(this, REQUEST_PICK_FOLDER);
@@ -142,7 +146,7 @@ public class SettingsBackup extends BaseFragment {
     }
 
     private void refreshOneDriveMessage() {
-        String backItemId = preferencesUtils.getOneDriveBackupItemId();
+        String backItemId = syncPreferences.getOneDriveBackupItemId();
         if (!TextUtils.isEmpty(backItemId)) {
             prefOneDrive.setSummary(String.format(getString(R.string.one_drive_backup_folder), backItemId));
             prefOneDriveSignOut.setEnabled(true);
@@ -287,13 +291,13 @@ public class SettingsBackup extends BaseFragment {
         new MaterialDialog.Builder(getActivity())
                 .items(items)
                 .itemsCallback((dialog, itemView, position, text) -> {
-                    preferencesUtils.setSyncTimeInterval(SyncTimeInterval.getTypeById(position));
+                    syncPreferences.setSyncTimeInterval(SyncTimeInterval.getTypeById(position));
                     refreshTimeInterval();
                 }).show();
     }
 
     private void refreshTimeInterval() {
-        prefTimeInterval.setSummary(preferencesUtils.getSyncTimeInterval().resName);
+        prefTimeInterval.setSummary(syncPreferences.getSyncTimeInterval().resName);
     }
     // endregion
 

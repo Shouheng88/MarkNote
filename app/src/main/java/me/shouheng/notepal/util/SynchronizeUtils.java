@@ -13,7 +13,7 @@ import me.shouheng.notepal.activity.SettingsActivity;
 import me.shouheng.notepal.async.onedrive.OneDriveBackupService;
 import me.shouheng.notepal.manager.onedrive.DefaultCallback;
 import me.shouheng.notepal.manager.onedrive.OneDriveManager;
-import me.shouheng.notepal.util.preferences.PreferencesUtils;
+import me.shouheng.notepal.util.preferences.SyncPreferences;
 
 /**
  * Created by shouh on 2018/4/5.*/
@@ -65,8 +65,8 @@ public class SynchronizeUtils {
      *
      * @return true if set, otherwise false */
     private static boolean checkOneDriveSettings() {
-        String itemId = PreferencesUtils.getInstance().getOneDriveBackupItemId();
-        String filesItemId = PreferencesUtils.getInstance().getOneDriveFilesBackupItemId();
+        String itemId = SyncPreferences.getInstance().getOneDriveBackupItemId();
+        String filesItemId = SyncPreferences.getInstance().getOneDriveFilesBackupItemId();
         return !TextUtils.isEmpty(itemId) && !TextUtils.isEmpty(filesItemId);
     }
 
@@ -78,10 +78,10 @@ public class SynchronizeUtils {
 
         boolean isNetworkAvailable = NetworkUtils.isNetworkAvailable(PalmApp.getContext());
         boolean isWifi = NetworkUtils.isWifi(PalmApp.getContext());
-        boolean isOnlyWifi = PreferencesUtils.getInstance(PalmApp.getContext()).isBackupOnlyInWifi();
+        boolean isOnlyWifi = SyncPreferences.getInstance().isBackupOnlyInWifi();
 
-        long lastSyncTime = PreferencesUtils.getInstance().getOneDriveLastSyncTime();
-        long syncTimeInterval = PreferencesUtils.getInstance().getSyncTimeInterval().millis;
+        long lastSyncTime = SyncPreferences.getInstance().getOneDriveLastSyncTime();
+        long syncTimeInterval = SyncPreferences.getInstance().getSyncTimeInterval().millis;
 
         return isNetworkAvailable && (!isOnlyWifi || isWifi) && lastSyncTime + syncTimeInterval < System.currentTimeMillis();
     }
@@ -91,14 +91,14 @@ public class SynchronizeUtils {
      *
      * @return true if should sync. */
     public static boolean shouldOneDriveDatabaseSync() {
-        long lastSyncTime = PreferencesUtils.getInstance().getOneDriveDatabaseLastSyncTime();
+        long lastSyncTime = SyncPreferences.getInstance().getOneDriveDatabaseLastSyncTime();
         File database = FileHelper.getDatabaseFile(PalmApp.getContext());
         long lastModifiedTime = database.lastModified();
         return lastModifiedTime > lastSyncTime;
     }
 
     public static boolean shouldOneDrivePreferencesSync() {
-        long lastSyncTime = PreferencesUtils.getInstance().getOneDrivePreferenceLastSyncTime();
+        long lastSyncTime = SyncPreferences.getInstance().getOneDrivePreferenceLastSyncTime();
         File preferences = FileHelper.getPreferencesFile(PalmApp.getContext());
         long lastModifiedTime = preferences.lastModified();
         return lastModifiedTime > lastSyncTime;

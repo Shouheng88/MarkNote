@@ -25,8 +25,8 @@ import me.shouheng.notepal.fragment.DirectoriesFragment;
 import me.shouheng.notepal.manager.onedrive.OneDriveManager;
 import me.shouheng.notepal.model.Directory;
 import me.shouheng.notepal.util.FragmentHelper;
-import me.shouheng.notepal.util.preferences.PreferencesUtils;
 import me.shouheng.notepal.util.ToastUtils;
+import me.shouheng.notepal.util.preferences.SyncPreferences;
 
 public class DirectoryActivity extends CommonActivity<ActivityDirectoryBinding> implements
         DirectoriesFragment.OnFragmentInteractionListener {
@@ -36,7 +36,7 @@ public class DirectoryActivity extends CommonActivity<ActivityDirectoryBinding> 
     private String oldOneDriveDatabaseItemId;
     private String oldOneDrivePreferencesItemId;
 
-    private PreferencesUtils preferencesUtils;
+    private SyncPreferences syncPreferences;
 
     public static void startExplore(android.app.Fragment fragment, int req) {
         Intent intent = new Intent(fragment.getActivity(), DirectoryActivity.class);
@@ -50,7 +50,7 @@ public class DirectoryActivity extends CommonActivity<ActivityDirectoryBinding> 
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {
-        preferencesUtils = PreferencesUtils.getInstance();
+        syncPreferences = SyncPreferences.getInstance();
 
         configToolbar();
 
@@ -64,10 +64,10 @@ public class DirectoryActivity extends CommonActivity<ActivityDirectoryBinding> 
         getBinding().fabCreate.setOnClickListener(view -> createFolder());
         getBinding().fabCreate.setImageResource(R.drawable.fab_add);
 
-        oldOneDriveBackupItemId = preferencesUtils.getOneDriveLastBackupItemId();
-        oldOneDriveFilesBackupItemId = preferencesUtils.getOneDriveFilesBackupItemId();
-        oldOneDriveDatabaseItemId = preferencesUtils.getOneDriveDatabaseItemId();
-        oldOneDrivePreferencesItemId = preferencesUtils.getOneDrivePreferencesItemId();
+        oldOneDriveBackupItemId = syncPreferences.getOneDriveLastBackupItemId();
+        oldOneDriveFilesBackupItemId = syncPreferences.getOneDriveFilesBackupItemId();
+        oldOneDriveDatabaseItemId = syncPreferences.getOneDriveDatabaseItemId();
+        oldOneDrivePreferencesItemId = syncPreferences.getOneDrivePreferencesItemId();
     }
 
     private void configToolbar() {
@@ -133,7 +133,7 @@ public class DirectoryActivity extends CommonActivity<ActivityDirectoryBinding> 
 
     @Override
     public void onDirectoryPicked(Directory directory) {
-        String newBackupDir = preferencesUtils.getOneDriveBackupItemId();
+        String newBackupDir = syncPreferences.getOneDriveBackupItemId();
         if (!TextUtils.isEmpty(oldOneDriveBackupItemId) && !oldOneDriveBackupItemId.equals(newBackupDir)) {
             new MaterialDialog.Builder(this)
                     .title(R.string.text_warning)
@@ -145,11 +145,11 @@ public class DirectoryActivity extends CommonActivity<ActivityDirectoryBinding> 
                     })
                     .negativeText(R.string.text_undone)
                     .onNegative((dialog, which) -> {
-                        preferencesUtils.setOneDriveBackupItemId(oldOneDriveBackupItemId);
-                        preferencesUtils.setOneDriveLastBackupItemId(oldOneDriveBackupItemId);
-                        preferencesUtils.setOneDriveFilesBackupItemId(oldOneDriveFilesBackupItemId);
-                        preferencesUtils.setOneDriveDatabaseItemId(oldOneDriveDatabaseItemId);
-                        preferencesUtils.setOneDrivePreferencesItemId(oldOneDrivePreferencesItemId);
+                        syncPreferences.setOneDriveBackupItemId(oldOneDriveBackupItemId);
+                        syncPreferences.setOneDriveLastBackupItemId(oldOneDriveBackupItemId);
+                        syncPreferences.setOneDriveFilesBackupItemId(oldOneDriveFilesBackupItemId);
+                        syncPreferences.setOneDriveDatabaseItemId(oldOneDriveDatabaseItemId);
+                        syncPreferences.setOneDrivePreferencesItemId(oldOneDrivePreferencesItemId);
                         finish();
                     })
                     .dismissListener(dialogInterface -> {
