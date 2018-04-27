@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
-import android.preference.PreferenceFragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -21,14 +20,13 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.LockActivity;
 import me.shouheng.notepal.databinding.DialogSecurityQuestionLayoutBinding;
 import me.shouheng.notepal.listener.OnFragmentDestroyListener;
-import me.shouheng.notepal.util.preferences.LockPreferences;
-import me.shouheng.notepal.util.preferences.PreferencesUtils;
 import me.shouheng.notepal.util.RSAUtil;
 import me.shouheng.notepal.util.ToastUtils;
+import me.shouheng.notepal.util.preferences.LockPreferences;
 
 /**
  * Created by wang shouheng on 2018/1/12. */
-public class SettingsSecurity extends PreferenceFragment {
+public class SettingsSecurity extends BaseFragment {
 
     private final static String KEY_SET_PASSWORD = "set_password";
     private final static String KEY_PASSWORD_REQUIRED = "password_required";
@@ -71,7 +69,7 @@ public class SettingsSecurity extends PreferenceFragment {
             toSetPassword();
             return true;
         });
-        findPreference(PreferencesUtils.PASSWORD_INPUT_FREEZE_TIME).setOnPreferenceClickListener(preference -> {
+        findPreference(R.string.key_password_freeze_time).setOnPreferenceClickListener(preference -> {
             showInputDialog();
             return true;
         });

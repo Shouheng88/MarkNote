@@ -30,7 +30,7 @@ public class SettingsNote extends BaseFragment {
     }
 
     private void setPreferenceClickListeners() {
-        findPreference(getKey(R.string.key_key_show_note_expanded)).setOnPreferenceClickListener(preference -> {
+        findPreference(R.string.key_key_show_note_expanded).setOnPreferenceClickListener(preference -> {
             notifyDashboardChanged();
             return true;
         });

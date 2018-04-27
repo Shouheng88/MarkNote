@@ -6,9 +6,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
-import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.util.preferences.PreferencesUtils;
+import me.shouheng.notepal.util.preferences.UserPreferences;
 
 /**
  * Created by wang shouheng on 2017/12/23.*/
@@ -74,13 +73,13 @@ public class FragmentHelper {
     }
 
     private static void setCustomAnimations(FragmentTransaction transaction) {
-        if (!PreferencesUtils.getInstance().systemAnimationEnabled()) return;
+        if (!UserPreferences.getInstance().systemAnimationEnabled()) return;
         transaction.setCustomAnimations(R.animator.slide_up, R.animator.slide_down,
                 R.animator.slide_up, R.animator.slide_down);
     }
 
     private static void setCustomAnimations(android.app.FragmentTransaction transaction) {
-        if (!PreferencesUtils.getInstance(PalmApp.getContext()).systemAnimationEnabled()) return;
+        if (!UserPreferences.getInstance().systemAnimationEnabled()) return;
         transaction.setCustomAnimations(R.animator.slide_up, R.animator.slide_down,
                 R.animator.slide_up, R.animator.slide_down);
     }

@@ -14,8 +14,6 @@ import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.model.enums.FabSortItem;
-import me.shouheng.notepal.model.enums.Operation;
-import me.shouheng.notepal.util.ColorUtils;
 
 /**
  * Created by Wang Shouheng on 2017/12/5. */
@@ -188,52 +186,6 @@ public class PreferencesUtils extends BasePreferences {
 
     public String getSearchConditions() {
         return getString(SEARCH_CONDITIONS, null);
-    }
-    // endregion
-
-    // region universal settings
-    private final String LIST_ANIMATION = "list_animation";
-    private final String SYSTEM_ANIMATION = "system_animation";
-    public static final String PASSWORD_INPUT_FREEZE_TIME = "password_input_freeze_time";
-    private final String OPERATION_COLOR = "OPERATION_COLOR";
-
-    public int getTimeLineColor(Operation operation) {
-        return getInt(OPERATION_COLOR + operation.name(), defaultTimeLineColor(operation));
-    }
-
-    private int defaultTimeLineColor(Operation operation) {
-        switch (operation) {
-            case DELETE: return PalmApp.getContext().getResources().getColor(R.color.md_red_500);
-            case TRASH: return PalmApp.getContext().getResources().getColor(R.color.md_deep_orange_500);
-            case ARCHIVE: return PalmApp.getContext().getResources().getColor(R.color.md_pink_500);
-            case COMPLETE: return PalmApp.getContext().getResources().getColor(R.color.md_purple_500);
-            case SYNCED: return PalmApp.getContext().getResources().getColor(R.color.md_light_green_900);
-            case ADD: return PalmApp.getContext().getResources().getColor(R.color.md_green_500);
-            case UPDATE: return PalmApp.getContext().getResources().getColor(R.color.md_light_green_700);
-            case INCOMPLETE: return PalmApp.getContext().getResources().getColor(R.color.md_blue_500);
-            case RECOVER: return PalmApp.getContext().getResources().getColor(R.color.md_light_blue_600);
-        }
-        return ColorUtils.accentColor(PalmApp.getContext());
-    }
-
-    public void setTimeLineColor(Operation operation, int color) {
-        putInt(OPERATION_COLOR + operation.name(), color);
-    }
-
-    public void enableListAnimation(boolean enable){
-        putBoolean(LIST_ANIMATION, enable);
-    }
-
-    public boolean listAnimationEnabled() {
-        return getBoolean(LIST_ANIMATION, true);
-    }
-
-    public void enableSystemAnimation(boolean enable){
-        putBoolean(SYSTEM_ANIMATION, enable);
-    }
-
-    public boolean systemAnimationEnabled() {
-        return getBoolean(SYSTEM_ANIMATION, true);
     }
     // endregion
 }

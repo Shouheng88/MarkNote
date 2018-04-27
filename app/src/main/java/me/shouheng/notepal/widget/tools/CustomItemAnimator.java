@@ -14,7 +14,7 @@ import java.util.List;
 
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.util.PalmUtils;
-import me.shouheng.notepal.util.preferences.PreferencesUtils;
+import me.shouheng.notepal.util.preferences.UserPreferences;
 
 /**
  * Created by wangshouheng on 2017/4/1.*/
@@ -58,7 +58,7 @@ public class CustomItemAnimator extends DefaultItemAnimator {
     }
 
     private void runEnterAnimation(RecyclerView.ViewHolder holder){
-        if (PreferencesUtils.getInstance(holder.itemView.getContext()).listAnimationEnabled()) {
+        if (UserPreferences.getInstance().listAnimationEnabled()) {
             if (PalmUtils.isLollipop()){
                 setAnimation(holder.itemView, holder.getAdapterPosition());
             } else {

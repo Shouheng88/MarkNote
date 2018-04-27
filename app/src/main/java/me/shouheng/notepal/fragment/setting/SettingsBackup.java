@@ -89,7 +89,7 @@ public class SettingsBackup extends BaseFragment {
             return true;
         });
 
-        prefTimeInterval = findPreference(getKey(R.string.key_sync_time_interval));
+        prefTimeInterval = findPreference(R.string.key_sync_time_interval);
         prefTimeInterval.setOnPreferenceClickListener(preference -> {
             timeIntervalPicker();
             return true;
