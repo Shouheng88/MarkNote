@@ -21,6 +21,7 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.LockActivity;
 import me.shouheng.notepal.databinding.DialogSecurityQuestionLayoutBinding;
 import me.shouheng.notepal.listener.OnFragmentDestroyListener;
+import me.shouheng.notepal.util.preferences.LockPreferences;
 import me.shouheng.notepal.util.preferences.PreferencesUtils;
 import me.shouheng.notepal.util.RSAUtil;
 import me.shouheng.notepal.util.ToastUtils;
@@ -35,12 +36,12 @@ public class SettingsSecurity extends PreferenceFragment {
 
     private final static int REQUEST_SET_PASSWORD = 0x0010;
 
-    private PreferencesUtils preferencesUtils;
+    private LockPreferences lockPreferences;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        preferencesUtils = PreferencesUtils.getInstance(getActivity());
+        lockPreferences = LockPreferences.getInstance();
 
         configToolbar();
 
@@ -58,11 +59,10 @@ public class SettingsSecurity extends PreferenceFragment {
 
     private void setPreferenceClickListeners() {
         findPreference(KEY_PASSWORD_REQUIRED).setOnPreferenceClickListener(preference -> {
-            if (TextUtils.isEmpty(preferencesUtils.getPassword()) && ((CheckBoxPreference) preference).isChecked() ) {
+            if (TextUtils.isEmpty(lockPreferences.getPassword()) && ((CheckBoxPreference) preference).isChecked() ) {
                 toSetPassword();
             } else if (((CheckBoxPreference) preference).isChecked()){
-                /**
-                 * the password is not empty and the password is required, but the security question is not set */
+                /* the password is not empty and the password is required, but the security question is not set */
                 showAlertIfNecessary();
             }
             return true;
@@ -88,7 +88,7 @@ public class SettingsSecurity extends PreferenceFragment {
                 .inputType(InputType.TYPE_CLASS_NUMBER)
                 .inputRange(0, 2)
                 .negativeText(R.string.cancel)
-                .input(getString(R.string.input_the_freeze_minutes_in_minute), String.valueOf(preferencesUtils.getPasswordFreezeTime()), (materialDialog, charSequence) -> {
+                .input(getString(R.string.input_the_freeze_minutes_in_minute), String.valueOf(lockPreferences.getPasswordFreezeTime()), (materialDialog, charSequence) -> {
                     try {
                         int minutes = Integer.parseInt(charSequence.toString());
                         if (minutes < 0) {
@@ -99,7 +99,7 @@ public class SettingsSecurity extends PreferenceFragment {
                             ToastUtils.makeToast(R.string.freeze_time_too_long);
                             return;
                         }
-                        preferencesUtils.setPasswordFreezeTime(minutes);
+                        lockPreferences.setPasswordFreezeTime(minutes);
                     } catch (Exception e) {
                         ToastUtils.makeToast(R.string.wrong_numeric_string);
                     }
@@ -118,9 +118,8 @@ public class SettingsSecurity extends PreferenceFragment {
         binding.wtvAnswer.bindEditText(binding.etAnswer);
         binding.wtvConfirmAnswer.bindEditText(binding.etConfirmAnswer);
 
-        /**
-         * set default question from the preferences */
-        String savedQuestion = preferencesUtils.getPasswordQuestion();
+        /* set default question from the preferences */
+        String savedQuestion = lockPreferences.getPasswordQuestion();
         binding.etQuestion.setText(savedQuestion);
 
         binding.etConfirmAnswer.addTextChangedListener(new TextWatcher() {
@@ -178,9 +177,9 @@ public class SettingsSecurity extends PreferenceFragment {
     }
 
     private void saveSecurityQuestion(String question, String answer) {
-        preferencesUtils.setPasswordQuestion(question);
+        lockPreferences.setPasswordQuestion(question);
         String encryptAnswer = RSAUtil.getEncryptString(answer);
-        preferencesUtils.setPasswordAnswer(encryptAnswer);
+        lockPreferences.setPasswordAnswer(encryptAnswer);
 
         ToastUtils.makeToast(R.string.text_save_successfully);
     }
@@ -189,10 +188,9 @@ public class SettingsSecurity extends PreferenceFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case REQUEST_SET_PASSWORD:
-                if (resultCode != Activity.RESULT_OK && TextUtils.isEmpty(preferencesUtils.getPassword())) {
-                    /**
-                     * remove the password requirement if the password is not set */
-                    preferencesUtils.setPasswordRequired(false);
+                if (resultCode != Activity.RESULT_OK && TextUtils.isEmpty(lockPreferences.getPassword())) {
+                    /* remove the password requirement if the password is not set */
+                    lockPreferences.setPasswordRequired(false);
                     ((CheckBoxPreference) findPreference(KEY_PASSWORD_REQUIRED)).setChecked(false);
                 } else {
                     showAlertIfNecessary();
@@ -203,8 +201,8 @@ public class SettingsSecurity extends PreferenceFragment {
     }
 
     private void showAlertIfNecessary() {
-        if (!TextUtils.isEmpty(preferencesUtils.getPasswordQuestion())
-                || !preferencesUtils.isPasswordRequired()) return;
+        if (!TextUtils.isEmpty(lockPreferences.getPasswordQuestion())
+                || !lockPreferences.isPasswordRequired()) return;
         new MaterialDialog.Builder(getActivity())
                 .title(R.string.text_tips)
                 .content(R.string.setting_no_security_question_message)

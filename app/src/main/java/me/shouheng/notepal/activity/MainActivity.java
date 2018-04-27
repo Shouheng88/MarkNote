@@ -64,6 +64,7 @@ import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.FragmentHelper;
 import me.shouheng.notepal.util.IntentUtils;
 import me.shouheng.notepal.util.LogUtils;
+import me.shouheng.notepal.util.preferences.LockPreferences;
 import me.shouheng.notepal.util.preferences.PreferencesUtils;
 import me.shouheng.notepal.util.SynchronizeUtils;
 import me.shouheng.notepal.util.ToastUtils;
@@ -140,9 +141,9 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     }
 
     private void checkPassword() {
-        if (preferencesUtils.isPasswordRequired()
+        if (LockPreferences.getInstance().isPasswordRequired()
                 && !PalmApp.isPasswordChecked()
-                && !TextUtils.isEmpty(preferencesUtils.getPassword())) {
+                && !TextUtils.isEmpty(LockPreferences.getInstance().getPassword())) {
             LockActivity.requireLaunch(this, REQUEST_PASSWORD);
         } else {
             init();

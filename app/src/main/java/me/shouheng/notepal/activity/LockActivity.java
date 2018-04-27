@@ -18,10 +18,10 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.base.CommonActivity;
 import me.shouheng.notepal.databinding.ActivityLockBinding;
 import me.shouheng.notepal.util.ActivityUtils;
-import me.shouheng.notepal.util.preferences.PreferencesUtils;
 import me.shouheng.notepal.util.RSAUtil;
 import me.shouheng.notepal.util.SystemUiVisibilityUtil;
 import me.shouheng.notepal.util.ToastUtils;
+import me.shouheng.notepal.util.preferences.LockPreferences;
 
 public class LockActivity extends CommonActivity<ActivityLockBinding> {
 
@@ -34,7 +34,7 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
     private boolean isPasswordFrozen = false;
     private long psdFreezeLength;
 
-    private PreferencesUtils preferencesUtils;
+    private LockPreferences lockPreferences;
 
     public static void setPassword(Fragment fragment, int requestCode) {
         Intent intent = new Intent(fragment.getActivity(), LockActivity.class);
@@ -61,9 +61,9 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {
-        preferencesUtils = PreferencesUtils.getInstance(getParent());
-        psdFreezeLength = preferencesUtils.getPasswordFreezeTime() * DateUtils.MINUTE_IN_MILLIS;
-        savedPassword = preferencesUtils.getPassword();
+        lockPreferences = LockPreferences.getInstance();
+        psdFreezeLength = lockPreferences.getPasswordFreezeTime() * DateUtils.MINUTE_IN_MILLIS;
+        savedPassword = lockPreferences.getPassword();
 
         configSystemUI();
 
@@ -133,9 +133,9 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
 
         /*
          * Check the freeze time first. */
-        if (preferencesUtils.getLastInputErrorTime() + psdFreezeLength > System.currentTimeMillis()) {
-            if (!TextUtils.isEmpty(preferencesUtils.getPasswordQuestion())
-                    && !TextUtils.isEmpty(preferencesUtils.getPasswordAnswer())) {
+        if (lockPreferences.getLastInputErrorTime() + psdFreezeLength > System.currentTimeMillis()) {
+            if (!TextUtils.isEmpty(lockPreferences.getPasswordQuestion())
+                    && !TextUtils.isEmpty(lockPreferences.getPasswordAnswer())) {
                 showFreezeDialog();
             } else {
                 showFreezeDialog();
@@ -160,7 +160,7 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
             if (++errorTimes == 5) {
                 /*
                  * Input wrong password for too many times, record last error time and save the frozen state. */
-                preferencesUtils.setLastInputErrorTime(System.currentTimeMillis());
+                lockPreferences.setLastInputErrorTime(System.currentTimeMillis());
                 isPasswordFrozen = true;
                 showFreezeToast();
             } else {
@@ -198,7 +198,7 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
 
     private void showFreezeToast() {
         String msg = String.format(getString(R.string.setting_password_frozen_minutes),
-                preferencesUtils.getPasswordFreezeTime());
+                lockPreferences.getPasswordFreezeTime());
         ToastUtils.makeToast(msg);
     }
 
@@ -213,8 +213,8 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
     }
 
     private void showQuestionDialog() {
-        String question = preferencesUtils.getPasswordQuestion();
-        String answer = preferencesUtils.getPasswordAnswer();
+        String question = lockPreferences.getPasswordQuestion();
+        String answer = lockPreferences.getPasswordAnswer();
         new MaterialDialog.Builder(this)
                 .title(R.string.setting_answer_question)
                 .content(question)
@@ -222,9 +222,9 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
                 .input(null, null, (dialog, input) -> {
                     String encryptAnswer = RSAUtil.getEncryptString(input.toString());
                     if (answer.equals(encryptAnswer)) {
-                        preferencesUtils.setPasswordRequired(false);
+                        lockPreferences.setPasswordRequired(false);
                         // remove the last input error time
-                        preferencesUtils.setLastInputErrorTime(0);
+                        lockPreferences.setLastInputErrorTime(0);
                         showDisableDialog();
                     } else {
                         ToastUtils.makeToast(R.string.setting_wrong_answer);
@@ -256,7 +256,7 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
     private void passSetting(String encryptedPin) {
         /*
          * The password input twice is the same, save it to settings and finish activity. */
-        preferencesUtils.setPassword(encryptedPin);
+        lockPreferences.setPassword(encryptedPin);
         Intent intent = new Intent();
         setResult(Activity.RESULT_OK, intent);
         finish();

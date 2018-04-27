@@ -29,8 +29,8 @@ import me.shouheng.notepal.model.data.Resource;
 import me.shouheng.notepal.util.AppWidgetUtils;
 import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.util.LogUtils;
-import me.shouheng.notepal.util.preferences.PreferencesUtils;
 import me.shouheng.notepal.util.ToastUtils;
+import me.shouheng.notepal.util.preferences.LockPreferences;
 import me.shouheng.notepal.viewmodel.NoteViewModel;
 
 public class QuickNoteActivity extends BaseActivity implements OnAttachingFileListener {
@@ -47,7 +47,7 @@ public class QuickNoteActivity extends BaseActivity implements OnAttachingFileLi
     }
 
     private void checkPassword() {
-        if (PreferencesUtils.getInstance(this).isPasswordRequired() && !PalmApp.isPasswordChecked()) {
+        if (LockPreferences.getInstance().isPasswordRequired() && !PalmApp.isPasswordChecked()) {
             LockActivity.requireLaunch(this, REQUEST_PASSWORD);
         } else {
             init();

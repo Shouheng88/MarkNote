@@ -194,11 +194,7 @@ public class PreferencesUtils extends BasePreferences {
     // region universal settings
     private final String LIST_ANIMATION = "list_animation";
     private final String SYSTEM_ANIMATION = "system_animation";
-    private final String PASSWORD_REQUIRED = "password_required";
-    private final String PASSWORD = "password";
     public static final String PASSWORD_INPUT_FREEZE_TIME = "password_input_freeze_time";
-    private final String PASSWORD_QUESTION = "password_question";
-    private final String PASSWORD_ANSWER = "password_answer";
     private final String OPERATION_COLOR = "OPERATION_COLOR";
 
     public int getTimeLineColor(Operation operation) {
@@ -238,46 +234,6 @@ public class PreferencesUtils extends BasePreferences {
 
     public boolean systemAnimationEnabled() {
         return getBoolean(SYSTEM_ANIMATION, true);
-    }
-
-    public void setPasswordRequired(boolean isRequired) {
-        putBoolean(PASSWORD_REQUIRED, isRequired);
-    }
-
-    public boolean isPasswordRequired() {
-        return getBoolean(PASSWORD_REQUIRED, false);
-    }
-
-    public void setPassword(String password) {
-        putString(PASSWORD, password);
-    }
-
-    public String getPassword() {
-        return getString(PASSWORD, null);
-    }
-
-    public int getPasswordFreezeTime() {
-        return getInt(PASSWORD_INPUT_FREEZE_TIME, 5);
-    }
-
-    public void setPasswordFreezeTime(int time) {
-        putInt(PASSWORD_INPUT_FREEZE_TIME, time);
-    }
-
-    public void setPasswordQuestion(String question) {
-        putString(PASSWORD_QUESTION, question);
-    }
-
-    public String getPasswordQuestion() {
-        return getString(PASSWORD_QUESTION, null);
-    }
-
-    public void setPasswordAnswer(String answer) {
-        putString(PASSWORD_ANSWER, answer);
-    }
-
-    public String getPasswordAnswer() {
-        return getString(PASSWORD_ANSWER, null);
     }
     // endregion
 }

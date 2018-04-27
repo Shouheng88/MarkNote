@@ -34,7 +34,7 @@ import me.shouheng.notepal.listener.OnThemeSelectedListener;
 import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.FragmentHelper;
 import me.shouheng.notepal.util.ToastUtils;
-import me.shouheng.notepal.util.preferences.PreferencesUtils;
+import me.shouheng.notepal.util.preferences.LockPreferences;
 import me.shouheng.notepal.util.preferences.ThemePreferences;
 
 public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> implements
@@ -51,8 +51,6 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> im
     private String keyForColor;
 
     private boolean isDashboardSettingsChanged = false;
-
-    private PreferencesUtils preferencesUtils;
 
     private List<Integer> changedTypes = new LinkedList<>();
 
@@ -74,8 +72,6 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> im
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {
-        preferencesUtils = PreferencesUtils.getInstance(this);
-
         configToolbar();
 
         configFragment();
@@ -150,8 +146,8 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> im
                 replaceWithCallback(new SettingsBackup());
                 break;
             case SettingsFragment.KEY_DATA_SECURITY:
-                if (preferencesUtils.isPasswordRequired()
-                        && !TextUtils.isEmpty(preferencesUtils.getPassword())) {
+                if (LockPreferences.getInstance().isPasswordRequired()
+                        && !TextUtils.isEmpty(LockPreferences.getInstance().getPassword())) {
                     LockActivity.requirePassword(this, REQUEST_CODE_PASSWORD);
                 } else {
                     replaceWithCallback(new SettingsSecurity());

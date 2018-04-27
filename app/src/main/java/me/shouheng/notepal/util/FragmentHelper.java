@@ -74,7 +74,7 @@ public class FragmentHelper {
     }
 
     private static void setCustomAnimations(FragmentTransaction transaction) {
-        if (!PreferencesUtils.getInstance(PalmApp.getContext()).systemAnimationEnabled()) return;
+        if (!PreferencesUtils.getInstance().systemAnimationEnabled()) return;
         transaction.setCustomAnimations(R.animator.slide_up, R.animator.slide_down,
                 R.animator.slide_up, R.animator.slide_down);
     }
