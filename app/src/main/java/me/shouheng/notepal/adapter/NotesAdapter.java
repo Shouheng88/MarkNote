@@ -18,8 +18,8 @@ import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.model.Notebook;
 import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.FileHelper;
-import me.shouheng.notepal.util.preferences.PreferencesUtils;
 import me.shouheng.notepal.util.TimeUtils;
+import me.shouheng.notepal.util.preferences.NotePreferences;
 import me.shouheng.notepal.widget.tools.BubbleTextGetter;
 
 /**
@@ -36,7 +36,7 @@ public class NotesAdapter extends BaseMultiItemQuickAdapter<NotesAdapter.MultiIt
     public NotesAdapter(Context context, List<NotesAdapter.MultiItem> data) {
         super(data);
 
-        this.isExpanded = PreferencesUtils.getInstance(context).isNoteExpanded();
+        this.isExpanded = NotePreferences.getInstance().isNoteExpanded();
         this.context = context;
         addItemType(MultiItem.ITEM_TYPE_NOTE, isExpanded ? R.layout.item_note_expanded : R.layout.item_note);
         addItemType(MultiItem.ITEM_TYPE_NOTEBOOK, R.layout.item_note);

@@ -32,7 +32,7 @@ import me.shouheng.notepal.repository.NoteRepository;
 import me.shouheng.notepal.util.FileHelper;
 import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.ModelHelper;
-import me.shouheng.notepal.util.preferences.PreferencesUtils;
+import me.shouheng.notepal.util.preferences.NotePreferences;
 
 /**
  * Created by wang shouheng on 2018/3/13.*/
@@ -81,7 +81,7 @@ public class NoteViewModel extends BaseViewModel<Note> {
             note.setPreviewContent(ModelHelper.getNotePreview(snagging.getContent()));
 
             // Create note file and attach to note
-            String extension = PreferencesUtils.getInstance(PalmApp.getContext()).getNoteFileExtension();
+            String extension = NotePreferences.getInstance().getNoteFileExtension();
             File noteFile = FileHelper.createNewAttachmentFile(PalmApp.getContext(), extension);
             try {
                 // Create note content attachment

@@ -21,7 +21,7 @@ import me.shouheng.notepal.repository.AttachmentRepository;
 import me.shouheng.notepal.repository.BaseRepository;
 import me.shouheng.notepal.util.FileHelper;
 import me.shouheng.notepal.util.LogUtils;
-import me.shouheng.notepal.util.preferences.PreferencesUtils;
+import me.shouheng.notepal.util.preferences.NotePreferences;
 
 /**
  * Created by WangShouheng on 2018/3/13.*/
@@ -63,7 +63,7 @@ public class AttachmentViewModel extends BaseViewModel<Attachment> {
             Attachment atFile = AttachmentsStore.getInstance(PalmApp.getContext()).get(note.getContentCode());
             if (atFile == null) {
                 // If the attachment is not exist, we will try to create a new one.
-                String extension = PreferencesUtils.getInstance(PalmApp.getContext()).getNoteFileExtension();
+                String extension = NotePreferences.getInstance().getNoteFileExtension();
                 File noteFile = FileHelper.createNewAttachmentFile(PalmApp.getContext(), extension);
                 try {
                     FileUtils.writeStringToFile(noteFile, note.getContent(), "utf-8");

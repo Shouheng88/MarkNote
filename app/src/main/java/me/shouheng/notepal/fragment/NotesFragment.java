@@ -33,8 +33,8 @@ import me.shouheng.notepal.model.Notebook;
 import me.shouheng.notepal.model.enums.Status;
 import me.shouheng.notepal.util.AppWidgetUtils;
 import me.shouheng.notepal.util.LogUtils;
-import me.shouheng.notepal.util.preferences.PreferencesUtils;
 import me.shouheng.notepal.util.ToastUtils;
+import me.shouheng.notepal.util.preferences.NotePreferences;
 import me.shouheng.notepal.viewmodel.NoteViewModel;
 import me.shouheng.notepal.viewmodel.NotebookViewModel;
 import me.shouheng.notepal.widget.tools.CustomItemAnimator;
@@ -477,7 +477,7 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        if (PreferencesUtils.getInstance(getContext()).isNoteExpanded()) {
+        if (NotePreferences.getInstance().isNoteExpanded()) {
             // disable list capture when the note list is expanded
             menu.findItem(R.id.action_capture).setVisible(false);
         } else {

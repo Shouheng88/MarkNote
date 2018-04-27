@@ -280,26 +280,4 @@ public class PreferencesUtils extends BasePreferences {
         return getString(PASSWORD_ANSWER, null);
     }
     // endregion
-
-    // region Note
-    public void setShowNoteExpanded(boolean isExpanded) {
-        putBoolean(getKey(R.string.key_key_show_note_expanded), isExpanded);
-    }
-
-    public boolean isNoteExpanded() {
-        return getBoolean(getKey(R.string.key_key_show_note_expanded), true);
-    }
-
-    public void setNoteFileExtension(String extension) {
-        putString(getKey(R.string.key_note_file_extension), extension);
-    }
-
-    public String getNoteFileExtension() {
-        return "." + getString(getKey(R.string.key_note_file_extension), "md");
-    }
-
-    public boolean isImageAutoCompress() {
-        return getBoolean(getKey(R.string.key_auto_compress_image), true);
-    }
-    // endregion
 }
