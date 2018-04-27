@@ -1,4 +1,4 @@
-package me.shouheng.notepal.fragment;
+package me.shouheng.notepal.fragment.setting;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;

@@ -10,7 +10,7 @@ import me.shouheng.notepal.activity.base.CommonActivity;
 import me.shouheng.notepal.databinding.ActivityUserInfoBinding;
 import me.shouheng.notepal.fragment.StatisticsFragment;
 import me.shouheng.notepal.fragment.TimeLineFragment;
-import me.shouheng.notepal.fragment.UserInfoFragment;
+import me.shouheng.notepal.fragment.setting.UserInfoFragment;
 import me.shouheng.notepal.util.FragmentHelper;
 
 public class UserInfoActivity extends CommonActivity<ActivityUserInfoBinding>

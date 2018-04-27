@@ -22,7 +22,7 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.base.CommonActivity;
 import me.shouheng.notepal.databinding.ActivitySettingsBinding;
 import me.shouheng.notepal.fragment.AppInfoFragment;
-import me.shouheng.notepal.fragment.PrimaryPickerFragment;
+import me.shouheng.notepal.fragment.setting.PrimaryPickerFragment;
 import me.shouheng.notepal.fragment.setting.SettingsBackup;
 import me.shouheng.notepal.fragment.setting.SettingsDashboard;
 import me.shouheng.notepal.fragment.setting.SettingsFragment;
