@@ -7,7 +7,7 @@
         android:id="@+id/drawer"
         android:background="@color/light_theme_background"
         android:layout_width="match_parent"
-        tools:layout_width="270dp"
+        tools:layout_width="285dp"
         android:layout_height="match_parent"
         android:focusable="true"
         android:clickable="true">

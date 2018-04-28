@@ -12,7 +12,7 @@
         <FrameLayout
             android:layout_gravity="end"
             android:fitsSystemWindows="true"
-            android:layout_width="270dp"
+            android:layout_width="285dp"
             android:layout_height="match_parent">
 
             <include android:id="@+id/drawer" layout="@layout/note_edit_right_drawer" />
