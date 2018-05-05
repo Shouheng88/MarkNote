@@ -348,7 +348,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
         getBinding().mdView.outHtml(html -> {
             try {
                 File exDir = FileHelper.getHtmlExportDir();
-                File outFile = new File(exDir, FileHelper.getDefaultFileName(".html"));
+                File outFile = new File(exDir, FileHelper.getDefaultFileName(Constants.EXPORTED_HTML_EXTENSION));
                 FileUtils.writeStringToFile(outFile, html, "utf-8");
                 if (isShare) {
                     // Share, do share option
@@ -366,7 +366,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
     private void outText(boolean isShare) {
         try {
             File exDir = FileHelper.getTextExportDir();
-            File outFile = new File(exDir, FileHelper.getDefaultFileName(".text"));
+            File outFile = new File(exDir, FileHelper.getDefaultFileName(Constants.EXPORTED_TEXT_EXTENSION));
             FileUtils.writeStringToFile(outFile, note.getContent(), "utf-8");
             if (isShare) {
                 // Share, do share option
