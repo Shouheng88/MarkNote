@@ -1,6 +1,5 @@
 package me.shouheng.notepal.intro;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +9,6 @@ import com.github.paolorotolo.appintro.AppIntro2;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.util.preferences.PreferencesUtils;
 
-@SuppressLint("Registered")
 public class IntroActivity extends AppIntro2 {
 
     public static void launch(Context context) {
