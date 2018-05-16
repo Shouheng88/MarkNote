@@ -62,5 +62,5 @@
     <dimen name="timeline_card_left_right_margin">11dp</dimen>
     <dimen name="timeline_card_top_bottom_margin">3dp</dimen>
 
-    <dimen name="nav_main_height">164dp</dimen>
+    <dimen name="nav_main_height">144dp</dimen>
 </resources>
