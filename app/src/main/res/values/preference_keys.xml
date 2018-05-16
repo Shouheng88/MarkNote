@@ -28,7 +28,7 @@
     <string name="key_data_security" translatable="false">data_security</string>
     <string name="key_is_password_required" translatable="false">password_required</string>
     <string name="key_password" translatable="false">password</string>
-    <string name="key_password_freeze_time" translatable="false">password_freeze_time</string>
+    <string name="key_password_freeze_time" translatable="false">password_input_freeze_time</string>
     <string name="key_password_question" translatable="false">password_question</string>
     <string name="key_password_answer" translatable="false">password_answer</string>
     <string name="key_last_input_error_time" translatable="false">last_input_error_time</string>

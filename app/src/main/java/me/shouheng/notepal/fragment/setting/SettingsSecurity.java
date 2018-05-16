@@ -28,10 +28,6 @@ import me.shouheng.notepal.util.preferences.LockPreferences;
  * Created by wang shouheng on 2018/1/12. */
 public class SettingsSecurity extends BaseFragment {
 
-    private final static String KEY_SET_PASSWORD = "set_password";
-    private final static String KEY_PASSWORD_REQUIRED = "password_required";
-    private final static String KEY_PASSWORD_QUESTION = "password_question_answer";
-
     private final static int REQUEST_SET_PASSWORD = 0x0010;
 
     private LockPreferences lockPreferences;
@@ -56,7 +52,7 @@ public class SettingsSecurity extends BaseFragment {
     }
 
     private void setPreferenceClickListeners() {
-        findPreference(KEY_PASSWORD_REQUIRED).setOnPreferenceClickListener(preference -> {
+        findPreference(R.string.key_is_password_required).setOnPreferenceClickListener(preference -> {
             if (TextUtils.isEmpty(lockPreferences.getPassword()) && ((CheckBoxPreference) preference).isChecked() ) {
                 toSetPassword();
             } else if (((CheckBoxPreference) preference).isChecked()){
@@ -65,7 +61,7 @@ public class SettingsSecurity extends BaseFragment {
             }
             return true;
         });
-        findPreference(KEY_SET_PASSWORD).setOnPreferenceClickListener(preference -> {
+        findPreference(R.string.key_password).setOnPreferenceClickListener(preference -> {
             toSetPassword();
             return true;
         });
@@ -73,7 +69,7 @@ public class SettingsSecurity extends BaseFragment {
             showInputDialog();
             return true;
         });
-        findPreference(KEY_PASSWORD_QUESTION).setOnPreferenceClickListener(preference -> {
+        findPreference(R.string.key_password_question).setOnPreferenceClickListener(preference -> {
             showQuestionEditor();
             return true;
         });
@@ -86,22 +82,23 @@ public class SettingsSecurity extends BaseFragment {
                 .inputType(InputType.TYPE_CLASS_NUMBER)
                 .inputRange(0, 2)
                 .negativeText(R.string.cancel)
-                .input(getString(R.string.input_the_freeze_minutes_in_minute), String.valueOf(lockPreferences.getPasswordFreezeTime()), (materialDialog, charSequence) -> {
-                    try {
-                        int minutes = Integer.parseInt(charSequence.toString());
-                        if (minutes < 0) {
-                            ToastUtils.makeToast(R.string.illegal_number);
-                            return;
-                        }
-                        if (minutes > 30) {
-                            ToastUtils.makeToast(R.string.freeze_time_too_long);
-                            return;
-                        }
-                        lockPreferences.setPasswordFreezeTime(minutes);
-                    } catch (Exception e) {
-                        ToastUtils.makeToast(R.string.wrong_numeric_string);
-                    }
-                }).show();
+                .input(getString(R.string.input_the_freeze_minutes_in_minute), String.valueOf(lockPreferences.getPasswordFreezeTime()),
+                        (materialDialog, charSequence) -> {
+                            try {
+                                int minutes = Integer.parseInt(charSequence.toString());
+                                if (minutes < 0) {
+                                    ToastUtils.makeToast(R.string.illegal_number);
+                                    return;
+                                }
+                                if (minutes > 30) {
+                                    ToastUtils.makeToast(R.string.freeze_time_too_long);
+                                    return;
+                                }
+                                lockPreferences.setPasswordFreezeTime(minutes);
+                            } catch (Exception e) {
+                                ToastUtils.makeToast(R.string.wrong_numeric_string);
+                            }
+                        }).show();
     }
 
     private void toSetPassword() {
@@ -189,7 +186,7 @@ public class SettingsSecurity extends BaseFragment {
                 if (resultCode != Activity.RESULT_OK && TextUtils.isEmpty(lockPreferences.getPassword())) {
                     /* remove the password requirement if the password is not set */
                     lockPreferences.setPasswordRequired(false);
-                    ((CheckBoxPreference) findPreference(KEY_PASSWORD_REQUIRED)).setChecked(false);
+                    ((CheckBoxPreference) findPreference(R.string.key_is_password_required)).setChecked(false);
                 } else {
                     showAlertIfNecessary();
                 }

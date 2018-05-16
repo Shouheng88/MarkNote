@@ -2,25 +2,25 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <CheckBoxPreference
-        android:key="password_required"
+        android:key="@string/key_is_password_required"
         android:defaultValue="false"
         android:title="@string/setting_password_required"
         android:summary="@string/setting_password_required_sub"/>
 
     <Preference
-        android:key="set_password"
+        android:key="@string/key_password"
         android:persistent="false"
         android:title="@string/setting_set_password"
         android:summary="@string/setting_set_password_sub"/>
 
     <Preference
-        android:key="password_input_freeze_time"
+        android:key="@string/key_password_freeze_time"
         android:persistent="false"
         android:title="@string/setting_password_freeze"
         android:summary="@string/setting_password_freeze_sub" />
 
     <Preference
-        android:key="password_question_answer"
+        android:key="@string/key_password_question"
         android:persistent="false"
         android:title="@string/setting_security_question"
         android:summary="@string/setting_security_question_sub"/>
