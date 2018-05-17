@@ -42,18 +42,11 @@ import me.shouheng.notepal.util.preferences.SyncPreferences;
  * Created by wang shouheng on 2018/1/5.*/
 public class SettingsBackup extends BaseFragment {
 
-    private final static String KEY_BACKUP_TO_EXTERNAL_STORAGE = "backup_to_external_storage";
-    private final static String KEY_IMPORT_FROM_EXTERNAL_STORAGE = "import_from_external_storage";
-    private final static String KEY_DELETE_EXTERNAL_STORAGE_BACKUP = "delete_external_storage_backup";
-    private final static String KEY_ONE_DRIVE_BACKUP = "key_one_drive_backup";
-
     private final int REQUEST_PICK_FOLDER = 0x000F;
 
     private Preference prefOneDrive;
     private Preference prefOneDriveSignOut;
     private Preference prefTimeInterval;
-
-    private PreferencesUtils preferencesUtils;
 
     private SyncPreferences syncPreferences;
 
@@ -62,7 +55,6 @@ public class SettingsBackup extends BaseFragment {
         super.onCreate(savedInstanceState);
         configToolbar();
 
-        preferencesUtils = PreferencesUtils.getInstance(getActivity());
         syncPreferences = SyncPreferences.getInstance();
 
         addPreferencesFromResource(R.xml.preferences_data_backup);
@@ -76,15 +68,15 @@ public class SettingsBackup extends BaseFragment {
     }
 
     private void setPreferenceClickListeners() {
-        findPreference(KEY_BACKUP_TO_EXTERNAL_STORAGE).setOnPreferenceClickListener(preference -> {
+        findPreference(R.string.key_backup_to_external_storage).setOnPreferenceClickListener(preference -> {
             PermissionUtils.checkStoragePermission((CommonActivity) getActivity(), this::showBackupNameEditor);
             return true;
         });
-        findPreference(KEY_IMPORT_FROM_EXTERNAL_STORAGE).setOnPreferenceClickListener(preference -> {
+        findPreference(R.string.import_from_external_storage).setOnPreferenceClickListener(preference -> {
             PermissionUtils.checkStoragePermission((CommonActivity) getActivity(), this::showExternalBackupImport);
             return true;
         });
-        findPreference(KEY_DELETE_EXTERNAL_STORAGE_BACKUP).setOnPreferenceClickListener(preference -> {
+        findPreference(R.string.delete_external_storage_backup).setOnPreferenceClickListener(preference -> {
             PermissionUtils.checkStoragePermission((CommonActivity) getActivity(), this::showExternalBackupDelete);
             return true;
         });
@@ -96,13 +88,13 @@ public class SettingsBackup extends BaseFragment {
         });
         refreshTimeInterval();
 
-        prefOneDrive = findPreference(KEY_ONE_DRIVE_BACKUP);
+        prefOneDrive = findPreference(R.string.key_one_drive_backup);
         prefOneDrive.setOnPreferenceClickListener(preference -> {
             PermissionUtils.checkStoragePermission((CommonActivity) getActivity(), this::connectOneDrive);
             return true;
         });
 
-        prefOneDriveSignOut = findPreference("key_one_drive_sign_out");
+        prefOneDriveSignOut = findPreference(R.string.key_one_drive_sign_out);
         prefOneDriveSignOut.setOnPreferenceClickListener(preference -> {
             OneDriveManager oneDriveManager = OneDriveManager.getInstance();
             oneDriveManager.signOut();

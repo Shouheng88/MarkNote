@@ -10,6 +10,11 @@
     <string name="key_one_drive_preferences_last_sync_time" translatable="false">key_one_drive_preferences_last_sync_time</string>
     <string name="key_one_drive_database_item_id" translatable="false">key_one_drive_database_item_id</string>
     <string name="key_one_drive_preferences_item_id" translatable="false">key_one_drive_preferences_item_id</string>
+    <string name="key_one_drive_sign_out" translatable="false">key_one_drive_sign_out</string>
+    <string name="key_one_drive_backup" translatable="false">key_one_drive_backup</string>
+    <string name="delete_external_storage_backup" translatable="false">delete_external_storage_backup</string>
+    <string name="import_from_external_storage" translatable="false">import_from_external_storage</string>
+    <string name="key_backup_to_external_storage" translatable="false">backup_to_external_storage</string>
 
     <!--region note-->
     <string name="key_auto_compress_image" translatable="false">key_auto_compress_image</string>
