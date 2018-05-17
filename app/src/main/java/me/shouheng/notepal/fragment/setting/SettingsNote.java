@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.listener.OnFragmentDestroyListener;
 import me.shouheng.notepal.listener.OnSettingsChangedListener;
+import me.shouheng.notepal.listener.SettingChangeType;
 
 /**
  * Created by shouh on 2018/3/21.*/
@@ -38,7 +39,7 @@ public class SettingsNote extends BaseFragment {
 
     private void notifyDashboardChanged() {
         if (getActivity() != null && getActivity() instanceof OnSettingsChangedListener) {
-            ((OnSettingsChangedListener) getActivity()).onDashboardSettingChanged(OnSettingsChangedListener.ChangedType.NOTE_LIST_TYPE);
+            ((OnSettingsChangedListener) getActivity()).onSettingChanged(SettingChangeType.NOTE_LIST_TYPE);
         }
     }
 

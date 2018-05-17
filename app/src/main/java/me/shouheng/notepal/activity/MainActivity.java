@@ -49,7 +49,7 @@ import me.shouheng.notepal.fragment.CategoriesFragment;
 import me.shouheng.notepal.fragment.NotesFragment;
 import me.shouheng.notepal.intro.IntroActivity;
 import me.shouheng.notepal.listener.OnAttachingFileListener;
-import me.shouheng.notepal.listener.OnSettingsChangedListener;
+import me.shouheng.notepal.listener.SettingChangeType;
 import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.model.Category;
 import me.shouheng.notepal.model.MindSnagging;
@@ -64,10 +64,10 @@ import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.FragmentHelper;
 import me.shouheng.notepal.util.IntentUtils;
 import me.shouheng.notepal.util.LogUtils;
-import me.shouheng.notepal.util.preferences.DashboardPreferences;
-import me.shouheng.notepal.util.preferences.LockPreferences;
 import me.shouheng.notepal.util.SynchronizeUtils;
 import me.shouheng.notepal.util.ToastUtils;
+import me.shouheng.notepal.util.preferences.DashboardPreferences;
+import me.shouheng.notepal.util.preferences.LockPreferences;
 import me.shouheng.notepal.util.preferences.UserPreferences;
 import me.shouheng.notepal.viewmodel.CategoryViewModel;
 import me.shouheng.notepal.viewmodel.NoteViewModel;
@@ -690,17 +690,21 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                 break;
             case REQUEST_SETTING:
                 int[] changedTypes = data.getIntArrayExtra(SettingsActivity.KEY_CONTENT_CHANGE_TYPES);
-                boolean drawerUpdated = false, listUpdated = false;
+                boolean drawerUpdated = false, listUpdated = false, fabSortUpdated = false;;
                 for (int changedType : changedTypes) {
-                    if (changedType == OnSettingsChangedListener.ChangedType.DRAWER_CONTENT.id && !drawerUpdated) {
+                    if (changedType == SettingChangeType.DRAWER.id && !drawerUpdated) {
                         setupHeader();
                         drawerUpdated = true;
                     }
-                    if (changedType == OnSettingsChangedListener.ChangedType.NOTE_LIST_TYPE.id && !listUpdated) {
+                    if (changedType == SettingChangeType.NOTE_LIST_TYPE.id && !listUpdated) {
                         if (isNotesFragment()) {
                             toNotesFragment(false);
                         }
                         listUpdated = true;
+                    }
+                    if (changedType == SettingChangeType.FAB.id && !fabSortUpdated) {
+                        initFabSortItems();
+                        fabSortUpdated = true;
                     }
                 }
                 break;

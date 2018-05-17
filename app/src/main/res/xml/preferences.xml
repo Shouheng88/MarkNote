@@ -4,6 +4,12 @@
     <PreferenceCategory android:title="@string/setting_preference">
 
         <Preference
+            android:key="@string/key_preferences"
+            android:persistent="false"
+            android:title="@string/setting_preferences"
+            android:summary="@string/setting_preferences_sub"/>
+
+        <Preference
             android:key="data_backup"
             android:persistent="false"
             android:title="@string/setting_backup"
@@ -14,19 +20,6 @@
             android:persistent="false"
             android:title="@string/setting_data_security"
             android:summary="@string/setting_data_security_sub" />
-
-        <!--<CheckBoxPreference-->
-            <!--android:visibility="gone"-->
-            <!--android:key="list_animation"-->
-            <!--android:defaultValue="true"-->
-            <!--android:title="@string/setting_list_animation"-->
-            <!--android:summary="@string/setting_list_animation_sub"/>-->
-
-        <CheckBoxPreference
-            android:key="system_animation"
-            android:defaultValue="true"
-            android:title="@string/setting_system_animation"
-            android:summary="@string/setting_system_animation_sub"/>
 
         <Preference
             android:title="@string/setting_note"

@@ -27,10 +27,12 @@ import me.shouheng.notepal.fragment.setting.SettingsBackup;
 import me.shouheng.notepal.fragment.setting.SettingsDashboard;
 import me.shouheng.notepal.fragment.setting.SettingsFragment;
 import me.shouheng.notepal.fragment.setting.SettingsNote;
+import me.shouheng.notepal.fragment.setting.SettingsPreferences;
 import me.shouheng.notepal.fragment.setting.SettingsSecurity;
 import me.shouheng.notepal.listener.OnFragmentDestroyListener;
 import me.shouheng.notepal.listener.OnSettingsChangedListener;
 import me.shouheng.notepal.listener.OnThemeSelectedListener;
+import me.shouheng.notepal.listener.SettingChangeType;
 import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.FragmentHelper;
 import me.shouheng.notepal.util.ToastUtils;
@@ -155,6 +157,8 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> im
             replaceWithCallback(new SettingsDashboard());
         } else if (getString(R.string.key_key_note_settings).equals(key)) {
             replaceWithCallback(new SettingsNote());
+        } else if (getString(R.string.key_preferences).equals(key)) {
+            replaceWithCallback(new SettingsPreferences());
         }
     }
 
@@ -208,12 +212,6 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> im
     }
 
     @Override
-    public void onDashboardSettingChanged(ChangedType changedType) {
-        isDashboardSettingsChanged = true;
-        changedTypes.add(changedType.id);
-    }
-
-    @Override
     public void onBackPressed() {
         if (isDashboardSettingsChanged) {
             Intent intent = new Intent();
@@ -230,5 +228,11 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> im
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public void onSettingChanged(SettingChangeType changedType) {
+        isDashboardSettingsChanged = true;
+        changedTypes.add(changedType.id);
     }
 }

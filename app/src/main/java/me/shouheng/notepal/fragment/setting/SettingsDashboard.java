@@ -26,6 +26,7 @@ import me.shouheng.notepal.dialog.SimpleEditDialog;
 import me.shouheng.notepal.listener.OnAttachingFileListener;
 import me.shouheng.notepal.listener.OnFragmentDestroyListener;
 import me.shouheng.notepal.listener.OnSettingsChangedListener;
+import me.shouheng.notepal.listener.SettingChangeType;
 import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.util.ColorUtils;
@@ -127,7 +128,7 @@ public class SettingsDashboard extends BaseFragment implements OnAttachingFileLi
 
     private void notifyDashboardChanged() {
         if (getActivity() != null && getActivity() instanceof OnSettingsChangedListener) {
-            ((OnSettingsChangedListener) getActivity()).onDashboardSettingChanged(OnSettingsChangedListener.ChangedType.DRAWER_CONTENT);
+            ((OnSettingsChangedListener) getActivity()).onSettingChanged(SettingChangeType.DRAWER);
         }
     }
 

@@ -3,7 +3,6 @@ package me.shouheng.notepal.fragment.setting;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
-import android.preference.PreferenceFragment;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
@@ -81,6 +80,7 @@ public class SettingsFragment extends BaseFragment {
 
         primaryColor.setOnPreferenceClickListener(listener);
         accentColor.setOnPreferenceClickListener(listener);
+        findPreference(R.string.key_preferences).setOnPreferenceClickListener(listener);
         findPreference(R.string.key_setup_dashboard).setOnPreferenceClickListener(listener);
         findPreference(R.string.key_data_backup).setOnPreferenceClickListener(listener);
         findPreference(R.string.key_data_security).setOnPreferenceClickListener(listener);
