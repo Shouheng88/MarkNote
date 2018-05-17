@@ -16,23 +16,17 @@ import me.shouheng.notepal.R;
  * Created by wang shouheng on 2018/1/3.*/
 public class OpenResolver extends DialogFragment {
 
-    private final static String KEY_EXTRA_RESOLVER_LISTENER = "key_resolver_listener";
-
     private OnResolverTypeClickListener onResolverTypeClickListener;
 
     public static OpenResolver newInstance(OnResolverTypeClickListener onResolverTypeClickListener) {
-        Bundle args = new Bundle();
         OpenResolver fragment = new OpenResolver();
-        args.putSerializable(KEY_EXTRA_RESOLVER_LISTENER, onResolverTypeClickListener);
-        fragment.setArguments(args);
+        fragment.setOnResolverTypeClickListener(onResolverTypeClickListener);
         return fragment;
     }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        handleArgument();
-
         View root = LayoutInflater.from(getContext()).inflate(R.layout.dialog_open_resolver, null, false);
 
         root.findViewById(R.id.tv_text).setOnClickListener(view -> resolveClicked(MimeType.Text));
@@ -47,11 +41,8 @@ public class OpenResolver extends DialogFragment {
                 .create();
     }
 
-    private void handleArgument() {
-        Bundle bundle;
-        if ((bundle = getArguments()) != null && bundle.containsKey(KEY_EXTRA_RESOLVER_LISTENER)) {
-            onResolverTypeClickListener = (OnResolverTypeClickListener) bundle.get(KEY_EXTRA_RESOLVER_LISTENER);
-        }
+    public void setOnResolverTypeClickListener(OnResolverTypeClickListener onResolverTypeClickListener) {
+        this.onResolverTypeClickListener = onResolverTypeClickListener;
     }
 
     private void resolveClicked(MimeType mimeType) {
