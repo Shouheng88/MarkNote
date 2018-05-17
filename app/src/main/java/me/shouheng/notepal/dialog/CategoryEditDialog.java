@@ -27,9 +27,6 @@ import me.shouheng.notepal.widget.WatcherTextView;
  * Created by wangshouheng on 2017/4/2.*/
 public class CategoryEditDialog extends DialogFragment {
 
-    private final static String KEY_EXTRA_CATEGORY = "key_extra_category";
-    private final static String KEY_EXTRA_LISTENER = "key_extra_listener";
-
     private OnConfirmCategoryEditListener onConfirmCategoryEditListener;
 
     private EditText etCategoryName;
@@ -42,21 +39,16 @@ public class CategoryEditDialog extends DialogFragment {
 
     private Category category;
 
-    public static CategoryEditDialog newInstance(Category category, OnConfirmCategoryEditListener listener){
+    public static CategoryEditDialog newInstance(Category category, OnConfirmCategoryEditListener listener) {
         CategoryEditDialog dialog = new CategoryEditDialog();
-        Bundle args = new Bundle();
-        args.putSerializable(KEY_EXTRA_CATEGORY, category);
-        dialog.setArguments(args);
         dialog.setOnConfirmCategoryEditListener(listener);
+        dialog.setCategory(category);
         return dialog;
     }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Bundle args = getArguments();
-        assert args != null;
-        category = (Category) args.getSerializable(KEY_EXTRA_CATEGORY);
         primaryColor = ColorUtils.primaryColor(getContext());
 
         View rootView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_category_editor_layout, null);
@@ -94,7 +86,11 @@ public class CategoryEditDialog extends DialogFragment {
                 .create();
     }
 
-    public void updateUIBySelectedColor(int color){
+    private void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public void updateUIBySelectedColor(int color) {
         iCategoryColor = color;
         category.setColor(color);
         llNameEditBG.setBackgroundColor(color);
@@ -102,7 +98,7 @@ public class CategoryEditDialog extends DialogFragment {
         civCategoryColor.setFillingCircleColor(color);
     }
 
-    private void showPortraitPickerDialog(){
+    private void showPortraitPickerDialog() {
         String SHOW_PORTRAIT_DIALOG = "SHOW_PORTRAIT_DIALOG";
         PortraitPickerDialog.newInstance(iCategoryColor, (portraitId, portraitRes) -> {
             category.setPortrait(Portrait.getPortraitById(portraitId));
