@@ -51,4 +51,15 @@
     <string name="key_user_info_bg" translatable="false">key_user_info_bg</string>
     <string name="key_user_info_motto" translatable="false">key_user_info_motto</string>
     <!--endregion-->
+
+    <!--region selections-->
+    <string name="key_feedback" translatable="false">feedback</string>
+    <string name="key_user_guide" translatable="false">user_guide</string>
+    <string name="key_user_intro" translatable="false">user_intro</string>
+    <string name="key_support_develop" translatable="false">support_develop</string>
+    <string name="key_key_note_settings" translatable="false">key_note_settings</string>
+    <string name="key_setup_dashboard" translatable="false">setup_dashboard</string>
+    <string name="key_about" translatable="false">about</string>
+    <string name="key_data_backup" translatable="false">data_backup</string>
+    <!--endregion-->
 </resources>

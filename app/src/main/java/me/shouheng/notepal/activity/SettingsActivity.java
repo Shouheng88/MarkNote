@@ -140,28 +140,21 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> im
             replaceWithCallback(PrimaryPickerFragment.newInstance());
         } else if (getString(R.string.key_accent_color).equals(key)) {
             showAccentColorPicker();
-        }
-        switch (key) {
-            case SettingsFragment.KEY_DATA_BACKUP:
-                replaceWithCallback(new SettingsBackup());
-                break;
-            case SettingsFragment.KEY_DATA_SECURITY:
-                if (LockPreferences.getInstance().isPasswordRequired()
-                        && !TextUtils.isEmpty(LockPreferences.getInstance().getPassword())) {
-                    LockActivity.requirePassword(this, REQUEST_CODE_PASSWORD);
-                } else {
-                    replaceWithCallback(new SettingsSecurity());
-                }
-                break;
-            case SettingsFragment.KEY_ABOUT:
-                replaceWithCallback(new AppInfoFragment());
-                break;
-            case SettingsFragment.KEY_SETUP_DASHBOARD:
-                replaceWithCallback(new SettingsDashboard());
-                break;
-            case SettingsFragment.KEY_NOTE_SETTINGS:
-                replaceWithCallback(new SettingsNote());
-                break;
+        } else if (getString(R.string.key_data_backup).equals(key)) {
+            replaceWithCallback(new SettingsBackup());
+        } else if (getString(R.string.key_data_security).equals(key)) {
+            if (LockPreferences.getInstance().isPasswordRequired()
+                    && !TextUtils.isEmpty(LockPreferences.getInstance().getPassword())) {
+                LockActivity.requirePassword(this, REQUEST_CODE_PASSWORD);
+            } else {
+                replaceWithCallback(new SettingsSecurity());
+            }
+        } else if (getString(R.string.key_about).equals(key)) {
+            replaceWithCallback(new AppInfoFragment());
+        } else if (getString(R.string.key_setup_dashboard).equals(key)) {
+            replaceWithCallback(new SettingsDashboard());
+        } else if (getString(R.string.key_key_note_settings).equals(key)) {
+            replaceWithCallback(new SettingsNote());
         }
     }
 
