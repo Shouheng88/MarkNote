@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SearchView.OnQueryTextListener;
@@ -36,21 +37,14 @@ public class SearchActivity extends CommonActivity<ActivitySearchBinding> implem
         OnItemSelectedListener {
 
     private final static String EXTRA_NAME_REQUEST_CODE = "extra.request.code";
-
     private final static int REQUEST_FOR_NOTE = 20004;
 
     private SearchItemsAdapter adapter;
-
     private SearchView mSearchView;
 
     private String queryString;
-
     private SearchConditions conditions;
-
     private SearchViewModel searchViewModel;
-
-    /**
-     * Field to remark that is the content changed, will be used to set result to caller. */
     private boolean isContentChanged = false;
 
     public static void start(Activity mContext, int requestCode){
@@ -70,6 +64,10 @@ public class SearchActivity extends CommonActivity<ActivitySearchBinding> implem
         setSupportActionBar(getBinding().toolbarLayout.toolbar);
         if (!isDarkTheme()){
             getBinding().toolbarLayout.toolbar.setPopupTheme(R.style.AppTheme_PopupOverlay);
+        }
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
         adapter = new SearchItemsAdapter(this, this);
@@ -108,8 +106,8 @@ public class SearchActivity extends CommonActivity<ActivitySearchBinding> implem
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.search, menu);
         getMenuInflater().inflate(R.menu.filter_search_condition, menu);
+        getMenuInflater().inflate(R.menu.search, menu);
 
         mSearchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
         mSearchView.setOnQueryTextListener(this);

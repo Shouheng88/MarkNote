@@ -121,7 +121,7 @@
     <string name="include_tags">Include tags</string>
     <string name="include_archived">Archived</string>
     <string name="include_trashed">Trashed</string>
-    <string name="search_by_conditions">Search by conditions&#8230;</string>
+    <string name="search_by_conditions">Search &#8230;</string>
     <string name="no_search_result_found">Result not found</string>
     <string name="try_other_conditions">try another condition and search again</string>
     <!--endregion-->

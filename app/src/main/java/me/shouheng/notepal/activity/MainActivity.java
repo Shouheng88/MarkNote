@@ -639,6 +639,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.setting, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -654,6 +655,9 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
             }
             case R.id.action_search:
                 SearchActivity.start(this, REQUEST_SEARCH);
+                break;
+            case R.id.action_settings:
+                SettingsActivity.start(this, REQUEST_SETTING);
                 break;
         }
         return super.onOptionsItemSelected(item);
