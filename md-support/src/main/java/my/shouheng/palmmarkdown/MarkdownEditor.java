@@ -95,7 +95,7 @@ public class MarkdownEditor extends android.support.v7.widget.AppCompatEditText 
             case STRIKE:
                 mdParseStrategy.strike(source, selectionStart, selectionEnd, selection, this);
                 break;
-            case H_LINE:
+            case HORIZONTAL_LINE:
                 mdParseStrategy.horizontalLine(source, selectionStart, selectionEnd, selection, this);
                 break;
             case XML:
@@ -113,10 +113,10 @@ public class MarkdownEditor extends android.support.v7.widget.AppCompatEditText 
             case NUMBER_LIST:
                 mdParseStrategy.numberList(source, selectionStart, selectionEnd, this);
                 break;
-            case SUB:
+            case SUB_SCRIPT:
                 mdParseStrategy.sub(source, selectionStart, selectionEnd, selection, this);
                 break;
-            case SUP:
+            case SUPER_SCRIPT:
                 mdParseStrategy.sup(source, selectionStart, selectionEnd, selection, this);
                 break;
             case MARK:

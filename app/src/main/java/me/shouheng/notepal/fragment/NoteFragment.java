@@ -1,5 +1,6 @@
 package me.shouheng.notepal.fragment;
 
+import android.app.Activity;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.graphics.Color;
@@ -34,6 +35,7 @@ import java.util.Objects;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.ContentActivity;
+import me.shouheng.notepal.activity.MenuSortActivity;
 import me.shouheng.notepal.async.CreateAttachmentTask;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.databinding.FragmentNoteBinding;
@@ -75,6 +77,8 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
     private final static String EXTRA_ACTION = "extra_action";
     private final static String TAB_REPLACEMENT = "    ";
     public final static String KEY_ARGS_RESTORE = "key_args_restore";
+
+    private final int REQ_MENU_SORT = 0x0101;
 
     private MaterialMenuDrawable materialMenu;
 
@@ -312,12 +316,15 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
 
         getBinding().main.rlBottomEditors.setVisibility(View.GONE);
 
+        int[] ids = new int[]{R.id.iv_redo, R.id.iv_undo, R.id.iv_insert_picture, R.id.iv_insert_link, R.id.iv_table};
+        for (int id : ids) {
+            getBinding().getRoot().findViewById(id).setOnClickListener(this::onFormatClick);
+        }
+
         addBottomMenus();
 
         getBinding().main.ivEnableFormat.setOnClickListener(v -> switchFormat());
-        getBinding().main.ivSetting.setOnClickListener(v -> {
-            // todo
-        });
+        getBinding().main.ivSetting.setOnClickListener(v -> MenuSortActivity.start(NoteFragment.this, REQ_MENU_SORT));
 
         getBinding().main.fssv.getDelegate().setThumbSize(16, 40);
         getBinding().main.fssv.getDelegate().setThumbDynamicHeight(false);
@@ -328,11 +335,7 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
     }
 
     private void addBottomMenus() {
-        int[] ids = new int[]{R.id.iv_redo, R.id.iv_undo, R.id.iv_insert_picture, R.id.iv_insert_link, R.id.iv_table};
-        for (int id : ids) {
-            getBinding().getRoot().findViewById(id).setOnClickListener(this::onFormatClick);
-        }
-
+        getBinding().main.llContainer.removeAllViews();
         int dp12 = ViewUtils.dp2Px(getContext(), 12);
         List<MarkdownFormat> markdownFormats = UserPreferences.getInstance().getMarkdownFormats();
         for (MarkdownFormat markdownFormat : markdownFormats) {
@@ -678,6 +681,13 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
+                case REQ_MENU_SORT:
+                    addBottomMenus();
+                    break;
+            }
+        }
     }
 
     @Override

@@ -38,7 +38,7 @@ public class UserPreferences extends BasePreferences {
         defaultMarkdownFormats.add(MarkdownFormat.QUOTE);
         defaultMarkdownFormats.add(MarkdownFormat.CODE_BLOCK);
         defaultMarkdownFormats.add(MarkdownFormat.STRIKE);
-        defaultMarkdownFormats.add(MarkdownFormat.H_LINE);
+        defaultMarkdownFormats.add(MarkdownFormat.HORIZONTAL_LINE);
         defaultMarkdownFormats.add(MarkdownFormat.H1);
         defaultMarkdownFormats.add(MarkdownFormat.H2);
         defaultMarkdownFormats.add(MarkdownFormat.H3);
@@ -53,8 +53,8 @@ public class UserPreferences extends BasePreferences {
         defaultMarkdownFormats.add(MarkdownFormat.CHECKBOX_OUTLINE);
         defaultMarkdownFormats.add(MarkdownFormat.CODE_BLOCK);
         defaultMarkdownFormats.add(MarkdownFormat.MATH_JAX);
-        defaultMarkdownFormats.add(MarkdownFormat.SUB);
-        defaultMarkdownFormats.add(MarkdownFormat.SUP);
+        defaultMarkdownFormats.add(MarkdownFormat.SUB_SCRIPT);
+        defaultMarkdownFormats.add(MarkdownFormat.SUPER_SCRIPT);
     }
 
     private static UserPreferences preferences;

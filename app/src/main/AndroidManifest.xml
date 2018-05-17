@@ -183,7 +183,8 @@
             android:theme="@style/TransParentDialog" />
         <!-- endregion -->
 
-        <activity android:name=".activity.DirectoryActivity"/>
+        <activity android:name=".activity.DirectoryActivity" />
+        <activity android:name=".activity.MenuSortActivity"></activity>
     </application>
 
 </manifest>

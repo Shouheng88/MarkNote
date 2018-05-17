@@ -419,7 +419,7 @@
 
     <!--region Setting->AppInfo-->
     <string name="app_info">App info</string>
-    <string name="app_description">A material designed open source markdown note-taking application</string>\
+    <string name="app_description">A material designed open source markdown note-taking application</string>
     <string name="help_development">Associations</string>
     <string name="translation">Translation</string>
     <string name="translate_to_other_languages">Translate %s into other languages</string>
@@ -583,5 +583,11 @@
 
     <string name="auto_compress_image_title">Auto compress image</string>
     <string name="auto_compress_image_sub_title">The compressed image will save a lot of storage and data usage</string>
+    <!--endregion-->
+
+    <!--region 1.1.5-->
+    <string name="custom_note_menu">Custom menu</string>
+    <string name="menu_sort_tips">Drag the rear icon to sort, the menu item will be displayed as sorted in note edit page.</string>
+    <string name="menu_successfully_saved">Successfully saved note menu</string>
     <!--endregion-->
 </resources>

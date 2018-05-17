@@ -12,7 +12,7 @@ public enum MarkdownFormat {
     QUOTE(2, R.drawable.ic_format_quote_black_24dp, true),
     CODE_BLOCK(3, R.drawable.ic_shortcut_console, true),
     STRIKE(4, R.drawable.ic_strikethrough_s_black_24dp, true),
-    H_LINE(5, R.drawable.ic_remove_black_24dp, true),
+    HORIZONTAL_LINE(5, R.drawable.ic_remove_black_24dp, true),
     H1(6, R.drawable.ic_shortcut_format_header_1, true),
     H2(7, R.drawable.ic_shortcut_format_header_2, true),
     H3(8, R.drawable.ic_shortcut_format_header_3, true),
@@ -29,8 +29,8 @@ public enum MarkdownFormat {
     CHECKBOX(19, R.drawable.ic_check_box_black_24dp, true),
     CHECKBOX_OUTLINE(20, R.drawable.ic_check_box_outline_blank_black_24dp, true),
     MATH_JAX(21, R.drawable.ic_functions_grey_24dp, true),
-    SUB(22, R.drawable.ic_subscript, true),
-    SUP(23, R.drawable.ic_superscript, true),
+    SUB_SCRIPT(22, R.drawable.ic_subscript, true),
+    SUPER_SCRIPT(23, R.drawable.ic_superscript, true),
     FOOTNOTE(24, R.drawable.ic_directions_black_24dp, false);
 
     public final int id;
