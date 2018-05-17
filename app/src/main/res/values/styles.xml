@@ -40,8 +40,8 @@
     <style name="ProfileCardStyle">
         <item name="android:layout_marginStart">8dp</item>
         <item name="android:layout_marginEnd">8dp</item>
-        <item name="android:foreground">?attr/selectableItemBackground</item>
         <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
     </style>
 
     <style name="ProfileListItemStyle">

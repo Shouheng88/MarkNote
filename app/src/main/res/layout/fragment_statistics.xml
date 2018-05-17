@@ -12,9 +12,7 @@
             android:layout_height="wrap_content">
 
             <me.shouheng.notepal.widget.themed.SupportCardView
-                android:layout_margin="8dp"
-                android:clickable="true"
-                android:focusable="true"
+                style="@style/ProfileCardStyle"
                 app:cardCornerRadius="@dimen/card_corner_radius"
                 app:cardElevation="@dimen/card_elevation"
                 android:layout_width="match_parent"
@@ -41,16 +39,14 @@
                         android:id="@+id/lcv_note"
                         android:layout_margin="10dp"
                         android:layout_width="match_parent"
-                        android:layout_height="220dp" />
+                        android:layout_height="200dp" />
 
                 </LinearLayout>
 
             </me.shouheng.notepal.widget.themed.SupportCardView>
 
             <me.shouheng.notepal.widget.themed.SupportCardView
-                android:layout_margin="8dp"
-                android:clickable="true"
-                android:focusable="true"
+                style="@style/ProfileCardStyle"
                 app:cardCornerRadius="@dimen/card_corner_radius"
                 app:cardElevation="@dimen/card_elevation"
                 android:layout_width="match_parent"
@@ -77,16 +73,14 @@
                         android:id="@+id/ccv_models"
                         android:layout_margin="10dp"
                         android:layout_width="match_parent"
-                        android:layout_height="220dp" />
+                        android:layout_height="200dp" />
 
                 </LinearLayout>
 
             </me.shouheng.notepal.widget.themed.SupportCardView>
 
             <me.shouheng.notepal.widget.themed.SupportCardView
-                android:layout_margin="8dp"
-                android:clickable="true"
-                android:focusable="true"
+                style="@style/ProfileCardStyle"
                 app:cardCornerRadius="@dimen/card_corner_radius"
                 app:cardElevation="@dimen/card_elevation"
                 android:layout_width="match_parent"
@@ -113,7 +107,7 @@
                         android:id="@+id/ccv_attachment"
                         android:layout_margin="10dp"
                         android:layout_width="match_parent"
-                        android:layout_height="220dp" />
+                        android:layout_height="200dp" />
 
                 </LinearLayout>
 
