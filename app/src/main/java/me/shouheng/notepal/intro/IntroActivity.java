@@ -6,8 +6,7 @@ import android.os.Bundle;
 
 import com.github.paolorotolo.appintro.AppIntro2;
 
-import me.shouheng.notepal.PalmApp;
-import me.shouheng.notepal.util.preferences.PreferencesUtils;
+import me.shouheng.notepal.util.preferences.PersistPreferences;
 
 public class IntroActivity extends AppIntro2 {
 
@@ -16,7 +15,7 @@ public class IntroActivity extends AppIntro2 {
     }
 
     public static void launchIfNecessary(Context context) {
-        if (PreferencesUtils.getInstance(PalmApp.getContext()).isTourActivityShowed()) {
+        if (PersistPreferences.getInstance().isTourActivityShowed()) {
             return;
         }
         launch(context);
@@ -34,7 +33,7 @@ public class IntroActivity extends AppIntro2 {
 
     @Override
     public void onDonePressed() {
-        PreferencesUtils.getInstance(this).setTourActivityShowed(true);
+        PersistPreferences.getInstance().setTourActivityShowed(true);
         finish();
     }
 

@@ -11,7 +11,6 @@ import java.util.Date;
 import java.util.Locale;
 
 import me.shouheng.notepal.PalmApp;
-import me.shouheng.notepal.util.preferences.PreferencesUtils;
 
 /**
  * Created by wangshouheng on 2017/3/13. */
@@ -382,78 +381,6 @@ public class TimeUtils {
         today.add(Calendar.DAY_OF_YEAR, 1);
         return today;
     }
-
-    public static Calendar getThisFridayDate(){
-        final Calendar today = getTodayDate();
-        int firstDayOfWeek = PreferencesUtils.getInstance(PalmApp.getContext()).getFirstDayOfWeek();
-        int addedDays = 0;
-        switch (firstDayOfWeek) {
-            case Calendar.SUNDAY:
-                addedDays = 6 - today.get(Calendar.DAY_OF_WEEK);
-                break;
-            case Calendar.MONDAY:
-                int weekToday = today.get(Calendar.DAY_OF_WEEK);
-                if (weekToday == Calendar.SUNDAY){
-                    addedDays = -2;
-                } else {
-                    addedDays = 6 - weekToday;
-                }
-                break;
-        }
-        today.add(Calendar.DAY_OF_YEAR, addedDays);
-        return today;
-    }
-
-    public static Calendar getThisSundayDate(){
-        final Calendar today = getTodayDate();
-        int firstDayOfWeek = PreferencesUtils.getInstance(PalmApp.getContext()).getFirstDayOfWeek();
-        int addedDays = 0;
-        int weekToday = today.get(Calendar.DAY_OF_WEEK);
-        switch (firstDayOfWeek) {
-            case Calendar.SUNDAY:
-                addedDays = 1 - today.get(Calendar.DAY_OF_WEEK);
-                break;
-            case Calendar.MONDAY:
-                if (weekToday == Calendar.SUNDAY){
-                    addedDays = 0;
-                } else {
-                    addedDays = 8 - weekToday;
-                }
-                break;
-        }
-        today.add(Calendar.DAY_OF_YEAR, addedDays);
-        return today;
-    }
-
-    public static Calendar getNextMondayDate(){
-        final Calendar today = getTodayDate();
-        int firstDayOfWeek = PreferencesUtils.getInstance(PalmApp.getContext()).getFirstDayOfWeek();
-        int addedDays = 0;
-        int weekToday = today.get(Calendar.DAY_OF_WEEK);
-        switch (firstDayOfWeek) {
-            case Calendar.SUNDAY:
-                if (weekToday == Calendar.SUNDAY){
-                    addedDays = 1;
-                } else if (weekToday == Calendar.MONDAY){
-                    addedDays = 0;
-                } else {
-                    addedDays = 9 - weekToday;
-                }
-                break;
-            case Calendar.MONDAY:
-                if (weekToday == Calendar.MONDAY){
-                    addedDays = 0;
-                } else if (weekToday == Calendar.SUNDAY){
-                    addedDays = 1;
-                } else {
-                    addedDays = 9 - weekToday;
-                }
-                break;
-        }
-        today.add(Calendar.DAY_OF_YEAR, addedDays);
-        return today;
-    }
-
     // endregion
 
 

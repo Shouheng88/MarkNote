@@ -24,8 +24,8 @@ import me.shouheng.notepal.databinding.ActivitySearchBinding;
 import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.util.GsonUtils;
 import me.shouheng.notepal.util.LogUtils;
-import me.shouheng.notepal.util.preferences.PreferencesUtils;
 import me.shouheng.notepal.util.ToastUtils;
+import me.shouheng.notepal.util.preferences.UserPreferences;
 import me.shouheng.notepal.util.tools.SearchConditions;
 import me.shouheng.notepal.viewmodel.SearchViewModel;
 import me.shouheng.notepal.widget.tools.CustomItemAnimator;
@@ -91,7 +91,7 @@ public class SearchActivity extends CommonActivity<ActivitySearchBinding> implem
     }
 
     private void initSearchConditions() {
-        String searchConditions = PreferencesUtils.getInstance(this).getSearchConditions();
+        String searchConditions = UserPreferences.getInstance().getSearchConditions();
         conditions = TextUtils.isEmpty(searchConditions) ? SearchConditions.getDefaultConditions()
                 : GsonUtils.toObject(searchConditions, SearchConditions.class);
         searchViewModel.setConditions(conditions);

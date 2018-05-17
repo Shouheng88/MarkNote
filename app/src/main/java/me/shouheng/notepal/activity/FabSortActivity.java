@@ -19,20 +19,20 @@ import me.shouheng.notepal.activity.base.CommonActivity;
 import me.shouheng.notepal.adapter.FabSortAdapter;
 import me.shouheng.notepal.databinding.ActivityFabSortBinding;
 import me.shouheng.notepal.model.enums.FabSortItem;
-import me.shouheng.notepal.util.preferences.PreferencesUtils;
 import me.shouheng.notepal.util.ToastUtils;
+import me.shouheng.notepal.util.preferences.UserPreferences;
 import me.shouheng.notepal.widget.tools.DragSortRecycler;
 
 
 public class FabSortActivity extends CommonActivity<ActivityFabSortBinding> {
-
-    private PreferencesUtils preferencesUtils;
 
     private List<FabSortItem> oldFabSortItems = new ArrayList<>();
 
     private FabSortAdapter mAdapter;
 
     private boolean saved = true, everSaved = false;
+
+    private UserPreferences userPreferences;
 
     @Override
     protected int getLayoutResId() {
@@ -43,7 +43,7 @@ public class FabSortActivity extends CommonActivity<ActivityFabSortBinding> {
     protected void doCreateView(Bundle savedInstanceState) {
         configToolbar();
 
-        preferencesUtils = PreferencesUtils.getInstance(getApplicationContext());
+        userPreferences = UserPreferences.getInstance();
 
         getBinding().tvCustom.setTextColor(primaryColor());
 
@@ -65,7 +65,7 @@ public class FabSortActivity extends CommonActivity<ActivityFabSortBinding> {
 
     private void prepareFabSortItems() {
         oldFabSortItems.clear();
-        oldFabSortItems = preferencesUtils.getFabSortResult();
+        oldFabSortItems = userPreferences.getFabSortResult();
         FabSortItem[] allItems = FabSortItem.values();
         for (FabSortItem fabSortItem : allItems) {
             if (!oldFabSortItems.contains(fabSortItem)){
@@ -136,7 +136,7 @@ public class FabSortActivity extends CommonActivity<ActivityFabSortBinding> {
         saved = true;
         everSaved = true;
         List<FabSortItem> fabSortItems = mAdapter.getFabSortItems();
-        preferencesUtils.setFabSortResult(fabSortItems);
+        userPreferences.setFabSortResult(fabSortItems);
         ToastUtils.makeToast(R.string.fab_sort_save_successfully);
     }
 

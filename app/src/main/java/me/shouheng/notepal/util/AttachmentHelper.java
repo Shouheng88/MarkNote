@@ -24,7 +24,7 @@ import me.shouheng.notepal.listener.OnAttachingFileListener;
 import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.model.ModelFactory;
 import me.shouheng.notepal.util.preferences.NotePreferences;
-import me.shouheng.notepal.util.preferences.PreferencesUtils;
+import me.shouheng.notepal.util.preferences.PersistPreferences;
 import top.zibin.luban.Luban;
 
 /**
@@ -432,13 +432,13 @@ public class AttachmentHelper {
 
     private static String getFilePath() {
         if (TextUtils.isEmpty(filePath)) {
-            filePath = PreferencesUtils.getInstance().getAttachmentFilePath();
+            filePath = PersistPreferences.getInstance().getAttachmentFilePath();
         }
         return filePath;
     }
 
     private static void setFilePath(String filePath) {
         AttachmentHelper.filePath = filePath;
-        PreferencesUtils.getInstance().setAttachmentFilePath(filePath);
+        PersistPreferences.getInstance().setAttachmentFilePath(filePath);
     }
 }

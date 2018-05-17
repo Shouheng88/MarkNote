@@ -104,4 +104,12 @@ public class UserPreferences extends BasePreferences {
         }
         return ColorUtils.accentColor(PalmApp.getContext());
     }
+
+    public void setSearchConditions(String searchConditions) {
+        putString(R.string.key_search_conditions, searchConditions);
+    }
+
+    public String getSearchConditions() {
+        return getString(R.string.key_search_conditions, null);
+    }
 }

@@ -44,6 +44,7 @@
     <string name="key_operation_color_prefix" translatable="false">operation_color_</string>
     <string name="key_list_animation" translatable="false">list_animation</string>
     <string name="key_system_animation" translatable="false">system_animation</string>
+    <string name="key_search_conditions" translatable="false">search_conditions</string>
     <!--endregion-->
 
     <!--region dashboard-->
@@ -62,4 +63,8 @@
     <string name="key_about" translatable="false">about</string>
     <string name="key_data_backup" translatable="false">data_backup</string>
     <!--endregion-->
+
+    <string name="key_is_tour_activity_showed" translatable="false">tour_activity_showed</string>
+    <string name="key_attachment_uri" translatable="false">key_attachment_uri</string>
+    <string name="key_attachment_file_path" translatable="false">key_attachment_file_path</string>
 </resources>

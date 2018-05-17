@@ -66,9 +66,9 @@ import me.shouheng.notepal.util.IntentUtils;
 import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.preferences.DashboardPreferences;
 import me.shouheng.notepal.util.preferences.LockPreferences;
-import me.shouheng.notepal.util.preferences.PreferencesUtils;
 import me.shouheng.notepal.util.SynchronizeUtils;
 import me.shouheng.notepal.util.ToastUtils;
+import me.shouheng.notepal.util.preferences.UserPreferences;
 import me.shouheng.notepal.viewmodel.CategoryViewModel;
 import me.shouheng.notepal.viewmodel.NoteViewModel;
 import me.shouheng.notepal.viewmodel.NotebookViewModel;
@@ -98,7 +98,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
 
     private long onBackPressed;
 
-    private PreferencesUtils preferencesUtils;
+    private UserPreferences userPreferences;
     private DashboardPreferences dashboardPreferences;
 
     private QuickNoteEditor quickNoteEditor;
@@ -128,7 +128,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {
-        preferencesUtils = PreferencesUtils.getInstance(this);
+        userPreferences = UserPreferences.getInstance();
         dashboardPreferences = DashboardPreferences.getInstance();
 
         IntroActivity.launchIfNecessary(this);
@@ -349,20 +349,20 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
 
     private void initFabSortItems() {
         try {
-            List<FabSortItem> fabSortItems = preferencesUtils.getFabSortResult();
+            List<FabSortItem> fabSortItems = userPreferences.getFabSortResult();
             for (int i=0; i<fabs.length; i++) {
                 fabs[i].setImageDrawable(ColorUtils.tintDrawable(getResources().getDrawable(fabSortItems.get(i).iconRes), Color.WHITE));
                 fabs[i].setLabelText(getString(fabSortItems.get(i).nameRes));
             }
         } catch (Exception e) {
             LogUtils.d("initFabSortItems, error occurred : " + e);
-            PreferencesUtils.getInstance(this).setFabSortResult(PreferencesUtils.defaultFabOrders);
+            userPreferences.setFabSortResult(UserPreferences.defaultFabOrders);
         }
     }
 
     private void resolveFabClick(int index) {
         getBinding().menu.close(true);
-        FabSortItem fabSortItem = preferencesUtils.getFabSortResult().get(index);
+        FabSortItem fabSortItem = userPreferences.getFabSortResult().get(index);
         switch (fabSortItem) {
             case NOTE:
                 editNote(getNewNote());
@@ -398,8 +398,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
 
         boolean isNotes = isNotesFragment();
 
-        /*
-         * Add notebook filed according to current fragment */
+        /* Add notebook filed according to current fragment */
         Notebook notebook;
         if (isNotes && (notebook = ((NotesFragment) getCurrentFragment()).getNotebook()) != null) {
             note.setParentCode(notebook.getCode());
@@ -409,8 +408,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
             note.setTreePath(String.valueOf(note.getCode()));
         }
 
-        /*
-         * Add category field according to current fragment */
+        /* Add category field according to current fragment */
         Category category;
         if (isNotes && (category = ((NotesFragment) getCurrentFragment()).getCategory()) != null) {
             note.setTags(CategoryViewModel.getTags(Collections.singletonList(category)));
