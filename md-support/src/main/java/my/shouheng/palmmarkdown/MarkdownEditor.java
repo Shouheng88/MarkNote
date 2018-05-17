@@ -11,7 +11,7 @@ import java.util.Stack;
 
 import my.shouheng.palmmarkdown.strategy.DefaultStrategy;
 import my.shouheng.palmmarkdown.strategy.MdParseStrategy;
-import my.shouheng.palmmarkdown.tools.MarkdownEffect;
+import my.shouheng.palmmarkdown.tools.MarkdownFormat;
 
 /**
  * Created by wangshouheng on 2017/6/29.*/
@@ -56,7 +56,7 @@ public class MarkdownEditor extends android.support.v7.widget.AppCompatEditText 
 
     protected void onTextChanged(Editable s) {}
 
-    public final void addEffect(MarkdownEffect markdownEffect) {
+    public final void addEffect(MarkdownFormat markdownEffect) {
         String source = this.getText().toString();
         int selectionStart = getSelectionStart();
         int selectionEnd = getSelectionEnd();
@@ -132,7 +132,7 @@ public class MarkdownEditor extends android.support.v7.widget.AppCompatEditText 
         mdParseStrategy.table(source, selectionStart, selectionEnd, rows, cols, this);
     }
 
-    public final void addLinkEffect(MarkdownEffect markdownEffect, String title, String link) {
+    public final void addLinkEffect(MarkdownFormat markdownEffect, String title, String link) {
         String source = this.getText().toString();
         int selectionStart = getSelectionStart();
         int selectionEnd = getSelectionEnd();
@@ -140,7 +140,7 @@ public class MarkdownEditor extends android.support.v7.widget.AppCompatEditText 
             case LINK:
                 mdParseStrategy.link(source, selectionStart, selectionEnd, title, link, this);
                 break;
-            case IMAGE:
+            case ATTACHMENT:
                 mdParseStrategy.image(source, selectionStart, selectionEnd, title, link, this);
                 break;
         }

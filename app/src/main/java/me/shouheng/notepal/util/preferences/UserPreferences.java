@@ -11,6 +11,7 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.model.enums.FabSortItem;
 import me.shouheng.notepal.model.enums.Operation;
 import me.shouheng.notepal.util.ColorUtils;
+import my.shouheng.palmmarkdown.tools.MarkdownFormat;
 
 
 /**
@@ -19,7 +20,9 @@ public class UserPreferences extends BasePreferences {
 
     public static List<FabSortItem> defaultFabOrders;
 
-    private final String FAB_SORT_SPLIT = ":";
+    public static List<MarkdownFormat> defaultMarkdownFormats;
+
+    private final String ITEM_SORT_SPLIT = ":";
 
     static {
         defaultFabOrders = new LinkedList<>();
@@ -28,6 +31,30 @@ public class UserPreferences extends BasePreferences {
         defaultFabOrders.add(FabSortItem.MIND_SNAGGING);
         defaultFabOrders.add(FabSortItem.CATEGORY);
         defaultFabOrders.add(FabSortItem.FILE);
+
+        defaultMarkdownFormats = new LinkedList<>();
+        defaultMarkdownFormats.add(MarkdownFormat.ITALIC);
+        defaultMarkdownFormats.add(MarkdownFormat.BOLD);
+        defaultMarkdownFormats.add(MarkdownFormat.QUOTE);
+        defaultMarkdownFormats.add(MarkdownFormat.CODE_BLOCK);
+        defaultMarkdownFormats.add(MarkdownFormat.STRIKE);
+        defaultMarkdownFormats.add(MarkdownFormat.H_LINE);
+        defaultMarkdownFormats.add(MarkdownFormat.H1);
+        defaultMarkdownFormats.add(MarkdownFormat.H2);
+        defaultMarkdownFormats.add(MarkdownFormat.H3);
+        defaultMarkdownFormats.add(MarkdownFormat.H4);
+        defaultMarkdownFormats.add(MarkdownFormat.H5);
+        defaultMarkdownFormats.add(MarkdownFormat.H6);
+        defaultMarkdownFormats.add(MarkdownFormat.XML);
+        defaultMarkdownFormats.add(MarkdownFormat.NUMBER_LIST);
+        defaultMarkdownFormats.add(MarkdownFormat.NORMAL_LIST);
+        defaultMarkdownFormats.add(MarkdownFormat.MARK);
+        defaultMarkdownFormats.add(MarkdownFormat.CHECKBOX);
+        defaultMarkdownFormats.add(MarkdownFormat.CHECKBOX_OUTLINE);
+        defaultMarkdownFormats.add(MarkdownFormat.CODE_BLOCK);
+        defaultMarkdownFormats.add(MarkdownFormat.MATH_JAX);
+        defaultMarkdownFormats.add(MarkdownFormat.SUB);
+        defaultMarkdownFormats.add(MarkdownFormat.SUP);
     }
 
     private static UserPreferences preferences;
@@ -62,7 +89,7 @@ public class UserPreferences extends BasePreferences {
     public List<FabSortItem> getFabSortResult() {
         String fabStr = getString(getKey(R.string.key_fab_sort_result), null);
         if (!TextUtils.isEmpty(fabStr)) {
-            String[] fabs = fabStr.split(FAB_SORT_SPLIT);
+            String[] fabs = fabStr.split(ITEM_SORT_SPLIT);
             List<FabSortItem> fabSortItems = new LinkedList<>();
             for (String fab : fabs) {
                 fabSortItems.add(FabSortItem.valueOf(fab));
@@ -77,13 +104,40 @@ public class UserPreferences extends BasePreferences {
         int size = fabSortItems.size();
         StringBuilder fabStr = new StringBuilder();
         for (int i=0;i<size;i++) {
-            if (size == size - 1) {
+            if (i == size - 1) {
                 fabStr.append(fabSortItems.get(i).name());
             } else {
-                fabStr.append(fabSortItems.get(i).name()).append(FAB_SORT_SPLIT);
+                fabStr.append(fabSortItems.get(i).name()).append(ITEM_SORT_SPLIT);
             }
         }
         putString(getKey(R.string.key_fab_sort_result), fabStr.toString());
+    }
+
+    public List<MarkdownFormat> getMarkdownFormats() {
+        String mdStr = getString(R.string.key_note_editor_menu_sort, null);
+        if (!TextUtils.isEmpty(mdStr)) {
+            String[] mds = mdStr.split(ITEM_SORT_SPLIT);
+            List<MarkdownFormat> markdownFormats = new LinkedList<>();
+            for (String md : mds) {
+                markdownFormats.add(MarkdownFormat.valueOf(md));
+            }
+            return markdownFormats;
+        } else {
+            return defaultMarkdownFormats;
+        }
+    }
+
+    public void setMarkdownFormats(List<MarkdownFormat> markdownFormats) {
+        int size = markdownFormats.size();
+        StringBuilder sb = new StringBuilder();
+        for (int i=0; i<size; i++) {
+            if (i == size - 1) {
+                sb.append(markdownFormats.get(i).name());
+            } else {
+                sb.append(markdownFormats.get(i).name()).append(ITEM_SORT_SPLIT);
+            }
+        }
+        putString(R.string.key_note_editor_menu_sort, sb.toString());
     }
 
     public int getTimeLineColor(Operation operation) {

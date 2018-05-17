@@ -16,7 +16,7 @@
     <string name="text_comment">備註</string>
     <string name="text_cancel">取消</string>
     <string name="text_close">關閉</string>
-    <string name="text_created_time">創建時間</string>
+    <string name="text_created_time">創建</string>
     <string name="text_delete">刪除</string>
     <string name="text_deleted">刪除</string>
     <string name="text_delete_still">仍然刪除</string>
@@ -26,9 +26,9 @@
     <string name="text_next">下一個</string>
     <string name="text_last">上一個</string>
     <string name="text_give_up">放棄</string>
-    <string name="text_last_modified_time">最後更新時間</string>
-    <string name="text_last_sync_time">上次同步時間</string>
-    <string name="text_chars_number">字元總數</string>
+    <string name="text_last_modified_time">更新</string>
+    <string name="text_last_sync_time">同步</string>
+    <string name="text_chars_number">字符</string>
     <string name="text_more">更多</string>
     <string name="text_pick">選擇</string>
     <string name="text_preview">預覽</string>

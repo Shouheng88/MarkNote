@@ -29,6 +29,7 @@ import org.polaric.colorful.PermissionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
@@ -36,9 +37,7 @@ import me.shouheng.notepal.activity.ContentActivity;
 import me.shouheng.notepal.async.CreateAttachmentTask;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.databinding.FragmentNoteBinding;
-import me.shouheng.notepal.dialog.AdvancedPicker;
 import me.shouheng.notepal.dialog.AttachmentPickerDialog;
-import me.shouheng.notepal.dialog.CheckboxEditor;
 import me.shouheng.notepal.dialog.LinkInputDialog;
 import me.shouheng.notepal.dialog.MathJaxEditor;
 import me.shouheng.notepal.dialog.TableInputDialog;
@@ -56,6 +55,8 @@ import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.ModelHelper;
 import me.shouheng.notepal.util.StringUtils;
 import me.shouheng.notepal.util.ToastUtils;
+import me.shouheng.notepal.util.ViewUtils;
+import me.shouheng.notepal.util.preferences.UserPreferences;
 import me.shouheng.notepal.viewmodel.AttachmentViewModel;
 import me.shouheng.notepal.viewmodel.BaseViewModel;
 import me.shouheng.notepal.viewmodel.CategoryViewModel;
@@ -63,7 +64,8 @@ import me.shouheng.notepal.viewmodel.LocationViewModel;
 import me.shouheng.notepal.viewmodel.NoteViewModel;
 import me.shouheng.notepal.viewmodel.NotebookViewModel;
 import me.shouheng.notepal.widget.FlowLayout;
-import my.shouheng.palmmarkdown.tools.MarkdownEffect;
+import me.shouheng.notepal.widget.MDItemView;
+import my.shouheng.palmmarkdown.tools.MarkdownFormat;
 
 /**
  * Created by wangshouheng on 2017/5/12.*/
@@ -310,21 +312,45 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
 
         getBinding().main.rlBottomEditors.setVisibility(View.GONE);
 
-        int[] ids = new int[] {R.id.iv_h1, R.id.iv_h2, R.id.iv_h3, R.id.iv_h4, R.id.iv_h5, R.id.iv_h6,
-                R.id.iv_bold, R.id.iv_italic, R.id.iv_stroke, R.id.iv_format_list, R.id.iv_number_list,
-                R.id.iv_line, R.id.iv_code, R.id.iv_xml, R.id.iv_quote,
-                R.id.iv_insert_picture, R.id.iv_insert_link, R.id.iv_advanced,
-                R.id.iv_redo, R.id.iv_undo,
-                R.id.iv_sub, R.id.iv_sup, R.id.iv_mark};
-        for (int id : ids) getRoot().findViewById(id).setOnClickListener(this::onFormatClick);
+        addBottomMenus();
 
         getBinding().main.ivEnableFormat.setOnClickListener(v -> switchFormat());
+        getBinding().main.ivSetting.setOnClickListener(v -> {
+            // todo
+        });
 
         getBinding().main.fssv.getDelegate().setThumbSize(16, 40);
         getBinding().main.fssv.getDelegate().setThumbDynamicHeight(false);
         if (getContext() != null) {
-            getBinding().main.fssv.getDelegate().setThumbDrawable(
-                    PalmApp.getDrawableCompact(isDarkTheme() ? R.drawable.fast_scroll_bar_dark : R.drawable.fast_scroll_bar_light));
+            getBinding().main.fssv.getDelegate().setThumbDrawable(PalmApp.getDrawableCompact(isDarkTheme() ?
+                    R.drawable.fast_scroll_bar_dark : R.drawable.fast_scroll_bar_light));
+        }
+    }
+
+    private void addBottomMenus() {
+        int[] ids = new int[]{R.id.iv_redo, R.id.iv_undo, R.id.iv_insert_picture, R.id.iv_insert_link, R.id.iv_table};
+        for (int id : ids) {
+            getBinding().getRoot().findViewById(id).setOnClickListener(this::onFormatClick);
+        }
+
+        int dp12 = ViewUtils.dp2Px(getContext(), 12);
+        List<MarkdownFormat> markdownFormats = UserPreferences.getInstance().getMarkdownFormats();
+        for (MarkdownFormat markdownFormat : markdownFormats) {
+            MDItemView mdItemView = new MDItemView(getContext());
+            mdItemView.setMarkdownFormat(markdownFormat);
+            mdItemView.setPadding(dp12, dp12, dp12, dp12);
+            getBinding().main.llContainer.addView(mdItemView);
+            mdItemView.setOnClickListener(v -> {
+                if (markdownFormat == MarkdownFormat.CHECKBOX
+                        || markdownFormat == MarkdownFormat.CHECKBOX_OUTLINE) {
+                    getBinding().main.etContent.addCheckbox("",
+                            markdownFormat == MarkdownFormat.CHECKBOX);
+                } else if (markdownFormat == MarkdownFormat.MATH_JAX) {
+                    showMarkJaxEditor();
+                } else {
+                    getBinding().main.etContent.addEffect(markdownFormat);
+                }
+            });
         }
     }
 
@@ -366,33 +392,13 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
     };
 
     private void onFormatClick(View v) {
-        MarkdownEffect effect = null;
         switch (v.getId()){
             case R.id.iv_undo:getBinding().main.etContent.undo();break;
             case R.id.iv_redo:getBinding().main.etContent.redo();break;
-            case R.id.iv_h1:effect = MarkdownEffect.H1;break;
-            case R.id.iv_h2:effect = MarkdownEffect.H2;break;
-            case R.id.iv_h3:effect = MarkdownEffect.H3;break;
-            case R.id.iv_h4:effect = MarkdownEffect.H4;break;
-            case R.id.iv_h5:effect = MarkdownEffect.H5;break;
-            case R.id.iv_h6:effect = MarkdownEffect.H6;break;
-            case R.id.iv_sub:effect = MarkdownEffect.SUB;break;
-            case R.id.iv_sup:effect = MarkdownEffect.SUP;break;
-            case R.id.iv_mark:effect = MarkdownEffect.MARK;break;
-            case R.id.iv_format_list:effect = MarkdownEffect.NORMAL_LIST;break;
-            case R.id.iv_number_list:effect = MarkdownEffect.NUMBER_LIST;break;
-            case R.id.iv_quote:effect = MarkdownEffect.QUOTE;break;
-            case R.id.iv_italic:effect = MarkdownEffect.ITALIC;break;
-            case R.id.iv_bold:effect = MarkdownEffect.BOLD;break;
-            case R.id.iv_code:effect = MarkdownEffect.CODE_BLOCK;break;
-            case R.id.iv_stroke:effect = MarkdownEffect.STRIKE;break;
-            case R.id.iv_line:effect = MarkdownEffect.H_LINE;break;
-            case R.id.iv_xml:effect = MarkdownEffect.XML;break;
             case R.id.iv_insert_picture:showAttachmentPicker();break;
             case R.id.iv_insert_link:showLinkEditor();break;
-            case R.id.iv_advanced:showAdvancedPicker();break;
+            case R.id.iv_table:showTableEditor();break;
         }
-        if (effect != null) getBinding().main.etContent.addEffect(effect);
     }
 
     private void switchFormat() {
@@ -410,37 +416,14 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
 
     private void addImageLink() {
         LinkInputDialog.getInstance((title, link) ->
-                getBinding().main.etContent.addLinkEffect(MarkdownEffect.IMAGE, title, link)
-        ).show(getFragmentManager(), "Link Image");
-    }
-
-    private void showAdvancedPicker() {
-        AdvancedPicker.newInstance(advancedItem -> {
-            switch (advancedItem) {
-                case INSERT_LINK:break;
-                case INSERT_TABLE:
-                    showTableEditor();
-                    break;
-                case INSERT_CHECKBOX:
-                    showCheckboxEditor();
-                    break;
-                case INSERT_MATH_JAX:
-                    showMarkJaxEditor();
-                    break;
-            }
-        }).show(getFragmentManager(), "ADVANCED PICKER");
-    }
-
-    private void showCheckboxEditor() {
-        CheckboxEditor.newInstance((content, isChecked) ->
-                getBinding().main.etContent.addCheckbox(content, isChecked)
-        ).show(getFragmentManager(), "CHECKBOX EDITOR");
+                getBinding().main.etContent.addLinkEffect(MarkdownFormat.ATTACHMENT, title, link)
+        ).show(Objects.requireNonNull(getFragmentManager()), "Link Image");
     }
 
     private void showMarkJaxEditor() {
         MathJaxEditor.newInstance((exp, isSingleLine) ->
                 getBinding().main.etContent.addMathJax(exp, isSingleLine)
-        ).show(getFragmentManager(), "MATH JAX EDITOR");
+        ).show(Objects.requireNonNull(getFragmentManager()), "MATH JAX EDITOR");
     }
 
     private void showTableEditor() {
@@ -448,13 +431,13 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
             int rows = StringUtils.parseInteger(rowsStr, 3);
             int cols = StringUtils.parseInteger(colsStr, 3);
             getBinding().main.etContent.addTableEffect(rows, cols);
-        }).show(getFragmentManager(), "TABLE INPUT");
+        }).show(Objects.requireNonNull(getFragmentManager()), "TABLE INPUT");
     }
 
     private void showLinkEditor() {
         LinkInputDialog.getInstance((title, link) ->
-                getBinding().main.etContent.addLinkEffect(MarkdownEffect.LINK, title, link)
-        ).show(getFragmentManager(), "LINK INPUT");
+                getBinding().main.etContent.addLinkEffect(MarkdownFormat.LINK, title, link)
+        ).show(Objects.requireNonNull(getFragmentManager()), "LINK INPUT");
     }
 
     private void showAttachmentPicker() {
@@ -464,7 +447,7 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
                 .setAddLinkVisible(true)
                 .setFilesVisible(true)
                 .setOnAddNetUriSelectedListener(this::addImageLink)
-                .build().show(getFragmentManager(), "Attachment picker");
+                .build().show(Objects.requireNonNull(getFragmentManager()), "Attachment picker");
     }
 
     // endregion
@@ -519,7 +502,7 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
             getBinding().main.tvFolder.setTextColor(value.getColor());
             setContentChanged();
             dialog.dismiss();
-        }).show(getFragmentManager(), "NOTEBOOK_PICKER");
+        }).show(Objects.requireNonNull(getFragmentManager()), "NOTEBOOK_PICKER");
     }
 
     /**
@@ -575,9 +558,9 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> {
 
         if (Constants.MIME_TYPE_IMAGE.equalsIgnoreCase(attachment.getMineType())
                 || Constants.MIME_TYPE_SKETCH.equalsIgnoreCase(attachment.getMineType())) {
-            getBinding().main.etContent.addLinkEffect(MarkdownEffect.IMAGE, title , attachment.getUri().toString());
+            getBinding().main.etContent.addLinkEffect(MarkdownFormat.ATTACHMENT, title , attachment.getUri().toString());
         } else {
-            getBinding().main.etContent.addLinkEffect(MarkdownEffect.LINK, title, attachment.getUri().toString());
+            getBinding().main.etContent.addLinkEffect(MarkdownFormat.LINK, title, attachment.getUri().toString());
         }
     }
 

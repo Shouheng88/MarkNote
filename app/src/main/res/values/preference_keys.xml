@@ -45,6 +45,7 @@
     <string name="key_list_animation" translatable="false">list_animation</string>
     <string name="key_system_animation" translatable="false">system_animation</string>
     <string name="key_search_conditions" translatable="false">search_conditions</string>
+    <string name="key_note_editor_menu_sort" translatable="false">note_editor_menu_sort</string>
     <!--endregion-->
 
     <!--region dashboard-->
