@@ -62,48 +62,12 @@ public class PreferencesUtils extends BasePreferences {
 
     // region user preferences
     private final String FIRST_DAY_OF_WEEK = "first_day_of_week";
-    private final String VIDEO_SIZE_LIMIT = "video_size_limit";
     private final String FAB_SORT_RESULT = "fab_sort_result";
     private final String TOUR_ACTIVITY_SHOWED = "tour_activity_showed";
-    private final String KEY_LAST_INPUT_ERROR_TIME = "last_input_error_time";
     private final String SEARCH_CONDITIONS = "search_conditions";
 
     private final String KEY_ATTACHMENT_URI = "key_attachment_uri";
     private final String KEY_ATTACHMENT_FILE_PATH = "key_attachment_file_path";
-
-    private final String KEY_USER_INFO_BG = "key_user_info_background_image";
-    private final String KEY_USER_INFO_BG_ENABLE = "key_user_info_bg_visible";
-    private final String KEY_USER_INFO_MOTTO = "key_user_info_motto";
-
-    /**
-     * The user info background in main activity. */
-    public void setUserInfoBG(@Nullable Uri uri) {
-        putString(KEY_USER_INFO_BG, uri == null ? "" : uri.toString());
-    }
-
-    public Uri getUserInfoBG() {
-        String bgUri = getString(KEY_USER_INFO_BG, null);
-        if (!TextUtils.isEmpty(bgUri)) {
-            return Uri.parse(bgUri);
-        }
-        return Uri.parse(Constants.DEFAULT_USER_INFO_BG);
-    }
-
-    public void setUserInfoBGEnable(boolean enable) {
-        putBoolean(KEY_USER_INFO_BG_ENABLE, enable);
-    }
-
-    public boolean isUserInfoBgEnable() {
-        return getBoolean(KEY_USER_INFO_BG_ENABLE, true);
-    }
-
-    public void setUserMotto(String motto) {
-        putString(KEY_USER_INFO_MOTTO, motto);
-    }
-
-    public String getUserMotto() {
-        return getString(KEY_USER_INFO_MOTTO, PalmApp.getStringCompact(R.string.setting_dashboard_user_motto_default));
-    }
 
     public void setAttachmentUri(@NonNull Uri uri) {
         putString(KEY_ATTACHMENT_URI, uri.toString());
@@ -162,22 +126,6 @@ public class PreferencesUtils extends BasePreferences {
             }
         }
         putString(FAB_SORT_RESULT, fabStr.toString());
-    }
-
-    public void setVideoSizeLimit(int limit){
-        putInt(VIDEO_SIZE_LIMIT, limit);
-    }
-
-    public int getVideoSizeLimit(){
-        return getInt(VIDEO_SIZE_LIMIT, 10);
-    }
-
-    public void setLastInputErrorTime(long millis) {
-        putLong(KEY_LAST_INPUT_ERROR_TIME, millis);
-    }
-
-    public long getLastInputErrorTime() {
-        return getLong(KEY_LAST_INPUT_ERROR_TIME, 0);
     }
 
     public void setSearchConditions(String searchConditions) {

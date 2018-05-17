@@ -45,4 +45,10 @@
     <string name="key_list_animation" translatable="false">list_animation</string>
     <string name="key_system_animation" translatable="false">system_animation</string>
     <!--endregion-->
+
+    <!--region dashboard-->
+    <string name="key_user_info_bg_visible" translatable="false">key_user_info_bg_visible</string>
+    <string name="key_user_info_bg" translatable="false">key_user_info_bg</string>
+    <string name="key_user_info_motto" translatable="false">key_user_info_motto</string>
+    <!--endregion-->
 </resources>

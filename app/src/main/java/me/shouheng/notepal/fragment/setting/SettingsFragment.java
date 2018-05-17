@@ -20,10 +20,6 @@ import me.shouheng.notepal.util.IntentUtils;
 import me.shouheng.notepal.widget.ColorPreference;
 
 /**
- * bug report -> shouheng2015@gmail.com
- * requirement, latest news -> Twitter, Google+, Weibo
- * donate -> WeiChat, AliPay
- *
  * Created by wang shouheng on 2017/12/21.*/
 public class SettingsFragment extends PreferenceFragment {
 

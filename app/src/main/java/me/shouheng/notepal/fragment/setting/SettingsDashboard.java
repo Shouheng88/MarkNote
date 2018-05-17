@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.preference.PreferenceFragment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
@@ -31,23 +30,19 @@ import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.ToastUtils;
-import me.shouheng.notepal.util.preferences.PreferencesUtils;
+import me.shouheng.notepal.util.preferences.DashboardPreferences;
 
 /**
  * Created by shouh on 2018/3/18. */
-public class SettingsDashboard extends PreferenceFragment implements
-        OnAttachingFileListener {
-    private final static String KEY_USER_INFO_BG_VISIBLE = "key_user_info_bg_visible";
-    private final static String KEY_USER_INFO_BG = "key_user_info_bg";
-    private final static String KEY_USER_INFO_BG_MOTTO = "key_user_info_motto";
+public class SettingsDashboard extends BaseFragment implements OnAttachingFileListener {
 
-    private PreferencesUtils preferencesUtils;
+    private DashboardPreferences dashboardPreferences;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        preferencesUtils = PreferencesUtils.getInstance(getActivity());
+        dashboardPreferences = DashboardPreferences.getInstance();
 
         configToolbar();
 
@@ -62,24 +57,24 @@ public class SettingsDashboard extends PreferenceFragment implements
     }
 
     private void setPreferenceClickListeners() {
-        findPreference(KEY_USER_INFO_BG_VISIBLE).setOnPreferenceClickListener(preference -> {
+        findPreference(R.string.key_user_info_bg_visible).setOnPreferenceClickListener(preference -> {
             notifyDashboardChanged();
             return true;
         });
-        findPreference(KEY_USER_INFO_BG).setOnPreferenceClickListener(preference -> {
+        findPreference(R.string.key_user_info_bg).setOnPreferenceClickListener(preference -> {
             showBgOptions();
             return true;
         });
-        findPreference(KEY_USER_INFO_BG_MOTTO).setOnPreferenceClickListener(preference -> {
+        findPreference(R.string.key_user_info_motto).setOnPreferenceClickListener(preference -> {
             showMottoEditor();
             return true;
         });
     }
 
     private void showMottoEditor() {
-        SimpleEditDialog.newInstance(preferencesUtils.getUserMotto(), content -> {
+        SimpleEditDialog.newInstance(dashboardPreferences.getUserMotto(), content -> {
             notifyDashboardChanged();
-            preferencesUtils.setUserMotto(content);
+            dashboardPreferences.setUserMotto(content);
         }).setMaxLength(TextLength.MOTTO_TEXT_LENGTH.length)
                 .show(((AppCompatActivity) getActivity()).getSupportFragmentManager(), "MOTTO_EDITOR");
     }
@@ -95,7 +90,7 @@ public class SettingsDashboard extends PreferenceFragment implements
         dialog.show();
 
         bgOptionsBinding.civBg1.setFillingCircleColor(
-                Constants.DEFAULT_USER_INFO_BG.equals(preferencesUtils.getUserInfoBG().toString()) ?
+                Constants.DEFAULT_USER_INFO_BG.equals(dashboardPreferences.getUserInfoBG().toString()) ?
                         ColorUtils.accentColor(getActivity()) : Color.parseColor("#cccccc"));
 
         Glide.with(PalmApp.getContext())
@@ -105,7 +100,7 @@ public class SettingsDashboard extends PreferenceFragment implements
                 .into(bgOptionsBinding.civDefault);
 
         bgOptionsBinding.rlBg1.setOnClickListener(view -> {
-            preferencesUtils.setUserInfoBG(null);
+            dashboardPreferences.setUserInfoBG(null);
             notifyDashboardChanged();
             dialog.dismiss();
         });
@@ -126,7 +121,7 @@ public class SettingsDashboard extends PreferenceFragment implements
     }
 
     private void onGetBackgroundImage(@NonNull Attachment attachment) {
-        preferencesUtils.setUserInfoBG(attachment.getUri());
+        dashboardPreferences.setUserInfoBG(attachment.getUri());
         notifyDashboardChanged();
     }
 

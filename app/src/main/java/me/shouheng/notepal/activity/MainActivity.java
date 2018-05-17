@@ -64,6 +64,7 @@ import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.FragmentHelper;
 import me.shouheng.notepal.util.IntentUtils;
 import me.shouheng.notepal.util.LogUtils;
+import me.shouheng.notepal.util.preferences.DashboardPreferences;
 import me.shouheng.notepal.util.preferences.LockPreferences;
 import me.shouheng.notepal.util.preferences.PreferencesUtils;
 import me.shouheng.notepal.util.SynchronizeUtils;
@@ -98,6 +99,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     private long onBackPressed;
 
     private PreferencesUtils preferencesUtils;
+    private DashboardPreferences dashboardPreferences;
 
     private QuickNoteEditor quickNoteEditor;
     private NotebookEditDialog notebookEditDialog;
@@ -127,6 +129,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     @Override
     protected void doCreateView(Bundle savedInstanceState) {
         preferencesUtils = PreferencesUtils.getInstance(this);
+        dashboardPreferences = DashboardPreferences.getInstance();
 
         IntroActivity.launchIfNecessary(this);
 
@@ -198,12 +201,12 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     }
 
     private void setupHeader() {
-        headerBinding.userMotto.setText(preferencesUtils.getUserMotto());
+        headerBinding.userMotto.setText(dashboardPreferences.getUserMotto());
 
-        boolean enabled = preferencesUtils.isUserInfoBgEnable();
+        boolean enabled = dashboardPreferences.isUserInfoBgEnable();
         headerBinding.userBg.setVisibility(enabled ? View.VISIBLE : View.GONE);
         if (enabled) {
-            Uri customUri = preferencesUtils.getUserInfoBG();
+            Uri customUri = dashboardPreferences.getUserInfoBG();
             Glide.with(PalmApp.getContext())
                     .load(customUri)
                     .centerCrop()
