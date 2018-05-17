@@ -37,8 +37,6 @@ import me.shouheng.notepal.util.ToastUtils;
  * Created by wangshouheng on 2017/8/19. */
 public class QuickNoteEditor extends DialogFragment {
 
-    private final static String KEY_EXTRA_BUILDER = "key_extra_builder";
-
     private MindSnagging mindSnagging;
     private Attachment attachment;
 
@@ -54,8 +52,6 @@ public class QuickNoteEditor extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        handleArguments();
-
         binding = DataBindingUtil.inflate(LayoutInflater.from(getContext()),
                 R.layout.dialog_mind_snagging_layout, null, false);
 
@@ -92,21 +88,14 @@ public class QuickNoteEditor extends DialogFragment {
                 .create();
     }
 
-    private void handleArguments() {
-        Bundle bundle;
-        Builder builder;
-        if ((bundle = getArguments()) != null
-                && bundle.containsKey(KEY_EXTRA_BUILDER)
-                && (builder = (Builder) bundle.get(KEY_EXTRA_BUILDER)) != null) {
-            this.mindSnagging = builder.mindSnagging;
-            this.attachment = builder.attachment;
-            this.onConfirmListener = builder.onConfirmListener;
-            this.onAddAttachmentListener = builder.onAddAttachmentListener;
-            this.onAttachmentClickListener = builder.onAttachmentClickListener;
-            this.onLifeMethodCalledListener = builder.onLifeMethodCalledListener;
-            this.attachment = AttachmentsStore.getInstance(PalmApp.getContext())
-                    .getAttachment(ModelType.MIND_SNAGGING, mindSnagging.getCode());
-        }
+    private void setBuilder(Builder builder) {
+        this.mindSnagging = builder.mindSnagging;
+        this.attachment = builder.attachment;
+        this.onConfirmListener = builder.onConfirmListener;
+        this.onAddAttachmentListener = builder.onAddAttachmentListener;
+        this.onAttachmentClickListener = builder.onAttachmentClickListener;
+        this.onLifeMethodCalledListener = builder.onLifeMethodCalledListener;
+        this.attachment = AttachmentsStore.getInstance(PalmApp.getContext()).getAttachment(ModelType.MIND_SNAGGING, mindSnagging.getCode());
     }
 
     private void initButtons() {
@@ -234,7 +223,7 @@ public class QuickNoteEditor extends DialogFragment {
         if (onLifeMethodCalledListener != null) onLifeMethodCalledListener.onDismiss();
     }
 
-    public static class Builder implements Parcelable {
+    public static class Builder {
         private MindSnagging mindSnagging;
         private Attachment attachment;
 
@@ -242,25 +231,6 @@ public class QuickNoteEditor extends DialogFragment {
         private OnAddAttachmentListener onAddAttachmentListener;
         private OnAttachmentClickListener onAttachmentClickListener;
         private OnLifeMethodCalledListener onLifeMethodCalledListener;
-
-        public Builder() {}
-
-        protected Builder(Parcel in) {
-            mindSnagging = in.readParcelable(MindSnagging.class.getClassLoader());
-            attachment = in.readParcelable(Attachment.class.getClassLoader());
-        }
-
-        public static final Creator<Builder> CREATOR = new Creator<Builder>() {
-            @Override
-            public Builder createFromParcel(Parcel in) {
-                return new Builder(in);
-            }
-
-            @Override
-            public Builder[] newArray(int size) {
-                return new Builder[size];
-            }
-        };
 
         public Builder setMindSnagging(MindSnagging mindSnagging) {
             this.mindSnagging = mindSnagging;
@@ -294,21 +264,8 @@ public class QuickNoteEditor extends DialogFragment {
 
         public QuickNoteEditor build() {
             QuickNoteEditor dialog = new QuickNoteEditor();
-            Bundle bundle = new Bundle();
-            bundle.putParcelable(KEY_EXTRA_BUILDER, this);
-            dialog.setArguments(bundle);
+            dialog.setBuilder(this);
             return dialog;
-        }
-
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-            dest.writeParcelable(mindSnagging, flags);
-            dest.writeParcelable(attachment, flags);
         }
     }
 
