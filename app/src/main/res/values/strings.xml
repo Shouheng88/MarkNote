@@ -586,6 +586,8 @@
     <!--endregion-->
 
     <!--region 1.1.5-->
+    <string name="custom_fab">Custom float buttons</string>
+    <string name="custom_fab_sub">Custom float action buttons behaviors of dashboard</string>
     <string name="custom_note_menu">Custom menu</string>
     <string name="menu_sort_tips">Drag the rear icon to sort, the menu item will be displayed as sorted in note edit page.</string>
     <string name="setting_custom_note_menu">Custom note menu</string>

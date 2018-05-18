@@ -585,6 +585,8 @@
     <!--endregion-->
 
     <!--region 1.1.5-->
+    <string name="custom_fab">自定义浮动按钮</string>
+    <string name="custom_fab_sub">自定义主界面的浮动按钮</string>
     <string name="custom_note_menu">自定义菜单</string>
     <string name="menu_sort_tips">拖动尾部的图标进行拖拽，最终的排序结果就是笔记编辑界面的最终排序。</string>
     <string name="setting_custom_note_menu">自定义笔记编辑菜单</string>

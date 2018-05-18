@@ -72,7 +72,5 @@
     <!--region preferences-->
     <string name="key_preferences" translatable="false">key_preferences</string>
     <string name="key_custom_fab" translatable="false">custom_fab</string>
-    <string name="custom_fab">Custom FAB</string>
-    <string name="custom_fab_sub">Custom float action buttons behaviors of dashboard</string>
     <!--endregion-->
 </resources>

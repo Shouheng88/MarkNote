@@ -585,6 +585,8 @@
     <!--endregion-->
 
     <!--region 1.1.5-->
+    <string name="custom_fab">自定義浮動按鈕</string>
+    <string name="custom_fab_sub">自定義主界面的浮動按鈕</string>
     <string name="custom_note_menu">自定義菜單</string>
     <string name="menu_sort_tips">拖動尾部的圖標進行拖拽，最終的排序結果就是筆記編輯界面的最終排序。</string>
     <string name="setting_custom_note_menu">自定義筆記編輯菜單</string>
