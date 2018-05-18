@@ -17,8 +17,7 @@ import me.shouheng.notepal.widget.tools.IItemTouchHelperAdapter;
 
 /**
  * Created by Wang Shouheng on 2018/2/14. */
-public class CategoriesAdapter extends BaseQuickAdapter<Category, BaseViewHolder> implements
-        IItemTouchHelperAdapter {
+public class CategoriesAdapter extends BaseQuickAdapter<Category, BaseViewHolder> implements IItemTouchHelperAdapter {
 
     private Category mJustDeletedToDoItem;
     private int mIndexOfDeletedToDoItem;
@@ -46,7 +45,7 @@ public class CategoriesAdapter extends BaseQuickAdapter<Category, BaseViewHolder
         if (isDarkTheme) helper.itemView.setBackgroundResource(R.color.dark_theme_background);
 
         helper.setText(R.id.tv_title, "# " + category.getName());
-        helper.setBackgroundRes(R.id.tv_title, isDarkTheme ? R.drawable.label_background_dark : R.drawable.label_background);
+//        helper.setBackgroundRes(R.id.tv_title, isDarkTheme ? R.drawable.label_background_dark : R.drawable.label_background);
         helper.setText(R.id.tv_sub_title, context.getResources().getQuantityString(
                 R.plurals.notes_number, category.getCount(), category.getCount()));
 

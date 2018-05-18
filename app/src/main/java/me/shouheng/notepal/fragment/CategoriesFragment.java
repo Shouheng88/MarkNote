@@ -18,6 +18,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.Collections;
+import java.util.Objects;
 
 import javax.annotation.Nonnull;
 
@@ -38,8 +39,7 @@ import me.shouheng.notepal.widget.tools.DividerItemDecoration;
 
 /**
  * Created by wangshouheng on 2017/3/29.*/
-public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> implements
-        BaseQuickAdapter.OnItemClickListener {
+public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> implements BaseQuickAdapter.OnItemClickListener {
 
     private final static String ARG_STATUS = "arg_status";
 
@@ -103,7 +103,7 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             switch (view.getId()) {
                 case R.id.iv_more:
-                    popCategoryMenu(view, position, mAdapter.getItem(position));
+                    popCategoryMenu(view, position, Objects.requireNonNull(mAdapter.getItem(position)));
                     break;
             }
         });
