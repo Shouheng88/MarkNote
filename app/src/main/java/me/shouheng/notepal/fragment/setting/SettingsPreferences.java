@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.FabSortActivity;
+import me.shouheng.notepal.activity.MenuSortActivity;
 import me.shouheng.notepal.listener.OnFragmentDestroyListener;
 import me.shouheng.notepal.listener.OnSettingsChangedListener;
 import me.shouheng.notepal.listener.SettingChangeType;
@@ -39,6 +40,10 @@ public class SettingsPreferences extends BaseFragment {
 
         findPreference(R.string.key_custom_fab).setOnPreferenceClickListener(preference -> {
             FabSortActivity.start(SettingsPreferences.this, REQUEST_CODE_FAB_SORT);
+            return true;
+        });
+        findPreference(R.string.key_note_editor_menu_sort).setOnPreferenceClickListener(preference -> {
+            MenuSortActivity.start(SettingsPreferences.this,  1);
             return true;
         });
     }

@@ -39,6 +39,11 @@ public class MenuSortActivity extends CommonActivity<ActivityMenuSortBinding> {
         fragment.startActivityForResult(intent, req);
     }
 
+    public static void start(android.app.Fragment fragment, int req) {
+        Intent intent = new Intent(fragment.getActivity(), MenuSortActivity.class);
+        fragment.startActivityForResult(intent, req);
+    }
+
     @Override
     protected int getLayoutResId() {
         return R.layout.activity_menu_sort;
