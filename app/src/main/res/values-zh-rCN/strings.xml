@@ -583,4 +583,14 @@
     <string name="auto_compress_image_title">自动压缩图片</string>
     <string name="auto_compress_image_sub_title">压缩后的图片可以节省大量的存储空间和上传流量</string>
     <!--endregion-->
+
+    <!--region 1.1.5-->
+    <string name="custom_note_menu">自定义菜单</string>
+    <string name="menu_sort_tips">拖动尾部的图标进行拖拽，最终的排序结果就是笔记编辑界面的最终排序。</string>
+    <string name="setting_custom_note_menu">自定义笔记编辑菜单</string>
+    <string name="setting_custom_note_menu_sub">自定义笔记编辑界面的底部菜单</string>
+    <string name="menu_successfully_saved">成功保存菜单设置</string>
+    <string name="setting_preferences">偏好</string>
+    <string name="setting_preferences_sub">设置你自己的偏好</string>
+    <!--endregion-->
 </resources>
