@@ -21,6 +21,8 @@ import com.vladsch.flexmark.util.options.MutableDataSet;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import my.shouheng.palmmarkdown.ext.mark.MarkExtension;
 import my.shouheng.palmmarkdown.ext.mathjax.MathJaxExtension;
@@ -30,6 +32,11 @@ import my.shouheng.palmmarkdown.tools.NodeRendererFactoryImpl;
 /**
  * Created by shouh on 2018/3/25.*/
 public class MarkdownParser extends AsyncTask<String, String, String> {
+
+    private static final String TAG = "MarkdownParser";
+
+    private static Pattern mathJaxPattern;
+    private final static String MATH_REGEX = "[$].+.[$]";
 
     private final List<Extension> EXTENSIONS = Arrays.asList(
             TablesExtension.create(),
@@ -73,7 +80,26 @@ public class MarkdownParser extends AsyncTask<String, String, String> {
                 .extensions(EXTENSIONS)
                 .build();
 
-        return renderer.render(parser.parse(strings[0]));
+        String afterMJ = handleMathJax(strings[0]);
+        return renderer.render(parser.parse(afterMJ));
+    }
+
+    private String handleMathJax(String content) {
+        if (mathJaxPattern == null) {
+            mathJaxPattern = Pattern.compile(MATH_REGEX);
+        }
+
+        Matcher matcher = mathJaxPattern.matcher(content);
+        String matched, replaced;
+        while (matcher.find()) {
+            matched = matcher.group();
+            replaced = matched.replace("\\\\", "\\\\\\\\");
+            replaced = replaced.replace("^", "\\^");
+            replaced = replaced.replace("{", "\\{");
+            content = content.replace(matched, replaced);
+        }
+
+        return content;
     }
 
     @Override
