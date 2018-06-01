@@ -19,6 +19,7 @@ import me.shouheng.notepal.activity.GalleryActivity;
 import me.shouheng.notepal.activity.SketchActivity;
 import me.shouheng.notepal.async.CreateAttachmentTask;
 import me.shouheng.notepal.config.Constants;
+import me.shouheng.notepal.config.RequestCodes;
 import me.shouheng.notepal.listener.DefaultCompressListener;
 import me.shouheng.notepal.listener.OnAttachingFileListener;
 import me.shouheng.notepal.model.Attachment;
@@ -30,12 +31,6 @@ import top.zibin.luban.Luban;
 /**
  * Created by Wang Shouheng on 2017/12/30.*/
 public class AttachmentHelper {
-
-    private final static int REQUEST_TAKE_PHOTO = 0x1000;
-    private final static int REQUEST_SELECT_IMAGE = 0x1100;
-    private final static int REQUEST_TAKE_VIDEO = 0x1200;
-    private final static int REQUEST_FILES = 0x1300;
-    private final static int REQUEST_SKETCH = 0x1400;
 
     private static String filePath;
 
@@ -102,7 +97,7 @@ public class AttachmentHelper {
     // region Resolve attachment picking result.
     public static<T extends Fragment & OnAttachingFileListener> void resolveResult(T fragment, int requestCode, Intent data) {
         switch (requestCode){
-            case REQUEST_TAKE_PHOTO:
+            case RequestCodes.REQUEST_TAKE_PHOTO:
                 getPhoto(fragment.getContext(), Constants.MIME_TYPE_IMAGE, new OnAttachingFileListener() {
                     @Override
                     public void onAttachingFileErrorOccurred(Attachment attachment) {
@@ -117,18 +112,18 @@ public class AttachmentHelper {
                     }
                 });
                 break;
-            case REQUEST_SELECT_IMAGE:
+            case RequestCodes.REQUEST_SELECT_IMAGE:
                 startTask(fragment, data);
                 break;
-            case REQUEST_TAKE_VIDEO:
+            case RequestCodes.REQUEST_TAKE_VIDEO:
                 if (PalmUtils.isAlive(fragment)) {
                     fragment.onAttachingFileFinished(getVideo(data));
                 }
                 break;
-            case REQUEST_FILES:
+            case RequestCodes.REQUEST_FILES:
                 startTask(fragment, data);
                 break;
-            case REQUEST_SKETCH:
+            case RequestCodes.REQUEST_SKETCH:
                 if (PalmUtils.isAlive(fragment)) {
                     fragment.onAttachingFileFinished(getSketch(Constants.MIME_TYPE_SKETCH));
                 }
@@ -138,7 +133,7 @@ public class AttachmentHelper {
 
     public static<T extends android.app.Fragment & OnAttachingFileListener> void resolveResult(T fragment, int requestCode, Intent data) {
         switch (requestCode){
-            case REQUEST_TAKE_PHOTO:
+            case RequestCodes.REQUEST_TAKE_PHOTO:
                 getPhoto(fragment.getActivity(), Constants.MIME_TYPE_IMAGE, new OnAttachingFileListener() {
                     @Override
                     public void onAttachingFileErrorOccurred(Attachment attachment) {
@@ -153,18 +148,18 @@ public class AttachmentHelper {
                     }
                 });
                 break;
-            case REQUEST_SELECT_IMAGE:
+            case RequestCodes.REQUEST_SELECT_IMAGE:
                 startTask(fragment, data);
                 break;
-            case REQUEST_TAKE_VIDEO:
+            case RequestCodes.REQUEST_TAKE_VIDEO:
                 if (PalmUtils.isAlive(fragment)) {
                     fragment.onAttachingFileFinished(getVideo(data));
                 }
                 break;
-            case REQUEST_FILES:
+            case RequestCodes.REQUEST_FILES:
                 startTask(fragment, data);
                 break;
-            case REQUEST_SKETCH:
+            case RequestCodes.REQUEST_SKETCH:
                 if (PalmUtils.isAlive(fragment)) {
                     fragment.onAttachingFileFinished(getSketch(Constants.MIME_TYPE_SKETCH));
                 }
@@ -174,7 +169,7 @@ public class AttachmentHelper {
 
     public static<T extends Activity & OnAttachingFileListener> void resolveResult(T activity, int requestCode, Intent data) {
         switch (requestCode){
-            case REQUEST_TAKE_PHOTO:
+            case RequestCodes.REQUEST_TAKE_PHOTO:
                 getPhoto(activity, Constants.MIME_TYPE_IMAGE, new OnAttachingFileListener() {
                     @Override
                     public void onAttachingFileErrorOccurred(Attachment attachment) {
@@ -189,18 +184,18 @@ public class AttachmentHelper {
                     }
                 });
                 break;
-            case REQUEST_SELECT_IMAGE:
+            case RequestCodes.REQUEST_SELECT_IMAGE:
                 startTask(activity, data);
                 break;
-            case REQUEST_TAKE_VIDEO:
+            case RequestCodes.REQUEST_TAKE_VIDEO:
                 if (PalmUtils.isAlive(activity)) {
                     activity.onAttachingFileFinished(getVideo(data));
                 }
                 break;
-            case REQUEST_FILES:
+            case RequestCodes.REQUEST_FILES:
                 startTask(activity, data);
                 break;
-            case REQUEST_SKETCH:
+            case RequestCodes.REQUEST_SKETCH:
                 if (PalmUtils.isAlive(activity)) {
                     activity.onAttachingFileFinished(getSketch(Constants.MIME_TYPE_SKETCH));
                 }
@@ -304,15 +299,15 @@ public class AttachmentHelper {
 
     // region Start picking action.
     public static void pickFromAlbum(Activity activity) {
-        activity.startActivityForResult(pickFromAlbum(), AttachmentHelper.REQUEST_SELECT_IMAGE);
+        activity.startActivityForResult(pickFromAlbum(), RequestCodes.REQUEST_SELECT_IMAGE);
     }
 
     public static void pickFromAlbum(Fragment fragment) {
-        fragment.startActivityForResult(pickFromAlbum(), AttachmentHelper.REQUEST_SELECT_IMAGE);
+        fragment.startActivityForResult(pickFromAlbum(), RequestCodes.REQUEST_SELECT_IMAGE);
     }
 
     public static void pickFromAlbum(android.app.Fragment fragment) {
-        fragment.startActivityForResult(pickFromAlbum(), AttachmentHelper.REQUEST_SELECT_IMAGE);
+        fragment.startActivityForResult(pickFromAlbum(), RequestCodes.REQUEST_SELECT_IMAGE);
     }
 
     private static Intent pickFromAlbum() {
@@ -323,11 +318,11 @@ public class AttachmentHelper {
     }
 
     public static void pickFiles(Activity activity) {
-        activity.startActivityForResult(pickFiles(), AttachmentHelper.REQUEST_FILES);
+        activity.startActivityForResult(pickFiles(), RequestCodes.REQUEST_FILES);
     }
 
     public static void pickFiles(Fragment fragment) {
-        fragment.startActivityForResult(pickFiles(), AttachmentHelper.REQUEST_FILES);
+        fragment.startActivityForResult(pickFiles(), RequestCodes.REQUEST_FILES);
     }
 
     private static Intent pickFiles() {
@@ -342,13 +337,13 @@ public class AttachmentHelper {
     public static void capture(Activity activity) {
         Intent intent = captureIntent(activity);
         if (intent == null) return;
-        activity.startActivityForResult(intent, AttachmentHelper.REQUEST_TAKE_PHOTO);
+        activity.startActivityForResult(intent, RequestCodes.REQUEST_TAKE_PHOTO);
     }
 
     public static void capture(Fragment fragment) {
         Intent intent = captureIntent(fragment.getContext());
         if (intent == null) return;
-        fragment.startActivityForResult(intent, AttachmentHelper.REQUEST_TAKE_PHOTO);
+        fragment.startActivityForResult(intent, RequestCodes.REQUEST_TAKE_PHOTO);
     }
 
     @Nullable
@@ -369,13 +364,13 @@ public class AttachmentHelper {
     public static void recordVideo(Activity activity) {
         Intent intent = recordVideoIntent(activity);
         if (intent == null) return;
-        activity.startActivityForResult(intent, AttachmentHelper.REQUEST_TAKE_VIDEO);
+        activity.startActivityForResult(intent, RequestCodes.REQUEST_TAKE_VIDEO);
     }
 
     public static void recordVideo(Fragment fragment) {
         Intent intent = recordVideoIntent(fragment.getContext());
         if (intent == null) return;
-        fragment.startActivityForResult(intent, AttachmentHelper.REQUEST_TAKE_VIDEO);
+        fragment.startActivityForResult(intent, RequestCodes.REQUEST_TAKE_VIDEO);
     }
 
     @Nullable
@@ -395,13 +390,13 @@ public class AttachmentHelper {
     public static void sketch(Activity activity) {
         Intent intent = sketchIntent(activity);
         if (intent == null) return;
-        activity.startActivityForResult(intent, AttachmentHelper.REQUEST_SKETCH);
+        activity.startActivityForResult(intent, RequestCodes.REQUEST_SKETCH);
     }
 
     public static void sketch(Fragment fragment) {
         Intent intent = sketchIntent(fragment.getContext());
         if (intent == null) return;
-        fragment.startActivityForResult(intent, AttachmentHelper.REQUEST_SKETCH);
+        fragment.startActivityForResult(intent, RequestCodes.REQUEST_SKETCH);
     }
 
     @Nullable
