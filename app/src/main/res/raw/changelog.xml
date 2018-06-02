@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog bulletedList="true">
 
+    <changelogversion versionName="1.1.6" changeDate="Jun 2, 2018">
+        <changelogtext>MathJax support for one line</changelogtext>
+        <changelogtext>The bug when click the image</changelogtext>
+        <changelogtext>Theme support for bottom pop menu</changelogtext>
+        <changelogtext>Allow to disable fast scroller</changelogtext>
+        <changelogtext>Changed icons when list is empty</changelogtext>
+        <changelogtext>Use colored navigation bar</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="1.1.5" changeDate="May. 18, 2018">
         <changelogtext>Added float action button custom options</changelogtext>
         <changelogtext>Added note edit menu custom options</changelogtext>
