@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Nonnull;
 
@@ -45,6 +46,7 @@ import me.shouheng.notepal.provider.AttachmentsStore;
 import me.shouheng.notepal.provider.CategoryStore;
 import me.shouheng.notepal.provider.LocationsStore;
 import me.shouheng.notepal.util.AttachmentHelper;
+import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.FileHelper;
 import me.shouheng.notepal.util.IntentUtils;
 import me.shouheng.notepal.util.LogUtils;
@@ -245,32 +247,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
                 ContentActivity.editNote(this, note, REQUEST_FOR_EDIT);
                 break;
             case R.id.action_share:
-                new BottomSheet.Builder(getActivity())
-                        .setSheet(R.menu.share)
-                        .setTitle(R.string.text_share)
-                        .setListener(new BottomSheetListener() {
-                            @Override
-                            public void onSheetShown(@NonNull BottomSheet bottomSheet, @Nullable Object o) {}
-
-                            @Override
-                            public void onSheetItemSelected(@NonNull BottomSheet bottomSheet, MenuItem menuItem, @Nullable Object o) {
-                                switch (menuItem.getItemId()) {
-                                    case R.id.action_share_text:
-                                        ModelHelper.share(getContext(), note.getTitle(), content, new ArrayList<>());
-                                        break;
-                                    case R.id.action_share_html:
-                                        outHtml(true);
-                                        break;
-                                    case R.id.action_share_image:
-                                        createWebCapture(getBinding().mdView, file -> ModelHelper.shareFile(getContext(), file, Constants.MIME_TYPE_IMAGE));
-                                        break;
-                                }
-                            }
-
-                            @Override
-                            public void onSheetDismissed(@NonNull BottomSheet bottomSheet, @Nullable Object o, int i) {}
-                        })
-                        .show();
+                share();
                 break;
             case R.id.font_cursive:
                 getBinding().mdView.getSettings().setCursiveFontFamily("cursive");
@@ -309,39 +286,74 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
                 ModelHelper.showStatistic(getContext(), note);
                 break;
             case R.id.action_export:
-                new BottomSheet.Builder(getActivity())
-                        .setSheet(R.menu.export)
-                        .setTitle(R.string.text_export)
-                        .setListener(new BottomSheetListener() {
-                            @Override
-                            public void onSheetShown(@NonNull BottomSheet bottomSheet, @Nullable Object o) {}
-
-                            @Override
-                            public void onSheetItemSelected(@NonNull BottomSheet bottomSheet, MenuItem menuItem, @Nullable Object o) {
-                                switch (menuItem.getItemId()) {
-                                    case R.id.export_html:
-                                        // Export html
-                                        outHtml(false);
-                                        break;
-                                    case R.id.capture:
-                                        createWebCapture(getBinding().mdView, file -> ToastUtils.makeToast(String.format(getString(R.string.text_file_saved_to), file.getPath())));
-                                        break;
-                                    case R.id.print:
-                                        PrintUtils.print(getContext(), getBinding().mdView, note);
-                                        break;
-                                    case R.id.export_text:
-                                        outText(false);
-                                        break;
-                                }
-                            }
-
-                            @Override
-                            public void onSheetDismissed(@NonNull BottomSheet bottomSheet, @Nullable Object o, int i) {}
-                        })
-                        .show();
+                export();
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void share() {
+        new BottomSheet.Builder(Objects.requireNonNull(getActivity()))
+                .setStyle(isDarkTheme() ? R.style.BottomSheet_Dark : R.style.BottomSheet)
+                .setMenu(ColorUtils.getThemedBottomSheetMenu(getContext(), R.menu.share))
+                .setTitle(R.string.text_share)
+                .setListener(new BottomSheetListener() {
+                    @Override
+                    public void onSheetShown(@NonNull BottomSheet bottomSheet, @Nullable Object o) {}
+
+                    @Override
+                    public void onSheetItemSelected(@NonNull BottomSheet bottomSheet, MenuItem menuItem, @Nullable Object o) {
+                        switch (menuItem.getItemId()) {
+                            case R.id.action_share_text:
+                                ModelHelper.share(getContext(), note.getTitle(), content, new ArrayList<>());
+                                break;
+                            case R.id.action_share_html:
+                                outHtml(true);
+                                break;
+                            case R.id.action_share_image:
+                                createWebCapture(getBinding().mdView, file -> ModelHelper.shareFile(getContext(), file, Constants.MIME_TYPE_IMAGE));
+                                break;
+                        }
+                    }
+
+                    @Override
+                    public void onSheetDismissed(@NonNull BottomSheet bottomSheet, @Nullable Object o, int i) {}
+                })
+                .show();
+    }
+
+    private void export() {
+        new BottomSheet.Builder(Objects.requireNonNull(getActivity()))
+                .setStyle(isDarkTheme() ? R.style.BottomSheet_Dark : R.style.BottomSheet)
+                .setMenu(ColorUtils.getThemedBottomSheetMenu(getContext(), R.menu.export))
+                .setTitle(R.string.text_export)
+                .setListener(new BottomSheetListener() {
+                    @Override
+                    public void onSheetShown(@NonNull BottomSheet bottomSheet, @Nullable Object o) {}
+
+                    @Override
+                    public void onSheetItemSelected(@NonNull BottomSheet bottomSheet, MenuItem menuItem, @Nullable Object o) {
+                        switch (menuItem.getItemId()) {
+                            case R.id.export_html:
+                                // Export html
+                                outHtml(false);
+                                break;
+                            case R.id.capture:
+                                createWebCapture(getBinding().mdView, file -> ToastUtils.makeToast(String.format(getString(R.string.text_file_saved_to), file.getPath())));
+                                break;
+                            case R.id.print:
+                                PrintUtils.print(getContext(), getBinding().mdView, note);
+                                break;
+                            case R.id.export_text:
+                                outText(false);
+                                break;
+                        }
+                    }
+
+                    @Override
+                    public void onSheetDismissed(@NonNull BottomSheet bottomSheet, @Nullable Object o, int i) {}
+                })
+                .show();
     }
 
     private void outHtml(boolean isShare) {

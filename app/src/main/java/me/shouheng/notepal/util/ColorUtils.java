@@ -5,8 +5,13 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.MenuRes;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+
+import com.kennyc.bottomsheet.menu.BottomSheetMenu;
 
 import org.polaric.colorful.Colorful;
 
@@ -126,5 +131,21 @@ public class ColorUtils {
                 }
             }
         }
+    }
+
+    public static BottomSheetMenu getThemedBottomSheetMenu(Context context, @MenuRes int menuRes) {
+        int tintColor = PalmApp.getColorCompact(isDarkTheme(context) ?
+                R.color.dark_theme_image_tint_color : R.color.light_theme_image_tint_color);
+        BottomSheetMenu menu = new BottomSheetMenu(context);
+        new MenuInflater(context).inflate(menuRes, menu);
+        int size = menu.size();
+        for (int i=0; i<size; i++) {
+            MenuItem menuItem = menu.getItem(i);
+            Drawable drawable = menuItem.getIcon();
+            if (drawable != null) {
+                menuItem.setIcon(ColorUtils.tintDrawable(drawable, tintColor));
+            }
+        }
+        return menu;
     }
 }
