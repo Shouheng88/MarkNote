@@ -595,4 +595,9 @@
     <string name="setting_preferences">偏好</string>
     <string name="setting_preferences_sub">設置你自己的偏好</string>
     <!--endregion-->
+
+    <!--region 1.1.6-->
+    <string name="custom_fast_scroller">自定義滑動條</string>
+    <string name="custom_fast_scroller_sub">勾選複選框則在筆記列表界面使用快速滑動條</string>
+    <!--endregion-->
 </resources>

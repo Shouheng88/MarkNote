@@ -49,6 +49,7 @@ import me.shouheng.notepal.fragment.CategoriesFragment;
 import me.shouheng.notepal.fragment.NotesFragment;
 import me.shouheng.notepal.intro.IntroActivity;
 import me.shouheng.notepal.listener.OnAttachingFileListener;
+import me.shouheng.notepal.listener.OnMainActivityInteraction;
 import me.shouheng.notepal.listener.SettingChangeType;
 import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.model.Category;
@@ -694,7 +695,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                 break;
             case REQUEST_SETTING:
                 int[] changedTypes = data.getIntArrayExtra(SettingsActivity.KEY_CONTENT_CHANGE_TYPES);
-                boolean drawerUpdated = false, listUpdated = false, fabSortUpdated = false;;
+                boolean drawerUpdated = false, listUpdated = false, fabSortUpdated = false, fastScrollerUpdated = false;
                 for (int changedType : changedTypes) {
                     if (changedType == SettingChangeType.DRAWER.id && !drawerUpdated) {
                         setupHeader();
@@ -710,14 +711,27 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                         initFabSortItems();
                         fabSortUpdated = true;
                     }
+                    if (changedType == SettingChangeType.FAST_SCROLLER.id && !fastScrollerUpdated) {
+                        notifyFastScrollerChanged();
+                        fastScrollerUpdated = true;
+                    }
                 }
                 break;
         }
     }
 
     private void updateListIfNecessary() {
-        if (isNotesFragment()) ((NotesFragment) getCurrentFragment()).reload();
-        if (isCategoryFragment()) ((CategoriesFragment) getCurrentFragment()).reload();
+        Fragment fragment = getCurrentFragment();
+        if (fragment instanceof OnMainActivityInteraction) {
+            ((OnMainActivityInteraction) fragment).onDataSetChanged();
+        }
+    }
+
+    private void notifyFastScrollerChanged() {
+        Fragment fragment = getCurrentFragment();
+        if (fragment instanceof OnMainActivityInteraction) {
+            ((OnMainActivityInteraction) fragment).onFastScrollerChanged();
+        }
     }
 
     private void handleAttachmentResult(int requestCode, Intent data) {

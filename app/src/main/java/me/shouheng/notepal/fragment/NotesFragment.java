@@ -27,6 +27,7 @@ import me.shouheng.notepal.databinding.FragmentNotesBinding;
 import me.shouheng.notepal.dialog.NotebookEditDialog;
 import me.shouheng.notepal.dialog.picker.NotebookPickerDialog;
 import me.shouheng.notepal.fragment.base.BaseFragment;
+import me.shouheng.notepal.listener.OnMainActivityInteraction;
 import me.shouheng.notepal.model.Category;
 import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.model.Notebook;
@@ -35,13 +36,14 @@ import me.shouheng.notepal.util.AppWidgetUtils;
 import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.util.preferences.NotePreferences;
+import me.shouheng.notepal.util.preferences.UserPreferences;
 import me.shouheng.notepal.viewmodel.NoteViewModel;
 import me.shouheng.notepal.viewmodel.NotebookViewModel;
 import me.shouheng.notepal.widget.tools.CustomItemAnimator;
 import me.shouheng.notepal.widget.tools.DividerItemDecoration;
 
 
-public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
+public class NotesFragment extends BaseFragment<FragmentNotesBinding> implements OnMainActivityInteraction {
 
     private final static String ARG_NOTEBOOK = "arg_notebook";
     private final static String ARG_CATEGORY = "arg_category";
@@ -62,6 +64,8 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
     private NotesAdapter adapter;
     private NoteViewModel noteViewModel;
     private NotebookViewModel notebookViewModel;
+
+    private UserPreferences userPreferences;
 
     public static NotesFragment newInstance(@Nonnull Status status) {
         Bundle args = new Bundle();
@@ -96,6 +100,8 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {
+        userPreferences = UserPreferences.getInstance();
+
         handleArguments();
 
         configToolbar();
@@ -182,6 +188,7 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
         getBinding().rvNotes.setAdapter(adapter);
 
         getBinding().fastscroller.setRecyclerView(getBinding().rvNotes);
+        getBinding().fastscroller.setVisibility(userPreferences.fastScrollerEnabled() ? View.VISIBLE : View.GONE);
 
         reload();
     }
@@ -525,6 +532,16 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onDataSetChanged() {
+        reload();
+    }
+
+    @Override
+    public void onFastScrollerChanged() {
+        getBinding().fastscroller.setVisibility(userPreferences.fastScrollerEnabled() ? View.VISIBLE : View.GONE);
     }
 
     public interface OnNotesInteractListener {

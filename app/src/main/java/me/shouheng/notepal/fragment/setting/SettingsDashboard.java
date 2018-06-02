@@ -25,7 +25,6 @@ import me.shouheng.notepal.databinding.DialogDrawerBgOptionsBinding;
 import me.shouheng.notepal.dialog.SimpleEditDialog;
 import me.shouheng.notepal.listener.OnAttachingFileListener;
 import me.shouheng.notepal.listener.OnFragmentDestroyListener;
-import me.shouheng.notepal.listener.OnSettingsChangedListener;
 import me.shouheng.notepal.listener.SettingChangeType;
 import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.util.AttachmentHelper;
@@ -59,7 +58,7 @@ public class SettingsDashboard extends BaseFragment implements OnAttachingFileLi
 
     private void setPreferenceClickListeners() {
         findPreference(R.string.key_user_info_bg_visible).setOnPreferenceClickListener(preference -> {
-            notifyDashboardChanged();
+            notifyDashboardChanged(SettingChangeType.DRAWER);
             return true;
         });
         findPreference(R.string.key_user_info_bg).setOnPreferenceClickListener(preference -> {
@@ -74,7 +73,7 @@ public class SettingsDashboard extends BaseFragment implements OnAttachingFileLi
 
     private void showMottoEditor() {
         SimpleEditDialog.newInstance(dashboardPreferences.getUserMotto(), content -> {
-            notifyDashboardChanged();
+            notifyDashboardChanged(SettingChangeType.DRAWER);
             dashboardPreferences.setUserMotto(content);
         }).setMaxLength(TextLength.MOTTO_TEXT_LENGTH.length)
                 .show(((AppCompatActivity) getActivity()).getSupportFragmentManager(), "MOTTO_EDITOR");
@@ -102,7 +101,7 @@ public class SettingsDashboard extends BaseFragment implements OnAttachingFileLi
 
         bgOptionsBinding.rlBg1.setOnClickListener(view -> {
             dashboardPreferences.setUserInfoBG(null);
-            notifyDashboardChanged();
+            notifyDashboardChanged(SettingChangeType.DRAWER);
             dialog.dismiss();
         });
         bgOptionsBinding.tvPick.setOnClickListener(view -> {
@@ -123,13 +122,7 @@ public class SettingsDashboard extends BaseFragment implements OnAttachingFileLi
 
     private void onGetBackgroundImage(@NonNull Attachment attachment) {
         dashboardPreferences.setUserInfoBG(attachment.getUri());
-        notifyDashboardChanged();
-    }
-
-    private void notifyDashboardChanged() {
-        if (getActivity() != null && getActivity() instanceof OnSettingsChangedListener) {
-            ((OnSettingsChangedListener) getActivity()).onSettingChanged(SettingChangeType.DRAWER);
-        }
+        notifyDashboardChanged(SettingChangeType.DRAWER);
     }
 
     @Override

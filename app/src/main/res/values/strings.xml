@@ -596,4 +596,9 @@
     <string name="setting_preferences">Preferences</string>
     <string name="setting_preferences_sub">Custom your own preferences</string>
     <!--endregion-->
+
+    <!--region 1.1.6-->
+    <string name="custom_fast_scroller">Custom fast scroller</string>
+    <string name="custom_fast_scroller_sub">Check the box if you want to use fast scroller in notes list page.</string>
+    <!--endregion-->
 </resources>

@@ -27,6 +27,7 @@ import me.shouheng.notepal.adapter.CategoriesAdapter;
 import me.shouheng.notepal.databinding.FragmentCategoriesBinding;
 import me.shouheng.notepal.dialog.CategoryEditDialog;
 import me.shouheng.notepal.fragment.base.BaseFragment;
+import me.shouheng.notepal.listener.OnMainActivityInteraction;
 import me.shouheng.notepal.model.Category;
 import me.shouheng.notepal.model.enums.Status;
 import me.shouheng.notepal.util.LogUtils;
@@ -39,7 +40,8 @@ import me.shouheng.notepal.widget.tools.DividerItemDecoration;
 
 /**
  * Created by wangshouheng on 2017/3/29.*/
-public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> implements BaseQuickAdapter.OnItemClickListener {
+public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> implements
+        BaseQuickAdapter.OnItemClickListener, OnMainActivityInteraction {
 
     private final static String ARG_STATUS = "arg_status";
 
@@ -306,6 +308,14 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
             ((OnCategoriesInteractListener) getActivity()).onResumeToCategory();
         }
     }
+
+    @Override
+    public void onDataSetChanged() {
+        reload();
+    }
+
+    @Override
+    public void onFastScrollerChanged() { }
 
     public interface OnCategoriesInteractListener {
 

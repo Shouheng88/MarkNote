@@ -11,15 +11,11 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.FabSortActivity;
 import me.shouheng.notepal.activity.MenuSortActivity;
 import me.shouheng.notepal.listener.OnFragmentDestroyListener;
-import me.shouheng.notepal.listener.OnSettingsChangedListener;
 import me.shouheng.notepal.listener.SettingChangeType;
-import me.shouheng.notepal.util.preferences.UserPreferences;
 
 public class SettingsPreferences extends BaseFragment {
 
     private final int REQUEST_CODE_FAB_SORT = 0x0001;
-
-    private UserPreferences userPreferences;
 
     public static SettingsPreferences newInstance() {
         Bundle args = new Bundle();
@@ -32,8 +28,6 @@ public class SettingsPreferences extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        userPreferences = UserPreferences.getInstance();
-
         configToolbar();
 
         addPreferencesFromResource(R.xml.preferences_preferences);
@@ -45,6 +39,10 @@ public class SettingsPreferences extends BaseFragment {
         findPreference(R.string.key_note_editor_menu_sort).setOnPreferenceClickListener(preference -> {
             MenuSortActivity.start(SettingsPreferences.this,  1);
             return true;
+        });
+        findPreference(R.string.key_fast_scroller).setOnPreferenceClickListener(preference -> {
+            notifyDashboardChanged(SettingChangeType.FAST_SCROLLER);
+            return false;
         });
     }
 
@@ -61,15 +59,9 @@ public class SettingsPreferences extends BaseFragment {
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_CODE_FAB_SORT:
-                    notifyFabSortChanged();
+                    notifyDashboardChanged(SettingChangeType.FAB);
                     break;
             }
-        }
-    }
-
-    private void notifyFabSortChanged() {
-        if (getActivity() != null && getActivity() instanceof OnSettingsChangedListener) {
-            ((OnSettingsChangedListener) getActivity()).onSettingChanged(SettingChangeType.FAB);
         }
     }
 

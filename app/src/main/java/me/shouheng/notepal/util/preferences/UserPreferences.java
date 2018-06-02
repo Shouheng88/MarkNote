@@ -166,4 +166,8 @@ public class UserPreferences extends BasePreferences {
     public String getSearchConditions() {
         return getString(R.string.key_search_conditions, null);
     }
+
+    public boolean fastScrollerEnabled() {
+        return getBoolean(R.string.key_fast_scroller, false);
+    }
 }

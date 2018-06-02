@@ -595,4 +595,9 @@
     <string name="setting_preferences">偏好</string>
     <string name="setting_preferences_sub">设置你自己的偏好</string>
     <!--endregion-->
+
+    <!--region 1.1.6-->
+    <string name="custom_fast_scroller">自定义滑动条</string>
+    <string name="custom_fast_scroller_sub">勾选复选框则在笔记列表界面使用快速滑动条</string>
+    <!--endregion-->
 </resources>
