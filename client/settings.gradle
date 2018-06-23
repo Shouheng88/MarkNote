@@ -1,0 +1,4 @@
+include ':app', ':markdown', ':photoview', ':colorful'
+project(':colorful').projectDir = new File('../colorful')
+project(':markdown').projectDir = new File('../markdown')
+project(':photoview').projectDir = new File('../photoview')

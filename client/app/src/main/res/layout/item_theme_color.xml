@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:layout_width="match_parent"
+    android:layout_height="56dp">
+
+    <me.shouheng.notepal.widget.CircleImageView
+        android:id="@+id/civ_color"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp" />
+
+    <me.shouheng.notepal.widget.CircleImageView
+        android:id="@+id/civ_checked_bg"
+        android:src="@android:color/white"
+        android:layout_marginStart="37.5dp"
+        android:layout_marginTop="29.5dp"
+        android:layout_width="21dp"
+        android:layout_height="21dp" />
+
+    <ImageView
+        android:id="@+id/iv_checked"
+        android:src="@drawable/ic_check_circle_black_24dp"
+        android:layout_marginStart="38dp"
+        android:layout_marginTop="30dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp" />
+
+    <TextView
+        android:id="@+id/tv_theme_name"
+        android:layout_toEndOf="@id/civ_color"
+        android:gravity="center_vertical"
+        android:text="Color Name"
+        android:textSize="16sp"
+        android:layout_marginStart="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" />
+
+    <me.shouheng.notepal.widget.CircleImageView
+        android:id="@+id/civ_selected"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="16dp"
+        android:layout_width="10dp"
+        android:layout_height="10dp" />
+
+</RelativeLayout>

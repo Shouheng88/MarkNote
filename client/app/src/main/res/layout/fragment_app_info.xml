@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ScrollView
+        android:background="@android:color/background_light"
+        android:clickable="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusable="true">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <me.shouheng.notepal.widget.themed.SupportCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="@dimen/card_corner_radius"
+                app:cardElevation="@dimen/card_elevation"
+                style="@style/SettingsCardStyle">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:paddingBottom="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:layout_gravity="center_horizontal"
+                        android:src="@drawable/mark_note"
+                        android:layout_margin="20dp"
+                        android:layout_width="160dp"
+                        android:layout_height="160dp" />
+
+                    <me.shouheng.notepal.widget.themed.SupportTextView
+                        android:text="@string/app_name"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/tv_app_desc"
+                        android:textSize="16sp"
+                        android:gravity="center_horizontal"
+                        android:text="@string/app_description"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <me.shouheng.notepal.widget.themed.SupportTextView
+                        android:id="@+id/tv_version_name"
+                        android:textSize="15sp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+            </me.shouheng.notepal.widget.themed.SupportCardView>
+
+            <me.shouheng.notepal.widget.themed.SupportCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="@dimen/card_corner_radius"
+                app:cardElevation="@dimen/card_elevation"
+                style="@style/SettingsCardStyle">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:paddingBottom="8dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical">
+
+                    <me.shouheng.notepal.widget.themed.SupportTextView
+                        android:text="@string/help_development"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/SettingsCardTitleStyle"/>
+
+                    <me.shouheng.notepal.widget.themed.Divider
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"/>
+
+                    <me.shouheng.notepal.widget.themed.CardTitleView
+                        android:id="@+id/ctv_translation"
+                        app:card_icon="@drawable/ic_assistant_photo_black_24dp"
+                        app:card_title="@string/translation"
+                        app:card_sub_title="@string/translate_to_other_languages"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                    <me.shouheng.notepal.widget.themed.CardTitleView
+                        android:id="@+id/ctv_rating"
+                        app:card_icon="@drawable/ic_star_black_24dp"
+                        app:card_title="@string/rating"
+                        app:card_sub_title="@string/give_good_rating_if_you_like"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+            </me.shouheng.notepal.widget.themed.SupportCardView>
+
+            <me.shouheng.notepal.widget.themed.SupportCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="@dimen/card_corner_radius"
+                app:cardElevation="@dimen/card_elevation"
+                style="@style/SettingsCardStyle">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:paddingBottom="8dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical">
+
+                    <me.shouheng.notepal.widget.themed.SupportTextView
+                        android:text="@string/thanks"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/SettingsCardTitleStyle"/>
+
+                    <me.shouheng.notepal.widget.themed.Divider
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"/>
+
+                    <TextView
+                        android:id="@+id/tv_thanks_details"
+                        android:text="@string/thanks_details"
+                        android:layout_margin="16dp"
+                        android:textSize="15sp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+            </me.shouheng.notepal.widget.themed.SupportCardView>
+
+            <me.shouheng.notepal.widget.themed.SupportCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="@dimen/card_corner_radius"
+                app:cardElevation="@dimen/card_elevation"
+                style="@style/SettingsCardStyle">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:paddingBottom="8dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical">
+
+                    <me.shouheng.notepal.widget.themed.SupportTextView
+                        android:text="@string/developer_and_license"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/SettingsCardTitleStyle"/>
+
+                    <me.shouheng.notepal.widget.themed.Divider
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"/>
+
+                    <me.shouheng.notepal.widget.themed.CardTitleView
+                        android:id="@+id/ctv_developer"
+                        app:card_icon="@drawable/ic_person_black_24dp"
+                        app:card_title="@string/developers"
+                        app:card_sub_title="@string/developer_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                    <me.shouheng.notepal.widget.themed.CardTitleView
+                        android:id="@+id/ctv_changelog"
+                        app:card_icon="@drawable/ic_description_black_24dp"
+                        app:card_title="@string/changelog"
+                        app:card_sub_title="@string/changelog_sub_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                    <me.shouheng.notepal.widget.themed.CardTitleView
+                        android:id="@+id/ctv_license"
+                        app:card_icon="@drawable/ic_insert_drive_file_grey_24dp"
+                        app:card_title="@string/open_source_libraries_permissions"
+                        app:card_sub_title="@string/view_third_part_libraries"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+            </me.shouheng.notepal.widget.themed.SupportCardView>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</layout>

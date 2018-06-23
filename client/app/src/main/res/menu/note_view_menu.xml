@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--<item android:id="@+id/action_find"-->
+        <!--android:title="@string/text_find"-->
+        <!--app:showAsAction="never"/>-->
+
+    <item android:id="@+id/action_find"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        android:title="@string/text_search"
+        android:icon="@drawable/ic_search_white_24dp"
+        app:showAsAction="always"/>
+
+    <item android:id="@+id/action_edit"
+        android:title="@string/text_edit"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/action_fonts"
+        android:visible="false"
+        android:title="@string/text_font">
+        <menu>
+            <group>
+                <item android:id="@+id/font_cursive"
+                    android:title="cursive" />
+                <item android:id="@+id/font_fantasy"
+                    android:title="fantasy" />
+                <item android:id="@+id/font_fixed"
+                    android:title="fixed" />
+                <item android:id="@+id/font_sans_serif"
+                    android:title="sansserif" />
+                <item android:id="@+id/font_serif"
+                    android:title="seriffont" />
+            </group>
+        </menu>
+    </item>
+
+    <item android:id="@+id/action_labs"
+        android:title="@string/text_tags"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/action_location"
+        android:title="@string/text_show_location"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/action_copy_link"
+        android:title="@string/text_copy_link"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/action_copy_content"
+        android:title="@string/text_copy_text"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/action_add_shortcut"
+        android:title="@string/text_add_to_home_screen"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/action_statistic"
+        android:title="@string/text_statistic"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/action_share"
+        android:title="@string/text_share"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/action_export"
+        android:title="@string/text_export"
+        app:showAsAction="never"/>
+
+</menu>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:id="@+id/group1"
+        android:checkableBehavior="single">
+
+        <item android:id="@+id/nav_notes"
+            android:title="@string/drawer_menu_notes"
+            android:icon="@drawable/ic_note"/>
+
+        <item android:id="@+id/nav_labels"
+            android:title="@string/drawer_menu_tags"
+            android:icon="@drawable/ic_labels_grey_24dp"/>
+
+        <item android:id="@+id/nav_notices"
+            android:title="@string/drawer_menu_notices"
+            android:visible="false"
+            android:icon="@drawable/ic_access_alarm_white"/>
+
+    </group>
+
+    <group android:id="@+id/group2"
+        android:checkableBehavior="none">
+
+        <item android:id="@+id/nav_archive"
+            android:title="@string/drawer_menu_archive"
+            android:icon="@drawable/ic_archive_grey"/>
+
+        <item android:id="@+id/nav_trash"
+            android:title="@string/drawer_menu_trash"
+            android:icon="@drawable/ic_trash_black"/>
+
+    </group>
+
+    <group android:id="@+id/group3"
+        android:checkableBehavior="none">
+
+        <item android:id="@+id/nav_settings"
+            android:title="@string/drawer_menu_setting"
+            android:icon="@drawable/ic_settings_black"/>
+
+        <item android:id="@+id/nav_sync"
+            android:title="@string/drawer_menu_sync"
+            android:icon="@drawable/ic_sync_black"/>
+
+    </group>
+
+</menu>

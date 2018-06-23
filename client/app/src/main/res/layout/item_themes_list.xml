@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<me.shouheng.notepal.widget.themed.SupportCardView
+    android:id="@+id/cardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="@dimen/card_corner_radius"
+    app:cardElevation="@dimen/card_elevation"
+    style="@style/SettingsCardStyle"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical">
+
+        <me.shouheng.notepal.widget.themed.SupportTextView
+            android:id="@+id/list_tile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/SettingsCardTitleStyle"/>
+
+        <me.shouheng.notepal.widget.themed.Divider
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_themes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+</me.shouheng.notepal.widget.themed.SupportCardView>

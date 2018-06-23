@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:id="@+id/group1"
+        android:checkableBehavior="single">
+
+        <item android:id="@+id/nav_notes"
+            android:title="@string/drawer_menu_notes"
+            android:icon="@drawable/ic_note"/>
+
+        <item android:id="@+id/nav_labels"
+            android:title="@string/drawer_menu_tags"
+            android:icon="@drawable/ic_labels_grey_24dp"/>
+
+    </group>
+
+    <group android:id="@+id/group3"
+        android:checkableBehavior="none">
+
+        <item android:id="@+id/nav_back"
+            android:title="@string/text_back"
+            android:icon="@drawable/ic_subdirectory_arrow_left_black_24dp"/>
+
+    </group>
+
+</menu>

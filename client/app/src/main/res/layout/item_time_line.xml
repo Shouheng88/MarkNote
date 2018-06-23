@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:padding="8dp"
+        android:layout_marginTop="5dp"
+        android:orientation="vertical"
+        android:gravity="end"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content">
+
+        <TextView android:id="@+id/tv_date"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:text="08月01日"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <me.shouheng.notepal.widget.Timeline
+        android:id="@+id/timeLine"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingTop="@dimen/timeline_padding_top"
+        app:start_line="@color/time_line_color"
+        app:finish_line="@color/time_line_color"
+        app:line_size="@dimen/timeline_line_size"
+        app:atom="@drawable/solid_circle_green"
+        app:atom_size="@dimen/timeline_dot_size"/>
+
+    <me.shouheng.notepal.widget.themed.SupportCardView
+        android:id="@+id/cd"
+        android:layout_marginStart="@dimen/timeline_card_left_right_margin"
+        android:layout_marginEnd="@dimen/timeline_card_left_right_margin"
+        android:layout_marginBottom="@dimen/timeline_card_top_bottom_margin"
+        android:layout_marginTop="@dimen/timeline_card_top_bottom_margin"
+        app:cardCornerRadius="1dp"
+        app:cardElevation="5dp"
+        android:clickable="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true">
+
+        <RelativeLayout
+            android:padding="16dp"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <me.shouheng.notepal.widget.CircleImageView
+                android:id="@+id/civ"
+                android:layout_centerVertical="true"
+                android:layout_width="30dp"
+                android:layout_height="30dp" />
+
+            <ImageView
+                android:id="@+id/iv_operation"
+                android:tint="@android:color/white"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="5dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp" />
+
+            <LinearLayout
+                android:layout_toEndOf="@id/civ"
+                android:orientation="vertical"
+                android:layout_centerVertical="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv"
+                    android:textSize="15sp"
+                    android:layout_marginStart="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tv_sub"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:layout_marginTop="3dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </me.shouheng.notepal.widget.themed.SupportCardView>
+
+</LinearLayout>

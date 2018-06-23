@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include android:id="@+id/bar_layout" layout="@layout/layout_toolbar"/>
+
+            <FrameLayout
+                android:id="@+id/fragment_container"
+                android:layout_below="@id/bar_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <FrameLayout
+                    android:id="@+id/rl_menu_container"
+                    android:background="#a0ffffff"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+                <com.github.clans.fab.FloatingActionMenu
+                    android:id="@+id/menu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="10dp"
+                    app:menu_showShadow="true"
+                    app:menu_shadowColor="#66000000"
+                    app:menu_shadowRadius="4dp"
+                    app:menu_shadowXOffset="1dp"
+                    app:menu_shadowYOffset="1dp"
+                    app:menu_colorNormal="@color/colorPrimary"
+                    app:menu_colorRipple="#99FFFFFF"
+                    app:menu_animationDelayPerItem="50"
+                    app:menu_icon="@drawable/fab_add"
+                    app:menu_buttonSpacing="0dp"
+                    app:menu_labels_margin="0dp"
+                    app:menu_labels_showAnimation="@anim/fab_slide_in_from_right"
+                    app:menu_labels_hideAnimation="@anim/fab_slide_out_to_right"
+                    app:menu_labels_paddingTop="4dp"
+                    app:menu_labels_paddingRight="8dp"
+                    app:menu_labels_paddingBottom="4dp"
+                    app:menu_labels_paddingLeft="8dp"
+                    app:menu_labels_padding="8dp"
+                    app:menu_labels_textColor="#FFFFFF"
+                    app:menu_labels_textSize="14sp"
+                    app:menu_labels_cornerRadius="3dp"
+                    app:menu_labels_colorNormal="#333333"
+                    app:menu_labels_colorPressed="#444444"
+                    app:menu_labels_colorRipple="#66FFFFFF"
+                    app:menu_labels_showShadow="true"
+                    app:menu_labels_singleLine="false"
+                    app:menu_labels_ellipsize="none"
+                    app:menu_labels_maxLines="-1"
+                    app:menu_labels_position="left"
+                    app:menu_openDirection="up"
+                    app:menu_backgroundColor="@android:color/transparent">
+
+                    <com.github.clans.fab.FloatingActionButton
+                        android:id="@+id/fab1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:menu_colorRipple="#99FFFFFF"
+                        app:fab_label=" "
+                        app:fab_size="mini" />
+
+                    <com.github.clans.fab.FloatingActionButton
+                        android:id="@+id/fab2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:menu_colorRipple="#99FFFFFF"
+                        app:fab_label=" "
+                        app:fab_size="mini"/>
+
+                    <com.github.clans.fab.FloatingActionButton
+                        android:id="@+id/fab3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:menu_colorRipple="#99FFFFFF"
+                        app:fab_label=" "
+                        app:fab_size="mini"/>
+
+                    <com.github.clans.fab.FloatingActionButton
+                        android:id="@+id/fab4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:menu_colorRipple="#99FFFFFF"
+                        app:fab_label=" "
+                        app:fab_size="mini" />
+
+                    <com.github.clans.fab.FloatingActionButton
+                        android:id="@+id/fab5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:menu_colorRipple="#99FFFFFF"
+                        app:fab_label=" "
+                        app:fab_size="mini" />
+
+                </com.github.clans.fab.FloatingActionMenu>
+
+            </RelativeLayout>
+
+            <me.shouheng.notepal.widget.themed.SupportLoading
+                android:id="@+id/sl"
+                android:layout_below="@id/bar_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <View android:layout_width="match_parent"
+                android:layout_height="@dimen/toolbar_evaluation"
+                android:background="@drawable/toolbar_dropshadow"
+                android:layout_below="@id/bar_layout"/>
+
+            <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+                android:id="@+id/top_mpb"
+                android:layout_below="@id/bar_layout"
+                app:mpb_progressStyle="horizontal"
+                style="@style/Widget.MaterialProgressBar.ProgressBar.Horizontal"
+                android:indeterminate="true"
+                android:visibility="gone"
+                tools:visibility="visible"
+                app:mpb_useIntrinsicPadding="false"
+                android:layout_width="match_parent"
+                android:layout_height="5dp" />
+
+        </RelativeLayout>
+
+        <android.support.design.widget.NavigationView
+            android:id="@+id/nav"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:fitsSystemWindows="true"
+            app:menu="@menu/menu_main_drawer" />
+
+    </android.support.v4.widget.DrawerLayout>
+
+</layout>

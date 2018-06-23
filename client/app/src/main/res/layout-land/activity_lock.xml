@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/mine_shaft"
+        tools:context=".activity.LockActivity">
+
+        <RelativeLayout
+            android:gravity="center_vertical"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/profile_image"
+                android:layout_width="match_parent"
+                android:layout_height="84dp"
+                android:src="@drawable/mark_note" />
+
+            <TextView
+                android:id="@+id/profile_name"
+                android:layout_width="256dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/profile_image"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="36dp"
+                android:fontFamily="sans-serif-thin"
+                android:gravity="center"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:text="@string/text_input_password_and_continue"
+                android:textColor="@color/white"
+                android:textSize="30sp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:gravity="center_vertical"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+
+            <com.andrognito.pinlockview.IndicatorDots
+                android:layout_marginTop="36dp"
+                android:id="@+id/indicator_dots"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true" />
+
+            <com.andrognito.pinlockview.PinLockView
+                android:id="@+id/pin_lock_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/indicator_dots"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="16dp"
+                app:keypadButtonSize="72dp"
+                app:keypadShowDeleteButton="true"
+                app:keypadTextColor="@color/white"
+                app:keypadTextSize="18dp" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</layout>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/action_edit"
+        android:title="@string/text_edit"/>
+
+    <item android:id="@+id/action_share"
+        android:title="@string/text_share"
+        android:visible="false"/>
+
+    <item android:id="@+id/action_move"
+        android:title="@string/move_to_another_notebook"/>
+
+    <item android:id="@+id/action_archive"
+        android:title="@string/text_archived" />
+
+    <item android:id="@+id/action_trash"
+        android:title="@string/text_trash" />
+
+    <item android:id="@+id/action_move_out"
+        android:title="@string/text_move_out" />
+
+    <item android:id="@+id/action_delete"
+        android:title="@string/text_delete" />
+
+</menu>

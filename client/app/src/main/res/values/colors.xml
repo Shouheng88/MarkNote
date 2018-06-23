@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <!--region introduction-->
+    <color name="intro_color_1">#222222</color>
+    <color name="intro_color_2">#c52829</color>
+    <color name="intro_color_3">#f77910</color>
+    <color name="intro_color_4">#21dba4</color>
+    <color name="intro_color_5">#9C27B0</color>
+    <!--endregion introduction-->
+
+    <color name="black20">#33000000</color>
+    <color name="black38">#61000000</color>
+    <color name="black54">#8A000000</color>
+    <color name="black87">#D8000000</color>
+
+    <color name="white20">#33ffffff</color>
+    <color name="white38">#61ffffff</color>
+    <color name="white54">#8Affffff</color>
+    <color name="white87">#D8ffffff</color>
+
+    <color name="ripple_color">#ffeeeeee</color>
+
+    <color name="white_divider_color">#22ffffff</color>
+    <color name="black_divider_color">#08000000</color>
+
+    <color name="dark_theme_background">#2e2e2e</color>
+    <color name="dark_theme_foreground">#3f3f3f</color>
+    <color name="light_theme_background">#fafafa</color>
+
+    <color name="note_bottom_editors">#525D63</color>
+
+    <color name="time_line_color">#BDBDBD</color>
+
+    <color name="light_theme_text_color">#424242</color>
+    <color name="light_theme_sub_text_color">#757575</color>
+    <color name="light_theme_image_tint_color">#737373</color>
+    <color name="dark_theme_image_tint_color">#C1C1C1</color>
+
+    <color name="light_theme_empty_text_color">@color/black54</color>
+    <color name="light_theme_empty_sub_text_color">@color/black38</color>
+    <color name="light_theme_empty_icon_tint_color">@color/black38</color>
+    <color name="dark_theme_empty_text_color">@color/white54</color>
+    <color name="dark_theme_empty_sub_text_color">@color/white38</color>
+    <color name="dark_theme_empty_icon_tint_color">@color/white38</color>
+
+    <color name="kitkat_gray_dark">#25000000</color>
+    <color name="kitkat_gray_light">#19000000</color>
+
+    <!--region color for App Widget-->
+    <color name="black_translucent">#66000000</color>
+    <color name="white_translucent">#B0ffffff</color>
+    <!--endregion-->
+
+    <color name="menu_container_light">#a0ffffff</color>
+    <color name="menu_container_dark">#a0000000</color>
+</resources>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/setting_preference">
+
+        <Preference
+            android:key="@string/key_preferences"
+            android:persistent="false"
+            android:title="@string/setting_preferences"
+            android:summary="@string/setting_preferences_sub"/>
+
+        <Preference
+            android:key="data_backup"
+            android:persistent="false"
+            android:title="@string/setting_backup"
+            android:summary="@string/setting_backup_sub"/>
+
+        <Preference
+            android:key="data_security"
+            android:persistent="false"
+            android:title="@string/setting_data_security"
+            android:summary="@string/setting_data_security_sub" />
+
+        <Preference
+            android:title="@string/setting_note"
+            android:key="key_note_settings"
+            android:persistent="false"
+            android:summary="@string/setting_note_sub"/>
+
+    </PreferenceCategory>
+
+    <!--<PreferenceCategory android:title="@string/setting_note">-->
+    <!--</PreferenceCategory>-->
+
+    <PreferenceCategory android:title="@string/setting_theme">
+
+        <CheckBoxPreference
+            android:key="is_dark_theme"
+            android:title="@string/setting_dark_theme"
+            android:summary="@string/setting_dark_theme_sub"/>
+
+        <me.shouheng.notepal.widget.ColorPreference
+            android:key="primary_color"
+            android:persistent="false"
+            android:title="@string/setting_primary_color"
+            android:summary="@string/setting_primary_color_sub"/>
+
+        <me.shouheng.notepal.widget.ColorPreference
+            android:key="accent_color"
+            android:persistent="false"
+            android:title="@string/setting_accent_color"
+            android:summary="@string/setting_accent_color_sub"/>
+
+        <CheckBoxPreference
+            android:key="colored_navigation_bar"
+            android:defaultValue="true"
+            android:title="@string/setting_colored_navigation_bar"
+            android:summary="@string/setting_colored_navigation_bar_sub"/>
+
+        <Preference
+            android:key="setup_dashboard"
+            android:persistent="false"
+            android:title="@string/setting_personalize_dashboard"
+            android:summary="@string/setting_personalize_dashboard_sub"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/setting_help">
+
+        <Preference
+            android:key="user_guide"
+            android:persistent="false"
+            android:title="@string/setting_online_user_guide"
+            android:summary="@string/setting_online_user_guide_sub"/>
+
+        <Preference
+            android:key="user_intro"
+            android:persistent="false"
+            android:title="@string/setting_user_intro"
+            android:summary="@string/setting_user_intro_sub"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/setting_others">
+
+        <Preference
+            android:key="support_develop"
+            android:title="@string/setting_support_development"
+            android:summary="@string/setting_support_development_sub"/>
+
+        <Preference
+            android:key="feedback"
+            android:persistent="false"
+            android:title="@string/setting_feedback"
+            android:summary="@string/setting_feedback_sub"/>
+
+        <Preference
+            android:key="about"
+            android:persistent="false"
+            android:title="@string/setting_about"
+            android:summary="@string/setting_about_sub"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

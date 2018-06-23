@@ -1,1 +1,0 @@
-include ':app', ':md-support', ':photoview', ':colorful'

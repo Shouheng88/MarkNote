@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <FrameLayout
+        android:id="@+id/fl"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/nav_main_height"
+        android:background="?attr/colorPrimaryDark"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"
+        android:orientation="vertical"
+        android:gravity="bottom"
+        android:clickable="true"
+        android:focusable="true">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/user_bg"
+            tools:src="@drawable/ic_google_plus"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+        <me.shouheng.notepal.widget.CircleImageView
+            android:id="@+id/user_head_portrait"
+            android:layout_marginTop="@dimen/main_navigation_header_top_margin"
+            android:layout_marginStart="10dp"
+            android:visibility="invisible"
+            android:src="@drawable/ic_account_circle_white_48dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="bottom"
+            android:gravity="bottom">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/user_account"
+                android:textSize="16sp"
+                android:textColor="#ffffff"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:text="@string/app_name"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/user_motto"
+                android:paddingTop="2dp"
+                android:textColor="#ffffff"
+                android:ellipsize="end"
+                android:maxLines="2"
+                tools:text="Wow, it doesn't matter.\nSo what?"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/selectableItemBackground"/>
+
+    </FrameLayout>
+
+</layout>

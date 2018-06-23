@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/text_external_storage">
+
+        <Preference
+            android:key="@string/key_backup_to_external_storage"
+            android:persistent="false"
+            android:title="@string/backup_to_external_storage"
+            android:summary="@string/backup_to_external_storage_sub"/>
+
+        <Preference
+            android:key="@string/import_from_external_storage"
+            android:persistent="false"
+            android:title="@string/backup_import_from_external_storage"
+            android:summary="@string/backup_import_from_external_storage_sub" />
+
+        <Preference
+            android:key="@string/delete_external_storage_backup"
+            android:persistent="false"
+            android:title="@string/backup_delete_external_backup"
+            android:summary="@string/backup_delete_external_backup_sub" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/text_one_drive">
+
+        <Preference android:key="@string/key_one_drive_backup"
+            android:persistent="false"
+            android:title="@string/one_drive_backup_title"
+            android:summary="@string/one_drive_backup_sub_title"/>
+
+        <Preference android:key="@string/key_one_drive_sign_out"
+            android:persistent="false"
+            android:title="@string/sign_out_one_drive"
+            android:summary="@string/sign_out_one_drive_sub"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/text_sync_settings">
+
+        <Preference
+            android:key="@string/key_sync_time_interval"
+            android:persistent="false"
+            android:title="@string/backup_time_interval"/>
+
+        <CheckBoxPreference
+            android:key="@string/key_backup_only_wifi"
+            android:defaultValue="true"
+            android:title="@string/backup_only_wifi"
+            android:summary="@string/backup_only_wifi_sub"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

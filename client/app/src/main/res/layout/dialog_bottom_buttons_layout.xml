@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btn_positive"
+            android:layout_alignParentEnd="true"
+            android:text="@string/text_accept"
+            android:textColor="@color/colorAccent"
+            android:background="@android:color/transparent"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btn_negative"
+            android:layout_toStartOf="@id/btn_positive"
+            android:text="@string/text_give_up"
+            android:textColor="@color/colorAccent"
+            android:background="@android:color/transparent"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btn_neutral"
+            android:text="@string/add_attachment"
+            android:textColor="@color/colorAccent"
+            android:background="@android:color/transparent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+</layout>

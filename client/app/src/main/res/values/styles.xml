@@ -1,0 +1,130 @@
+<resources>
+
+    <style name="ThemeBaseLight" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.FullScreen.Light" parent="ThemeBaseLight"/>
+
+    <style name="AppThemeNormalLight" parent="ThemeBaseLight"/>
+
+    <style name="AppTheme.AppBarOverlay" parent="@style/ThemeOverlay.AppCompat.Dark" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="TransParentDialog" parent="Theme.AppCompat.DayNight.Dialog">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="PictureViewTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimaryDark">@android:color/black</item>
+        <item name="colorPrimary">@android:color/black</item>
+        <item name="colorAccent">@android:color/black</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style name="style_note_bottom_button">
+        <item name="android:padding">12dp</item>
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+        <item name="android:tint">@color/white</item>
+    </style>
+
+    <!--region user info-->
+    <style name="ProfileCardStyle">
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+
+    <style name="ProfileListItemStyle">
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:paddingEnd">8dp</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+    <style name="ProfileTitleStyle">
+        <item name="android:textColor">@color/light_theme_text_color</item>
+        <item name="android:textSize">@dimen/medium_text</item>
+    </style>
+
+    <style name="ProfileSubTitleStyle">
+        <item name="android:textSize">@dimen/sub_medium_text</item>
+    </style>
+
+    <style name="ProfilesCardItemIconStyle">
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_marginStart">@dimen/medium_spacing</item>
+        <item name="android:layout_marginEnd">@dimen/medium_spacing</item>
+    </style>
+    <!--endregion-->
+
+    <!--region setting page-->
+    <style name="SettingsCardStyle">
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+    <style name="SettingsCardTitleStyle">
+        <item name="android:textColor">@color/light_theme_text_color</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+    </style>
+
+    <style name="SettingsCardItemTitleStyle">
+        <item name="android:paddingTop">@dimen/sub_big_spacing</item>
+        <item name="android:paddingBottom">@dimen/medium_spacing</item>
+        <item name="android:textSize">@dimen/sub_big_text</item>
+    </style>
+
+    <style name="SettingsCardItemIconStyle">
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_marginStart">@dimen/medium_spacing</item>
+        <item name="android:layout_marginEnd">@dimen/medium_spacing</item>
+    </style>
+
+    <style name="SettingsCardItemDetailLinearLayout">
+        <item name="android:paddingTop">@dimen/small_spacing</item>
+        <item name="android:paddingBottom">@dimen/small_spacing</item>
+        <item name="android:paddingRight">@dimen/medium_spacing</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="SettingsCardItemDetailTitle">
+        <item name="android:textSize">@dimen/medium_text</item>
+        <item name="android:textColor">@color/light_theme_text_color</item>
+    </style>
+
+    <style name="SettingsCardItemDetailSubTitle">
+        <item name="android:textSize">@dimen/sub_medium_text</item>
+    </style>
+    <!--endregion-->
+
+    <style name="OpenResolver">
+        <item name="android:drawablePadding">13dp</item>
+        <item name="android:paddingStart">13dp</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="OptionListItem">
+        <item name="android:paddingStart">13dp</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:drawablePadding">13dp</item>
+    </style>
+</resources>

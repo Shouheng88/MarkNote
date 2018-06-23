@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="none" android:enabled="true">
+        <item android:id="@+id/item_include_tags"
+            android:checkable="true"
+            android:visible="false"
+            android:title="@string/include_tags"/>
+        <item android:id="@+id/item_include_archived"
+            android:checkable="true"
+            android:title="@string/include_archived"/>
+        <item android:id="@+id/item_include_trashed"
+            android:checkable="true"
+            android:title="@string/include_trashed"/>
+    </group>
+</menu>

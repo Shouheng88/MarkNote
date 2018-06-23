@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <FrameLayout
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include android:id="@+id/bottom"
+            android:layout_gravity="bottom"
+            layout="@layout/dialog_bottom_buttons_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <ScrollView
+            android:layout_marginBottom="50dp"
+            android:scrollbars="none"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <me.shouheng.notepal.widget.SquareImageView
+                    android:id="@+id/siv"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/iv"
+                    android:visibility="gone"
+                    android:background="#ccc"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:src="@drawable/fab_add" />
+
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/et"
+                    android:textSize="16sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLength="@integer/mind_snagging_content_length" />
+
+                <me.shouheng.notepal.widget.WatcherTextView
+                    android:id="@+id/wtv"
+                    android:layout_gravity="end"
+                    app:max_length="@integer/mind_snagging_content_length"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </FrameLayout>
+
+</layout>
