@@ -33,25 +33,26 @@ public class UserPreferences extends BasePreferences {
         defaultFabOrders.add(FabSortItem.FILE);
 
         defaultMarkdownFormats = new LinkedList<>();
-        defaultMarkdownFormats.add(MarkdownFormat.ITALIC);
-        defaultMarkdownFormats.add(MarkdownFormat.BOLD);
-        defaultMarkdownFormats.add(MarkdownFormat.QUOTE);
-        defaultMarkdownFormats.add(MarkdownFormat.CODE_BLOCK);
-        defaultMarkdownFormats.add(MarkdownFormat.STRIKE);
-        defaultMarkdownFormats.add(MarkdownFormat.HORIZONTAL_LINE);
         defaultMarkdownFormats.add(MarkdownFormat.H1);
-        defaultMarkdownFormats.add(MarkdownFormat.H2);
-        defaultMarkdownFormats.add(MarkdownFormat.H3);
-        defaultMarkdownFormats.add(MarkdownFormat.H4);
-        defaultMarkdownFormats.add(MarkdownFormat.H5);
-        defaultMarkdownFormats.add(MarkdownFormat.H6);
-        defaultMarkdownFormats.add(MarkdownFormat.XML);
-        defaultMarkdownFormats.add(MarkdownFormat.NUMBER_LIST);
+
+        // TODO: add indent
+
         defaultMarkdownFormats.add(MarkdownFormat.NORMAL_LIST);
-        defaultMarkdownFormats.add(MarkdownFormat.MARK);
+        defaultMarkdownFormats.add(MarkdownFormat.NUMBER_LIST);
         defaultMarkdownFormats.add(MarkdownFormat.CHECKBOX);
         defaultMarkdownFormats.add(MarkdownFormat.CHECKBOX_OUTLINE);
+
+        defaultMarkdownFormats.add(MarkdownFormat.QUOTE);
+        defaultMarkdownFormats.add(MarkdownFormat.XML);
         defaultMarkdownFormats.add(MarkdownFormat.CODE_BLOCK);
+
+        defaultMarkdownFormats.add(MarkdownFormat.STRIKE);
+        defaultMarkdownFormats.add(MarkdownFormat.HORIZONTAL_LINE);
+
+        defaultMarkdownFormats.add(MarkdownFormat.ITALIC);
+        defaultMarkdownFormats.add(MarkdownFormat.BOLD);
+        defaultMarkdownFormats.add(MarkdownFormat.MARK); // not standard markdown
+
         defaultMarkdownFormats.add(MarkdownFormat.MATH_JAX);
         defaultMarkdownFormats.add(MarkdownFormat.SUB_SCRIPT);
         defaultMarkdownFormats.add(MarkdownFormat.SUPER_SCRIPT);

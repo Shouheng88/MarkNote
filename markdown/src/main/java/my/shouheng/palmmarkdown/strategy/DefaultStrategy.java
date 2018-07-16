@@ -4,7 +4,8 @@ import android.text.TextUtils;
 import android.widget.EditText;
 
 /**
- * Created by wangshouheng on 2017/10/7.*/
+ * Created by wangshouheng on 2017/10/7.
+ */
 public class DefaultStrategy implements MdParseStrategy {
 
     @Override
@@ -123,7 +124,7 @@ public class DefaultStrategy implements MdParseStrategy {
     }
 
     @Override
-    public void link(String source, int selectionStart, int selectionEnd, String title, String link, EditText editor){
+    public void link(String source, int selectionStart, int selectionEnd, String title, String link, EditText editor) {
         String result = title == null ?
                 (link == null ? "[]()" : "[](" + link + ")") :
                 (link == null ? "[" + title + "]()" : "[" + title + "](" + link + ")");
@@ -237,9 +238,10 @@ public class DefaultStrategy implements MdParseStrategy {
     }
 
     @Override
-    public void footNote(String source, int selectionStart, int selectionEnd, EditText editor) {}
+    public void footNote(String source, int selectionStart, int selectionEnd, EditText editor) {
+    }
 
-    private void insertList(String listType, String source, int selectionStart, int selectionEnd, EditText editor){
+    private void insertList(String listType, String source, int selectionStart, int selectionEnd, EditText editor) {
         String substring = source.substring(0, selectionStart);
         int line = substring.lastIndexOf(10);
 
@@ -274,13 +276,13 @@ public class DefaultStrategy implements MdParseStrategy {
     private boolean isSingleLine(String source, int selectionStart) {
         if (source.isEmpty()) return true;
         source = source.substring(0, selectionStart);
-        return source.length() == 0 || source.charAt(source.length() - 1) == 10;
+        return source.length() == 0 || source.charAt(source.length() - 1) == '\n';
     }
 
     private boolean isTwoSingleLines(String source, int selectionStart) {
         source = source.substring(0, selectionStart);
         return source.length() >= 2
-                && source.charAt(source.length() - 1) == 10
-                && source.charAt(source.length() - 2) == 10;
+                && source.charAt(source.length() - 1) == '\n'
+                && source.charAt(source.length() - 2) == '\n';
     }
 }

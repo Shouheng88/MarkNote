@@ -9,12 +9,13 @@ import android.util.AttributeSet;
 
 import java.util.Stack;
 
-import my.shouheng.palmmarkdown.strategy.DefaultStrategy;
+import my.shouheng.palmmarkdown.strategy.DayOneStrategy;
 import my.shouheng.palmmarkdown.strategy.MdParseStrategy;
 import my.shouheng.palmmarkdown.tools.MarkdownFormat;
 
 /**
- * Created by wangshouheng on 2017/6/29.*/
+ * Created by wangshouheng on 2017/6/29.
+ */
 public class MarkdownEditor extends android.support.v7.widget.AppCompatEditText {
 
     /* 操作序号(一次编辑可能对应多个操作，如替换文字，就是删除+插入) */
@@ -30,7 +31,7 @@ public class MarkdownEditor extends android.support.v7.widget.AppCompatEditText 
 
     private boolean flag = false;
 
-    private MdParseStrategy mdParseStrategy = new DefaultStrategy();
+    private MdParseStrategy mdParseStrategy = new DayOneStrategy();
 
     public MarkdownEditor(Context context) {
         super(context);
@@ -47,21 +48,23 @@ public class MarkdownEditor extends android.support.v7.widget.AppCompatEditText 
         init();
     }
 
-    private void init(){
+    private void init() {
         this.addTextChangedListener(new InputTextWatcher());
         this.addTextChangedListener(new ActionWatcher());
     }
 
-    protected void onEditableChanged(Editable s) {}
+    protected void onEditableChanged(Editable s) {
+    }
 
-    protected void onTextChanged(Editable s) {}
+    protected void onTextChanged(Editable s) {
+    }
 
     public final void addEffect(MarkdownFormat markdownEffect) {
         String source = this.getText().toString();
         int selectionStart = getSelectionStart();
         int selectionEnd = getSelectionEnd();
         String selection = source.substring(selectionStart, selectionEnd);
-        switch (markdownEffect){
+        switch (markdownEffect) {
             case H1:
                 mdParseStrategy.h1(source, selectionStart, selectionEnd, selection, this);
                 break;
@@ -136,7 +139,7 @@ public class MarkdownEditor extends android.support.v7.widget.AppCompatEditText 
         String source = this.getText().toString();
         int selectionStart = getSelectionStart();
         int selectionEnd = getSelectionEnd();
-        switch (markdownEffect){
+        switch (markdownEffect) {
             case LINK:
                 mdParseStrategy.link(source, selectionStart, selectionEnd, title, link, this);
                 break;
@@ -234,7 +237,8 @@ public class MarkdownEditor extends android.support.v7.widget.AppCompatEditText 
          * @param s     the s
          * @param start the start 起始光标
          * @param count the count 选择数量
-         * @param after the after 替换增加的文字数 */
+         * @param after the after 替换增加的文字数
+         */
         @Override
         public final void beforeTextChanged(CharSequence s, int start, int count, int after) {
             if (flag) return;
@@ -250,7 +254,8 @@ public class MarkdownEditor extends android.support.v7.widget.AppCompatEditText 
         /**
          * @param start  the start 起始光标
          * @param before the before 选择数量
-         * @param count  the count 添加的数量 */
+         * @param count  the count 添加的数量
+         */
         @Override
         public final void onTextChanged(CharSequence s, int start, int before, int count) {
             if (flag) return;
@@ -275,7 +280,8 @@ public class MarkdownEditor extends android.support.v7.widget.AppCompatEditText 
          * @param s     the s
          * @param start the start 起始光标
          * @param count the endCursor 选择数量
-         * @param after the after 替换增加的文字数 */
+         * @param after the after 替换增加的文字数
+         */
         @Override
         public final void beforeTextChanged(CharSequence s, int start, int count, int after) {
             if (flag) return;
@@ -306,7 +312,8 @@ public class MarkdownEditor extends android.support.v7.widget.AppCompatEditText 
          * @param s      the s
          * @param start  the start 起始光标
          * @param before the before 选择数量
-         * @param count  the endCursor 添加的数量 */
+         * @param count  the endCursor 添加的数量
+         */
         @Override
         public final void onTextChanged(CharSequence s, int start, int before, int count) {
             if (flag) return;
@@ -391,19 +398,23 @@ public class MarkdownEditor extends android.support.v7.widget.AppCompatEditText 
     private class Action {
 
         /**
-         * 改变字符 */
+         * 改变字符
+         */
         CharSequence actionTarget;
 
         /**
-         * 光标位置 */
+         * 光标位置
+         */
         int startCursor, endCursor;
 
         /**
-         * 标志增加操作 */
+         * 标志增加操作
+         */
         boolean isAdd;
 
         /**
-         * 操作序号 */
+         * 操作序号
+         */
         int index;
 
         Action(CharSequence actionTag, int startCursor, boolean add) {
@@ -429,8 +440,9 @@ public class MarkdownEditor extends android.support.v7.widget.AppCompatEditText 
                 if (!formatPasteEnable) break;
                 ClipboardManager clip = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
                 String content;
-                if (clip != null && !TextUtils.isEmpty(content = clip.getText().toString()))
+                if (clip != null && !TextUtils.isEmpty(content = clip.getText().toString())) {
                     clip.setText(content.replace("\t", "    "));
+                }
                 break;
         }
         return super.onTextContextMenuItem(id);
