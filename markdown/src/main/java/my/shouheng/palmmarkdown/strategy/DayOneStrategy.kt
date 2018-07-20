@@ -20,6 +20,15 @@ class DayOneStrategy : DefaultStrategy() {
         editor?.setSelection(end + newMark.length - mark.length) // 简单处理, 光标放在行尾
     }
 
+    override fun normalList(source: String, selectionStart: Int, selectionEnd: Int, editor: EditText?) {
+        val (targetLine, start, end) = source.selectedLine(selectionStart, selectionEnd)
+        // parse 出前面格式(header, list, task, quote)之外的文字
+        val (mark, indent, content) = detectMark(targetLine)
+        val newMark = Mark.handle(Mark.LI, mark)
+        editor?.text?.replace(start, start + mark.length, newMark)
+        editor?.setSelection(end + newMark.length - mark.length) // 简单处理, 光标放在行尾
+    }
+
     /**
      * @return mark, indent, content
      */

@@ -10,12 +10,15 @@ interface MarkHandler {
      */
     fun handleHeader(sourceMark: String): String
 
+    fun handleList(sourceMark: String): String
+
     /**
      * @return targetMark
      */
     fun handleMark(inputMark: Mark, sourceMark: String): String {
         return when (inputMark) {
             Mark.H -> handleHeader(sourceMark)
+            Mark.LI -> handleList(sourceMark)
             else -> sourceMark
         }
     }
