@@ -51,6 +51,14 @@ public class DefaultStrategy implements MdParseStrategy {
     }
 
     @Override
+    public void indent(String source, int selectionStart, int selectionEnd, String selection, EditText editor) {
+    }
+
+    @Override
+    public void dedent(String source, int selectionStart, int selectionEnd, String selection, EditText editor) {
+    }
+
+    @Override
     public void quote(String source, int selectionStart, int selectionEnd, String selection, EditText editor) {
         String result = isSingleLine(source, selectionStart) ? "> " + selection : "\n>" + selection;
         editor.getText().replace(selectionStart, selectionEnd, result);

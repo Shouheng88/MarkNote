@@ -3,7 +3,8 @@ package my.shouheng.palmmarkdown.strategy;
 import android.widget.EditText;
 
 /**
- * Created by wangshouheng on 2017/10/7.*/
+ * Created by wangshouheng on 2017/10/7.
+ */
 public interface MdParseStrategy {
 
     void h1(String source, int selectionStart, int selectionEnd, String selection, EditText editor);
@@ -17,6 +18,10 @@ public interface MdParseStrategy {
     void h5(String source, int selectionStart, int selectionEnd, String selection, EditText editor);
 
     void h6(String source, int selectionStart, int selectionEnd, String selection, EditText editor);
+
+    void indent(String source, int selectionStart, int selectionEnd, String selection, EditText editor);
+
+    void dedent(String source, int selectionStart, int selectionEnd, String selection, EditText editor);
 
     void quote(String source, int selectionStart, int selectionEnd, String selection, EditText editor);
 

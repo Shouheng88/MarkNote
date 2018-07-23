@@ -19,6 +19,8 @@ public enum MarkdownFormat {
     CHECKBOX(19, R.drawable.ic_check_box_black_24dp, true),
     CHECKBOX_OUTLINE(20, R.drawable.ic_check_box_outline_blank_black_24dp, true),
 
+    INDENT(25, R.drawable.ic_format_indent_increase_white_24dp, true),
+    DEDENT(26, R.drawable.ic_format_indent_decrease_white_24dp, true),
     QUOTE(2, R.drawable.ic_format_quote_black_24dp, true),
     XML(12, R.drawable.ic_shortcut_xml, true),
     CODE_BLOCK(3, R.drawable.ic_shortcut_console, true),

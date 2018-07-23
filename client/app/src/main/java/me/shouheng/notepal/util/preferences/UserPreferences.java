@@ -40,7 +40,8 @@ public class UserPreferences extends BasePreferences {
 //        defaultMarkdownFormats.add(MarkdownFormat.CHECKBOX_OUTLINE);
         defaultMarkdownFormats.add(MarkdownFormat.CHECKBOX);
 
-        // TODO: add indent
+        defaultMarkdownFormats.add(MarkdownFormat.INDENT);
+        defaultMarkdownFormats.add(MarkdownFormat.DEDENT);
         defaultMarkdownFormats.add(MarkdownFormat.QUOTE);
         defaultMarkdownFormats.add(MarkdownFormat.XML);
         defaultMarkdownFormats.add(MarkdownFormat.CODE_BLOCK);

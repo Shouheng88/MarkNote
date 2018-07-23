@@ -83,6 +83,12 @@ public class MarkdownEditor extends android.support.v7.widget.AppCompatEditText 
             case H6:
                 mdParseStrategy.h6(source, selectionStart, selectionEnd, selection, this);
                 break;
+            case INDENT:
+                mdParseStrategy.indent(source, selectionStart, selectionEnd, selection, this);
+                break;
+            case DEDENT:
+                mdParseStrategy.dedent(source, selectionStart, selectionEnd, selection, this);
+                break;
             case QUOTE:
                 mdParseStrategy.quote(source, selectionStart, selectionEnd, selection, this);
                 break;
