@@ -10,12 +10,12 @@ import me.urakalee.markdown.MarkHandler
  */
 object NoneHandler : MarkHandler {
 
-    override fun handleHeader(sourceMark: String): String {
-        return insertMark(Mark.H.defaultMark, sourceMark)
+    override fun handleHeader(source: String, sourceMark: Mark): String {
+        return insertMark(Mark.H.defaultMark, source)
     }
 
-    override fun handleList(sourceMark: String): String {
-        return insertMark(Mark.LI.defaultMark, sourceMark)
+    override fun handleList(source: String, sourceMark: Mark): String {
+        return insertMark(Mark.LI.defaultMark, source)
     }
 
     private fun insertMark(inputMark: String, sourceMark: String): String {

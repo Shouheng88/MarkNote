@@ -8,11 +8,20 @@ import me.urakalee.markdown.MarkHandler
  */
 object ListHandler : MarkHandler {
 
-    override fun handleHeader(sourceMark: String): String {
-        return Mark.H.defaultMark
-    }
-
-    override fun handleList(sourceMark: String): String {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun handleList(source: String, sourceMark: Mark): String {
+        return when (sourceMark) {
+            Mark.LI -> {
+                Mark.LO.defaultMark
+            }
+            Mark.LO -> {
+                Mark.LA.defaultMark
+            }
+            Mark.LA -> {
+                Mark.LI.defaultMark
+            }
+            else -> {
+                super.handleList(source, sourceMark)
+            }
+        }
     }
 }

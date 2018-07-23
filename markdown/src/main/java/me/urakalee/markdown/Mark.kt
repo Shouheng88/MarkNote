@@ -11,9 +11,9 @@ enum class Mark(val pattern: Regex, val defaultMark: String, val handler: MarkHa
 
     NONE(Regex(""), "", NoneHandler),
     H(Regex("#+"), "#", HeaderHandler),
-    LI(Regex("[-*]"), "-", ListHandler);
-//    LO(Regex("\\d\\."), null),
-//    LA(Regex("[a-z]\\."), null);
+    LI(Regex("[-*]"), "-", ListHandler),
+    LO(Regex("\\d\\."), "1.", ListHandler),
+    LA(Regex("[a-z]\\."), "a.", ListHandler);
 
     companion object {
 
@@ -23,8 +23,10 @@ enum class Mark(val pattern: Regex, val defaultMark: String, val handler: MarkHa
             } ?: NONE
         }
 
-        fun handle(inputMark: Mark, sourceMark: String): String {
-            return Mark.fromString(sourceMark).handler.handleMark(inputMark, sourceMark)
+        fun handle(inputMark: Mark, source: String): String {
+            return Mark.fromString(source).let {
+                it.handler.handleMark(inputMark, source, it)
+            }
         }
     }
 }

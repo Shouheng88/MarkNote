@@ -8,11 +8,7 @@ import me.urakalee.markdown.MarkHandler
  */
 object HeaderHandler : MarkHandler {
 
-    override fun handleHeader(sourceMark: String): String {
-        return if (sourceMark.length < 6) "$sourceMark${Mark.H.defaultMark}" else Mark.H.defaultMark
-    }
-
-    override fun handleList(sourceMark: String): String {
-        return Mark.LI.defaultMark
+    override fun handleHeader(source: String, sourceMark: Mark): String {
+        return if (source.length < 6) "$sourceMark${Mark.H.defaultMark}" else Mark.H.defaultMark
     }
 }
