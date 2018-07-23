@@ -3,6 +3,7 @@ package my.shouheng.palmmarkdown.strategy
 import android.widget.EditText
 import me.urakalee.markdown.Indent
 import me.urakalee.markdown.Mark
+import me.urakalee.markdown.handler.TodoHandler
 import me.urakalee.ranger.extension.selectedLine
 
 /**
@@ -29,6 +30,15 @@ class DayOneStrategy : DefaultStrategy() {
         editor?.setSelection(end + newMark.length - mark.length) // 简单处理, 光标放在行尾
     }
 
+    override fun checkbox(source: String, selectionStart: Int, selectionEnd: Int, name: String?, isChecked: Boolean, editor: EditText?) {
+        val (targetLine, start, end) = source.selectedLine(selectionStart, selectionEnd)
+        // parse 出前面格式(header, list, task, quote)之外的文字
+        val (mark, indent, content) = detectMark(targetLine)
+        val newMark = Mark.handle(Mark.TD, mark)
+        editor?.text?.replace(start, start + mark.length, newMark)
+        editor?.setSelection(end + newMark.length - mark.length) // 简单处理, 光标放在行尾
+    }
+
     /**
      * @return mark, indent, content
      */
@@ -39,8 +49,35 @@ class DayOneStrategy : DefaultStrategy() {
             return Triple("", Indent(null), line)
         } else {
             val mark = line.substring(0 until firstBlank)
+            if (mark == "-") {
+                val todo = detectTodo(line, firstBlank - mark.length)
+                if (todo != null) {
+                    return todo
+                }
+            }
             val content = line.substring(firstBlank + 1)
             return Triple(mark, Indent(null), content)
         }
+    }
+
+    /**
+     * detect [Mark.TD] if start with '-'
+     */
+    private fun detectTodo(line: String, startIndex: Int): Triple<String, Indent, String>? {
+        val endIndex = startIndex + Mark.TD.defaultMark.length + 1 // +1 blank
+        if (endIndex > line.length) return null // not long enough, so no TD mark
+        if (line[endIndex - 1] != ' ') return null // no following blank, pass
+        val mark = line.substring(startIndex until endIndex - 1)
+        val content = line.substring(endIndex)
+        return TodoHandler.handleTodo(mark,
+                {
+                    Triple(TodoHandler.UNCHECKED, Indent(null), content)
+                },
+                {
+                    Triple(TodoHandler.CHECKED, Indent(null), content)
+                },
+                {
+                    null
+                })
     }
 }

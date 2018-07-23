@@ -10,15 +10,20 @@ import me.urakalee.markdown.MarkHandler
  */
 object NoneHandler : MarkHandler {
 
-    override fun handleHeader(source: String, sourceMark: Mark): String {
-        return insertMark(Mark.H.defaultMark, source)
+    override fun handleMark(inputMark: Mark, source: String, sourceMark: Mark): String {
+        return when (inputMark) {
+            Mark.H,
+            Mark.LI,
+            Mark.TD -> {
+                addPrecedingMark(inputMark.defaultMark, source)
+            }
+            else -> {
+                super.handleMark(inputMark, source, sourceMark)
+            }
+        }
     }
 
-    override fun handleList(source: String, sourceMark: Mark): String {
-        return insertMark(Mark.LI.defaultMark, source)
-    }
-
-    private fun insertMark(inputMark: String, sourceMark: String): String {
-        return if (sourceMark.isEmpty()) "$inputMark " else "$inputMark $sourceMark"
+    private fun addPrecedingMark(inputMark: String, source: String): String {
+        return if (source.isEmpty()) "$inputMark " else "$inputMark $source"
     }
 }

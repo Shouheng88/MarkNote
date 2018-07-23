@@ -8,15 +8,26 @@ interface MarkHandler {
     /**
      * @return targetMark on input [Mark.H]
      */
-    fun handleHeader(source: String, sourceMark: Mark): String {
-        return Mark.H.defaultMark
+    fun handleHeader(inputMark: Mark, source: String, sourceMark: Mark): String {
+        return defaultMark(inputMark)
     }
 
     /**
      * @return targetMark on input [Mark.LI]
      */
-    fun handleList(source: String, sourceMark: Mark): String {
-        return Mark.LI.defaultMark
+    fun handleList(inputMark: Mark, source: String, sourceMark: Mark): String {
+        return defaultMark(inputMark)
+    }
+
+    /**
+     * @return targetMark on input [Mark.TD]
+     */
+    fun handleTodo(inputMark: Mark, source: String, sourceMark: Mark): String {
+        return defaultMark(inputMark)
+    }
+
+    private fun defaultMark(mark: Mark): String {
+        return mark.defaultMark
     }
 
     /**
@@ -24,8 +35,9 @@ interface MarkHandler {
      */
     fun handleMark(inputMark: Mark, source: String, sourceMark: Mark): String {
         return when (inputMark) {
-            Mark.H -> handleHeader(source, sourceMark)
-            Mark.LI -> handleList(source, sourceMark)
+            Mark.H -> handleHeader(inputMark, source, sourceMark)
+            Mark.LI -> handleList(inputMark, source, sourceMark)
+            Mark.TD -> handleTodo(inputMark, source, sourceMark)
             else -> source
         }
     }

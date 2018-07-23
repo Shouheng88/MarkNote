@@ -8,7 +8,7 @@ import me.urakalee.markdown.MarkHandler
  */
 object ListHandler : MarkHandler {
 
-    override fun handleList(source: String, sourceMark: Mark): String {
+    override fun handleList(inputMark: Mark, source: String, sourceMark: Mark): String {
         return when (sourceMark) {
             Mark.LI -> {
                 Mark.LO.defaultMark
@@ -20,7 +20,7 @@ object ListHandler : MarkHandler {
                 Mark.LI.defaultMark
             }
             else -> {
-                super.handleList(source, sourceMark)
+                super.handleList(inputMark, source, sourceMark)
             }
         }
     }
