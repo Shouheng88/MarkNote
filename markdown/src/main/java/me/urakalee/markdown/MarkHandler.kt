@@ -26,6 +26,13 @@ interface MarkHandler {
         return defaultMark(inputMark)
     }
 
+    /**
+     * @return targetMark on input [Mark.QT]
+     */
+    fun handleQuote(inputMark: Mark, source: String, sourceMark: Mark): String {
+        return defaultMark(inputMark)
+    }
+
     private fun defaultMark(mark: Mark): String {
         return mark.defaultMark
     }
@@ -38,6 +45,7 @@ interface MarkHandler {
             Mark.H -> handleHeader(inputMark, source, sourceMark)
             Mark.LI -> handleList(inputMark, source, sourceMark)
             Mark.TD -> handleTodo(inputMark, source, sourceMark)
+            Mark.QT -> handleQuote(inputMark, source, sourceMark)
             else -> source
         }
     }

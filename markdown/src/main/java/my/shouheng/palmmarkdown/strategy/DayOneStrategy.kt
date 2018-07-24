@@ -48,6 +48,10 @@ class DayOneStrategy : DefaultStrategy() {
         editor?.setSelection(end + indent.length - originalIndentLength) // 简单处理, 光标放在行尾
     }
 
+    override fun quote(source: String, selectionStart: Int, selectionEnd: Int, selection: String?, editor: EditText?) {
+        handlePrecedingMark(source, Mark.QT, selectionStart, selectionEnd, editor)
+    }
+
     private fun handlePrecedingMark(source: String, inputMark: Mark,
                                     selectionStart: Int, selectionEnd: Int, editor: EditText?) {
         val (targetLine, start, end) = source.selectedLine(selectionStart, selectionEnd)

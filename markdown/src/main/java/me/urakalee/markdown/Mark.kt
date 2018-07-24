@@ -1,9 +1,6 @@
 package me.urakalee.markdown
 
-import me.urakalee.markdown.handler.HeaderHandler
-import me.urakalee.markdown.handler.ListHandler
-import me.urakalee.markdown.handler.NoneHandler
-import me.urakalee.markdown.handler.TodoHandler
+import me.urakalee.markdown.handler.*
 
 /**
  * @author Uraka.Lee
@@ -15,7 +12,8 @@ enum class Mark(val pattern: Regex, val defaultMark: String, val handler: MarkHa
     LI(Regex("[-*]"), "-", ListHandler),
     LO(Regex("\\d\\."), "1.", ListHandler),
     LA(Regex("[a-z]\\."), "a.", ListHandler),
-    TD(Regex("- \\[[x ]]", RegexOption.IGNORE_CASE), "- [ ]", TodoHandler);
+    TD(Regex("- \\[[x ]]", RegexOption.IGNORE_CASE), "- [ ]", TodoHandler),
+    QT(Regex(">"), ">", QuoteHandler);
 
     companion object {
 

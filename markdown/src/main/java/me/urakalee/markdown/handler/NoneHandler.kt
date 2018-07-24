@@ -14,7 +14,8 @@ object NoneHandler : MarkHandler {
         return when (inputMark) {
             Mark.H,
             Mark.LI,
-            Mark.TD -> {
+            Mark.TD,
+            Mark.QT -> {
                 addPrecedingMark(inputMark.defaultMark, source)
             }
             else -> {
