@@ -30,9 +30,9 @@ public class NotificationsHelper {
                 .setAutoCancel(true).setColor(mContext.getResources().getColor(R.color.colorAccent));
         mBuilder.setContentIntent(notifyIntent);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            setLargeIcon(R.mipmap.marknote_launcher);
+            setLargeIcon(R.mipmap.ic_launcher);
         } else {
-            setLargeIcon(R.mipmap.marknote_launcher);
+            setLargeIcon(R.mipmap.ic_launcher);
         }
         return this;
     }
