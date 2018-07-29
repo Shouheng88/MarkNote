@@ -75,4 +75,10 @@ public abstract class CommonActivity<T extends ViewDataBinding> extends ThemedAc
     public void superOnBackPressed() {
         super.onBackPressed();
     }
+
+    @Override
+    protected void onDestroy() {
+        ActivityUtils.removeActivity(this);
+        super.onDestroy();
+    }
 }
