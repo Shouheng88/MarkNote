@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/iv_bg"
+                android:scaleType="centerCrop"
+                android:src="@drawable/mine_default_avatar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:text="@string/setting_category_personal_theme_pick_title"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_light_blue"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:background="?attr/selectableItemBackground"
+            android:layout_width="match_parent"
+            android:layout_height="80dp">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:text="@string/setting_category_personal_theme_light_blue"
+                android:textColor="@color/colorAccentBlue"
+                android:textSize="18sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/iv_light_blue"
+                android:layout_marginStart="8dp"
+                android:tint="@color/colorAccentBlue"
+                android:src="@drawable/ic_check_box_black_24dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <me.shouheng.commons.view.widget.theme.Divider
+            android:layout_width="match_parent"
+            android:layout_height="1px" />
+
+        <LinearLayout
+            android:id="@+id/ll_light_red"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:background="?attr/selectableItemBackground"
+            android:layout_width="match_parent"
+            android:layout_height="80dp">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:text="@string/setting_category_personal_theme_light_red"
+                android:textColor="@color/colorAccentRed"
+                android:textSize="18sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/iv_light_red"
+                android:layout_marginStart="8dp"
+                android:tint="@color/colorAccentRed"
+                android:src="@drawable/ic_check_box_black_24dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <me.shouheng.commons.view.widget.theme.Divider
+            android:layout_width="match_parent"
+            android:layout_height="1px" />
+
+        <LinearLayout
+            android:id="@+id/ll_dark_blue"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:background="@color/dark_theme_background"
+            android:layout_width="match_parent"
+            android:layout_height="80dp">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:text="@string/setting_category_personal_theme_dark_blue"
+                android:textColor="@color/colorAccentBlue"
+                android:textSize="18sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/iv_dark_blue"
+                android:layout_marginStart="8dp"
+                android:tint="@color/colorAccentBlue"
+                android:src="@drawable/ic_check_box_black_24dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</layout>

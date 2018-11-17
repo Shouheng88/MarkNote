@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="key_theme_style_id" translatable="false">__theme_style_id</string>
+
+    <string name="key_user" translatable="false">__key_user</string>
+    <string name="key_user_info_initialized" translatable="false">__key_user_info_initialized</string>
+
+    <string name="key_working_book" translatable="false">__working_book</string>
+    <string name="key_books_order_sql" translatable="false">__books_order_sql</string>
+    <string name="key_user_book_colored_background" translatable="false">__user_book_color_background</string>
+
+    <string name="key_default_currency_code" translatable="false">__default_currency_code</string>
+
+    <string name="key_setting_item_theme" translatable="false">__key_setting_item_theme</string>
+    <string name="key_setting_item_beautify_date" translatable="false">__key_setting_item_beautify_date</string>
+    <string name="key_setting_item_security" translatable="false">__key_setting_item_security</string>
+    <string name="key_setting_item_import" translatable="false">__key_setting_item_import</string>
+    <string name="key_setting_item_backup" translatable="false">__key_setting_item_backup</string>
+    <string name="key_setting_item_help_guide" translatable="false">__key_setting_item_help_guide</string>
+    <string name="key_setting_item_help_intro" translatable="false">__key_setting_item_help_intro</string>
+    <string name="key_setting_item_help_translate" translatable="false">__key_setting_item_help_translate</string>
+    <string name="key_setting_item_about_app" translatable="false">__key_setting_item_about_app</string>
+    <string name="key_setting_item_about_privacy" translatable="false">__key_setting_item_about_privacy</string>
+    <string name="key_setting_item_about_open_source" translatable="false">__key_setting_item_about_open_source</string>
+
+    <string name="key_user_intro_showed" translatable="false">__key_user_introduction_page_showed</string>
+
+    <string name="key_security_password" translatable="false">_key_saved_password</string>
+    <string name="key_security_password_enable" translatable="false">_key_password_enable</string>
+    <string name="key_security_to_set_password" translatable="false">_key_to_set_password</string>
+    <string name="key_security_security_question" translatable="false">_key_security_question</string>
+    <string name="key_security_freeze_minutes" translatable="false">_key_freeze_minutes</string>
+    <string name="key_security_last_freeze_time" translatable="false">_key_last_freeze_time</string>
+    <string name="key_security_question" translatable="false">_key_security_question</string>
+    <string name="key_security_answer" translatable="false">_key_security_answer</string>
+    <string name="key_security_answer_tips" translatable="false">_key_security_answer_tips</string>
+    <string name="key_security_finger_print_enable" translatable="false">_key_finger_print_enabled</string>
+
+</resources>
