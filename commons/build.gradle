@@ -1,4 +1,7 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -7,7 +10,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = [ moduleName : project.getName() ]
@@ -35,6 +38,9 @@ android {
             jniLibs.srcDirs = ['libs']
         }
     }
+    kapt {
+        generateStubs = true
+    }
 }
 
 dependencies {
@@ -42,4 +48,73 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+    // support
+    api "com.android.support:support-v4:$supportLibVersion"
+    api "com.android.support:design:$supportLibVersion"
+    api "com.android.support:cardview-v7:$supportLibVersion"
+    api "com.android.support:recyclerview-v7:$supportLibVersion"
+    api "com.android.support:customtabs:$supportLibVersion"
+    api "com.android.support:palette-v7:$supportLibVersion"
+    api "com.android.support:appcompat-v7:$supportLibVersion"
+    api "com.android.support:customtabs:$supportLibVersion"
+    // multidex
+    api 'com.android.support:multidex:1.0.2'
+    // kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    // arch
+    api "android.arch.lifecycle:runtime:$archVersion"
+    api "android.arch.lifecycle:extensions:$archVersion"
+    kapt "android.arch.lifecycle:compiler:$archVersion"
+    // io
+    api 'commons-io:commons-io:2.6'
+    // time
+    api 'org.ocpsoft.prettytime:prettytime:4.0.1.Final'
+    api 'joda-time:joda-time:2.9.9'
+    api 'com.github.clans:fab:1.6.4'
+    api 'com.balysv.materialmenu:material-menu:2.0.0'
+    // dialogs
+    api 'com.larswerkman:HoloColorPicker:1.5'
+    api 'com.github.flavienlaurent.datetimepicker:library:0.0.2'
+    api 'com.afollestad.material-dialogs:core:0.9.6.0'
+    api 'com.afollestad.material-dialogs:commons:0.9.6.0'
+    api 'com.github.Kennyc1012:BottomSheet:2.4.0'
+    // recycler
+    api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
+    // fabric
+    api('com.crashlytics.sdk.android:crashlytics:2.9.4@aar') {
+        transitive = true
+    }
+    api('com.crashlytics.sdk.android:answers:1.4.2@aar') {
+        transitive = true
+    }
+    // debug tools
+    api 'com.facebook.stetho:stetho:1.5.0'
+    // one drive
+    api 'com.microsoft.services.msa:msa-auth:0.8.4'
+    api('com.onedrive.sdk:onedrive-sdk-android:1.3+') {
+        transitive = false
+    }
+    // leakcanary
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.2'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.1'
+    // image
+    api 'top.zibin:Luban:1.1.3'
+    api 'com.github.bumptech.glide:glide:3.8.0'
+    // rx-java
+    api "io.reactivex.rxjava2:rxjava:$rxJava"
+    api "io.reactivex.rxjava2:rxandroid:$rxAndroid"
+    // umeng
+    api 'com.umeng.analytics:analytics:6.1.4'
+    // others
+    api ('com.mikepenz:materialdrawer:6.0.7@aar') {
+        transitive = true
+    }
+    api 'com.just.agentweb:agentweb:4.0.2'
+    api 'com.github.gabrielemariotti.changeloglib:changelog:2.0.0'
+    api 'com.koushikdutta.ion:ion:2.1.7'
+    api 'com.github.oxoooo:pull-back-layout:1.0.1'
+    api 'com.github.paolorotolo:appintro:1.3.0'
+    api 'de.psdev.licensesdialog:licensesdialog:1.8.1'
+    api 'com.github.lecho:hellocharts-android:v1.5.8'
+    api 'com.andrognito.pinlockview:pinlockview:2.1.0'
 }
