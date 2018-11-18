@@ -35,6 +35,9 @@ ext {
 
     supportLibVersion = '27.1.1'
     archVersion = '1.1.1'
+
+    rxJava = '2.2.0'
+    rxAndroid = '2.0.2'
 }
 
 task clean(type: Delete) {
