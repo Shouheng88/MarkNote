@@ -16,7 +16,7 @@
     <string name="text_comment">备注</string>
     <string name="text_cancel">取消</string>
     <string name="text_close">关闭</string>
-    <string name="text_created_time">创建</string>
+    <string name="text_created_at">创建</string>
     <string name="text_delete">删除</string>
     <string name="text_deleted">删除</string>
     <string name="text_delete_still">仍然删除</string>
@@ -26,9 +26,9 @@
     <string name="text_next">下一个</string>
     <string name="text_last">上一个</string>
     <string name="text_give_up">放弃</string>
-    <string name="text_last_modified_time">更新</string>
+    <string name="text_last_modified_at">更新</string>
     <string name="text_last_sync_time">同步</string>
-    <string name="text_chars_number">字符</string>
+    <string name="text_chars">字符</string>
     <string name="text_more">更多</string>
     <string name="text_pick">选择</string>
     <string name="text_preview">预览</string>
@@ -127,9 +127,9 @@
     <!--endregion-->
 
     <!--region Common->DrawerItems-->
-    <string name="drawer_menu_notes">笔记</string>
+    <string name="drawer_menu_notebooks">笔记</string>
     <string name="drawer_menu_minds">小纸条</string>
-    <string name="drawer_menu_tags">标签</string>
+    <string name="drawer_menu_categories">标签</string>
     <string name="drawer_menu_notices">提醒信息</string>
     <string name="drawer_menu_setting">设置</string>
     <string name="drawer_menu_trash">废纸篓</string>
@@ -169,7 +169,7 @@
     <string name="note_write_down_what_you_want">写下此刻的想法&#8230;</string>
     <string name="note_default_notebook">默认笔记本</string>
     <string name="edit_notebook">编辑笔记本</string>
-    <string name="notebook_name">笔记本名称</string>
+    <string name="notebook_edit_name_hint">笔记本名称</string>
     <string name="pick_notebook_color">选择笔记本的颜色</string>
     <string name="note_capture_note">笔记截图</string>
     <string name="all_notes">全部笔记</string>
