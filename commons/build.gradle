@@ -74,7 +74,6 @@ dependencies {
     api 'com.balysv.materialmenu:material-menu:2.0.0'
     // dialogs
     api 'com.larswerkman:HoloColorPicker:1.5'
-    api 'com.github.flavienlaurent.datetimepicker:library:0.0.2'
     api 'com.afollestad.material-dialogs:core:0.9.6.0'
     api 'com.afollestad.material-dialogs:commons:0.9.6.0'
     api 'com.github.Kennyc1012:BottomSheet:2.4.0'
@@ -109,12 +108,9 @@ dependencies {
     api ('com.mikepenz:materialdrawer:6.0.7@aar') {
         transitive = true
     }
+    // web view
     api 'com.just.agentweb:agentweb:4.0.2'
-    api 'com.github.gabrielemariotti.changeloglib:changelog:2.0.0'
-    api 'com.koushikdutta.ion:ion:2.1.7'
     api 'com.github.oxoooo:pull-back-layout:1.0.1'
-    api 'com.github.paolorotolo:appintro:1.3.0'
-    api 'de.psdev.licensesdialog:licensesdialog:1.8.1'
     api 'com.github.lecho:hellocharts-android:v1.5.8'
     api 'com.andrognito.pinlockview:pinlockview:2.1.0'
 }
