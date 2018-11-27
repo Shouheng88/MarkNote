@@ -11,8 +11,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.widget.CircleImageView;
 import my.shouheng.palmmarkdown.tools.MarkdownFormat;
 

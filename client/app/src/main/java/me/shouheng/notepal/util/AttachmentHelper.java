@@ -13,6 +13,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.shouheng.commons.utils.IntentUtils;
+import me.shouheng.commons.utils.LogUtils;
+import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.GalleryActivity;
@@ -29,6 +32,8 @@ import me.shouheng.notepal.util.preferences.PersistPreferences;
 import top.zibin.luban.Luban;
 
 /**
+ * TODO implement image compress logic
+ *
  * Created by Wang Shouheng on 2017/12/30.*/
 public class AttachmentHelper {
 

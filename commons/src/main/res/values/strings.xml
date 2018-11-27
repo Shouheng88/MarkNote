@@ -87,6 +87,10 @@
     <string name="text_pick_from_album">Pick from album</string>
     <string name="text_rate_app">评价 APP</string>
     <string name="text_menu">Menu</string>
+    <string name="text_backup">Backup</string>
+    <string name="text_done">Done</string>
+    <string name="text_search_with">Search &#8230;</string>
+    <string name="text_open_in_browser">在浏览器中打开</string>
 
     <string name="check_network_availability">Check network availability</string>
 
@@ -100,7 +104,6 @@
     <string name="include_tags">Include tags</string>
     <string name="include_archived">Archived</string>
     <string name="include_trashed">Trashed</string>
-    <string name="search_by_conditions">Search &#8230;</string>
     <string name="no_search_result_found">Result not found</string>
     <string name="try_other_conditions">try another condition and search again</string>
     <!--endregion-->
@@ -567,7 +570,6 @@
     <string name="backup_time_interval">Synchronization time interval</string>
     <string name="text_sync_settings">Synchronization settings</string>
     <string name="failed_query_sync_cloud">Unknown error occurred!</string>
-    <string name="text_done">Done</string>
     <string name="text_folder_explore">Pick folder</string>
     <string name="text_no_more_folders">No more folders</string>
     <string name="text_please_wait">Please wait&#8230;</string>
@@ -613,9 +615,13 @@
     <string name="custom_fast_scroller_sub">Check the box if you want to use fast scroller in notes list page.</string>
     <!--endregion-->
 
-    <string name="text_open_in_browser">在浏览器中打开</string>
-    <string name="text_to_set">去设置</string>
-    <string name="permission_setting_permission">授予权限</string>
+
+
+    <!--region INTENT string resources region.-->
+
+    <!--endregion INTENT string resources region.-->
+
+    <!--region PERMISSION string resources region.-->
     <string name="permission_storage_permission">存储空间</string>
     <string name="permission_location_permission">位置信息</string>
     <string name="permission_microphone_permission">麦克风</string>
@@ -625,11 +631,10 @@
     <string name="permission_contacts_permission">通讯录</string>
     <string name="permission_camera_permission">相机</string>
     <string name="permission_calendar_permission">日历</string>
-    <string name="permission_default_permission_name">权限</string>
-    <string name="setting_permission">设置权限</string>
-    <string name="set_permission_in_setting">打开设置的程序信息页面，轻触\"权限\"，将\"%s\"设置为打开，并再次尝试.</string>
-    <string name="to_set">去设置</string>
-    <string name="permission_denied_try_again_after_set">没有权限，请授予权限之后再次尝试。</string>
-    <string name="permission_denied_try_again_after_set_given_permission">没有权限，请授予%s权限之后再次尝试。</string>
+    <string name="permission_set_permission">设置权限</string>
+    <string name="permission_denied_message">没有权限，请授予 %s 权限之后再次尝试。</string>
+    <string name="permission_set_in_settings_message">打开设置的程序信息页面，轻触\"权限\"，将 %s 设置为打开，并再次尝试.</string>
+    <string name="permission_to_set">去设置</string>
+    <!--endregion PERMISSION string resources region.-->
 
 </resources>

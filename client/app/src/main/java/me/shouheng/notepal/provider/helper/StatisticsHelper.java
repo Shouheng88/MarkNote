@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 
+import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.model.Attachment;
@@ -22,7 +23,6 @@ import me.shouheng.notepal.provider.NotebookStore;
 import me.shouheng.notepal.provider.NotesStore;
 import me.shouheng.notepal.provider.TimelineStore;
 import me.shouheng.notepal.provider.schema.TimelineSchema;
-import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.TimeUtils;
 import me.shouheng.notepal.viewmodel.StatisticViewModel;
 

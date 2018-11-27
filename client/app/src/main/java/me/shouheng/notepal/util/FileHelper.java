@@ -37,6 +37,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.notepal.BuildConfig;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
@@ -573,7 +574,7 @@ public class FileHelper {
     }
     // endregion
 
-    public static Uri getUriFromFile(Context context, File file){
+    public static Uri getUriFromFile(Context context, File file) {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M){
             return FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", file);
         } else {

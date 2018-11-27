@@ -10,11 +10,11 @@ import com.onedrive.sdk.extensions.Item;
 
 import java.io.File;
 
+import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.notepal.manager.onedrive.OneDriveManager;
 import me.shouheng.notepal.provider.PalmDB;
 import me.shouheng.notepal.util.FileHelper;
-import me.shouheng.notepal.util.LogUtils;
-import me.shouheng.notepal.util.NetworkUtils;
+import me.shouheng.commons.utils.NetworkUtils;
 import me.shouheng.notepal.util.SynchronizeUtils;
 import me.shouheng.notepal.util.preferences.SyncPreferences;
 

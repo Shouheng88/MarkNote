@@ -2,9 +2,6 @@ package me.shouheng.notepal.util.preferences;
 
 import android.content.Context;
 
-import org.polaric.colorful.Colorful;
-import org.polaric.colorful.Defaults;
-
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 
@@ -35,27 +32,27 @@ public class ThemePreferences extends BasePreferences {
         return getBoolean(R.string.key_is_dark_theme, false);
     }
 
-    public void setThemeColor(Colorful.ThemeColor themeColor) {
-        putString(R.string.key_primary_color, themeColor.getIdentifyName());
-    }
+//    public void setThemeColor(Colorful.ThemeColor themeColor) {
+//        putString(R.string.key_primary_color, themeColor.getIdentifyName());
+//    }
 
-    public Colorful.ThemeColor getThemeColor() {
-        return Colorful.ThemeColor.getByPrimaryName(getString(R.string.key_primary_color, Defaults.primaryColor.getIdentifyName()));
-    }
+//    public Colorful.ThemeColor getThemeColor() {
+//        return Colorful.ThemeColor.getByPrimaryName(getString(R.string.key_primary_color, Defaults.primaryColor.getIdentifyName()));
+//    }
 
-    public Colorful.AccentColor getAccentColor() {
-        return Colorful.AccentColor.getByAccentName(getString(R.string.key_accent_color, Defaults.accentColor.getColorName()));
-    }
-
-    public void setAccentColor(Colorful.AccentColor accentColor) {
-        putString(R.string.key_accent_color, accentColor.getAccentName());
-    }
+//    public Colorful.AccentColor getAccentColor() {
+//        return Colorful.AccentColor.getByAccentName(getString(R.string.key_accent_color, Defaults.accentColor.getColorName()));
+//    }
+//
+//    public void setAccentColor(Colorful.AccentColor accentColor) {
+//        putString(R.string.key_accent_color, accentColor.getAccentName());
+//    }
 
     public void setColoredNavigationBar(boolean coloredNavigationBar)  {
-        putBoolean(R.string.key_is_colored_navigation_bar, coloredNavigationBar);
+        putBoolean(R.string.key_setting_theme_color_nav_bar, coloredNavigationBar);
     }
 
     public boolean isColoredNavigationBar() {
-        return getBoolean(R.string.key_is_colored_navigation_bar, true);
+        return getBoolean(R.string.key_setting_theme_color_nav_bar, true);
     }
 }

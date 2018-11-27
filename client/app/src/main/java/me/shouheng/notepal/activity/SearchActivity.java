@@ -3,56 +3,52 @@ package me.shouheng.notepal.activity;
 import android.app.Activity;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
-import android.support.v7.widget.SearchView.OnQueryTextListener;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
+
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
+import me.shouheng.commons.activity.CommonActivity;
+import me.shouheng.commons.activity.ContainerActivity;
+import me.shouheng.commons.utils.ColorUtils;
+import me.shouheng.commons.utils.LogUtils;
+import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.activity.base.CommonActivity;
 import me.shouheng.notepal.adapter.SearchItemsAdapter;
 import me.shouheng.notepal.adapter.SearchItemsAdapter.OnItemSelectedListener;
 import me.shouheng.notepal.databinding.ActivitySearchBinding;
+import me.shouheng.notepal.fragment.NoteViewFragment;
 import me.shouheng.notepal.model.Note;
-import me.shouheng.notepal.util.GsonUtils;
-import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.ToastUtils;
-import me.shouheng.notepal.util.preferences.UserPreferences;
 import me.shouheng.notepal.util.tools.SearchConditions;
 import me.shouheng.notepal.viewmodel.SearchViewModel;
 import me.shouheng.notepal.widget.tools.CustomItemAnimator;
 import me.shouheng.notepal.widget.tools.DividerItemDecoration;
 
-public class SearchActivity extends CommonActivity<ActivitySearchBinding> implements
-        OnQueryTextListener,
-        OnItemSelectedListener {
+// TODO 搜索界面的列表的样式修改
+public class SearchActivity extends CommonActivity<ActivitySearchBinding>
+        implements OnItemSelectedListener, SearchView.OnQueryTextListener {
 
-    private final static String EXTRA_NAME_REQUEST_CODE = "extra.request.code";
     private final static int REQUEST_FOR_NOTE = 20004;
 
     private SearchItemsAdapter adapter;
-    private SearchView mSearchView;
 
     private String queryString;
-    private SearchConditions conditions;
-    private SearchViewModel searchViewModel;
+    private SearchViewModel viewModel;
     private boolean isContentChanged = false;
-
-    public static void start(Activity mContext, int requestCode){
-        Intent intent = new Intent(mContext, SearchActivity.class);
-        intent.putExtra(EXTRA_NAME_REQUEST_CODE, requestCode);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        mContext.startActivityForResult(intent, requestCode);
-    }
+    private SearchView mSearchView;
 
     @Override
     protected int getLayoutResId() {
@@ -61,13 +57,19 @@ public class SearchActivity extends CommonActivity<ActivitySearchBinding> implem
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {
-        setSupportActionBar(getBinding().toolbarLayout.toolbar);
-        if (!isDarkTheme()){
-            getBinding().toolbarLayout.toolbar.setPopupTheme(R.style.AppTheme_PopupOverlay);
-        }
+        viewModel = ViewModelProviders.of(this).get(SearchViewModel.class);
+
+        setSupportActionBar(getBinding().toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
+            actionBar.setTitle(R.string.text_search);
             actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(ColorUtils.tintDrawable(R.drawable.ic_arrow_back_black_24dp,
+                    isDarkTheme() ? Color.WHITE : Color.BLACK));
+        }
+        getBinding().toolbar.setTitleTextColor(isDarkTheme() ? Color.WHITE : Color.BLACK);
+        if (isDarkTheme()) {
+            getBinding().toolbar.setPopupTheme(R.style.AppTheme_PopupOverlayDark);
         }
 
         adapter = new SearchItemsAdapter(this, this);
@@ -79,43 +81,21 @@ public class SearchActivity extends CommonActivity<ActivitySearchBinding> implem
         getBinding().recyclerview.setLayoutManager(new LinearLayoutManager(this));
         getBinding().recyclerview.setAdapter(adapter);
 
-        initViewModel();
-
-        initSearchConditions();
-    }
-
-    private void initViewModel() {
-        searchViewModel = ViewModelProviders.of(this).get(SearchViewModel.class);
-    }
-
-    private void initSearchConditions() {
-        String searchConditions = UserPreferences.getInstance().getSearchConditions();
-        conditions = TextUtils.isEmpty(searchConditions) ? SearchConditions.getDefaultConditions()
-                : GsonUtils.toObject(searchConditions, SearchConditions.class);
-        searchViewModel.setConditions(conditions);
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        menu.findItem(R.id.item_include_tags).setChecked(conditions.isIncludeTags());
-        menu.findItem(R.id.item_include_archived).setChecked(conditions.isIncludeArchived());
-        menu.findItem(R.id.item_include_trashed).setChecked(conditions.isIncludeTrashed());
-        searchViewModel.setConditions(conditions);
-        return super.onPrepareOptionsMenu(menu);
+        SearchConditions conditions = SearchConditions.getDefaultConditions();
+        viewModel.setConditions(conditions);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.filter_search_condition, menu);
         getMenuInflater().inflate(R.menu.search, menu);
 
-        mSearchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
+        MenuItem itemSearch = menu.findItem(R.id.action_search);
+        mSearchView = (SearchView) itemSearch.getActionView();
         mSearchView.setOnQueryTextListener(this);
-        mSearchView.setQueryHint(getString(R.string.search_by_conditions));
+        mSearchView.setQueryHint(getString(R.string.text_search_with));
         mSearchView.setIconifiedByDefault(false);
         mSearchView.setIconified(false);
-
-        MenuItemCompat.setOnActionExpandListener(menu.findItem(R.id.action_search), new MenuItemCompat.OnActionExpandListener() {
+        itemSearch.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {
                 return true;
@@ -126,8 +106,7 @@ public class SearchActivity extends CommonActivity<ActivitySearchBinding> implem
                 return false;
             }
         });
-
-        menu.findItem(R.id.action_search).expandActionView();
+        itemSearch.expandActionView();
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -137,18 +116,6 @@ public class SearchActivity extends CommonActivity<ActivitySearchBinding> implem
         switch (item.getItemId()){
             case android.R.id.home:
                 finish();
-                break;
-            case R.id.item_include_tags:
-                conditions.setIncludeTags(!conditions.isIncludeTags());
-                invalidateOptionsMenu();
-                break;
-            case R.id.item_include_archived:
-                conditions.setIncludeArchived(!conditions.isIncludeArchived());
-                invalidateOptionsMenu();
-                break;
-            case R.id.item_include_trashed:
-                conditions.setIncludeTrashed(!conditions.isIncludeTrashed());
-                invalidateOptionsMenu();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -186,7 +153,7 @@ public class SearchActivity extends CommonActivity<ActivitySearchBinding> implem
 
     private void queryAll(String queryText) {
         getBinding().topMpb.setVisibility(View.VISIBLE);
-        searchViewModel.getSearchResult(queryText).observe(this, searchResultResource -> {
+        viewModel.getSearchResult(queryText).observe(this, searchResultResource -> {
             LogUtils.d(searchResultResource);
             getBinding().topMpb.setVisibility(View.GONE);
             if (searchResultResource == null) {
@@ -217,7 +184,10 @@ public class SearchActivity extends CommonActivity<ActivitySearchBinding> implem
 
     @Override
     public void onNoteSelected(Note note, int position) {
-        ContentActivity.viewNote(this, note, REQUEST_FOR_NOTE);
+        ContainerActivity.open(NoteViewFragment.class)
+                .put(NoteViewFragment.ARGS_KEY_NOTE, (Serializable) note)
+                .put(NoteViewFragment.ARGS_KEY_IS_PREVIEW, false)
+                .launch(this);
     }
 
     @Override

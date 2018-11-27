@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="isDarkTheme"
+            type="boolean"/>
+    </data>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:paddingBottom="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/iv"
+            android:background="@color/default_category_color"
+            android:paddingTop="30dp"
+            android:paddingBottom="30dp"
+            android:textSize="16sp"
+            android:tint="@android:color/white"
+            android:src="@drawable/ic_labels_grey_24dp"
+            android:layout_width="match_parent"
+            android:layout_height="100dp" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <me.shouheng.notepal.widget.themed.SupportTextView
+                android:text="@string/category_edit_step_1"
+                android:padding="16dp"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <FrameLayout
+                android:id="@+id/fl_category_portrait"
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+
+                <me.shouheng.notepal.widget.CircleImageView
+                    android:id="@+id/civ_portrait_background"
+                    android:layout_gravity="center"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp" />
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/iv_portrait"
+                    android:layout_gravity="center"
+                    android:tint="@android:color/white"
+                    android:src="@drawable/ic_folder_black_24dp"
+                    android:padding="5dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp" />
+
+            </FrameLayout>
+
+            <me.shouheng.notepal.widget.themed.SupportTextView
+                android:text="@string/category_edit_step_2"
+                android:padding="16dp"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <RelativeLayout
+                android:paddingTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <android.support.v7.widget.AppCompatEditText
+                        android:id="@+id/et_category_name"
+                        android:drawableEnd="@{isDarkTheme ? @drawable/ic_color_lens_white_24dp : @drawable/ic_color_lens_black_24dp}"
+                        android:padding="8dp"
+                        android:hint="@string/tag_name"
+                        android:maxLines="1"
+                        android:maxLength="@integer/label_length"
+                        android:singleLine="true"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <View android:id="@+id/v_color"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_width="40dp"
+                    android:layout_height="50dp"/>
+
+            </RelativeLayout>
+
+            <me.shouheng.notepal.widget.WatcherTextView
+                android:id="@+id/wtv"
+                android:layout_gravity="end"
+                android:paddingEnd="20dp"
+                android:paddingBottom="20dp"
+                app:max_length="@integer/title_length"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</layout>

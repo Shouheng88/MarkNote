@@ -13,6 +13,7 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore.Images.Thumbnails;
 import android.widget.RemoteViewsService;
 
+import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.config.Constants;

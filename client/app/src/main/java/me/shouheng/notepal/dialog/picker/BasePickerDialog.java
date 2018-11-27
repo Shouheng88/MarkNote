@@ -12,11 +12,11 @@ import android.view.View;
 import java.util.LinkedList;
 import java.util.List;
 
+import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.ModelsPickerAdapter;
 import me.shouheng.notepal.model.Model;
 import me.shouheng.notepal.model.Selectable;
-import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.widget.EmptySupportRecyclerView;
 import me.shouheng.notepal.widget.EmptyView;
 import me.shouheng.notepal.widget.tools.CustomItemAnimator;

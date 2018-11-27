@@ -1,47 +1,40 @@
 package me.shouheng.notepal.dialog;
 
 import android.app.Dialog;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
 
+import me.shouheng.commons.helper.DialogHelper;
+import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.activity.base.CommonActivity;
+import me.shouheng.notepal.databinding.DialogCategoryEditBinding;
 import me.shouheng.notepal.model.Category;
 import me.shouheng.notepal.model.enums.Portrait;
-import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.ToastUtils;
-import me.shouheng.notepal.widget.CircleImageView;
-import me.shouheng.notepal.widget.WatcherTextView;
 
 /**
+ * TODO 分类添加之后时间线统计错误
+ *
  * Created by wangshouheng on 2017/4/2.*/
-public class CategoryEditDialog extends DialogFragment {
+public class CategoryEditDialog extends DialogFragment implements ColorChooserDialog.ColorCallback {
 
-    private OnConfirmCategoryEditListener onConfirmCategoryEditListener;
+    private OnConfirmListener onConfirmListener;
 
-    private EditText etCategoryName;
-    private LinearLayout llNameEditBG;
-    private CircleImageView civCategoryColor, civPortraitBG;
-    private ImageView ivPortrait;
-
-    private int primaryColor;
-    private int iCategoryColor;
-
+    private int categoryColor;
     private Category category;
 
-    public static CategoryEditDialog newInstance(Category category, OnConfirmCategoryEditListener listener) {
-        CategoryEditDialog dialog = new CategoryEditDialog();
-        dialog.setOnConfirmCategoryEditListener(listener);
+    private DialogCategoryEditBinding binding;
+
+    public static CategoryEditDialog newInstance(Category category, OnConfirmListener listener) {
+        CategoryEditDialog dialog = DialogHelper.open(CategoryEditDialog.class).get();
+        dialog.setOnConfirmListener(listener);
         dialog.setCategory(category);
         return dialog;
     }
@@ -49,36 +42,30 @@ public class CategoryEditDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        primaryColor = ColorUtils.primaryColor(getContext());
+        binding = DataBindingUtil.inflate(LayoutInflater.from(getContext()),
+                R.layout.dialog_category_edit, null, false);
 
-        View rootView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_category_editor_layout, null);
+        binding.setIsDarkTheme(ColorUtils.isDarkTheme());
 
-        etCategoryName = rootView.findViewById(R.id.et_category_name);
-        llNameEditBG = rootView.findViewById(R.id.ll_title_background);
-        civCategoryColor = rootView.findViewById(R.id.civ_category_color);
-        civPortraitBG = rootView.findViewById(R.id.civ_portrait_background);
-        ivPortrait = rootView.findViewById(R.id.iv_portrait);
+        categoryColor = category.getColor();
+        binding.vColor.setOnClickListener(v -> showColorPickerDialog());
+        binding.flCategoryPortrait.setOnClickListener(v -> showPortraitPickerDialog());
 
-        rootView.findViewById(R.id.ll_category_color).setOnClickListener(v -> showColorPickerDialog());
-        rootView.findViewById(R.id.fl_category_portrait).setOnClickListener(v -> showPortraitPickerDialog());
-
-        WatcherTextView wtv = rootView.findViewById(R.id.wtv);
-        wtv.bindEditText(etCategoryName);
-
-        etCategoryName.setText(category.getName());
+        binding.wtv.bindEditText(binding.etCategoryName);
+        binding.etCategoryName.setText(category.getName());
+        binding.ivPortrait.setImageResource(category.getPortrait().iconRes);
         updateUIBySelectedColor(category.getColor());
-        ivPortrait.setImageResource(category.getPortrait().iconRes);
 
         return new AlertDialog.Builder(getContext())
-                .setView(rootView)
+                .setView(binding.getRoot())
                 .setPositiveButton(R.string.confirm, (dialog, which) -> {
-                    if (TextUtils.isEmpty(etCategoryName.getText())){
+                    if (TextUtils.isEmpty(binding.etCategoryName.getText())){
                         ToastUtils.makeToast(R.string.title_required);
                         return;
                     }
-                    category.setName(etCategoryName.getText().toString());
-                    if (onConfirmCategoryEditListener != null){
-                        onConfirmCategoryEditListener.onConfirmCategory(category);
+                    category.setName(binding.etCategoryName.getText().toString());
+                    if (onConfirmListener != null) {
+                        onConfirmListener.onConfirmCategory(category);
                     }
                     dialog.dismiss();
                 })
@@ -90,39 +77,47 @@ public class CategoryEditDialog extends DialogFragment {
         this.category = category;
     }
 
-    public void updateUIBySelectedColor(int color) {
-        iCategoryColor = color;
+    private void updateUIBySelectedColor(int color) {
+        categoryColor = color;
         category.setColor(color);
-        llNameEditBG.setBackgroundColor(color);
-        civPortraitBG.setFillingCircleColor(color);
-        civCategoryColor.setFillingCircleColor(color);
+        binding.iv.setBackgroundColor(color);
+        binding.civPortraitBackground.setFillingCircleColor(color);
     }
 
     private void showPortraitPickerDialog() {
         String SHOW_PORTRAIT_DIALOG = "SHOW_PORTRAIT_DIALOG";
-        PortraitPickerDialog.newInstance(iCategoryColor, (portraitId, portraitRes) -> {
+        PortraitPickerDialog.newInstance(categoryColor, (portraitId, portraitRes) -> {
             category.setPortrait(Portrait.getPortraitById(portraitId));
-            ivPortrait.setImageResource(portraitRes);
+            binding.ivPortrait.setImageResource(portraitRes);
         }).show(getFragmentManager(), SHOW_PORTRAIT_DIALOG);
     }
 
     private void showColorPickerDialog() {
-        assert getActivity() != null;
-        new ColorChooserDialog.Builder((CommonActivity) getActivity(), R.string.pick_tag_color)
-                .preselect(primaryColor)
+        assert getContext() != null;
+        new ColorChooserDialog.Builder(getContext(), R.string.pick_notebook_color)
+                .preselect(categoryColor)
                 .accentMode(false)
-                .titleSub(R.string.pick_tag_color)
-                .backButton(R.string.back)
-                .doneButton(R.string.done_label)
-                .cancelButton(R.string.cancel)
-                .show();
+                .presetsButton(R.string.text_presets)
+                .cancelButton(R.string.text_cancel)
+                .customButton(R.string.text_custom)
+                .backButton(R.string.text_back)
+                .doneButton(R.string.text_done)
+                .show(getChildFragmentManager());
     }
 
-    public void setOnConfirmCategoryEditListener(OnConfirmCategoryEditListener listener) {
-        this.onConfirmCategoryEditListener = listener;
+    private void setOnConfirmListener(OnConfirmListener listener) {
+        this.onConfirmListener = listener;
     }
 
-    public interface OnConfirmCategoryEditListener {
+    @Override
+    public void onColorSelection(@NonNull ColorChooserDialog dialog, int selectedColor) {
+        updateUIBySelectedColor(selectedColor);
+    }
+
+    @Override
+    public void onColorChooserDismissed(@NonNull ColorChooserDialog dialog) { }
+
+    public interface OnConfirmListener {
         void onConfirmCategory(Category category);
     }
 }

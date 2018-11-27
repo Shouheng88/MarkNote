@@ -1,40 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!--theme-->
     <string name="key_theme_style_id" translatable="false">__theme_style_id</string>
+    <string name="key_setting_theme" translatable="false">__key_setting_item_theme</string>
+    <string name="key_setting_theme_beautify_date" translatable="false">__key_setting_item_beautify_date</string>
+    <string name="key_setting_theme_color_nav_bar" translatable="false">colored_navigation_bar</string>
 
-    <string name="key_user" translatable="false">__key_user</string>
-    <string name="key_user_info_initialized" translatable="false">__key_user_info_initialized</string>
-
-    <string name="key_working_book" translatable="false">__working_book</string>
-    <string name="key_books_order_sql" translatable="false">__books_order_sql</string>
-    <string name="key_user_book_colored_background" translatable="false">__user_book_color_background</string>
-
-    <string name="key_default_currency_code" translatable="false">__default_currency_code</string>
-
-    <string name="key_setting_item_theme" translatable="false">__key_setting_item_theme</string>
-    <string name="key_setting_item_beautify_date" translatable="false">__key_setting_item_beautify_date</string>
     <string name="key_setting_item_security" translatable="false">__key_setting_item_security</string>
-    <string name="key_setting_item_import" translatable="false">__key_setting_item_import</string>
-    <string name="key_setting_item_backup" translatable="false">__key_setting_item_backup</string>
-    <string name="key_setting_item_help_guide" translatable="false">__key_setting_item_help_guide</string>
-    <string name="key_setting_item_help_intro" translatable="false">__key_setting_item_help_intro</string>
-    <string name="key_setting_item_help_translate" translatable="false">__key_setting_item_help_translate</string>
-    <string name="key_setting_item_about_app" translatable="false">__key_setting_item_about_app</string>
+    <string name="key_sync_time_interval" translatable="false">key_sync_time_interval</string>
+    <string name="key_one_drive_last_sync_time" translatable="false">key_one_drive_last_sync_time</string>
+    <string name="key_backup_only_wifi" translatable="false">key_backup_only_wifi</string>
+    <string name="key_one_drive_backup_dir_item_id" translatable="false">key_one_drive_backup_dir_item_id</string>
+    <string name="key_one_drive_last_backup_dir_item_id" translatable="false">key_one_drive_last_backup_dir_item_id</string>
+    <string name="key_one_drive_files_backup_dir_item_id" translatable="false">key_one_drive_files_backup_dir_item_id</string>
+    <string name="key_one_drive_database_last_sync_time" translatable="false">key_one_drive_database_last_sync_time</string>
+    <string name="key_one_drive_preferences_last_sync_time" translatable="false">key_one_drive_preferences_last_sync_time</string>
+    <string name="key_one_drive_database_item_id" translatable="false">key_one_drive_database_item_id</string>
+    <string name="key_one_drive_preferences_item_id" translatable="false">key_one_drive_preferences_item_id</string>
+    <string name="key_one_drive_sign_out" translatable="false">key_one_drive_sign_out</string>
+    <string name="key_one_drive_backup" translatable="false">key_one_drive_backup</string>
+    <string name="delete_external_storage_backup" translatable="false">delete_external_storage_backup</string>
+    <string name="import_from_external_storage" translatable="false">import_from_external_storage</string>
+    <string name="key_backup_to_external_storage" translatable="false">backup_to_external_storage</string>
+
+    <!--region note-->
+    <string name="key_auto_compress_image" translatable="false">key_auto_compress_image</string>
+    <string name="key_note_file_extension" translatable="false">note_file_extension</string>
+    <string name="key_key_show_note_expanded" translatable="false">key_show_note_expanded</string>
+    <!--endregion-->
+
+    <!--region theme-->
+    <string name="key_is_dark_theme" translatable="false">is_dark_theme</string>
+    <string name="key_primary_color" translatable="false">primary_color</string>
+    <string name="key_accent_color" translatable="false">accent_color</string>
+    <!--endregion-->
+
+    <!--region security-->
+    <string name="key_data_security" translatable="false">data_security</string>
+    <string name="key_is_password_required" translatable="false">password_required</string>
+    <string name="key_password" translatable="false">password</string>
+    <string name="key_password_freeze_time" translatable="false">password_input_freeze_time</string>
+    <string name="key_password_question" translatable="false">password_question</string>
+    <string name="key_password_answer" translatable="false">password_answer</string>
+    <string name="key_last_input_error_time" translatable="false">last_input_error_time</string>
+    <!--endregion-->
+
+    <!--region preferences-->
+    <string name="key_fab_sort_result" translatable="false">fab_sort_result</string>
+    <string name="key_operation_color_prefix" translatable="false">operation_color_</string>
+    <string name="key_list_animation" translatable="false">list_animation</string>
+    <string name="key_system_animation" translatable="false">system_animation</string>
+    <string name="key_search_conditions" translatable="false">search_conditions</string>
+    <string name="key_note_editor_menu_sort" translatable="false">note_editor_menu_sort</string>
+    <string name="key_fast_scroller" translatable="false">enable_fast_scroller</string>
+    <!--endregion-->
+
+    <!--region dashboard-->
+    <string name="key_user_info_bg_visible" translatable="false">key_user_info_bg_visible</string>
+    <string name="key_user_info_bg" translatable="false">key_user_info_bg</string>
+    <string name="key_user_info_motto" translatable="false">key_user_info_motto</string>
+    <!--endregion-->
+
+    <!--region selections-->
+    <string name="key_feedback" translatable="false">feedback</string>
+    <string name="key_user_guide" translatable="false">user_guide</string>
+    <string name="key_user_intro" translatable="false">user_intro</string>
+    <string name="key_support_develop" translatable="false">support_develop</string>
+    <string name="key_key_note_settings" translatable="false">key_note_settings</string>
+    <string name="key_setup_dashboard" translatable="false">setup_dashboard</string>
+    <string name="key_about" translatable="false">about</string>
+    <string name="key_data_backup" translatable="false">data_backup</string>
+    <!--endregion-->
+
+    <string name="key_is_tour_activity_showed" translatable="false">tour_activity_showed</string>
+    <string name="key_attachment_uri" translatable="false">key_attachment_uri</string>
+    <string name="key_attachment_file_path" translatable="false">key_attachment_file_path</string>
+
+    <!--region preferences-->
+    <string name="key_preferences" translatable="false">key_preferences</string>
+    <string name="key_custom_fab" translatable="false">custom_fab</string>
+    <!--endregion-->
+
     <string name="key_setting_item_about_privacy" translatable="false">__key_setting_item_about_privacy</string>
     <string name="key_setting_item_about_open_source" translatable="false">__key_setting_item_about_open_source</string>
-
-    <string name="key_user_intro_showed" translatable="false">__key_user_introduction_page_showed</string>
-
-    <string name="key_security_password" translatable="false">_key_saved_password</string>
-    <string name="key_security_password_enable" translatable="false">_key_password_enable</string>
-    <string name="key_security_to_set_password" translatable="false">_key_to_set_password</string>
-    <string name="key_security_security_question" translatable="false">_key_security_question</string>
-    <string name="key_security_freeze_minutes" translatable="false">_key_freeze_minutes</string>
-    <string name="key_security_last_freeze_time" translatable="false">_key_last_freeze_time</string>
-    <string name="key_security_question" translatable="false">_key_security_question</string>
-    <string name="key_security_answer" translatable="false">_key_security_answer</string>
-    <string name="key_security_answer_tips" translatable="false">_key_security_answer_tips</string>
-    <string name="key_security_finger_print_enable" translatable="false">_key_finger_print_enabled</string>
-
+    <string name="key_setting_item_help_translate" translatable="false">__key_setting_item_help_translate</string>
 </resources>

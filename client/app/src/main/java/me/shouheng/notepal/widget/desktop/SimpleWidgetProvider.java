@@ -6,8 +6,8 @@ import android.util.SparseArray;
 import android.view.View;
 import android.widget.RemoteViews;
 
+import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.util.ColorUtils;
 
 public class SimpleWidgetProvider extends WidgetProvider {
 

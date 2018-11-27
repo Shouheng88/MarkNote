@@ -23,6 +23,7 @@ import lecho.lib.hellocharts.model.LineChartData;
 import lecho.lib.hellocharts.model.PointValue;
 import lecho.lib.hellocharts.model.SubcolumnValue;
 import lecho.lib.hellocharts.model.ValueShape;
+import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.async.NormalAsyncTask;
@@ -30,7 +31,6 @@ import me.shouheng.notepal.model.Stats;
 import me.shouheng.notepal.model.data.Resource;
 import me.shouheng.notepal.model.enums.ModelType;
 import me.shouheng.notepal.provider.helper.StatisticsHelper;
-import me.shouheng.notepal.util.LogUtils;
 
 /**
  * Created by Employee on 2018/3/15.*/
@@ -46,7 +46,6 @@ public class StatisticViewModel extends ViewModel {
 
     private final static int DEFAULT_TOTAL_VALUE = 0;
 
-    // region line chart data of added models
     public LineChartData getDefaultNoteData(int lineColor) {
         List<Integer> defaultValues = new LinkedList<>();
         for (int i=0; i<DAYS_OF_ADDED_MODEL; i++) {
@@ -101,9 +100,7 @@ public class StatisticViewModel extends ViewModel {
         new NormalAsyncTask<>(result, () -> StatisticsHelper.getAddedStatistics(modelType, DAYS_OF_ADDED_MODEL)).execute();
         return result;
     }
-    // endregion
 
-    // region get models statistic
     public ColumnChartData getDefaultModelsData() {
         ColumnChartData data = new ColumnChartData(Arrays.asList(
                 getColumn(DEFAULT_TOTAL_VALUE, PalmApp.getColorCompact(R.color.md_lime_600)),
@@ -130,9 +127,7 @@ public class StatisticViewModel extends ViewModel {
         column.setHasLabels(true);
         return column;
     }
-    // endregion
 
-    // region get attachment stats
     public ColumnChartData getDefaultAttachmentData() {
         ColumnChartData data = new ColumnChartData(Arrays.asList(
                 getColumn(DEFAULT_TOTAL_VALUE, PalmApp.getColorCompact(R.color.md_lime_600)),
@@ -153,13 +148,10 @@ public class StatisticViewModel extends ViewModel {
 
         return data;
     }
-    // endregion
 
-    // region get all stats one shot
     public LiveData<Resource<Stats>> getStats() {
         MutableLiveData<Resource<Stats>> result = new MutableLiveData<>();
         new NormalAsyncTask<>(result, () -> StatisticsHelper.getStats(PalmApp.getContext())).execute();
         return result;
     }
-    // endregion
 }

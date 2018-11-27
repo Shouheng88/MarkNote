@@ -4,8 +4,8 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.AppCompatImageView;
 
+import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.notepal.PalmApp;
-import me.shouheng.notepal.util.ColorUtils;
 import my.shouheng.palmmarkdown.tools.MarkdownFormat;
 
 public class MDItemView extends AppCompatImageView {

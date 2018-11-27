@@ -13,9 +13,9 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.andrognito.pinlockview.IndicatorDots;
 import com.andrognito.pinlockview.PinLockListener;
 
+import me.shouheng.commons.activity.CommonActivity;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.activity.base.CommonActivity;
 import me.shouheng.notepal.databinding.ActivityLockBinding;
 import me.shouheng.notepal.util.ActivityUtils;
 import me.shouheng.notepal.util.RSAUtil;
@@ -42,10 +42,10 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
         fragment.startActivityForResult(intent, requestCode);
     }
 
-    public static void requirePassword(Activity activity, int requestCode) {
-        Intent intent = new Intent(activity, LockActivity.class);
+    public static void requirePassword(Fragment fragment, int requestCode) {
+        Intent intent = new Intent(fragment.getActivity(), LockActivity.class);
         intent.setAction(ACTION_REQUIRE_PERMISSION);
-        activity.startActivityForResult(intent, requestCode);
+        fragment.startActivityForResult(intent, requestCode);
     }
 
     public static void requireLaunch(Activity activity, int requestCode) {

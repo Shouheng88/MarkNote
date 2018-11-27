@@ -1,20 +1,16 @@
 package me.shouheng.notepal;
 
 import android.app.Activity;
-import android.app.Application;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.StringRes;
-import android.support.multidex.MultiDex;
 
 import com.facebook.stetho.Stetho;
-import com.squareup.leakcanary.LeakCanary;
 
-import org.polaric.colorful.Colorful;
-
+import me.shouheng.commons.BaseApplication;
 import me.shouheng.notepal.model.Model;
 
 /**
@@ -49,8 +45,12 @@ import me.shouheng.notepal.model.Model;
  * 3.打开笔记的时候先从OneDrive上面检查备份信息；
  * 4.备份的文件的名称需要改；
  *
+ * TODO 更新日志和开发计划添加到关于界面
+ * TODO 分享和捐赠集成
+ * TODO 指纹解锁
+ *
  * Created by wangshouheng on 2017/2/26. */
-public class PalmApp extends Application {
+public class PalmApp extends BaseApplication {
 
     private static PalmApp mInstance;
 
@@ -66,17 +66,11 @@ public class PalmApp extends Application {
 
         mInstance = this;
 
-        MultiDex.install(this);
-
-        Colorful.init(this);
-
         /*
          * Enable stetho only in debug mode. */
         if (BuildConfig.DEBUG) {
             Stetho.initializeWithDefaults(this);
         }
-
-        LeakCanary.install(this);
     }
 
     public static boolean isPasswordChecked() {

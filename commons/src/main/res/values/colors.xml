@@ -1,5 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name="colorPrimary">#FAFAFA</color>
+    <color name="colorPrimaryDark">#f0f0f0</color>
+    <color name="colorAccentBlue">#0078FF</color>
+    <color name="colorAccentRed">#FF4081</color>
+    <color name="colorDarkPrimary">#202020</color>
+    <color name="colorDarkPrimaryDark">#222222</color>
+
+    <color name="dark_theme_background">#2E2E2E</color>
+    <color name="dark_theme_background_dark">#2E2E2E</color>
+    <color name="dark_theme_foreground">#3F3F3F</color>
+    <color name="dark_theme_primary_dark">#2F2F2F</color>
+    <color name="light_theme_background">#fafafa</color>
+    <color name="light_theme_background_dark">#EEE</color>
+    <color name="light_theme_foreground">#FFFFFF</color>
+
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="black20">#33000000</color>
+    <color name="black38">#61000000</color>
+    <color name="black54">#8A000000</color>
+    <color name="black87">#D8000000</color>
+
+    <color name="white20">#33ffffff</color>
+    <color name="white38">#61ffffff</color>
+    <color name="white54">#8Affffff</color>
+    <color name="white87">#D8ffffff</color>
+
+    <color name="ripple_color">#ffeeeeee</color>
+
+    <color name="white_divider_color">#22ffffff</color>
+    <color name="black_divider_color">#08000000</color>
+
+    <color name="note_bottom_editors">#525D63</color>
+
+    <color name="time_line_color">#BDBDBD</color>
+
+    <color name="light_theme_text_color">#424242</color>
+    <color name="light_theme_sub_text_color">#757575</color>
+    <color name="light_theme_image_tint_color">#737373</color>
+    <color name="dark_theme_image_tint_color">#C1C1C1</color>
+
+    <color name="light_theme_empty_text_color">@color/black54</color>
+    <color name="light_theme_empty_sub_text_color">@color/black38</color>
+    <color name="light_theme_empty_icon_tint_color">@color/black38</color>
+    <color name="dark_theme_empty_text_color">@color/white54</color>
+    <color name="dark_theme_empty_sub_text_color">@color/white38</color>
+    <color name="dark_theme_empty_icon_tint_color">@color/white38</color>
+
+    <color name="kitkat_gray_dark">#25000000</color>
+    <color name="kitkat_gray_light">#19000000</color>
+
+    <!--region color for App Widget-->
+    <color name="black_translucent">#66000000</color>
+    <color name="white_translucent">#B0ffffff</color>
+    <!--endregion-->
+
+    <color name="menu_container_light">#a0ffffff</color>
+    <color name="menu_container_dark">#a0000000</color>
+
+    <color name="security_question_bg">#11817c</color>
+
+    <color name="default_notebook_color">#18b38c</color>
+    <color name="default_category_color">#18b38c</color>
+
+    <color name="about_page_background">#f1f1f1</color>
+    <color name="about_page_category_text_color">#757575</color>
+    <color name="about_page_card_text_color">#de000000</color>
+    <color name="about_page_link_text_color">@android:color/black</color>
+    <color name="about_page_card_selected">#44000000</color>
+    <color name="about_page_card_normal">#ffffff</color>
+    <color name="about_page_card_ripple">#33000000</color>
+    <color name="about_page_line">#eae9e9</color>
+    <color name="about_page_name_color">@color/about_page_card_text_color</color>
+    <color name="about_page_desc_color">@color/about_page_hint</color>
+    <color name="about_page_license_title">@color/about_page_card_text_color</color>
+    <color name="about_page_hint">#757575</color>
+
+    <color name="ic_launcher_background">#FAFCFC</color>
 
 </resources>

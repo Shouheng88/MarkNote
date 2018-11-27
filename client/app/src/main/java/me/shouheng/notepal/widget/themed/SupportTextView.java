@@ -5,8 +5,8 @@ import android.content.res.TypedArray;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 
+import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.util.ColorUtils;
 
 /**
  * Created by wangshouheng on 2017/12/5.*/

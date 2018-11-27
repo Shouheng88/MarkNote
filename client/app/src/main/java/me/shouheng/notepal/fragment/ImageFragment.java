@@ -12,14 +12,13 @@ import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.koushikdutta.ion.Ion;
 
+import me.shouheng.commons.utils.ViewUtils;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.GalleryActivity;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.util.FileHelper;
-import me.shouheng.notepal.util.ViewUtils;
 import me.shouheng.notepal.widget.tools.RotateTransformation;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
@@ -28,19 +27,9 @@ import uk.co.senab.photoview.PhotoViewAttacher;
  * Created by wangshouheng on 2017/4/9.*/
 public class ImageFragment extends Fragment {
 
-    private final static String ARG_ATTACHMENT = "arg_attachment";
+    public final static String ARG_ATTACHMENT = "__args_key_attachment";
 
     private Attachment attachment;
-
-    public static ImageFragment newInstance(Attachment attachment){
-        Bundle arg = new Bundle();
-        arg.putSerializable(ARG_ATTACHMENT, attachment);
-        ImageFragment fragment = new ImageFragment();
-        fragment.setArguments(arg);
-        return fragment;
-    }
-
-    public ImageFragment(){}
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,10 +61,8 @@ public class ImageFragment extends Fragment {
         }
 
         PhotoView photoView = new PhotoView(getContext());
-        if (attachment != null && attachment.getUri().getPath().endsWith("gif")){
-            Ion.with(getContext())
-                    .load(attachment.getUri().getPath())
-                    .intoImageView(photoView);
+        if (attachment != null && "gif".endsWith(attachment.getUri().getPath())) {
+            Glide.with(getActivity()).load(attachment.getUri().getPath()).into(photoView);
         } else {
             displayMedia(photoView);
         }

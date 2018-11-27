@@ -9,7 +9,6 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
@@ -22,7 +21,7 @@ import com.just.agentweb.DefaultWebClient;
 
 import me.shouheng.commons.R;
 import me.shouheng.commons.databinding.FragmentWebviewBinding;
-import me.shouheng.commons.utils.FragmentKeyDown;
+import me.shouheng.commons.interaction.FragmentKeyDown;
 import me.shouheng.commons.utils.IntentUtils;
 import me.shouheng.commons.utils.PalmUtils;
 

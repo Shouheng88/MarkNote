@@ -26,9 +26,7 @@ class DayOneStrategy : DefaultStrategy() {
 
     override fun indent(source: String, selectionStart: Int, selectionEnd: Int, selection: String?, editor: EditText?) {
         val (targetLine, start, end) = source.selectedLine(selectionStart, selectionEnd)
-        // parse 出前面格式(header, list, task, quote)之外的文字
         val (mark, indent, content) = detectPrecedingMark(targetLine)
-        // XXX: 目前只把 4 个空格当 indent
         val firstNonIndent = start + indent.length
         val originalIndentLength = indent.length
         indent.indent()
@@ -38,9 +36,7 @@ class DayOneStrategy : DefaultStrategy() {
 
     override fun dedent(source: String, selectionStart: Int, selectionEnd: Int, selection: String?, editor: EditText?) {
         val (targetLine, start, end) = source.selectedLine(selectionStart, selectionEnd)
-        // parse 出前面格式(header, list, task, quote)之外的文字
         val (mark, indent, content) = detectPrecedingMark(targetLine)
-        // XXX: 目前只把 4 个空格当 indent
         val firstNonIndent = start + indent.length
         val originalIndentLength = indent.length
         indent.dedent()

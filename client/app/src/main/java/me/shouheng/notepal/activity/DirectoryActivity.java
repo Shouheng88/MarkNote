@@ -15,9 +15,9 @@ import com.onedrive.sdk.core.ClientException;
 import com.onedrive.sdk.extensions.Folder;
 import com.onedrive.sdk.extensions.Item;
 
+import me.shouheng.commons.activity.CommonActivity;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.activity.base.CommonActivity;
 import me.shouheng.notepal.async.onedrive.ClearBackupStateTask;
 import me.shouheng.notepal.databinding.ActivityDirectoryBinding;
 import me.shouheng.notepal.dialog.SimpleEditDialog;

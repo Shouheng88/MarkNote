@@ -9,9 +9,9 @@ import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 
+import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.DialogInputTableLayoutBinding;
-import me.shouheng.notepal.util.ColorUtils;
 
 /**
  * Created by wangshouheng on 2017/7/1. */

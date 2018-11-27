@@ -9,15 +9,15 @@ import android.view.View;
 
 import java.util.List;
 
+import me.shouheng.commons.fragment.CommonFragment;
+import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.TimeLinesAdapter;
 import me.shouheng.notepal.databinding.FragmentTimeLineBinding;
-import me.shouheng.notepal.fragment.base.CommonFragment;
 import me.shouheng.notepal.model.TimeLine;
 import me.shouheng.notepal.model.enums.Status;
 import me.shouheng.notepal.provider.TimelineStore;
 import me.shouheng.notepal.provider.schema.TimelineSchema;
-import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.ToastUtils;
 
 /**
@@ -30,13 +30,6 @@ public class TimeLineFragment extends CommonFragment<FragmentTimeLineBinding> {
 
     private int modelsCount, pageNumber = 20, startIndex = 0;
 
-    public static TimeLineFragment newInstance() {
-        Bundle args = new Bundle();
-        TimeLineFragment fragment = new TimeLineFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     protected int getLayoutResId() {
         return R.layout.fragment_time_line;
@@ -47,6 +40,11 @@ public class TimeLineFragment extends CommonFragment<FragmentTimeLineBinding> {
         configToolbar();
 
         configTimeline();
+    }
+
+    @Override
+    protected String umengPageName() {
+        return "TimeLine";
     }
 
     private void configToolbar() {

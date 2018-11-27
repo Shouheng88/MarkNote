@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/item_open"
+        app:showAsAction="always"
+        android:title="@string/text_open_in_browser"/>
+
+    <item android:id="@+id/item_copy"
+        app:showAsAction="always"
+        android:title="@string/text_copy_link"/>
+
+</menu>

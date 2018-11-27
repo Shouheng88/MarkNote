@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.util.preferences.UserPreferences;
+import me.shouheng.notepal.util.preferences.PrefUtils;
 
 /**
  * Created by wang shouheng on 2017/12/23.*/
@@ -26,7 +26,6 @@ public class FragmentHelper {
         if (activity.isFinishing()) return;
         FragmentManager fragmentManager = activity.getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        setCustomAnimations(transaction);
         transaction.replace(containerId, fragment, tag).commit();
     }
 
@@ -55,7 +54,6 @@ public class FragmentHelper {
         if (activity.isFinishing()) return;
         android.app.FragmentManager fragmentManager = activity.getFragmentManager();
         android.app.FragmentTransaction transaction = fragmentManager.beginTransaction();
-        setCustomAnimations(transaction);
         if (backStack) transaction.addToBackStack(null);
         transaction.replace(containerId, fragment).commit();
     }
@@ -67,20 +65,7 @@ public class FragmentHelper {
         if (activity.isFinishing()) return;
         FragmentManager fragmentManager = activity.getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        setCustomAnimations(transaction);
         if (backStack) transaction.addToBackStack(null);
         transaction.replace(containerId, fragment).commit();
-    }
-
-    private static void setCustomAnimations(FragmentTransaction transaction) {
-        if (!UserPreferences.getInstance().systemAnimationEnabled()) return;
-        transaction.setCustomAnimations(R.animator.slide_up, R.animator.slide_down,
-                R.animator.slide_up, R.animator.slide_down);
-    }
-
-    private static void setCustomAnimations(android.app.FragmentTransaction transaction) {
-        if (!UserPreferences.getInstance().systemAnimationEnabled()) return;
-        transaction.setCustomAnimations(R.animator.slide_up, R.animator.slide_down,
-                R.animator.slide_up, R.animator.slide_down);
     }
 }

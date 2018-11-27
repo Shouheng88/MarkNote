@@ -3,7 +3,6 @@ package me.shouheng.notepal.activity;
 import android.support.v4.app.Fragment;
 
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.activity.base.BaseListActivity;
 import me.shouheng.notepal.fragment.CategoriesFragment;
 import me.shouheng.notepal.fragment.NotesFragment;
 import me.shouheng.notepal.model.Category;
@@ -18,6 +17,11 @@ public class TrashedActivity extends BaseListActivity {
     @Override
     protected CharSequence getActionbarTitle() {
         return getString(R.string.drawer_menu_trash);
+    }
+
+    @Override
+    protected int getHeaderDrawable() {
+        return R.drawable.ic_trash_black;
     }
 
     @Override

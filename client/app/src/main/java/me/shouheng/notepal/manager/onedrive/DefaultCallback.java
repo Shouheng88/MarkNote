@@ -6,8 +6,8 @@ import android.content.Context;
 import com.onedrive.sdk.concurrency.ICallback;
 import com.onedrive.sdk.core.ClientException;
 
+import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.util.LogUtils;
 
 /**
  * A default callback that logs errors

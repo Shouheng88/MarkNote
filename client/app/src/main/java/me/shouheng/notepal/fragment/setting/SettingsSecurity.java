@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
+import android.preference.SwitchPreference;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -16,17 +16,17 @@ import android.view.LayoutInflater;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
+import me.shouheng.commons.fragment.BPreferenceFragment;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.LockActivity;
 import me.shouheng.notepal.databinding.DialogSecurityQuestionLayoutBinding;
-import me.shouheng.notepal.listener.OnFragmentDestroyListener;
 import me.shouheng.notepal.util.RSAUtil;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.util.preferences.LockPreferences;
 
 /**
  * Created by wang shouheng on 2018/1/12. */
-public class SettingsSecurity extends BaseFragment {
+public class SettingsSecurity extends BPreferenceFragment {
 
     private final static int REQUEST_SET_PASSWORD = 0x0010;
 
@@ -37,25 +37,15 @@ public class SettingsSecurity extends BaseFragment {
         super.onCreate(savedInstanceState);
         lockPreferences = LockPreferences.getInstance();
 
-        configToolbar();
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        if (actionBar != null) actionBar.setTitle(R.string.setting_data_security);
 
         addPreferencesFromResource(R.xml.preferences_data_security);
 
-        setPreferenceClickListeners();
-
-        showAlertIfNecessary();
-    }
-
-    private void configToolbar() {
-        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        if (actionBar != null) actionBar.setTitle(R.string.setting_data_security);
-    }
-
-    private void setPreferenceClickListeners() {
         findPreference(R.string.key_is_password_required).setOnPreferenceClickListener(preference -> {
-            if (TextUtils.isEmpty(lockPreferences.getPassword()) && ((CheckBoxPreference) preference).isChecked() ) {
+            if (TextUtils.isEmpty(lockPreferences.getPassword()) && ((SwitchPreference) preference).isChecked() ) {
                 toSetPassword();
-            } else if (((CheckBoxPreference) preference).isChecked()){
+            } else if (((SwitchPreference) preference).isChecked()){
                 /* the password is not empty and the password is required, but the security question is not set */
                 showAlertIfNecessary();
             }
@@ -73,6 +63,8 @@ public class SettingsSecurity extends BaseFragment {
             showQuestionEditor();
             return true;
         });
+
+        showAlertIfNecessary();
     }
 
     private void showInputDialog() {
@@ -136,7 +128,6 @@ public class SettingsSecurity extends BaseFragment {
         });
 
         new AlertDialog.Builder(getActivity())
-                .setTitle(R.string.setting_security_question)
                 .setNegativeButton(R.string.cancel, null)
                 .setPositiveButton(R.string.text_save, (dialog, which) -> {
                     String question = binding.etQuestion.getText().toString();
@@ -186,7 +177,7 @@ public class SettingsSecurity extends BaseFragment {
                 if (resultCode != Activity.RESULT_OK && TextUtils.isEmpty(lockPreferences.getPassword())) {
                     /* remove the password requirement if the password is not set */
                     lockPreferences.setPasswordRequired(false);
-                    ((CheckBoxPreference) findPreference(R.string.key_is_password_required)).setChecked(false);
+                    ((SwitchPreference) findPreference(R.string.key_is_password_required)).setChecked(false);
                 } else {
                     showAlertIfNecessary();
                 }
@@ -209,10 +200,7 @@ public class SettingsSecurity extends BaseFragment {
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (getActivity() instanceof OnFragmentDestroyListener) {
-            ((OnFragmentDestroyListener) getActivity()).onFragmentDestroy();
-        }
+    protected String umengPageName() {
+        return "Security preferences";
     }
 }

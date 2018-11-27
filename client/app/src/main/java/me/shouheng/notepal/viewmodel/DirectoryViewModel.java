@@ -11,11 +11,11 @@ import com.onedrive.sdk.extensions.Item;
 import java.util.LinkedList;
 import java.util.List;
 
+import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.notepal.async.onedrive.PrepareBackupDirTask;
 import me.shouheng.notepal.manager.onedrive.OneDriveManager;
 import me.shouheng.notepal.model.Directory;
 import me.shouheng.notepal.model.data.Resource;
-import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.preferences.SyncPreferences;
 
 /**

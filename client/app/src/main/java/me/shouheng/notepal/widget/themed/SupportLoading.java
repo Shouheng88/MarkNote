@@ -6,9 +6,9 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.RelativeLayout;
 
+import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.WidgetSupportLoadingBinding;
-import me.shouheng.notepal.util.ColorUtils;
 
 /**
  * Created by Employee on 2018/3/13. */

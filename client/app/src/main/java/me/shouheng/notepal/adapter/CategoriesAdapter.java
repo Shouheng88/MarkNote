@@ -9,9 +9,9 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import java.util.Collections;
 import java.util.List;
 
+import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.model.Category;
-import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.widget.CircleImageView;
 import me.shouheng.notepal.widget.tools.IItemTouchHelperAdapter;
 
@@ -44,8 +44,7 @@ public class CategoriesAdapter extends BaseQuickAdapter<Category, BaseViewHolder
 
         if (isDarkTheme) helper.itemView.setBackgroundResource(R.color.dark_theme_background);
 
-        helper.setText(R.id.tv_title, "# " + category.getName());
-//        helper.setBackgroundRes(R.id.tv_title, isDarkTheme ? R.drawable.label_background_dark : R.drawable.label_background);
+        helper.setText(R.id.tv_title, category.getName());
         helper.setText(R.id.tv_sub_title, context.getResources().getQuantityString(
                 R.plurals.notes_number, category.getCount(), category.getCount()));
 

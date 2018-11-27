@@ -14,6 +14,8 @@ import android.widget.RemoteViewsService.RemoteViewsFactory;
 
 import java.util.List;
 
+import me.shouheng.commons.utils.ColorUtils;
+import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.config.Constants;
@@ -22,8 +24,6 @@ import me.shouheng.notepal.model.Notebook;
 import me.shouheng.notepal.provider.NotesStore;
 import me.shouheng.notepal.provider.schema.NoteSchema;
 import me.shouheng.notepal.util.AppWidgetUtils;
-import me.shouheng.notepal.util.ColorUtils;
-import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.TimeUtils;
 
 public class ListRemoteViewsFactory implements RemoteViewsFactory, SharedPreferences.OnSharedPreferenceChangeListener {

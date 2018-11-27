@@ -12,11 +12,11 @@ import me.shouheng.notepal.model.Note;
 
 public class ShortcutHelper {
 
+    // FIXME CHANGE the intent of short cut
     public static <T extends Model> void addShortcut(Context context, T model) {
         Context mContext = context.getApplicationContext();
         Intent shortcutIntent = new Intent(mContext, MainActivity.class);
         shortcutIntent.putExtra(Constants.EXTRA_CODE, model.getCode());
-        shortcutIntent.putExtra(Constants.EXTRA_FRAGMENT, getFragmentToDispatch(model));
         shortcutIntent.setAction(Constants.ACTION_SHORTCUT);
         shortcutIntent.putExtra(ContentActivity.EXTRA_HAS_TOOLBAR, true);
 
@@ -33,13 +33,6 @@ public class ShortcutHelper {
     private static <T extends Model> String getShortcutName(T model) {
          if (model instanceof Note) {
             return ((Note) model).getTitle();
-        }
-        return "PalmCollege";
-    }
-
-    private static <T extends Model> String getFragmentToDispatch(T model) {
-        if (model instanceof Note) {
-            return Constants.VALUE_FRAGMENT_NOTE;
         }
         return "PalmCollege";
     }

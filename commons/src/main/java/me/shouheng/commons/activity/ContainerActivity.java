@@ -11,10 +11,10 @@ import android.view.View;
 
 import me.shouheng.commons.R;
 import me.shouheng.commons.databinding.ActivityContainerBinding;
-import me.shouheng.commons.fragment.FragmentHelper;
-import me.shouheng.commons.utils.BackEventResolver;
+import me.shouheng.commons.helper.FragmentHelper;
+import me.shouheng.commons.interaction.BackEventResolver;
 import me.shouheng.commons.utils.ColorUtils;
-import me.shouheng.commons.utils.FragmentKeyDown;
+import me.shouheng.commons.interaction.FragmentKeyDown;
 import me.shouheng.commons.utils.PalmUtils;
 
 public class ContainerActivity extends CommonActivity<ActivityContainerBinding> {
@@ -44,7 +44,7 @@ public class ContainerActivity extends CommonActivity<ActivityContainerBinding> 
             try {
                 Fragment fragment = fragmentClass.newInstance();
                 fragment.setArguments(bundle);
-                toFragment(fragment);
+                FragmentHelper.replace(this, fragment,  R.id.fragment_container, false);
             } catch (InstantiationException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {
@@ -72,10 +72,6 @@ public class ContainerActivity extends CommonActivity<ActivityContainerBinding> 
         } else {
             getBinding().barLayout.setVisibility(View.GONE);
         }
-    }
-
-    private void toFragment(Fragment fragment) {
-        FragmentHelper.replace(this, fragment,  R.id.fragment_container, false);
     }
 
     @Override

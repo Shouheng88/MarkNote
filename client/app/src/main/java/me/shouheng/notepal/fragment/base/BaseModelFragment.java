@@ -15,18 +15,17 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
 
-import org.polaric.colorful.PermissionUtils;
-
 import java.util.LinkedList;
 import java.util.List;
 
+import me.shouheng.commons.activity.CommonActivity;
+import me.shouheng.commons.utils.LogUtils;
+import me.shouheng.commons.utils.PermissionUtils;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.ContentActivity;
-import me.shouheng.notepal.activity.base.CommonActivity;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.dialog.CategoryEditDialog;
 import me.shouheng.notepal.dialog.picker.CategoryPickerDialog;
-import me.shouheng.notepal.manager.LocationManager;
 import me.shouheng.notepal.model.Category;
 import me.shouheng.notepal.model.Location;
 import me.shouheng.notepal.model.Model;
@@ -34,11 +33,10 @@ import me.shouheng.notepal.model.ModelFactory;
 import me.shouheng.notepal.model.data.Resource;
 import me.shouheng.notepal.provider.CategoryStore;
 import me.shouheng.notepal.util.AppWidgetUtils;
-import me.shouheng.notepal.util.LogUtils;
-import me.shouheng.notepal.util.NetworkUtils;
+import me.shouheng.commons.utils.NetworkUtils;
 import me.shouheng.notepal.util.ShortcutHelper;
 import me.shouheng.notepal.util.ToastUtils;
-import me.shouheng.notepal.util.ViewUtils;
+import me.shouheng.commons.utils.ViewUtils;
 import me.shouheng.notepal.viewmodel.BaseViewModel;
 import me.shouheng.notepal.viewmodel.CategoryViewModel;
 import me.shouheng.notepal.widget.FlowLayout;
@@ -238,14 +236,14 @@ public abstract class BaseModelFragment<T extends Model, V extends ViewDataBindi
         if (!(getActivity() instanceof ContentActivity)) {
             throw new IllegalArgumentException("The associated activity must be content!");
         }
-        new ColorChooserDialog.Builder((ContentActivity) getActivity(), titleRes)
+        new ColorChooserDialog.Builder(getActivity(), titleRes)
                 .preselect(primaryColor())
                 .accentMode(false)
                 .titleSub(titleRes)
                 .backButton(R.string.text_back)
-                .doneButton(R.string.done_label)
+                .doneButton(R.string.text_done)
                 .cancelButton(R.string.text_cancel)
-                .show();
+                .show(getChildFragmentManager());
     }
     // endregion
 
@@ -363,20 +361,20 @@ public abstract class BaseModelFragment<T extends Model, V extends ViewDataBindi
 
     private void baiduLocate() {
         ToastUtils.makeToast(R.string.trying_to_get_location);
-        LocationManager.getInstance(getContext()).locate(bdLocation -> {
-            if (bdLocation != null && !TextUtils.isEmpty(bdLocation.getCity())){
-                Location location = ModelFactory.getLocation();
-                location.setLongitude(bdLocation.getLongitude());
-                location.setLatitude(bdLocation.getLatitude());
-                location.setCountry(bdLocation.getCountry());
-                location.setProvince(bdLocation.getProvince());
-                location.setCity(bdLocation.getCity());
-                location.setDistrict(bdLocation.getDistrict());
-                onGetLocation(location);
-            } else {
-                ToastUtils.makeToast(R.string.failed_to_get_location);
-            }
-        });
+//        LocationManager.getInstance(getContext()).locate(bdLocation -> {
+//            if (bdLocation != null && !TextUtils.isEmpty(bdLocation.getCity())){
+//                Location location = ModelFactory.getLocation();
+//                location.setLongitude(bdLocation.getLongitude());
+//                location.setLatitude(bdLocation.getLatitude());
+//                location.setCountry(bdLocation.getCountry());
+//                location.setProvince(bdLocation.getProvince());
+//                location.setCity(bdLocation.getCity());
+//                location.setDistrict(bdLocation.getDistrict());
+//                onGetLocation(location);
+//            } else {
+//                ToastUtils.makeToast(R.string.failed_to_get_location);
+//            }
+//        });
     }
 
     protected void onGetLocation(Location location) {}
@@ -384,7 +382,7 @@ public abstract class BaseModelFragment<T extends Model, V extends ViewDataBindi
 
     public void onColorSelection(@ColorInt int i) {
         if (categoryEditDialog != null) {
-            categoryEditDialog.updateUIBySelectedColor(i);
+//            categoryEditDialog.updateUIBySelectedColor(i);
         }
     }
 }

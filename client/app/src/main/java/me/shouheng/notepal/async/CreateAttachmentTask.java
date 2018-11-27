@@ -11,7 +11,7 @@ import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.listener.OnAttachingFileListener;
 import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.util.FileHelper;
-import me.shouheng.notepal.util.PalmUtils;
+import me.shouheng.commons.utils.PalmUtils;
 
 /**
  * The async task to create attachment from uri. */

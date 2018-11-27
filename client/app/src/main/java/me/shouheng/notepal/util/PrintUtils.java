@@ -4,6 +4,7 @@ import android.content.Context;
 import android.print.PrintManager;
 import android.webkit.WebView;
 
+import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.notepal.model.Note;
 
 /**

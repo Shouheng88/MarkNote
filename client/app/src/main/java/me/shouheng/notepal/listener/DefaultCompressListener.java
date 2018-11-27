@@ -2,7 +2,7 @@ package me.shouheng.notepal.listener;
 
 import java.io.File;
 
-import me.shouheng.notepal.util.LogUtils;
+import me.shouheng.commons.utils.LogUtils;
 import top.zibin.luban.OnCompressListener;
 
 /**

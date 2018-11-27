@@ -1,5 +1,6 @@
 package me.shouheng.notepal.adapter;
 
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
+import me.shouheng.commons.helper.FragmentHelper;
 import me.shouheng.notepal.fragment.ImageFragment;
 import me.shouheng.notepal.model.Attachment;
 
@@ -28,7 +30,9 @@ public class AttachmentPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int pos) {
         Attachment attachment = this.attachments.get(pos);
-        return ImageFragment.newInstance(attachment);
+        return FragmentHelper.open(ImageFragment.class)
+                .put(ImageFragment.ARG_ATTACHMENT, (Parcelable) attachment)
+                .get();
     }
 
     @NonNull

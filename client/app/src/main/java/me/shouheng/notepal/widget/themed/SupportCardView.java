@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 
-import me.shouheng.notepal.util.ColorUtils;
+import me.shouheng.commons.utils.ColorUtils;
 
 /**
  * Created by WangShouheng on 2018/3/1. */

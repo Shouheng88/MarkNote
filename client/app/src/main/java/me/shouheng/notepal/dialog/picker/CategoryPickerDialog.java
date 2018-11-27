@@ -5,12 +5,12 @@ import android.support.v7.app.AlertDialog;
 import java.util.LinkedList;
 import java.util.List;
 
+import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.ModelsPickerAdapter;
 import me.shouheng.notepal.adapter.picker.CategoryPickerStrategy;
 import me.shouheng.notepal.model.Category;
-import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.widget.EmptyView;
 
 /**

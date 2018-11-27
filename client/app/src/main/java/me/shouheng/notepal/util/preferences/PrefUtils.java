@@ -13,18 +13,18 @@ import me.shouheng.notepal.model.enums.FabSortItem;
 import me.shouheng.notepal.model.enums.Operation;
 import my.shouheng.palmmarkdown.tools.MarkdownFormat;
 
-
 /**
  * Created by shouh on 2018/4/9.*/
-public class UserPreferences extends BasePreferences {
+public class PrefUtils extends BasePreferences {
+
+    private static PrefUtils instance = new PrefUtils(PalmApp.getContext());
 
     public static List<FabSortItem> defaultFabOrders;
 
     public static List<MarkdownFormat> defaultMarkdownFormats;
 
-    private final String ITEM_SORT_SPLIT = ":";
-
     static {
+        // prepare default fab orders
         defaultFabOrders = new LinkedList<>();
         defaultFabOrders.add(FabSortItem.NOTE);
         defaultFabOrders.add(FabSortItem.NOTEBOOK);
@@ -32,6 +32,7 @@ public class UserPreferences extends BasePreferences {
         defaultFabOrders.add(FabSortItem.CATEGORY);
         defaultFabOrders.add(FabSortItem.FILE);
 
+        // prepare default markdown formats
         defaultMarkdownFormats = new LinkedList<>();
         defaultMarkdownFormats.add(MarkdownFormat.H1);
 
@@ -58,33 +59,14 @@ public class UserPreferences extends BasePreferences {
         defaultMarkdownFormats.add(MarkdownFormat.SUPER_SCRIPT);
     }
 
-    private static UserPreferences preferences;
+    private final String ITEM_SORT_SPLIT = ":";
 
-    public static UserPreferences getInstance() {
-        if (preferences == null) {
-            synchronized (UserPreferences.class) {
-                if (preferences == null) {
-                    preferences = new UserPreferences(PalmApp.getContext());
-                }
-            }
-        }
-        return preferences;
+    public static PrefUtils getInstance() {
+        return instance;
     }
 
-    private UserPreferences(Context context) {
+    private PrefUtils(Context context) {
         super(context);
-    }
-
-    public boolean isImageAutoCompress() {
-        return getBoolean(getKey(R.string.key_auto_compress_image), true);
-    }
-
-    public boolean listAnimationEnabled() {
-        return getBoolean(getKey(R.string.key_list_animation), true);
-    }
-
-    public boolean systemAnimationEnabled() {
-        return getBoolean(getKey(R.string.key_system_animation), true);
     }
 
     public List<FabSortItem> getFabSortResult() {

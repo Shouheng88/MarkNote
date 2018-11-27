@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
@@ -14,8 +15,9 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.kennyc.bottomsheet.BottomSheet;
 import com.kennyc.bottomsheet.BottomSheetListener;
 
@@ -23,13 +25,21 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import javax.annotation.Nonnull;
-
+import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
+import me.shouheng.commons.activity.CommonActivity;
+import me.shouheng.commons.activity.ContainerActivity;
+import me.shouheng.commons.fragment.WebviewFragment;
+import me.shouheng.commons.interaction.BackEventResolver;
+import me.shouheng.commons.utils.ColorUtils;
+import me.shouheng.commons.utils.IntentUtils;
+import me.shouheng.commons.utils.LogUtils;
+import me.shouheng.commons.utils.ViewUtils;
+import me.shouheng.commons.widget.Chip;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.ContentActivity;
@@ -39,24 +49,17 @@ import me.shouheng.notepal.dialog.OpenResolver;
 import me.shouheng.notepal.fragment.base.BaseFragment;
 import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.model.Category;
-import me.shouheng.notepal.model.Location;
 import me.shouheng.notepal.model.ModelFactory;
 import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.provider.AttachmentsStore;
 import me.shouheng.notepal.provider.CategoryStore;
-import me.shouheng.notepal.provider.LocationsStore;
 import me.shouheng.notepal.util.AttachmentHelper;
-import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.FileHelper;
-import me.shouheng.notepal.util.IntentUtils;
-import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.ModelHelper;
 import me.shouheng.notepal.util.PrintUtils;
 import me.shouheng.notepal.util.ShortcutHelper;
 import me.shouheng.notepal.util.ToastUtils;
-import me.shouheng.notepal.viewmodel.CategoryViewModel;
 
-import static me.shouheng.notepal.config.Constants.EXTRA_IS_PREVIEW;
 import static me.shouheng.notepal.config.Constants.PDF_MIME_TYPE;
 import static me.shouheng.notepal.config.Constants.SCHEME_HTTP;
 import static me.shouheng.notepal.config.Constants.SCHEME_HTTPS;
@@ -67,25 +70,16 @@ import static me.shouheng.notepal.config.Constants._PDF;
 
 /**
  * Created by wangshouheng on 2017/5/13.*/
-public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
+public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> implements BackEventResolver {
+
+    public final static String ARGS_KEY_NOTE = "__args_key_note";
+    public final static String ARGS_KEY_IS_PREVIEW = "__args_key_is_preview";
 
     private final static int REQUEST_FOR_EDIT = 0x01;
 
     private Note note;
-
-    private String content, tags;
-
-    private boolean isPreview = false, isContentChanged = false;
-
-    public static NoteViewFragment newInstance(@Nonnull Note note, boolean isPreview, Integer requestCode) {
-        Bundle arg = new Bundle();
-        arg.putSerializable(Constants.EXTRA_MODEL, note);
-        if (requestCode != null) arg.putInt(Constants.EXTRA_REQUEST_CODE, requestCode);
-        arg.putBoolean(Constants.EXTRA_IS_PREVIEW, isPreview);
-        NoteViewFragment fragment = new NoteViewFragment();
-        fragment.setArguments(arg);
-        return fragment;
-    }
+    private String content;
+    private boolean isPreview = false;
 
     @Override
     protected int getLayoutResId() {
@@ -101,19 +95,21 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
         configViews();
     }
 
+    @Override
+    protected String umengPageName() {
+        return "Note Viewer";
+    }
+
     private void handleArguments() {
         Bundle arguments = getArguments();
 
-        if (arguments == null || !arguments.containsKey(Constants.EXTRA_MODEL)) {
+        if (arguments == null || !arguments.containsKey(ARGS_KEY_NOTE)) {
             ToastUtils.makeToast(R.string.text_no_such_note);
             return;
         }
 
-        note = (Note) arguments.getSerializable(Constants.EXTRA_MODEL);
-        List<Category> selections = CategoryStore.getInstance(getContext()).getCategories(note);
-        tags = CategoryViewModel.getTagsName(selections);
-
-        isPreview = getArguments().getBoolean(EXTRA_IS_PREVIEW);
+        note = (Note) arguments.getSerializable(ARGS_KEY_NOTE);
+        isPreview = getArguments().getBoolean(ARGS_KEY_IS_PREVIEW);
 
         if (!isPreview) {
             Attachment noteFile = AttachmentsStore.getInstance(getContext()).get(note.getContentCode());
@@ -141,13 +137,13 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
             final ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
             if (ab != null) {
                 ab.setTitle(note.getTitle());
-                ab.setDisplayHomeAsUpEnabled(false);
+                ab.setDisplayHomeAsUpEnabled(true);
             }
-            if (!isDarkTheme()) getBinding().toolbar.setPopupTheme(R.style.AppTheme_PopupOverlay);
         }
     }
 
     private void configViews() {
+        // config webview
         getBinding().mdView.getDelegate().setThumbDrawable(PalmApp.getDrawableCompact(
                 isDarkTheme() ? R.drawable.fast_scroll_bar_dark : R.drawable.fast_scroll_bar_light));
         getBinding().mdView.getDelegate().setThumbSize(16, 40);
@@ -171,7 +167,10 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
                 // Open the http or https link from chrome tab.
                 if (SCHEME_HTTPS.equalsIgnoreCase(uri.getScheme())
                         || SCHEME_HTTP.equalsIgnoreCase(uri.getScheme())) {
-                    IntentUtils.openWebPage(getContext(), url);
+                    ContainerActivity.open(WebviewFragment.class)
+                            .put(WebviewFragment.ARGUMENT_KEY_URL, uri)
+                            .put(WebviewFragment.ARGUMENT_KEY_USE_PAGE_TITLE, true)
+                            .launch(getContext());
                     return;
                 }
 
@@ -181,12 +180,46 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
                 } else if (url.endsWith(_PDF)) {
                     startActivity(uri, PDF_MIME_TYPE);
                 } else {
-                    OpenResolver.newInstance(mimeType ->
-                            startActivity(uri, mimeType.mimeType)
-                    ).show(getFragmentManager(), "OPEN RESOLVER");
+                    OpenResolver.newInstance(mimeType -> startActivity(uri, mimeType.mimeType))
+                            .show(getChildFragmentManager(), "OPEN RESOLVER");
                 }
             }
         });
+
+        getBinding().fab.setOnClickListener(v -> ContentActivity.editNote(this, note));
+
+        // region config drawer
+        getBinding().drawer.setIsDarkTheme(isDarkTheme());
+        int margin = ViewUtils.dp2Px(getContext(), 2f);
+        ViewGroup.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        List<Category> categories = CategoryStore.getInstance(getContext()).getCategories(note);
+        Disposable disposable = Observable.fromIterable(categories).forEach(category -> {
+            Chip chip = new Chip(getContext());
+            chip.setIcon(category.getPortrait().iconRes);
+            chip.setText(category.getName());
+            chip.setBackgroundColor(category.getColor());
+            ViewGroup.MarginLayoutParams mp = new ViewGroup.MarginLayoutParams(params);
+            mp.setMargins(margin, margin, margin, margin);
+            chip.setLayoutParams(mp);
+            getBinding().drawer.fl.addView(chip);
+        });
+
+        String charsInfo = getString(R.string.text_chars) + " : " +note.getContent().length();
+        getBinding().drawer.tvChars.setText(charsInfo);
+        getBinding().drawer.tvNoteInfo.setText(ModelHelper.getTimeInfo(note));
+
+        getBinding().drawer.llCopy.setOnClickListener(v -> {
+            ModelHelper.copyToClipboard(getActivity(), content);
+            ToastUtils.makeToast(R.string.content_was_copied_to_clipboard);
+        });
+        getBinding().drawer.llShortcut.setOnClickListener(v -> {
+            // TODO add short cut for new version bug....
+            ShortcutHelper.addShortcut(getActivity().getApplicationContext(), note);
+            ToastUtils.makeToast(R.string.successfully_add_shortcut);
+        });
+        getBinding().drawer.llExport.setOnClickListener(v -> export());
+        getBinding().drawer.llShare.setOnClickListener(v -> share());
     }
 
     private void startActivity(Uri uri, String mimeType) {
@@ -228,65 +261,21 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
     }
 
     @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.note_view_menu, menu);
-        MenuItem searchItem = menu.findItem(R.id.action_find);
-        initSearchView((SearchView) searchItem.getActionView());
+//        MenuItem searchItem = menu.findItem(R.id.action_find);
+//        initSearchView((SearchView) searchItem.getActionView());
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.action_edit:
-                ContentActivity.editNote(this, note, REQUEST_FOR_EDIT);
+            case android.R.id.home:
+                resolve();
                 break;
-            case R.id.action_share:
-                share();
-                break;
-            case R.id.font_cursive:
-                getBinding().mdView.getSettings().setCursiveFontFamily("cursive");
-                break;
-            case R.id.font_fantasy:
-                getBinding().mdView.getSettings().setFantasyFontFamily("fantasy");
-                break;
-            case R.id.font_fixed:
-                getBinding().mdView.getSettings().setFixedFontFamily("monospace");
-                break;
-            case R.id.font_sans_serif:
-                getBinding().mdView.getSettings().setSansSerifFontFamily("sans-serif");
-                break;
-            case R.id.font_serif:
-                getBinding().mdView.getSettings().setSerifFontFamily("sans-serif");
-                break;
-            case R.id.action_labs:
-                ModelHelper.showLabels(getContext(), tags);
-                break;
-            case R.id.action_location:
-                showLocation();
-                break;
-            case R.id.action_copy_link:
-                ModelHelper.copyLink(getActivity(), note);
-                break;
-            case R.id.action_copy_content:
-                ModelHelper.copyToClipboard(getActivity(), content);
-                ToastUtils.makeToast(R.string.content_was_copied_to_clipboard);
-                break;
-            case R.id.action_add_shortcut:
-                ShortcutHelper.addShortcut(getActivity().getApplicationContext(), note);
-                ToastUtils.makeToast(R.string.successfully_add_shortcut);
-                break;
-            case R.id.action_statistic:
-                note.setContent(content);
-                ModelHelper.showStatistic(getContext(), note);
-                break;
-            case R.id.action_export:
-                export();
+            case R.id.action_info:
+                getBinding().drawerLayout.openDrawer(GravityCompat.START, true);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -392,20 +381,6 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
         }
     }
 
-    private void showLocation() {
-        Location location = LocationsStore.getInstance(getContext()).getLocation(note);
-        if (location == null) {
-            ToastUtils.makeToast(R.string.text_no_location_info);
-            return;
-        }
-        new MaterialDialog.Builder(getContext())
-                .title(R.string.text_location_info)
-                .positiveText(R.string.text_confirm)
-                .content(ModelHelper.getFormatLocation(location))
-                .build()
-                .show();
-    }
-
     private void initSearchView(SearchView searchView) {
         if (searchView != null) {
             searchView.setQueryHint(getString(R.string.text_find_in_page));
@@ -423,6 +398,14 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
                     return false;
                 }
             });
+        }
+    }
+
+    @Override
+    public void resolve() {
+        Activity activity = getActivity();
+        if (activity instanceof CommonActivity) {
+            ((CommonActivity) activity).superOnBackPressed();
         }
     }
 
@@ -461,35 +444,13 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> {
     }
 
     @Override
-    public void onBackPressed() {
-        assert getActivity() != null;
-        if (isPreview) {
-            getActivity().finish();
-        } else {
-            if (isContentChanged) {
-                Bundle args;
-                if ((args = getArguments()) != null && args.containsKey(Constants.EXTRA_REQUEST_CODE)) {
-                    Intent intent = new Intent();
-                    intent.putExtra(Constants.EXTRA_MODEL, (Serializable) note);
-                    if (getArguments().containsKey(Constants.EXTRA_POSITION)){
-                        intent.putExtra(Constants.EXTRA_POSITION, getArguments().getInt(Constants.EXTRA_POSITION, 0));
-                    }
-                    getActivity().setResult(Activity.RESULT_OK, intent);
-                }
-            }
-            getActivity().finish();
-        }
-    }
-
-    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode){
             case REQUEST_FOR_EDIT:
-                if (resultCode == Activity.RESULT_OK){
-                    isContentChanged = true;
+                if (resultCode == Activity.RESULT_OK) {
+                    // TODO change categories when note data changed !
                     note = (Note) data.getSerializableExtra(Constants.EXTRA_MODEL);
-                    tags = note.getTagsName();
                     refreshLayout();
                 }
                 break;

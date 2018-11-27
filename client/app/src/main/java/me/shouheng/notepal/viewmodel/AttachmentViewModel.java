@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 
+import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.async.ResourceAsyncTask;
 import me.shouheng.notepal.model.Attachment;
@@ -20,7 +21,6 @@ import me.shouheng.notepal.provider.AttachmentsStore;
 import me.shouheng.notepal.repository.AttachmentRepository;
 import me.shouheng.notepal.repository.BaseRepository;
 import me.shouheng.notepal.util.FileHelper;
-import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.preferences.NotePreferences;
 
 /**

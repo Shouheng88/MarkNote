@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="isDarkTheme"
+            type="boolean"/>
+        <variable
+            name="versionName"
+            type="String"/>
+    </data>
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@{isDarkTheme ? @color/dark_theme_background : @color/light_theme_background}">
+
+        <me.shouheng.commons.widget.SupportAppBarLayout
+            android:id="@+id/header_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/about_page_header_height"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/collapsing_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@{isDarkTheme ? @android:color/black : @color/light_theme_foreground}"
+                app:contentScrim="@{isDarkTheme ? @android:color/black : @color/light_theme_foreground}"
+                app:expandedTitleTextAppearance="@style/AboutPage.Header.ToolbarTitleExpanded"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                <LinearLayout
+                    android:id="@+id/header_content_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    app:layout_collapseMode="parallax">
+
+                    <android.support.v7.widget.AppCompatImageView
+                        style="@style/AboutPage.Header.Icon"
+                        android:src="@mipmap/ic_launcher"
+                        android:id="@+id/icon"
+                        tools:ignore="ContentDescription" />
+
+                    <TextView
+                        android:text="@string/about_slogan"
+                        style="@style/AboutPage.Header.Slogan"
+                        android:textColor="@{isDarkTheme ? @android:color/white : @android:color/black}"
+                        android:id="@+id/slogan"/>
+
+                    <TextView
+                        style="@style/AboutPage.Header.Version"
+                        android:text="@{versionName}"
+                        android:textColor="@{isDarkTheme ? @android:color/white : @android:color/black}"
+                        android:id="@+id/version"
+                        tools:text="Version 1.2.3"/>
+
+                </LinearLayout>
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin"/>
+
+            </android.support.design.widget.CollapsingToolbarLayout>
+
+        </me.shouheng.commons.widget.SupportAppBarLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="32dp"
+            android:clipToPadding="false"
+            android:descendantFocusability="blocksDescendants"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+    </android.support.design.widget.CoordinatorLayout>
+
+</layout>

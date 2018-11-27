@@ -6,7 +6,10 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 
+import me.shouheng.commons.utils.ColorUtils;
+import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.notepal.PalmApp;
+import me.shouheng.notepal.R;
 import me.shouheng.notepal.config.TextLength;
 import me.shouheng.notepal.model.enums.AlarmType;
 import me.shouheng.notepal.model.enums.ModelType;
@@ -15,7 +18,6 @@ import me.shouheng.notepal.model.enums.Operation;
 import me.shouheng.notepal.model.enums.Portrait;
 import me.shouheng.notepal.model.enums.Status;
 import me.shouheng.notepal.model.enums.WeatherType;
-import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.TimeUtils;
 import me.shouheng.notepal.util.UserUtil;
 import me.shouheng.notepal.viewmodel.CategoryViewModel;
@@ -104,7 +106,7 @@ public class ModelFactory {
     public static Notebook getNotebook() {
         Notebook notebook = getModel(Notebook.class);
         assert notebook != null;
-        notebook.setColor(ColorUtils.primaryColor(PalmApp.getContext()));
+        notebook.setColor(PalmUtils.getColorCompact(R.color.default_notebook_color));
         return notebook;
     }
 
@@ -158,7 +160,7 @@ public class ModelFactory {
         category.setPortrait(Portrait.FOLDER);
         category.setCategoryOrder(0);
         // use the primary color as the category color
-        category.setColor(ColorUtils.primaryColor(PalmApp.getContext()));
+        category.setColor(PalmUtils.getColorCompact(R.color.default_category_color));
         return category;
     }
 

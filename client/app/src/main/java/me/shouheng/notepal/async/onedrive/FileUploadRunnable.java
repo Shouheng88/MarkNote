@@ -6,10 +6,10 @@ import java.io.File;
 import java.util.Date;
 import java.util.concurrent.CountDownLatch;
 
+import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.notepal.manager.onedrive.OneDriveManager;
 import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.provider.AttachmentsStore;
-import me.shouheng.notepal.util.LogUtils;
 
 /**
  * Created by shouh on 2018/4/2.*/

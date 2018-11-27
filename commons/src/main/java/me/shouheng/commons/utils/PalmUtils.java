@@ -1,10 +1,18 @@
-package me.shouheng.notepal.util;
+package me.shouheng.commons.utils;
 
 import android.app.Activity;
+import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.ColorRes;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.IntegerRes;
+import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
+import android.text.ClipboardManager;
 
-import me.shouheng.notepal.PalmApp;
+import me.shouheng.commons.BaseApplication;
+import me.shouheng.commons.R;
 
 /**
  * Created by wang shouheng on 2017/12/23.*/
@@ -54,10 +62,6 @@ public class PalmUtils {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
     }
 
-    public static String getPackageName(){
-        return PalmApp.getContext().getApplicationContext().getPackageName();
-    }
-
     public static boolean isAlive(Fragment fragment) {
         return fragment != null
                 && fragment.isAdded()
@@ -76,5 +80,31 @@ public class PalmUtils {
         return activity != null
                 && !activity.isFinishing()
                 && !activity.isDestroyed();
+    }
+
+    public static int getColorCompact(@ColorRes int colorRes) {
+        return BaseApplication.getContext().getResources().getColor(colorRes);
+    }
+
+    public static String getStringCompact(@StringRes int stringRes) {
+        return BaseApplication.getContext().getResources().getString(stringRes);
+    }
+
+    public static Drawable getDrawableCompact(@DrawableRes int drawableRes) {
+        return BaseApplication.getContext().getResources().getDrawable(drawableRes);
+    }
+
+    public static int getIntegerCompact(@IntegerRes int integerRes) {
+        return BaseApplication.getContext().getResources().getInteger(integerRes);
+    }
+
+    public static String getPackageName() {
+        return BaseApplication.getContext().getApplicationContext().getPackageName();
+    }
+
+    public static void copy(Activity ctx, String content) {
+        ClipboardManager clipboardManager = (ClipboardManager) ctx.getSystemService(Context.CLIPBOARD_SERVICE);
+        assert clipboardManager != null;
+        clipboardManager.setText(content);
     }
 }

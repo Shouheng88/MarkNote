@@ -10,12 +10,12 @@ import android.os.Bundle;
 import android.util.SparseArray;
 import android.widget.RemoteViews;
 
+import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.MainActivity;
 import me.shouheng.notepal.activity.ConfigActivity;
 import me.shouheng.notepal.activity.QuickNoteActivity;
 import me.shouheng.notepal.config.Constants;
-import me.shouheng.notepal.util.LogUtils;
 
 public abstract class WidgetProvider extends AppWidgetProvider {
 

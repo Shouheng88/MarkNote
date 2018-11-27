@@ -121,7 +121,7 @@
     <string name="include_tags">包含标签</string>
     <string name="include_archived">包含归档</string>
     <string name="include_trashed">包含废纸篓</string>
-    <string name="search_by_conditions">搜索 &#8230;</string>
+    <string name="text_search_with">搜索 &#8230;</string>
     <string name="no_search_result_found">没有找到搜索结果</string>
     <string name="try_other_conditions">换个搜索条件试一下</string>
     <!--endregion-->

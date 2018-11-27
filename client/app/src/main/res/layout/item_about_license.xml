@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bg"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/AboutPage.Item.Card">
+
+    <me.shouheng.notepal.widget.themed.SupportTextView
+        style="@style/AboutPage.LicenseTitle"
+        android:id="@+id/content"
+        tools:text="MultiType - WngShhng"/>
+
+    <TextView
+        style="@style/AboutPage.LicenseHint"
+        android:id="@+id/hint"
+        android:layout_below="@id/content"
+        tools:text="https://github.com/drakeet/MultiType\nApache License 2.0"/>
+
+</RelativeLayout>

@@ -1,39 +1,35 @@
 package me.shouheng.notepal.fragment.setting;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
 import android.preference.Preference;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 
-import com.afollestad.materialdialogs.MaterialDialog;
-
+import me.shouheng.commons.helper.ActivityHelper;
+import me.shouheng.commons.activity.ContainerActivity;
+import me.shouheng.commons.activity.ThemedActivity;
+import me.shouheng.commons.fragment.BPreferenceFragment;
+import me.shouheng.commons.helper.DialogHelper;
+import me.shouheng.commons.fragment.WebviewFragment;
+import me.shouheng.commons.utils.PersistData;
+import me.shouheng.commons.utils.IntentUtils;
+import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.activity.base.CommonActivity;
-import me.shouheng.notepal.activity.base.ThemedActivity;
+import me.shouheng.notepal.activity.AboutActivity;
+import me.shouheng.notepal.activity.FabSortActivity;
+import me.shouheng.notepal.activity.LockActivity;
+import me.shouheng.notepal.activity.MenuSortActivity;
+import me.shouheng.notepal.activity.SettingsActivity;
 import me.shouheng.notepal.config.Constants;
-import me.shouheng.notepal.dialog.FeedbackDialog;
-import me.shouheng.notepal.dialog.NoticeDialog;
-import me.shouheng.notepal.intro.IntroActivity;
-import me.shouheng.notepal.model.Feedback;
-import me.shouheng.notepal.util.ColorUtils;
-import me.shouheng.notepal.util.IntentUtils;
-import me.shouheng.notepal.widget.ColorPreference;
+import me.shouheng.notepal.dialog.ThemePickDialog;
+import me.shouheng.notepal.util.preferences.LockPreferences;
 
 /**
  * Created by wang shouheng on 2017/12/21.*/
-public class SettingsFragment extends BaseFragment {
-
-    private CheckBoxPreference isDarkTheme, coloredNavigationBar;
-
-    private ColorPreference primaryColor, accentColor;
-
-    /**
-     * Used to transfer click message to the activity. */
-    private Preference.OnPreferenceClickListener listener = preference -> {
-        if (getActivity() != null && getActivity() instanceof OnPreferenceClickListener) {
-            ((OnPreferenceClickListener) getActivity()).onPreferenceClick(preference.getKey());
-        }
-        return true;
-    };
+public class SettingsFragment extends BPreferenceFragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,88 +37,127 @@ public class SettingsFragment extends BaseFragment {
 
         addPreferencesFromResource(R.xml.preferences);
 
-        isDarkTheme = (CheckBoxPreference) findPreference(getString(R.string.key_is_dark_theme));
-        primaryColor = (ColorPreference) findPreference(getString(R.string.key_primary_color));
-        accentColor = (ColorPreference) findPreference(getString(R.string.key_accent_color));
-        coloredNavigationBar = (CheckBoxPreference) findPreference(getString(R.string.key_is_colored_navigation_bar));
-        primaryColor.setValue(ColorUtils.primaryColor(getActivity()));
-        accentColor.setValue(ColorUtils.accentColor(getActivity()));
+        // config toolbar
+        if (getActivity() != null) {
+            ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
+            if (ab != null) ab.setTitle(R.string.setting_title);
+        }
 
-        setPreferenceClickListeners();
-    }
-
-    private void setPreferenceClickListeners() {
-        isDarkTheme.setOnPreferenceClickListener(preference -> {
-            updateThemeSettings();
+        // region preferences : theme
+        Preference theme = findPreference(R.string.key_setting_theme);
+        theme.setOnPreferenceClickListener(preference -> {
+            Activity activity = getActivity();
+            if (activity instanceof AppCompatActivity) {
+                DialogHelper.open(ThemePickDialog.class).show((AppCompatActivity) activity,"THEME_PICKER");
+            }
             return true;
         });
-        coloredNavigationBar.setOnPreferenceClickListener(preference -> {
-            ((ThemedActivity) getActivity()).updateTheme();
+
+        findPreference(R.string.key_custom_fab).setOnPreferenceClickListener(preference -> {
+            ActivityHelper.start(getActivity(), FabSortActivity.class);
+            return true;
+        });
+
+        findPreference(R.string.key_note_editor_menu_sort).setOnPreferenceClickListener(preference -> {
+            ActivityHelper.start(getActivity(), MenuSortActivity.class);
+            return true;
+        });
+
+        findPreference(R.string.key_setting_theme_color_nav_bar).setOnPreferenceChangeListener((preference, newValue) -> {
+            PersistData.putBoolean(R.string.key_setting_theme_color_nav_bar, (Boolean) newValue);
+            Activity activity = getActivity();
+            if (activity instanceof ThemedActivity) {
+                ((ThemedActivity) activity).updateNavigationBar();
+            }
+            return true;
+        });
+        // endregion theme preferences
+
+        // region preferences : universal
+        findPreference(R.string.key_key_note_settings).setOnPreferenceClickListener(preference -> {
+            SettingsActivity.open(SettingsNote.class).launch(getActivity());
+            return true;
+        });
+
+        findPreference(R.string.key_data_security).setOnPreferenceClickListener(preference -> {
+            if (LockPreferences.getInstance().isPasswordRequired()
+                    && !TextUtils.isEmpty(LockPreferences.getInstance().getPassword())) {
+                LockActivity.requirePassword(SettingsFragment.this, 1);
+            } else {
+                SettingsActivity.open(SettingsSecurity.class).launch(getActivity());
+            }
+            return true;
+        });
+
+        findPreference(R.string.key_data_backup).setOnPreferenceClickListener(preference -> {
+            SettingsActivity.open(SettingsBackup.class).launch(getActivity());
+            return true;
+        });
+        // endregion universal
+
+        // region preferences : help & feedback
+        findPreference(R.string.key_user_guide).setOnPreferenceClickListener(preference -> {
+            ContainerActivity.open(WebviewFragment.class)
+                    .put(WebviewFragment.ARGUMENT_KEY_TITLE, PalmUtils.getStringCompact(R.string.setting_help_guide))
+                    .put(WebviewFragment.ARGUMENT_KEY_URL, Constants.GUIDE_PAGE)
+                    .launch(getActivity());
             return true;
         });
 
         findPreference(R.string.key_feedback).setOnPreferenceClickListener(preference -> {
-            showFeedbackEditor();
-            return true;
-        });
-        findPreference(R.string.key_user_guide).setOnPreferenceClickListener(preference -> {
-            IntentUtils.openWiki(getActivity());
-            return true;
-        });
-        findPreference(R.string.key_user_intro).setOnPreferenceClickListener(preference -> {
-            showIntroduction();
-            return true;
-        });
-        findPreference(R.string.key_support_develop).setOnPreferenceClickListener(preference -> {
-            NoticeDialog.newInstance().show(((CommonActivity) getActivity()).getSupportFragmentManager(), "Notice");
+            boolean isEn = "en".equals(PalmUtils.getStringCompact(R.string.language_code));
+            ContainerActivity.open(WebviewFragment.class)
+                    .put(WebviewFragment.ARGUMENT_KEY_TITLE, PalmUtils.getStringCompact(R.string.feedback))
+                    .put(WebviewFragment.ARGUMENT_KEY_URL, isEn ? Constants.FEEDBACK_ENGLISH : Constants.FEEDBACK_CHINESE)
+                    .launch(getActivity());
             return true;
         });
 
-        primaryColor.setOnPreferenceClickListener(listener);
-        accentColor.setOnPreferenceClickListener(listener);
-        findPreference(R.string.key_preferences).setOnPreferenceClickListener(listener);
-        findPreference(R.string.key_setup_dashboard).setOnPreferenceClickListener(listener);
-        findPreference(R.string.key_data_backup).setOnPreferenceClickListener(listener);
-        findPreference(R.string.key_data_security).setOnPreferenceClickListener(listener);
-        findPreference(R.string.key_about).setOnPreferenceClickListener(listener);
-        findPreference(R.string.key_key_note_settings).setOnPreferenceClickListener(listener);
+        findPreference(R.string.key_setting_item_help_translate).setOnPreferenceClickListener(preference -> {
+            IntentUtils.sendEmail(getActivity(), Constants.DEVELOPER_EMAIL, "TRANSLATE", "");
+            return true;
+        });
+        // endregion
+
+        // region preferences : about
+        findPreference(R.string.key_about).setOnPreferenceClickListener(preference -> {
+            ActivityHelper.open(AboutActivity.class)
+                    .put(AboutActivity.APP_ABOUT_ARG_OPEN_SOURCE_ONLY, false)
+                    .launch(getActivity());
+            return true;
+        });
+
+        findPreference(R.string.key_setting_item_about_privacy).setOnPreferenceClickListener(preference -> {
+            ContainerActivity.open(WebviewFragment.class)
+                    .put(WebviewFragment.ARGUMENT_KEY_TITLE, PalmUtils.getStringCompact(R.string.setting_about_privacy))
+                    .put(WebviewFragment.ARGUMENT_KEY_URL, Constants.PRIVACY_PAGE)
+                    .launch(getActivity());
+            return true;
+        });
+
+        findPreference(R.string.key_setting_item_about_open_source).setOnPreferenceClickListener(preference -> {
+            ActivityHelper.open(AboutActivity.class)
+                    .put(AboutActivity.APP_ABOUT_ARG_OPEN_SOURCE_ONLY, true)
+                    .launch(getActivity());
+            return true;
+        });
+        // endregion
     }
 
-    private void showFeedbackEditor() {
-        FeedbackDialog.newInstance(getActivity(), (dialog, feedback) -> sendFeedback(feedback))
-                .show(((CommonActivity) getActivity()).getSupportFragmentManager(), "Feedback Editor");
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case 1:
+                if (resultCode == Activity.RESULT_OK) {
+                    SettingsActivity.open(SettingsSecurity.class).launch(getActivity());
+                }
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void sendFeedback(Feedback feedback) {
-        String subject = String.format(Constants.DEVELOPER_EMAIL_PREFIX, feedback.getFeedbackType().name());
-        String body = feedback.getQuestion() + Constants.DEVELOPER_EMAIL_EMAIL_PREFIX + feedback.getEmail();
-        IntentUtils.sendEmail(getActivity(), subject, body);
-    }
-
-    private void showIntroduction() {
-        new MaterialDialog.Builder(getActivity())
-                .title(R.string.text_tips)
-                .content(R.string.show_introduction_again)
-                .positiveText(R.string.text_ok)
-                .negativeText(R.string.text_cancel)
-                .onPositive((materialDialog, dialogAction) -> IntroActivity.launch(getActivity()))
-                .show();
-    }
-
-    private void updateThemeSettings() {
-        ColorUtils.forceUpdateThemeStatus(getActivity());
-        ((ThemedActivity) getActivity()).reUpdateTheme();
-    }
-
-    public void notifyAccentColorChanged(int accentColor) {
-        this.accentColor.setValue(accentColor);
-    }
-
-    public void notifyPrimaryColorChanged(int primaryColor) {
-        this.primaryColor.setValue(primaryColor);
-    }
-
-    public interface OnPreferenceClickListener {
-        void onPreferenceClick(String key);
+    @Override
+    protected String umengPageName() {
+        return "Settings preferences";
     }
 }

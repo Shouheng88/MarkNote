@@ -11,17 +11,18 @@
         android:layout_marginTop="5dp"
         android:orientation="vertical"
         android:gravity="end"
-        android:layout_width="80dp"
+        android:layout_width="100dp"
         android:layout_height="wrap_content">
 
-        <TextView android:id="@+id/tv_date"
-            android:textSize="16sp"
-            android:textStyle="bold"
+        <me.shouheng.notepal.widget.themed.SupportTextView
+            android:id="@+id/tv_date"
+            android:textSize="15sp"
             tools:text="08月01日"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <TextView android:id="@+id/tv_time"
+        <TextView
+            android:id="@+id/tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -45,7 +46,7 @@
         android:layout_marginBottom="@dimen/timeline_card_top_bottom_margin"
         android:layout_marginTop="@dimen/timeline_card_top_bottom_margin"
         app:cardCornerRadius="1dp"
-        app:cardElevation="5dp"
+        app:cardElevation="1dp"
         android:clickable="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

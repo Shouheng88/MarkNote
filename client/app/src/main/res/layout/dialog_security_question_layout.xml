@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:paddingTop="30dp"
+            android:paddingBottom="30dp"
+            android:textSize="16sp"
+            android:src="@drawable/ic_https_white_24dp"
+            android:background="@color/security_question_bg"
+            android:layout_width="match_parent"
+            android:layout_height="100dp" />
 
         <me.shouheng.notepal.widget.themed.SupportTextView
             android:id="@+id/tv_tips"
@@ -16,7 +26,6 @@
             android:layout_height="wrap_content" />
 
         <LinearLayout
-            android:layout_below="@id/tv_tips"
             android:orientation="vertical"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
@@ -96,6 +105,6 @@
 
         </LinearLayout>
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </layout>

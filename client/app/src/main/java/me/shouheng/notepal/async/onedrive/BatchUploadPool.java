@@ -5,8 +5,8 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.notepal.model.Attachment;
-import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.preferences.SyncPreferences;
 
 /**

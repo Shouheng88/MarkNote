@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
-        android:orientation="vertical"
+        android:fitsSystemWindows="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -11,12 +11,6 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"/>
-
-        <View
-            android:visibility="gone"
-            android:background="@drawable/below_shadow"
-            android:layout_width="match_parent"
-            android:layout_height="5dp"/>
 
         <RelativeLayout
             android:id="@+id/rl_bottom"

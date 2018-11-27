@@ -7,10 +7,6 @@
         <attr name="border_overlay" format="boolean" />
     </declare-styleable>
 
-    <declare-styleable name="ColorPreference">
-        <attr name="primary" format="boolean"/>
-    </declare-styleable>
-
     <declare-styleable name="EmptyView">
         <attr name="title" format="string"/>
         <attr name="title_size" format="dimension|reference"/>

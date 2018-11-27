@@ -1,5 +1,6 @@
 package me.shouheng.notepal.dialog;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,7 +16,7 @@ import android.widget.ImageView;
 
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.model.enums.Portrait;
-import me.shouheng.notepal.util.ViewUtils;
+import me.shouheng.commons.utils.ViewUtils;
 import me.shouheng.notepal.widget.CircleImageView;
 import me.shouheng.notepal.widget.tools.SpaceItemDecoration;
 
@@ -36,6 +37,7 @@ public class PortraitPickerDialog extends DialogFragment {
         return fragment;
     }
 
+    @SuppressLint("ValidFragment")
     private PortraitPickerDialog(int selectedColor, OnPortraitSelectedListener listener) {
         this.onPortraitSelectedListener = listener;
         this.selectedColor = selectedColor;

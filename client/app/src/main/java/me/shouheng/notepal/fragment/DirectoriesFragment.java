@@ -82,6 +82,11 @@ public class DirectoriesFragment extends BaseFragment<FragmentDirectoriesBinding
         }
     }
 
+    @Override
+    protected String umengPageName() {
+        return "Directories";
+    }
+
     private void fetchDirectories() {
         getBinding().sl.setVisibility(View.VISIBLE);
         directoryViewModel.getDirectories(directory.getId()).observe(this, listResource -> {

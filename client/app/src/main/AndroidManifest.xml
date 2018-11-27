@@ -7,23 +7,11 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-
-    <!-- ================Permissions required by Baidu Location================ -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
 
     <!-- ================Permissions to add shortcut on desktop================ -->
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
     <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT" />
-
-    <!-- ================Permissions required by notifications================ -->
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
-    <uses-permission android:name="android.permission.VIBRATE" />
 
     <uses-feature
         android:name="android.hardware.touchscreen"
@@ -43,14 +31,15 @@
         android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.FullScreen.Light">
+        android:theme="@style/LightThemeBlue">
+
         <activity
             android:name=".activity.MainActivity"
+            android:theme="@style/AppTheme.Branded"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
@@ -58,35 +47,26 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="com.google.android.gm.action.AUTO_SEND" />
-
                 <category android:name="android.intent.category.DEFAULT" />
-
                 <data android:mimeType="*/*" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
-
                 <category android:name="android.intent.category.DEFAULT" />
-
                 <data android:mimeType="*/*" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.SEND_MULTIPLE" />
-
                 <category android:name="android.intent.category.DEFAULT" />
-
                 <data android:mimeType="*/*" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
                 <data android:scheme="hashtag" />
             </intent-filter>
         </activity>
-        <activity android:name=".intro.IntroActivity" />
         <activity android:name=".activity.SettingsActivity" />
         <activity android:name=".activity.FabSortActivity" />
         <activity android:name=".activity.SketchActivity" />
@@ -98,24 +78,11 @@
             android:exported="true" />
         <activity android:name=".activity.ArchiveActivity" />
         <activity android:name=".activity.TrashedActivity" />
-        <activity android:name=".activity.UserInfoActivity" />
-        <activity android:name=".activity.LoginActivity" />
         <activity android:name=".activity.SearchActivity" />
 
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="aa14224ea2102fef301d211dac552635f37b1f9e" />
-
-        <!-- ================Baidu Map API START================ -->
-        <service
-            android:name="com.baidu.location.f"
-            android:enabled="true"
-            android:process=":remote" />
-
-        <meta-data
-            android:name="com.baidu.lbsapi.API_KEY"
-            android:value="6igztKEkuseyYB93qYAcsaOx6tUYvp7W" />
-        <!-- ================Baidu Map API END================ -->
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -139,7 +106,6 @@
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
-
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/list_widget" />
@@ -148,7 +114,6 @@
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
-
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/simple_widget_provider_info" />
@@ -157,7 +122,6 @@
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
-
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/shortcut_app_widget" />
@@ -184,7 +148,9 @@
         <!-- endregion -->
 
         <activity android:name=".activity.DirectoryActivity" />
-        <activity android:name=".activity.MenuSortActivity"></activity>
+        <activity android:name=".activity.MenuSortActivity"/>
+        <activity android:name=".activity.AboutActivity"/>
+
     </application>
 
 </manifest>

@@ -1,4 +1,4 @@
-package me.shouheng.commons.colorful;
+package me.shouheng.commons.utils;
 
 import android.support.annotation.ColorRes;
 import android.support.annotation.StyleRes;

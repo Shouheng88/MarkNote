@@ -1,70 +1,35 @@
 package me.shouheng.notepal.activity;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.ColorInt;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.MenuItem;
+import android.view.View;
 
-import com.afollestad.materialdialogs.color.ColorChooserDialog;
+import java.io.Serializable;
 
-import org.polaric.colorful.Colorful;
-
-import java.util.LinkedList;
-import java.util.List;
-
+import me.shouheng.commons.activity.CommonActivity;
+import me.shouheng.commons.helper.FragmentHelper;
+import me.shouheng.commons.utils.ColorUtils;
+import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.activity.base.CommonActivity;
 import me.shouheng.notepal.databinding.ActivitySettingsBinding;
-import me.shouheng.notepal.fragment.AppInfoFragment;
-import me.shouheng.notepal.fragment.setting.PrimaryPickerFragment;
-import me.shouheng.notepal.fragment.setting.SettingsBackup;
-import me.shouheng.notepal.fragment.setting.SettingsDashboard;
-import me.shouheng.notepal.fragment.setting.SettingsFragment;
-import me.shouheng.notepal.fragment.setting.SettingsNote;
-import me.shouheng.notepal.fragment.setting.SettingsPreferences;
-import me.shouheng.notepal.fragment.setting.SettingsSecurity;
-import me.shouheng.notepal.listener.OnFragmentDestroyListener;
-import me.shouheng.notepal.listener.OnSettingsChangedListener;
-import me.shouheng.notepal.listener.OnThemeSelectedListener;
-import me.shouheng.notepal.listener.SettingChangeType;
-import me.shouheng.notepal.util.ColorUtils;
-import me.shouheng.notepal.util.FragmentHelper;
-import me.shouheng.notepal.util.ToastUtils;
-import me.shouheng.notepal.util.preferences.LockPreferences;
-import me.shouheng.notepal.util.preferences.ThemePreferences;
 
-public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> implements
-        SettingsFragment.OnPreferenceClickListener,
-        OnThemeSelectedListener,
-        OnFragmentDestroyListener,
-        OnSettingsChangedListener {
+public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> {
 
-    public final static String KEY_CONTENT_CHANGE_TYPES = "key_content_change_types";
-    public final static String ACTION_NAV_TO_BACKUP_FRAGMENT = "action_navigate_to_backup_settings_fragment";
+    public final static String ACTION_OPEN_FRAGMENT = "__action_open_fragment";
+    public final static String ACTION_OPEN_FRAGMENT_EXTRA_NEED_TOOLBAR = "__action_open_fragment_extra_need_toolbar";
+    public final static String ACTION_OPEN_FRAGMENT_EXTRA_CLASS = "__action_open_fragment_extra_class";
+    public final static String ACTION_OPEN_FRAGMENT_EXTRA_BUNDLE = "__action_open_fragment_extra_bundle";
 
-    private final static int REQUEST_CODE_PASSWORD = 0x0201;
-
-    private String keyForColor;
-
-    private boolean isDashboardSettingsChanged = false;
-
-    private List<Integer> changedTypes = new LinkedList<>();
-
-    public static void start(Activity activity, int requestCode) {
-        Intent intent = new Intent(activity, SettingsActivity.class);
-        activity.startActivityForResult(intent, requestCode);
-    }
-
-    public static void start(Activity activity, String action, int requestCode) {
-        Intent intent = new Intent(activity, SettingsActivity.class);
-        intent.setAction(action);
-        activity.startActivityForResult(intent, requestCode);
+    public static <T extends Fragment> Builder<T> open(Class<T> withClz) {
+        return new Builder<>(withClz);
     }
 
     @Override
@@ -74,28 +39,42 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> im
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {
-        configToolbar();
-
-        configFragment();
-    }
-
-    private void configToolbar() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle(R.string.text_settings);
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        if (ACTION_OPEN_FRAGMENT.equals(action)){
+            Class<Fragment> fragmentClass = (Class<Fragment>) intent.getSerializableExtra(ACTION_OPEN_FRAGMENT_EXTRA_CLASS);
+            Bundle bundle = intent.getParcelableExtra(ACTION_OPEN_FRAGMENT_EXTRA_BUNDLE);
+            setupToolbar(savedInstanceState);
+            try {
+                Fragment fragment = fragmentClass.newInstance();
+                fragment.setArguments(bundle);
+                FragmentHelper.replace(this, fragment, R.id.fragment_container, false);
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
         }
-        if (!isDarkTheme()) toolbar.setPopupTheme(R.style.AppTheme_PopupOverlay);
     }
 
-    private void configFragment() {
-        String action = getIntent().getAction();
-        if (TextUtils.isEmpty(action)) {
-            FragmentHelper.replace(this, new SettingsFragment(), R.id.fragment_container);
-        } else if (ACTION_NAV_TO_BACKUP_FRAGMENT.equals(action)){
-            FragmentHelper.replace(this, new SettingsBackup(), R.id.fragment_container);
+    private void setupToolbar(Bundle savedInstanceState) {
+        Intent intent = getIntent();
+        if (!intent.hasExtra(ACTION_OPEN_FRAGMENT_EXTRA_NEED_TOOLBAR)
+                || intent.getBooleanExtra(ACTION_OPEN_FRAGMENT_EXTRA_NEED_TOOLBAR, true)) {
+            setSupportActionBar(getBinding().toolbar);
+            ActionBar actionBar = getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setDisplayHomeAsUpEnabled(true);
+                actionBar.setHomeAsUpIndicator(ColorUtils.tintDrawable(
+                        PalmUtils.getDrawableCompact(me.shouheng.commons.R.drawable.ic_arrow_back_black_24dp),
+                        getThemeStyle().isDarkTheme ? Color.WHITE : Color.BLACK));
+            }
+            getBinding().toolbar.setTitleTextColor(getThemeStyle().isDarkTheme ? Color.WHITE : Color.BLACK);
+            if (getThemeStyle().isDarkTheme) {
+                getBinding().toolbar.setPopupTheme(me.shouheng.commons.R.style.AppTheme_PopupOverlayDark);
+            }
+        } else {
+            getBinding().barLayout.setVisibility(View.GONE);
         }
     }
 
@@ -109,130 +88,116 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> im
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onColorSelection(@NonNull ColorChooserDialog dialog, int selectedColor) {
-        if (getString(R.string.key_accent_color).equals(keyForColor)) {
-            setupTheme(selectedColor);
-            if (isSettingsFragment()) {
-                ((SettingsFragment) getCurrentFragment()).notifyAccentColorChanged(selectedColor);
+    /**
+     * This is builder is different from that of {@link FragmentHelper.Builder} for the fragment type.
+     *
+     * @param <T> the fragment type of {@link android.app.Fragment}
+     */
+    public static class Builder<T extends Fragment> {
+
+        /**
+         * 要打开的 Fragment 的 Class
+         */
+        private Class<T> clz;
+
+        /**
+         * 用来传递给要打开的 Fragment 的 Bundle，作为 Arguments 传入，从 {@link Fragment#getArguments()}
+         * 方法中获取该参数，要设置值的话可以使用 {@link #put(String, int)} 等方法设置值，如果下面的方法
+         * 不够用的话，可以自行添加
+         */
+        private Bundle bundle = new Bundle();
+
+        public Builder(Class<T> clz) {
+            this.clz = clz;
+        }
+
+        public Builder<T> put(String key, int i) {
+            bundle.putInt(key, i);
+            return this;
+        }
+
+        public Builder<T> put(String key, long l) {
+            bundle.putLong(key, l);
+            return this;
+        }
+
+        public Builder<T> put(String key, double d) {
+            bundle.putDouble(key, d);
+            return this;
+        }
+
+        public Builder<T> put(String key, long[] ls) {
+            bundle.putLongArray(key, ls);
+            return this;
+        }
+
+        public Builder<T> put(String key, String s) {
+            bundle.putString(key, s);
+            return this;
+        }
+
+        public Builder<T> put(String key, Serializable s) {
+            bundle.putSerializable(key, s);
+            return this;
+        }
+
+        public Builder<T> put(String key, Parcelable p) {
+            bundle.putParcelable(key, p);
+            return this;
+        }
+
+        public T get() {
+            try {
+                T fragment = clz.newInstance();
+                fragment.setArguments(bundle);
+                return fragment;
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
             }
+            return null;
         }
-    }
 
-    private void setupTheme(@ColorInt int i) {
-        String colorName = ColorUtils.getColorName(i);
-        ThemePreferences.getInstance().setAccentColor(Colorful.AccentColor.getByColorName(colorName));
-        ColorUtils.forceUpdateThemeStatus(this);
-        updateTheme();
-        ToastUtils.makeToast(R.string.set_successfully);
-    }
-
-    private boolean isSettingsFragment() {
-        return getCurrentFragment() instanceof SettingsFragment;
-    }
-
-    private android.app.Fragment getCurrentFragment() {
-        return getFragmentManager().findFragmentById(R.id.fragment_container);
-    }
-
-    @Override
-    public void onPreferenceClick(String key) {
-        keyForColor = key;
-        if (getString(R.string.key_primary_color).equals(key)) {
-            replaceWithCallback(PrimaryPickerFragment.newInstance());
-        } else if (getString(R.string.key_accent_color).equals(key)) {
-            showAccentColorPicker();
-        } else if (getString(R.string.key_data_backup).equals(key)) {
-            replaceWithCallback(new SettingsBackup());
-        } else if (getString(R.string.key_data_security).equals(key)) {
-            if (LockPreferences.getInstance().isPasswordRequired()
-                    && !TextUtils.isEmpty(LockPreferences.getInstance().getPassword())) {
-                LockActivity.requirePassword(this, REQUEST_CODE_PASSWORD);
-            } else {
-                replaceWithCallback(new SettingsSecurity());
-            }
-        } else if (getString(R.string.key_about).equals(key)) {
-            replaceWithCallback(new AppInfoFragment());
-        } else if (getString(R.string.key_setup_dashboard).equals(key)) {
-            replaceWithCallback(new SettingsDashboard());
-        } else if (getString(R.string.key_key_note_settings).equals(key)) {
-            replaceWithCallback(new SettingsNote());
-        } else if (getString(R.string.key_preferences).equals(key)) {
-            replaceWithCallback(new SettingsPreferences());
-        }
-    }
-
-    private void replaceWithCallback(android.app.Fragment fragment) {
-        FragmentHelper.replaceWithCallback(this, fragment, R.id.fragment_container);
-    }
-
-    private void replaceWithCallback(Fragment fragment) {
-        FragmentHelper.replaceWithCallback(this, fragment, R.id.fragment_container);
-    }
-
-    @Override
-    public void onThemeSelected(Colorful.ThemeColor themeColor) {
-        getBinding().bar.toolbar.setBackgroundColor(primaryColor());
-        if (isSettingsFragment())
-            ((SettingsFragment) getCurrentFragment())
-                    .notifyPrimaryColorChanged(getResources().getColor(themeColor.getColorRes()));
-    }
-
-    private void showAccentColorPicker() {
-        new ColorChooserDialog.Builder(this, R.string.select_accent_color)
-                .allowUserColorInput(false)
-                .preselect(ColorUtils.accentColor(this))
-                .allowUserColorInputAlpha(false)
-                .titleSub(R.string.select_accent_color)
-                .accentMode(true)
-                .backButton(R.string.text_back)
-                .doneButton(R.string.done_label)
-                .cancelButton(R.string.text_cancel)
-                .show();
-    }
-
-    @Override
-    public void onFragmentDestroy() {
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setTitle(R.string.text_settings);
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case REQUEST_CODE_PASSWORD:
-                if (resultCode == Activity.RESULT_OK) {
-                    FragmentHelper.replaceWithCallback(this, new SettingsSecurity(), R.id.fragment_container);
-                }
-                break;
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (isDashboardSettingsChanged) {
+        private Intent getLaunchIntent() {
             Intent intent = new Intent();
-
-            int len = changedTypes.size();
-            int[] types = new int[len];
-            for (int i=0;i<len;i++) {
-                types[i] = changedTypes.get(i);
-            }
-
-            intent.putExtra(KEY_CONTENT_CHANGE_TYPES, types);
-            setResult(Activity.RESULT_OK, intent);
-            super.onBackPressed();
-        } else {
-            super.onBackPressed();
+            intent.setAction(SettingsActivity.ACTION_OPEN_FRAGMENT);
+            intent.putExtra(SettingsActivity.ACTION_OPEN_FRAGMENT_EXTRA_CLASS, clz);
+            intent.putExtra(SettingsActivity.ACTION_OPEN_FRAGMENT_EXTRA_BUNDLE, bundle);
+            return intent;
         }
-    }
 
-    @Override
-    public void onSettingChanged(SettingChangeType changedType) {
-        isDashboardSettingsChanged = true;
-        changedTypes.add(changedType.id);
+        public void launch(Context context) {
+            if (clz == null) {
+                throw new IllegalArgumentException("No destination found for ContainerActivity.");
+            }
+            if (context == null) {
+                throw new IllegalArgumentException("The launch context can't be null.");
+            }
+            Intent intent = getLaunchIntent();
+            intent.setClass(context, SettingsActivity.class);
+            context.startActivity(intent);
+        }
+
+        public void launch(Activity activity, int requestCode) {
+            if (clz == null) {
+                throw new IllegalArgumentException("No destination found for SettingsActivity.");
+            }
+            if (activity == null) {
+                throw new IllegalArgumentException("The launch activity can't be null.");
+            }
+            Intent intent = getLaunchIntent();
+            intent.setClass(activity, SettingsActivity.class);
+            activity.startActivityForResult(intent, requestCode);
+        }
+
+        public void launch(@NonNull Fragment fragment, int requestCode) {
+            if (clz == null) {
+                throw new IllegalArgumentException("No destination found for SettingsActivity.");
+            }
+            Intent intent = getLaunchIntent();
+            intent.setClass(fragment.getActivity(), SettingsActivity.class);
+            fragment.startActivityForResult(intent, requestCode);
+        }
     }
 }

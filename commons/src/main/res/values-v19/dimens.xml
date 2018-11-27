@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="archive_toolbar_top_margin">24dp</dimen>
+    <dimen name="main_navigation_header_top_margin">36dp</dimen>
+
+    <dimen name="timeline_card_left_right_margin">16dp</dimen>
+    <dimen name="timeline_card_top_bottom_margin">8dp</dimen>
+
+    <dimen name="nav_main_height">168dp</dimen>
+</resources>

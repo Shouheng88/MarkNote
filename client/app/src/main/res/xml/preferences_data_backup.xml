@@ -44,7 +44,7 @@
             android:persistent="false"
             android:title="@string/backup_time_interval"/>
 
-        <CheckBoxPreference
+        <SwitchPreference
             android:key="@string/key_backup_only_wifi"
             android:defaultValue="true"
             android:title="@string/backup_only_wifi"

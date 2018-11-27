@@ -5,8 +5,8 @@ import android.content.Context;
 import android.util.SparseArray;
 import android.widget.RemoteViews;
 
+import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.util.LogUtils;
 
 public class DesktopShortcutAppWidget extends WidgetProvider {
 

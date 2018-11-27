@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.os.Build;
 import android.view.View;
 
+import me.shouheng.commons.utils.PalmUtils;
+
 @TargetApi(Build.VERSION_CODES.KITKAT)
 public class SystemUiVisibilityUtil {
 

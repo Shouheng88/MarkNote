@@ -12,11 +12,11 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
 
 import java.util.List;
 
+import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.model.Notebook;
-import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.FileHelper;
 import me.shouheng.notepal.util.TimeUtils;
 import me.shouheng.notepal.util.preferences.NotePreferences;

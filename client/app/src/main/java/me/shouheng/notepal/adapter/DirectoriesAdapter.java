@@ -8,10 +8,10 @@ import com.chad.library.adapter.base.BaseViewHolder;
 
 import java.util.LinkedList;
 
+import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.model.Directory;
-import me.shouheng.notepal.util.ColorUtils;
 
 /**
  * Created by shouh on 2018/3/30.*/

@@ -10,13 +10,13 @@ import android.util.SparseArray;
 import android.view.View;
 import android.widget.RemoteViews;
 
+import me.shouheng.commons.utils.ColorUtils;
+import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.MainActivity;
 import me.shouheng.notepal.activity.QuickNoteActivity;
 import me.shouheng.notepal.config.Constants;
-import me.shouheng.notepal.util.ColorUtils;
-import me.shouheng.notepal.util.LogUtils;
 
 public class ListWidgetProvider extends WidgetProvider {
 

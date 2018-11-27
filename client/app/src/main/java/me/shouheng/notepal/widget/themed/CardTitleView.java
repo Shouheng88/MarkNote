@@ -9,9 +9,9 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 
+import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.WidgetCardTitleViewBinding;
-import me.shouheng.notepal.util.ColorUtils;
 
 /**
  * Created by wang shouheng on 2018/2/23.*/

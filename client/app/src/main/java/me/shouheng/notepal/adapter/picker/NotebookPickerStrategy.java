@@ -3,9 +3,9 @@ package me.shouheng.notepal.adapter.picker;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 
+import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.model.Notebook;
-import me.shouheng.notepal.util.ColorUtils;
 
 /**
  * Created by wangshouheng on 2017/10/5.*/

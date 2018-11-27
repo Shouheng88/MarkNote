@@ -13,8 +13,8 @@ import android.view.animation.OvershootInterpolator;
 import java.util.List;
 
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.util.PalmUtils;
-import me.shouheng.notepal.util.preferences.UserPreferences;
+import me.shouheng.commons.utils.PalmUtils;
+import me.shouheng.notepal.util.preferences.PrefUtils;
 
 /**
  * Created by wangshouheng on 2017/4/1.*/
@@ -58,13 +58,11 @@ public class CustomItemAnimator extends DefaultItemAnimator {
     }
 
     private void runEnterAnimation(RecyclerView.ViewHolder holder){
-        if (UserPreferences.getInstance().listAnimationEnabled()) {
-            if (PalmUtils.isLollipop()){
+        if (PalmUtils.isLollipop()){
+            setAnimation(holder.itemView, holder.getAdapterPosition());
+        } else {
+            if (holder.getAdapterPosition() > 10){
                 setAnimation(holder.itemView, holder.getAdapterPosition());
-            } else {
-                if (holder.getAdapterPosition() > 10){
-                    setAnimation(holder.itemView, holder.getAdapterPosition());
-                }
             }
         }
     }

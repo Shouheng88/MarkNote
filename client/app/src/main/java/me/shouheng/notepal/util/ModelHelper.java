@@ -22,6 +22,9 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import me.shouheng.commons.utils.ColorUtils;
+import me.shouheng.commons.utils.PalmUtils;
+import me.shouheng.commons.utils.ViewUtils;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.config.Constants;
@@ -45,12 +48,10 @@ public class ModelHelper {
     private static Pattern imagePattern;
 
     public static <T extends Model> String getTimeInfo(T model) {
-        return PalmApp.getContext().getString(R.string.text_created_time) + " : "
-                + TimeUtils.getPrettyTime(model.getAddedTime()) + "\n"
-                + PalmApp.getContext().getString(R.string.text_last_modified_time) + " : "
-                + TimeUtils.getPrettyTime(model.getLastModifiedTime()) + "\n"
-                + PalmApp.getContext().getString(R.string.text_last_sync_time) + " : "
-                + (model.getLastSyncTime().getTime() == 0 ? "--" : TimeUtils.getPrettyTime(model.getLastModifiedTime()));
+        return PalmUtils.getStringCompact(R.string.text_created_at)
+                + " : " + TimeUtils.getPrettyTime(model.getAddedTime()) + "\n"
+                + PalmUtils.getStringCompact(R.string.text_last_modified_at)
+                + " : " + TimeUtils.getPrettyTime(model.getLastModifiedTime());
     }
 
     public static void copyToClipboard(Activity ctx, String content) {
@@ -128,10 +129,10 @@ public class ModelHelper {
     public static void showStatistic(Context context, Note note) {
         View root = LayoutInflater.from(context).inflate(R.layout.dialog_stats, null, false);
         LinearLayout llStats = root.findViewById(R.id.ll_stats);
-        addStat(context, llStats, context.getString(R.string.text_created_time), TimeUtils.getPrettyTime(note.getAddedTime()));
-        addStat(context, llStats, context.getString(R.string.text_last_modified_time), TimeUtils.getPrettyTime(note.getLastModifiedTime()));
+        addStat(context, llStats, context.getString(R.string.text_created_at), TimeUtils.getPrettyTime(note.getAddedTime()));
+        addStat(context, llStats, context.getString(R.string.text_last_modified_at), TimeUtils.getPrettyTime(note.getLastModifiedTime()));
         addStat(context, llStats, context.getString(R.string.text_last_sync_time), (note.getLastSyncTime().getTime() == 0 ? "--" : TimeUtils.getPrettyTime(note.getLastModifiedTime())));
-        addStat(context, llStats, context.getString(R.string.text_chars_number), String.valueOf(note.getContent().length()));
+        addStat(context, llStats, context.getString(R.string.text_chars), String.valueOf(note.getContent().length()));
         new AlertDialog.Builder(context)
                 .setTitle(R.string.text_statistic)
                 .setView(root)

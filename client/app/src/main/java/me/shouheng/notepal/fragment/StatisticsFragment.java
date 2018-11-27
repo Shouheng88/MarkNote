@@ -12,12 +12,11 @@ import lecho.lib.hellocharts.model.Column;
 import lecho.lib.hellocharts.model.Line;
 import lecho.lib.hellocharts.model.PointValue;
 import lecho.lib.hellocharts.model.SubcolumnValue;
+import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.FragmentStatisticsBinding;
 import me.shouheng.notepal.fragment.base.BaseFragment;
 import me.shouheng.notepal.model.Stats;
-import me.shouheng.notepal.model.data.Status;
-import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.viewmodel.StatisticViewModel;
 
@@ -25,9 +24,7 @@ import me.shouheng.notepal.viewmodel.StatisticViewModel;
  * Created by wang shouheng on 2018/1/19. */
 public class StatisticsFragment extends BaseFragment<FragmentStatisticsBinding> {
 
-    private StatisticViewModel statisticViewModel;
-
-    private int primaryColor;
+    private StatisticViewModel viewModel;
 
     @Override
     protected int getLayoutResId() {
@@ -36,54 +33,36 @@ public class StatisticsFragment extends BaseFragment<FragmentStatisticsBinding> 
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {
-        configValues();
+        viewModel = ViewModelProviders.of(this).get(StatisticViewModel.class);
 
-        configToolbar();
-
-        showDefaultValues();
-
-        outputStats();
-    }
-
-    private void configValues() {
-        statisticViewModel = ViewModelProviders.of(this).get(StatisticViewModel.class);
-        primaryColor = primaryColor();
-    }
-
-    private void configToolbar() {
         if (getActivity() != null) {
             ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
             if (ab != null) ab.setTitle(R.string.statistic);
         }
+
+        getBinding().lcvNote.setValueSelectionEnabled(false);
+        getBinding().lcvNote.setLineChartData(viewModel.getDefaultNoteData(accentColor()));
+        getBinding().ccvModels.setColumnChartData(viewModel.getDefaultModelsData());
+        getBinding().ccvAttachment.setColumnChartData(viewModel.getDefaultAttachmentData());
+
+        outputStats();
     }
 
-    private void showDefaultValues() {
-        getBinding().lcvNote.setValueSelectionEnabled(false);
-        getBinding().lcvNote.setLineChartData(statisticViewModel.getDefaultNoteData(primaryColor));
-
-        getBinding().ccvModels.setColumnChartData(statisticViewModel.getDefaultModelsData());
-
-        getBinding().ccvAttachment.setColumnChartData(statisticViewModel.getDefaultAttachmentData());
+    @Override
+    protected String umengPageName() {
+        return "Statistics";
     }
 
     private void outputStats() {
-        if (getActivity() instanceof OnStatisticInteractListener) {
-            ((OnStatisticInteractListener) getActivity()).onStatisticLoadStateChanged(Status.LOADING);
-        }
-        statisticViewModel.getStats().observe(this, statsResource -> {
-            LogUtils.d(statsResource);
-            if (statsResource == null) {
+        viewModel.getStats().observe(this, resource -> {
+            LogUtils.d(resource);
+            if (resource == null) {
                 ToastUtils.makeToast(R.string.text_failed_to_load_data);
                 return;
             }
-            if (getActivity() instanceof OnStatisticInteractListener) {
-                ((OnStatisticInteractListener) getActivity()).onStatisticLoadStateChanged(statsResource.status);
-            }
-            switch (statsResource.status) {
+            switch (resource.status) {
                 case SUCCESS:
-                    outputStats(statsResource.data);
-                    break;
-                case LOADING:
+                    outputStats(resource.data);
                     break;
                 case FAILED:
                     ToastUtils.makeToast(R.string.text_failed_to_load_data);
@@ -142,9 +121,5 @@ public class StatisticsFragment extends BaseFragment<FragmentStatisticsBinding> 
             i++;
         }
         getBinding().ccvAttachment.startDataAnimation();
-    }
-
-    public interface OnStatisticInteractListener {
-        void onStatisticLoadStateChanged(Status status);
     }
 }

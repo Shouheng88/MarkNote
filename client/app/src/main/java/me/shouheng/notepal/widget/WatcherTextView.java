@@ -12,8 +12,8 @@ import android.widget.TextView;
 
 import java.lang.ref.WeakReference;
 
+import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.util.ColorUtils;
 
 /**
  * Created by wangshouheng on 2017/8/27.*/

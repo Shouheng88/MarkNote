@@ -2,7 +2,8 @@ package my.shouheng.palmmarkdown;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import kotlin.Triple;
+import me.urakalee.ranger.extension.StringExtensionsKt;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -10,8 +11,11 @@ import static org.junit.Assert.*;
  * @see <markdowmWebView href="http://d.android.com/tools/testing">Testing documentation</markdowmWebView>
  */
 public class ExampleUnitTest {
+
     @Test
     public void addition_isCorrect() throws Exception {
-        assertEquals(4, 2 + 2);
+        Triple<String, Integer, Integer> triple =
+                StringExtensionsKt.selectedLine("12321", 0, 1);
+
     }
 }

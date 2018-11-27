@@ -16,30 +16,28 @@ import android.widget.EditText;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.onedrive.sdk.core.ClientException;
 
-import org.polaric.colorful.PermissionUtils;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import me.shouheng.commons.activity.CommonActivity;
+import me.shouheng.commons.fragment.BPreferenceFragment;
+import me.shouheng.commons.utils.LogUtils;
+import me.shouheng.commons.utils.PermissionUtils;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.DirectoryActivity;
-import me.shouheng.notepal.activity.base.CommonActivity;
 import me.shouheng.notepal.async.DataBackupIntentService;
-import me.shouheng.notepal.listener.OnFragmentDestroyListener;
 import me.shouheng.notepal.manager.onedrive.DefaultCallback;
 import me.shouheng.notepal.manager.onedrive.OneDriveManager;
 import me.shouheng.notepal.util.FileHelper;
-import me.shouheng.notepal.util.LogUtils;
-import me.shouheng.notepal.util.StringUtils;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.util.enums.SyncTimeInterval;
 import me.shouheng.notepal.util.preferences.SyncPreferences;
 
 /**
  * Created by wang shouheng on 2018/1/5.*/
-public class SettingsBackup extends BaseFragment {
+public class SettingsBackup extends BPreferenceFragment {
 
     private final int REQUEST_PICK_FOLDER = 0x000F;
 
@@ -152,7 +150,7 @@ public class SettingsBackup extends BaseFragment {
     private void showBackupNameEditor() {
         View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_backup_layout, null);
 
-        String defName = StringUtils.getTimeFileName();
+        String defName = String.valueOf(System.currentTimeMillis());
         EditText tvFileName = v.findViewById(R.id.export_file_name);
         tvFileName.setText(defName);
 
@@ -305,10 +303,7 @@ public class SettingsBackup extends BaseFragment {
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (getActivity() instanceof OnFragmentDestroyListener) {
-            ((OnFragmentDestroyListener) getActivity()).onFragmentDestroy();
-        }
+    protected String umengPageName() {
+        return "Backup preferences";
     }
 }

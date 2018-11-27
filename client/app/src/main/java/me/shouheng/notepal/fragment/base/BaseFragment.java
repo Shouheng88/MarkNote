@@ -10,11 +10,11 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.webkit.WebView;
 
-import org.polaric.colorful.BaseActivity;
-import org.polaric.colorful.PermissionUtils;
-
 import java.io.File;
 
+import me.shouheng.commons.activity.PermissionActivity;
+import me.shouheng.commons.fragment.CommonFragment;
+import me.shouheng.commons.utils.PermissionUtils;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.listener.OnAttachingFileListener;
 import me.shouheng.notepal.model.Attachment;
@@ -38,7 +38,7 @@ public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFrag
             return;
         }
         if (getActivity() == null) return;
-        PermissionUtils.checkStoragePermission((BaseActivity) getActivity(), () -> doCapture(recyclerView));
+        PermissionUtils.checkStoragePermission((PermissionActivity) getActivity(), () -> doCapture(recyclerView));
     }
 
     protected void createScreenCapture(final RecyclerView recyclerView, final int itemHeight) {
@@ -47,12 +47,12 @@ public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFrag
             return;
         }
         if (getActivity() == null) return;
-        PermissionUtils.checkStoragePermission((BaseActivity) getActivity(), () -> doCapture(recyclerView, itemHeight));
+        PermissionUtils.checkStoragePermission((PermissionActivity) getActivity(), () -> doCapture(recyclerView, itemHeight));
     }
 
     protected void createWebCapture(WebView webView, FileHelper.OnSavedToGalleryListener listener) {
         assert getActivity() != null;
-        PermissionUtils.checkStoragePermission((BaseActivity) getActivity(), () -> {
+        PermissionUtils.checkStoragePermission((PermissionActivity) getActivity(), () -> {
             final ProgressDialog pd = new ProgressDialog(getContext());
             pd.setTitle(R.string.capturing);
             pd.setCancelable(false);

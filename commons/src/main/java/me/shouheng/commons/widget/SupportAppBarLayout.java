@@ -1,4 +1,4 @@
-package me.shouheng.commons.view.widget.theme;
+package me.shouheng.commons.widget;
 
 import android.content.Context;
 import android.support.design.widget.AppBarLayout;
@@ -7,7 +7,7 @@ import android.util.AttributeSet;
 import android.view.ContextThemeWrapper;
 
 import me.shouheng.commons.R;
-import me.shouheng.commons.tools.preferences.BasePrefUtils;
+import me.shouheng.commons.theme.ThemeUtils;
 
 /**
  * @author shouh
@@ -22,7 +22,7 @@ public class SupportAppBarLayout extends AppBarLayout {
 
     public SupportAppBarLayout(Context context, AttributeSet attrs) {
         super(new ContextThemeWrapper(context,
-                BasePrefUtils.getInstance().getThemeStyle().isDarkTheme ?
+                ThemeUtils.getInstance().getThemeStyle().isDarkTheme ?
                         R.style.AppTheme_AppBarOverlayDark : R.style.AppTheme_AppBarOverlay), attrs);
     }
 }

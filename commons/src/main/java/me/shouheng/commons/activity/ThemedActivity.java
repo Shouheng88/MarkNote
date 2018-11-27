@@ -1,118 +1,92 @@
-package me.shouheng.notepal.activity.base;
+package me.shouheng.commons.activity;
 
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.view.ViewCompat;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.FrameLayout;
+import android.support.annotation.ColorInt;
 
-import me.shouheng.notepal.util.ColorUtils;
-import me.shouheng.notepal.util.ViewUtils;
-import me.shouheng.notepal.util.preferences.ThemePreferences;
+import me.shouheng.commons.R;
+import me.shouheng.commons.theme.ThemeUtils;
+import me.shouheng.commons.utils.PersistData;
+import me.shouheng.commons.utils.ColorUtils;
+import me.shouheng.commons.utils.PalmUtils;
+import me.shouheng.commons.utils.ThemeStyle;
 
 /**
  * Created by wang shouheng on 2017/12/21.*/
-@SuppressLint("Registered")
-public class ThemedActivity extends ColorfulActivity {
+public abstract class ThemedActivity extends UMengActivity {
+
+    private ThemeStyle themeStyle;
+
+    /**
+     * Whether use the theme of preference
+     *
+     * @return whether use the theme
+     */
+    protected boolean useColorfulTheme() {
+        return true;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        updateTheme();
-    }
-
-    protected boolean isDarkTheme(){
-        return ColorUtils.isDarkTheme(this);
-    }
-
-    protected int primaryColor(){
-        return ColorUtils.primaryColor(this);
-    }
-
-    protected int accentColor(){
-        return ColorUtils.accentColor(this);
-    }
-
-    public void updateTheme() {
-        Colorful.config(this)
-                .primaryColor(ColorUtils.getThemeColor())
-                .accentColor(ColorUtils.getAccentColor())
-                .translucent(false)
-                .dark(ThemePreferences.getInstance().isDarkTheme())
-                .coloredNavigationBar(ThemePreferences.getInstance().isColoredNavigationBar())
-                .apply();
+        themeStyle = ThemeUtils.getInstance().getThemeStyle();
+        if (useColorfulTheme()) {
+            setTheme(themeStyle.style);
+            ThemeUtils.customStatusBar(this);
+        }
         updateNavigationBar();
     }
 
-    public void reUpdateTheme(){
-        updateTheme();
-        this.recreate();
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (useColorfulTheme() && ThemeUtils.getInstance().getThemeStyle() != themeStyle) {
+            recreate();
+        }
     }
 
-    public void updateNavigationBar() {
-        if (ThemePreferences.getInstance().isColoredNavigationBar()) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+    /**
+     * Set the status bar color.
+     *
+     * @param color the status bar color
+     */
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    protected void setStatusBarColor(@ColorInt int color) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(color);
+        }
+    }
+
+    public ThemeStyle getThemeStyle() {
+        return themeStyle;
+    }
+
+    protected boolean isDarkTheme(){
+        return themeStyle.isDarkTheme;
+    }
+
+    /**
+     * Update the navigation bar color
+     */
+    protected void updateNavigationBar() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (PersistData.getBoolean(R.string.key_setting_theme_color_nav_bar, false)) {
                 getWindow().setNavigationBarColor(ColorUtils.primaryColor(this));
-            }
-        } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            } else {
                 getWindow().setNavigationBarColor(Color.BLACK);
             }
         }
     }
 
-    public void setTranslucentStatusBar() {
-        Window window = getWindow();
-        ViewGroup mContentView = findViewById(Window.ID_ANDROID_CONTENT);
-        // set child View not fill the system window
-        View mChildView = mContentView.getChildAt(0);
-        if (mChildView != null) {
-            mChildView.setFitsSystemWindows(false);
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            int statusBarHeight = ViewUtils.getStatusBarHeight(this);
-            // First translucent status bar.
-            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                // After LOLLIPOP just set LayoutParams.
-                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-                window.setStatusBarColor(Color.TRANSPARENT);
-                // must call requestApplyInsets, otherwise it will have space in screen bottom
-                if (mChildView != null) {
-                    ViewCompat.requestApplyInsets(mChildView);
-                }
-            } else {
-                ViewGroup mDecorView = (ViewGroup) window.getDecorView();
-                if (mDecorView.getTag() != null && mDecorView.getTag() instanceof Boolean && (Boolean)mDecorView.getTag()) {
-                    mChildView = mDecorView.getChildAt(0);
-                    // remove fake status bar view.
-                    mContentView.removeView(mChildView);
-                    mChildView = mContentView.getChildAt(0);
-                    if (mChildView != null) {
-                        FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) mChildView.getLayoutParams();
-                        // cancel the margin top
-                        if (lp != null && lp.topMargin >= statusBarHeight) {
-                            lp.topMargin -= statusBarHeight;
-                            mChildView.setLayoutParams(lp);
-                        }
-                    }
-                    mDecorView.setTag(false);
-                }
-            }
-        }
+    @ColorInt
+    protected int primaryColor(){
+        return PalmUtils.getColorCompact(themeStyle.primaryColor);
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    protected void setStatusBarColor(int color) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(color);
-        }
+    @ColorInt
+    protected int accentColor(){
+        return PalmUtils.getColorCompact(themeStyle.accentColor);
     }
 }

@@ -1,16 +1,12 @@
 package me.shouheng.commons;
 
 import android.app.Application;
-import androidx.multidex.MultiDex;
+import android.support.multidex.MultiDex;
 
-import com.alibaba.android.arouter.launcher.ARouter;
 import com.crashlytics.android.Crashlytics;
-import com.facebook.stetho.Stetho;
 import com.squareup.leakcanary.LeakCanary;
 
 import io.fabric.sdk.android.Fabric;
-import timber.log.Timber;
-import timber.log.Timber.DebugTree;
 
 /**
  * @author shouh
@@ -35,15 +31,5 @@ public abstract class BaseApplication extends Application {
         LeakCanary.install(this);
 
         Fabric.with(this, new Crashlytics());
-
-        if (BuildConfig.DEBUG) {
-            Stetho.initializeWithDefaults(this);
-            ARouter.openLog();
-            ARouter.openDebug();
-        }
-
-        if (BuildConfig.DEBUG) {
-            Timber.plant(new DebugTree());
-        }
     }
 }

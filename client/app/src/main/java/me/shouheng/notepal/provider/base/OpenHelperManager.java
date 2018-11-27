@@ -2,8 +2,8 @@ package me.shouheng.notepal.provider.base;
 
 import android.annotation.SuppressLint;
 
+import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.notepal.provider.PalmDB;
-import me.shouheng.notepal.util.LogUtils;
 
 /**
  * Created by wang shouheng on 2018/2/6.*/

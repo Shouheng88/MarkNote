@@ -1,4 +1,4 @@
-package me.shouheng.dailykeep.view.dialog;
+package me.shouheng.notepal.dialog;
 
 import android.app.Dialog;
 import android.databinding.DataBindingUtil;
@@ -9,16 +9,12 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.bumptech.glide.Glide;
-
 import java.util.Objects;
 
-import me.shouheng.commons.colorful.ThemeStyle;
-import me.shouheng.dailykeep.R;
-import me.shouheng.dailykeep.databinding.DialogThemePickBinding;
-import me.shouheng.data.preference.PrefUtils;
-import me.shouheng.data.preference.UserUtils;
-import me.shouheng.data.preference.model.User;
+import me.shouheng.commons.theme.ThemeUtils;
+import me.shouheng.commons.utils.ThemeStyle;
+import me.shouheng.notepal.R;
+import me.shouheng.notepal.databinding.DialogThemePickBinding;
 
 /**
  * @author shouh
@@ -30,21 +26,16 @@ public class ThemePickDialog extends DialogFragment {
     private ThemeStyle themeStyle;
 
     public static ThemePickDialog newInstance() {
-        Bundle args = new Bundle();
-        ThemePickDialog fragment = new ThemePickDialog();
-        fragment.setArguments(args);
-        return fragment;
+        return new ThemePickDialog();
     }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_theme_pick, null, false);
+        binding = DataBindingUtil.inflate(LayoutInflater.from(getContext()),
+                R.layout.dialog_theme_pick, null, false);
 
-        User user = UserUtils.getInstance().getUser();
-        themeStyle = PrefUtils.getInstance().getThemeStyle();
-
-        Glide.with(Objects.requireNonNull(getContext())).load(user.getAvatar()).into(binding.ivBg);
+        themeStyle = ThemeUtils.getInstance().getThemeStyle();
 
         switchUIToTheme(themeStyle);
 
@@ -78,7 +69,7 @@ public class ThemePickDialog extends DialogFragment {
     }
 
     private void switchToTheme(ThemeStyle themeStyle) {
-        PrefUtils.getInstance().setThemeStyle(themeStyle);
+        ThemeUtils.getInstance().setThemeStyle(themeStyle);
         if (getActivity() != null) {
             getActivity().recreate();
         }

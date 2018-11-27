@@ -24,12 +24,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
+import me.shouheng.commons.activity.CommonActivity;
+import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.activity.base.CommonActivity;
 import me.shouheng.notepal.databinding.ActivitySketchBinding;
-import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.ToastUtils;
-import me.shouheng.notepal.util.ViewUtils;
+import me.shouheng.commons.utils.ViewUtils;
 import me.shouheng.notepal.widget.SketchView;
 import me.shouheng.notepal.widget.tools.OnDrawChangedListener;
 

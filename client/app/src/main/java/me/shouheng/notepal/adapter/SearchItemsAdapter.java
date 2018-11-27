@@ -11,9 +11,9 @@ import android.widget.TextView;
 import java.util.LinkedList;
 import java.util.List;
 
+import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.model.Note;
-import me.shouheng.notepal.util.ColorUtils;
 import me.shouheng.notepal.util.TimeUtils;
 
 /**

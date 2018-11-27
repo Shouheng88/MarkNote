@@ -1,32 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/coordinator_layout">
+        android:layout_height="match_parent" >
 
-        <android.support.design.widget.AppBarLayout
-            android:id="@+id/bar_layout"
-            android:visibility="gone"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fitsSystemWindows="true"
-            android:theme="@style/AppTheme.AppBarOverlay">
+            android:layout_height="match_parent">
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
+            <my.shouheng.palmmarkdown.MarkdownViewer
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"/>
+                android:layout_height="match_parent"
+                android:id="@+id/md_view" />
 
-        </android.support.design.widget.AppBarLayout>
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/fab"
+                app:fab_size="normal"
+                app:fab_colorRipple="#99FFFFFF"
+                app:fab_colorNormal="?colorAccent"
+                app:fab_shadowRadius="5dp"
+                app:fab_shadowXOffset="1.5dp"
+                app:fab_shadowYOffset="1.5dp"
+                android:src="@drawable/ic_edit_white_24dp"
+                android:layout_margin="16dp"
+                android:layout_gravity="end|bottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
-        <my.shouheng.palmmarkdown.MarkdownViewer
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/md_view" />
+        </FrameLayout>
 
-    </LinearLayout>
+        <FrameLayout
+            android:layout_gravity="start"
+            android:layout_width="300dp"
+            android:layout_height="match_parent">
+
+            <include android:id="@+id/drawer" layout="@layout/layout_note_view_drawer" />
+
+        </FrameLayout>
+
+    </android.support.v4.widget.DrawerLayout>
 
 </layout>

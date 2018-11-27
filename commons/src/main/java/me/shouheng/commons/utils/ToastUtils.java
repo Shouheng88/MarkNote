@@ -1,9 +1,9 @@
-package me.shouheng.notepal.util;
+package me.shouheng.commons.utils;
 
 import android.support.annotation.StringRes;
 import android.widget.Toast;
 
-import me.shouheng.notepal.PalmApp;
+import me.shouheng.commons.BaseApplication;
 
 /**
  * Created by wangshouheng on 2017/2/25. */
@@ -13,7 +13,7 @@ public class ToastUtils {
 
     public static void makeToast(String msg) {
         if (toast == null){
-            toast = Toast.makeText(PalmApp.getContext(), msg, Toast.LENGTH_SHORT);
+            toast = Toast.makeText(BaseApplication.getContext(), msg, Toast.LENGTH_SHORT);
             toast.show();
         } else {
             toast.setText(msg);
@@ -23,7 +23,7 @@ public class ToastUtils {
 
     public static void makeToast(@StringRes int msgRes) {
         if (toast == null){
-            toast = Toast.makeText(PalmApp.getContext(), msgRes, Toast.LENGTH_SHORT);
+            toast = Toast.makeText(BaseApplication.getContext(), msgRes, Toast.LENGTH_SHORT);
             toast.show();
         } else {
             toast.setText(msgRes);

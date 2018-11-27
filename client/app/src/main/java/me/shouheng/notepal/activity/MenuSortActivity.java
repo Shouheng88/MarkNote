@@ -1,38 +1,34 @@
 package me.shouheng.notepal.activity;
 
-import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
-import java.util.LinkedList;
 import java.util.List;
 
+import me.shouheng.commons.activity.CommonActivity;
+import me.shouheng.commons.event.RxMessage;
+import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.activity.base.CommonActivity;
 import me.shouheng.notepal.adapter.MenuSortAdapter;
 import me.shouheng.notepal.databinding.ActivityMenuSortBinding;
 import me.shouheng.notepal.util.ToastUtils;
-import me.shouheng.notepal.util.preferences.UserPreferences;
+import me.shouheng.notepal.util.preferences.PrefUtils;
 import me.shouheng.notepal.widget.tools.DragSortRecycler;
 import my.shouheng.palmmarkdown.tools.MarkdownFormat;
 
 public class MenuSortActivity extends CommonActivity<ActivityMenuSortBinding> {
 
-    private List<MarkdownFormat> oldList = new LinkedList<>();
-
     private MenuSortAdapter mAdapter;
 
     private boolean saved = true, everSaved = false;
-
-    private UserPreferences userPreferences;
 
     public static void start(Fragment fragment, int req) {
         Intent intent = new Intent(fragment.getContext(), MenuSortActivity.class);
@@ -51,30 +47,27 @@ public class MenuSortActivity extends CommonActivity<ActivityMenuSortBinding> {
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {
-        configToolbar();
+        setSupportActionBar(getBinding().toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(R.string.custom_note_menu);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(ColorUtils.tintDrawable(
+                    R.drawable.ic_arrow_back_black_24dp,
+                    getThemeStyle().isDarkTheme ? Color.WHITE : Color.BLACK));
+        }
+        getBinding().toolbar.setTitleTextColor(getThemeStyle().isDarkTheme ? Color.WHITE : Color.BLACK);
+        if (getThemeStyle().isDarkTheme) {
+            getBinding().toolbar.setPopupTheme(R.style.AppTheme_PopupOverlayDark);
+        }
 
-        userPreferences = UserPreferences.getInstance();
-
-        getBinding().tvCustom.setTextColor(primaryColor());
-
-        oldList = userPreferences.getMarkdownFormats();
+        getBinding().tvCustom.setTextColor(accentColor());
 
         configList();
     }
 
-    private void configToolbar() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        ActionBar ab = getSupportActionBar();
-        if (ab != null) {
-            ab.setTitle(R.string.custom_note_menu);
-            ab.setDisplayHomeAsUpEnabled(true);
-        }
-        if (!isDarkTheme()) toolbar.setPopupTheme(R.style.AppTheme_PopupOverlay);
-    }
-
     private void configList() {
-        mAdapter = new MenuSortAdapter(this, oldList);
+        mAdapter = new MenuSortAdapter(this, PrefUtils.getInstance().getMarkdownFormats());
         getBinding().rvFabs.setAdapter(mAdapter);
 
         DragSortRecycler dragSortRecycler = new DragSortRecycler();
@@ -98,7 +91,7 @@ public class MenuSortActivity extends CommonActivity<ActivityMenuSortBinding> {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.fab_sort, menu);
+        getMenuInflater().inflate(R.menu.sort_edit, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -135,20 +128,19 @@ public class MenuSortActivity extends CommonActivity<ActivityMenuSortBinding> {
         saved = true;
         everSaved = true;
         List<MarkdownFormat> markdownFormats = mAdapter.getMarkdownFormats();
-        userPreferences.setMarkdownFormats(markdownFormats);
+        PrefUtils.getInstance().setMarkdownFormats(markdownFormats);
         ToastUtils.makeToast(R.string.menu_successfully_saved);
     }
 
     private void resetFabOrders() {
         saved = true;
-        mAdapter.setMarkdownFormats(oldList);
+        mAdapter.setMarkdownFormats(PrefUtils.getInstance().getMarkdownFormats());
         mAdapter.notifyDataSetChanged();
     }
 
     private void setResult() {
         if (everSaved) {
-            Intent intent = new Intent();
-            setResult(Activity.RESULT_OK, intent);
+            postEvent(new RxMessage(RxMessage.CODE_SORT_EDIT_MENU, null));
             finish();
         } else {
             finish();

@@ -1,78 +1,76 @@
 package me.shouheng.notepal.dialog;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
 
+import me.shouheng.commons.helper.DialogHelper;
+import me.shouheng.commons.theme.ThemeUtils;
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.activity.base.CommonActivity;
+import me.shouheng.notepal.databinding.DialogNotebookEditBinding;
 import me.shouheng.notepal.model.Notebook;
 import me.shouheng.notepal.util.ToastUtils;
-import me.shouheng.notepal.widget.CircleImageView;
-import me.shouheng.notepal.widget.WatcherTextView;
 
 /**
  * Created by wangshouheng on 2017/7/23.*/
-@SuppressLint("ValidFragment")
-public class NotebookEditDialog extends DialogFragment {
+public class NotebookEditDialog extends DialogFragment implements ColorChooserDialog.ColorCallback {
 
-    private EditText etNotebookName;
-    private LinearLayout llNameEditBG;
-    private CircleImageView civNotebookColor;
+    public final static String ARG_KEY_NOTEBOOK = "__arg_key_notebook";
 
+    @ColorInt
     private int notebookColor;
-    private String notebookName = null;
+    private String notebookName;
 
-    private OnConfirmNotebookEditListener onConfirmNotebookEditListener;
+    private DialogNotebookEditBinding binding;
 
-    public static NotebookEditDialog newInstance(Context context, Notebook notebook, OnConfirmNotebookEditListener onConfirmNotebookEditListener){
-        return new NotebookEditDialog(context, notebook, onConfirmNotebookEditListener);
-    }
+    private OnConfirmListener onConfirmListener;
 
-    private NotebookEditDialog(Context context, Notebook notebook, OnConfirmNotebookEditListener onConfirmNotebookEditListener) {
-        this.notebookName = notebook.getTitle();
-        this.notebookColor = notebook.getColor();
-        this.onConfirmNotebookEditListener = onConfirmNotebookEditListener;
+    public static NotebookEditDialog newInstance(Notebook notebook, OnConfirmListener onConfirmListener) {
+        NotebookEditDialog dialog = DialogHelper.open(NotebookEditDialog.class)
+                .put(ARG_KEY_NOTEBOOK, notebook)
+                .get();
+        dialog.setOnConfirmListener(onConfirmListener);
+        return dialog;
     }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        View rootView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_notebook_editor_layout, null);
+        Bundle args = getArguments();
+        assert args != null;
+        Notebook notebook = (Notebook) args.getSerializable(ARG_KEY_NOTEBOOK);
+        assert notebook != null;
+        this.notebookName = notebook.getTitle();
+        this.notebookColor = notebook.getColor();
 
-        etNotebookName = rootView.findViewById(R.id.et_notebook_name);
-        etNotebookName.setText(TextUtils.isEmpty(notebookName) ? "" : notebookName);
-        LinearLayout llCategoryColor = rootView.findViewById(R.id.ll_notebook_color);
-        llNameEditBG = rootView.findViewById(R.id.ll_title_background);
-        civNotebookColor = rootView.findViewById(R.id.civ_notebook_color);
-        WatcherTextView wtv = rootView.findViewById(R.id.watcher);
-        wtv.bindEditText(etNotebookName);
+        binding = DataBindingUtil.inflate(LayoutInflater.from(getContext()),
+                R.layout.dialog_notebook_edit, null, false);
+        binding.setIsDarkTheme(ThemeUtils.getInstance().getThemeStyle().isDarkTheme);
+
+        binding.etNotebookName.setText(notebookName);
+        binding.watcher.bindEditText(binding.etNotebookName);
+        binding.vColor.setOnClickListener(v -> showColorPickerDialog());
 
         updateUIBySelectedColor(notebookColor);
 
-        llCategoryColor.setOnClickListener(v -> showColorPickerDialog());
-
         return new AlertDialog.Builder(getContext())
-                .setView(rootView)
+                .setView(binding.getRoot())
                 .setPositiveButton(R.string.text_confirm, (dialog, which) -> {
-                    if (TextUtils.isEmpty(etNotebookName.getText())){
+                    if (TextUtils.isEmpty(binding.etNotebookName.getText())){
                         ToastUtils.makeToast(R.string.title_required);
                         return;
                     }
-                    notebookName = etNotebookName.getText().toString();
-                    if (onConfirmNotebookEditListener != null){
-                        onConfirmNotebookEditListener.onConfirmNotebook(notebookName, notebookColor);
+                    notebookName = binding.etNotebookName.getText().toString();
+                    if (onConfirmListener != null){
+                        onConfirmListener.onConfirm(notebookName, notebookColor);
                     }
                     dialog.dismiss();
                 })
@@ -80,29 +78,37 @@ public class NotebookEditDialog extends DialogFragment {
                 .create();
     }
 
-    private void showColorPickerDialog(){
-        assert getActivity() != null;
-        new ColorChooserDialog.Builder((CommonActivity) getActivity(), R.string.pick_notebook_color)
+    private void showColorPickerDialog() {
+        assert getContext() != null;
+        new ColorChooserDialog.Builder(getContext(), R.string.pick_notebook_color)
                 .preselect(notebookColor)
                 .accentMode(false)
-                .titleSub(R.string.pick_notebook_color)
-                .backButton(R.string.text_back)
-                .doneButton(R.string.done_label)
+                .presetsButton(R.string.text_presets)
                 .cancelButton(R.string.text_cancel)
-                .show();
+                .customButton(R.string.text_custom)
+                .backButton(R.string.text_back)
+                .doneButton(R.string.text_done)
+                .show(getChildFragmentManager());
     }
 
-    public void updateUIBySelectedColor(int color){
+    private void updateUIBySelectedColor(@ColorInt int color) {
         notebookColor = color;
-        llNameEditBG.setBackgroundColor(color);
-        civNotebookColor.setFillingCircleColor(color);
+        binding.iv.setBackgroundColor(color);
     }
 
-    public void setOnConfirmNotebookEditListener(OnConfirmNotebookEditListener onConfirmNotebookEditListener) {
-        this.onConfirmNotebookEditListener = onConfirmNotebookEditListener;
+    private void setOnConfirmListener(OnConfirmListener onConfirmListener) {
+        this.onConfirmListener = onConfirmListener;
     }
 
-    public interface OnConfirmNotebookEditListener {
-        void onConfirmNotebook(String categoryName, int notebookColor);
+    @Override
+    public void onColorSelection(@NonNull ColorChooserDialog dialog, int selectedColor) {
+        updateUIBySelectedColor(selectedColor);
+    }
+
+    @Override
+    public void onColorChooserDismissed(@NonNull ColorChooserDialog dialog) { }
+
+    public interface OnConfirmListener {
+        void onConfirm(String categoryName, int notebookColor);
     }
 }

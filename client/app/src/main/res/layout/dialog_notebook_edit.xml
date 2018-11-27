@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="isDarkTheme"
+            type="boolean"/>
+    </data>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:paddingBottom="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/iv"
+            android:background="@color/default_notebook_color"
+            android:paddingTop="30dp"
+            android:paddingBottom="30dp"
+            android:textSize="16sp"
+            android:tint="@android:color/white"
+            android:src="@drawable/ic_book"
+            android:layout_width="match_parent"
+            android:layout_height="100dp" />
+
+        <me.shouheng.notepal.widget.themed.SupportTextView
+            android:text="@string/notebook_edit_tips"
+            android:padding="30dp"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <RelativeLayout
+            android:paddingTop="20dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/et_notebook_name"
+                    android:padding="8dp"
+                    android:hint="@string/notebook_edit_name_hint"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:maxLength="@integer/title_length"
+                    android:drawableEnd="@{isDarkTheme ? @drawable/ic_color_lens_white_24dp : @drawable/ic_color_lens_black_24dp}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <View android:id="@+id/v_color"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_width="40dp"
+                android:layout_height="50dp"/>
+
+        </RelativeLayout>
+
+        <me.shouheng.notepal.widget.WatcherTextView
+            android:id="@+id/watcher"
+            android:layout_gravity="end"
+            android:paddingEnd="20dp"
+            android:paddingBottom="20dp"
+            app:max_length="@integer/title_length"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</layout>

@@ -11,9 +11,9 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 
+import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.WidgetEmptyViewBinding;
-import me.shouheng.notepal.util.ColorUtils;
 
 /**
  * Created by wangshouheng on 2017/8/9. */

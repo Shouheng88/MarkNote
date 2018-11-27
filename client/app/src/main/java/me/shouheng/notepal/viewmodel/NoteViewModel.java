@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.NotesAdapter.MultiItem;
@@ -30,7 +31,6 @@ import me.shouheng.notepal.provider.NotesStore;
 import me.shouheng.notepal.repository.BaseRepository;
 import me.shouheng.notepal.repository.NoteRepository;
 import me.shouheng.notepal.util.FileHelper;
-import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.ModelHelper;
 import me.shouheng.notepal.util.preferences.NotePreferences;
 

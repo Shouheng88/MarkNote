@@ -7,10 +7,12 @@ import com.onedrive.sdk.core.ClientException;
 
 import java.io.File;
 
+import me.shouheng.commons.utils.NetworkUtils;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.SettingsActivity;
 import me.shouheng.notepal.async.onedrive.OneDriveBackupService;
+import me.shouheng.notepal.fragment.setting.SettingsBackup;
 import me.shouheng.notepal.manager.onedrive.DefaultCallback;
 import me.shouheng.notepal.manager.onedrive.OneDriveManager;
 import me.shouheng.notepal.util.preferences.SyncPreferences;
@@ -24,21 +26,20 @@ public class SynchronizeUtils {
      *
      * @param activity current activity */
     public static void syncOneDrive(Activity activity) {
-        syncOneDrive(activity, 0, false);
+        syncOneDrive(activity, false);
     }
 
     /**
      * Sync to One Drive
      *
      * @param activity current activity
-     * @param req the request code for opening setting activity
      * @param force true to force to synchronize */
-    public static void syncOneDrive(Activity activity, int req, boolean force) {
+    public static void syncOneDrive(Activity activity, boolean force) {
         // If forced to synchronize and the information is not set, go to the setting page.
         if (!SynchronizeUtils.checkOneDriveSettings()) {
             if (force) {
                 ToastUtils.makeToast(R.string.login_drive_message);
-                SettingsActivity.start(activity, SettingsActivity.ACTION_NAV_TO_BACKUP_FRAGMENT, req);
+                SettingsActivity.open(SettingsBackup.class).launch(activity);
             }
             return;
         }

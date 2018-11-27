@@ -10,6 +10,7 @@ import java.lang.reflect.ParameterizedType;
 import java.util.LinkedList;
 import java.util.List;
 
+import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.notepal.model.Model;
 import me.shouheng.notepal.model.enums.Operation;
 import me.shouheng.notepal.model.enums.Status;
@@ -18,7 +19,6 @@ import me.shouheng.notepal.provider.base.OpenHelperManager;
 import me.shouheng.notepal.provider.helper.StoreHelper;
 import me.shouheng.notepal.provider.helper.TimelineHelper;
 import me.shouheng.notepal.provider.schema.BaseSchema;
-import me.shouheng.notepal.util.LogUtils;
 import me.shouheng.notepal.util.UserUtil;
 
 

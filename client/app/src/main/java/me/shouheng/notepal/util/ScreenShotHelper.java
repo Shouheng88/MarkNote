@@ -17,6 +17,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.notepal.PalmApp;
 
 /**

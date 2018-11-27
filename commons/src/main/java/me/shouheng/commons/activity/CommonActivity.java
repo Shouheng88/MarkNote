@@ -1,25 +1,25 @@
-package me.shouheng.commons.view.activity;
+package me.shouheng.commons.activity;
 
-import android.app.Activity;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.view.Menu;
 
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
-import me.shouheng.commons.tools.event.RxBus;
-import me.shouheng.commons.tools.FragmentHelper;
-import me.shouheng.commons.tools.LogUtils;
+import me.shouheng.commons.event.RxBus;
+import me.shouheng.commons.event.RxMessage;
+import me.shouheng.commons.theme.ThemeUtils;
+import me.shouheng.commons.utils.LogUtils;
 
 /**
  * Created by WngShhng on 2018/5/18.*/
-public abstract class CommonActivity<T extends ViewDataBinding> extends ColorfulActivity {
+public abstract class CommonActivity<T extends ViewDataBinding> extends ThemedActivity {
 
     private T binding;
 
@@ -58,22 +58,6 @@ public abstract class CommonActivity<T extends ViewDataBinding> extends Colorful
         return getSupportFragmentManager().findFragmentById(containerId);
     }
 
-    protected void toFragment(Fragment fragment, @IdRes int containerId) {
-        FragmentHelper.replace(this, fragment, containerId);
-    }
-
-    protected void toFragmentWithCallback(Fragment fragment, @IdRes int containerId) {
-        FragmentHelper.replaceWithCallback(this, fragment, containerId);
-    }
-
-    public void startActivity(Class<? extends Activity> activity) {
-        startActivity(new Intent(this, activity));
-    }
-
-    public void startActivityForResult(Class<? extends Activity> activity, int requestCode) {
-        startActivityForResult(new Intent(this, activity), requestCode);
-    }
-
     /**
      * Used to call {@link #onBackPressed()} to avoid override by sub class */
     public void superOnBackPressed() {
@@ -84,6 +68,11 @@ public abstract class CommonActivity<T extends ViewDataBinding> extends Colorful
         RxBus.getRxBus().post(object);
     }
 
+    protected <M extends RxMessage> void addSubscription(Class<M> eventType, int code, Consumer<M> action) {
+        Disposable disposable = RxBus.getRxBus().doSubscribe(eventType, code, action, LogUtils::d);
+        RxBus.getRxBus().addSubscription(this, disposable);
+    }
+
     protected <M> void addSubscription(Class<M> eventType, Consumer<M> action) {
         Disposable disposable = RxBus.getRxBus().doSubscribe(eventType, action, LogUtils::d);
         RxBus.getRxBus().addSubscription(this, disposable);
@@ -92,6 +81,18 @@ public abstract class CommonActivity<T extends ViewDataBinding> extends Colorful
     protected <M> void addSubscription(Class<M> eventType, Consumer<M> action, Consumer<Throwable> error) {
         Disposable disposable = RxBus.getRxBus().doSubscribe(eventType, action, error);
         RxBus.getRxBus().addSubscription(this, disposable);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if (autoCustomMenu()) {
+            ThemeUtils.themeMenu(menu, getThemeStyle().isDarkTheme);
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    protected boolean autoCustomMenu() {
+        return true;
     }
 
     @Override
