@@ -21,7 +21,7 @@ import me.shouheng.commons.event.RxBus;
 import me.shouheng.commons.theme.ThemeUtils;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.LogUtils;
-import me.shouheng.commons.utils.ThemeStyle;
+import me.shouheng.commons.theme.ThemeStyle;
 
 /**
  * Created by wang shouheng on 2017/12/23. */

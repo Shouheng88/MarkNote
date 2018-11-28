@@ -12,7 +12,7 @@ import android.view.View;
 import java.util.Objects;
 
 import me.shouheng.commons.theme.ThemeUtils;
-import me.shouheng.commons.utils.ThemeStyle;
+import me.shouheng.commons.theme.ThemeStyle;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.DialogThemePickBinding;
 

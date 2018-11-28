@@ -8,7 +8,7 @@ import com.umeng.analytics.MobclickAgent;
 
 import me.shouheng.commons.theme.ThemeUtils;
 import me.shouheng.commons.utils.PalmUtils;
-import me.shouheng.commons.utils.ThemeStyle;
+import me.shouheng.commons.theme.ThemeStyle;
 
 /**
  * @author shouh

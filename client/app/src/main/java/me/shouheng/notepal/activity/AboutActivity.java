@@ -24,7 +24,7 @@ import me.shouheng.commons.theme.ThemeUtils;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.IntentUtils;
 import me.shouheng.commons.utils.PalmUtils;
-import me.shouheng.commons.utils.ThemeStyle;
+import me.shouheng.commons.theme.ThemeStyle;
 import me.shouheng.notepal.BuildConfig;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.config.Constants;

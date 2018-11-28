@@ -11,7 +11,7 @@ import me.shouheng.commons.theme.ThemeUtils;
 import me.shouheng.commons.utils.PersistData;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.PalmUtils;
-import me.shouheng.commons.utils.ThemeStyle;
+import me.shouheng.commons.theme.ThemeStyle;
 
 /**
  * Created by wang shouheng on 2017/12/21.*/

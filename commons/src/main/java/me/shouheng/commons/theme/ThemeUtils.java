@@ -18,7 +18,6 @@ import me.shouheng.commons.activity.ThemedActivity;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.commons.utils.PersistData;
-import me.shouheng.commons.utils.ThemeStyle;
 
 /**
  * @author shouh

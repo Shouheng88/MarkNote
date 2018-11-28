@@ -9,7 +9,6 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.FloatRange;
 import android.support.annotation.MenuRes;
-import android.support.annotation.NonNull;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,6 +20,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import me.shouheng.commons.R;
+import me.shouheng.commons.theme.ThemeStyle;
 import me.shouheng.commons.theme.ThemeUtils;
 
 /**
@@ -89,17 +89,6 @@ public class ColorUtils {
             accentColor = PalmUtils.getColorCompact(themeStyle.accentColor);
         }
         return accentColor;
-    }
-
-    // TODO need to change the theme color when the theme style changed
-    public static void forceUpdateThemeStatus(Context context) {
-//        Colorful.ThemeColor primaryColor = ThemePreferences.getInstance().getThemeColor();
-//        ColorUtils.primaryColor = context.getResources().getColor(primaryColor.getColorRes());
-//
-//        Colorful.AccentColor accentColor = ThemePreferences.getInstance().getAccentColor();
-//        ColorUtils.accentColor = context.getResources().getColor(accentColor.getColorRes());
-//
-//        isDarkTheme = ThemePreferences.getInstance().isDarkTheme();
     }
 
     public static Drawable tintDrawable(Drawable drawable, int color) {
