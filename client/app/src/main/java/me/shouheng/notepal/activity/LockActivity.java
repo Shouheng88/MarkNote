@@ -20,7 +20,7 @@ import me.shouheng.notepal.databinding.ActivityLockBinding;
 import me.shouheng.notepal.util.ActivityUtils;
 import me.shouheng.notepal.util.RSAUtil;
 import me.shouheng.notepal.util.SystemUiVisibilityUtil;
-import me.shouheng.notepal.util.ToastUtils;
+import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.notepal.util.preferences.LockPreferences;
 
 public class LockActivity extends CommonActivity<ActivityLockBinding> {

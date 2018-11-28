@@ -34,7 +34,7 @@ import me.shouheng.notepal.dialog.CategoryEditDialog;
 import me.shouheng.notepal.fragment.base.BaseFragment;
 import me.shouheng.notepal.model.Category;
 import me.shouheng.notepal.model.enums.Status;
-import me.shouheng.notepal.util.ToastUtils;
+import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.notepal.viewmodel.CategoryViewModel;
 import me.shouheng.notepal.widget.tools.CustomItemAnimator;
 import me.shouheng.notepal.widget.tools.CustomItemTouchHelper;

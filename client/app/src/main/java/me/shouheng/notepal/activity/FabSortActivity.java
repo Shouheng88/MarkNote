@@ -19,7 +19,7 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.FabSortAdapter;
 import me.shouheng.notepal.databinding.ActivityFabSortBinding;
 import me.shouheng.notepal.model.enums.FabSortItem;
-import me.shouheng.notepal.util.ToastUtils;
+import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.notepal.util.preferences.PrefUtils;
 import me.shouheng.notepal.widget.tools.DragSortRecycler;
 

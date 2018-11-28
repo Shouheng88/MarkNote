@@ -31,7 +31,7 @@ import me.shouheng.notepal.async.DataBackupIntentService;
 import me.shouheng.notepal.manager.onedrive.DefaultCallback;
 import me.shouheng.notepal.manager.onedrive.OneDriveManager;
 import me.shouheng.notepal.util.FileHelper;
-import me.shouheng.notepal.util.ToastUtils;
+import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.notepal.util.enums.SyncTimeInterval;
 import me.shouheng.notepal.util.preferences.SyncPreferences;
 

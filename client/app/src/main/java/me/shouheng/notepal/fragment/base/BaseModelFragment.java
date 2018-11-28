@@ -35,7 +35,7 @@ import me.shouheng.notepal.provider.CategoryStore;
 import me.shouheng.notepal.util.AppWidgetUtils;
 import me.shouheng.commons.utils.NetworkUtils;
 import me.shouheng.notepal.util.ShortcutHelper;
-import me.shouheng.notepal.util.ToastUtils;
+import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.commons.utils.ViewUtils;
 import me.shouheng.notepal.viewmodel.BaseViewModel;
 import me.shouheng.notepal.viewmodel.CategoryViewModel;

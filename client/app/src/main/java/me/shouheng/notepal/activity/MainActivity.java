@@ -61,7 +61,7 @@ import me.shouheng.notepal.model.enums.FabSortItem;
 import me.shouheng.notepal.model.enums.Status;
 import me.shouheng.notepal.util.FragmentHelper;
 import me.shouheng.notepal.util.SynchronizeUtils;
-import me.shouheng.notepal.util.ToastUtils;
+import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.notepal.util.preferences.LockPreferences;
 import me.shouheng.notepal.util.preferences.PrefUtils;
 import me.shouheng.notepal.viewmodel.CategoryViewModel;

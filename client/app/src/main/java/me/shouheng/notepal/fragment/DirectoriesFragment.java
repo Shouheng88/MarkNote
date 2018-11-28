@@ -21,7 +21,7 @@ import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.databinding.FragmentDirectoriesBinding;
 import me.shouheng.notepal.fragment.base.BaseFragment;
 import me.shouheng.notepal.model.Directory;
-import me.shouheng.notepal.util.ToastUtils;
+import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.notepal.viewmodel.DirectoryViewModel;
 import me.shouheng.notepal.widget.tools.CustomItemAnimator;
 import me.shouheng.notepal.widget.tools.DividerItemDecoration;

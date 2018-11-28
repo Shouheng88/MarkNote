@@ -27,7 +27,7 @@ import me.shouheng.notepal.adapter.SearchItemsAdapter.OnItemSelectedListener;
 import me.shouheng.notepal.databinding.ActivitySearchBinding;
 import me.shouheng.notepal.fragment.NoteViewFragment;
 import me.shouheng.notepal.model.Note;
-import me.shouheng.notepal.util.ToastUtils;
+import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.notepal.util.tools.SearchConditions;
 import me.shouheng.notepal.viewmodel.SearchViewModel;
 import me.shouheng.notepal.widget.tools.CustomItemAnimator;

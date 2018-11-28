@@ -59,7 +59,7 @@ import me.shouheng.notepal.util.FileHelper;
 import me.shouheng.notepal.util.ModelHelper;
 import me.shouheng.notepal.util.PrintUtils;
 import me.shouheng.notepal.util.ShortcutHelper;
-import me.shouheng.notepal.util.ToastUtils;
+import me.shouheng.commons.utils.ToastUtils;
 
 import static me.shouheng.notepal.config.Constants.PDF_MIME_TYPE;
 import static me.shouheng.notepal.config.Constants.SCHEME_HTTP;

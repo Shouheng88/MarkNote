@@ -55,7 +55,7 @@ import me.shouheng.notepal.model.enums.ModelType;
 import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.util.FileHelper;
 import me.shouheng.notepal.util.ModelHelper;
-import me.shouheng.notepal.util.ToastUtils;
+import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.notepal.util.preferences.PrefUtils;
 import me.shouheng.notepal.viewmodel.AttachmentViewModel;
 import me.shouheng.notepal.viewmodel.BaseViewModel;

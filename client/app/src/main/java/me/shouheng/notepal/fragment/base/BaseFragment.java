@@ -21,7 +21,7 @@ import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.util.FileHelper;
 import me.shouheng.notepal.util.ScreenShotHelper;
-import me.shouheng.notepal.util.ToastUtils;
+import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.notepal.util.tools.Callback;
 import me.shouheng.notepal.util.tools.Invoker;
 import me.shouheng.notepal.util.tools.Message;

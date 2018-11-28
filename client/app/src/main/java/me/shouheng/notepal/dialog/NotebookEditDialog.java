@@ -17,7 +17,7 @@ import me.shouheng.commons.theme.ThemeUtils;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.DialogNotebookEditBinding;
 import me.shouheng.notepal.model.Notebook;
-import me.shouheng.notepal.util.ToastUtils;
+import me.shouheng.commons.utils.ToastUtils;
 
 /**
  * Created by wangshouheng on 2017/7/23.*/

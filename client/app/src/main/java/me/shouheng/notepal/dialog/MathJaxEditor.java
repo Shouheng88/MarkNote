@@ -11,7 +11,7 @@ import android.view.LayoutInflater;
 
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.DialogMathJaxEditorBinding;
-import me.shouheng.notepal.util.ToastUtils;
+import me.shouheng.commons.utils.ToastUtils;
 
 /**
  * Created by shouh on 2018/3/25.*/

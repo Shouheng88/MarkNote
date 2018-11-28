@@ -18,7 +18,7 @@ import me.shouheng.notepal.model.TimeLine;
 import me.shouheng.notepal.model.enums.Status;
 import me.shouheng.notepal.provider.TimelineStore;
 import me.shouheng.notepal.provider.schema.TimelineSchema;
-import me.shouheng.notepal.util.ToastUtils;
+import me.shouheng.commons.utils.ToastUtils;
 
 /**
  * Created by wangshouheng on 2017/8/19. */

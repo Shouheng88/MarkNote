@@ -28,7 +28,7 @@ import me.shouheng.commons.activity.CommonActivity;
 import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.ActivitySketchBinding;
-import me.shouheng.notepal.util.ToastUtils;
+import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.commons.utils.ViewUtils;
 import me.shouheng.notepal.widget.SketchView;
 import me.shouheng.notepal.widget.tools.OnDrawChangedListener;

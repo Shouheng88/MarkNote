@@ -17,7 +17,7 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.DialogCategoryEditBinding;
 import me.shouheng.notepal.model.Category;
 import me.shouheng.notepal.model.enums.Portrait;
-import me.shouheng.notepal.util.ToastUtils;
+import me.shouheng.commons.utils.ToastUtils;
 
 /**
  * TODO 分类添加之后时间线统计错误

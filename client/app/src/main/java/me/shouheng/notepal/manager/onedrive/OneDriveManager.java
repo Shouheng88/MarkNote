@@ -27,7 +27,7 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.async.onedrive.ConflictBehavior;
 import me.shouheng.notepal.model.Directory;
 import me.shouheng.notepal.util.FileHelper;
-import me.shouheng.notepal.util.ToastUtils;
+import me.shouheng.commons.utils.ToastUtils;
 
 /**
  * Created by shouh on 2018/3/29.*/

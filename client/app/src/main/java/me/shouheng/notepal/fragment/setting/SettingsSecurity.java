@@ -21,7 +21,7 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.LockActivity;
 import me.shouheng.notepal.databinding.DialogSecurityQuestionLayoutBinding;
 import me.shouheng.notepal.util.RSAUtil;
-import me.shouheng.notepal.util.ToastUtils;
+import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.notepal.util.preferences.LockPreferences;
 
 /**

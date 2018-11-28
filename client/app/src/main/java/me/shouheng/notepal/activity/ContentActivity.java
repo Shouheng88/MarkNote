@@ -25,7 +25,7 @@ import me.shouheng.notepal.model.ModelFactory;
 import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.provider.NotesStore;
 import me.shouheng.notepal.util.FragmentHelper;
-import me.shouheng.notepal.util.ToastUtils;
+import me.shouheng.commons.utils.ToastUtils;
 
 public class ContentActivity extends CommonActivity<ActivityContentBinding> implements OnNoteInteractListener {
 

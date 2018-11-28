@@ -16,6 +16,7 @@ import java.util.List;
 import me.shouheng.commons.utils.IntentUtils;
 import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.commons.utils.PalmUtils;
+import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.GalleryActivity;

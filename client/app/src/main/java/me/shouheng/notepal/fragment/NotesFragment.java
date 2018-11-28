@@ -37,7 +37,7 @@ import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.model.Notebook;
 import me.shouheng.notepal.model.enums.Status;
 import me.shouheng.notepal.util.AppWidgetUtils;
-import me.shouheng.notepal.util.ToastUtils;
+import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.notepal.util.preferences.NotePreferences;
 import me.shouheng.notepal.util.preferences.PrefUtils;
 import me.shouheng.notepal.viewmodel.NoteViewModel;

@@ -20,7 +20,7 @@ import me.shouheng.easymark.editor.Format;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.MenuSortAdapter;
 import me.shouheng.notepal.databinding.ActivityMenuSortBinding;
-import me.shouheng.notepal.util.ToastUtils;
+import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.notepal.util.preferences.PrefUtils;
 import me.shouheng.notepal.widget.tools.DragSortRecycler;
 
