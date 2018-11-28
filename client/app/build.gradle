@@ -69,4 +69,5 @@ dependencies {
     implementation 'me.shouheng.easymark:easymark:0.0.1'
     implementation 'me.shouheng.easymark:sil:0.0.1'
     implementation project(path: ':commons')
+    implementation project(path: ':data')
 }

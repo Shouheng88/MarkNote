@@ -23,13 +23,12 @@ import static me.shouheng.data.DBConfig.VERSION;
  * Created by wangshouheng on 2017/3/13. */
 public class PalmDB extends SQLiteOpenHelper {
 
-    @SuppressLint("StaticFieldLeak")
-    private static PalmDB sInstance = null;
+    private static volatile PalmDB sInstance = null;
 
     private volatile boolean isOpen = true;
 
-    public static PalmDB getInstance(final Context context){
-        if (sInstance == null){
+    public static PalmDB getInstance(final Context context) {
+        if (sInstance == null) {
             synchronized (PalmDB.class) {
                 if (sInstance == null) {
                     sInstance = new PalmDB(context.getApplicationContext());
