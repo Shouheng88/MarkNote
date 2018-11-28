@@ -1,15 +1,15 @@
 package me.shouheng.notepal.activity;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,6 +18,7 @@ import android.widget.SeekBar;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.balysv.materialmenu.MaterialMenuDrawable;
+import com.facebook.stetho.common.LogUtil;
 import com.larswerkman.holocolorpicker.ColorPicker;
 
 import java.io.File;
@@ -26,19 +27,32 @@ import java.io.FileOutputStream;
 
 import me.shouheng.commons.activity.CommonActivity;
 import me.shouheng.commons.utils.LogUtils;
-import me.shouheng.notepal.R;
-import me.shouheng.notepal.databinding.ActivitySketchBinding;
 import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.commons.utils.ViewUtils;
-import me.shouheng.notepal.widget.SketchView;
-import me.shouheng.notepal.widget.tools.OnDrawChangedListener;
+import me.shouheng.commons.widget.sketch.OnDrawChangedListener;
+import me.shouheng.commons.widget.sketch.SketchView;
+import me.shouheng.notepal.R;
+import me.shouheng.notepal.databinding.ActivitySketchBinding;
 
+/**
+ * The activity used to sketch
+ *
+ * refactored at 2018-11-28, 23:12,
+ * by WngShhng (shouheng2015@gmail.com)
+ */
+public class SketchActivity extends CommonActivity<ActivitySketchBinding>
+        implements OnDrawChangedListener, View.OnClickListener {
 
-public class SketchActivity extends CommonActivity<ActivitySketchBinding> implements
-        OnDrawChangedListener,
-        View.OnClickListener {
+    /**
+     * Use the key to put the {@link Uri} of a bitmap to the intent, and the draw action
+     * will then be based on the bitmap.
+     */
+    public final static String EXTRA_KEY_BASE_BITMAP = "__extra_key_based_bitmap";
 
-    public final static String BASED_BITMAP = "base";
+    /**
+     * The key used to put the output file path.
+     */
+    public final static String EXTRA_KEY_OUTPUT_FILE_PATH = "__extra_key_output_file_path";
 
     private View popupLayout, popupEraserLayout;
     private ImageView strokeImageView, eraserImageView;
@@ -52,6 +66,8 @@ public class SketchActivity extends CommonActivity<ActivitySketchBinding> implem
 
     private boolean isContentChanged, onceSaved;
 
+    private String outputFilePath;
+
     @Override
     protected int getLayoutResId() {
         return R.layout.activity_sketch;
@@ -59,13 +75,29 @@ public class SketchActivity extends CommonActivity<ActivitySketchBinding> implem
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {
+        handleIntent();
         configToolbar();
-
-        configBackground();
-
         configViews();
-
         configDialogs();
+    }
+
+    private void handleIntent() {
+        Intent intent = getIntent();
+        Uri baseUri = intent.getParcelableExtra(EXTRA_KEY_BASE_BITMAP);
+        if (baseUri != null) {
+            Bitmap bmp;
+            try {
+                bmp = BitmapFactory.decodeStream(getContentResolver().openInputStream(baseUri));
+                getBinding().sketchView.setBackgroundBitmap(this, bmp);
+            } catch (FileNotFoundException e) {
+                LogUtils.e("Error replacing sketch bitmap background.", e);
+            }
+        }
+        if (!intent.hasExtra(EXTRA_KEY_OUTPUT_FILE_PATH)) {
+            LogUtil.e("The bitmap won't be saved if you don't specify the output file path.");
+            throw new IllegalStateException("The bitmap won't be saved if you don't specify the output file path.");
+        }
+        outputFilePath = intent.getStringExtra(EXTRA_KEY_OUTPUT_FILE_PATH);
     }
 
     private void configToolbar() {
@@ -75,36 +107,26 @@ public class SketchActivity extends CommonActivity<ActivitySketchBinding> implem
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle("");
         }
-        materialMenu = new MaterialMenuDrawable(this, primaryColor(), MaterialMenuDrawable.Stroke.THIN);
+        materialMenu = new MaterialMenuDrawable(this,
+                isDarkTheme() ? Color.WHITE : Color.BLACK, MaterialMenuDrawable.Stroke.THIN);
         materialMenu.setIconState(MaterialMenuDrawable.IconState.ARROW);
         getBinding().toolbar.setNavigationIcon(materialMenu);
-        setStatusBarColor(getResources().getColor(R.color.dark_theme_foreground));
-    }
-
-    private void configBackground() {
-        Uri baseUri = getIntent().getParcelableExtra(BASED_BITMAP);
-        if (baseUri != null) {
-            Bitmap bmp;
-            try {
-                bmp = BitmapFactory.decodeStream(getContentResolver().openInputStream(baseUri));
-                getBinding().sketchView.setBackgroundBitmap(this, bmp);
-            } catch (FileNotFoundException e) {
-                LogUtils.e("Error replacing sketch bitmap background", e);
-            }
-        }
     }
 
     private void configViews() {
         getBinding().ivBrush.setOnClickListener(this);
         getBinding().ivUndo.setOnClickListener(this);
         getBinding().ivRedo.setOnClickListener(this);
-        ViewUtils.setAlpha(getBinding().ivEraser, 0.4f);
         getBinding().ivEraser.setOnClickListener(this);
+        getBinding().ivClear.setOnClickListener(this);
+
         getBinding().sketchView.setOnDrawChangedListener(this);
+
+        ViewUtils.setAlpha(getBinding().ivEraser, 0.4f);
     }
 
     private void configDialogs() {
-        // stroke dialog
+        // Stroke Dialog
         popupLayout = getLayoutInflater().inflate(R.layout.popup_sketch_stroke, null);
         strokeImageView = popupLayout.findViewById(R.id.stroke_circle);
         mColorPicker = popupLayout.findViewById(R.id.stroke_color_picker);
@@ -114,7 +136,7 @@ public class SketchActivity extends CommonActivity<ActivitySketchBinding> implem
         mColorPicker.setColor(getBinding().sketchView.getStrokeColor());
         mColorPicker.setOldCenterColor(getBinding().sketchView.getStrokeColor());
 
-        // brush dialog
+        // Brush Dialog
         brushDialog = new AlertDialog.Builder(this)
                 .setView(popupLayout)
                 .setOnDismissListener(dialog -> {
@@ -124,7 +146,7 @@ public class SketchActivity extends CommonActivity<ActivitySketchBinding> implem
                 })
                 .create();
 
-        // eraser dialog
+        // Eraser Dialog
         popupEraserLayout = getLayoutInflater().inflate(R.layout.popup_sketch_eraser, null);
         eraserImageView = popupEraserLayout.findViewById(R.id.stroke_circle);
         eraserDialog = new AlertDialog.Builder(this)
@@ -140,11 +162,11 @@ public class SketchActivity extends CommonActivity<ActivitySketchBinding> implem
         size = circleDrawable.getIntrinsicWidth();
         size = circleDrawable.getIntrinsicWidth();
 
-        setSeekbarProgress(SketchView.DEFAULT_STROKE_SIZE, SketchView.STROKE);
-        setSeekbarProgress(SketchView.DEFAULT_ERASER_SIZE, SketchView.ERASER);
+        setSeekBarProgress(SketchView.DEFAULT_STROKE_SIZE, SketchView.STROKE);
+        setSeekBarProgress(SketchView.DEFAULT_ERASER_SIZE, SketchView.ERASER);
     }
 
-    protected void setSeekbarProgress(int progress, int eraserOrStroke) {
+    private void setSeekBarProgress(int progress, int eraserOrStroke) {
         int calcProgress = progress > 1 ? progress : 1;
 
         int newSize = Math.round((size / 100f) * calcProgress);
@@ -168,13 +190,14 @@ public class SketchActivity extends CommonActivity<ActivitySketchBinding> implem
 
         oldColor = mColorPicker.getColor();
 
-        if (isErasing){
+        if (isErasing) {
             eraserDialog.show();
         } else {
             brushDialog.show();
         }
 
-        SeekBar mSeekBar = (SeekBar) (isErasing ? popupEraserLayout.findViewById(R.id.stroke_seekbar) : popupLayout.findViewById(R.id.stroke_seekbar));
+        SeekBar mSeekBar = (SeekBar) (isErasing ? popupEraserLayout.findViewById(R.id.stroke_seekbar)
+                : popupLayout.findViewById(R.id.stroke_seekbar));
         mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {}
@@ -184,57 +207,11 @@ public class SketchActivity extends CommonActivity<ActivitySketchBinding> implem
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                setSeekbarProgress(progress, eraserOrStroke);
+                setSeekBarProgress(progress, eraserOrStroke);
             }
         });
         int progress = isErasing ? seekBarEraserProgress : seekBarStrokeProgress;
         mSeekBar.setProgress(progress);
-    }
-
-    public void save() {
-        isContentChanged = false;
-        onceSaved = true;
-        materialMenu.animateIconState(MaterialMenuDrawable.IconState.ARROW);
-        Bitmap bitmap = getBinding().sketchView.getBitmap();
-        if (bitmap != null) {
-            try {
-                String path = getIntent().getStringExtra(MediaStore.EXTRA_OUTPUT);
-                File bitmapFile = new File(path);
-                FileOutputStream out = new FileOutputStream(bitmapFile);
-                bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
-                out.close();
-                if (!bitmapFile.exists()) {
-                    ToastUtils.makeToast(R.string.file_not_exist);
-                }
-            } catch (Exception e) {
-                LogUtils.e("Error writing sketch image data", e);
-                finish();
-            }
-        }
-    }
-
-    public void onBack() {
-        if (getBinding().sketchView.getPaths().size() == 0){
-            super.onBackPressed();
-        }
-        if (isContentChanged) {
-            new MaterialDialog.Builder(this)
-                    .title(R.string.text_tips)
-                    .content(R.string.text_save_or_discard)
-                    .positiveText(R.string.text_save)
-                    .negativeText(R.string.text_give_up)
-                    .onPositive((materialDialog, dialogAction) -> {
-                        save();
-                        setResult(RESULT_OK);
-                        finish();
-                    })
-                    .onNegative((materialDialog, dialogAction) -> finish())
-                    .show();
-        } else {
-            if (onceSaved) {
-                setResult(RESULT_OK);
-            }
-        }
     }
 
     @Override
@@ -257,13 +234,8 @@ public class SketchActivity extends CommonActivity<ActivitySketchBinding> implem
     }
 
     @Override
-    public void onBackPressed() {
-        onBack();
-    }
-
-    @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.iv_brush:
                 if (getBinding().sketchView.getMode() == SketchView.STROKE) {
                     showPopup(SketchView.STROKE);
@@ -288,6 +260,15 @@ public class SketchActivity extends CommonActivity<ActivitySketchBinding> implem
                     ViewUtils.setAlpha(getBinding().ivEraser, 1f);
                 }
                 break;
+            case R.id.iv_clear:
+                new MaterialDialog.Builder(this)
+                        .title(R.string.text_tips)
+                        .content(R.string.confirm_to_clear_bitmap)
+                        .positiveText(R.string.text_confirm)
+                        .negativeText(R.string.text_cancel)
+                        .onPositive((materialDialog, dialogAction) -> clearAll())
+                        .show();
+                break;
         }
     }
 
@@ -304,15 +285,36 @@ public class SketchActivity extends CommonActivity<ActivitySketchBinding> implem
         materialMenu.animateIconState(MaterialMenuDrawable.IconState.ARROW);
     }
 
+    private void doSaveBitmap() {
+        isContentChanged = false;
+        onceSaved = true;
+        materialMenu.animateIconState(MaterialMenuDrawable.IconState.ARROW);
+        Bitmap bitmap = getBinding().sketchView.getBitmap();
+        if (bitmap != null) {
+            try {
+                File bitmapFile = new File(outputFilePath);
+                FileOutputStream out = new FileOutputStream(bitmapFile);
+                bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
+                out.close();
+                if (!bitmapFile.exists()) {
+                    ToastUtils.makeToast(R.string.text_file_not_exist);
+                }
+            } catch (Exception e) {
+                LogUtils.e("Error writing sketch image data", e);
+                finish();
+            }
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
-                if (getBinding().sketchView.getPaths().size() == 0){
+                if (getBinding().sketchView.getPaths().size() == 0) {
                     finish();
                 } else {
                     if (isContentChanged) {
-                        save();
+                        doSaveBitmap();
                         return true;
                     } else {
                         if (onceSaved) {
@@ -322,22 +324,32 @@ public class SketchActivity extends CommonActivity<ActivitySketchBinding> implem
                     }
                 }
                 break;
-            case R.id.action_clear:
-                new MaterialDialog.Builder(this)
-                        .title(R.string.text_tips)
-                        .content(R.string.confirm_to_clear_bitmap)
-                        .positiveText(R.string.text_confirm)
-                        .negativeText(R.string.text_cancel)
-                        .onPositive((materialDialog, dialogAction) -> clearAll())
-                        .show();
-                break;
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.sketch_editor, menu);
-        return super.onCreateOptionsMenu(menu);
+    public void onBackPressed() {
+        if (getBinding().sketchView.getPaths().size() == 0) {
+            super.onBackPressed();
+        }
+        if (isContentChanged) {
+            new MaterialDialog.Builder(this)
+                    .title(R.string.text_tips)
+                    .content(R.string.text_save_or_discard)
+                    .positiveText(R.string.text_save)
+                    .negativeText(R.string.text_give_up)
+                    .onPositive((materialDialog, dialogAction) -> {
+                        doSaveBitmap();
+                        setResult(RESULT_OK);
+                        finish();
+                    })
+                    .onNegative((materialDialog, dialogAction) -> finish())
+                    .show();
+        } else {
+            if (onceSaved) {
+                setResult(RESULT_OK);
+            }
+        }
     }
 }

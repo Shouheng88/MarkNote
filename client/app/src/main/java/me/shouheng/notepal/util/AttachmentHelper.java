@@ -47,7 +47,7 @@ public class AttachmentHelper {
             List<Attachment> attachments,
             String galleryTitle) {
         if (attachment == null) {
-            ToastUtils.makeToast(R.string.file_not_exist);
+            ToastUtils.makeToast(R.string.text_file_not_exist);
             return;
         }
         switch (attachment.getMineType()) {
@@ -367,32 +367,11 @@ public class AttachmentHelper {
         return intent;
     }
 
-    public static void recordVideo(Activity activity) {
-        Intent intent = recordVideoIntent(activity);
-        if (intent == null) return;
-        activity.startActivityForResult(intent, RequestCodes.REQUEST_TAKE_VIDEO);
-    }
-
-    public static void recordVideo(Fragment fragment) {
-        Intent intent = recordVideoIntent(fragment.getContext());
-        if (intent == null) return;
-        fragment.startActivityForResult(intent, RequestCodes.REQUEST_TAKE_VIDEO);
-    }
-
-    @Nullable
-    private static Intent recordVideoIntent(Context context) {
-        File file = FileHelper.createNewAttachmentFile(context, Constants.MIME_TYPE_SKETCH_EXTENSION);
-        if (file == null) {
-            ToastUtils.makeToast(R.string.failed_to_create_file);
-            return null;
-        }
-        String filePath = file.getPath();
-        setFilePath(filePath);
-        Intent intent = new Intent(context, SketchActivity.class);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, filePath);
-        return intent;
-    }
-
+    /**
+     * TODO add the background bitmap logic, and refactor the result handler logic.
+     *
+     * @param activity the activity caller
+     */
     public static void sketch(Activity activity) {
         Intent intent = sketchIntent(activity);
         if (intent == null) return;
@@ -415,7 +394,7 @@ public class AttachmentHelper {
         String filePath = file.getPath();
         setFilePath(filePath);
         Intent intent = new Intent(context, SketchActivity.class);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, filePath);
+        intent.putExtra(SketchActivity.EXTRA_KEY_OUTPUT_FILE_PATH, filePath);
         return intent;
     }
     // endregion

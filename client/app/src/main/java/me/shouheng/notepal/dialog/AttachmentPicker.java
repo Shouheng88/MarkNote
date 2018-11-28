@@ -63,7 +63,6 @@ public class AttachmentPicker extends DialogFragment {
         binding.tvRecordSound.setOnClickListener(v -> resolveRecordEvent());
         binding.tvRecordSound.setVisibility(isRecordVisible ? View.VISIBLE : View.GONE);
 
-        binding.tvTakeVideo.setOnClickListener(v -> resolveShotEvent());
         binding.tvTakeVideo.setVisibility(isVideoVisible ? View.VISIBLE : View.GONE);
 
         binding.tvSketch.setOnClickListener(v -> resolveSketchEvent());
@@ -125,18 +124,6 @@ public class AttachmentPicker extends DialogFragment {
         PermissionUtils.checkRecordPermission((PermissionActivity) getActivity(), () -> {
             if (onItemSelectedListener != null){
                 onItemSelectedListener.onSelectedAudioRecord();
-            }
-            dismiss();
-        });
-    }
-
-    private void resolveShotEvent() {
-        assert getActivity() != null;
-        PermissionUtils.checkStoragePermission((PermissionActivity) getActivity(), () -> {
-            if (mFragment != null){
-                AttachmentHelper.recordVideo(mFragment);
-            } else {
-                AttachmentHelper.recordVideo(getActivity());
             }
             dismiss();
         });

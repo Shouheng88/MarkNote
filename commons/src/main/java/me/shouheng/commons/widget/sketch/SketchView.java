@@ -1,4 +1,4 @@
-package me.shouheng.notepal.widget;
+package me.shouheng.commons.widget.sketch;
 
 import android.app.Activity;
 import android.content.Context;
@@ -16,8 +16,6 @@ import android.view.View.OnTouchListener;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
-import me.shouheng.notepal.widget.tools.OnDrawChangedListener;
 
 public class SketchView extends View implements OnTouchListener {
 
@@ -70,8 +68,9 @@ public class SketchView extends View implements OnTouchListener {
     }
 
     public void setMode(int mode) {
-        if (mode == STROKE || mode == ERASER)
+        if (mode == STROKE || mode == ERASER) {
             this.mode = mode;
+        }
     }
 
     public int getMode() {

@@ -1,4 +1,4 @@
-package me.shouheng.notepal.widget.tools;
+package me.shouheng.commons.widget.sketch;
 
 public interface OnDrawChangedListener {
     public void onDrawChanged();

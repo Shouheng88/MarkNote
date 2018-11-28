@@ -236,7 +236,7 @@
     <string name="stroke">线宽</string>
     <string name="opacity">透明度</string>
     <string name="saturation">饱和度</string>
-    <string name="file_not_exist">文件不存在</string>
+    <string name="text_file_not_exist">文件不存在</string>
     <!--endregion-->
 
     <!--region Alarm-->

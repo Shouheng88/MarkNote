@@ -91,6 +91,7 @@
     <string name="text_done">Done</string>
     <string name="text_search_with">Search &#8230;</string>
     <string name="text_open_in_browser">在浏览器中打开</string>
+    <string name="text_file_not_exist">File not found</string>
 
     <string name="check_network_availability">Check network availability</string>
 
@@ -221,7 +222,6 @@
     <string name="stroke">Stroke</string>
     <string name="opacity">Opacity</string>
     <string name="saturation">Saturation</string>
-    <string name="file_not_exist">File not found</string>
     <!--endregion-->
 
     <!--region Alarm-->
