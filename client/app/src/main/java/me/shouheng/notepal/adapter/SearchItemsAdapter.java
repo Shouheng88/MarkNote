@@ -14,7 +14,7 @@ import java.util.List;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.model.Note;
-import me.shouheng.notepal.util.TimeUtils;
+import me.shouheng.commons.utils.TimeUtils;
 
 /**
  * Created by wangshouheng on 2017/5/8.*/

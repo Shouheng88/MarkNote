@@ -1,25 +1,32 @@
-package me.shouheng.notepal.model;
-
-import android.support.annotation.Nullable;
+package me.shouheng.data;
 
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 
+import me.shouheng.commons.BaseApplication;
 import me.shouheng.commons.utils.PalmUtils;
-import me.shouheng.notepal.PalmApp;
-import me.shouheng.notepal.R;
-import me.shouheng.notepal.config.TextLength;
-import me.shouheng.notepal.model.enums.AlarmType;
-import me.shouheng.notepal.model.enums.ModelType;
-import me.shouheng.notepal.model.enums.NoteType;
-import me.shouheng.notepal.model.enums.Operation;
-import me.shouheng.notepal.model.enums.Portrait;
-import me.shouheng.notepal.model.enums.Status;
-import me.shouheng.notepal.model.enums.WeatherType;
 import me.shouheng.commons.utils.TimeUtils;
 import me.shouheng.commons.utils.UserUtil;
-import me.shouheng.notepal.viewmodel.CategoryViewModel;
+import me.shouheng.data.entity.Alarm;
+import me.shouheng.data.entity.Attachment;
+import me.shouheng.data.entity.Category;
+import me.shouheng.data.model.DaysOfMonth;
+import me.shouheng.data.model.DaysOfWeek;
+import me.shouheng.data.entity.Location;
+import me.shouheng.data.entity.MindSnagging;
+import me.shouheng.data.entity.Model;
+import me.shouheng.data.entity.Note;
+import me.shouheng.data.entity.Notebook;
+import me.shouheng.data.entity.TimeLine;
+import me.shouheng.data.entity.Weather;
+import me.shouheng.data.model.enums.AlarmType;
+import me.shouheng.data.model.enums.ModelType;
+import me.shouheng.data.model.enums.Operation;
+import me.shouheng.data.model.enums.Portrait;
+import me.shouheng.data.model.enums.Status;
+import me.shouheng.data.model.enums.WeatherType;
+
+import static me.shouheng.data.DBConfig.TIMELINE_CONTENT_LENGTH;
 
 /**
  * Created by wangshouheng on 2017/11/17. */
@@ -43,7 +50,7 @@ public class ModelFactory {
         try {
             T newItem = itemType.newInstance();
             newItem.setCode(getLongCode());
-            newItem.setUserId(UserUtil.getInstance(PalmApp.getContext()).getUserIdKept());
+            newItem.setUserId(UserUtil.getInstance(BaseApplication.getContext()).getUserIdKept());
             newItem.setAddedTime(new Date());
             newItem.setLastModifiedTime(new Date());
             newItem.setLastSyncTime(new Date(0));
@@ -109,29 +116,6 @@ public class ModelFactory {
         return notebook;
     }
 
-    public static Note getNote() {
-        Note note = getModel(Note.class);
-        assert note != null;
-        note.setNoteType(NoteType.NORMAL);
-        return note;
-    }
-
-    public static Note getNote(@Nullable Notebook notebook, @Nullable Category category) {
-        Note note = getNote();
-        if (notebook != null) {
-            note.setParentCode(notebook.getCode());
-            note.setTreePath(notebook.getTreePath() + "|" + note.getCode());
-        } else {
-            note.setTreePath(String.valueOf(note.getCode()));
-        }
-
-        if (category != null) {
-            note.setTags(CategoryViewModel.getTags(Collections.singletonList(category)));
-        }
-
-        return note;
-    }
-
     public static <T extends Model> TimeLine getTimeLine(T model, Operation operation) {
         TimeLine timeLine = new TimeLine();
 
@@ -147,10 +131,6 @@ public class ModelFactory {
         timeLine.setModelCode(model.getCode());
         timeLine.setModelType(ModelType.getTypeByName(model.getClass()));
         return timeLine;
-    }
-
-    public static Feedback getFeedback() {
-        return getModel(Feedback.class);
     }
 
     public static Category getCategory() {
@@ -183,10 +163,10 @@ public class ModelFactory {
         }
         else if (model instanceof Weather) {
             Weather weather = ((Weather) model);
-            modelName = PalmApp.getStringCompact(weather.getType().nameRes) + "|" + weather.getTemperature();
+            modelName = PalmUtils.getStringCompact(weather.getType().nameRes) + "|" + weather.getTemperature();
         }
-        if (modelName != null && modelName.length() > TextLength.TIMELINE_TITLE_LENGTH.length) {
-            return modelName.substring(0, TextLength.TIMELINE_TITLE_LENGTH.length);
+        if (modelName != null && modelName.length() > TIMELINE_CONTENT_LENGTH) {
+            return modelName.substring(0, TIMELINE_CONTENT_LENGTH);
         }
         return modelName;
     }

@@ -1,18 +1,19 @@
-package me.shouheng.notepal.model;
+package me.shouheng.data.entity;
 
 import android.content.Context;
 
 import java.util.Calendar;
 import java.util.Date;
 
-import me.shouheng.notepal.R;
-import me.shouheng.notepal.model.enums.AlarmType;
-import me.shouheng.notepal.model.enums.ModelType;
-import me.shouheng.notepal.provider.annotation.Column;
-import me.shouheng.notepal.provider.annotation.Table;
-import me.shouheng.notepal.provider.schema.AlarmSchema;
 import me.shouheng.commons.utils.TimeUtils;
-
+import me.shouheng.data.R;
+import me.shouheng.data.model.DaysOfMonth;
+import me.shouheng.data.model.DaysOfWeek;
+import me.shouheng.data.utils.annotation.Column;
+import me.shouheng.data.utils.annotation.Table;
+import me.shouheng.data.model.enums.AlarmType;
+import me.shouheng.data.model.enums.ModelType;
+import me.shouheng.data.schema.AlarmSchema;
 
 /**
  * Created by wangshouheng on 2017/4/18. */

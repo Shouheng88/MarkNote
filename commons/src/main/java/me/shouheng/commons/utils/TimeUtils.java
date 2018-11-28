@@ -1,4 +1,4 @@
-package me.shouheng.notepal.util;
+package me.shouheng.commons.utils;
 
 import android.content.Context;
 import android.text.format.DateUtils;
@@ -10,7 +10,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import me.shouheng.notepal.PalmApp;
+import me.shouheng.commons.BaseApplication;
 
 /**
  * Created by wangshouheng on 2017/3/13. */
@@ -175,7 +175,7 @@ public class TimeUtils {
         if (date == null) {
             return "";
         }
-        return getPrettyTime(date, PalmApp.getContext().getResources().getConfiguration().locale);
+        return getPrettyTime(date, BaseApplication.getContext().getResources().getConfiguration().locale);
     }
 
     private static String getPrettyTime(Date date, Locale locale) {

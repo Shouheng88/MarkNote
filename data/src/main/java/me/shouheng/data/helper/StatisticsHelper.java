@@ -1,4 +1,4 @@
-package me.shouheng.notepal.provider.helper;
+package me.shouheng.data.helper;
 
 import android.content.Context;
 import android.support.annotation.MainThread;
@@ -7,24 +7,23 @@ import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 
+import me.shouheng.commons.BaseConstants;
 import me.shouheng.commons.utils.LogUtils;
-import me.shouheng.notepal.PalmApp;
-import me.shouheng.notepal.config.Constants;
-import me.shouheng.notepal.model.Attachment;
-import me.shouheng.notepal.model.Location;
-import me.shouheng.notepal.model.Stats;
-import me.shouheng.notepal.model.enums.ModelType;
-import me.shouheng.notepal.model.enums.Operation;
-import me.shouheng.notepal.model.enums.Status;
-import me.shouheng.notepal.provider.AttachmentsStore;
-import me.shouheng.notepal.provider.CategoryStore;
-import me.shouheng.notepal.provider.LocationsStore;
-import me.shouheng.notepal.provider.NotebookStore;
-import me.shouheng.notepal.provider.NotesStore;
-import me.shouheng.notepal.provider.TimelineStore;
-import me.shouheng.notepal.provider.schema.TimelineSchema;
 import me.shouheng.commons.utils.TimeUtils;
-import me.shouheng.notepal.viewmodel.StatisticViewModel;
+import me.shouheng.data.DBConfig;
+import me.shouheng.data.entity.Attachment;
+import me.shouheng.data.entity.Location;
+import me.shouheng.data.model.Stats;
+import me.shouheng.data.model.enums.ModelType;
+import me.shouheng.data.model.enums.Operation;
+import me.shouheng.data.model.enums.Status;
+import me.shouheng.data.schema.TimelineSchema;
+import me.shouheng.data.store.AttachmentsStore;
+import me.shouheng.data.store.CategoryStore;
+import me.shouheng.data.store.LocationsStore;
+import me.shouheng.data.store.NotebookStore;
+import me.shouheng.data.store.NotesStore;
+import me.shouheng.data.store.TimelineStore;
 
 /**
  * Created by wang shouheng on 2018/1/19.*/
@@ -39,38 +38,38 @@ public class StatisticsHelper {
     public static Stats getStats(Context context) {
         Stats stats = new Stats();
 
-        NotesStore notesStore = NotesStore.getInstance(context);
+        NotesStore notesStore = NotesStore.getInstance();
         stats.setTotalNotes(notesStore.getCount(null, Status.DELETED, true));
         stats.setArchivedNotes(notesStore.getCount(null, Status.ARCHIVED, false));
         stats.setTrashedNotes(notesStore.getCount(null, Status.TRASHED, false));
 
-        CategoryStore categoryStore = CategoryStore.getInstance(context);
+        CategoryStore categoryStore = CategoryStore.getInstance();
         stats.setTotalMinds(categoryStore.getCount(null, Status.DELETED, true));
         stats.setArchivedMinds(categoryStore.getCount(null, Status.ARCHIVED, false));
         stats.setTrashedMinds(categoryStore.getCount(null, Status.TRASHED, false));
 
-        LocationsStore locationsStore = LocationsStore.getInstance(context);
+        LocationsStore locationsStore = LocationsStore.getInstance();
         List<Location> locations = locationsStore.getDistinct(null, null);
         stats.setLocCnt(locations.size());
         stats.setLocations(locations);
         stats.setTotalLocations(locationsStore.getCount(null, Status.DELETED, true));
 
-        NotebookStore notebookStore = NotebookStore.getInstance(context);
+        NotebookStore notebookStore = NotebookStore.getInstance();
         stats.setTotalNotebooks(notebookStore.getCount(null, Status.TRASHED, false));
 
-        AttachmentsStore attachmentsStore = AttachmentsStore.getInstance(context);
+        AttachmentsStore attachmentsStore = AttachmentsStore.getInstance();
         List<Attachment> attachments = attachmentsStore.get(null, null);
         int images = 0, videos = 0, audioRecordings = 0, sketches = 0, files = 0;
         for (Attachment attachment : attachments) {
-            if (Constants.MIME_TYPE_IMAGE.equals(attachment.getMineType())) {
+            if (BaseConstants.MIME_TYPE_IMAGE.equals(attachment.getMineType())) {
                 images++;
-            } else if (Constants.MIME_TYPE_VIDEO.equals(attachment.getMineType())) {
+            } else if (BaseConstants.MIME_TYPE_VIDEO.equals(attachment.getMineType())) {
                 videos++;
-            } else if (Constants.MIME_TYPE_AUDIO.equals(attachment.getMineType())) {
+            } else if (BaseConstants.MIME_TYPE_AUDIO.equals(attachment.getMineType())) {
                 audioRecordings++;
-            } else if (Constants.MIME_TYPE_SKETCH.equals(attachment.getMineType())) {
+            } else if (BaseConstants.MIME_TYPE_SKETCH.equals(attachment.getMineType())) {
                 sketches++;
-            } else if (Constants.MIME_TYPE_FILES.equals(attachment.getMineType())) {
+            } else if (BaseConstants.MIME_TYPE_FILES.equals(attachment.getMineType())) {
                 files++;
             }
         }
@@ -81,7 +80,7 @@ public class StatisticsHelper {
         stats.setSketches(sketches);
         stats.setFiles(files);
 
-        stats.setNotesStats(getAddedStatistics(ModelType.NOTE, StatisticViewModel.DAYS_OF_ADDED_MODEL));
+        stats.setNotesStats(getAddedStatistics(ModelType.NOTE, DBConfig.DAYS_OF_ADDED_MODEL));
 
         LogUtils.d(stats);
         return stats;
@@ -104,7 +103,7 @@ public class StatisticsHelper {
                     + " AND " + TimelineSchema.ADDED_TIME + " < " + endMillis
                     + " AND " + TimelineSchema.MODEL_TYPE + " = " + modelType.id
                     + " AND " + TimelineSchema.OPERATION + " = " + Operation.ADD.id;
-            int count = TimelineStore.getInstance(PalmApp.getContext()).getCount(whereSQL, Status.DELETED, true);
+            int count = TimelineStore.getInstance().getCount(whereSQL, Status.DELETED, true);
             states.add(count);
         }
         return states;

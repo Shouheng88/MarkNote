@@ -24,6 +24,7 @@ import java.util.regex.Pattern;
 
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.PalmUtils;
+import me.shouheng.commons.utils.TimeUtils;
 import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.commons.utils.ViewUtils;
 import me.shouheng.notepal.PalmApp;

@@ -1,4 +1,4 @@
-package me.shouheng.notepal.provider;
+package me.shouheng.data.store;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -11,26 +11,26 @@ import java.util.LinkedList;
 import java.util.List;
 
 import me.shouheng.commons.utils.LogUtils;
-import me.shouheng.notepal.model.Model;
-import me.shouheng.notepal.model.enums.Operation;
-import me.shouheng.notepal.model.enums.Status;
-import me.shouheng.notepal.provider.annotation.Table;
-import me.shouheng.notepal.provider.base.OpenHelperManager;
-import me.shouheng.notepal.provider.helper.StoreHelper;
-import me.shouheng.notepal.provider.helper.TimelineHelper;
-import me.shouheng.notepal.provider.schema.BaseSchema;
 import me.shouheng.commons.utils.UserUtil;
-
+import me.shouheng.data.PalmDB;
+import me.shouheng.data.utils.annotation.Table;
+import me.shouheng.data.helper.StoreHelper;
+import me.shouheng.data.helper.TimelineHelper;
+import me.shouheng.data.entity.Model;
+import me.shouheng.data.model.enums.Operation;
+import me.shouheng.data.model.enums.Status;
+import me.shouheng.data.schema.BaseSchema;
+import me.shouheng.data.utils.OpenUtils;
 
 /**
  * Created by wangshouheng on 2017/8/18. */
 public abstract class BaseStore<T extends Model> {
 
-    private PalmDB mPalmDatabase = null;
+    private PalmDB mPalmDatabase;
 
-    protected Class<T> entityClass = null;
+    protected Class<T> entityClass;
 
-    protected String tableName = null;
+    protected String tableName;
 
     protected long userId;
 
@@ -52,19 +52,19 @@ public abstract class BaseStore<T extends Model> {
 
     protected abstract void afterDBCreated(SQLiteDatabase db);
 
-    protected abstract void onUpgrade(final SQLiteDatabase db, final int oldVersion, final int newVersion);
+    public abstract void onUpgrade(final SQLiteDatabase db, final int oldVersion, final int newVersion);
 
     protected abstract void fillModel(T model, Cursor cursor);
 
     protected abstract void fillContentValues(ContentValues values, T model);
 
     protected SQLiteDatabase getWritableDatabase() {
-        OpenHelperManager.requireConnection();
+        OpenUtils.requireConnection();
         return mPalmDatabase.getWritableDatabase();
     }
 
     protected void closeDatabase(SQLiteDatabase database) {
-        OpenHelperManager.releaseHelper(mPalmDatabase);
+        OpenUtils.releaseHelper(mPalmDatabase);
     }
 
     protected synchronized void closeCursor(Cursor cursor) {

@@ -1,17 +1,12 @@
-package me.shouheng.notepal.util;
+package me.shouheng.commons.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import me.shouheng.notepal.model.LoginedUser;
-
-
 /**
  * Created by wangshouheng on 2017/3/13. */
 public final class UserUtil {
-
-    private static LoginedUser loginedUser;
 
     private static UserUtil sInstance;
 
@@ -49,12 +44,5 @@ public final class UserUtil {
         final SharedPreferences.Editor editor = mPreferences.edit();
         editor.putLong(USER_ID_KEPT, 0);
         editor.apply();
-    }
-
-    public static void logoff() {
-        final SharedPreferences.Editor editor = mPreferences.edit();
-        editor.remove(USER_ID_KEPT);
-        editor.apply();
-        loginedUser = null;
     }
 }

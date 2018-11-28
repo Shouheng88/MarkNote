@@ -1,13 +1,12 @@
-package me.shouheng.notepal.model;
+package me.shouheng.data.entity;
 
 import java.io.Serializable;
 import java.util.Date;
 
-import me.shouheng.notepal.model.enums.Status;
-import me.shouheng.notepal.provider.annotation.Column;
-import me.shouheng.notepal.provider.schema.BaseSchema;
 import me.shouheng.commons.utils.TimeUtils;
-
+import me.shouheng.data.utils.annotation.Column;
+import me.shouheng.data.model.enums.Status;
+import me.shouheng.data.schema.BaseSchema;
 
 /**
  * Created by wangshouheng on 2017/3/13. */

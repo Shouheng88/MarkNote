@@ -24,7 +24,7 @@ import me.shouheng.notepal.model.Notebook;
 import me.shouheng.notepal.provider.NotesStore;
 import me.shouheng.notepal.provider.schema.NoteSchema;
 import me.shouheng.notepal.util.AppWidgetUtils;
-import me.shouheng.notepal.util.TimeUtils;
+import me.shouheng.commons.utils.TimeUtils;
 
 public class ListRemoteViewsFactory implements RemoteViewsFactory, SharedPreferences.OnSharedPreferenceChangeListener {
 

@@ -1,8 +1,9 @@
 package me.shouheng.notepal.config;
 
+import me.shouheng.commons.BaseConstants;
 import me.shouheng.notepal.BuildConfig;
 
-public interface Constants {
+public interface Constants extends BaseConstants {
     // region Extras
     String EXTRA_MODEL = "extra_model";
     String EXTRA_CODE = "extra_code";
@@ -12,17 +13,6 @@ public interface Constants {
 
     String ACTION_TO_NOTE_FROM_THIRD_PART = "to_note_from_third_part";
     // endregion
-
-    // region Attachment
-    String MIME_TYPE_IMAGE = "image/jpeg";
-    String MIME_TYPE_AUDIO = "audio/amr";
-    String MIME_TYPE_VIDEO = "video/mp4";
-    String MIME_TYPE_SKETCH = "image/png";
-    String MIME_TYPE_FILES = "file/*";
-    String MIME_TYPE_HTML = "text/html";
-    String MIME_TYPE_IMAGE_EXTENSION = ".jpeg";
-    String MIME_TYPE_SKETCH_EXTENSION = ".png";
-    String MIME_TYPE_CONTACT_EXTENSION = ".vcf";
 
     String VIDEO_MIME_TYPE = "video/*";
     String SCHEME_HTTPS = "https";

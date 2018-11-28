@@ -18,7 +18,7 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.model.Notebook;
 import me.shouheng.notepal.util.FileHelper;
-import me.shouheng.notepal.util.TimeUtils;
+import me.shouheng.commons.utils.TimeUtils;
 import me.shouheng.notepal.util.preferences.NotePreferences;
 import me.shouheng.notepal.widget.tools.BubbleTextGetter;
 
