@@ -28,7 +28,7 @@ public enum Portrait {
     STAR(17, R.drawable.ic_star),
     MEDAL(18, R.drawable.ic_medal),
 
-    LINK(19, R.drawable.ic_link),
+    LINK(19, R.drawable.ic_insert_link_grey_24dp),
     BUG(20, R.drawable.ic_bug),
     ALBUM(21, R.drawable.ic_albums),
     LOCATION(22, R.drawable.ic_location),

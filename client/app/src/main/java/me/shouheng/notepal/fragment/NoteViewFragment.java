@@ -40,6 +40,7 @@ import me.shouheng.commons.utils.IntentUtils;
 import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.commons.utils.ViewUtils;
 import me.shouheng.commons.widget.Chip;
+import me.shouheng.easymark.EasyMarkViewer;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.ContentActivity;
@@ -144,13 +145,13 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
 
     private void configViews() {
         // config webview
-        getBinding().mdView.getDelegate().setThumbDrawable(PalmApp.getDrawableCompact(
+        getBinding().mdView.getFastScrollDelegate().setThumbDrawable(PalmApp.getDrawableCompact(
                 isDarkTheme() ? R.drawable.fast_scroll_bar_dark : R.drawable.fast_scroll_bar_light));
-        getBinding().mdView.getDelegate().setThumbSize(16, 40);
-        getBinding().mdView.getDelegate().setThumbDynamicHeight(false);
-        getBinding().mdView.setHtmlResource(isDarkTheme());
-        getBinding().mdView.parseMarkdown(note.getContent());
-        getBinding().mdView.setOnImageClickedListener((url, urls) -> {
+        getBinding().mdView.getFastScrollDelegate().setThumbSize(16, 40);
+        getBinding().mdView.getFastScrollDelegate().setThumbDynamicHeight(false);
+        getBinding().mdView.useStyleCss(isDarkTheme() ? EasyMarkViewer.DARK_STYLE_CSS : EasyMarkViewer.LIGHT_STYLE_CSS);
+        getBinding().mdView.processMarkdown(note.getContent());
+        getBinding().mdView.setOnImageClickListener((url, urls) -> {
             List<Attachment> attachments = new ArrayList<>();
             Attachment clickedAttachment = null;
             for (String u : urls) {
@@ -160,7 +161,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
             }
             AttachmentHelper.resolveClickEvent(getContext(), clickedAttachment, attachments, note.getTitle());
         });
-        getBinding().mdView.setOnAttachmentClickedListener(url -> {
+        getBinding().mdView.setOnUrlClickListener(url -> {
             if (!TextUtils.isEmpty(url)){
                 Uri uri = Uri.parse(url);
 
@@ -235,7 +236,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
 
     private void refreshLayout() {
         if (!TextUtils.isEmpty(note.getContent())) {
-            getBinding().mdView.parseMarkdown(note.getContent());
+            getBinding().mdView.processMarkdown(note.getContent());
         }
 
         if (getActivity() != null) {
@@ -345,23 +346,24 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
                 .show();
     }
 
+    // TODO
     private void outHtml(boolean isShare) {
-        getBinding().mdView.outHtml(html -> {
-            try {
-                File exDir = FileHelper.getHtmlExportDir();
-                File outFile = new File(exDir, FileHelper.getDefaultFileName(Constants.EXPORTED_HTML_EXTENSION));
-                FileUtils.writeStringToFile(outFile, html, "utf-8");
-                if (isShare) {
-                    // Share, do share option
-                    ModelHelper.shareFile(getContext(), outFile, Constants.MIME_TYPE_HTML);
-                } else {
-                    // Not share, just show a message
-                    ToastUtils.makeToast(String.format(getString(R.string.text_file_saved_to), outFile.getPath()));
-                }
-            } catch (IOException e) {
-                ToastUtils.makeToast(R.string.failed_to_create_file);
-            }
-        });
+//        getBinding().mdView.outHtml(html -> {
+//            try {
+//                File exDir = FileHelper.getHtmlExportDir();
+//                File outFile = new File(exDir, FileHelper.getDefaultFileName(Constants.EXPORTED_HTML_EXTENSION));
+//                FileUtils.writeStringToFile(outFile, html, "utf-8");
+//                if (isShare) {
+//                    // Share, do share option
+//                    ModelHelper.shareFile(getContext(), outFile, Constants.MIME_TYPE_HTML);
+//                } else {
+//                    // Not share, just show a message
+//                    ToastUtils.makeToast(String.format(getString(R.string.text_file_saved_to), outFile.getPath()));
+//                }
+//            } catch (IOException e) {
+//                ToastUtils.makeToast(R.string.failed_to_create_file);
+//            }
+//        });
     }
 
     private void outText(boolean isShare) {

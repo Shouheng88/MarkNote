@@ -12,13 +12,13 @@ import android.widget.TextView;
 import java.util.List;
 
 import me.shouheng.commons.utils.ColorUtils;
+import me.shouheng.easymark.editor.Format;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.widget.CircleImageView;
-import my.shouheng.palmmarkdown.tools.MarkdownFormat;
 
 public class MenuSortAdapter extends RecyclerView.Adapter<MenuSortAdapter.ViewHolder> {
 
-    private List<MarkdownFormat> markdownFormats;
+    private List<Format> markdownFormats;
 
     private int accentColor;
 
@@ -26,7 +26,7 @@ public class MenuSortAdapter extends RecyclerView.Adapter<MenuSortAdapter.ViewHo
 
     private Context context;
 
-    public MenuSortAdapter(Context context, List<MarkdownFormat> markdownFormats) {
+    public MenuSortAdapter(Context context, List<Format> markdownFormats) {
         this.markdownFormats = markdownFormats;
         this.context = context;
         accentColor = ColorUtils.accentColor(context);
@@ -41,7 +41,7 @@ public class MenuSortAdapter extends RecyclerView.Adapter<MenuSortAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(MenuSortAdapter.ViewHolder holder, int position) {
-        MarkdownFormat markdownFormat = markdownFormats.get(position);
+        Format markdownFormat = markdownFormats.get(position);
         holder.ivFabIcon.setImageDrawable(ColorUtils.tintDrawable(context.getResources().getDrawable(markdownFormat.drawableResId), Color.WHITE));
         holder.tvFabName.setText(markdownFormat.name());
         holder.civFabIconBG.setFillingCircleColor(accentColor);
@@ -56,19 +56,19 @@ public class MenuSortAdapter extends RecyclerView.Adapter<MenuSortAdapter.ViewHo
         return 0;
     }
 
-    public List<MarkdownFormat> getMarkdownFormats() {
+    public List<Format> getMarkdownFormats() {
         return markdownFormats;
     }
 
-    public void setMarkdownFormats(List<MarkdownFormat> markdownFormats) {
+    public void setMarkdownFormats(List<Format> markdownFormats) {
         this.markdownFormats = markdownFormats;
     }
 
-    public MarkdownFormat getMarkdownFormatAt(int position) {
+    public Format getMarkdownFormatAt(int position) {
         return markdownFormats.get(position);
     }
 
-    public void addMarkdownFormatTo(int position, MarkdownFormat markdownFormat) {
+    public void addMarkdownFormatTo(int position, Format markdownFormat) {
         markdownFormats.add(position, markdownFormat);
     }
 

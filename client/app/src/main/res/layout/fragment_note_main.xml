@@ -80,24 +80,21 @@
                     style="@style/style_note_bottom_button"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_attach_file_white" />
+                    android:layout_weight="1" />
 
                 <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/iv_insert_link"
                     style="@style/style_note_bottom_button"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_link" />
+                    android:layout_weight="1" />
 
                 <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/iv_table"
                     style="@style/style_note_bottom_button"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_grid_on_grey_24dp" />
+                    android:layout_weight="1"/>
 
                 <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/iv_enable_format"
@@ -134,7 +131,7 @@
 
         </RelativeLayout>
 
-        <my.shouheng.palmmarkdown.fastscroller.FastScrollScrollView
+        <me.shouheng.easymark.scroller.FastScrollScrollView
             android:id="@+id/fssv"
             android:layout_above="@id/rl_bottom"
             android:layout_below="@id/toolbar"
@@ -199,7 +196,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"/>
 
-                <my.shouheng.palmmarkdown.MarkdownEditor
+                <me.shouheng.easymark.EasyMarkEditor
                     android:id="@+id/et_content"
                     android:padding="16dp"
                     android:textSize="16sp"
@@ -211,7 +208,7 @@
 
             </LinearLayout>
 
-        </my.shouheng.palmmarkdown.fastscroller.FastScrollScrollView>
+        </me.shouheng.easymark.scroller.FastScrollScrollView>
 
     </RelativeLayout>
 

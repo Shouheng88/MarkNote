@@ -97,7 +97,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:src="@drawable/ic_attach_file_white" />
+                    android:src="@drawable/ic_format_image_white_24dp" />
 
                 <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/iv_insert_link"
@@ -105,7 +105,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:src="@drawable/ic_link" />
+                    android:src="@drawable/ic_format_link_white_24dp" />
 
                 <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/iv_table"
@@ -113,7 +113,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:src="@drawable/ic_grid_on_grey_24dp" />
+                    android:src="@drawable/ic_format_table_white_24dp" />
 
                 <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/iv_enable_format"
@@ -150,7 +150,7 @@
 
         </RelativeLayout>
 
-        <my.shouheng.palmmarkdown.fastscroller.FastScrollScrollView
+        <me.shouheng.easymark.scroller.FastScrollScrollView
             android:id="@+id/fssv"
             android:layout_above="@id/rl_bottom"
             android:layout_below="@id/bar_layout"
@@ -215,7 +215,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"/>
 
-                <my.shouheng.palmmarkdown.MarkdownEditor
+                <me.shouheng.easymark.EasyMarkEditor
                     android:id="@+id/et_content"
                     android:padding="16dp"
                     android:textSize="16sp"
@@ -227,7 +227,7 @@
 
             </LinearLayout>
 
-        </my.shouheng.palmmarkdown.fastscroller.FastScrollScrollView>
+        </me.shouheng.easymark.scroller.FastScrollScrollView>
 
 
 

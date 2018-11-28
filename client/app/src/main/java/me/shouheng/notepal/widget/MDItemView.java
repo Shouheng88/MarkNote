@@ -5,16 +5,15 @@ import android.graphics.Color;
 import android.support.v7.widget.AppCompatImageView;
 
 import me.shouheng.commons.utils.ColorUtils;
+import me.shouheng.easymark.editor.Format;
 import me.shouheng.notepal.PalmApp;
-import my.shouheng.palmmarkdown.tools.MarkdownFormat;
 
 public class MDItemView extends AppCompatImageView {
 
-    private MarkdownFormat markdownFormat;
+    private Format format;
 
     public MDItemView(Context context) {
         super(context);
-
     }
 
     @Override
@@ -26,12 +25,12 @@ public class MDItemView extends AppCompatImageView {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
-    public void setMarkdownFormat(MarkdownFormat markdownFormat) {
-        this.markdownFormat = markdownFormat;
-        setImageDrawable(ColorUtils.tintDrawable(PalmApp.getDrawableCompact(markdownFormat.drawableResId), Color.WHITE));
+    public void setFormat(Format format) {
+        this.format = format;
+        setImageDrawable(ColorUtils.tintDrawable(PalmApp.getDrawableCompact(format.drawableResId), Color.WHITE));
     }
 
-    public MarkdownFormat getMarkdownFormat() {
-        return markdownFormat;
+    public Format getFormat() {
+        return format;
     }
 }

@@ -30,7 +30,7 @@
             style="@style/OptionListItem"
             android:visibility="gone"
             tools:visibility="visible"
-            android:drawableLeft="@drawable/ic_link"
+            android:drawableLeft="@drawable/ic_format_link_white_24dp"
             android:text="@string/net_image_link"
             android:layout_width="match_parent"
             android:layout_height="45dp"

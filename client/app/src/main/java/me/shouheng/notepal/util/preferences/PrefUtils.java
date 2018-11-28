@@ -7,11 +7,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 import me.shouheng.commons.utils.ColorUtils;
+import me.shouheng.easymark.editor.Format;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.model.enums.FabSortItem;
 import me.shouheng.notepal.model.enums.Operation;
-import my.shouheng.palmmarkdown.tools.MarkdownFormat;
 
 /**
  * Created by shouh on 2018/4/9.*/
@@ -21,7 +21,7 @@ public class PrefUtils extends BasePreferences {
 
     public static List<FabSortItem> defaultFabOrders;
 
-    public static List<MarkdownFormat> defaultMarkdownFormats;
+    public static List<Format> defaultMarkdownFormats;
 
     static {
         // prepare default fab orders
@@ -34,29 +34,29 @@ public class PrefUtils extends BasePreferences {
 
         // prepare default markdown formats
         defaultMarkdownFormats = new LinkedList<>();
-        defaultMarkdownFormats.add(MarkdownFormat.H1);
+        defaultMarkdownFormats.add(Format.H1);
 
-        defaultMarkdownFormats.add(MarkdownFormat.NORMAL_LIST);
+        defaultMarkdownFormats.add(Format.NORMAL_LIST);
 //        defaultMarkdownFormats.add(MarkdownFormat.NUMBER_LIST);
 //        defaultMarkdownFormats.add(MarkdownFormat.CHECKBOX_OUTLINE);
-        defaultMarkdownFormats.add(MarkdownFormat.CHECKBOX);
+        defaultMarkdownFormats.add(Format.CHECKBOX);
 
-        defaultMarkdownFormats.add(MarkdownFormat.INDENT);
-        defaultMarkdownFormats.add(MarkdownFormat.DEDENT);
-        defaultMarkdownFormats.add(MarkdownFormat.QUOTE);
-        defaultMarkdownFormats.add(MarkdownFormat.XML);
-        defaultMarkdownFormats.add(MarkdownFormat.CODE_BLOCK);
+        defaultMarkdownFormats.add(Format.INDENT);
+        defaultMarkdownFormats.add(Format.DEDENT);
+        defaultMarkdownFormats.add(Format.QUOTE);
+        defaultMarkdownFormats.add(Format.CODE_INLINE);
+        defaultMarkdownFormats.add(Format.CODE_BLOCK);
 
-        defaultMarkdownFormats.add(MarkdownFormat.STRIKE);
-        defaultMarkdownFormats.add(MarkdownFormat.HORIZONTAL_LINE);
+        defaultMarkdownFormats.add(Format.STRIKE);
+        defaultMarkdownFormats.add(Format.HORIZONTAL_LINE);
 
-        defaultMarkdownFormats.add(MarkdownFormat.ITALIC);
-        defaultMarkdownFormats.add(MarkdownFormat.BOLD);
-        defaultMarkdownFormats.add(MarkdownFormat.MARK); // not standard markdown
+        defaultMarkdownFormats.add(Format.ITALIC);
+        defaultMarkdownFormats.add(Format.BOLD);
+        defaultMarkdownFormats.add(Format.MARK); // not standard markdown
 
-        defaultMarkdownFormats.add(MarkdownFormat.MATH_JAX);
-        defaultMarkdownFormats.add(MarkdownFormat.SUB_SCRIPT);
-        defaultMarkdownFormats.add(MarkdownFormat.SUPER_SCRIPT);
+        defaultMarkdownFormats.add(Format.MATH_JAX);
+        defaultMarkdownFormats.add(Format.SUB_SCRIPT);
+        defaultMarkdownFormats.add(Format.SUPER_SCRIPT);
     }
 
     private final String ITEM_SORT_SPLIT = ":";
@@ -96,13 +96,13 @@ public class PrefUtils extends BasePreferences {
         putString(getKey(R.string.key_fab_sort_result), fabStr.toString());
     }
 
-    public List<MarkdownFormat> getMarkdownFormats() {
+    public List<Format> getMarkdownFormats() {
         String mdStr = getString(R.string.key_note_editor_menu_sort, null);
         if (!TextUtils.isEmpty(mdStr)) {
             String[] mds = mdStr.split(ITEM_SORT_SPLIT);
-            List<MarkdownFormat> markdownFormats = new LinkedList<>();
+            List<Format> markdownFormats = new LinkedList<>();
             for (String md : mds) {
-                markdownFormats.add(MarkdownFormat.valueOf(md));
+                markdownFormats.add(Format.valueOf(md));
             }
             return markdownFormats;
         } else {
@@ -110,7 +110,7 @@ public class PrefUtils extends BasePreferences {
         }
     }
 
-    public void setMarkdownFormats(List<MarkdownFormat> markdownFormats) {
+    public void setMarkdownFormats(List<Format> markdownFormats) {
         int size = markdownFormats.size();
         StringBuilder sb = new StringBuilder();
         for (int i=0; i<size; i++) {

@@ -12,7 +12,7 @@ public enum FabSortItem {
     NOTE(R.string.fab_opt_note, R.drawable.ic_note),
     NOTEBOOK(R.string.fab_opt_notebook, R.drawable.ic_folder_black_24dp),
     CATEGORY(R.string.fab_opt_tags, R.drawable.ic_labels_grey_24dp),
-    FILE(R.string.fab_opt_file, R.drawable.ic_attach_file_white),
+    FILE(R.string.fab_opt_file, R.drawable.ic_format_image_white_24dp),
     CAPTURE(R.string.fab_opt_capture, R.drawable.ic_add_a_photo_white),
     DRAFT(R.string.fab_opt_draft, R.drawable.ic_gesture_grey_24dp),
 //    RECORD(R.string.fab_opt_record, R.drawable.ic_mic_white_24dp),

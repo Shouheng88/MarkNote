@@ -16,13 +16,13 @@ import java.util.List;
 import me.shouheng.commons.activity.CommonActivity;
 import me.shouheng.commons.event.RxMessage;
 import me.shouheng.commons.utils.ColorUtils;
+import me.shouheng.easymark.editor.Format;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.MenuSortAdapter;
 import me.shouheng.notepal.databinding.ActivityMenuSortBinding;
 import me.shouheng.notepal.util.ToastUtils;
 import me.shouheng.notepal.util.preferences.PrefUtils;
 import me.shouheng.notepal.widget.tools.DragSortRecycler;
-import my.shouheng.palmmarkdown.tools.MarkdownFormat;
 
 public class MenuSortActivity extends CommonActivity<ActivityMenuSortBinding> {
 
@@ -75,7 +75,7 @@ public class MenuSortActivity extends CommonActivity<ActivityMenuSortBinding> {
 
         dragSortRecycler.setOnItemMovedListener((from, to) -> {
             saved = false;
-            MarkdownFormat markdownFormat = mAdapter.getMarkdownFormatAt(from);
+            Format markdownFormat = mAdapter.getMarkdownFormatAt(from);
             mAdapter.removeMarkdownFormatAt(from);
             mAdapter.addMarkdownFormatTo(to, markdownFormat);
             mAdapter.notifyDataSetChanged();
@@ -127,7 +127,7 @@ public class MenuSortActivity extends CommonActivity<ActivityMenuSortBinding> {
     private void saveFabOrders() {
         saved = true;
         everSaved = true;
-        List<MarkdownFormat> markdownFormats = mAdapter.getMarkdownFormats();
+        List<Format> markdownFormats = mAdapter.getMarkdownFormats();
         PrefUtils.getInstance().setMarkdownFormats(markdownFormats);
         ToastUtils.makeToast(R.string.menu_successfully_saved);
     }

@@ -34,6 +34,7 @@ import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.commons.utils.PermissionUtils;
 import me.shouheng.commons.utils.StringUtils;
 import me.shouheng.commons.utils.ViewUtils;
+import me.shouheng.easymark.editor.Format;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.MenuSortActivity;
@@ -64,7 +65,6 @@ import me.shouheng.notepal.viewmodel.NoteViewModel;
 import me.shouheng.notepal.viewmodel.NotebookViewModel;
 import me.shouheng.notepal.widget.FlowLayout;
 import me.shouheng.notepal.widget.MDItemView;
-import my.shouheng.palmmarkdown.tools.MarkdownFormat;
 
 /**
  * Created by wangshouheng on 2017/5/12.*/
@@ -305,10 +305,10 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> i
         getBinding().ivEnableFormat.setOnClickListener(v -> switchFormat());
         getBinding().ivSetting.setOnClickListener(v -> MenuSortActivity.start(NoteFragment.this, REQ_MENU_SORT));
 
-        getBinding().fssv.getDelegate().setThumbSize(16, 40);
-        getBinding().fssv.getDelegate().setThumbDynamicHeight(false);
+        getBinding().fssv.getFastScrollDelegate().setThumbSize(16, 40);
+        getBinding().fssv.getFastScrollDelegate().setThumbDynamicHeight(false);
         if (getContext() != null) {
-            getBinding().fssv.getDelegate().setThumbDrawable(PalmApp.getDrawableCompact(isDarkTheme() ?
+            getBinding().fssv.getFastScrollDelegate().setThumbDrawable(PalmApp.getDrawableCompact(isDarkTheme() ?
                     R.drawable.fast_scroll_bar_dark : R.drawable.fast_scroll_bar_light));
         }
     }
@@ -316,21 +316,20 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> i
     private void addBottomMenus() {
         getBinding().llContainer.removeAllViews();
         int dp12 = ViewUtils.dp2Px(getContext(), 12);
-        List<MarkdownFormat> markdownFormats = PrefUtils.getInstance().getMarkdownFormats();
-        for (MarkdownFormat markdownFormat : markdownFormats) {
+        List<Format> markdownFormats = PrefUtils.getInstance().getMarkdownFormats();
+        for (Format markdownFormat : markdownFormats) {
             MDItemView mdItemView = new MDItemView(getContext());
-            mdItemView.setMarkdownFormat(markdownFormat);
+            mdItemView.setFormat(markdownFormat);
             mdItemView.setPadding(dp12, dp12, dp12, dp12);
             getBinding().llContainer.addView(mdItemView);
             mdItemView.setOnClickListener(v -> {
-                if (markdownFormat == MarkdownFormat.CHECKBOX
-                        || markdownFormat == MarkdownFormat.CHECKBOX_OUTLINE) {
-                    getBinding().etContent.addCheckbox("",
-                            markdownFormat == MarkdownFormat.CHECKBOX);
-                } else if (markdownFormat == MarkdownFormat.MATH_JAX) {
+                if (markdownFormat == Format.CHECKBOX_FILLED
+                        || markdownFormat == Format.CHECKBOX) {
+                    getBinding().etContent.useFormat(markdownFormat);
+                } else if (markdownFormat == Format.MATH_JAX) {
                     showMarkJaxEditor();
                 } else {
-                    getBinding().etContent.addEffect(markdownFormat);
+                    getBinding().etContent.useFormat(markdownFormat);
                 }
             });
         }
@@ -395,15 +394,17 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> i
         getBinding().rlBottom.setLayoutParams(params);
     }
 
+    // TODO
     private void addImageLink() {
-        LinkInputDialog.getInstance((title, link) ->
-                getBinding().etContent.addLinkEffect(MarkdownFormat.ATTACHMENT, title, link)
+        LinkInputDialog.getInstance((title, link) -> {}
+//                getBinding().etContent.addLinkEffect(MarkdownFormat.ATTACHMENT, title, link)
         ).show(Objects.requireNonNull(getFragmentManager()), "Link Image");
     }
 
+    // TODO
     private void showMarkJaxEditor() {
         MathJaxEditor.newInstance((exp, isSingleLine) ->
-                getBinding().etContent.addMathJax(exp, isSingleLine)
+                getBinding().etContent.useFormat(Format.MATH_JAX)
         ).show(Objects.requireNonNull(getFragmentManager()), "MATH JAX EDITOR");
     }
 
@@ -411,13 +412,14 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> i
         TableInputDialog.getInstance((rowsStr, colsStr) -> {
             int rows = StringUtils.parseInteger(rowsStr, 3);
             int cols = StringUtils.parseInteger(colsStr, 3);
-            getBinding().etContent.addTableEffect(rows, cols);
+            getBinding().etContent.useFormat(Format.TABLE);
         }).show(Objects.requireNonNull(getFragmentManager()), "TABLE INPUT");
     }
 
+    // TODO
     private void showLinkEditor() {
         LinkInputDialog.getInstance((title, link) ->
-                getBinding().etContent.addLinkEffect(MarkdownFormat.LINK, title, link)
+                getBinding().etContent.useFormat(Format.LINK)
         ).show(Objects.requireNonNull(getFragmentManager()), "LINK INPUT");
     }
 
@@ -476,11 +478,12 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> i
         String title = FileHelper.getNameFromUri(getContext(), attachment.getUri());
         if (TextUtils.isEmpty(title)) title = getString(R.string.text_attachment);
 
+        // TODO the attachment location
         if (Constants.MIME_TYPE_IMAGE.equalsIgnoreCase(attachment.getMineType())
                 || Constants.MIME_TYPE_SKETCH.equalsIgnoreCase(attachment.getMineType())) {
-            getBinding().etContent.addLinkEffect(MarkdownFormat.ATTACHMENT, title , attachment.getUri().toString());
+            getBinding().etContent.useFormat(Format.IMAGE);
         } else {
-            getBinding().etContent.addLinkEffect(MarkdownFormat.LINK, title, attachment.getUri().toString());
+            getBinding().etContent.useFormat(Format.IMAGE);
         }
     }
 

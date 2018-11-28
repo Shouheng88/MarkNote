@@ -1,3 +1,2 @@
-include ':app', ':markdown', ':commons'
-project(':markdown').projectDir = new File('../markdown')
+include ':app', ':commons'
 project(':commons').projectDir = new File('../commons')

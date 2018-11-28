@@ -10,7 +10,7 @@
         android:title="@string/text_share_image"/>
 
     <item android:id="@+id/action_share_html"
-        android:icon="@drawable/ic_shortcut_xml_black"
+        android:icon="@drawable/ic_format_code_inline"
         android:title="@string/text_share_html"/>
 
 </menu>

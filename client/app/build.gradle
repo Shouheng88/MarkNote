@@ -7,8 +7,8 @@ android {
         applicationId "me.shouheng.notepal"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 7
-        versionName "1.1.5"
+        versionCode 10
+        versionName "1.2.0"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -50,8 +50,6 @@ android {
     }
     lintOptions {
         checkReleaseBuilds false
-        // Or, if you prefer, you can continue to check for errors in release builds,
-        // but continue the build even when errors are found:
         abortOnError false
     }
     flavorDimensions "default"
@@ -68,7 +66,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    implementation files('libs/BaiduLBS_Android.jar')
-    implementation project(path: ':markdown')
+    implementation 'me.shouheng.easymark:easymark:0.0.1'
+    implementation 'me.shouheng.easymark:sil:0.0.1'
     implementation project(path: ':commons')
 }

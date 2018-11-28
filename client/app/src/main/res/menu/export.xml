@@ -5,7 +5,7 @@
         android:title="@string/text_export_text"
         android:id="@+id/export_text"/>
 
-    <item android:icon="@drawable/ic_shortcut_xml_black"
+    <item android:icon="@drawable/ic_format_code_inline"
         android:title="@string/text_export_html"
         android:id="@+id/export_html"/>
 
