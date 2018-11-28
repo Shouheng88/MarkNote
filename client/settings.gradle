@@ -1,2 +1,3 @@
-include ':app', ':commons'
+include ':app', ':commons', ':data'
 project(':commons').projectDir = new File('../commons')
+project(':data').projectDir = new File('../data')
