@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -76,13 +77,37 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         NotesFragment.OnNotesInteractListener,
         CategoriesFragment.OnCategoriesInteractListener {
 
-    public final static String SHORTCUT_ACTION_CRAETE_NOTE = "me.shouheng.notepal.CREATE_NOTE";
+    /**
+     * Shortcut action, used to create new note, registered in the shortcuts.xml.
+     * Used fot app version after {@link android.os.Build.VERSION_CODES#N_MR1}
+     */
+    public final static String SHORTCUT_ACTION_CREATE_NOTE = "me.shouheng.notepal.CREATE_NOTE";
 
+    /**
+     * Shortcut action, used to search note, registered in the shortcuts.xml.
+     * Used fot app version after {@link android.os.Build.VERSION_CODES#N_MR1}
+     */
     public final static String SHORTCUT_ACTION_SEARCH_NOTE = "me.shouheng.notepal.SEARCH_NOTE";
 
-    public final static String SHORTCUT_ACTION_QUICK_NOTE = "me.shouheng.notepal.QUICK_NOTE";
-
+    /**
+     * Shortcut action, used to capture a photo fot note, registered in the shortcuts.xml.
+     * Used fot app version after {@link android.os.Build.VERSION_CODES#N_MR1}
+     */
     public final static String SHORTCUT_ACTION_CAPTURE = "me.shouheng.notepal.CAPTURE";
+
+    /**
+     * Shortcut action, used to start a note view page, the intent contains information of the note.
+     * @see #SHORTCUT_EXTRA_NOTE_CODE
+     */
+    public final static String SHORTCUT_ACTION_VIEW_NOTE = "me.shouheng.notepal.VIEW_NOTE";
+
+    /**
+     * The intent extra key for {@link #SHORTCUT_ACTION_VIEW_NOTE} used to send the note code
+     * to the MainActivity. The code will later be used to get the full note information.
+     */
+    public final static String SHORTCUT_EXTRA_NOTE_CODE = "__extra_note_code";
+
+
 
     private final static int REQUEST_PASSWORD = 0x0006;
     private final static long TIME_INTERVAL_BACK = 2000;
@@ -138,8 +163,8 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     }
 
     private void everything(Bundle savedInstanceState) {
-        // Handle intent
-        handleIntent(getIntent());
+        /* Handle all intents. */
+        handleIntent(savedInstanceState);
 
         // Config toolbar
         setSupportActionBar(getBinding().toolbar);
@@ -301,18 +326,44 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                 .build();
     }
 
-    // region region : handle intent
-    private void handleIntent(Intent intent) {
+    private void handleIntent(Bundle savedInstanceState) {
+        /* Don't handle the intent again (when the activity recreate). */
+        if (savedInstanceState != null) return;
+
+        Intent intent = getIntent();
         String action = intent.getAction();
 
-        // if the action is empty or the activity is recreated for theme change, don;t handle intent
-        if (TextUtils.isEmpty(action)) return;
+        /* Do nothing when the action is null. */
+        if (action == null) return;
 
+        /* Handle the intent according to action. */
         switch (action) {
-            case Constants.ACTION_SHORTCUT:
-                intent.setClass(this, ContentActivity.class);
-                startActivity(intent);
+
+            /* Actions shortcuts. */
+            case SHORTCUT_ACTION_CREATE_NOTE:
                 break;
+            case SHORTCUT_ACTION_SEARCH_NOTE:
+                break;
+            case SHORTCUT_ACTION_CAPTURE:
+                break;
+            case SHORTCUT_ACTION_VIEW_NOTE:
+//                intent.setClass(this, ContentActivity.class);
+//                startActivity(intent);
+                break;
+
+            /* Actions registered in Manifest. */
+            case Intent.ACTION_SEND:
+            case Intent.ACTION_SEND_MULTIPLE:
+                PermissionUtils.checkStoragePermission(this, this::handleThirdPart);
+                break;
+            case Intent.ACTION_VIEW:
+            case Intent.ACTION_EDIT:
+                // Handle the raw text
+                // TODO check file type, behave like PureWriter.
+                Uri uri = intent.getData();
+                break;
+
+            /*TODO App widget actions. handle later. */
             case Constants.ACTION_ADD_NOTE:
                 editNote(getNewNote());
                 break;
@@ -342,11 +393,6 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
             case Constants.ACTION_ADD_SKETCH:
                 startAddSketch();
                 break;
-            case Intent.ACTION_SEND:
-            case Intent.ACTION_SEND_MULTIPLE:
-            case Constants.INTENT_GOOGLE_NOW:
-                PermissionUtils.checkStoragePermission(this, this::handleThirdPart);
-                break;
             case Constants.ACTION_RESTART_APP:
                 // Recreate
                 recreate();
@@ -358,8 +404,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         Intent i = getIntent();
         if (IntentUtils.checkAction(i,
                 Intent.ACTION_SEND,
-                Intent.ACTION_SEND_MULTIPLE,
-                Constants.INTENT_GOOGLE_NOW) && i.getType() != null) {
+                Intent.ACTION_SEND_MULTIPLE) && i.getType() != null) {
             ContentActivity.resolveThirdPart(this, i);
         }
     }

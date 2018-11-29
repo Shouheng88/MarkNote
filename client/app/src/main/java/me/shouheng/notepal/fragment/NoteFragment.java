@@ -184,7 +184,7 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> i
 
         // Due to the fact that Google Now passes intent as text but with
         // audio recording attached the case must be handled in specific way
-        if (uri != null && !Constants.INTENT_GOOGLE_NOW.equals(intent.getAction())) {
+        if (uri != null) {
             new CreateAttachmentTask(this, uri, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
 

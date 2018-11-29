@@ -18,11 +18,10 @@
         android:icon="@drawable/ic_shortcut_quick"
         android:shortcutShortLabel="@string/shortcut_quick_short_name"
         android:shortcutLongLabel="@string/shortcut_quick_long_name">
-        <!-- TODO Assign the quick note action to QuickNoteActivity. -->
         <intent
             android:action="me.shouheng.notepal.QUICK_NOTE"
             android:targetPackage="me.shouheng.notepal"
-            android:targetClass="me.shouheng.notepal.activity.MainActivity" />
+            android:targetClass="me.shouheng.notepal.activity.QuickNoteActivity" />
     </shortcut>
 
     <!--Action : Capture pictures-->

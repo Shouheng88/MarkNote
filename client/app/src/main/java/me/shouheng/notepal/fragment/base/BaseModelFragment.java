@@ -19,27 +19,26 @@ import java.util.LinkedList;
 import java.util.List;
 
 import me.shouheng.commons.activity.CommonActivity;
+import me.shouheng.commons.model.data.Resource;
 import me.shouheng.commons.utils.LogUtils;
+import me.shouheng.commons.utils.NetworkUtils;
 import me.shouheng.commons.utils.PermissionUtils;
+import me.shouheng.commons.utils.ToastUtils;
+import me.shouheng.commons.utils.ViewUtils;
+import me.shouheng.commons.widget.FlowLayout;
+import me.shouheng.data.ModelFactory;
+import me.shouheng.data.entity.Category;
+import me.shouheng.data.entity.Location;
+import me.shouheng.data.entity.Model;
+import me.shouheng.data.store.CategoryStore;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.ContentActivity;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.dialog.CategoryEditDialog;
 import me.shouheng.notepal.dialog.picker.CategoryPickerDialog;
-import me.shouheng.data.entity.Category;
-import me.shouheng.data.entity.Location;
-import me.shouheng.data.entity.Model;
-import me.shouheng.data.ModelFactory;
-import me.shouheng.commons.model.data.Resource;
-import me.shouheng.data.store.CategoryStore;
 import me.shouheng.notepal.util.AppWidgetUtils;
-import me.shouheng.commons.utils.NetworkUtils;
-import me.shouheng.notepal.util.ShortcutHelper;
-import me.shouheng.commons.utils.ToastUtils;
-import me.shouheng.commons.utils.ViewUtils;
 import me.shouheng.notepal.viewmodel.BaseViewModel;
 import me.shouheng.notepal.viewmodel.CategoryViewModel;
-import me.shouheng.commons.widget.FlowLayout;
 
 /**
  * Created by wangshouheng on 2017/9/3.*/
@@ -212,8 +211,9 @@ public abstract class BaseModelFragment<T extends Model, V extends ViewDataBindi
             switch (booleanResource.status) {
                 case SUCCESS:
                     if (booleanResource.data != null && !booleanResource.data) {
-                        ShortcutHelper.addShortcut(getActivity().getApplicationContext(), getModel());
-                        ToastUtils.makeToast(R.string.successfully_add_shortcut);
+                        // TODO
+//                        ShortcutHelper.addShortcut(getActivity().getApplicationContext(), getModel());
+//                        ToastUtils.makeToast(R.string.successfully_add_shortcut);
                     } else {
                         new MaterialDialog.Builder(getContext())
                                 .title(R.string.text_tips)
@@ -222,8 +222,8 @@ public abstract class BaseModelFragment<T extends Model, V extends ViewDataBindi
                                 .negativeText(R.string.text_give_up)
                                 .onPositive((materialDialog, dialogAction) -> saveOrUpdateData(succeed -> {
                                     if (succeed) {
-                                        ShortcutHelper.addShortcut(getContext(), getModel());
-                                        ToastUtils.makeToast(R.string.successfully_add_shortcut);
+//                                        ShortcutHelper.addShortcut(getContext(), getModel());
+//                                        ToastUtils.makeToast(R.string.successfully_add_shortcut);
                                     }
                                 })).show();
                     }

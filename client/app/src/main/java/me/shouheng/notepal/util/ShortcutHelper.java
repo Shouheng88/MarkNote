@@ -2,38 +2,36 @@ package me.shouheng.notepal.util;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 
+import me.shouheng.data.entity.Note;
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.activity.ContentActivity;
 import me.shouheng.notepal.activity.MainActivity;
 import me.shouheng.notepal.config.Constants;
-import me.shouheng.data.entity.Model;
-import me.shouheng.data.entity.Note;
 
 public class ShortcutHelper {
 
-    // FIXME CHANGE the intent of short cut
-    public static <T extends Model> void addShortcut(Context context, T model) {
+    /**
+     * TODO handle for the next releases.
+     * 1. Check the shortcut support for app versions, behaviors for pre API 25 and after API 25;
+     * 2. Change the Note icon.
+     *
+     * @param context context
+     * @param note the note model
+     */
+    public static void addShortcut(Context context, @NonNull Note note) {
         Context mContext = context.getApplicationContext();
         Intent shortcutIntent = new Intent(mContext, MainActivity.class);
-        shortcutIntent.putExtra(Constants.EXTRA_CODE, model.getCode());
+        shortcutIntent.putExtra(MainActivity.SHORTCUT_EXTRA_NOTE_CODE, note.getCode());
         shortcutIntent.setAction(Constants.ACTION_SHORTCUT);
-        shortcutIntent.putExtra(ContentActivity.EXTRA_HAS_TOOLBAR, true);
 
         Intent addIntent = new Intent();
         addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
-        addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, getShortcutName(model));
+        addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, note.getTitle());
         addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
                 Intent.ShortcutIconResource.fromContext(mContext, R.drawable.note_shortcut));
         addIntent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
 
         context.sendBroadcast(addIntent);
-    }
-
-    private static <T extends Model> String getShortcutName(T model) {
-         if (model instanceof Note) {
-            return ((Note) model).getTitle();
-        }
-        return "PalmCollege";
     }
 }

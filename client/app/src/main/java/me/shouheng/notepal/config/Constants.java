@@ -25,7 +25,6 @@ public interface Constants extends BaseConstants {
 
     // region Action
     String ACTION_SHORTCUT = "ACTION_SHORTCUT";
-    String INTENT_GOOGLE_NOW = "com.google.android.gm.action.AUTO_SEND";
 
     String ACTION_RESTART_APP = "action_restart_app";
 

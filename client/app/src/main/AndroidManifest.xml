@@ -38,48 +38,100 @@
             android:theme="@style/AppTheme.Branded"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTop">
+
+            <!-- launch -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <!-- shortcuts -->
             <meta-data android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
+
+            <!-- search -->
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
+
+            <!-- register auto send event receiver -->
             <intent-filter>
                 <action android:name="com.google.android.gm.action.AUTO_SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="*/*" />
             </intent-filter>
+
+            <!-- register send event receiver -->
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="*/*" />
             </intent-filter>
+
+            <!-- register send multiple event receiver -->
             <intent-filter>
                 <action android:name="android.intent.action.SEND_MULTIPLE" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="*/*" />
             </intent-filter>
+
+            <!-- register view event receiver -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.EDIT"/>
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="hashtag" />
+                <data android:host="*" android:mimeType="*/*" android:scheme="file"/>
+                <data android:host="*" android:mimeType="*/*" android:scheme="content"/>
+                <data android:pathPattern=".*\\.md"/>
+                <data android:pathPattern=".*\\..*\\.md"/>
+                <data android:pathPattern=".*\\..*\\..*\\.md"/>
+                <data android:pathPattern=".*\\..*\\..*\\..*\\.md"/>
+                <data android:pathPattern=".*\\.txt"/>
+                <data android:pathPattern=".*\\..*\\.txt"/>
+                <data android:pathPattern=".*\\..*\\..*\\.txt"/>
+                <data android:pathPattern=".*\\..*\\..*\\..*\\.txt"/>
+            </intent-filter>
+
+            <!-- register view event receiver -->
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.EDIT"/>
+                <action android:name="com.dropbox.android.intent.action.DBXC_EDIT"/>
+                <action android:name="com.dropbox.android.intent.action.DBXC_VIEW"/>
+                <data android:host="*" android:mimeType="text/plain" android:scheme="file"/>
+                <data android:host="*" android:mimeType="text/plain" android:scheme="content"/>
+                <data android:mimeType="text/plain"/>
+            </intent-filter>
+
+            <!-- register view event receiver -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:host="*" android:mimeType="*/*" android:pathPrefix="/external/file" android:scheme="content"/>
             </intent-filter>
         </activity>
+
         <activity android:name=".activity.SettingsActivity" />
+
         <activity android:name=".activity.FabSortActivity" />
+
         <activity android:name=".activity.SketchActivity" />
+
         <activity
             android:name=".activity.GalleryActivity"
             android:theme="@style/PictureViewTheme" />
+
         <activity
             android:name=".activity.ContentActivity"
             android:exported="true" />
+
         <activity android:name=".activity.ArchiveActivity" />
+
         <activity android:name=".activity.TrashedActivity" />
+
         <activity android:name=".activity.SearchActivity" />
 
         <meta-data
@@ -91,9 +143,11 @@
             android:authorities="me.shouheng.notepal.provider"
             android:exported="false"
             android:grantUriPermissions="true">
+
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
+
         </provider>
 
         <service android:name=".async.DataBackupIntentService" />
@@ -105,28 +159,39 @@
 
         <!-- region App Widget -->
         <receiver android:name=".widget.desktop.ListWidgetProvider">
+
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
+
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/app_widget_list" />
+
         </receiver>
+
         <receiver android:name=".widget.desktop.SimpleWidgetProvider">
+
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
+
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/app_widget_simple" />
+
         </receiver>
+
         <receiver android:name=".widget.desktop.DesktopShortcutAppWidget">
+
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
+
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/app_widget_shortcut" />
+
         </receiver>
 
         <service
@@ -136,10 +201,13 @@
         <activity
             android:name=".activity.ConfigActivity"
             android:theme="@style/TransParentDialog">
+
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
+
         </activity>
+
         <activity
             android:name=".activity.QuickNoteActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|navigation"
@@ -150,7 +218,9 @@
         <!-- endregion -->
 
         <activity android:name=".activity.DirectoryActivity" />
+
         <activity android:name=".activity.MenuSortActivity"/>
+
         <activity android:name=".activity.AboutActivity"/>
 
     </application>

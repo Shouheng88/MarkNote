@@ -38,6 +38,7 @@
 
     <!--region SECURITY-->
     <string name="key_data_security" translatable="false">__data_security</string>
+    <!--preferences keys:-->
     <string name="key_password_required" translatable="false">__is_password_required</string>
     <string name="key_password" translatable="false">__password</string>
     <string name="key_password_freeze_time" translatable="false">__password_input_freeze_time</string>

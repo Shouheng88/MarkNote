@@ -49,7 +49,6 @@ public class ContentActivity extends CommonActivity<ActivityContentBinding> impl
 
     public static void resolveThirdPart(Activity activity, Intent i) {
         i.setClass(activity, ContentActivity.class);
-        i.putExtra(Constants.EXTRA_IS_GOOGLE_NOW, Constants.INTENT_GOOGLE_NOW.equals(i.getAction()));
         i.setAction(Constants.ACTION_TO_NOTE_FROM_THIRD_PART);
         activity.startActivity(i);
     }

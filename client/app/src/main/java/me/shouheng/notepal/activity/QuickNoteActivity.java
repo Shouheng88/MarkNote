@@ -33,6 +33,11 @@ import me.shouheng.notepal.viewmodel.NoteViewModel;
 
 public class QuickNoteActivity extends PermissionActivity implements OnAttachingFileListener {
 
+    /**
+     * Shortcut action, used to create quick note, registered in the shortcuts.xml
+     */
+    public final static String SHORTCUT_ACTION_QUICK_NOTE = "me.shouheng.notepal.QUICK_NOTE";
+
     private final static int REQUEST_PASSWORD = 0x0016;
 
     private QuickNoteDialog quickNoteDialog;
@@ -68,6 +73,8 @@ public class QuickNoteActivity extends PermissionActivity implements OnAttaching
         }
 
         switch (action) {
+            case SHORTCUT_ACTION_QUICK_NOTE:
+                break;
             case Constants.ACTION_WIDGET_LIST:
                 Model model;
                 if (intent.hasExtra(Constants.EXTRA_MODEL)
