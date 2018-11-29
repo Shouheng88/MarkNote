@@ -20,12 +20,11 @@ import me.shouheng.data.entity.Notebook;
 import me.shouheng.notepal.util.FileHelper;
 import me.shouheng.commons.utils.TimeUtils;
 import me.shouheng.notepal.util.preferences.NotePreferences;
-import me.shouheng.notepal.widget.tools.BubbleTextGetter;
+import me.shouheng.commons.widget.recycler.BubbleTextGetter;
 
 /**
  * Created by wang shouheng on 2017/12/23.*/
-public class NotesAdapter extends BaseMultiItemQuickAdapter<NotesAdapter.MultiItem, BaseViewHolder> implements
-        BubbleTextGetter {
+public class NotesAdapter extends BaseMultiItemQuickAdapter<NotesAdapter.MultiItem, BaseViewHolder> implements BubbleTextGetter {
 
     private Context context;
 

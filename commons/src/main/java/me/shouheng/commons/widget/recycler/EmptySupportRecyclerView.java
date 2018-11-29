@@ -1,4 +1,4 @@
-package me.shouheng.notepal.widget;
+package me.shouheng.commons.widget.recycler;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -43,10 +43,10 @@ public class EmptySupportRecyclerView extends RecyclerView {
         }
     };
 
-    public void showEmptyView(){
+    public void showEmptyView() {
         RecyclerView.Adapter<?> adapter = getAdapter();
-        if(adapter!=null && emptyView!=null){
-            if(adapter.getItemCount()==0){
+        if(adapter != null && emptyView != null) {
+            if(adapter.getItemCount() == 0) {
                 emptyView.setVisibility(View.VISIBLE);
                 EmptySupportRecyclerView.this.setVisibility(View.GONE);
             } else{
@@ -59,13 +59,13 @@ public class EmptySupportRecyclerView extends RecyclerView {
     @Override
     public void setAdapter(RecyclerView.Adapter adapter) {
         super.setAdapter(adapter);
-        if(adapter != null){
+        if(adapter != null) {
             adapter.registerAdapterDataObserver(observer);
             observer.onChanged();
         }
     }
 
-    public void setEmptyView(View v){
+    public void setEmptyView(View v) {
         emptyView = v;
     }
 }

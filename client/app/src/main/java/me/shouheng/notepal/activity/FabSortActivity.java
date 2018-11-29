@@ -21,7 +21,7 @@ import me.shouheng.notepal.databinding.ActivityFabSortBinding;
 import me.shouheng.data.model.enums.FabSortItem;
 import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.notepal.util.preferences.PrefUtils;
-import me.shouheng.notepal.widget.tools.DragSortRecycler;
+import me.shouheng.commons.widget.recycler.DragSortRecycler;
 
 public class FabSortActivity extends CommonActivity<ActivityFabSortBinding> {
 

@@ -42,8 +42,8 @@ import me.shouheng.notepal.util.preferences.NotePreferences;
 import me.shouheng.notepal.util.preferences.PrefUtils;
 import me.shouheng.notepal.viewmodel.NoteViewModel;
 import me.shouheng.notepal.viewmodel.NotebookViewModel;
-import me.shouheng.notepal.widget.tools.CustomItemAnimator;
-import me.shouheng.notepal.widget.tools.DividerItemDecoration;
+import me.shouheng.commons.widget.recycler.CustomItemAnimator;
+import me.shouheng.commons.widget.recycler.DividerItemDecoration;
 
 
 public class NotesFragment extends BaseFragment<FragmentNotesBinding> {

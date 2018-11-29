@@ -17,10 +17,10 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.ModelsPickerAdapter;
 import me.shouheng.data.entity.Model;
 import me.shouheng.data.utils.Selectable;
-import me.shouheng.notepal.widget.EmptySupportRecyclerView;
-import me.shouheng.notepal.widget.EmptyView;
-import me.shouheng.notepal.widget.tools.CustomItemAnimator;
-import me.shouheng.notepal.widget.tools.DividerItemDecoration;
+import me.shouheng.commons.widget.recycler.EmptySupportRecyclerView;
+import me.shouheng.commons.widget.recycler.EmptyView;
+import me.shouheng.commons.widget.recycler.CustomItemAnimator;
+import me.shouheng.commons.widget.recycler.DividerItemDecoration;
 
 /**
  * Created by wangshouheng on 2017/10/5.*/

@@ -1,4 +1,4 @@
-package me.shouheng.notepal.widget.tools;
+package me.shouheng.commons.widget.recycler;
 
 public interface BubbleTextGetter {
     String getTextToShowInBubble(int pos);

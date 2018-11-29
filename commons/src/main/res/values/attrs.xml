@@ -19,5 +19,13 @@
         <attr name="max_length" format="integer"/>
     </declare-styleable>
 
+    <declare-styleable name="EmptyView">
+        <attr name="title" format="string"/>
+        <attr name="title_size" format="dimension|reference"/>
+        <attr name="sub_title" format="string"/>
+        <attr name="sub_title_size" format="dimension|reference"/>
+        <attr name="empty_image" format="reference"/>
+        <attr name="tint_drawable" format="boolean" />
+    </declare-styleable>
 
 </resources>

@@ -11,7 +11,7 @@ import me.shouheng.notepal.adapter.picker.NotebookPickerStrategy;
 import me.shouheng.data.entity.Notebook;
 import me.shouheng.data.store.NotebookStore;
 import me.shouheng.data.schema.NotebookSchema;
-import me.shouheng.notepal.widget.EmptyView;
+import me.shouheng.commons.widget.recycler.EmptyView;
 
 /**
  * Created by wangshouheng on 2017/10/5.*/

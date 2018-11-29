@@ -1,4 +1,4 @@
-package me.shouheng.notepal.widget.tools;
+package me.shouheng.commons.glide;
 
 import android.content.Context;
 import android.graphics.Bitmap;

@@ -11,7 +11,7 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.ModelsPickerAdapter;
 import me.shouheng.notepal.adapter.picker.CategoryPickerStrategy;
 import me.shouheng.data.entity.Category;
-import me.shouheng.notepal.widget.EmptyView;
+import me.shouheng.commons.widget.recycler.EmptyView;
 
 /**
  * Created by shouh on 2018/3/20.*/

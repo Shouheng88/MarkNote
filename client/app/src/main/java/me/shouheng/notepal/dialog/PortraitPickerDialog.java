@@ -18,7 +18,7 @@ import me.shouheng.data.model.enums.Portrait;
 import me.shouheng.notepal.R;
 import me.shouheng.commons.utils.ViewUtils;
 import me.shouheng.commons.widget.CircleImageView;
-import me.shouheng.notepal.widget.tools.SpaceItemDecoration;
+import me.shouheng.commons.widget.recycler.SpaceItemDecoration;
 
 /**
  * Created by wangshouheng on 2017/4/3.*/

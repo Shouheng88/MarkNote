@@ -1,4 +1,4 @@
-package me.shouheng.notepal.widget;
+package me.shouheng.commons.widget.recycler;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -11,9 +11,9 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 
+import me.shouheng.commons.R;
+import me.shouheng.commons.databinding.WidgetEmptyViewBinding;
 import me.shouheng.commons.utils.ColorUtils;
-import me.shouheng.notepal.R;
-import me.shouheng.notepal.databinding.WidgetEmptyViewBinding;
 
 /**
  * Created by wangshouheng on 2017/8/9. */

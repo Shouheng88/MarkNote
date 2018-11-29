@@ -22,7 +22,7 @@ import me.shouheng.notepal.adapter.MenuSortAdapter;
 import me.shouheng.notepal.databinding.ActivityMenuSortBinding;
 import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.notepal.util.preferences.PrefUtils;
-import me.shouheng.notepal.widget.tools.DragSortRecycler;
+import me.shouheng.commons.widget.recycler.DragSortRecycler;
 
 public class MenuSortActivity extends CommonActivity<ActivityMenuSortBinding> {
 

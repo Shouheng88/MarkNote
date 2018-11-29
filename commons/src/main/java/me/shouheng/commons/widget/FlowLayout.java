@@ -10,6 +10,16 @@ import java.util.List;
 
 public class FlowLayout extends ViewGroup {
 
+    /**
+     * All the views in this ViewGroup
+     */
+    private List<List<View>> mAllViews = new ArrayList<>();
+
+    /**
+     * Collection of heights of every single line
+     */
+    private List<Integer> mLineHeight = new ArrayList<>();
+
     public FlowLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
@@ -89,12 +99,6 @@ public class FlowLayout extends ViewGroup {
                 modeHeight == MeasureSpec.EXACTLY ? sizeHeight : height + getPaddingTop()+ getPaddingBottom()
         );
     }
-
-    //存储所有的View
-    private List<List<View>> mAllViews = new ArrayList<>();
-
-    //存储每一行的高度
-    private List<Integer> mLineHeight = new ArrayList<>();
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {

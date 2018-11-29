@@ -1,7 +1,9 @@
-package me.shouheng.notepal.widget.tools;
+package me.shouheng.commons.widget.recycler;
 
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+
+import me.shouheng.commons.widget.recycler.IItemTouchHelperAdapter;
 
 import static android.support.v7.widget.helper.ItemTouchHelper.ACTION_STATE_IDLE;
 

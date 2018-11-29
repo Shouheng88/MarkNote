@@ -23,8 +23,8 @@ import me.shouheng.notepal.fragment.base.BaseFragment;
 import me.shouheng.data.model.Directory;
 import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.notepal.viewmodel.DirectoryViewModel;
-import me.shouheng.notepal.widget.tools.CustomItemAnimator;
-import me.shouheng.notepal.widget.tools.DividerItemDecoration;
+import me.shouheng.commons.widget.recycler.CustomItemAnimator;
+import me.shouheng.commons.widget.recycler.DividerItemDecoration;
 
 /**
  * Created by shouh on 2018/3/30.*/

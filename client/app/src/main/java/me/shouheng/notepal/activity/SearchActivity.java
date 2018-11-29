@@ -30,8 +30,8 @@ import me.shouheng.data.entity.Note;
 import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.notepal.util.tools.SearchConditions;
 import me.shouheng.notepal.viewmodel.SearchViewModel;
-import me.shouheng.notepal.widget.tools.CustomItemAnimator;
-import me.shouheng.notepal.widget.tools.DividerItemDecoration;
+import me.shouheng.commons.widget.recycler.CustomItemAnimator;
+import me.shouheng.commons.widget.recycler.DividerItemDecoration;
 
 // TODO 搜索界面的列表的样式修改
 public class SearchActivity extends CommonActivity<ActivitySearchBinding>

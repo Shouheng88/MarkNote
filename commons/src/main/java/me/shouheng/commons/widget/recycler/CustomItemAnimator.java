@@ -1,4 +1,4 @@
-package me.shouheng.notepal.widget.tools;
+package me.shouheng.commons.widget.recycler;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
@@ -12,9 +12,8 @@ import android.view.animation.OvershootInterpolator;
 
 import java.util.List;
 
-import me.shouheng.notepal.R;
+import me.shouheng.commons.R;
 import me.shouheng.commons.utils.PalmUtils;
-import me.shouheng.notepal.util.preferences.PrefUtils;
 
 /**
  * Created by wangshouheng on 2017/4/1.*/
@@ -27,7 +26,7 @@ public class CustomItemAnimator extends DefaultItemAnimator {
     private int lastPosition = -1;
 
     @Override
-    public boolean canReuseUpdatedViewHolder(RecyclerView.ViewHolder viewHolder) {
+    public boolean canReuseUpdatedViewHolder(@NonNull RecyclerView.ViewHolder viewHolder) {
         return true;
     }
 
@@ -76,7 +75,10 @@ public class CustomItemAnimator extends DefaultItemAnimator {
     }
 
     @Override
-    public boolean animateChange(@NonNull RecyclerView.ViewHolder oldHolder, @NonNull RecyclerView.ViewHolder newHolder, @NonNull ItemHolderInfo preInfo, @NonNull ItemHolderInfo postInfo) {
+    public boolean animateChange(@NonNull RecyclerView.ViewHolder oldHolder,
+                                 @NonNull RecyclerView.ViewHolder newHolder,
+                                 @NonNull ItemHolderInfo preInfo,
+                                 @NonNull ItemHolderInfo postInfo) {
         if (preInfo instanceof CustomItemHolderInfo) {
             CustomItemHolderInfo customItemHolderInfo = (CustomItemHolderInfo) preInfo;
 

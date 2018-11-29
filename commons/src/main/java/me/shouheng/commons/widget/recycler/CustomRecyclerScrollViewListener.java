@@ -1,4 +1,4 @@
-package me.shouheng.notepal.widget.tools;
+package me.shouheng.commons.widget.recycler;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;

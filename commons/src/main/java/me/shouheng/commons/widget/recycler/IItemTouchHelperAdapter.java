@@ -1,4 +1,4 @@
-package me.shouheng.notepal.widget.tools;
+package me.shouheng.commons.widget.recycler;
 
 /**
  * Created by wangshouheng on 2017/3/31.*/

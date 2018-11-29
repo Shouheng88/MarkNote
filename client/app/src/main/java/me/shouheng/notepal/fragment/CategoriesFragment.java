@@ -36,9 +36,9 @@ import me.shouheng.notepal.fragment.base.BaseFragment;
 import me.shouheng.data.entity.Category;
 import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.notepal.viewmodel.CategoryViewModel;
-import me.shouheng.notepal.widget.tools.CustomItemAnimator;
-import me.shouheng.notepal.widget.tools.CustomItemTouchHelper;
-import me.shouheng.notepal.widget.tools.DividerItemDecoration;
+import me.shouheng.commons.widget.recycler.CustomItemAnimator;
+import me.shouheng.commons.widget.recycler.CustomItemTouchHelper;
+import me.shouheng.commons.widget.recycler.DividerItemDecoration;
 
 /**
  * Created by wangshouheng on 2017/3/29.*/

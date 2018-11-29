@@ -19,7 +19,7 @@ import me.shouheng.notepal.activity.GalleryActivity;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.notepal.util.FileHelper;
-import me.shouheng.notepal.widget.tools.RotateTransformation;
+import me.shouheng.commons.glide.RotateTransformation;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 

@@ -32,7 +32,7 @@ import me.shouheng.notepal.util.SystemUiVisibilityUtil;
 import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.commons.utils.ViewUtils;
 import me.shouheng.commons.widget.HackyViewPager;
-import me.shouheng.notepal.widget.tools.DepthPageTransformer;
+import me.shouheng.commons.widget.DepthPageTransformer;
 import ooo.oxo.library.widget.PullBackLayout;
 
 public class GalleryActivity extends AppCompatActivity implements PullBackLayout.Callback {

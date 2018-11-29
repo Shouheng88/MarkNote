@@ -13,7 +13,7 @@ import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.notepal.R;
 import me.shouheng.data.entity.Category;
 import me.shouheng.commons.widget.CircleImageView;
-import me.shouheng.notepal.widget.tools.IItemTouchHelperAdapter;
+import me.shouheng.commons.widget.recycler.IItemTouchHelperAdapter;
 
 /**
  * Created by Wang Shouheng on 2018/2/14. */

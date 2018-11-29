@@ -5,7 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <me.shouheng.notepal.widget.EmptyView
+        <me.shouheng.commons.widget.recycler.EmptyView
             android:id="@+id/iv_empty"
             android:layout_centerInParent="true"
             app:empty_image="@drawable/ic_large_folder"
@@ -14,12 +14,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <me.shouheng.notepal.widget.EmptySupportRecyclerView
+        <me.shouheng.commons.widget.recycler.EmptySupportRecyclerView
             android:id="@+id/rv_notes"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
-        <me.shouheng.notepal.widget.FastScroller
+        <me.shouheng.commons.widget.FastScroller
             android:id="@+id/fastscroller"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

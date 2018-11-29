@@ -1,4 +1,4 @@
-package me.shouheng.notepal.widget;
+package me.shouheng.commons.widget;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -14,8 +14,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import me.shouheng.notepal.R;
-import me.shouheng.notepal.widget.tools.BubbleTextGetter;
+import me.shouheng.commons.R;
+import me.shouheng.commons.widget.recycler.BubbleTextGetter;
 
 import static android.support.v7.widget.RecyclerView.OnScrollListener;
 
@@ -52,7 +52,7 @@ public class FastScroller extends LinearLayout {
 
         inflater.inflate(R.layout.recyclerview_fastscroller, this, true);
 
-        bubble = (TextView) findViewById(R.id.fastscroller_bubble);
+        bubble = findViewById(R.id.fastscroller_bubble);
         handle = findViewById(R.id.fastscroller_handle);
         bubble.setVisibility(INVISIBLE);
     }
@@ -155,7 +155,7 @@ public class FastScroller extends LinearLayout {
 
     private class ScrollListener extends OnScrollListener {
         @Override
-        public void onScrolled(RecyclerView rv, int dx, int dy) {
+        public void onScrolled(@NonNull RecyclerView rv, int dx, int dy) {
             if (handle.isSelected()) {
                 return;
             }
