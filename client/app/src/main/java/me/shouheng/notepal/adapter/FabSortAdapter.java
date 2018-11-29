@@ -14,7 +14,7 @@ import java.util.List;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.notepal.R;
 import me.shouheng.data.model.enums.FabSortItem;
-import me.shouheng.notepal.widget.CircleImageView;
+import me.shouheng.commons.widget.CircleImageView;
 
 
 /**

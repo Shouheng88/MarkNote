@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="56dp">
 
-    <me.shouheng.notepal.widget.CircleImageView
+    <me.shouheng.commons.widget.CircleImageView
         android:id="@+id/civ_color"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
@@ -13,7 +13,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp" />
 
-    <me.shouheng.notepal.widget.CircleImageView
+    <me.shouheng.commons.widget.CircleImageView
         android:id="@+id/civ_checked_bg"
         android:src="@android:color/white"
         android:layout_marginStart="37.5dp"
@@ -39,7 +39,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent" />
 
-    <me.shouheng.notepal.widget.CircleImageView
+    <me.shouheng.commons.widget.CircleImageView
         android:id="@+id/civ_selected"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"

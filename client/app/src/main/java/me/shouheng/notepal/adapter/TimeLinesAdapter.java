@@ -15,8 +15,8 @@ import me.shouheng.notepal.R;
 import me.shouheng.data.entity.TimeLine;
 import me.shouheng.commons.utils.TimeUtils;
 import me.shouheng.notepal.util.preferences.PrefUtils;
-import me.shouheng.notepal.widget.CircleImageView;
-import me.shouheng.notepal.widget.Timeline;
+import me.shouheng.commons.widget.CircleImageView;
+import me.shouheng.commons.widget.Timeline;
 
 /**
  * Created by wangshouheng on 2017/8/19. */

@@ -8,7 +8,7 @@
         android:layout_height="match_parent"
         tools:context=".activity.FabSortActivity">
 
-        <me.shouheng.commons.widget.SupportAppBarLayout
+        <me.shouheng.commons.widget.theme.SupportAppBarLayout
             android:id="@+id/bar_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -22,7 +22,7 @@
                 android:background="?attr/colorPrimary"
                 app:popupTheme="@style/AppTheme.PopupOverlay"/>
 
-        </me.shouheng.commons.widget.SupportAppBarLayout>
+        </me.shouheng.commons.widget.theme.SupportAppBarLayout>
 
         <LinearLayout
             android:orientation="vertical"

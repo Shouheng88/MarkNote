@@ -1,4 +1,4 @@
-package me.shouheng.commons.widget;
+package me.shouheng.commons.widget.theme;
 
 import android.content.Context;
 import android.support.design.widget.AppBarLayout;

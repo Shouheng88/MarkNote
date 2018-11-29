@@ -31,7 +31,7 @@ import me.shouheng.notepal.util.FileHelper;
 import me.shouheng.notepal.util.SystemUiVisibilityUtil;
 import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.commons.utils.ViewUtils;
-import me.shouheng.notepal.widget.HackyViewPager;
+import me.shouheng.commons.widget.HackyViewPager;
 import me.shouheng.notepal.widget.tools.DepthPageTransformer;
 import ooo.oxo.library.widget.PullBackLayout;
 

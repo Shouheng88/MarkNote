@@ -47,7 +47,7 @@
 
             </android.support.design.widget.TextInputLayout>
 
-            <me.shouheng.notepal.widget.WatcherTextView
+            <me.shouheng.commons.widget.WatcherTextView
                 android:id="@+id/wtv_question"
                 android:layout_gravity="end"
                 app:max_length="@integer/question_length"
@@ -71,7 +71,7 @@
 
             </android.support.design.widget.TextInputLayout>
 
-            <me.shouheng.notepal.widget.WatcherTextView
+            <me.shouheng.commons.widget.WatcherTextView
                 android:id="@+id/wtv_answer"
                 android:layout_gravity="end"
                 app:max_length="@integer/answer_length"
@@ -96,7 +96,7 @@
 
             </android.support.design.widget.TextInputLayout>
 
-            <me.shouheng.notepal.widget.WatcherTextView
+            <me.shouheng.commons.widget.WatcherTextView
                 android:id="@+id/wtv_confirm_answer"
                 android:layout_gravity="end"
                 app:max_length="@integer/answer_length"

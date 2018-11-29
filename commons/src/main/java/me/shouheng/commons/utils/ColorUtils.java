@@ -127,9 +127,7 @@ public class ColorUtils {
             } else {
                 try {
                     Method method = View.class.getMethod("setForeground", Drawable.class);
-                    if (method != null) {
-                        method.invoke(view, drawable);
-                    }
+                    method.invoke(view, drawable);
                 } catch (NoSuchMethodException e) {
                     LogUtils.e("NoSuchMethodException" + e);
                 } catch (IllegalAccessException e) {

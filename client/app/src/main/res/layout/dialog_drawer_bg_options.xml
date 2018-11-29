@@ -16,14 +16,14 @@
             android:layout_width="match_parent"
             android:layout_height="60dp">
 
-            <me.shouheng.notepal.widget.CircleImageView
+            <me.shouheng.commons.widget.CircleImageView
                 android:id="@+id/civ_default"
                 tools:src="@drawable/ic_google_plus"
                 android:layout_margin="10dp"
                 android:layout_width="40dp"
                 android:layout_height="40dp" />
 
-            <me.shouheng.notepal.widget.CircleImageView
+            <me.shouheng.commons.widget.CircleImageView
                 android:id="@+id/civ_bg1"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"

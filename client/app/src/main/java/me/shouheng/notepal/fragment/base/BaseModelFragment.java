@@ -39,7 +39,7 @@ import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.commons.utils.ViewUtils;
 import me.shouheng.notepal.viewmodel.BaseViewModel;
 import me.shouheng.notepal.viewmodel.CategoryViewModel;
-import me.shouheng.notepal.widget.FlowLayout;
+import me.shouheng.commons.widget.FlowLayout;
 
 /**
  * Created by wangshouheng on 2017/9/3.*/

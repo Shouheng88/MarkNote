@@ -60,7 +60,7 @@
 
     </android.support.design.widget.TextInputLayout>
 
-    <me.shouheng.notepal.widget.WatcherTextView
+    <me.shouheng.commons.widget.WatcherTextView
         android:id="@+id/wt_question"
         app:max_length="@integer/feedback_details_length"
         android:layout_marginBottom="16dp"

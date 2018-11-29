@@ -37,7 +37,7 @@ import me.shouheng.data.entity.MindSnagging;
 import me.shouheng.data.entity.Model;
 import me.shouheng.data.entity.Note;
 import me.shouheng.notepal.viewmodel.CategoryViewModel;
-import me.shouheng.notepal.widget.FlowLayout;
+import me.shouheng.commons.widget.FlowLayout;
 
 /**
  * Created by wangshouheng on 2017/11/4.*/

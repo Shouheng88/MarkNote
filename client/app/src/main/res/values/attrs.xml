@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="EmptyView">
+        <attr name="title" format="string"/>
+        <attr name="title_size" format="dimension|reference"/>
+        <attr name="sub_title" format="string"/>
+        <attr name="sub_title_size" format="dimension|reference"/>
+        <attr name="empty_image" format="reference"/>
+        <attr name="tint_drawable" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="SupportImageView">
+        <attr name="dark_theme_tint" format="color|reference" />
+        <attr name="light_theme_tint" format="color|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="SupportTextView">
+        <attr name="dark_theme_text_color" format="color|reference" />
+        <attr name="light_theme_text_color" format="color|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="CardTitleView">
+        <attr name="card_title" format="string"/>
+        <attr name="card_sub_title" format="string"/>
+        <attr name="card_icon" format="reference"/>
+    </declare-styleable>
+
+</resources>

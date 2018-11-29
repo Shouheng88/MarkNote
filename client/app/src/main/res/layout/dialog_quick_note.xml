@@ -30,7 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <me.shouheng.notepal.widget.SquareImageView
+                <me.shouheng.commons.widget.SquareImageView
                     android:id="@+id/siv"
                     android:visibility="gone"
                     tools:visibility="visible"
@@ -45,7 +45,7 @@
                     android:layout_height="wrap_content"
                     android:maxLength="@integer/mind_snagging_content_length" />
 
-                <me.shouheng.notepal.widget.WatcherTextView
+                <me.shouheng.commons.widget.WatcherTextView
                     android:id="@+id/wtv"
                     android:layout_gravity="end"
                     app:max_length="@integer/mind_snagging_content_length"

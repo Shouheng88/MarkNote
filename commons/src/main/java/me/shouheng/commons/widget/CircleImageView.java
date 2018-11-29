@@ -1,4 +1,4 @@
-package me.shouheng.notepal.widget;
+package me.shouheng.commons.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -21,8 +21,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 
-import me.shouheng.notepal.R;
-
+import me.shouheng.commons.R;
 
 public class CircleImageView extends AppCompatImageView {
 

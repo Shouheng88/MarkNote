@@ -45,7 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp">
 
-                <me.shouheng.notepal.widget.CircleImageView
+                <me.shouheng.commons.widget.CircleImageView
                     android:id="@+id/civ_portrait_background"
                     android:layout_gravity="center"
                     android:layout_width="40dp"
@@ -100,7 +100,7 @@
 
             </RelativeLayout>
 
-            <me.shouheng.notepal.widget.WatcherTextView
+            <me.shouheng.commons.widget.WatcherTextView
                 android:id="@+id/wtv"
                 android:layout_gravity="end"
                 android:paddingEnd="20dp"

@@ -1,4 +1,4 @@
-package me.shouheng.notepal.widget;
+package me.shouheng.commons.widget;
 
 import android.content.Context;
 import android.support.v7.widget.AppCompatImageView;

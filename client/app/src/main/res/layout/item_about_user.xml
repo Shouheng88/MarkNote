@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/AboutPage.Item.Card">
 
-    <me.shouheng.notepal.widget.CircleImageView
+    <me.shouheng.commons.widget.CircleImageView
         style="@style/AboutPage.ContributorAvatar"
         android:scaleType="centerCrop"
         android:id="@+id/avatar"

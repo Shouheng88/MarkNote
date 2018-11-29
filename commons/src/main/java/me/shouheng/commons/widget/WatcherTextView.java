@@ -1,4 +1,4 @@
-package me.shouheng.notepal.widget;
+package me.shouheng.commons.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -12,8 +12,8 @@ import android.widget.TextView;
 
 import java.lang.ref.WeakReference;
 
+import me.shouheng.commons.R;
 import me.shouheng.commons.utils.ColorUtils;
-import me.shouheng.notepal.R;
 
 /**
  * Created by wangshouheng on 2017/8/27.*/

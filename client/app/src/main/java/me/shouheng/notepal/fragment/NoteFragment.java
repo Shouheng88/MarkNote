@@ -63,7 +63,7 @@ import me.shouheng.notepal.viewmodel.CategoryViewModel;
 import me.shouheng.notepal.viewmodel.LocationViewModel;
 import me.shouheng.notepal.viewmodel.NoteViewModel;
 import me.shouheng.notepal.viewmodel.NotebookViewModel;
-import me.shouheng.notepal.widget.FlowLayout;
+import me.shouheng.commons.widget.FlowLayout;
 import me.shouheng.notepal.widget.MDItemView;
 
 /**

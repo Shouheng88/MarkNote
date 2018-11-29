@@ -1,4 +1,4 @@
-package me.shouheng.notepal.widget;
+package me.shouheng.commons.widget;
 
 /**
  * Found at http://stackoverflow.com/questions/7814017/is-it-possible-to-disable-scrolling-on-a-viewpager.

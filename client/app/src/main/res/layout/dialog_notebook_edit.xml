@@ -65,7 +65,7 @@
 
         </RelativeLayout>
 
-        <me.shouheng.notepal.widget.WatcherTextView
+        <me.shouheng.commons.widget.WatcherTextView
             android:id="@+id/watcher"
             android:layout_gravity="end"
             android:paddingEnd="20dp"

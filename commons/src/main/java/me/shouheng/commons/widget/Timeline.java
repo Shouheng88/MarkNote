@@ -1,4 +1,4 @@
-package me.shouheng.notepal.widget;
+package me.shouheng.commons.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -9,7 +9,7 @@ import android.support.annotation.Dimension;
 import android.util.AttributeSet;
 import android.view.View;
 
-import me.shouheng.notepal.R;
+import me.shouheng.commons.R;
 
 public class Timeline extends View {
 

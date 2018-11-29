@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<me.shouheng.notepal.widget.FlowLayout
+<me.shouheng.commons.widget.FlowLayout
     android:id="@+id/fl_labels"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="?attr/selectableItemBackground"

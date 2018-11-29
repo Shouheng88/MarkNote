@@ -14,7 +14,7 @@ import java.util.List;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.easymark.editor.Format;
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.widget.CircleImageView;
+import me.shouheng.commons.widget.CircleImageView;
 
 public class MenuSortAdapter extends RecyclerView.Adapter<MenuSortAdapter.ViewHolder> {
 

@@ -45,7 +45,7 @@
 
             </LinearLayout>
 
-            <me.shouheng.notepal.widget.FlowLayout
+            <me.shouheng.commons.widget.FlowLayout
                 android:id="@+id/fl"
                 android:layout_marginTop="16dp"
                 android:layout_width="match_parent"

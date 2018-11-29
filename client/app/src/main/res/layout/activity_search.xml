@@ -9,7 +9,7 @@
         android:fitsSystemWindows="true"
         tools:context=".activity.SearchActivity">
 
-        <me.shouheng.commons.widget.SupportAppBarLayout
+        <me.shouheng.commons.widget.theme.SupportAppBarLayout
             android:id="@+id/bar_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -21,7 +21,7 @@
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"/>
 
-        </me.shouheng.commons.widget.SupportAppBarLayout>
+        </me.shouheng.commons.widget.theme.SupportAppBarLayout>
 
         <RelativeLayout
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
