@@ -119,6 +119,14 @@
     <string name="drawer_menu_share">Share</string>
     <string name="drawer_menu_donate">Donate</string>
 
+    <string name="shortcut_add_long_name">Create new notes</string>
+    <string name="shortcut_add_short_name">Create</string>
+    <string name="shortcut_search_long_name">Search notes</string>
+    <string name="shortcut_search_short_name">Search</string>
+    <string name="shortcut_quick_long_name">Create quick note</string>
+    <string name="shortcut_quick_short_name">Quick</string>
+    <string name="shortcut_capture_long_name">Capture pictures</string>
+    <string name="shortcut_capture_short_name">Capture</string>
 
     <!--region Fab-->
     <string name="fab_opt_note">Note</string>

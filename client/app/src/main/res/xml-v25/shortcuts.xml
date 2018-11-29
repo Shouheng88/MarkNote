@@ -1,0 +1,52 @@
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--Action : Add note-->
+    <shortcut android:shortcutId="create"
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_create"
+        android:shortcutShortLabel="@string/shortcut_add_short_name"
+        android:shortcutLongLabel="@string/shortcut_add_long_name">
+        <intent
+            android:action="me.shouheng.notepal.CREATE_NOTE"
+            android:targetPackage="me.shouheng.notepal"
+            android:targetClass="me.shouheng.notepal.activity.MainActivity" />
+    </shortcut>
+
+    <!--Action : Quick note-->
+    <shortcut android:shortcutId="quick"
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_quick"
+        android:shortcutShortLabel="@string/shortcut_quick_short_name"
+        android:shortcutLongLabel="@string/shortcut_quick_long_name">
+        <!-- TODO Assign the quick note action to QuickNoteActivity. -->
+        <intent
+            android:action="me.shouheng.notepal.QUICK_NOTE"
+            android:targetPackage="me.shouheng.notepal"
+            android:targetClass="me.shouheng.notepal.activity.MainActivity" />
+    </shortcut>
+
+    <!--Action : Capture pictures-->
+    <shortcut android:shortcutId="capture"
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_capture"
+        android:shortcutShortLabel="@string/shortcut_capture_short_name"
+        android:shortcutLongLabel="@string/shortcut_capture_long_name">
+        <intent
+            android:action="me.shouheng.notepal.CAPTURE"
+            android:targetPackage="me.shouheng.notepal"
+            android:targetClass="me.shouheng.notepal.activity.MainActivity" />
+    </shortcut>
+
+    <!--Action : Search note-->
+    <shortcut android:shortcutId="search"
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_search"
+        android:shortcutShortLabel="@string/shortcut_search_short_name"
+        android:shortcutLongLabel="@string/shortcut_search_long_name">
+        <intent
+            android:action="me.shouheng.notepal.SEARCH_NOTE"
+            android:targetPackage="me.shouheng.notepal"
+            android:targetClass="me.shouheng.notepal.activity.MainActivity" />
+    </shortcut>
+
+</shortcuts>

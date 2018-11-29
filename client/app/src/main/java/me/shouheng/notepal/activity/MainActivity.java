@@ -76,6 +76,14 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         NotesFragment.OnNotesInteractListener,
         CategoriesFragment.OnCategoriesInteractListener {
 
+    public final static String SHORTCUT_ACTION_CRAETE_NOTE = "me.shouheng.notepal.CREATE_NOTE";
+
+    public final static String SHORTCUT_ACTION_SEARCH_NOTE = "me.shouheng.notepal.SEARCH_NOTE";
+
+    public final static String SHORTCUT_ACTION_QUICK_NOTE = "me.shouheng.notepal.QUICK_NOTE";
+
+    public final static String SHORTCUT_ACTION_CAPTURE = "me.shouheng.notepal.CAPTURE";
+
     private final static int REQUEST_PASSWORD = 0x0006;
     private final static long TIME_INTERVAL_BACK = 2000;
 
