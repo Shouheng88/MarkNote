@@ -11,7 +11,7 @@ import android.support.annotation.StringRes;
 import com.facebook.stetho.Stetho;
 
 import me.shouheng.commons.BaseApplication;
-import me.shouheng.notepal.model.Model;
+import me.shouheng.data.entity.Model;
 
 /**
  * TODO All the todo items in later version:

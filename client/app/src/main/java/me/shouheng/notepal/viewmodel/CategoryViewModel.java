@@ -8,9 +8,9 @@ import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.data.model.enums.Status;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.model.Category;
-import me.shouheng.notepal.model.Note;
-import me.shouheng.notepal.model.data.Resource;
+import me.shouheng.data.entity.Category;
+import me.shouheng.data.entity.Note;
+import me.shouheng.commons.model.data.Resource;
 import me.shouheng.notepal.repository.BaseRepository;
 import me.shouheng.notepal.repository.CategoryRepository;
 

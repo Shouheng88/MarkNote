@@ -26,7 +26,7 @@ import java.util.ArrayList;
 
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.AttachmentPagerAdapter;
-import me.shouheng.notepal.model.Attachment;
+import me.shouheng.data.entity.Attachment;
 import me.shouheng.notepal.util.FileHelper;
 import me.shouheng.notepal.util.SystemUiVisibilityUtil;
 import me.shouheng.commons.utils.ToastUtils;

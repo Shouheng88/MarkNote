@@ -12,15 +12,15 @@ import me.shouheng.data.model.enums.Status;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.adapter.NotesAdapter;
 import me.shouheng.notepal.adapter.NotesAdapter.MultiItem;
-import me.shouheng.notepal.model.Category;
-import me.shouheng.notepal.model.Note;
-import me.shouheng.notepal.model.Notebook;
-import me.shouheng.notepal.model.data.Resource;
-import me.shouheng.notepal.provider.BaseStore;
-import me.shouheng.notepal.provider.NotesStore;
-import me.shouheng.notepal.provider.helper.ArchiveHelper;
-import me.shouheng.notepal.provider.helper.NotebookHelper;
-import me.shouheng.notepal.provider.helper.TrashHelper;
+import me.shouheng.data.entity.Category;
+import me.shouheng.data.entity.Note;
+import me.shouheng.data.entity.Notebook;
+import me.shouheng.commons.model.data.Resource;
+import me.shouheng.data.store.BaseStore;
+import me.shouheng.data.store.NotesStore;
+import me.shouheng.data.helper.ArchiveHelper;
+import me.shouheng.data.helper.NotebookHelper;
+import me.shouheng.data.helper.TrashHelper;
 
 /**
  * Created by wang shouheng on 2018/3/13.*/
@@ -28,7 +28,7 @@ public class NoteRepository extends BaseRepository<Note> {
 
     @Override
     protected BaseStore<Note> getStore() {
-        return NotesStore.getInstance(PalmApp.getContext());
+        return NotesStore.getInstance();
     }
 
     public LiveData<Resource<List<MultiItem>>> getMultiItems(Category category, Status status, Notebook notebook) {

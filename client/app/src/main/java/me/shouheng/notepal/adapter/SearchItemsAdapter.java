@@ -13,7 +13,7 @@ import java.util.List;
 
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.model.Note;
+import me.shouheng.data.entity.Note;
 import me.shouheng.commons.utils.TimeUtils;
 
 /**

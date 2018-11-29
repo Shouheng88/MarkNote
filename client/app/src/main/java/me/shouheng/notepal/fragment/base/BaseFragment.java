@@ -17,7 +17,7 @@ import me.shouheng.commons.fragment.CommonFragment;
 import me.shouheng.commons.utils.PermissionUtils;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.listener.OnAttachingFileListener;
-import me.shouheng.notepal.model.Attachment;
+import me.shouheng.data.entity.Attachment;
 import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.util.FileHelper;
 import me.shouheng.notepal.util.ScreenShotHelper;

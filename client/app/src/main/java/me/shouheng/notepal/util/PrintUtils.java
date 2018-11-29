@@ -5,7 +5,7 @@ import android.print.PrintManager;
 import android.webkit.WebView;
 
 import me.shouheng.commons.utils.PalmUtils;
-import me.shouheng.notepal.model.Note;
+import me.shouheng.data.entity.Note;
 
 /**
  * Created by wang shouheng on 2017/12/28.*/

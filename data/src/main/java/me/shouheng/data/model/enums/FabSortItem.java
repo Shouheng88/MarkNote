@@ -3,8 +3,7 @@ package me.shouheng.data.model.enums;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.StringRes;
 
-import me.shouheng.notepal.R;
-
+import me.shouheng.data.R;
 
 /**
  * Created by wangshouheng on 2017/8/8. */

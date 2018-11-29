@@ -31,11 +31,11 @@ import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.config.TextLength;
-import me.shouheng.notepal.model.Attachment;
-import me.shouheng.notepal.model.Location;
-import me.shouheng.notepal.model.MindSnagging;
-import me.shouheng.notepal.model.Model;
-import me.shouheng.notepal.model.Note;
+import me.shouheng.data.entity.Attachment;
+import me.shouheng.data.entity.Location;
+import me.shouheng.data.entity.MindSnagging;
+import me.shouheng.data.entity.Model;
+import me.shouheng.data.entity.Note;
 import me.shouheng.notepal.viewmodel.CategoryViewModel;
 import me.shouheng.notepal.widget.FlowLayout;
 

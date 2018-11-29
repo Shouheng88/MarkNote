@@ -39,14 +39,14 @@ import java.util.Locale;
 
 import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.commons.utils.ToastUtils;
+import me.shouheng.data.DBConfig;
+import me.shouheng.data.ModelFactory;
+import me.shouheng.data.entity.Attachment;
 import me.shouheng.notepal.BuildConfig;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.manager.MediaStoreFactory;
-import me.shouheng.notepal.model.Attachment;
-import me.shouheng.notepal.model.ModelFactory;
-import me.shouheng.notepal.provider.PalmDB;
 
 import static java.lang.Long.parseLong;
 
@@ -702,7 +702,7 @@ public class FileHelper {
     }
 
     public static File getDatabaseFile(Context context) {
-        return context.getDatabasePath(PalmDB.DATABASE_NAME);
+        return context.getDatabasePath(DBConfig.DATABASE_NAME);
     }
 
     public static File getPreferencesFile(Context mContext) {

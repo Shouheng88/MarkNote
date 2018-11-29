@@ -13,8 +13,8 @@ import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.picker.ModelsPickerStrategy;
-import me.shouheng.notepal.model.Model;
-import me.shouheng.notepal.model.Selectable;
+import me.shouheng.data.entity.Model;
+import me.shouheng.data.utils.Selectable;
 
 /**
  * Created by wangshouheng on 2017/10/5.*/

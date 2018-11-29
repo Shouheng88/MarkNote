@@ -21,7 +21,7 @@ import com.just.agentweb.DefaultWebClient;
 
 import me.shouheng.commons.R;
 import me.shouheng.commons.databinding.FragmentWebviewBinding;
-import me.shouheng.commons.interaction.FragmentKeyDown;
+import me.shouheng.commons.activity.interaction.FragmentKeyDown;
 import me.shouheng.commons.utils.IntentUtils;
 import me.shouheng.commons.utils.PalmUtils;
 

@@ -1,11 +1,11 @@
-package me.shouheng.notepal.model.data;
+package me.shouheng.commons.model.data;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import static me.shouheng.notepal.model.data.Status.FAILED;
-import static me.shouheng.notepal.model.data.Status.LOADING;
-import static me.shouheng.notepal.model.data.Status.SUCCESS;
+import static me.shouheng.commons.model.data.Status.FAILED;
+import static me.shouheng.commons.model.data.Status.LOADING;
+import static me.shouheng.commons.model.data.Status.SUCCESS;
 
 /**
  * Created by wang shouheng on 2018/3/13. */

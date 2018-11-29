@@ -1,10 +1,11 @@
-package me.shouheng.notepal.model;
+package me.shouheng.data.model;
 
 import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Created by shouh on 2018/3/31.*/
+ * Created by shouh on 2018/3/31.
+ */
 public class Directory implements Serializable {
 
     private String id;

@@ -28,9 +28,9 @@ import me.shouheng.data.model.enums.ModelType;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.async.NormalAsyncTask;
-import me.shouheng.notepal.model.Stats;
-import me.shouheng.notepal.model.data.Resource;
-import me.shouheng.notepal.provider.helper.StatisticsHelper;
+import me.shouheng.data.model.Stats;
+import me.shouheng.commons.model.data.Resource;
+import me.shouheng.data.helper.StatisticsHelper;
 
 /**
  * Created by Employee on 2018/3/15.*/

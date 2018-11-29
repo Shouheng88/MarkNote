@@ -6,8 +6,8 @@ import android.arch.lifecycle.ViewModel;
 import java.util.List;
 
 import me.shouheng.data.model.enums.Status;
-import me.shouheng.notepal.model.Model;
-import me.shouheng.notepal.model.data.Resource;
+import me.shouheng.data.entity.Model;
+import me.shouheng.commons.model.data.Resource;
 import me.shouheng.notepal.repository.BaseRepository;
 
 /**

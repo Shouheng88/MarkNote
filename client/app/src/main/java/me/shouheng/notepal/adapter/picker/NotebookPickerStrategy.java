@@ -5,7 +5,7 @@ import android.graphics.drawable.Drawable;
 
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.model.Notebook;
+import me.shouheng.data.entity.Notebook;
 
 /**
  * Created by wangshouheng on 2017/10/5.*/

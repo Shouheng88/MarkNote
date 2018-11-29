@@ -3,8 +3,8 @@ package me.shouheng.notepal.viewmodel;
 import android.arch.lifecycle.LiveData;
 
 import me.shouheng.data.model.enums.Status;
-import me.shouheng.notepal.model.Notebook;
-import me.shouheng.notepal.model.data.Resource;
+import me.shouheng.data.entity.Notebook;
+import me.shouheng.commons.model.data.Resource;
 import me.shouheng.notepal.repository.BaseRepository;
 import me.shouheng.notepal.repository.NotebookRepository;
 

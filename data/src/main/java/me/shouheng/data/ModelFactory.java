@@ -1,17 +1,20 @@
 package me.shouheng.data;
 
+import android.support.annotation.Nullable;
+
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 import me.shouheng.commons.BaseApplication;
+import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.commons.utils.TimeUtils;
 import me.shouheng.commons.utils.UserUtil;
 import me.shouheng.data.entity.Alarm;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.data.entity.Category;
-import me.shouheng.data.model.DaysOfMonth;
-import me.shouheng.data.model.DaysOfWeek;
 import me.shouheng.data.entity.Location;
 import me.shouheng.data.entity.MindSnagging;
 import me.shouheng.data.entity.Model;
@@ -19,13 +22,17 @@ import me.shouheng.data.entity.Note;
 import me.shouheng.data.entity.Notebook;
 import me.shouheng.data.entity.TimeLine;
 import me.shouheng.data.entity.Weather;
+import me.shouheng.data.model.DaysOfMonth;
+import me.shouheng.data.model.DaysOfWeek;
 import me.shouheng.data.model.enums.AlarmType;
 import me.shouheng.data.model.enums.ModelType;
+import me.shouheng.data.model.enums.NoteType;
 import me.shouheng.data.model.enums.Operation;
 import me.shouheng.data.model.enums.Portrait;
 import me.shouheng.data.model.enums.Status;
 import me.shouheng.data.model.enums.WeatherType;
 
+import static me.shouheng.data.DBConfig.CATEGORY_SPLIT;
 import static me.shouheng.data.DBConfig.TIMELINE_CONTENT_LENGTH;
 
 /**
@@ -116,6 +123,29 @@ public class ModelFactory {
         return notebook;
     }
 
+    public static Note getNote() {
+        Note note = getModel(Note.class);
+        assert note != null;
+        note.setNoteType(NoteType.NORMAL);
+        return note;
+    }
+
+    public static Note getNote(@Nullable Notebook notebook, @Nullable Category category) {
+        Note note = getNote();
+        if (notebook != null) {
+            note.setParentCode(notebook.getCode());
+            note.setTreePath(notebook.getTreePath() + "|" + note.getCode());
+        } else {
+            note.setTreePath(String.valueOf(note.getCode()));
+        }
+
+        if (category != null) {
+            note.setTags(getTags(Collections.singletonList(category)));
+        }
+
+        return note;
+    }
+
     public static <T extends Model> TimeLine getTimeLine(T model, Operation operation) {
         TimeLine timeLine = new TimeLine();
 
@@ -169,5 +199,17 @@ public class ModelFactory {
             return modelName.substring(0, TIMELINE_CONTENT_LENGTH);
         }
         return modelName;
+    }
+
+    public static String getTags(List<Category> categories) {
+        if (categories == null || categories.isEmpty()) return null;
+        int len = categories.size();
+        StringBuilder sb = new StringBuilder();
+        for (int i=0; i<len; i++) {
+            sb.append(categories.get(i).getCode());
+            if (i != len - 1) sb.append(CATEGORY_SPLIT);
+        }
+        LogUtils.d(sb.toString());
+        return sb.toString();
     }
 }

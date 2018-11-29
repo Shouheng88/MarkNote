@@ -1,6 +1,6 @@
 package me.shouheng.notepal.listener;
 
-import me.shouheng.notepal.model.Attachment;
+import me.shouheng.data.entity.Attachment;
 
 public interface OnAttachingFileListener {
 

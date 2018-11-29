@@ -30,9 +30,9 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.databinding.DialogQuickNoteBinding;
 import me.shouheng.notepal.listener.OnAttachingFileListener;
-import me.shouheng.notepal.model.Attachment;
-import me.shouheng.notepal.model.MindSnagging;
-import me.shouheng.notepal.provider.AttachmentsStore;
+import me.shouheng.data.entity.Attachment;
+import me.shouheng.data.entity.MindSnagging;
+import me.shouheng.data.store.AttachmentsStore;
 import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.util.FileHelper;
 import me.shouheng.commons.utils.ToastUtils;
@@ -69,7 +69,7 @@ public class QuickNoteDialog extends DialogFragment implements OnAttachingFileLi
         assert args != null;
         this.mindSnagging = (MindSnagging) args.getSerializable(ARGS_KEY_QUICK_NOTE);
         // use the attachment from database as default
-        this.attachment = AttachmentsStore.getInstance(PalmApp.getContext())
+        this.attachment = AttachmentsStore.getInstance()
                 .getAttachment(ModelType.MIND_SNAGGING, mindSnagging.getCode());
 
         binding = DataBindingUtil.inflate(LayoutInflater.from(getContext()),

@@ -5,7 +5,7 @@ import android.graphics.drawable.Drawable;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.model.Category;
+import me.shouheng.data.entity.Category;
 
 /**
  * Created by shouh on 2018/3/20. */

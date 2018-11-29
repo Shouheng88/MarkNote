@@ -8,9 +8,9 @@ import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.ModelsPickerAdapter;
 import me.shouheng.notepal.adapter.picker.NotebookPickerStrategy;
-import me.shouheng.notepal.model.Notebook;
-import me.shouheng.notepal.provider.NotebookStore;
-import me.shouheng.notepal.provider.schema.NotebookSchema;
+import me.shouheng.data.entity.Notebook;
+import me.shouheng.data.store.NotebookStore;
+import me.shouheng.data.schema.NotebookSchema;
 import me.shouheng.notepal.widget.EmptyView;
 
 /**
@@ -27,7 +27,7 @@ public class NotebookPickerDialog extends BasePickerDialog<Notebook> {
     }
 
     private List<Notebook> getNotebooks() {
-        return NotebookStore.getInstance(getContext()).getNotebooks(null, NotebookSchema.ADDED_TIME + " DESC ");
+        return NotebookStore.getInstance().getNotebooks(null, NotebookSchema.ADDED_TIME + " DESC ");
     }
 
     @Override

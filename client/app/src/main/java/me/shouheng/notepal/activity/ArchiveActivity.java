@@ -6,8 +6,8 @@ import me.shouheng.data.model.enums.Status;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.fragment.CategoriesFragment;
 import me.shouheng.notepal.fragment.NotesFragment;
-import me.shouheng.notepal.model.Category;
-import me.shouheng.notepal.model.Notebook;
+import me.shouheng.data.entity.Category;
+import me.shouheng.data.entity.Notebook;
 import me.shouheng.notepal.util.FragmentHelper;
 
 public class ArchiveActivity extends BaseListActivity {

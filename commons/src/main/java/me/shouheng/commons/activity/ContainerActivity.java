@@ -12,9 +12,9 @@ import android.view.View;
 import me.shouheng.commons.R;
 import me.shouheng.commons.databinding.ActivityContainerBinding;
 import me.shouheng.commons.helper.FragmentHelper;
-import me.shouheng.commons.interaction.BackEventResolver;
+import me.shouheng.commons.activity.interaction.BackEventResolver;
 import me.shouheng.commons.utils.ColorUtils;
-import me.shouheng.commons.interaction.FragmentKeyDown;
+import me.shouheng.commons.activity.interaction.FragmentKeyDown;
 import me.shouheng.commons.utils.PalmUtils;
 
 public class ContainerActivity extends CommonActivity<ActivityContainerBinding> {

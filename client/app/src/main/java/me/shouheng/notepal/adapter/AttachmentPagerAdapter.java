@@ -13,7 +13,7 @@ import java.util.List;
 
 import me.shouheng.commons.helper.FragmentHelper;
 import me.shouheng.notepal.fragment.ImageFragment;
-import me.shouheng.notepal.model.Attachment;
+import me.shouheng.data.entity.Attachment;
 
 
 public class AttachmentPagerAdapter extends FragmentStatePagerAdapter {

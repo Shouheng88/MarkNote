@@ -1,4 +1,4 @@
-package me.shouheng.notepal.model.data;
+package me.shouheng.commons.model.data;
 
 /**
  * Created by wang shouheng on 2018/3/13. */

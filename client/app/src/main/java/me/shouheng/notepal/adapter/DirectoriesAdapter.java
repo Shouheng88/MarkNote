@@ -11,7 +11,7 @@ import java.util.LinkedList;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.model.Directory;
+import me.shouheng.data.model.Directory;
 
 /**
  * Created by shouh on 2018/3/30.*/

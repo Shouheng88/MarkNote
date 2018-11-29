@@ -2,7 +2,7 @@ package me.shouheng.notepal.async.onedrive;
 
 import android.os.AsyncTask;
 
-import me.shouheng.notepal.provider.AttachmentsStore;
+import me.shouheng.data.store.AttachmentsStore;
 import me.shouheng.notepal.util.preferences.SyncPreferences;
 
 /**

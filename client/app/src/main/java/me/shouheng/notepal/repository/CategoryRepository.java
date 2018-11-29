@@ -5,15 +5,14 @@ import android.arch.lifecycle.MutableLiveData;
 
 import java.util.List;
 
+import me.shouheng.commons.model.data.Resource;
+import me.shouheng.data.entity.Category;
+import me.shouheng.data.entity.Note;
 import me.shouheng.data.model.enums.Status;
-import me.shouheng.notepal.PalmApp;
+import me.shouheng.data.schema.CategorySchema;
+import me.shouheng.data.store.BaseStore;
+import me.shouheng.data.store.CategoryStore;
 import me.shouheng.notepal.async.NormalAsyncTask;
-import me.shouheng.notepal.model.Category;
-import me.shouheng.notepal.model.Note;
-import me.shouheng.notepal.model.data.Resource;
-import me.shouheng.notepal.provider.BaseStore;
-import me.shouheng.notepal.provider.CategoryStore;
-import me.shouheng.notepal.provider.schema.CategorySchema;
 
 /**
  * Created by WangShouheng on 2018/3/13.*/
@@ -21,7 +20,7 @@ public class CategoryRepository extends BaseRepository<Category> {
 
     @Override
     protected BaseStore<Category> getStore() {
-        return CategoryStore.getInstance(PalmApp.getContext());
+        return CategoryStore.getInstance();
     }
 
     public LiveData<Resource<List<Category>>> getCategories(Note note) {

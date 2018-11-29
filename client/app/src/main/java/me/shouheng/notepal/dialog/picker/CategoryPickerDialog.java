@@ -10,7 +10,7 @@ import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.ModelsPickerAdapter;
 import me.shouheng.notepal.adapter.picker.CategoryPickerStrategy;
-import me.shouheng.notepal.model.Category;
+import me.shouheng.data.entity.Category;
 import me.shouheng.notepal.widget.EmptyView;
 
 /**

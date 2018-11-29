@@ -51,13 +51,13 @@ import me.shouheng.notepal.fragment.NotesFragment;
 import me.shouheng.notepal.fragment.StatisticsFragment;
 import me.shouheng.notepal.fragment.TimeLineFragment;
 import me.shouheng.notepal.fragment.setting.SettingsFragment;
-import me.shouheng.notepal.model.Attachment;
-import me.shouheng.notepal.model.Category;
-import me.shouheng.notepal.model.MindSnagging;
-import me.shouheng.notepal.model.Model;
-import me.shouheng.notepal.model.ModelFactory;
-import me.shouheng.notepal.model.Note;
-import me.shouheng.notepal.model.Notebook;
+import me.shouheng.data.entity.Attachment;
+import me.shouheng.data.entity.Category;
+import me.shouheng.data.entity.MindSnagging;
+import me.shouheng.data.entity.Model;
+import me.shouheng.data.ModelFactory;
+import me.shouheng.data.entity.Note;
+import me.shouheng.data.entity.Notebook;
 import me.shouheng.data.model.enums.FabSortItem;
 import me.shouheng.notepal.util.FragmentHelper;
 import me.shouheng.notepal.util.SynchronizeUtils;
@@ -721,16 +721,16 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     }
 
     @Override
-    public void onCategoryLoadStateChanged(me.shouheng.notepal.model.data.Status status) {
+    public void onCategoryLoadStateChanged(me.shouheng.commons.model.data.Status status) {
         onLoadStateChanged(status);
     }
 
     @Override
-    public void onNoteLoadStateChanged(me.shouheng.notepal.model.data.Status status) {
+    public void onNoteLoadStateChanged(me.shouheng.commons.model.data.Status status) {
         onLoadStateChanged(status);
     }
 
-    private void onLoadStateChanged(me.shouheng.notepal.model.data.Status status) {
+    private void onLoadStateChanged(me.shouheng.commons.model.data.Status status) {
         switch (status) {
             case SUCCESS:
             case FAILED:

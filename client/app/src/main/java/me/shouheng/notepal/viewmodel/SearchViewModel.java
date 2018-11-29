@@ -8,9 +8,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import me.shouheng.notepal.async.ResourceAsyncTask;
-import me.shouheng.notepal.model.MindSnagging;
-import me.shouheng.notepal.model.Note;
-import me.shouheng.notepal.model.data.Resource;
+import me.shouheng.data.entity.MindSnagging;
+import me.shouheng.data.entity.Note;
+import me.shouheng.commons.model.data.Resource;
 import me.shouheng.notepal.repository.QueryRepository;
 import me.shouheng.notepal.util.tools.SearchConditions;
 import me.shouheng.notepal.util.tools.SearchResult;

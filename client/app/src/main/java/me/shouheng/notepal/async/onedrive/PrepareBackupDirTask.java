@@ -9,11 +9,11 @@ import com.onedrive.sdk.extensions.Item;
 
 import java.util.List;
 
+import me.shouheng.data.DBConfig;
+import me.shouheng.data.model.Directory;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.manager.onedrive.OneDriveManager;
-import me.shouheng.notepal.model.Directory;
-import me.shouheng.notepal.provider.PalmDB;
 import me.shouheng.notepal.util.FileHelper;
 
 import static me.shouheng.notepal.config.Constants.BACKUP_DIR_NAME;
@@ -119,7 +119,7 @@ public class PrepareBackupDirTask extends AsyncTask<Void, Integer, String> {
                                     isFilesGet = true;
                                     onGetResultListener.onGetBackupDir(toItemId);
                                     onGetResultListener.onGetFilesBackupDir(childItem.id);
-                                } else if (PalmDB.DATABASE_NAME.equals(childItem.name)) {
+                                } else if (DBConfig.DATABASE_NAME.equals(childItem.name)) {
                                     // Return the database file id
                                     onGetResultListener.onGetDatabaseFile(childItem.id);
                                 } else if (prefName.equals(childItem.name)) {

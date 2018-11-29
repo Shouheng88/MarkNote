@@ -12,8 +12,6 @@ import me.shouheng.data.model.enums.Operation;
 import me.shouheng.data.schema.TimelineSchema;
 
 /**
- * 时间线的数据库方法
- *
  * Created by wangshouheng on 2017/8/13. */
 public class TimelineStore extends BaseStore<TimeLine> {
 

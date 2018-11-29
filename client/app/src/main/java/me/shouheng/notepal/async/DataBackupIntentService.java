@@ -16,12 +16,12 @@ import java.util.Collection;
 import java.util.List;
 
 import me.shouheng.commons.utils.LogUtils;
+import me.shouheng.data.DBConfig;
+import me.shouheng.data.entity.Attachment;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.MainActivity;
 import me.shouheng.notepal.config.Constants;
-import me.shouheng.notepal.model.Attachment;
-import me.shouheng.notepal.provider.AttachmentsStore;
-import me.shouheng.notepal.provider.PalmDB;
+import me.shouheng.data.store.AttachmentsStore;
 import me.shouheng.notepal.util.FileHelper;
 import me.shouheng.notepal.util.NotificationsHelper;
 
@@ -109,14 +109,14 @@ public class DataBackupIntentService extends IntentService {
     }
 
     private boolean exportDB(File backupDir) {
-        File database = getDatabasePath(PalmDB.DATABASE_NAME);
-        return (FileHelper.copyFile(database, new File(backupDir, PalmDB.DATABASE_NAME)));
+        File database = getDatabasePath(DBConfig.DATABASE_NAME);
+        return (FileHelper.copyFile(database, new File(backupDir, DBConfig.DATABASE_NAME)));
     }
 
     private boolean exportAttachments(File backupDir) {
         File destDir = FileHelper.getExternalFilesBackupDir(backupDir);
 
-        AttachmentsStore store = AttachmentsStore.getInstance(this);
+        AttachmentsStore store = AttachmentsStore.getInstance();
         List<Attachment> list = store.get(null, null);
 
         int exported = 0, size = list.size();
@@ -150,11 +150,11 @@ public class DataBackupIntentService extends IntentService {
     }
 
     private boolean importDB(File backupDir) {
-        File database = getDatabasePath(PalmDB.DATABASE_NAME);
+        File database = getDatabasePath(DBConfig.DATABASE_NAME);
         if (database.exists()) {
             database.delete();
         }
-        return (FileHelper.copyFile(new File(backupDir, PalmDB.DATABASE_NAME), database));
+        return (FileHelper.copyFile(new File(backupDir, DBConfig.DATABASE_NAME), database));
     }
 
     private void importAttachments(File backupDir) {

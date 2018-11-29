@@ -13,11 +13,11 @@ import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.data.model.enums.ModelType;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.async.ResourceAsyncTask;
-import me.shouheng.notepal.model.Attachment;
-import me.shouheng.notepal.model.ModelFactory;
-import me.shouheng.notepal.model.Note;
-import me.shouheng.notepal.model.data.Resource;
-import me.shouheng.notepal.provider.AttachmentsStore;
+import me.shouheng.data.entity.Attachment;
+import me.shouheng.data.ModelFactory;
+import me.shouheng.data.entity.Note;
+import me.shouheng.commons.model.data.Resource;
+import me.shouheng.data.store.AttachmentsStore;
 import me.shouheng.notepal.repository.AttachmentRepository;
 import me.shouheng.notepal.repository.BaseRepository;
 import me.shouheng.notepal.util.FileHelper;
@@ -39,7 +39,7 @@ public class AttachmentViewModel extends BaseViewModel<Attachment> {
     public LiveData<Resource<String>> readNoteContent(Note note) {
         MutableLiveData<Resource<String>> result = new MutableLiveData<>();
         new ResourceAsyncTask<>(result, () -> {
-            Attachment atFile = AttachmentsStore.getInstance(PalmApp.getContext()).get(note.getContentCode());
+            Attachment atFile = AttachmentsStore.getInstance().get(note.getContentCode());
             if (atFile == null) {
                 // return the note content field
                 return Resource.success(note.getContent());
@@ -60,7 +60,7 @@ public class AttachmentViewModel extends BaseViewModel<Attachment> {
     public LiveData<Resource<Attachment>> writeNoteContent(Note note) {
         MutableLiveData<Resource<Attachment>> result = new MutableLiveData<>();
         new ResourceAsyncTask<>(result, () -> {
-            Attachment atFile = AttachmentsStore.getInstance(PalmApp.getContext()).get(note.getContentCode());
+            Attachment atFile = AttachmentsStore.getInstance().get(note.getContentCode());
             if (atFile == null) {
                 // If the attachment is not exist, we will try to create a new one.
                 String extension = NotePreferences.getInstance().getNoteFileExtension();
@@ -74,7 +74,7 @@ public class AttachmentViewModel extends BaseViewModel<Attachment> {
                     atFile.setName(noteFile.getName());
                     atFile.setModelType(ModelType.NOTE);
                     atFile.setModelCode(note.getCode());
-                    AttachmentsStore.getInstance(PalmApp.getContext()).saveModel(atFile);
+                    AttachmentsStore.getInstance().saveModel(atFile);
                     return Resource.success(atFile);
                 } catch (IOException e) {
                     return Resource.error(e.getMessage(), null);
@@ -85,7 +85,7 @@ public class AttachmentViewModel extends BaseViewModel<Attachment> {
                     FileUtils.writeStringToFile(noteFile, note.getContent(), "utf-8", false);
                     // Whenever the attachment file is updated, remember to update its attachment.
                     atFile.setLastModifiedTime(new Date());
-                    AttachmentsStore.getInstance(PalmApp.getContext()).update(atFile);
+                    AttachmentsStore.getInstance().update(atFile);
                     return Resource.success(atFile);
                 } catch (IOException e) {
                     return Resource.error(e.getMessage(), atFile);

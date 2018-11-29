@@ -33,7 +33,7 @@ import me.shouheng.notepal.adapter.CategoriesAdapter;
 import me.shouheng.notepal.databinding.FragmentCategoriesBinding;
 import me.shouheng.notepal.dialog.CategoryEditDialog;
 import me.shouheng.notepal.fragment.base.BaseFragment;
-import me.shouheng.notepal.model.Category;
+import me.shouheng.data.entity.Category;
 import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.notepal.viewmodel.CategoryViewModel;
 import me.shouheng.notepal.widget.tools.CustomItemAnimator;
@@ -138,7 +138,7 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
     public void reload() {
         if (getActivity() instanceof OnCategoriesInteractListener) {
             ((OnCategoriesInteractListener) getActivity()).onCategoryLoadStateChanged(
-                    me.shouheng.notepal.model.data.Status.LOADING);
+                    me.shouheng.commons.model.data.Status.LOADING);
         }
 
         viewModel.getCategories(status).observe(this, listResource -> {
@@ -298,6 +298,6 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
 
         default void onCategorySelected(Category category) {}
 
-        default void onCategoryLoadStateChanged(me.shouheng.notepal.model.data.Status status) {}
+        default void onCategoryLoadStateChanged(me.shouheng.commons.model.data.Status status) {}
     }
 }

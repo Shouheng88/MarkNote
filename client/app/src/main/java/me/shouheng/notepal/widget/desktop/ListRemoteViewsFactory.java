@@ -19,10 +19,10 @@ import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.config.Constants;
-import me.shouheng.notepal.model.Note;
-import me.shouheng.notepal.model.Notebook;
-import me.shouheng.notepal.provider.NotesStore;
-import me.shouheng.notepal.provider.schema.NoteSchema;
+import me.shouheng.data.entity.Note;
+import me.shouheng.data.entity.Notebook;
+import me.shouheng.data.store.NotesStore;
+import me.shouheng.data.schema.NoteSchema;
 import me.shouheng.notepal.util.AppWidgetUtils;
 import me.shouheng.commons.utils.TimeUtils;
 
@@ -52,7 +52,7 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory, SharedPrefere
 
     private void setupModels() {
         String condition = sharedPreferences.getString(Constants.PREF_WIDGET_SQL_PREFIX + String.valueOf(appWidgetId), "");
-        NotesStore store = NotesStore.getInstance(app);
+        NotesStore store = NotesStore.getInstance();
         notes = store.get(condition, NoteSchema.LAST_MODIFIED_TIME + " DESC ");
     }
 

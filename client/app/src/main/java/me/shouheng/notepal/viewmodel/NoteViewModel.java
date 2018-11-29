@@ -19,15 +19,15 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.NotesAdapter.MultiItem;
 import me.shouheng.notepal.async.ResourceAsyncTask;
 import me.shouheng.notepal.config.Constants;
-import me.shouheng.notepal.model.Attachment;
-import me.shouheng.notepal.model.Category;
-import me.shouheng.notepal.model.MindSnagging;
-import me.shouheng.notepal.model.ModelFactory;
-import me.shouheng.notepal.model.Note;
-import me.shouheng.notepal.model.Notebook;
-import me.shouheng.notepal.model.data.Resource;
-import me.shouheng.notepal.provider.AttachmentsStore;
-import me.shouheng.notepal.provider.NotesStore;
+import me.shouheng.data.entity.Attachment;
+import me.shouheng.data.entity.Category;
+import me.shouheng.data.entity.MindSnagging;
+import me.shouheng.data.ModelFactory;
+import me.shouheng.data.entity.Note;
+import me.shouheng.data.entity.Notebook;
+import me.shouheng.commons.model.data.Resource;
+import me.shouheng.data.store.AttachmentsStore;
+import me.shouheng.data.store.NotesStore;
 import me.shouheng.notepal.repository.BaseRepository;
 import me.shouheng.notepal.repository.NoteRepository;
 import me.shouheng.notepal.util.FileHelper;
@@ -63,7 +63,7 @@ public class NoteViewModel extends BaseViewModel<Note> {
                 // Save attachment
                 attachment.setModelCode(note.getCode());
                 attachment.setModelType(ModelType.NOTE);
-                AttachmentsStore.getInstance(PalmApp.getContext()).saveModel(attachment);
+                AttachmentsStore.getInstance().saveModel(attachment);
 
                 // prepare note content
                 if (Constants.MIME_TYPE_IMAGE.equalsIgnoreCase(attachment.getMineType())
@@ -93,7 +93,7 @@ public class NoteViewModel extends BaseViewModel<Note> {
                 atFile.setName(noteFile.getName());
                 atFile.setModelType(ModelType.NOTE);
                 atFile.setModelCode(note.getCode());
-                AttachmentsStore.getInstance(PalmApp.getContext()).saveModel(atFile);
+                AttachmentsStore.getInstance().saveModel(atFile);
 
                 note.setContentCode(atFile.getCode());
             } catch (IOException e) {
@@ -101,7 +101,7 @@ public class NoteViewModel extends BaseViewModel<Note> {
                 return Resource.error(e.getMessage(), null);
             }
 
-            NotesStore.getInstance(PalmApp.getContext()).saveModel(note);
+            NotesStore.getInstance().saveModel(note);
 
             // Return value
             return Resource.success(note);

@@ -4,8 +4,8 @@ import android.os.AsyncTask;
 
 import java.util.List;
 
-import me.shouheng.notepal.model.Attachment;
-import me.shouheng.notepal.provider.AttachmentsStore;
+import me.shouheng.data.entity.Attachment;
+import me.shouheng.data.store.AttachmentsStore;
 
 /**
  * Created by shouh on 2018/4/3.*/

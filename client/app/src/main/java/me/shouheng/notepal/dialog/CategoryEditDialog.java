@@ -16,7 +16,7 @@ import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.data.model.enums.Portrait;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.DialogCategoryEditBinding;
-import me.shouheng.notepal.model.Category;
+import me.shouheng.data.entity.Category;
 import me.shouheng.commons.utils.ToastUtils;
 
 /**

@@ -1,4 +1,4 @@
-package me.shouheng.commons.interaction;
+package me.shouheng.commons.activity.interaction;
 
 /**
  * @author shouh

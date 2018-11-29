@@ -2,7 +2,7 @@ package me.shouheng.notepal.adapter.picker;
 
 import android.graphics.drawable.Drawable;
 
-import me.shouheng.notepal.model.Model;
+import me.shouheng.data.entity.Model;
 
 
 /**

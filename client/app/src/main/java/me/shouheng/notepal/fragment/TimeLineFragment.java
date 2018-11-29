@@ -15,9 +15,9 @@ import me.shouheng.data.model.enums.Status;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.TimeLinesAdapter;
 import me.shouheng.notepal.databinding.FragmentTimeLineBinding;
-import me.shouheng.notepal.model.TimeLine;
-import me.shouheng.notepal.provider.TimelineStore;
-import me.shouheng.notepal.provider.schema.TimelineSchema;
+import me.shouheng.data.entity.TimeLine;
+import me.shouheng.data.store.TimelineStore;
+import me.shouheng.data.schema.TimelineSchema;
 import me.shouheng.commons.utils.ToastUtils;
 
 /**
@@ -55,8 +55,8 @@ public class TimeLineFragment extends CommonFragment<FragmentTimeLineBinding> {
     }
 
     private void configTimeline() {
-        modelsCount = TimelineStore.getInstance(getContext()).getCount(null, null, false);
-        List<TimeLine> timeLines = TimelineStore.getInstance(getContext()).getPage(startIndex,
+        modelsCount = TimelineStore.getInstance().getCount(null, null, false);
+        List<TimeLine> timeLines = TimelineStore.getInstance().getPage(startIndex,
                 pageNumber,
                 TimelineSchema.ADDED_TIME + " DESC ",
                 Status.NORMAL,
@@ -93,7 +93,7 @@ public class TimeLineFragment extends CommonFragment<FragmentTimeLineBinding> {
             startIndex -= pageNumber;
             ToastUtils.makeToast(R.string.no_more_data);
         } else {
-            List<TimeLine> list = TimelineStore.getInstance(getContext()).getPage(startIndex,
+            List<TimeLine> list = TimelineStore.getInstance().getPage(startIndex,
                     pageNumber,
                     TimelineSchema.ADDED_TIME + " DESC ",
                     Status.NORMAL,

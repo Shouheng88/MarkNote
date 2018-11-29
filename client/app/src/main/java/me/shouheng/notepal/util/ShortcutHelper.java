@@ -7,8 +7,8 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.ContentActivity;
 import me.shouheng.notepal.activity.MainActivity;
 import me.shouheng.notepal.config.Constants;
-import me.shouheng.notepal.model.Model;
-import me.shouheng.notepal.model.Note;
+import me.shouheng.data.entity.Model;
+import me.shouheng.data.entity.Note;
 
 public class ShortcutHelper {
 

@@ -24,7 +24,7 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.ActivityBaseListBinding;
 import me.shouheng.notepal.fragment.CategoriesFragment;
 import me.shouheng.notepal.fragment.NotesFragment;
-import me.shouheng.notepal.model.data.Status;
+import me.shouheng.commons.model.data.Status;
 import me.shouheng.notepal.util.FragmentHelper;
 
 

@@ -26,12 +26,12 @@ import me.shouheng.notepal.activity.ContentActivity;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.dialog.CategoryEditDialog;
 import me.shouheng.notepal.dialog.picker.CategoryPickerDialog;
-import me.shouheng.notepal.model.Category;
-import me.shouheng.notepal.model.Location;
-import me.shouheng.notepal.model.Model;
-import me.shouheng.notepal.model.ModelFactory;
-import me.shouheng.notepal.model.data.Resource;
-import me.shouheng.notepal.provider.CategoryStore;
+import me.shouheng.data.entity.Category;
+import me.shouheng.data.entity.Location;
+import me.shouheng.data.entity.Model;
+import me.shouheng.data.ModelFactory;
+import me.shouheng.commons.model.data.Resource;
+import me.shouheng.data.store.CategoryStore;
 import me.shouheng.notepal.util.AppWidgetUtils;
 import me.shouheng.commons.utils.NetworkUtils;
 import me.shouheng.notepal.util.ShortcutHelper;
@@ -308,7 +308,7 @@ public abstract class BaseModelFragment<T extends Model, V extends ViewDataBindi
 
     private List<Category> getAllCategories() {
         if (allCategories == null) {
-            allCategories = CategoryStore.getInstance(getContext()).get(null, null);
+            allCategories = CategoryStore.getInstance().get(null, null);
         }
         return allCategories;
     }

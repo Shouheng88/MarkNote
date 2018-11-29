@@ -3,13 +3,12 @@ package me.shouheng.notepal.repository;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 
+import me.shouheng.commons.model.data.Resource;
+import me.shouheng.data.entity.Notebook;
 import me.shouheng.data.model.enums.Status;
-import me.shouheng.notepal.PalmApp;
+import me.shouheng.data.store.BaseStore;
+import me.shouheng.data.store.NotebookStore;
 import me.shouheng.notepal.async.NormalAsyncTask;
-import me.shouheng.notepal.model.Notebook;
-import me.shouheng.notepal.model.data.Resource;
-import me.shouheng.notepal.provider.BaseStore;
-import me.shouheng.notepal.provider.NotebookStore;
 
 /**
  * Created by Employee on 2018/3/13. */
@@ -17,7 +16,7 @@ public class NotebookRepository extends BaseRepository<Notebook> {
 
     @Override
     protected BaseStore<Notebook> getStore() {
-        return NotebookStore.getInstance(PalmApp.getContext());
+        return NotebookStore.getInstance();
     }
 
     public LiveData<Resource<Notebook>> update(Notebook model, Status fromStatus, Status toStatus) {

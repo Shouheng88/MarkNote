@@ -8,8 +8,8 @@ import java.util.concurrent.CountDownLatch;
 
 import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.notepal.manager.onedrive.OneDriveManager;
-import me.shouheng.notepal.model.Attachment;
-import me.shouheng.notepal.provider.AttachmentsStore;
+import me.shouheng.data.entity.Attachment;
+import me.shouheng.data.store.AttachmentsStore;
 
 /**
  * Created by shouh on 2018/4/2.*/

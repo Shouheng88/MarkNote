@@ -4,7 +4,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.os.AsyncTask;
 
 import me.shouheng.notepal.listener.OnTaskExecutingListener;
-import me.shouheng.notepal.model.data.Resource;
+import me.shouheng.commons.model.data.Resource;
 
 /**
  * Created by shouh on 2018/3/16.*/

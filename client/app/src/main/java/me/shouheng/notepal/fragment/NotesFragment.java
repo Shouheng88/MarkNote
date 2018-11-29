@@ -33,9 +33,9 @@ import me.shouheng.notepal.databinding.FragmentNotesBinding;
 import me.shouheng.notepal.dialog.NotebookEditDialog;
 import me.shouheng.notepal.dialog.picker.NotebookPickerDialog;
 import me.shouheng.notepal.fragment.base.BaseFragment;
-import me.shouheng.notepal.model.Category;
-import me.shouheng.notepal.model.Note;
-import me.shouheng.notepal.model.Notebook;
+import me.shouheng.data.entity.Category;
+import me.shouheng.data.entity.Note;
+import me.shouheng.data.entity.Notebook;
 import me.shouheng.notepal.util.AppWidgetUtils;
 import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.notepal.util.preferences.NotePreferences;
@@ -318,7 +318,7 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
     public void reload() {
         if (getActivity() instanceof OnNotesInteractListener) {
             ((OnNotesInteractListener) getActivity()).onNoteLoadStateChanged(
-                    me.shouheng.notepal.model.data.Status.LOADING);
+                    me.shouheng.commons.model.data.Status.LOADING);
         }
 
         noteViewModel.getMultiItems(category, status, notebook).observe(this, multiItemResource -> {
@@ -537,6 +537,6 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
 
         default void onNoteDataChanged(){}
 
-        default void onNoteLoadStateChanged(me.shouheng.notepal.model.data.Status status) {}
+        default void onNoteLoadStateChanged(me.shouheng.commons.model.data.Status status) {}
     }
 }

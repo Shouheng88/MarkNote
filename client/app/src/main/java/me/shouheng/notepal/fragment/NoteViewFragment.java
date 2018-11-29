@@ -34,7 +34,7 @@ import io.reactivex.disposables.Disposable;
 import me.shouheng.commons.activity.CommonActivity;
 import me.shouheng.commons.activity.ContainerActivity;
 import me.shouheng.commons.fragment.WebviewFragment;
-import me.shouheng.commons.interaction.BackEventResolver;
+import me.shouheng.commons.activity.interaction.BackEventResolver;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.IntentUtils;
 import me.shouheng.commons.utils.LogUtils;
@@ -48,12 +48,12 @@ import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.databinding.FragmentNoteViewBinding;
 import me.shouheng.notepal.dialog.OpenResolver;
 import me.shouheng.notepal.fragment.base.BaseFragment;
-import me.shouheng.notepal.model.Attachment;
-import me.shouheng.notepal.model.Category;
-import me.shouheng.notepal.model.ModelFactory;
-import me.shouheng.notepal.model.Note;
-import me.shouheng.notepal.provider.AttachmentsStore;
-import me.shouheng.notepal.provider.CategoryStore;
+import me.shouheng.data.entity.Attachment;
+import me.shouheng.data.entity.Category;
+import me.shouheng.data.ModelFactory;
+import me.shouheng.data.entity.Note;
+import me.shouheng.data.store.AttachmentsStore;
+import me.shouheng.data.store.CategoryStore;
 import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.util.FileHelper;
 import me.shouheng.notepal.util.ModelHelper;
@@ -113,7 +113,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
         isPreview = getArguments().getBoolean(ARGS_KEY_IS_PREVIEW);
 
         if (!isPreview) {
-            Attachment noteFile = AttachmentsStore.getInstance(getContext()).get(note.getContentCode());
+            Attachment noteFile = AttachmentsStore.getInstance().get(note.getContentCode());
             LogUtils.d("noteFile: " + noteFile);
             if (noteFile == null) {
                 ToastUtils.makeToast(R.string.note_failed_to_get_note_content);
@@ -194,7 +194,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
         int margin = ViewUtils.dp2Px(getContext(), 2f);
         ViewGroup.LayoutParams params = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        List<Category> categories = CategoryStore.getInstance(getContext()).getCategories(note);
+        List<Category> categories = CategoryStore.getInstance().getCategories(note);
         Disposable disposable = Observable.fromIterable(categories).forEach(category -> {
             Chip chip = new Chip(getContext());
             chip.setIcon(category.getPortrait().iconRes);

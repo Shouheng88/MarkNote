@@ -3,8 +3,8 @@ package me.shouheng.notepal.util.tools;
 import java.util.LinkedList;
 import java.util.List;
 
-import me.shouheng.notepal.model.MindSnagging;
-import me.shouheng.notepal.model.Note;
+import me.shouheng.data.entity.MindSnagging;
+import me.shouheng.data.entity.Note;
 
 /**
  * Created by shouh on 2018/3/18.*/

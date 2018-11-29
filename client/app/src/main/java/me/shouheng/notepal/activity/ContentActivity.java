@@ -14,16 +14,16 @@ import android.view.View;
 import java.io.Serializable;
 
 import me.shouheng.commons.activity.CommonActivity;
-import me.shouheng.commons.interaction.BackEventResolver;
+import me.shouheng.commons.activity.interaction.BackEventResolver;
 import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.databinding.ActivityContentBinding;
 import me.shouheng.notepal.fragment.NoteFragment;
 import me.shouheng.notepal.fragment.NoteFragment.OnNoteInteractListener;
-import me.shouheng.notepal.model.ModelFactory;
-import me.shouheng.notepal.model.Note;
-import me.shouheng.notepal.provider.NotesStore;
+import me.shouheng.data.ModelFactory;
+import me.shouheng.data.entity.Note;
+import me.shouheng.data.store.NotesStore;
 import me.shouheng.notepal.util.FragmentHelper;
 import me.shouheng.commons.utils.ToastUtils;
 
@@ -108,7 +108,7 @@ public class ContentActivity extends CommonActivity<ActivityContentBinding> impl
         // The case below mainly used for the intent from shortcut
         if (intent.hasExtra(Constants.EXTRA_CODE)) {
             long code = intent.getLongExtra(Constants.EXTRA_CODE, -1);
-            note = note != null ? note : NotesStore.getInstance(this).get(code);
+            note = note != null ? note : NotesStore.getInstance().get(code);
             if (note == null){
                 ToastUtils.makeToast(R.string.text_no_such_note);
                 LogUtils.d("Failed to resolve intent : " + intent);

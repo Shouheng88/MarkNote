@@ -23,7 +23,7 @@ import me.shouheng.notepal.databinding.ActivityDirectoryBinding;
 import me.shouheng.notepal.dialog.SimpleEditDialog;
 import me.shouheng.notepal.fragment.DirectoriesFragment;
 import me.shouheng.notepal.manager.onedrive.OneDriveManager;
-import me.shouheng.notepal.model.Directory;
+import me.shouheng.data.model.Directory;
 import me.shouheng.notepal.util.FragmentHelper;
 import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.notepal.util.preferences.SyncPreferences;
