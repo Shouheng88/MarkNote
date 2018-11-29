@@ -13,10 +13,10 @@ import com.afollestad.materialdialogs.color.ColorChooserDialog;
 
 import me.shouheng.commons.helper.DialogHelper;
 import me.shouheng.commons.utils.ColorUtils;
+import me.shouheng.data.model.enums.Portrait;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.DialogCategoryEditBinding;
 import me.shouheng.notepal.model.Category;
-import me.shouheng.notepal.model.enums.Portrait;
 import me.shouheng.commons.utils.ToastUtils;
 
 /**

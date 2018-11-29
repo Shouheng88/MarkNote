@@ -6,8 +6,8 @@ import android.os.Parcelable;
 
 import java.util.Date;
 
-import me.shouheng.notepal.model.enums.NoteType;
-import me.shouheng.notepal.model.enums.Status;
+import me.shouheng.data.model.enums.NoteType;
+import me.shouheng.data.model.enums.Status;
 import me.shouheng.notepal.provider.annotation.Column;
 import me.shouheng.notepal.provider.annotation.Table;
 import me.shouheng.notepal.provider.schema.NoteSchema;

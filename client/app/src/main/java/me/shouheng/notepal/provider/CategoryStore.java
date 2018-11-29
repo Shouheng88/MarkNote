@@ -10,10 +10,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 import me.shouheng.commons.utils.LogUtils;
+import me.shouheng.data.model.enums.Portrait;
+import me.shouheng.data.model.enums.Status;
 import me.shouheng.notepal.model.Category;
 import me.shouheng.notepal.model.Note;
-import me.shouheng.notepal.model.enums.Portrait;
-import me.shouheng.notepal.model.enums.Status;
 import me.shouheng.notepal.provider.schema.BaseSchema;
 import me.shouheng.notepal.provider.schema.CategorySchema;
 import me.shouheng.notepal.provider.schema.NoteSchema;

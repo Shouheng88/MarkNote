@@ -1,8 +1,8 @@
 package me.shouheng.notepal.model;
 
 
-import me.shouheng.notepal.model.enums.ModelType;
-import me.shouheng.notepal.model.enums.Operation;
+import me.shouheng.data.model.enums.ModelType;
+import me.shouheng.data.model.enums.Operation;
 import me.shouheng.notepal.provider.annotation.Column;
 import me.shouheng.notepal.provider.annotation.Table;
 import me.shouheng.notepal.provider.schema.TimelineSchema;

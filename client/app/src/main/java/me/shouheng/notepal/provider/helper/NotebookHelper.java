@@ -22,12 +22,12 @@ public class NotebookHelper {
 
     /**
      * Get the notebooks of given notebook. Note that this method can only get the information
-     * of {@link me.shouheng.notepal.model.enums.Status#NORMAL} status.
-     * If you want to get the notebooks of status {@link me.shouheng.notepal.model.enums.Status#ARCHIVED}
-     * or status {@link me.shouheng.notepal.model.enums.Status#TRASHED},
+     * of {@link me.shouheng.data.model.enums.Status#NORMAL} status.
+     * If you want to get the notebooks of status {@link me.shouheng.data.model.enums.Status#ARCHIVED}
+     * or status {@link me.shouheng.data.model.enums.Status#TRASHED},
      * call {@link ArchiveHelper#getNotebooks(Context, Notebook)}.
      * call {@link TrashHelper#getNotebooks(Context, Notebook)} to get the notebooks of
-     * {@link me.shouheng.notepal.model.enums.Status#TRASHED}
+     * {@link me.shouheng.data.model.enums.Status#TRASHED}
      *
      * @param context context
      * @param notebook notebook, may be null,means get the notebooks of top level
@@ -41,11 +41,11 @@ public class NotebookHelper {
     }
 
     /**
-     * Get notes of notebook of status {@link me.shouheng.notepal.model.enums.Status#NORMAL}
+     * Get notes of notebook of status {@link me.shouheng.data.model.enums.Status#NORMAL}
      * Call {@link ArchiveHelper#getNotes(Context, Notebook)} to get the notes of notebook of status
-     * {@link me.shouheng.notepal.model.enums.Status#ARCHIVED}.
+     * {@link me.shouheng.data.model.enums.Status#ARCHIVED}.
      * Call {@link TrashHelper#getNotes(Context, Notebook)} to get the notes of notebook of status
-     * {@link me.shouheng.notepal.model.enums.Status#TRASHED}.
+     * {@link me.shouheng.data.model.enums.Status#TRASHED}.
      *
      * @param context context
      * @param notebook notebook

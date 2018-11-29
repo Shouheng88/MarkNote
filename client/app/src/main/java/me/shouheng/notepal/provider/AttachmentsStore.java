@@ -10,10 +10,10 @@ import android.text.TextUtils;
 import java.util.Date;
 import java.util.List;
 
+import me.shouheng.data.model.enums.ModelType;
+import me.shouheng.data.model.enums.Status;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.model.Attachment;
-import me.shouheng.notepal.model.enums.ModelType;
-import me.shouheng.notepal.model.enums.Status;
 import me.shouheng.notepal.provider.schema.AttachmentSchema;
 import me.shouheng.notepal.provider.schema.BaseSchema;
 

@@ -4,9 +4,9 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import me.shouheng.data.model.enums.WeatherType;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.model.Weather;
-import me.shouheng.notepal.model.enums.WeatherType;
 import me.shouheng.notepal.provider.helper.StoreHelper;
 import me.shouheng.notepal.provider.schema.WeatherSchema;
 

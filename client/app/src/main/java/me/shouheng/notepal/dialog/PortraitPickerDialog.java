@@ -14,8 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import me.shouheng.data.model.enums.Portrait;
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.model.enums.Portrait;
 import me.shouheng.commons.utils.ViewUtils;
 import me.shouheng.notepal.widget.CircleImageView;
 import me.shouheng.notepal.widget.tools.SpaceItemDecoration;

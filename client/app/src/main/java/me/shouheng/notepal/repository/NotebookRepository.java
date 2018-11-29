@@ -3,11 +3,11 @@ package me.shouheng.notepal.repository;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 
+import me.shouheng.data.model.enums.Status;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.async.NormalAsyncTask;
 import me.shouheng.notepal.model.Notebook;
 import me.shouheng.notepal.model.data.Resource;
-import me.shouheng.notepal.model.enums.Status;
 import me.shouheng.notepal.provider.BaseStore;
 import me.shouheng.notepal.provider.NotebookStore;
 

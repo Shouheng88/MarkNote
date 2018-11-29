@@ -8,6 +8,7 @@ import android.support.annotation.MainThread;
 import java.util.LinkedList;
 import java.util.List;
 
+import me.shouheng.data.model.enums.Status;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.adapter.NotesAdapter;
 import me.shouheng.notepal.adapter.NotesAdapter.MultiItem;
@@ -15,7 +16,6 @@ import me.shouheng.notepal.model.Category;
 import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.model.Notebook;
 import me.shouheng.notepal.model.data.Resource;
-import me.shouheng.notepal.model.enums.Status;
 import me.shouheng.notepal.provider.BaseStore;
 import me.shouheng.notepal.provider.NotesStore;
 import me.shouheng.notepal.provider.helper.ArchiveHelper;
@@ -41,12 +41,12 @@ public class NoteRepository extends BaseRepository<Note> {
 
         private MutableLiveData<Resource<List<MultiItem>>> result;
         private Category category;
-        private me.shouheng.notepal.model.enums.Status status;
+        private me.shouheng.data.model.enums.Status status;
         private Notebook notebook;
 
         NoteLoadTask(MutableLiveData<Resource<List<MultiItem>>> result,
                      Category category,
-                     me.shouheng.notepal.model.enums.Status status,
+                     me.shouheng.data.model.enums.Status status,
                      Notebook notebook) {
             this.result = result;
             this.category = category;

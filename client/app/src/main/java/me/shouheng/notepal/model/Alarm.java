@@ -5,9 +5,11 @@ import android.content.Context;
 import java.util.Calendar;
 import java.util.Date;
 
+import me.shouheng.data.model.DaysOfMonth;
+import me.shouheng.data.model.DaysOfWeek;
+import me.shouheng.data.model.enums.AlarmType;
+import me.shouheng.data.model.enums.ModelType;
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.model.enums.AlarmType;
-import me.shouheng.notepal.model.enums.ModelType;
 import me.shouheng.notepal.provider.annotation.Column;
 import me.shouheng.notepal.provider.annotation.Table;
 import me.shouheng.notepal.provider.schema.AlarmSchema;

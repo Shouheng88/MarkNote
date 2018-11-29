@@ -11,9 +11,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import me.shouheng.commons.utils.LogUtils;
+import me.shouheng.data.model.enums.Operation;
+import me.shouheng.data.model.enums.Status;
 import me.shouheng.notepal.model.Model;
-import me.shouheng.notepal.model.enums.Operation;
-import me.shouheng.notepal.model.enums.Status;
 import me.shouheng.notepal.provider.annotation.Table;
 import me.shouheng.notepal.provider.base.OpenHelperManager;
 import me.shouheng.notepal.provider.helper.StoreHelper;

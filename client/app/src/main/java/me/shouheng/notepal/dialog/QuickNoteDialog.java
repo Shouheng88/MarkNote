@@ -24,6 +24,7 @@ import java.util.Collections;
 import java.util.Objects;
 
 import me.shouheng.commons.utils.ColorUtils;
+import me.shouheng.data.model.enums.ModelType;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.config.Constants;
@@ -31,7 +32,6 @@ import me.shouheng.notepal.databinding.DialogQuickNoteBinding;
 import me.shouheng.notepal.listener.OnAttachingFileListener;
 import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.model.MindSnagging;
-import me.shouheng.notepal.model.enums.ModelType;
 import me.shouheng.notepal.provider.AttachmentsStore;
 import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.util.FileHelper;

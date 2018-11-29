@@ -1,6 +1,6 @@
 package me.shouheng.notepal.model;
 
-import me.shouheng.notepal.model.enums.WeatherType;
+import me.shouheng.data.model.enums.WeatherType;
 import me.shouheng.notepal.provider.annotation.Column;
 import me.shouheng.notepal.provider.annotation.Table;
 import me.shouheng.notepal.provider.schema.WeatherSchema;

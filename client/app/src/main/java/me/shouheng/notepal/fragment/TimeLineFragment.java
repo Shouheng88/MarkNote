@@ -11,11 +11,11 @@ import java.util.List;
 
 import me.shouheng.commons.fragment.CommonFragment;
 import me.shouheng.commons.utils.LogUtils;
+import me.shouheng.data.model.enums.Status;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.TimeLinesAdapter;
 import me.shouheng.notepal.databinding.FragmentTimeLineBinding;
 import me.shouheng.notepal.model.TimeLine;
-import me.shouheng.notepal.model.enums.Status;
 import me.shouheng.notepal.provider.TimelineStore;
 import me.shouheng.notepal.provider.schema.TimelineSchema;
 import me.shouheng.commons.utils.ToastUtils;

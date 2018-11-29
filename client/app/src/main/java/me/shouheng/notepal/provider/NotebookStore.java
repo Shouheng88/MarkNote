@@ -9,9 +9,9 @@ import android.util.LongSparseArray;
 
 import java.util.List;
 
+import me.shouheng.data.model.enums.Operation;
+import me.shouheng.data.model.enums.Status;
 import me.shouheng.notepal.model.Notebook;
-import me.shouheng.notepal.model.enums.Operation;
-import me.shouheng.notepal.model.enums.Status;
 import me.shouheng.notepal.provider.helper.StoreHelper;
 import me.shouheng.notepal.provider.helper.TimelineHelper;
 import me.shouheng.notepal.provider.schema.BaseSchema;

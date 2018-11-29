@@ -5,9 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import me.shouheng.data.model.enums.ModelType;
+import me.shouheng.data.model.enums.Operation;
 import me.shouheng.notepal.model.TimeLine;
-import me.shouheng.notepal.model.enums.ModelType;
-import me.shouheng.notepal.model.enums.Operation;
 import me.shouheng.notepal.provider.schema.TimelineSchema;
 
 

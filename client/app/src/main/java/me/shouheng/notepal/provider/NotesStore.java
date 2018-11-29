@@ -7,8 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.text.TextUtils;
 
+import me.shouheng.data.model.enums.NoteType;
 import me.shouheng.notepal.model.Note;
-import me.shouheng.notepal.model.enums.NoteType;
 import me.shouheng.notepal.provider.schema.NoteSchema;
 
 

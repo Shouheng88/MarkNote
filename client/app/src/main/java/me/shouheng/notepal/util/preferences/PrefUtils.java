@@ -7,11 +7,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 import me.shouheng.commons.utils.ColorUtils;
+import me.shouheng.data.model.enums.Operation;
 import me.shouheng.easymark.editor.Format;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.model.enums.FabSortItem;
-import me.shouheng.notepal.model.enums.Operation;
+import me.shouheng.data.model.enums.FabSortItem;
 
 /**
  * Created by shouh on 2018/4/9.*/

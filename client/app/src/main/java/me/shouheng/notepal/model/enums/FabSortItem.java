@@ -1,4 +1,4 @@
-package me.shouheng.notepal.model.enums;
+package me.shouheng.data.model.enums;
 
 import android.support.annotation.DrawableRes;
 import android.support.annotation.StringRes;

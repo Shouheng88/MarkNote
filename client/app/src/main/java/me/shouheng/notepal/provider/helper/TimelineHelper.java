@@ -1,6 +1,7 @@
 package me.shouheng.notepal.provider.helper;
 
 
+import me.shouheng.data.model.enums.Operation;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.model.Attachment;
 import me.shouheng.notepal.model.Location;
@@ -11,7 +12,6 @@ import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.model.Notebook;
 import me.shouheng.notepal.model.TimeLine;
 import me.shouheng.notepal.model.Weather;
-import me.shouheng.notepal.model.enums.Operation;
 import me.shouheng.notepal.provider.TimelineStore;
 
 /**

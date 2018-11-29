@@ -3,7 +3,7 @@ package me.shouheng.notepal.model;
 import java.io.Serializable;
 import java.util.Date;
 
-import me.shouheng.notepal.model.enums.Status;
+import me.shouheng.data.model.enums.Status;
 import me.shouheng.notepal.provider.annotation.Column;
 import me.shouheng.notepal.provider.schema.BaseSchema;
 import me.shouheng.commons.utils.TimeUtils;

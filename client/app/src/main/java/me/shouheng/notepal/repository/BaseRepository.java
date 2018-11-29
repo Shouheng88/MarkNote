@@ -5,10 +5,10 @@ import android.arch.lifecycle.MutableLiveData;
 
 import java.util.List;
 
+import me.shouheng.data.model.enums.Status;
 import me.shouheng.notepal.async.NormalAsyncTask;
 import me.shouheng.notepal.model.Model;
 import me.shouheng.notepal.model.data.Resource;
-import me.shouheng.notepal.model.enums.Status;
 import me.shouheng.notepal.provider.BaseStore;
 
 /**

@@ -24,12 +24,12 @@ import lecho.lib.hellocharts.model.PointValue;
 import lecho.lib.hellocharts.model.SubcolumnValue;
 import lecho.lib.hellocharts.model.ValueShape;
 import me.shouheng.commons.utils.LogUtils;
+import me.shouheng.data.model.enums.ModelType;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.async.NormalAsyncTask;
 import me.shouheng.notepal.model.Stats;
 import me.shouheng.notepal.model.data.Resource;
-import me.shouheng.notepal.model.enums.ModelType;
 import me.shouheng.notepal.provider.helper.StatisticsHelper;
 
 /**

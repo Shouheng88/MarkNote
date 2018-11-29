@@ -8,10 +8,10 @@ import android.text.TextUtils;
 
 import java.util.List;
 
+import me.shouheng.data.model.enums.ModelType;
+import me.shouheng.data.model.enums.Status;
 import me.shouheng.notepal.model.Location;
 import me.shouheng.notepal.model.Note;
-import me.shouheng.notepal.model.enums.ModelType;
-import me.shouheng.notepal.model.enums.Status;
 import me.shouheng.notepal.provider.helper.StoreHelper;
 import me.shouheng.notepal.provider.schema.BaseSchema;
 import me.shouheng.notepal.provider.schema.LocationSchema;

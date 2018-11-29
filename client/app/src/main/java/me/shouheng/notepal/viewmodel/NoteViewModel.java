@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.util.List;
 
 import me.shouheng.commons.utils.LogUtils;
+import me.shouheng.data.model.enums.ModelType;
+import me.shouheng.data.model.enums.Status;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.NotesAdapter.MultiItem;
@@ -24,8 +26,6 @@ import me.shouheng.notepal.model.ModelFactory;
 import me.shouheng.notepal.model.Note;
 import me.shouheng.notepal.model.Notebook;
 import me.shouheng.notepal.model.data.Resource;
-import me.shouheng.notepal.model.enums.ModelType;
-import me.shouheng.notepal.model.enums.Status;
 import me.shouheng.notepal.provider.AttachmentsStore;
 import me.shouheng.notepal.provider.NotesStore;
 import me.shouheng.notepal.repository.BaseRepository;

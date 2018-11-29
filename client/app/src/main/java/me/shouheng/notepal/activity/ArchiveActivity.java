@@ -2,12 +2,12 @@ package me.shouheng.notepal.activity;
 
 import android.support.v4.app.Fragment;
 
+import me.shouheng.data.model.enums.Status;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.fragment.CategoriesFragment;
 import me.shouheng.notepal.fragment.NotesFragment;
 import me.shouheng.notepal.model.Category;
 import me.shouheng.notepal.model.Notebook;
-import me.shouheng.notepal.model.enums.Status;
 import me.shouheng.notepal.util.FragmentHelper;
 
 public class ArchiveActivity extends BaseListActivity {

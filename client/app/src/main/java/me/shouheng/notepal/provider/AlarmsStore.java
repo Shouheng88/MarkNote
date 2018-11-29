@@ -9,14 +9,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import me.shouheng.data.model.enums.AlarmType;
+import me.shouheng.data.model.enums.ModelType;
+import me.shouheng.data.model.enums.Status;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.model.Alarm;
-import me.shouheng.notepal.model.DaysOfMonth;
-import me.shouheng.notepal.model.DaysOfWeek;
+import me.shouheng.data.model.DaysOfMonth;
+import me.shouheng.data.model.DaysOfWeek;
 import me.shouheng.notepal.model.Model;
-import me.shouheng.notepal.model.enums.AlarmType;
-import me.shouheng.notepal.model.enums.ModelType;
-import me.shouheng.notepal.model.enums.Status;
 import me.shouheng.notepal.provider.schema.AlarmSchema;
 
 

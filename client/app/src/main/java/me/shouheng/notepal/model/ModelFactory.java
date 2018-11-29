@@ -7,16 +7,18 @@ import java.util.Collections;
 import java.util.Date;
 
 import me.shouheng.commons.utils.PalmUtils;
+import me.shouheng.data.model.DaysOfMonth;
+import me.shouheng.data.model.DaysOfWeek;
+import me.shouheng.data.model.enums.AlarmType;
+import me.shouheng.data.model.enums.ModelType;
+import me.shouheng.data.model.enums.NoteType;
+import me.shouheng.data.model.enums.Operation;
+import me.shouheng.data.model.enums.Portrait;
+import me.shouheng.data.model.enums.Status;
+import me.shouheng.data.model.enums.WeatherType;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.config.TextLength;
-import me.shouheng.notepal.model.enums.AlarmType;
-import me.shouheng.notepal.model.enums.ModelType;
-import me.shouheng.notepal.model.enums.NoteType;
-import me.shouheng.notepal.model.enums.Operation;
-import me.shouheng.notepal.model.enums.Portrait;
-import me.shouheng.notepal.model.enums.Status;
-import me.shouheng.notepal.model.enums.WeatherType;
 import me.shouheng.commons.utils.TimeUtils;
 import me.shouheng.commons.utils.UserUtil;
 import me.shouheng.notepal.viewmodel.CategoryViewModel;
@@ -147,10 +149,6 @@ public class ModelFactory {
         timeLine.setModelCode(model.getCode());
         timeLine.setModelType(ModelType.getTypeByName(model.getClass()));
         return timeLine;
-    }
-
-    public static Feedback getFeedback() {
-        return getModel(Feedback.class);
     }
 
     public static Category getCategory() {
