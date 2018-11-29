@@ -98,8 +98,6 @@ public class SearchItemsAdapter extends RecyclerView.Adapter<SearchItemsAdapter.
 
         TextView tvTitle;
 
-        ImageView ivCover;
-        TextView tvMindTitle;
         TextView tvAddedTime;
 
         ViewHolder(View itemView) {
@@ -117,9 +115,6 @@ public class SearchItemsAdapter extends RecyclerView.Adapter<SearchItemsAdapter.
 
             tvNoteTitle = itemView.findViewById(R.id.tv_note_title);
             tvAddedTime = itemView.findViewById(R.id.tv_added_time);
-
-            ivCover = itemView.findViewById(R.id.image_view_cover);
-            tvMindTitle = itemView.findViewById(R.id.text_view_title);
 
             itemView.setOnClickListener(this);
         }

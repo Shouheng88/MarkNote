@@ -6,10 +6,4 @@
         <item>md</item>
     </string-array>
 
-    <string-array name="feedback_types">
-        <item>@string/feedback_abrupt_crash</item>
-        <item>@string/feedback_function_improvement</item>
-        <item>@string/feedback_function_requirement</item>
-    </string-array>
-
 </resources>

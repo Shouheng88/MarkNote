@@ -5,11 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.text.ClipboardManager;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -27,17 +24,16 @@ import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.commons.utils.TimeUtils;
 import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.commons.utils.ViewUtils;
-import me.shouheng.notepal.PalmApp;
-import me.shouheng.notepal.R;
-import me.shouheng.notepal.config.Constants;
-import me.shouheng.notepal.config.TextLength;
+import me.shouheng.commons.widget.FlowLayout;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.data.entity.Location;
 import me.shouheng.data.entity.MindSnagging;
 import me.shouheng.data.entity.Model;
-import me.shouheng.data.entity.Note;
+import me.shouheng.notepal.PalmApp;
+import me.shouheng.notepal.R;
+import me.shouheng.notepal.config.Constants;
+import me.shouheng.notepal.config.TextLength;
 import me.shouheng.notepal.viewmodel.CategoryViewModel;
-import me.shouheng.commons.widget.FlowLayout;
 
 /**
  * Created by wangshouheng on 2017/11/4.*/
@@ -125,42 +121,6 @@ public class ModelHelper {
                 + location.getProvince() + "|"
                 + location.getCity() + "|"
                 + location.getDistrict();
-    }
-
-    // region statistic helper
-    public static void showStatistic(Context context, Note note) {
-        View root = LayoutInflater.from(context).inflate(R.layout.dialog_stats, null, false);
-        LinearLayout llStats = root.findViewById(R.id.ll_stats);
-        addStat(context, llStats, context.getString(R.string.text_created_at), TimeUtils.getPrettyTime(note.getAddedTime()));
-        addStat(context, llStats, context.getString(R.string.text_last_modified_at), TimeUtils.getPrettyTime(note.getLastModifiedTime()));
-        addStat(context, llStats, context.getString(R.string.text_last_sync_time), (note.getLastSyncTime().getTime() == 0 ? "--" : TimeUtils.getPrettyTime(note.getLastModifiedTime())));
-        addStat(context, llStats, context.getString(R.string.text_chars), String.valueOf(note.getContent().length()));
-        new AlertDialog.Builder(context)
-                .setTitle(R.string.text_statistic)
-                .setView(root)
-                .setPositiveButton(R.string.text_confirm, null)
-                .create()
-                .show();
-    }
-
-    private static void addStat(Context context, LinearLayout llStats, String name, String result) {
-        LinearLayout llStat = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.item_stat, null, false);
-        ((TextView) llStat.findViewById(R.id.tv_name)).setText(name);
-        ((TextView) llStat.findViewById(R.id.tv_result)).setText(result);
-        llStats.addView(llStat);
-    }
-    // endregion
-
-    public static void showLabels(Context context, String tags) {
-        View root = LayoutInflater.from(context).inflate(R.layout.dialog_tags, null, false);
-        FlowLayout flowLayout = root.findViewById(R.id.fl_labels);
-        addTagsToLayout(context, flowLayout, tags);
-        new AlertDialog.Builder(context)
-                .setTitle(R.string.text_tags)
-                .setView(root)
-                .setPositiveButton(R.string.text_confirm, null)
-                .create()
-                .show();
     }
 
     private static void addTagsToLayout(Context context, FlowLayout flowLayout, String stringTags){
