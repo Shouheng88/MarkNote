@@ -25,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="100dp" />
 
-        <me.shouheng.notepal.widget.themed.SupportTextView
+        <me.shouheng.commons.widget.theme.SupportTextView
             android:text="@string/notebook_edit_tips"
             android:padding="30dp"
             android:textSize="16sp"

@@ -23,7 +23,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content">
 
-        <me.shouheng.notepal.widget.themed.SupportTextView
+        <me.shouheng.commons.widget.theme.SupportTextView
             android:id="@+id/tv_title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

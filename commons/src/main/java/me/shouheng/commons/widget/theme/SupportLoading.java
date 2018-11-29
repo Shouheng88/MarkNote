@@ -1,4 +1,4 @@
-package me.shouheng.notepal.widget.themed;
+package me.shouheng.commons.widget.theme;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
@@ -6,9 +6,9 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.RelativeLayout;
 
+import me.shouheng.commons.R;
+import me.shouheng.commons.databinding.WidgetSupportLoadingBinding;
 import me.shouheng.commons.utils.ColorUtils;
-import me.shouheng.notepal.R;
-import me.shouheng.notepal.databinding.WidgetSupportLoadingBinding;
 
 /**
  * Created by Employee on 2018/3/13. */

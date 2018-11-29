@@ -18,7 +18,7 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.dialog.AttachmentPicker;
 import me.shouheng.notepal.dialog.QuickNoteDialog;
-import me.shouheng.notepal.listener.OnAttachingFileListener;
+import me.shouheng.notepal.util.listener.OnAttachingFileListener;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.data.entity.MindSnagging;
 import me.shouheng.data.entity.Model;

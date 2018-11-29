@@ -3,7 +3,7 @@ package me.shouheng.notepal.async;
 import android.arch.lifecycle.MutableLiveData;
 import android.os.AsyncTask;
 
-import me.shouheng.notepal.listener.OnTaskExecutingListener;
+import me.shouheng.notepal.util.listener.OnTaskExecutingListener;
 import me.shouheng.commons.model.data.Resource;
 
 /**

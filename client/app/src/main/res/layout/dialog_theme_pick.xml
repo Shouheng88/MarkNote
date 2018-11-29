@@ -52,7 +52,7 @@
 
         </LinearLayout>
 
-        <me.shouheng.notepal.widget.themed.Divider
+        <me.shouheng.commons.widget.theme.Divider
             android:layout_width="match_parent"
             android:layout_height="1px" />
 
@@ -81,7 +81,7 @@
 
         </LinearLayout>
 
-        <me.shouheng.notepal.widget.themed.Divider
+        <me.shouheng.commons.widget.theme.Divider
             android:layout_width="match_parent"
             android:layout_height="1px" />
 

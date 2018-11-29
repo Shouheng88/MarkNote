@@ -4,7 +4,7 @@ import android.os.AsyncTask;
 
 import java.io.File;
 
-import me.shouheng.notepal.listener.OnAttachingFileListener;
+import me.shouheng.notepal.util.listener.OnAttachingFileListener;
 
 /**
  * Created by shouh on 2018/4/6.*/

@@ -7,7 +7,7 @@
     android:gravity="center"
     android:paddingBottom="2dp">
 
-    <me.shouheng.notepal.widget.themed.SupportTextView
+    <me.shouheng.commons.widget.theme.SupportTextView
         android:id="@+id/tv_name"
         android:layout_weight="2"
         android:layout_width="0dp"
@@ -18,7 +18,7 @@
         tools:text="The test title is here which is used to show multiple lines effect"
         android:textStyle="bold"/>
 
-    <me.shouheng.notepal.widget.themed.SupportTextView
+    <me.shouheng.commons.widget.theme.SupportTextView
         android:id="@+id/tv_result"
         tools:text="10"
         android:layout_weight="2"

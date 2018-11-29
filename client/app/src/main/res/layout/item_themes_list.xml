@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<me.shouheng.notepal.widget.themed.SupportCardView
+<me.shouheng.commons.widget.theme.SupportCardView
     android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -15,13 +15,13 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical">
 
-        <me.shouheng.notepal.widget.themed.SupportTextView
+        <me.shouheng.commons.widget.theme.SupportTextView
             android:id="@+id/list_tile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/SettingsCardTitleStyle"/>
 
-        <me.shouheng.notepal.widget.themed.Divider
+        <me.shouheng.commons.widget.theme.Divider
             android:layout_width="match_parent"
             android:layout_height="1dp"/>
 
@@ -32,4 +32,4 @@
 
     </LinearLayout>
 
-</me.shouheng.notepal.widget.themed.SupportCardView>
+</me.shouheng.commons.widget.theme.SupportCardView>

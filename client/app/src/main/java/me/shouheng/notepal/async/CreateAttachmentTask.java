@@ -8,7 +8,7 @@ import android.support.v4.app.Fragment;
 import java.lang.ref.WeakReference;
 
 import me.shouheng.notepal.PalmApp;
-import me.shouheng.notepal.listener.OnAttachingFileListener;
+import me.shouheng.notepal.util.listener.OnAttachingFileListener;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.notepal.util.FileHelper;
 import me.shouheng.commons.utils.PalmUtils;

@@ -1,4 +1,4 @@
-package me.shouheng.notepal.widget.themed;
+package me.shouheng.commons.widget.theme;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -9,9 +9,9 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 
+import me.shouheng.commons.R;
+import me.shouheng.commons.databinding.WidgetCardTitleViewBinding;
 import me.shouheng.commons.utils.ColorUtils;
-import me.shouheng.notepal.R;
-import me.shouheng.notepal.databinding.WidgetCardTitleViewBinding;
 
 /**
  * Created by wang shouheng on 2018/2/23.*/

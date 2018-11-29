@@ -50,7 +50,7 @@ public class FastScroller extends LinearLayout {
         setClipChildren(false);
         LayoutInflater inflater = LayoutInflater.from(context);
 
-        inflater.inflate(R.layout.recyclerview_fastscroller, this, true);
+        inflater.inflate(R.layout.widget_fastscroller, this, true);
 
         bubble = findViewById(R.id.fastscroller_bubble);
         handle = findViewById(R.id.fastscroller_handle);

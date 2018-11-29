@@ -23,7 +23,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content">
 
-        <me.shouheng.notepal.widget.themed.SupportTextView
+        <me.shouheng.commons.widget.theme.SupportTextView
             android:id="@+id/tv_note_title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -41,7 +41,7 @@
 
     </LinearLayout>
 
-    <me.shouheng.notepal.widget.themed.SupportImageView
+    <me.shouheng.commons.widget.theme.SupportImageView
         android:id="@+id/iv_more"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:src="@drawable/ic_more_vert_black"

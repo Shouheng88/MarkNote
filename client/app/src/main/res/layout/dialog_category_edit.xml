@@ -32,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <me.shouheng.notepal.widget.themed.SupportTextView
+            <me.shouheng.commons.widget.theme.SupportTextView
                 android:text="@string/category_edit_step_1"
                 android:padding="16dp"
                 android:textSize="16sp"
@@ -62,7 +62,7 @@
 
             </FrameLayout>
 
-            <me.shouheng.notepal.widget.themed.SupportTextView
+            <me.shouheng.commons.widget.theme.SupportTextView
                 android:text="@string/category_edit_step_2"
                 android:padding="16dp"
                 android:textSize="16sp"

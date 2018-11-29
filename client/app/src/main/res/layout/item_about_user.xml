@@ -11,7 +11,7 @@
         tools:ignore="ContentDescription"
         tools:src="#000000"/>
 
-    <me.shouheng.notepal.widget.themed.SupportTextView
+    <me.shouheng.commons.widget.theme.SupportTextView
         style="@style/AboutPage.ContributorName"
         android:id="@+id/name"
         android:layout_toRightOf="@id/avatar"

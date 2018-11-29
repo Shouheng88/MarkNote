@@ -29,12 +29,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <me.shouheng.notepal.widget.themed.SupportTextView
+                <me.shouheng.commons.widget.theme.SupportTextView
                     android:text="@string/note_note_information"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
-                <me.shouheng.notepal.widget.themed.SupportTextView
+                <me.shouheng.commons.widget.theme.SupportTextView
                     android:id="@+id/tv_chars"
                     android:gravity="end|center_vertical"
                     android:text="Chars: 102"
@@ -51,7 +51,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-            <me.shouheng.notepal.widget.themed.SupportTextView
+            <me.shouheng.commons.widget.theme.SupportTextView
                 tools:text="创建于：2018年10月10日"
                 android:id="@+id/tv_note_info"
                 android:textStyle="italic"
@@ -61,14 +61,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <me.shouheng.notepal.widget.themed.SupportTextView
+            <me.shouheng.commons.widget.theme.SupportTextView
                 android:text="@string/text_menu"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <me.shouheng.notepal.widget.themed.Divider
+            <me.shouheng.commons.widget.theme.Divider
                 android:layout_width="match_parent"
                 android:layout_height="1px"/>
 
@@ -80,12 +80,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="55dp">
 
-                <me.shouheng.notepal.widget.themed.SupportImageView
+                <me.shouheng.commons.widget.theme.SupportImageView
                     android:src="@drawable/ic_content_copy_black_24dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
-                <me.shouheng.notepal.widget.themed.SupportTextView
+                <me.shouheng.commons.widget.theme.SupportTextView
                     android:text="@string/text_copy_text"
                     android:layout_marginStart="30dp"
                     android:layout_width="wrap_content"
@@ -93,7 +93,7 @@
 
             </LinearLayout>
 
-            <me.shouheng.notepal.widget.themed.Divider
+            <me.shouheng.commons.widget.theme.Divider
                 android:layout_width="match_parent"
                 android:layout_height="1px"/>
 
@@ -105,12 +105,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="55dp">
 
-                <me.shouheng.notepal.widget.themed.SupportImageView
+                <me.shouheng.commons.widget.theme.SupportImageView
                     android:src="@drawable/ic_phone_android_grey_24dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
-                <me.shouheng.notepal.widget.themed.SupportTextView
+                <me.shouheng.commons.widget.theme.SupportTextView
                     android:text="@string/text_add_to_home_screen"
                     android:layout_marginStart="30dp"
                     android:layout_width="wrap_content"
@@ -118,7 +118,7 @@
 
             </LinearLayout>
 
-            <me.shouheng.notepal.widget.themed.Divider
+            <me.shouheng.commons.widget.theme.Divider
                 android:layout_width="match_parent"
                 android:layout_height="1px"/>
 
@@ -130,12 +130,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="55dp">
 
-                <me.shouheng.notepal.widget.themed.SupportImageView
+                <me.shouheng.commons.widget.theme.SupportImageView
                     android:src="@drawable/ic_move_to_inbox_black_24dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
-                <me.shouheng.notepal.widget.themed.SupportTextView
+                <me.shouheng.commons.widget.theme.SupportTextView
                     android:text="@string/text_export"
                     android:layout_marginStart="30dp"
                     android:layout_width="wrap_content"
@@ -143,7 +143,7 @@
 
             </LinearLayout>
 
-            <me.shouheng.notepal.widget.themed.Divider
+            <me.shouheng.commons.widget.theme.Divider
                 android:layout_width="match_parent"
                 android:layout_height="1px"/>
 
@@ -155,12 +155,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="55dp">
 
-                <me.shouheng.notepal.widget.themed.SupportImageView
+                <me.shouheng.commons.widget.theme.SupportImageView
                     android:src="@drawable/ic_share_white"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
-                <me.shouheng.notepal.widget.themed.SupportTextView
+                <me.shouheng.commons.widget.theme.SupportTextView
                     android:text="@string/text_share"
                     android:layout_marginStart="30dp"
                     android:layout_width="wrap_content"
@@ -168,7 +168,7 @@
 
             </LinearLayout>
 
-            <me.shouheng.notepal.widget.themed.Divider
+            <me.shouheng.commons.widget.theme.Divider
                 android:layout_width="match_parent"
                 android:layout_height="1px"/>
 

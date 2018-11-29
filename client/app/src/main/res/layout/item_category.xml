@@ -49,7 +49,7 @@
 
     </RelativeLayout>
 
-    <me.shouheng.notepal.widget.themed.SupportImageView
+    <me.shouheng.commons.widget.theme.SupportImageView
         android:id="@+id/iv_more"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:src="@drawable/ic_more_vert_black"
@@ -71,7 +71,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <me.shouheng.notepal.widget.themed.SupportTextView
+        <me.shouheng.commons.widget.theme.SupportTextView
             android:id="@+id/tv_title"
             android:gravity="center"
             android:textSize="16sp"

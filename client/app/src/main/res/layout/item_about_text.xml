@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/AboutPage.Item.Card">
 
-    <me.shouheng.notepal.widget.themed.SupportTextView
+    <me.shouheng.commons.widget.theme.SupportTextView
         style="@style/AboutPage.CardContent"
         android:id="@+id/content"
         tools:text="content"/>

@@ -14,7 +14,7 @@
         android:layout_width="100dp"
         android:layout_height="wrap_content">
 
-        <me.shouheng.notepal.widget.themed.SupportTextView
+        <me.shouheng.commons.widget.theme.SupportTextView
             android:id="@+id/tv_date"
             android:textSize="15sp"
             tools:text="08月01日"
@@ -39,7 +39,7 @@
         app:atom="@drawable/solid_circle_green"
         app:atom_size="@dimen/timeline_dot_size"/>
 
-    <me.shouheng.notepal.widget.themed.SupportCardView
+    <me.shouheng.commons.widget.theme.SupportCardView
         android:id="@+id/cd"
         android:layout_marginStart="@dimen/timeline_card_left_right_margin"
         android:layout_marginEnd="@dimen/timeline_card_left_right_margin"
@@ -100,6 +100,6 @@
 
         </RelativeLayout>
 
-    </me.shouheng.notepal.widget.themed.SupportCardView>
+    </me.shouheng.commons.widget.theme.SupportCardView>
 
 </LinearLayout>

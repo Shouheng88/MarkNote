@@ -1,4 +1,4 @@
-package me.shouheng.notepal.listener;
+package me.shouheng.notepal.util.listener;
 
 import java.io.File;
 

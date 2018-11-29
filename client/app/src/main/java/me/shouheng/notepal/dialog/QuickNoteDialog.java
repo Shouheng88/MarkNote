@@ -29,7 +29,7 @@ import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.databinding.DialogQuickNoteBinding;
-import me.shouheng.notepal.listener.OnAttachingFileListener;
+import me.shouheng.notepal.util.listener.OnAttachingFileListener;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.data.entity.MindSnagging;
 import me.shouheng.data.store.AttachmentsStore;

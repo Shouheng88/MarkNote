@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <me.shouheng.notepal.widget.themed.SupportImageView
+        <me.shouheng.commons.widget.theme.SupportImageView
             android:id="@+id/iv_icon"
             android:layout_width="@dimen/icon_width_height"
             android:layout_height="@dimen/icon_width_height"
@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <me.shouheng.notepal.widget.themed.SupportTextView
+            <me.shouheng.commons.widget.theme.SupportTextView
                 android:id="@+id/tv_title"
                 tools:text="@string/school"
                 style="@style/ProfileTitleStyle"

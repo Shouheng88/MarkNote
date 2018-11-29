@@ -11,7 +11,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <me.shouheng.notepal.widget.themed.SupportCardView
+            <me.shouheng.commons.widget.theme.SupportCardView
                 style="@style/ProfileCardStyle"
                 app:cardCornerRadius="@dimen/card_corner_radius"
                 app:cardElevation="@dimen/card_elevation"
@@ -24,14 +24,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <me.shouheng.notepal.widget.themed.CardTitleView
+                    <me.shouheng.commons.widget.theme.CardTitleView
                         app:card_icon="@drawable/ic_note_add_grey_24dp"
                         app:card_title="@string/statistic_activities"
                         app:card_sub_title="@string/statistic_title_activities"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
 
-                    <me.shouheng.notepal.widget.themed.Divider
+                    <me.shouheng.commons.widget.theme.Divider
                         android:layout_width="match_parent"
                         android:layout_height="1dp" />
 
@@ -43,9 +43,9 @@
 
                 </LinearLayout>
 
-            </me.shouheng.notepal.widget.themed.SupportCardView>
+            </me.shouheng.commons.widget.theme.SupportCardView>
 
-            <me.shouheng.notepal.widget.themed.SupportCardView
+            <me.shouheng.commons.widget.theme.SupportCardView
                 style="@style/ProfileCardStyle"
                 app:cardCornerRadius="@dimen/card_corner_radius"
                 app:cardElevation="@dimen/card_elevation"
@@ -58,14 +58,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <me.shouheng.notepal.widget.themed.CardTitleView
+                    <me.shouheng.commons.widget.theme.CardTitleView
                         app:card_icon="@drawable/ic_equalizer_grey_24dp"
                         app:card_title="@string/statistic_models_added"
                         app:card_sub_title="@string/statistic_title_models_added"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
 
-                    <me.shouheng.notepal.widget.themed.Divider
+                    <me.shouheng.commons.widget.theme.Divider
                         android:layout_width="match_parent"
                         android:layout_height="1dp" />
 
@@ -77,9 +77,9 @@
 
                 </LinearLayout>
 
-            </me.shouheng.notepal.widget.themed.SupportCardView>
+            </me.shouheng.commons.widget.theme.SupportCardView>
 
-            <me.shouheng.notepal.widget.themed.SupportCardView
+            <me.shouheng.commons.widget.theme.SupportCardView
                 style="@style/ProfileCardStyle"
                 app:cardCornerRadius="@dimen/card_corner_radius"
                 app:cardElevation="@dimen/card_elevation"
@@ -92,14 +92,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <me.shouheng.notepal.widget.themed.CardTitleView
+                    <me.shouheng.commons.widget.theme.CardTitleView
                         app:card_icon="@drawable/ic_attach_file_grey"
                         app:card_title="@string/statistic_attachments_added"
                         app:card_sub_title="@string/statistic_title_attachments_added"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
 
-                    <me.shouheng.notepal.widget.themed.Divider
+                    <me.shouheng.commons.widget.theme.Divider
                         android:layout_width="match_parent"
                         android:layout_height="1dp" />
 
@@ -111,7 +111,7 @@
 
                 </LinearLayout>
 
-            </me.shouheng.notepal.widget.themed.SupportCardView>
+            </me.shouheng.commons.widget.theme.SupportCardView>
 
         </LinearLayout>
 

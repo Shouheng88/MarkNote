@@ -1,4 +1,4 @@
-package me.shouheng.notepal.widget.themed;
+package me.shouheng.commons.widget.theme;
 
 import android.content.Context;
 import android.graphics.Typeface;
