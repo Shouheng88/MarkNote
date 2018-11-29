@@ -42,7 +42,7 @@ public class SettingsSecurity extends BPreferenceFragment {
 
         addPreferencesFromResource(R.xml.preferences_data_security);
 
-        findPreference(R.string.key_is_password_required).setOnPreferenceClickListener(preference -> {
+        findPreference(R.string.key_password_required).setOnPreferenceClickListener(preference -> {
             if (TextUtils.isEmpty(lockPreferences.getPassword()) && ((SwitchPreference) preference).isChecked() ) {
                 toSetPassword();
             } else if (((SwitchPreference) preference).isChecked()){
@@ -177,7 +177,7 @@ public class SettingsSecurity extends BPreferenceFragment {
                 if (resultCode != Activity.RESULT_OK && TextUtils.isEmpty(lockPreferences.getPassword())) {
                     /* remove the password requirement if the password is not set */
                     lockPreferences.setPasswordRequired(false);
-                    ((SwitchPreference) findPreference(R.string.key_is_password_required)).setChecked(false);
+                    ((SwitchPreference) findPreference(R.string.key_password_required)).setChecked(false);
                 } else {
                     showAlertIfNecessary();
                 }

@@ -28,11 +28,11 @@ public class LockPreferences extends BasePreferences {
     }
 
     public void setPasswordRequired(boolean isRequired) {
-        putBoolean(R.string.key_is_password_required, isRequired);
+        putBoolean(R.string.key_password_required, isRequired);
     }
 
     public boolean isPasswordRequired() {
-        return getBoolean(R.string.key_is_password_required, false);
+        return getBoolean(R.string.key_password_required, false);
     }
 
     public void setPassword(String password) {

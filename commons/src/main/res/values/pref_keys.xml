@@ -36,15 +36,15 @@
     <string name="key_accent_color" translatable="false">accent_color</string>
     <!--endregion-->
 
-    <!--region security-->
-    <string name="key_data_security" translatable="false">data_security</string>
-    <string name="key_is_password_required" translatable="false">password_required</string>
-    <string name="key_password" translatable="false">password</string>
-    <string name="key_password_freeze_time" translatable="false">password_input_freeze_time</string>
-    <string name="key_password_question" translatable="false">password_question</string>
-    <string name="key_password_answer" translatable="false">password_answer</string>
-    <string name="key_last_input_error_time" translatable="false">last_input_error_time</string>
-    <!--endregion-->
+    <!--region SECURITY-->
+    <string name="key_data_security" translatable="false">__data_security</string>
+    <string name="key_password_required" translatable="false">__is_password_required</string>
+    <string name="key_password" translatable="false">__password</string>
+    <string name="key_password_freeze_time" translatable="false">__password_input_freeze_time</string>
+    <string name="key_password_question" translatable="false">__password_question</string>
+    <string name="key_password_answer" translatable="false">__password_answer</string>
+    <string name="key_last_input_error_time" translatable="false">__last_input_error_time</string>
+    <!--endregion SECURITY-->
 
     <!--region preferences-->
     <string name="key_fab_sort_result" translatable="false">fab_sort_result</string>

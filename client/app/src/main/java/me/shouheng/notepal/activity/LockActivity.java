@@ -51,6 +51,7 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
     public static void requireLaunch(Activity activity, int requestCode) {
         Intent intent = new Intent(activity, LockActivity.class);
         intent.setAction(ACTION_REQUIRE_LAUNCH_APP);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         activity.startActivityForResult(intent, requestCode);
     }
 

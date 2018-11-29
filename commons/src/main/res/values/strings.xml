@@ -111,13 +111,13 @@
 
     <string name="drawer_menu_notebooks">Notebooks</string>
     <string name="drawer_menu_categories">Categories</string>
-    <string name="drawer_menu_setting">Settings</string>
     <string name="drawer_menu_trash">Trashed</string>
     <string name="drawer_menu_archive">Archived</string>
-    <string name="drawer_menu_sync">Sync</string>
     <string name="drawer_menu_statistics">Statistics</string>
     <string name="drawer_menu_time_line">TimeLine</string>
-    <string name="drawer_menu_search">Search</string>
+    <string name="drawer_menu_setting">Settings</string>
+    <string name="drawer_menu_share">Share</string>
+    <string name="drawer_menu_donate">Donate</string>
 
 
     <!--region Fab-->

@@ -2,7 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <SwitchPreference
-        android:key="@string/key_is_password_required"
+        android:key="@string/key_password_required"
         android:defaultValue="false"
         android:title="@string/setting_password_required"
         android:summary="@string/setting_password_required_sub"/>

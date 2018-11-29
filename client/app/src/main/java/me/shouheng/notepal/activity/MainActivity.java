@@ -29,14 +29,25 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import java.util.Collections;
 import java.util.List;
 
-import me.shouheng.commons.helper.ActivityHelper;
 import me.shouheng.commons.activity.CommonActivity;
 import me.shouheng.commons.activity.ContainerActivity;
 import me.shouheng.commons.event.RxMessage;
+import me.shouheng.commons.helper.ActivityHelper;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.IntentUtils;
 import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.commons.utils.PermissionUtils;
+import me.shouheng.commons.utils.PersistData;
+import me.shouheng.commons.utils.ToastUtils;
+import me.shouheng.commons.widget.recycler.CustomRecyclerScrollViewListener;
+import me.shouheng.data.ModelFactory;
+import me.shouheng.data.entity.Attachment;
+import me.shouheng.data.entity.Category;
+import me.shouheng.data.entity.MindSnagging;
+import me.shouheng.data.entity.Model;
+import me.shouheng.data.entity.Note;
+import me.shouheng.data.entity.Notebook;
+import me.shouheng.data.model.enums.FabSortItem;
 import me.shouheng.data.model.enums.Status;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
@@ -51,23 +62,13 @@ import me.shouheng.notepal.fragment.NotesFragment;
 import me.shouheng.notepal.fragment.StatisticsFragment;
 import me.shouheng.notepal.fragment.TimeLineFragment;
 import me.shouheng.notepal.fragment.setting.SettingsFragment;
-import me.shouheng.data.entity.Attachment;
-import me.shouheng.data.entity.Category;
-import me.shouheng.data.entity.MindSnagging;
-import me.shouheng.data.entity.Model;
-import me.shouheng.data.ModelFactory;
-import me.shouheng.data.entity.Note;
-import me.shouheng.data.entity.Notebook;
-import me.shouheng.data.model.enums.FabSortItem;
 import me.shouheng.notepal.util.FragmentHelper;
 import me.shouheng.notepal.util.SynchronizeUtils;
-import me.shouheng.commons.utils.ToastUtils;
-import me.shouheng.notepal.util.preferences.LockPreferences;
 import me.shouheng.notepal.util.preferences.PrefUtils;
 import me.shouheng.notepal.viewmodel.CategoryViewModel;
 import me.shouheng.notepal.viewmodel.NoteViewModel;
 import me.shouheng.notepal.viewmodel.NotebookViewModel;
-import me.shouheng.commons.widget.recycler.CustomRecyclerScrollViewListener;
+import me.shouheng.notepal.vm.MainViewModel;
 
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
 
@@ -88,6 +89,8 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     private CategoryViewModel categoryViewModel;
     private NoteViewModel noteViewModel;
 
+    private MainViewModel viewModel;
+
     @Override
     protected int getLayoutResId() {
         return R.layout.activity_main;
@@ -95,20 +98,26 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {
-        // Get view models -- NOT STANDARD THIS WAY! :(
+        viewModel = getViewModel(MainViewModel.class);
+
+        // Get view models -- NOT STANDARD THIS WAY! :( TODO
         notebookViewModel = ViewModelProviders.of(this).get(NotebookViewModel.class);
         noteViewModel = ViewModelProviders.of(this).get(NoteViewModel.class);
         categoryViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
 
-        if (LockPreferences.getInstance().isPasswordRequired()
-                && !PalmApp.isPasswordChecked()
-                && !TextUtils.isEmpty(LockPreferences.getInstance().getPassword())) {
-            LockActivity.requireLaunch(this, REQUEST_PASSWORD);
-        } else {
-            init(savedInstanceState);
-        }
+        checkPsdIfNecessary(savedInstanceState);
 
         addSubscriptions();
+    }
+
+    private void checkPsdIfNecessary(Bundle savedInstanceState) {
+        boolean psdRequired = PersistData.getBoolean(R.string.key_password_required, false);
+        String psd = PersistData.getString(R.string.key_password, null);
+        if (psdRequired && !PalmApp.isPasswordChecked() && !TextUtils.isEmpty(psd)) {
+            LockActivity.requireLaunch(this, REQUEST_PASSWORD);
+        } else {
+            everything(savedInstanceState);
+        }
     }
 
     private void addSubscriptions() {
@@ -120,11 +129,11 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         });
     }
 
-    private void init(Bundle savedInstanceState) {
-        // handle intent
+    private void everything(Bundle savedInstanceState) {
+        // Handle intent
         handleIntent(getIntent());
 
-        // config toolbar
+        // Config toolbar
         setSupportActionBar(getBinding().toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -138,13 +147,13 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
             getBinding().toolbar.setPopupTheme(R.style.AppTheme_PopupOverlayDark);
         }
 
-        // custom left drawer
+        // Custom left drawer
         configDrawer(savedInstanceState);
 
-        // init float action buttons
+        // Initialize float action buttons
         initFloatButtons();
 
-        // init the FABs
+        // Initialize the FABs
         initFabSortItems();
 
         toNotesFragment(true);
@@ -201,9 +210,9 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                 .withSelectedTextColor(ColorUtils.accentColor())
                 .withSelectedIconColor(ColorUtils.accentColor());
 
-        PrimaryDrawerItem itemBackup = new PrimaryDrawerItem()
-                .withName(R.string.drawer_menu_sync)
-                .withIcon(ColorUtils.tintDrawable(R.drawable.ic_sync_black, isDarkTheme() ? Color.WHITE : Color.BLACK))
+        PrimaryDrawerItem itemDonate = new PrimaryDrawerItem()
+                .withName(R.string.drawer_menu_donate)
+                .withIcon(ColorUtils.tintDrawable(R.drawable.ic_monetization_on_black_24dp, isDarkTheme() ? Color.WHITE : Color.BLACK))
                 .withIdentifier(5)
                 .withSelectable(false)
                 .withIconTintingEnabled(true)
@@ -228,9 +237,9 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                 .withSelectedTextColor(ColorUtils.accentColor())
                 .withSelectedIconColor(ColorUtils.accentColor());
 
-        PrimaryDrawerItem itemSearch = new PrimaryDrawerItem()
-                .withName(R.string.drawer_menu_search)
-                .withIcon(ColorUtils.tintDrawable(R.drawable.ic_search_white_24dp, isDarkTheme() ? Color.WHITE : Color.BLACK))
+        PrimaryDrawerItem itemShare = new PrimaryDrawerItem()
+                .withName(R.string.drawer_menu_share)
+                .withIcon(ColorUtils.tintDrawable(R.drawable.ic_share_white, isDarkTheme() ? Color.WHITE : Color.BLACK))
                 .withIdentifier(8)
                 .withSelectable(false)
                 .withIconTintingEnabled(true)
@@ -240,7 +249,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         drawer = new DrawerBuilder().withActivity(this)
                 .withHasStableIds(true)
                 .addDrawerItems(itemNotes, itemTags, itemTimeLine, divider, itemStatistic, itemArchive,
-                        itemTrash, divider, itemSearch, itemSetting, itemBackup)
+                        itemTrash, divider, itemSetting, itemShare, itemDonate)
                 .withMultiSelect(false)
                 .withSelectedItem(0)
                 .withOnDrawerItemClickListener((view, position, drawerItem) -> {
@@ -264,7 +273,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                             SettingsActivity.open(SettingsFragment.class).launch(this);
                             break;
                         case 5:
-                            SynchronizeUtils.syncOneDrive(this, true);
+                            // Donate
                             break;
                         case 6:
                             ContainerActivity.open(StatisticsFragment.class).launch(this);
@@ -273,7 +282,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                             ContainerActivity.open(TimeLineFragment.class).launch(this);
                             break;
                         case 8:
-
+                            // Share
                             break;
                     }
                     return true;
@@ -654,7 +663,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         if (resultCode != RESULT_OK) return;
         switch (requestCode) {
             case REQUEST_PASSWORD:
-                init(null);
+                everything(null);
                 break;
         }
     }
