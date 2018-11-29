@@ -108,7 +108,7 @@
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/list_widget" />
+                android:resource="@xml/app_widget_list" />
         </receiver>
         <receiver android:name=".widget.desktop.SimpleWidgetProvider">
             <intent-filter>
@@ -116,7 +116,7 @@
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/simple_widget_provider_info" />
+                android:resource="@xml/app_widget_simple" />
         </receiver>
         <receiver android:name=".widget.desktop.DesktopShortcutAppWidget">
             <intent-filter>
@@ -124,7 +124,7 @@
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/shortcut_app_widget" />
+                android:resource="@xml/app_widget_shortcut" />
         </receiver>
 
         <service
