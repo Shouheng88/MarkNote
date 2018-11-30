@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/iv"
+        android:layout_gravity="center"
+        tools:src="@drawable/ic_format_check_box_unfilled_white_24dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp" />
+
+</FrameLayout>

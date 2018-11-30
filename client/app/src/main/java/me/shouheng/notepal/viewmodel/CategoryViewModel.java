@@ -4,13 +4,12 @@ import android.arch.lifecycle.LiveData;
 
 import java.util.List;
 
+import me.shouheng.commons.model.data.Resource;
 import me.shouheng.commons.utils.LogUtils;
+import me.shouheng.data.entity.Category;
 import me.shouheng.data.model.enums.Status;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
-import me.shouheng.data.entity.Category;
-import me.shouheng.data.entity.Note;
-import me.shouheng.commons.model.data.Resource;
 import me.shouheng.notepal.repository.BaseRepository;
 import me.shouheng.notepal.repository.CategoryRepository;
 
@@ -32,10 +31,6 @@ public class CategoryViewModel extends BaseViewModel<Category> {
                         status == Status.TRASHED ? R.string.tags_list_empty_sub_trashed :
                                 status == Status.ARCHIVED ? R.string.tags_list_empty_sub_archived :
                                         R.string.tags_list_empty_sub_normal);
-    }
-
-    public LiveData<Resource<List<Category>>> getCategories(Note note) {
-        return ((CategoryRepository) getRepository()).getCategories(note);
     }
 
     public LiveData<Resource<List<Category>>> getCategories(Status status) {

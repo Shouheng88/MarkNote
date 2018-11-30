@@ -86,4 +86,12 @@
     <string name="key_setting_item_about_privacy" translatable="false">__key_setting_item_about_privacy</string>
     <string name="key_setting_item_about_open_source" translatable="false">__key_setting_item_about_open_source</string>
     <string name="key_setting_item_help_translate" translatable="false">__key_setting_item_help_translate</string>
+
+    <!--  region data persistence  -->
+
+    <!-- Code of last time working note, used to open as default if necessary  -->
+    <string name="key_persistence_last_working_note" translatable="false">__key_last_working_note_code</string>
+
+    <!--  endregion data persistence -->
+
 </resources>

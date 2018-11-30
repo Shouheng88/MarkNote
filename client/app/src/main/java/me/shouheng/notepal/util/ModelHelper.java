@@ -52,12 +52,12 @@ public class ModelHelper {
                 + " : " + TimeUtils.getPrettyTime(model.getLastModifiedTime());
     }
 
-    public static void copyToClipboard(Activity ctx, String content) {
-        ClipboardManager clipboardManager = (ClipboardManager) ctx.getSystemService(Context.CLIPBOARD_SERVICE);
+    public static void copy(Activity activity, String content) {
+        ClipboardManager clipboardManager = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
         clipboardManager.setText(content);
     }
 
-    public static void share(Context context, String title, String content, List<Attachment> attachments) {
+    public static void send(Context context, String title, String content, List<Attachment> attachments) {
         Intent shareIntent = new Intent();
         if (attachments.size() == 0) {
             shareIntent.setAction(Intent.ACTION_SEND);

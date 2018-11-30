@@ -464,11 +464,15 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
             ActivityHelper.start(this, FabSortActivity.class);
             return false;
         });
-        getBinding().menu.setOnMenuToggleListener(opened -> getBinding().rlMenuContainer.setVisibility(opened ? View.VISIBLE : View.GONE));
-        getBinding().rlMenuContainer.setOnClickListener(view -> getBinding().menu.close(true));
-        getBinding().rlMenuContainer.setBackgroundResource(isDarkTheme() ? R.color.menu_container_dark : R.color.menu_container_light);
+        getBinding().menu.setOnMenuToggleListener(opened ->
+                getBinding().rlMenuContainer.setVisibility(opened ? View.VISIBLE : View.GONE));
+        getBinding().rlMenuContainer.setOnClickListener(view ->
+                getBinding().menu.close(true));
+        getBinding().rlMenuContainer.setBackgroundResource(
+                isDarkTheme() ? R.color.menu_container_dark : R.color.menu_container_light);
 
-        fabs = new FloatingActionButton[]{getBinding().fab1, getBinding().fab2, getBinding().fab3, getBinding().fab4, getBinding().fab5};
+        fabs = new FloatingActionButton[]{getBinding().fab1,
+                getBinding().fab2, getBinding().fab3, getBinding().fab4, getBinding().fab5};
 
         for (int i=0; i<fabs.length; i++) {
             fabs[i].setColorNormal(accentColor());
@@ -480,20 +484,26 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         onScrollListener = new CustomRecyclerScrollViewListener() {
             @Override
             public void show() {
-                getBinding().menu.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
+                getBinding().menu.animate()
+                        .translationY(0)
+                        .setInterpolator(new DecelerateInterpolator(2))
+                        .start();
             }
 
             @Override
             public void hide() {
                 RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) getBinding().menu.getLayoutParams();
                 int fabMargin = lp.bottomMargin;
-                getBinding().menu.animate().translationY(getBinding().menu.getHeight()+fabMargin).setInterpolator(new AccelerateInterpolator(2.0f)).start();
+                getBinding().menu.animate()
+                        .translationY(getBinding().menu.getHeight() + fabMargin)
+                        .setInterpolator(new AccelerateInterpolator(2.0f))
+                        .start();
             }
 
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 LogUtils.d("onScrollStateChanged: ");
-                if (newState == SCROLL_STATE_IDLE){
+                if (newState == SCROLL_STATE_IDLE) {
                     LogUtils.d("onScrollStateChanged: SCROLL_STATE_IDLE");
                 }
             }
@@ -504,7 +514,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         try {
             List<FabSortItem> fabSortItems = PrefUtils.getInstance().getFabSortResult();
             for (int i=0; i<fabs.length; i++) {
-                fabs[i].setImageDrawable(ColorUtils.tintDrawable(getResources().getDrawable(fabSortItems.get(i).iconRes), Color.WHITE));
+                fabs[i].setImageDrawable(ColorUtils.tintDrawable(fabSortItems.get(i).iconRes, Color.WHITE));
                 fabs[i].setLabelText(getString(fabSortItems.get(i).nameRes));
             }
         } catch (Exception e) {
@@ -518,7 +528,10 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         FabSortItem fabSortItem = PrefUtils.getInstance().getFabSortResult().get(index);
         switch (fabSortItem) {
             case NOTE:
-                editNote(getNewNote());
+                PermissionUtils.checkStoragePermission(this, () ->
+                        ContainerActivity.open(NoteFragment.class)
+                                .put(NoteFragment.ARGS_KEY_NOTE, (Serializable) getNewNote())
+                                .launch(getContext()));
                 break;
             case NOTEBOOK:
                 editNotebook();
@@ -547,10 +560,14 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                 ContentActivity.editNote(this, note));
     }
 
+    /**
+     * Get a new note according to current showing fragment.
+     *
+     * @return the note model
+     */
     private Note getNewNote() {
         Note note = ModelFactory.getNote();
-
-        boolean isNotes = isNotesFragment();
+        boolean isNotes = getCurrentFragment() instanceof NoteFragment;
 
         /* Add notebook filed according to current fragment */
         Notebook notebook;
@@ -558,14 +575,14 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
             note.setParentCode(notebook.getCode());
             note.setTreePath(notebook.getTreePath() + "|" + note.getCode());
         } else {
-            // The default tree path of note is itself
+            // The default tree path is itself.
             note.setTreePath(String.valueOf(note.getCode()));
         }
 
         /* Add category field according to current fragment */
         Category category;
         if (isNotes && (category = ((NotesFragment) getCurrentFragment()).getCategory()) != null) {
-            note.setTags(CategoryViewModel.getTags(Collections.singletonList(category)));
+            note.setTags(ModelFactory.getTags(Collections.singletonList(category)));
         }
 
         return note;

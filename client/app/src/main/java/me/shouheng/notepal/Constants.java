@@ -62,6 +62,9 @@ public interface Constants extends BaseConstants {
 
 
 
+    String NOTE_FILE_ENCODING = "utf-8";
+
+
     // region Extras
     String EXTRA_MODEL = "extra_model";
     String EXTRA_CODE = "extra_code";

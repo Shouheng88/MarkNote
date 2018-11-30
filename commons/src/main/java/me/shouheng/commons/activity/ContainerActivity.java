@@ -94,10 +94,16 @@ public class ContainerActivity extends CommonActivity<ActivityContainerBinding> 
                 return super.onKeyDown(keyCode, event);
             }
         }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Fragment fragment = getCurrentFragment(R.id.fragment_container);
         if (fragment instanceof BackEventResolver) {
             ((BackEventResolver) fragment).resolve();
-            return true;
+        } else {
+            superOnBackPressed();
         }
-        return super.onKeyDown(keyCode, event);
     }
 }

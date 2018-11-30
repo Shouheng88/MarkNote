@@ -1,8 +1,5 @@
 package me.shouheng.commons.helper;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
@@ -12,8 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 
 import java.io.Serializable;
 
-import me.shouheng.commons.activity.ContainerActivity;
-
 public class DialogHelper {
 
     public static <M extends DialogFragment> Builder<M> open(@NonNull Class<M> clz) {
@@ -22,16 +17,8 @@ public class DialogHelper {
 
     public static class Builder<T extends DialogFragment> {
 
-        /**
-         * 要打开的 Fragment 的 Class
-         */
         private Class<T> clz;
 
-        /**
-         * 用来传递给要打开的 Fragment 的 Bundle，作为 Arguments 传入，从 {@link Fragment#getArguments()}
-         * 方法中获取该参数，要设置值的话可以使用 {@link #put(String, int)} 等方法设置值，如果下面的方法
-         * 不够用的话，可以自行添加
-         */
         private Bundle bundle = new Bundle();
 
         public Builder(Class<T> clz) {

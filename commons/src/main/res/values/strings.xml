@@ -92,7 +92,27 @@
     <string name="text_search_with">Search &#8230;</string>
     <string name="text_open_in_browser">在浏览器中打开</string>
     <string name="text_file_not_exist">File not found</string>
-    <string name="text_note_not_found">Note not found</string>
+    <string name="text_redo">Redo</string>
+    <string name="text_undo">Undo</string>
+    <string name="text_title">Title</string>
+
+    <!-- app common -->
+    <string name="text_note_not_found">Note not found.</string>
+    <string name="text_failed_to_read_note_file">Failed to read note file.</string>
+    <string name="text_failed_to_save_note">Failed to save note.</string>
+
+
+
+    <!-- note -->
+    <string name="note_change_notebook">Change Notebook</string>
+    <string name="note_change_categories">Change Categories</string>
+    <string name="note_send">Send to Another App</string>
+    <string name="note_copy_content">Copy Content</string>
+    <string name="note_copy_title">Copy Title</string>
+    <string name="note_settings">Note Settings</string>
+    <string name="note_hint_content">Input your note content here&#8230;</string>
+    <string name="note_copied_success">Copied successfully.</string>
+
 
     <string name="check_network_availability">Check network availability</string>
 

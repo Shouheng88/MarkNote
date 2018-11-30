@@ -211,7 +211,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
         getBinding().drawer.tvNoteInfo.setText(ModelHelper.getTimeInfo(note));
 
         getBinding().drawer.llCopy.setOnClickListener(v -> {
-            ModelHelper.copyToClipboard(getActivity(), content);
+            ModelHelper.copy(getActivity(), content);
             ToastUtils.makeToast(R.string.content_was_copied_to_clipboard);
         });
         getBinding().drawer.llShortcut.setOnClickListener(v -> {
@@ -295,7 +295,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
                     public void onSheetItemSelected(@NonNull BottomSheet bottomSheet, MenuItem menuItem, @Nullable Object o) {
                         switch (menuItem.getItemId()) {
                             case R.id.action_share_text:
-                                ModelHelper.share(getContext(), note.getTitle(), content, new ArrayList<>());
+                                ModelHelper.send(getContext(), note.getTitle(), content, new ArrayList<>());
                                 break;
                             case R.id.action_share_html:
                                 outHtml(true);

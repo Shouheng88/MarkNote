@@ -3,6 +3,7 @@ package me.shouheng.data.entity;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import java.util.Date;
 
@@ -41,11 +42,7 @@ public class Note extends Model implements Parcelable {
     @Column(name = NoteSchema.PREVIEW_CONTENT)
     private String previewContent;
 
-    // region Android端字段，不计入数据库
-
     private String content;
-
-    private String tagsName;
 
     public String getContent() {
         return content;
@@ -54,16 +51,6 @@ public class Note extends Model implements Parcelable {
     public void setContent(String content) {
         this.content = content;
     }
-
-    public String getTagsName() {
-        return tagsName;
-    }
-
-    public void setTagsName(String tagsName) {
-        this.tagsName = tagsName;
-    }
-
-    // endregion
 
     public Note(){}
 
@@ -84,8 +71,6 @@ public class Note extends Model implements Parcelable {
         setTags(in.readString());
         setNoteType(NoteType.getTypeById(in.readInt()));
         setPreviewContent(in.readString());
-
-        setTagsName(in.readString());
     }
 
     public static final Creator<Note> CREATOR = new Creator<Note>() {
@@ -164,6 +149,7 @@ public class Note extends Model implements Parcelable {
         this.previewContent = previewContent;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "Note{" +
@@ -176,7 +162,6 @@ public class Note extends Model implements Parcelable {
                 ", noteType=" + noteType +
                 ", previewContent='" + previewContent + '\'' +
                 ", content='" + content + '\'' +
-                ", tagsName='" + tagsName + '\'' +
                 "} " + super.toString();
     }
 
@@ -203,7 +188,5 @@ public class Note extends Model implements Parcelable {
         dest.writeString(getTags());
         dest.writeInt(getNoteType().getId());
         dest.writeString(getPreviewContent());
-
-        dest.writeString(getTagsName());
     }
 }

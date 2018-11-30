@@ -19,12 +19,11 @@ import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.data.ModelFactory;
 import me.shouheng.data.entity.Note;
 import me.shouheng.data.store.NotesStore;
-import me.shouheng.notepal.R;
 import me.shouheng.notepal.Constants;
+import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.ActivityContentBinding;
-import me.shouheng.notepal.fragment.NoteFragment.OnNoteInteractListener;
 
-public class ContentActivity extends CommonActivity<ActivityContentBinding> implements OnNoteInteractListener {
+public class ContentActivity extends CommonActivity<ActivityContentBinding> {
 
     public final static String EXTRA_HAS_TOOLBAR = "__extra_has_toolbar";
     private final static String BUNDLE_KEY_NOTE = "__key_bundle_note";
@@ -147,10 +146,5 @@ public class ContentActivity extends CommonActivity<ActivityContentBinding> impl
         if (currentFragment instanceof BackEventResolver){
             ((BackEventResolver) currentFragment).resolve();
         }
-    }
-
-    @Override
-    public Intent getIntentForThirdPart() {
-        return getIntent();
     }
 }
