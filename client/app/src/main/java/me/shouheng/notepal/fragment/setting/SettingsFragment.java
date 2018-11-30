@@ -23,7 +23,7 @@ import me.shouheng.notepal.activity.FabSortActivity;
 import me.shouheng.notepal.activity.LockActivity;
 import me.shouheng.notepal.activity.MenuSortActivity;
 import me.shouheng.notepal.activity.SettingsActivity;
-import me.shouheng.notepal.config.Constants;
+import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.dialog.ThemePickDialog;
 import me.shouheng.notepal.util.preferences.LockPreferences;
 

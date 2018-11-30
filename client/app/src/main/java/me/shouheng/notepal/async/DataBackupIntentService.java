@@ -20,7 +20,7 @@ import me.shouheng.data.DBConfig;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.MainActivity;
-import me.shouheng.notepal.config.Constants;
+import me.shouheng.notepal.Constants;
 import me.shouheng.data.store.AttachmentsStore;
 import me.shouheng.notepal.util.FileHelper;
 import me.shouheng.notepal.util.NotificationsHelper;

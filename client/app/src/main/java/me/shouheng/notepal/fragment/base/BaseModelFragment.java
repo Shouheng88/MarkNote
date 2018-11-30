@@ -33,7 +33,7 @@ import me.shouheng.data.entity.Model;
 import me.shouheng.data.store.CategoryStore;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.ContentActivity;
-import me.shouheng.notepal.config.Constants;
+import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.dialog.CategoryEditDialog;
 import me.shouheng.notepal.dialog.picker.CategoryPickerDialog;
 import me.shouheng.notepal.util.AppWidgetUtils;

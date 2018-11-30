@@ -18,7 +18,7 @@ import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.NotesAdapter.MultiItem;
 import me.shouheng.notepal.async.ResourceAsyncTask;
-import me.shouheng.notepal.config.Constants;
+import me.shouheng.notepal.Constants;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.data.entity.Category;
 import me.shouheng.data.entity.MindSnagging;

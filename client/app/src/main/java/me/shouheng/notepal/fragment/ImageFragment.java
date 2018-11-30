@@ -16,7 +16,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import me.shouheng.commons.utils.ViewUtils;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.GalleryActivity;
-import me.shouheng.notepal.config.Constants;
+import me.shouheng.notepal.Constants;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.notepal.util.FileHelper;
 import me.shouheng.commons.glide.RotateTransformation;

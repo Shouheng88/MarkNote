@@ -27,7 +27,7 @@ import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.commons.theme.ThemeStyle;
 import me.shouheng.notepal.BuildConfig;
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.config.Constants;
+import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.databinding.ActivityAboutBinding;
 
 /**

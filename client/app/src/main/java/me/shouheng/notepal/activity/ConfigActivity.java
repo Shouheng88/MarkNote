@@ -11,7 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.config.Constants;
+import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.databinding.ActivityWidgetConfigurationBinding;
 import me.shouheng.notepal.dialog.picker.NotebookPickerDialog;
 import me.shouheng.data.entity.Notebook;

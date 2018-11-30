@@ -1,9 +1,67 @@
-package me.shouheng.notepal.config;
+package me.shouheng.notepal;
 
 import me.shouheng.commons.BaseConstants;
-import me.shouheng.notepal.BuildConfig;
 
 public interface Constants extends BaseConstants {
+
+    /**
+     * Shortcut action, used to create new note, registered in the shortcuts.xml.
+     * Used fot app version after {@link android.os.Build.VERSION_CODES#N_MR1}
+     */
+    String SHORTCUT_ACTION_CREATE_NOTE = "me.shouheng.notepal.CREATE_NOTE";
+
+    /**
+     * Shortcut action, used to search note, registered in the shortcuts.xml.
+     * Used fot app version after {@link android.os.Build.VERSION_CODES#N_MR1}
+     */
+    String SHORTCUT_ACTION_SEARCH_NOTE = "me.shouheng.notepal.SEARCH_NOTE";
+
+    /**
+     * Shortcut action, used to capture a photo fot note, registered in the shortcuts.xml.
+     * Used fot app version after {@link android.os.Build.VERSION_CODES#N_MR1}
+     */
+    String SHORTCUT_ACTION_CAPTURE = "me.shouheng.notepal.CAPTURE";
+
+    /**
+     * Shortcut action, used to start a note view page, the intent contains information of the note.
+     * @see #SHORTCUT_EXTRA_NOTE_CODE
+     */
+    String SHORTCUT_ACTION_VIEW_NOTE = "me.shouheng.notepal.VIEW_NOTE";
+
+    /**
+     * The intent extra key for {@link #SHORTCUT_ACTION_VIEW_NOTE} used to send the note code
+     * to the MainActivity. The code will later be used to get the full note information.
+     */
+    String SHORTCUT_EXTRA_NOTE_CODE = "me.shouheng.notepal.intent.extras.NOTE_CODE";
+
+    /**
+     * Shortcut action, used to create quick note, registered in the shortcuts.xml
+     */
+    String SHORTCUT_ACTION_QUICK_NOTE = "me.shouheng.notepal.QUICK_NOTE";
+
+
+    /**
+     * The action for app widget, used to create a new note.
+     */
+    String APP_WIDGET_ACTION_CREATE_NOTE = "me.shouheng.notepal.widget.CREATE";
+
+    /**
+     * The action for app widget, used to take a photo, and then create a note.
+     */
+    String APP_WIDGET_ACTION_CAPTURE = "me.shouheng.notepal.widget.CAPTURE";
+
+    /**
+     * The action for app widget, used to quickly create a note.
+     */
+    String APP_WIDGET_ACTION_QUICK_NOTE = "me.shouheng.notepal.widget.QUICK_NOTE";
+
+    /**
+     * The action for app widget, used to launch the app.
+     */
+    String APP_WIDGET_ACTION_LAUNCH_APP = "me.shouheng.notepal.widget.LAUNCH";
+
+
+
     // region Extras
     String EXTRA_MODEL = "extra_model";
     String EXTRA_CODE = "extra_code";

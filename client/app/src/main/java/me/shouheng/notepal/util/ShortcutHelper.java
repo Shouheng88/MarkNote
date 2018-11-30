@@ -7,7 +7,9 @@ import android.support.annotation.NonNull;
 import me.shouheng.data.entity.Note;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.MainActivity;
-import me.shouheng.notepal.config.Constants;
+
+import static me.shouheng.notepal.Constants.SHORTCUT_ACTION_VIEW_NOTE;
+import static me.shouheng.notepal.Constants.SHORTCUT_EXTRA_NOTE_CODE;
 
 public class ShortcutHelper {
 
@@ -22,8 +24,8 @@ public class ShortcutHelper {
     public static void addShortcut(Context context, @NonNull Note note) {
         Context mContext = context.getApplicationContext();
         Intent shortcutIntent = new Intent(mContext, MainActivity.class);
-        shortcutIntent.putExtra(MainActivity.SHORTCUT_EXTRA_NOTE_CODE, note.getCode());
-        shortcutIntent.setAction(Constants.ACTION_SHORTCUT);
+        shortcutIntent.putExtra(SHORTCUT_EXTRA_NOTE_CODE, note.getCode());
+        shortcutIntent.setAction(SHORTCUT_ACTION_VIEW_NOTE);
 
         Intent addIntent = new Intent();
         addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);

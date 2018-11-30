@@ -17,7 +17,7 @@ import java.security.spec.X509EncodedKeySpec;
 import javax.crypto.Cipher;
 
 import me.shouheng.commons.utils.LogUtils;
-import me.shouheng.notepal.config.Constants;
+import me.shouheng.notepal.Constants;
 
 /**
  * Created by wangshouheng on 2017/2/27.*/

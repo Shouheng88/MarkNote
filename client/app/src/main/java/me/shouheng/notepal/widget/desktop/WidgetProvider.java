@@ -15,7 +15,7 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.MainActivity;
 import me.shouheng.notepal.activity.ConfigActivity;
 import me.shouheng.notepal.activity.QuickNoteActivity;
-import me.shouheng.notepal.config.Constants;
+import me.shouheng.notepal.Constants;
 
 public abstract class WidgetProvider extends AppWidgetProvider {
 

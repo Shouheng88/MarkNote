@@ -15,7 +15,7 @@ import me.shouheng.commons.activity.PermissionActivity;
 import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.config.Constants;
+import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.dialog.AttachmentPicker;
 import me.shouheng.notepal.dialog.QuickNoteDialog;
 import me.shouheng.notepal.util.listener.OnAttachingFileListener;
@@ -31,12 +31,9 @@ import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.notepal.util.preferences.LockPreferences;
 import me.shouheng.notepal.viewmodel.NoteViewModel;
 
-public class QuickNoteActivity extends PermissionActivity implements OnAttachingFileListener {
+import static me.shouheng.notepal.Constants.SHORTCUT_ACTION_QUICK_NOTE;
 
-    /**
-     * Shortcut action, used to create quick note, registered in the shortcuts.xml
-     */
-    public final static String SHORTCUT_ACTION_QUICK_NOTE = "me.shouheng.notepal.QUICK_NOTE";
+public class QuickNoteActivity extends PermissionActivity implements OnAttachingFileListener {
 
     private final static int REQUEST_PASSWORD = 0x0016;
 

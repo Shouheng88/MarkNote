@@ -44,7 +44,7 @@ import me.shouheng.easymark.EasyMarkViewer;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.ContentActivity;
-import me.shouheng.notepal.config.Constants;
+import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.databinding.FragmentNoteViewBinding;
 import me.shouheng.notepal.dialog.OpenResolver;
 import me.shouheng.notepal.fragment.base.BaseFragment;
@@ -61,13 +61,13 @@ import me.shouheng.notepal.util.PrintUtils;
 import me.shouheng.notepal.util.ShortcutHelper;
 import me.shouheng.commons.utils.ToastUtils;
 
-import static me.shouheng.notepal.config.Constants.PDF_MIME_TYPE;
-import static me.shouheng.notepal.config.Constants.SCHEME_HTTP;
-import static me.shouheng.notepal.config.Constants.SCHEME_HTTPS;
-import static me.shouheng.notepal.config.Constants.VIDEO_MIME_TYPE;
-import static me.shouheng.notepal.config.Constants._3GP;
-import static me.shouheng.notepal.config.Constants._MP4;
-import static me.shouheng.notepal.config.Constants._PDF;
+import static me.shouheng.notepal.Constants.PDF_MIME_TYPE;
+import static me.shouheng.notepal.Constants.SCHEME_HTTP;
+import static me.shouheng.notepal.Constants.SCHEME_HTTPS;
+import static me.shouheng.notepal.Constants.VIDEO_MIME_TYPE;
+import static me.shouheng.notepal.Constants._3GP;
+import static me.shouheng.notepal.Constants._MP4;
+import static me.shouheng.notepal.Constants._PDF;
 
 /**
  * Created by wangshouheng on 2017/5/13.*/

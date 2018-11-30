@@ -33,14 +33,20 @@ import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.commons.utils.PermissionUtils;
 import me.shouheng.commons.utils.StringUtils;
+import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.commons.utils.ViewUtils;
+import me.shouheng.commons.widget.FlowLayout;
+import me.shouheng.data.entity.Attachment;
+import me.shouheng.data.entity.Category;
+import me.shouheng.data.entity.Location;
+import me.shouheng.data.entity.Note;
 import me.shouheng.data.model.enums.ModelType;
 import me.shouheng.easymark.editor.Format;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.MenuSortActivity;
 import me.shouheng.notepal.async.CreateAttachmentTask;
-import me.shouheng.notepal.config.Constants;
+import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.databinding.FragmentNoteBinding;
 import me.shouheng.notepal.dialog.AttachmentPicker;
 import me.shouheng.notepal.dialog.LinkInputDialog;
@@ -48,14 +54,9 @@ import me.shouheng.notepal.dialog.MathJaxEditor;
 import me.shouheng.notepal.dialog.TableInputDialog;
 import me.shouheng.notepal.dialog.picker.NotebookPickerDialog;
 import me.shouheng.notepal.fragment.base.BaseModelFragment;
-import me.shouheng.data.entity.Attachment;
-import me.shouheng.data.entity.Category;
-import me.shouheng.data.entity.Location;
-import me.shouheng.data.entity.Note;
 import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.util.FileHelper;
 import me.shouheng.notepal.util.ModelHelper;
-import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.notepal.util.preferences.PrefUtils;
 import me.shouheng.notepal.viewmodel.AttachmentViewModel;
 import me.shouheng.notepal.viewmodel.BaseViewModel;
@@ -63,12 +64,31 @@ import me.shouheng.notepal.viewmodel.CategoryViewModel;
 import me.shouheng.notepal.viewmodel.LocationViewModel;
 import me.shouheng.notepal.viewmodel.NoteViewModel;
 import me.shouheng.notepal.viewmodel.NotebookViewModel;
-import me.shouheng.commons.widget.FlowLayout;
 import me.shouheng.notepal.widget.MDItemView;
+
+import static me.shouheng.notepal.Constants.*;
 
 /**
  * Created by wangshouheng on 2017/5/12.*/
 public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> implements BackEventResolver {
+
+    /**
+     * The key for action, used to send a command to this fragment.
+     * The MainActivity will directly put the action argument to this fragment if received itself.
+     */
+    public final static String ARGS_KEY_ACTION = "__args_key_action";
+
+    /**
+     * The intent the MainActivity received. This fragment will get the extras from this value,
+     * and handle the intent later.
+     */
+    public final static String ARGS_KEY_INTENT = "__args_key_intent";
+
+    /**
+     * The most important argument, the note model, used to get the information of note.
+     */
+    public final static String ARGS_KEY_NOTE = "__args_key_note";
+
 
     private final static String EXTRA_IS_THIRD_PART = "extra_is_third_part";
     private final static String EXTRA_ACTION = "extra_action";
@@ -126,14 +146,37 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> i
         configMain(note);
     }
 
-    @Override
-    protected String umengPageName() {
-        return "NoteEditFragment";
-    }
-
     // region handle arguments
     private void handleArguments() {
         Bundle arguments = getArguments();
+        assert arguments != null;
+
+        /* Check the action at first. */
+        String action;
+        if (arguments.containsKey(ARGS_KEY_ACTION)
+                && (action = arguments.getString(ARGS_KEY_ACTION)) != null) {
+            switch (action) {
+                /* Handle the shortcut actions. */
+                case SHORTCUT_ACTION_CREATE_NOTE:
+                    break;
+                case SHORTCUT_ACTION_VIEW_NOTE:
+                    break;
+                case SHORTCUT_ACTION_CAPTURE:
+                    break;
+
+                /* Handle the third part actions. */
+                case Intent.ACTION_SEND:
+                case Intent.ACTION_SEND_MULTIPLE:
+                    break;
+                case Intent.ACTION_VIEW:
+                case Intent.ACTION_EDIT:
+                    break;
+
+                 /* Handle the AppWidget actions. */
+
+            }
+        }
+
 
         // Check arguments
         if (arguments == null
@@ -610,6 +653,11 @@ public class NoteFragment extends BaseModelFragment<Note, FragmentNoteBinding> i
     @Override
     public void resolve() {
         onBack();
+    }
+
+    @Override
+    protected String umengPageName() {
+        return "NoteEditFragment";
     }
 
     public interface OnNoteInteractListener {

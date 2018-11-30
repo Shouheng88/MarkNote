@@ -31,7 +31,7 @@ import me.shouheng.data.entity.MindSnagging;
 import me.shouheng.data.entity.Model;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.config.Constants;
+import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.config.TextLength;
 import me.shouheng.notepal.viewmodel.CategoryViewModel;
 

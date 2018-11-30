@@ -92,6 +92,7 @@
     <string name="text_search_with">Search &#8230;</string>
     <string name="text_open_in_browser">在浏览器中打开</string>
     <string name="text_file_not_exist">File not found</string>
+    <string name="text_note_not_found">Note not found</string>
 
     <string name="check_network_availability">Check network availability</string>
 

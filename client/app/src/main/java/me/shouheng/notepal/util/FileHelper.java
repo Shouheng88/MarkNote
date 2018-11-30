@@ -45,7 +45,7 @@ import me.shouheng.data.entity.Attachment;
 import me.shouheng.notepal.BuildConfig;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.config.Constants;
+import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.manager.MediaStoreFactory;
 
 import static java.lang.Long.parseLong;

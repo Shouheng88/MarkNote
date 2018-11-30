@@ -22,7 +22,7 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.GalleryActivity;
 import me.shouheng.notepal.activity.SketchActivity;
 import me.shouheng.notepal.async.CreateAttachmentTask;
-import me.shouheng.notepal.config.Constants;
+import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.config.RequestCodes;
 import me.shouheng.notepal.util.listener.DefaultCompressListener;
 import me.shouheng.notepal.util.listener.OnAttachingFileListener;

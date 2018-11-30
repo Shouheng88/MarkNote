@@ -27,9 +27,14 @@ import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import me.shouheng.commons.activity.CommonActivity;
 import me.shouheng.commons.activity.ContainerActivity;
 import me.shouheng.commons.event.RxMessage;
@@ -38,6 +43,7 @@ import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.IntentUtils;
 import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.commons.utils.PermissionUtils;
+import me.shouheng.commons.utils.PermissionUtils.Permission;
 import me.shouheng.commons.utils.PersistData;
 import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.commons.widget.recycler.CustomRecyclerScrollViewListener;
@@ -50,14 +56,17 @@ import me.shouheng.data.entity.Note;
 import me.shouheng.data.entity.Notebook;
 import me.shouheng.data.model.enums.FabSortItem;
 import me.shouheng.data.model.enums.Status;
+import me.shouheng.data.store.NotesStore;
+import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.config.Constants;
 import me.shouheng.notepal.databinding.ActivityMainBinding;
 import me.shouheng.notepal.dialog.CategoryEditDialog;
 import me.shouheng.notepal.dialog.NotebookEditDialog;
 import me.shouheng.notepal.dialog.QuickNoteDialog;
+import me.shouheng.notepal.exception.NoteNotFoundException;
 import me.shouheng.notepal.fragment.CategoriesFragment;
+import me.shouheng.notepal.fragment.NoteFragment;
 import me.shouheng.notepal.fragment.NoteViewFragment;
 import me.shouheng.notepal.fragment.NotesFragment;
 import me.shouheng.notepal.fragment.StatisticsFragment;
@@ -72,42 +81,15 @@ import me.shouheng.notepal.viewmodel.NotebookViewModel;
 import me.shouheng.notepal.vm.MainViewModel;
 
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
+import static me.shouheng.notepal.Constants.SHORTCUT_ACTION_CAPTURE;
+import static me.shouheng.notepal.Constants.SHORTCUT_ACTION_CREATE_NOTE;
+import static me.shouheng.notepal.Constants.SHORTCUT_ACTION_SEARCH_NOTE;
+import static me.shouheng.notepal.Constants.SHORTCUT_ACTION_VIEW_NOTE;
+import static me.shouheng.notepal.Constants.SHORTCUT_EXTRA_NOTE_CODE;
 
 public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         NotesFragment.OnNotesInteractListener,
         CategoriesFragment.OnCategoriesInteractListener {
-
-    /**
-     * Shortcut action, used to create new note, registered in the shortcuts.xml.
-     * Used fot app version after {@link android.os.Build.VERSION_CODES#N_MR1}
-     */
-    public final static String SHORTCUT_ACTION_CREATE_NOTE = "me.shouheng.notepal.CREATE_NOTE";
-
-    /**
-     * Shortcut action, used to search note, registered in the shortcuts.xml.
-     * Used fot app version after {@link android.os.Build.VERSION_CODES#N_MR1}
-     */
-    public final static String SHORTCUT_ACTION_SEARCH_NOTE = "me.shouheng.notepal.SEARCH_NOTE";
-
-    /**
-     * Shortcut action, used to capture a photo fot note, registered in the shortcuts.xml.
-     * Used fot app version after {@link android.os.Build.VERSION_CODES#N_MR1}
-     */
-    public final static String SHORTCUT_ACTION_CAPTURE = "me.shouheng.notepal.CAPTURE";
-
-    /**
-     * Shortcut action, used to start a note view page, the intent contains information of the note.
-     * @see #SHORTCUT_EXTRA_NOTE_CODE
-     */
-    public final static String SHORTCUT_ACTION_VIEW_NOTE = "me.shouheng.notepal.VIEW_NOTE";
-
-    /**
-     * The intent extra key for {@link #SHORTCUT_ACTION_VIEW_NOTE} used to send the note code
-     * to the MainActivity. The code will later be used to get the full note information.
-     */
-    public final static String SHORTCUT_EXTRA_NOTE_CODE = "__extra_note_code";
-
-
 
     private final static int REQUEST_PASSWORD = 0x0006;
     private final static long TIME_INTERVAL_BACK = 2000;
@@ -336,31 +318,71 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         /* Do nothing when the action is null. */
         if (action == null) return;
 
-        /* Handle the intent according to action. */
         switch (action) {
-
-            /* Actions shortcuts. */
-            case SHORTCUT_ACTION_CREATE_NOTE:
-                break;
+            /* Actions shortcuts, check at first and then send the note fragment. */
             case SHORTCUT_ACTION_SEARCH_NOTE:
                 break;
             case SHORTCUT_ACTION_CAPTURE:
+                PermissionUtils.checkPermissions(this, () ->
+                        ContainerActivity.open(NoteFragment.class)
+                                .put(NoteFragment.ARGS_KEY_ACTION, SHORTCUT_ACTION_CAPTURE)
+                                .launch(getContext()), Permission.CAMERA, Permission.STORAGE);
+                break;
+            case SHORTCUT_ACTION_CREATE_NOTE:
+                ContainerActivity.open(NoteFragment.class)
+                        .put(NoteFragment.ARGS_KEY_ACTION, SHORTCUT_ACTION_CREATE_NOTE)
+                        .launch(this);
                 break;
             case SHORTCUT_ACTION_VIEW_NOTE:
-//                intent.setClass(this, ContentActivity.class);
-//                startActivity(intent);
+                if (!intent.hasExtra(SHORTCUT_EXTRA_NOTE_CODE)) {
+                    ToastUtils.makeToast(R.string.text_note_not_found);
+                    return;
+                }
+                long code = intent.getLongExtra(SHORTCUT_EXTRA_NOTE_CODE, 0L);
+                Observable.create((ObservableOnSubscribe<Note>) emitter -> {
+                    Note note = NotesStore.getInstance().get(code);
+                    if (note != null) {
+                        emitter.onNext(note);
+                    } else {
+                        emitter.onError(new NoteNotFoundException(code));
+                    }
+                }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(note ->
+                                        ContainerActivity.open(NoteFragment.class)
+                                                .put(NoteFragment.ARGS_KEY_NOTE, (Serializable) note)
+                                                .put(NoteFragment.ARGS_KEY_ACTION, action)
+                                                .launch(getContext()),
+                                throwable -> ToastUtils.makeToast(R.string.text_note_not_found));
                 break;
 
-            /* Actions registered in Manifest. */
+            /* Actions registered in Manifest, check at first and then send to the note fragment. */
             case Intent.ACTION_SEND:
             case Intent.ACTION_SEND_MULTIPLE:
-                PermissionUtils.checkStoragePermission(this, this::handleThirdPart);
+                PermissionUtils.checkStoragePermission(this, () -> {
+                    if (IntentUtils.checkAction(intent, Intent.ACTION_SEND, Intent.ACTION_SEND_MULTIPLE)
+                            && intent.getType() != null) {
+                        ContainerActivity.open(NoteFragment.class)
+                                .put(NoteFragment.ARGS_KEY_ACTION, action)
+                                .put(NoteFragment.ARGS_KEY_INTENT, intent)
+                                .launch(getContext());
+                    }
+                });
                 break;
             case Intent.ACTION_VIEW:
             case Intent.ACTION_EDIT:
-                // Handle the raw text
-                // TODO check file type, behave like PureWriter.
-                Uri uri = intent.getData();
+                PermissionUtils.checkStoragePermission(this, () -> {
+                    if (IntentUtils.checkAction(intent, Intent.ACTION_EDIT, Intent.ACTION_VIEW)
+                            && intent.getType() != null) {
+                        // TODO check file type, behave like PureWriter.
+                        Uri uri = intent.getData();
+
+                        // Passed check, launch the note fragment.
+                        ContainerActivity.open(NoteFragment.class)
+                                .put(NoteFragment.ARGS_KEY_ACTION, action)
+                                .put(NoteFragment.ARGS_KEY_INTENT, intent)
+                                .launch(getContext());
+                    }
+                });
                 break;
 
             /*TODO App widget actions. handle later. */

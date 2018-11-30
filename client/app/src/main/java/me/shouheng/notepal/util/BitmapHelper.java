@@ -16,7 +16,7 @@ import android.widget.RemoteViewsService;
 import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.config.Constants;
+import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.manager.MediaStoreFactory;
 
 import static java.lang.Long.parseLong;

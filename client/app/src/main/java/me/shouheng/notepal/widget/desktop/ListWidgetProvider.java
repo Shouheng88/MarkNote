@@ -16,7 +16,7 @@ import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.MainActivity;
 import me.shouheng.notepal.activity.QuickNoteActivity;
-import me.shouheng.notepal.config.Constants;
+import me.shouheng.notepal.Constants;
 
 public class ListWidgetProvider extends WidgetProvider {
 

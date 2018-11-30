@@ -18,7 +18,7 @@ import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.config.Constants;
+import me.shouheng.notepal.Constants;
 import me.shouheng.data.entity.Note;
 import me.shouheng.data.entity.Notebook;
 import me.shouheng.data.store.NotesStore;

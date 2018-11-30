@@ -17,7 +17,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.DirectoriesAdapter;
-import me.shouheng.notepal.config.Constants;
+import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.databinding.FragmentDirectoriesBinding;
 import me.shouheng.notepal.fragment.base.BaseFragment;
 import me.shouheng.data.model.Directory;

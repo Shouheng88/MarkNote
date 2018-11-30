@@ -27,7 +27,7 @@ import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.data.model.enums.ModelType;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.config.Constants;
+import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.databinding.DialogQuickNoteBinding;
 import me.shouheng.notepal.util.listener.OnAttachingFileListener;
 import me.shouheng.data.entity.Attachment;

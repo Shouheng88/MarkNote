@@ -8,7 +8,6 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
-import android.text.TextUtils;
 import android.view.View;
 
 import java.io.Serializable;
@@ -16,16 +15,14 @@ import java.io.Serializable;
 import me.shouheng.commons.activity.CommonActivity;
 import me.shouheng.commons.activity.interaction.BackEventResolver;
 import me.shouheng.commons.utils.LogUtils;
-import me.shouheng.notepal.R;
-import me.shouheng.notepal.config.Constants;
-import me.shouheng.notepal.databinding.ActivityContentBinding;
-import me.shouheng.notepal.fragment.NoteFragment;
-import me.shouheng.notepal.fragment.NoteFragment.OnNoteInteractListener;
+import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.data.ModelFactory;
 import me.shouheng.data.entity.Note;
 import me.shouheng.data.store.NotesStore;
-import me.shouheng.notepal.util.FragmentHelper;
-import me.shouheng.commons.utils.ToastUtils;
+import me.shouheng.notepal.R;
+import me.shouheng.notepal.Constants;
+import me.shouheng.notepal.databinding.ActivityContentBinding;
+import me.shouheng.notepal.fragment.NoteFragment.OnNoteInteractListener;
 
 public class ContentActivity extends CommonActivity<ActivityContentBinding> implements OnNoteInteractListener {
 
@@ -136,12 +133,12 @@ public class ContentActivity extends CommonActivity<ActivityContentBinding> impl
     }
 
     private void toNoteFragment(Note note, boolean isThirdPart){
-        String action = getIntent() == null || TextUtils.isEmpty(getIntent().getAction()) ? null : getIntent().getAction();
-        Fragment fragment = getSupportFragmentManager().findFragmentByTag(TAG_NOTE_FRAGMENT);
-        if (fragment == null) {
-            fragment = NoteFragment.newInstance(note, isThirdPart, action);
-        }
-        FragmentHelper.replace(this, fragment, R.id.fragment_container, TAG_NOTE_FRAGMENT);
+//        String action = getIntent() == null || TextUtils.isEmpty(getIntent().getAction()) ? null : getIntent().getAction();
+//        Fragment fragment = getSupportFragmentManager().findFragmentByTag(TAG_NOTE_FRAGMENT);
+//        if (fragment == null) {
+//            fragment = NoteFragment.newInstance(note, isThirdPart, action);
+//        }
+//        FragmentHelper.replace(this, fragment, R.id.fragment_container, TAG_NOTE_FRAGMENT);
     }
 
     @Override
