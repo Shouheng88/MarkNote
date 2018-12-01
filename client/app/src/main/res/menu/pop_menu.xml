@@ -9,10 +9,10 @@
         android:visible="false"/>
 
     <item android:id="@+id/action_move"
-        android:title="@string/move_to_another_notebook"/>
+        android:title="@string/note_move_to"/>
 
     <item android:id="@+id/action_archive"
-        android:title="@string/text_archived" />
+        android:title="@string/text_archive" />
 
     <item android:id="@+id/action_trash"
         android:title="@string/text_trash" />

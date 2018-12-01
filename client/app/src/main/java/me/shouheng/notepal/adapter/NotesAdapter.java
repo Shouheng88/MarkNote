@@ -92,7 +92,7 @@ public class NotesAdapter extends BaseMultiItemQuickAdapter<NotesAdapter.MultiIt
     private void convertNotebook(BaseViewHolder helper, Notebook notebook) {
         int nbColor = notebook.getColor();
         helper.setText(R.id.tv_note_title, notebook.getTitle());
-        String str = context.getResources().getQuantityString(R.plurals.notes_number, notebook.getCount(), notebook.getCount());
+        String str = context.getResources().getQuantityString(R.plurals.text_notes_number, notebook.getCount(), notebook.getCount());
         helper.setText(R.id.tv_added_time, str);
         helper.setImageDrawable(R.id.iv_icon, ColorUtils.tintDrawable(
                 context.getResources().getDrawable(R.drawable.ic_folder_black_24dp), nbColor));

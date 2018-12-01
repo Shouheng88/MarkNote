@@ -1,138 +1,106 @@
 <resources>
-    <string name="app_name">Mark Note</string>
+    <string name="mark_note">Mark Note</string>
     <string name="language_code">en</string>
 
-    <!--region Common-->
-    <string name="text_presets">Presets</string>
-    <string name="text_custom">Custom</string>
-    <string name="text_add_more">Add&#8230;</string>
-    <string name="text_add_to_home_screen">Add shortcut</string>
+    <!-- commons -->
     <string name="text_about">About</string>
-    <string name="text_accept">Accept</string>
-    <string name="text_tags">Tags</string>
-    <string name="text_add_tags">Add Tags</string>
-    <string name="text_add_location">Add location</string>
-    <string name="text_clear">Clear</string>
-    <string name="text_copy_text">Copy content</string>
-    <string name="text_comments">Comments</string>
-    <string name="text_copy_link">Copy link</string>
-    <string name="text_comment">Comment</string>
-    <string name="text_cancel">Cancel</string>
-    <string name="text_close">Close</string>
-    <string name="text_created_at">Created at</string>
-    <string name="text_last_modified_at">Last updated at</string>
+    <string name="text_custom">Custom</string>
+    <string name="text_add">Add</string>
     <string name="text_delete">Delete</string>
-    <string name="text_deleted">Deleted</string>
-    <string name="text_delete_still">Delete still</string>
+    <string name="text_confirm">OK</string>
     <string name="text_edit">Edit</string>
-    <string name="text_find_in_page">Find in page</string>
-    <string name="text_font">Font</string>
-    <string name="text_next">Next</string>
-    <string name="text_last">Last</string>
-    <string name="text_give_up">Give up</string>
-    <string name="text_last_sync_time">Last sync time</string>
-    <string name="text_more">More</string>
     <string name="text_pick">Pick</string>
     <string name="text_preview">Preview</string>
-    <string name="text_print_pdf">Print PDF</string>
+    <string name="text_ok">OK</string>
+    <string name="text_done">Done</string>
+    <string name="text_save">Save</string>
+    <string name="text_presets">Presets</string>
     <string name="text_reset">Rest</string>
     <string name="text_send">Send</string>
-    <string name="text_settings">Settings</string>
     <string name="text_share">Share</string>
-    <string name="text_share_image">Share image</string>
-    <string name="text_share_text">Share text</string>
-    <string name="text_share_html">Share html</string>
     <string name="text_search">Search</string>
-    <string name="text_save_or_discard">Save or discard modification?</string>
-    <string name="text_save_successfully">Saved successfully</string>
-    <string name="text_error_when_save">Error occurred when save data.</string>
-    <string name="text_file_saved_to">File is saved to %s</string>
-    <string name="text_save">Save</string>
-    <string name="text_statistic">Statistics</string>
-    <string name="text_save_and_retry_to_add_shortcut">The project hasn\'t been saved, unable to add shortcut. Please try again after saved.</string>
-    <string name="text_save_and_retry">Save and retry</string>
+    <string name="text_cancel">Cancel</string>
+    <string name="text_close">Close</string>
+    <string name="text_back">Back</string>
+    <string name="text_give_up">Give up</string>
+    <string name="text_created">Created</string>
+    <string name="text_updated">Updated</string>
+    <string name="text_next">Next</string>
+    <string name="text_last">Last</string>
+    <string name="text_more">More</string>
     <string name="text_tips">Tips</string>
     <string name="text_warning">Warning</string>
-    <string name="text_location_info">Location</string>
-    <string name="text_no_location_info">Location not found</string>
-    <string name="text_show_location">Show location</string>
-    <string name="failed_to_get_location">Failed to get location</string>
-    <string name="trying_to_get_location">Trying to get location&#8230;</string>
-    <string name="content_was_copied_to_clipboard">Content has been saved to clipboard</string>
-    <string name="share_message_chooser">Select share mode</string>
-    <string name="cannot_get_link_of_not_synced_item">Unable to get link of un-synchronized project</string>
-    <string name="title_required">Title required</string>
-    <string name="successfully_add_shortcut">Successfully add shortcut</string>
-    <string name="text_login">Login</string>
-    <string name="text_register">Register</string>
-    <string name="text_confirm">Confirm</string>
-    <string name="text_back">Back</string>
-    <string name="text_color">Color</string>
-    <string name="text_portrait">Portrait</string>
-    <string name="set_successfully">Set successfully</string>
+    <string name="text_send_to">Send to&#8230;</string>
     <string name="items">Items</string>
-    <string name="text_other_ways">Other ways</string>
     <string name="text_trash">Trash</string>
-    <string name="text_archived">Archive</string>
+    <string name="text_archive">Archive</string>
     <string name="text_move_out">Move out</string>
     <string name="text_tab_again_exit">Again to exit</string>
     <string name="text_attachment">Attachment</string>
     <string name="working">Working&#8230;</string>
-    <string name="text_input_password_and_continue">Input password</string>
-    <string name="text_ok">OK</string>
-    <string name="text_export_html">Export html</string>
-    <string name="text_failed_to_load_data">Failed to load data.</string>
-    <string name="text_failed_to_modify_data">Failed to modify data.</string>
-    <string name="text_pick_from_album">Pick from album</string>
+    <string name="text_search_with">Searching&#8230;</string>
     <string name="text_rate_app">评价 APP</string>
     <string name="text_menu">Menu</string>
     <string name="text_backup">Backup</string>
-    <string name="text_done">Done</string>
-    <string name="text_search_with">Search &#8230;</string>
-    <string name="text_open_in_browser">在浏览器中打开</string>
-    <string name="text_file_not_exist">File not found</string>
     <string name="text_redo">Redo</string>
     <string name="text_undo">Undo</string>
     <string name="text_title">Title</string>
     <string name="text_chars">Count</string>
-    <string name="text_succeed">Succeed</string>
+    <string name="text_succeed">Succeed!</string>
+    <string name="text_failed">Failed!</string>
     <string name="text_failed_to_save_file">Failed to save file</string>
-    <string name="text_failed_to_resolve_intent">No available application</string>
+    <string name="text_failed_to_resolve_intent">No available application.</string>
+    <string name="text_file_not_exist">File not found.</string>
+    <string name="text_save_or_discard">Save or discard modification?</string>
+    <string name="text_save_successfully">Saved successfully</string>
 
-    <!-- app common -->
+    <!-- app commons -->
+    <string name="text_add_shortcut">Add shortcut</string>
     <string name="text_note_not_found">Note not found.</string>
+    <string name="text_notebook_not_found">Notebook not found.</string>
     <string name="text_failed_to_read_note_file">Failed to read note file.</string>
     <string name="text_failed_to_save_note">Failed to save note.</string>
+    <string name="text_copy_content">Copy Content</string>
+    <string name="text_copy_title">Copy Title</string>
+    <string name="text_file_saved_to">File is saved to %s</string>
+    <string name="text_share_image">Share image</string>
+    <string name="text_share_text">Share text</string>
+    <string name="text_share_html">Share html</string>
+    <string name="text_title_required">Title required</string>
+    <string name="text_export_html">Export html</string>
+    <string name="text_failed_to_modify_data">Failed to modify data.</string>
+    <string name="text_input_password">Input password</string>
+    <string name="text_open_in_browser">Open in Browser</string>
+    <string name="text_copy_link">Copy Link</string>
+    <string name="text_find_in_page">Find in page</string>
+    <string name="text_print_pdf">Print PDF</string>
+    <string name="text_empty_list">Empty list</string>
+    <string name="text_capture">Capture</string>
+    <string name="text_capturing">Capturing&#8230;</string>
+    <string name="text_default_note_name">Untitled Note</string>
+    <string name="text_storage_unavailable">Storage unavailable</string>
+    <string name="text_failed_to_save_attachment">Failed to save attachment</string>
+    <plurals name="text_notes_number">
+        <item quantity="one">%d note</item>
+        <item quantity="other">%d notes</item>
+    </plurals>
+    <string name="text_one_shot">One shot</string>
+    <string name="text_every_day">Every day</string>
+    <string name="text_day_concat">,</string>
+    <string name="text_from">From</string>
+    <string name="text_to">to</string>
+    <string name="text_at">at</string>
+    <string name="text_until">until</string>
+    <string name="text_export">Export</string>
+    <string name="text_export_text">Export text</string>
+    <string name="text_error">Error</string>
+    <string name="text_get_it">Get it</string>
+    <string name="text_undone">Undone</string>
+    <string name="text_configuration">Configuration</string>
+    <string name="text_syncing">Synchronizing&#8230;</string>
+    <string name="text_please_wait">Please wait&#8230;</string>
 
-
-
-    <!-- note -->
-    <string name="note_change_notebook">Change Notebook</string>
-    <string name="note_change_categories">Change Categories</string>
-    <string name="note_send">Send to Another App</string>
-    <string name="note_copy_content">Copy Content</string>
-    <string name="note_copy_title">Copy Title</string>
-    <string name="note_settings">Note Settings</string>
-    <string name="note_hint_content">Start writing your note here&#8230;</string>
-    <string name="note_copied_success">Copied successfully.</string>
-
-
-    <string name="check_network_availability">Check network availability</string>
-
-    <!--region Common->Capture-->
-    <string name="empty_list_to_capture">Empty list to capture</string>
-    <string name="capture_list">Capture</string>
-    <string name="capturing">Capturing&#8230;</string>
-    <!--endregion-->
-
-    <!--region Common->Search-->
-    <string name="include_tags">Include tags</string>
-    <string name="include_archived">Archived</string>
-    <string name="include_trashed">Trashed</string>
-    <string name="no_search_result_found">Result not found</string>
-    <string name="try_other_conditions">try another condition and search again</string>
-    <!--endregion-->
-
+    <!-- drawer menus -->
     <string name="drawer_menu_notebooks">Notebooks</string>
     <string name="drawer_menu_categories">Categories</string>
     <string name="drawer_menu_trash">Trashed</string>
@@ -140,9 +108,10 @@
     <string name="drawer_menu_statistics">Statistics</string>
     <string name="drawer_menu_time_line">TimeLine</string>
     <string name="drawer_menu_setting">Settings</string>
-    <string name="drawer_menu_share">Share</string>
-    <string name="drawer_menu_donate">Donate</string>
+    <string name="drawer_menu_share">Share APP</string>
+    <string name="drawer_menu_donate">Support development</string>
 
+    <!-- shortcuts -->
     <string name="shortcut_add_long_name">Create new notes</string>
     <string name="shortcut_add_short_name">Create</string>
     <string name="shortcut_search_long_name">Search notes</string>
@@ -152,506 +121,7 @@
     <string name="shortcut_capture_long_name">Capture pictures</string>
     <string name="shortcut_capture_short_name">Capture</string>
 
-    <!--region Fab-->
-    <string name="fab_opt_note">Note</string>
-    <string name="fab_opt_notebook">Notebook</string>
-    <string name="fab_opt_tags">Tags</string>
-    <string name="fab_opt_capture">Capture</string>
-    <string name="fab_opt_file">File</string>
-    <string name="fab_opt_draft">Sketch</string>
-    <string name="fab_opt_link">Link</string>
-    <string name="fab_opt_record">Record</string>
-    <string name="fab_opt_notice">Alarm</string>
-    <string name="fab_quick_note">Quick note</string>
-
-    <string name="fab_sort_custom_fab">Custom fabs</string>
-    <string name="fab_sort_custom">Custom&#8230;</string>
-    <string name="fab_sort_custom_fab_tip">Drag the rear icon to sort, the top 5 ones will be showed in dashboard.</string>
-    <string name="fab_sort_save">Save</string>
-    <string name="fab_sort_save_or_lose">Save or discard your modifications</string>
-    <string name="fab_sort_save_successfully">Successfully saved</string>
-    <!--endregion-->
-
-    <!--region Note-->
-    <string name="note_default_name">Untitled Note</string>
-
-    <string name="note_note_information">Information</string>
-    <string name="content_failed_to_parse_intent">Failed to parse the intent</string>
-    <string name="note_failed_to_read_file">Failed to read file</string>
-    <string name="note_failed_to_get_note_content">Failed to read content</string>
-    <string name="text_no_such_note">Note not found</string>
-    <string name="note_note_title">Note title</string>
-    <string name="note_write_down_what_you_want">Write down your note&#8230;</string>
-    <string name="note_default_notebook">Default notebook</string>
-    <string name="edit_notebook">Edit notebook</string>
-    <string name="notebook_edit_name_hint">Input your notebook name</string>
-    <string name="notebook_edit_tips">使用笔记本整理你的笔记</string>
-    <string name="pick_notebook_color">Select the color of notebook</string>
-    <string name="note_capture_note">Capture note</string>
-    <string name="all_notes">All notes</string>
-    <string name="text_replace_tab_with_4_spaces">Use 4 spaces replaces Tab</string>
-
-    <string name="notes_list_empty">Empty notes list</string>
-    <string name="notes_list_empty_sub_normal">add note by clicking + in dashboard</string>
-    <string name="notes_list_empty_sub_archived">no archived note found</string>
-    <string name="notes_list_empty_sub_trashed">no trashed note found</string>
-    <string name="move_to_another_notebook">Move</string>
-    <string name="moved_successfully">Successfully moved</string>
-    <string name="msg_when_delete_notebook">Delete the notebook will delete its child-notebooks and child-notes as well.</string>
-
-    <string name="pick_notebook">Pick notebook</string>
-    <string name="no_notebook_available">No available notebook</string>
-
-    <string name="pick_category">Pick category</string>
-    <string name="no_category_available">No available category</string>
-    <string name="pick_portrait">Pick portrait</string>
-    <string name="edit_tag">Edit tag</string>
-    <string name="tag_name">Tag name</string>
-    <string name="pick_tag_color">Pick tag color</string>
-    <plurals name="notes_number">
-        <item quantity="one">%d note</item>
-        <item quantity="other">%d notes</item>
-    </plurals>
-    <string name="tag_delete_message">Delete tag will only delete the connection with notes, notes won\'t be deleted.</string>
-    <string name="tags_list_empty">Empty tag list</string>
-    <string name="tags_list_empty_sub_normal">add tag by licking + in dashboard</string>
-    <string name="tags_list_empty_sub_archived">no archived tag found</string>
-    <string name="tags_list_empty_sub_trashed">no trashed tag found</string>
-    <string name="category_edit_step_1">1.选择一个图标</string>
-    <string name="category_edit_step_2">2.编辑分类的名称，选择分类的颜色</string>
-
-    <string name="edit_quick_note">Quick note</string>
-    <!--endregion-->
-
-    <!--region Attachment-->
-    <string name="storage_not_available">Storage unavailable</string>
-    <string name="failed_to_save_attachment">Failed to save attachment</string>
-    <string name="add_attachment">Attach</string>
-
-    <string name="attachment_type_files">File</string>
-    <string name="attachment_type_images">Image</string>
-    <string name="attachment_type_videos">Video</string>
-    <string name="attachment_type_recordings">Recording</string>
-    <string name="attachment_type_sketches">Sketch</string>
-
-    <string name="album">Album</string>
-    <string name="net_image_link">Image link</string>
-    <string name="file">File</string>
-    <string name="create">Create</string>
-    <string name="take_a_photo">Take a photo</string>
-    <string name="sound_record">Sound record</string>
-    <string name="take_video">Take video</string>
-    <string name="sketch">Sketch</string>
-
-    <string name="activity_not_found_to_resolve">No available application</string>
-    <string name="use_to_open">Open with&#8230;</string>
-    <string name="information">Information</string>
-    <string name="failed_when_play_audio">Error occurred when play audio</string>
-
-    <string name="confirm_to_clear_bitmap">Confirm to clear bitmap?</string>
-    <string name="stroke">Stroke</string>
-    <string name="opacity">Opacity</string>
-    <string name="saturation">Saturation</string>
-    <!--endregion-->
-
-    <!--region Alarm-->
-    <string name="pick_alarm_type">Pick alarm type</string>
-    <string name="one_shot">One shot</string>
-    <string name="every_day">Every day</string>
-    <string name="every_weekday">Weekday (Mon - Fri)</string>
-    <string name="every_weekend">Weekend (Sat &amp; Sub)</string>
-    <string name="custom_by_week">Custom by week</string>
-    <string name="custom_by_month">Custom by month</string>
-    <string name="clear_reminder">Clear reminder</string>
-    <string name="day_concat">,</string>
-    <string name="from">From</string>
-    <string name="to">to</string>
-    <string name="at">at</string>
-    <string name="until">until</string>
-    <!--endregion-->
-
-    <!--region Enums-->
-    <string name="model_name_none">None</string>
-    <string name="model_name_note">Note</string>
-    <string name="model_name_notebook">Notebook</string>
-    <string name="model_name_alarm">Alarm</string>
-    <string name="model_name_attachment">Attachment</string>
-    <string name="model_name_location">Location</string>
-    <string name="model_name_mind_snagging">Snagging</string>
-    <string name="model_name_timeline">Timeline</string>
-    <string name="model_name_weather">Weather</string>
-    <string name="model_name_category">Category</string>
-
-    <string name="operation_none">None</string>
-    <string name="operation_added">Added</string>
-    <string name="operation_modified">Modified</string>
-    <string name="operation_deleted">Deleted</string>
-    <string name="operation_completed">Completed</string>
-    <string name="operation_trashed">Trashed</string>
-    <string name="operation_recover">Recovered</string>
-    <string name="operation_archived">Archived</string>
-    <string name="operation_synced">Synced</string>
-    <string name="operation_uncompleted">Uncompleted</string>
-    <!--endregion -->
-
-    <string name="setting_title">设置</string>
-    <string name="setting_category_personal">个性化</string>
-    <string name="setting_category_personal_theme">主题</string>
-    <string name="setting_category_personal_theme_sub">更改应用的主题颜色</string>
-    <string name="setting_category_personal_theme_pick_title">选择主题</string>
-    <string name="setting_category_personal_theme_light_blue">天之蓝</string>
-    <string name="setting_category_personal_theme_light_red">樱花粉</string>
-    <string name="setting_category_personal_theme_dark_blue">暮色黑</string>
-    <string name="setting_category_personal_beautify_date">美化日期</string>
-    <string name="setting_category_personal_beautify_date_sub">使用简化的日期</string>
-
-    <string name="setting_category_help_translate">Translate</string>
-    <string name="setting_category_help_translate_sub">If you want to translate or improve your language, please contact me: shouheng2015@gmail.com</string>
-    <string name="setting_category_about_app">关于应用</string>
-    <string name="setting_category_about_app_sub">了解我们开发这款应用的初衷和应用的详细信息</string>
-    <string name="setting_category_about_privacy">隐私政策</string>
-    <string name="setting_category_about_open_source">开源许可</string>
-
-    <string name="setting_preference">Universal</string>
-    <string name="setting_backup">Backup</string>
-    <string name="setting_backup_sub">Import and export data</string>
-    <string name="setting_data_security">Security</string>
-    <string name="setting_data_security_sub">Add independent lock</string>
-    <string name="setting_system_animation">System animations</string>
-    <string name="setting_system_animation_sub">Enable system animations</string>
-    <string name="setting_list_animation">List animations</string>
-    <string name="setting_list_animation_sub">Enable list animations</string>
-    <!--endregion-->
-
-    <!--region Setting->Security-->
-    <string name="setting_password_required">Enable password</string>
-    <string name="setting_password_required_sub">Input password to continue</string>
-    <string name="setting_set_password">Set password</string>
-    <string name="setting_set_password_sub">Setup the password when access to this application</string>
-    <string name="setting_password_freeze">Set password freeze time</string>
-    <string name="setting_password_freeze_sub">You are unable to input password during this time</string>
-    <string name="setting_input_password_again">Input again</string>
-    <string name="setting_input_wrong_password">Wrong password, you have %d chances left</string>
-    <string name="setting_input_password_newly">Input password</string>
-    <string name="setting_password_frozen_minutes">Password is frozen, try again %d later</string>
-    <string name="setting_password_frozen">Your password is frozen. You are able to disable password check by answering your security question.</string>
-    <string name="setting_answer_question">Answer question</string>
-    <string name="setting_wrong_answer">Wrong answer</string>
-    <string name="setting_disable_password">You passed the question. And the password check is disabled. Now you are able to change the password in setting.</string>
-    <string name="setting_security_question">Security question</string>
-    <string name="setting_security_question_sub">The security and answer used when you forget password</string>
-    <string name="text_question">Question</string>
-    <string name="text_answer">Answer</string>
-    <string name="text_confirm_answer">Confirm answer</string>
-    <string name="setting_answer_different">The confirm answer is not the same as answer</string>
-    <string name="setting_question_required">Security question is required</string>
-    <string name="setting_answer_required">Answer is required</string>
-    <string name="setting_confirm_answer_required">Confirm answer is required</string>
-
-    <string name="wrong_numeric_string">The string contains illegal chars</string>
-    <string name="input_the_freeze_minutes_in_minute">freeze time (0 &#8211; 30 minutes)</string>
-    <string name="freeze_time_too_long">The time is too long</string>
-    <string name="illegal_number">Illegal number</string>
-
-    <string name="setting_no_security_question_message">You have not set the security question, be sure to set the question in case that you forget the password.</string>
-    <!--endregion-->
-
-    <!--region Setting->Backup-->
-    <string name="backup_to_external_storage">Backup to external storage</string>
-    <string name="backup_to_external_storage_sub">The data backup on external storage won\'t be delete when the application is uninstalled</string>
-    <string name="backup_import_from_external_storage">Import from external storage</string>
-    <string name="backup_import_from_external_storage_sub">Import data backup on external storage</string>
-
-    <string name="backup_include_settings">Include settings（with password）</string>
-    <string name="backup_data_export_message">Input backup name</string>
-    <string name="backup_data_export_name_empty">Empty backup name, the default name will be used</string>
-    <string name="backup_no_backups_available">No available backup</string>
-    <string name="backup_data_import_message">Import backup</string>
-    <string name="backup_data_import_message_warning">Warning: this will cover current data!</string>
-    <string name="backup_data_export_completed">Backup completed</string>
-    <string name="backup_backup_existing">Backup existed, the existed will be covered</string>
-
-    <string name="backup_confirm_restoring_backup">Confirm to restore from backup</string>
-    <string name="backup_settings_included">Settings included</string>
-
-    <string name="backup_confirm_removing_backup">Confirm to delete backup</string>
-    <string name="backup_data_delete_message">Delete backup</string>
-    <string name="backup_data_deletion_completed">Backup delete completed</string>
-    <string name="backup_no_backup_data_selected">No backup selected</string>
-
-    <string name="backup_data_import_completed">Data import completed</string>
-    <string name="backup_click_to_refresh_application">Click to refresh application</string>
-
-    <string name="backup_no_backups_to_delete">No backup to delete</string>
-    <string name="backup_delete_external_backup">Delete external backup</string>
-    <string name="backup_delete_external_backup_sub">Delete the backup on external storage</string>
-    <!--endregion-->
-
-    <!--region Setting->Note-->
-    <string name="setting_note">Note</string>
-    <string name="setting_note_sub">Set note performance</string>
-    <string name="setting_default_note_file_extension">Default note file extension</string>
-    <string name="setting_default_note_file_extension_sub">The extension when create note file</string>
-    <string name="setting_note_list_view_expand">Use expanded note list view</string>
-    <string name="setting_note_list_view_expand_sub">Checked to use expanded list widget, otherwise use the shrunk widget</string>
-    <!--endregion-->
-
-    <!--region Setting->Theme-->
-    <string name="setting_personalize_dashboard">Personalize dashboard</string>
-    <string name="setting_personalize_dashboard_sub">Decorate your dashboard</string>
-    <string name="setting_dashboard_user_info_bg_visible">Drawer background image</string>
-    <string name="setting_dashboard_user_info_bg_visible_sub">Set the dashboard drawer background visible</string>
-    <string name="setting_dashboard_user_info_bg">Drawer background image</string>
-    <string name="setting_dashboard_user_info_bg_sub">Setup your drawer dashboard background image</string>
-    <string name="setting_dashboard_user_motto">Drawer user motto</string>
-    <string name="setting_dashboard_user_motto_sub">Setup your onw motto in dashboard drawer</string>
-    <string name="setting_dashboard_user_motto_default">Welcome to MarkNote</string>
-
-    <string name="setting_theme">Theme</string>
-    <string name="setting_dark_theme">Dark theme</string>
-    <string name="setting_dark_theme_sub">Use dark theme in whole application</string>
-    <string name="setting_primary_color">Primary color</string>
-    <string name="setting_primary_color_sub">The primary color used in whole application</string>
-    <string name="setting_accent_color">Accent color</string>
-    <string name="setting_accent_color_sub">Set the accent color to dashboard and widget components</string>
-
-    <string name="select_accent_color">Select accent color</string>
-    <string name="my_youth">Vigorous</string>
-    <string name="noble">Noble</string>
-
-    <string name="setting_colored_navigation_bar">Colored navigation bar</string>
-    <string name="setting_colored_navigation_bar_sub">Use colored navigation bar</string>
-    <!--endregion-->
-
-    <!--region Setting->Help-->
-    <string name="setting_help">Help</string>
-    <string name="setting_online_user_guide">User guide</string>
-    <string name="setting_online_user_guide_sub">Get online user guide</string>
-    <string name="setting_user_intro">User intro</string>
-    <string name="setting_user_intro_sub">Show intro page</string>
-    <string name="show_introduction_again">Show intro page again?</string>
-    <!--endregion-->
-
-    <string name="setting_help_guide">User Guide</string>
-
-    <!--region Setting->Other-->
-    <string name="setting_others">Others</string>
-    <string name="setting_support_development">Support developing</string>
-    <string name="setting_support_development_sub">You support will be used to add new features and functions</string>
-    <string name="support_development_content">You support will be used to add new features and functions. You may choose one of the support channels below:</string>
-    <string name="alipay">AliPay</string>
-    <string name="wechat">WeChat</string>
-    <string name="next_time">Next time</string>
-    <string name="donate_dialog_content">You may launch the AliPay or WeChat and scan the QR code or save the image to album and scan from it.</string>
-    <string name="download_donate_picture">Save image</string>
-    <string name="setting_feedback">Feedback</string>
-    <string name="setting_feedback_sub">Help developer make application better</string>
-    <string name="setting_about">About</string>
-    <string name="setting_about_sub">Details about this application</string>
-    <!--endregion-->
-
-    <!--region Setting->AppInfo-->
-    <string name="app_info">App info</string>
-    <string name="app_description">A material designed open source markdown note-taking application</string>
-    <string name="help_development">Associations</string>
-    <string name="translation">Translation</string>
-    <string name="translate_to_other_languages">Translate %s into other languages</string>
-    <string name="rating">Rating</string>
-    <string name="give_good_rating_if_you_like">Give us a good rating if you like %s</string>
-    <string name="thanks">Thanks</string>
-    <string name="thanks_details">Location API offered by Baidu\nYou use this application</string>
-    <string name="developer_and_license">Developer &amp; License</string>
-    <string name="developers">Designer&amp;developer</string>
-    <string name="developer_name">WngShhng (shouheng2015@gmail.com)</string>
-    <string name="open_source_libraries_permissions">Open source license</string>
-    <string name="view_third_part_libraries">View the open source projects included in this application</string>
-    <string name="changelog">Changelog</string>
-    <string name="changelog_sub_title">Get the changelog of application</string>
-    <!--endregion-->
-
-    <!--TODO replace-->
-    <string name="setting_about_privacy">Privacy</string>
-    <string name="about_slogan">爱记账、爱生活</string>
-    <string name="about_section_description">记·账</string>
-    <string name="about_section_description_details"><![CDATA[欢迎您使用%s！<br/><br/>%s是一款运行于Android设备上的优雅的记账软件。它的设计是基于Material Design的，这能够带给你非常轻快、愉悦的用户体验。<br/><br/>我们致力于打造一款功能丰富和健全的记账软件，如果您对该软件感兴趣，可以联系开发者进行反馈。<br/><br/>请享用。]]></string>
-    <string name="about_section_developer">开发者</string>
-    <string name="about_section_developer_desc">设计 &amp; 开发</string>
-    <string name="about_section_open_sources">开源协议</string>
-
-
-
-    <!--region Setting->Feedback-->
-    <string name="feedback">Feedback</string>
-    <string name="email_to_find_you">Email to contact you</string>
-    <string name="details">Details</string>
-    <string name="connect_email_required">Email required</string>
-    <string name="details_required">Details required</string>
-    <string name="illegal_email_format">Illegal email</string>
-
-    <string name="feedback_types">Feedback type</string>
-    <string name="feedback_email_to_find_you">Email to contact you</string>
-    <string name="feedback_details">Details</string>
-    <string name="feedback_connect_email_required">Email requied</string>
-    <string name="feedback_details_required">Details required</string>
-    <string name="feedback_illegal_email_format">Illegal email format</string>
-
-    <string name="feedback_abrupt_crash">Abrupt crash</string>
-    <string name="feedback_function_improvement">Function improvement</string>
-    <string name="feedback_function_requirement">Function requirement</string>
-    <!--endregion-->
-    <!--endregion-->
-
-    <!--region User Info-->
-    <string name="user_info_click_to_see_personal_info">User Info</string>
-    <string name="user_info">User info</string>
-    <string name="school">School | Company</string>
-    <string name="major">Major | Carer</string>
-    <string name="timeline">Timeline</string>
-    <string name="statistic">Statistics</string>
-    <string name="not_login_click_to_login">Not login · Click to login</string>
-    <string name="login_and_get_storage">Login to get storage</string>
-    <string name="storage_left_monthly">Storage left</string>
-    <string name="storage_left_and_click_grant_tips">%d MB left, click to get more storage</string>
-    <string name="not_login_try_after_login">Not login, try again after login</string>
-    <string name="timeline_detail">What you have done in MarkNote</string>
-    <string name="statistic_of_this_week">Statistics of current week</string>
-    <string name="activities_in_seven_days">Notes added during recent 7 days</string>
-    <string name="logout">Logout</string>
-
-    <string name="statistic_activities">Activities during recent 7 days</string>
-    <string name="statistic_title_activities">Notes and snagging added during recent 7 days</string>
-    <string name="statistic_models_added">Models added</string>
-    <string name="statistic_title_models_added">Statistics of added models</string>
-    <string name="statistic_attachments_added">Attachments added</string>
-    <string name="statistic_title_attachments_added">Statistics of added attachments</string>
-
-    <string name="no_more_data">No more data&#8230;</string>
-    <string name="no_activity_in_timeline">You have no activity in timeline</string>
-    <string name="activities_on_app_will_display_here">your activities in application will be showed here</string>
-
-    <!--region User Info->Login-->
-    <string name="please_input_account">Please input account</string>
-    <string name="please_input_password">Please input password</string>
-    <string name="please_input_password_again">Please input password again</string>
-    <string name="forget_password">Forget password</string>
-    <string name="weibo">Weibo</string>
-    <string name="weixin">WeChat</string>
-    <string name="qq">QQ</string>
-    <string name="use_account_and_password_when_register">Use account and password when register</string>
-    <string name="login">Login</string>
-    <string name="register">Register</string>
-    <string name="confirm">Confirm</string>
-    <string name="cancel">Cancel</string>
-    <string name="back">Back</string>
-    <string name="use_social_accounts">Use social account</string>
-    <string name="register_palm_college">Register %s</string>
-    <!--endregion-->
-    <!--endregion-->
-
-    <!--region markdown-->
-    <string name="md_link">Link to insert</string>
-    <string name="md_insert_link">Insert link</string>
-    <string name="md_text_to_show">Text to show</string>
-    <string name="md_link_title_cannot_empty">Link title required</string>
-    <string name="md_link_cannot_empty">Link required</string>
-
-    <string name="openas">Open as</string>
-    <string name="text">Text</string>
-    <string name="audio">Audio</string>
-    <string name="video">Video</string>
-    <string name="image">Image</string>
-    <string name="other">Other</string>
-
-    <string name="md_insert_table">Insert table</string>
-    <string name="md_input_rows_number">Rows</string>
-    <string name="md_input_cols_number">Columns</string>
-    <string name="md_rows_cannot_empty">The row number can\'t be empty.</string>
-    <string name="md_cols_cannot_empty">The column number can\'t be empty.</string>
-    <!--endregion-->
-
-    <!--region v1.1.1-->
-    <string name="text_advanced">Advanced</string>
-    <string name="text_insert">Insert</string>
-    <string name="text_table">Insert table</string>
-    <string name="text_link">Insert link</string>
-    <string name="text_checkbox">Insert checkbox</string>
-    <string name="text_math_jax">Insert math jax</string>
-    <string name="checkbox_content_hint">Input checked list item</string>
-    <string name="is_checkbox_checked">Checked</string>
-    <string name="input_math_jax_hint">Input your math jax expression</string>
-    <string name="is_math_jax_single">Is single line</string>
-    <string name="invalid_input_tips">Invalid input</string>
-    <string name="text_export">Export</string>
-    <string name="text_export_text">Export text</string>
-    <!--endregion-->
-
-    <!--region v1.1.2-->
-    <string name="text_external_storage">External Storage</string>
-    <string name="text_one_drive">OneDrive</string>
-    <string name="one_drive_backup_title">Connect OneDrive</string>
-    <string name="one_drive_backup_sub_title">Sign in to synchronize files to OneDrive</string>
-    <string name="sign_out_one_drive">Sign out OneDrive</string>
-    <string name="sign_out_one_drive_sub">Sign out OneDrive to stop synchronize</string>
-    <string name="one_drive_backup_folder">Currently synchronization folder is %1$s</string>
-    <string name="text_error">Error</string>
-    <string name="text_successfully_logout">Successfully logout</string>
-    <string name="backup_only_wifi">Only in WiFi environment</string>
-    <string name="backup_only_wifi_sub">Backup only in WiFi environment</string>
-    <string name="backup_time_interval">Synchronization time interval</string>
-    <string name="text_sync_settings">Synchronization settings</string>
-    <string name="failed_query_sync_cloud">Unknown error occurred!</string>
-    <string name="text_folder_explore">Pick folder</string>
-    <string name="text_no_more_folders">No more folders</string>
-    <string name="text_please_wait">Please wait&#8230;</string>
-    <string name="text_sing_out">Sign out</string>
-    <string name="error_when_try_to_backup">Error when try to synchronize : %1$s</string>
-    <string name="backup_dir_selected_message">Successfully get synchronization directory</string>
-    <string name="pick_backup_directory_message">Get into the folder you want to synchronize to and select \"DONE\".</string>
-    <string name="available_directory_found">Available folder \"NotePal\" is found in current folder. You can press \"Done\" to complete selection.</string>
-    <string name="login_drive_message">Sign in your OneDrive account before synchronize.</string>
-    <string name="text_syncing">Synchronizing&#8230;</string>
-    <string name="synchronize_path_changed_message">The system detected that you have changed the synchronization path. All the synchronization state will be cleared. That means you have to re-synchronize everything again, which may take few time to accomplish.</string>
-
-    <string name="sync_every_15_minutes">Every 15 minutes</string>
-    <string name="sync_every_30_minutes">Every 30 minutes</string>
-    <string name="sync_every_hour">Every hour</string>
-    <string name="sync_every_2_hours">Every 2 hours</string>
-    <string name="sync_every_6_hours">Every 6 hours</string>
-    <string name="sync_every_12_hours">Every 12 hours</string>
-    <string name="sync_every_day">Daily</string>
-
-    <string name="text_get_it">Get it</string>
-    <string name="text_undone">Undone</string>
-    <string name="text_config_widget">Widget configuration</string>
-
-    <string name="auto_compress_image_title">Auto compress image</string>
-    <string name="auto_compress_image_sub_title">The compressed image will save a lot of storage and data usage</string>
-    <!--endregion-->
-
-    <!--region 1.1.5-->
-    <string name="custom_fab">Custom float buttons</string>
-    <string name="custom_fab_sub">Custom float action buttons behaviors of dashboard</string>
-    <string name="custom_note_menu">Custom menu</string>
-    <string name="menu_sort_tips">Drag the rear icon to sort, the menu item will be displayed as sorted in note edit page.</string>
-    <string name="setting_custom_note_menu">Custom note menu</string>
-    <string name="setting_custom_note_menu_sub">Custom note bottom menu edit page</string>
-    <string name="menu_successfully_saved">Successfully saved note menu</string>
-    <string name="setting_preferences">Preferences</string>
-    <string name="setting_preferences_sub">Custom your own preferences</string>
-    <!--endregion-->
-
-    <!--region 1.1.6-->
-    <string name="custom_fast_scroller">Custom fast scroller</string>
-    <string name="custom_fast_scroller_sub">Check the box if you want to use fast scroller in notes list page.</string>
-    <!--endregion-->
-
-
-
-    <!--region INTENT string resources region.-->
-
-    <!--endregion INTENT string resources region.-->
-
-    <!--region PERMISSION string resources region.-->
+    <!-- permissions -->
     <string name="permission_storage_permission">存储空间</string>
     <string name="permission_location_permission">位置信息</string>
     <string name="permission_microphone_permission">麦克风</string>
@@ -665,6 +135,247 @@
     <string name="permission_denied_message">没有权限，请授予 %s 权限之后再次尝试。</string>
     <string name="permission_set_in_settings_message">打开设置的程序信息页面，轻触\"权限\"，将 %s 设置为打开，并再次尝试.</string>
     <string name="permission_to_set">去设置</string>
-    <!--endregion PERMISSION string resources region.-->
+
+    <!-- fabs -->
+    <string name="fab_opt_note">Note</string>
+    <string name="fab_opt_notebook">Notebook</string>
+    <string name="fab_opt_tags">Tags</string>
+    <string name="fab_opt_capture">Capture</string>
+    <string name="fab_opt_file">File</string>
+    <string name="fab_opt_draft">Sketch</string>
+    <string name="fab_quick_note">Quick note</string>
+    <string name="fab_sort_custom_fab">Custom FABs</string>
+    <string name="fab_sort_custom">Custom&#8230;</string>
+    <string name="fab_sort_custom_fab_tip">Drag the rear icon to sort, the top 5 ones will be showed in dashboard.</string>
+    <string name="fab_sort_save">Save</string>
+
+    <!-- statistic -->
+    <string name="statistic_activities">Activities</string>
+    <string name="statistic_title_activities">Notes added during recent 7 days</string>
+    <string name="statistic_models_added">Models</string>
+    <string name="statistic_title_models_added">Statistics of added models</string>
+    <string name="statistic_attachments_added">Attachments</string>
+    <string name="statistic_title_attachments_added">Statistics of added attachments</string>
+
+    <!-- timeline -->
+    <string name="timeline_no_more_data">No more data&#8230;</string>
+    <string name="timeline_list_empty_title">You have no activity in timeline</string>
+    <string name="timeline_list_empty_subtitle">your activities in application will be showed here</string>
+
+    <!-- note -->
+    <string name="note_change_notebook">Change Notebook</string>
+    <string name="note_change_categories">Change Categories</string>
+    <string name="note_send">Send to Another App</string>
+    <string name="note_settings">Note Settings</string>
+    <string name="note_hint_content">Start your note here&#8230;</string>
+    <string name="note_copied_success">Copied successfully.</string>
+    <string name="note_search_no_result">Result not found</string>
+    <string name="note_search_sub_title">No result? Try another condition and search again.</string>
+    <string name="note_view_note_information">Information</string>
+    <string name="note_captured_image">Note capture</string>
+    <string name="note_move_to">Move to</string>
+    <string name="notebook_editor_name_hint">Input your notebook name</string>
+    <string name="notebook_editor_tips">Manage your notes by notebook</string>
+    <string name="notebook_color_picker_title">Select the color of notebook</string>
+    <string name="notebook_default_selection">All notes</string>
+    <string name="notebook_delete_warning">WARN: Will delete its child notebooks and notes as well!</string>
+    <string name="notebook_picker_title">Pick Notebook</string>
+    <string name="notebook_picker_empty_message">Make sure you have available notebooks and try again.</string>
+    <string name="notes_list_empty">Empty notes list</string>
+    <string name="notes_list_empty_sub_normal">Create new note by clicking + in dashboard</string>
+    <string name="notes_list_empty_sub_archived">No archived notes found</string>
+    <string name="notes_list_empty_sub_trashed">No trashed notes found</string>
+    <string name="category_picker_title">Pick Category</string>
+    <string name="category_picker_empty_message">Make sure you have available categories and try again.</string>
+    <string name="portrait_picker_title">Pick portrait</string>
+    <string name="category_name_hint">Category name</string>
+    <string name="category_color_picker_title">Category color</string>
+    <string name="category_list_empty_message">You haven\'t added any categories.</string>
+    <string name="category_list_empty_subtitle">Create category by licking + in dashboard</string>
+    <string name="category_list_empty_for_archived">no archived tag found</string>
+    <string name="category_list_empty_for_trashed">no trashed tag found</string>
+    <string name="category_edit_step_1">1.Pick a icon</string>
+    <string name="category_edit_step_2">2.Edit category name and color</string>
+    <string name="note_table_insert">Insert table</string>
+    <string name="note_table_rows_number">Rows</string>
+    <string name="note_table_cols_number">Columns</string>
+    <string name="note_table_rows_required">The row number can\'t be empty.</string>
+    <string name="note_table_cols_required">The column number can\'t be empty.</string>
+
+    <!-- attachment -->
+    <string name="attachment_type_files">File</string>
+    <string name="attachment_type_images">Image</string>
+    <string name="attachment_type_videos">Video</string>
+    <string name="attachment_type_voice">Voice</string>
+    <string name="attachment_type_sketches">Sketch</string>
+    <string name="attachment_pick_from_album">Pick from album</string>
+    <string name="attachment_pick_a_file">Pick a file</string>
+    <string name="attachment_take_a_photo">Take a photo</string>
+    <string name="attachment_sound_record">Sound record</string>
+    <string name="attachment_take_a_video">Take a video</string>
+    <string name="attachment_add_sketch">Create sketch</string>
+    <string name="attachment_open_with">Open with&#8230;</string>
+    <string name="attachment_play_record_failed">Error occurred when play audio</string>
+    <string name="sketch_clear_tips">Confirm to clear bitmap?</string>
+    <string name="sketch_stroke">Stroke</string>
+    <string name="sketch_opacity">Opacity</string>
+    <string name="sketch_saturation">Saturation</string>
+    <string name="attachment_open_as">Open as</string>
+    <string name="attachment_type_text">Text</string>
+    <string name="attachment_type_audio">Audio</string>
+    <string name="attachment_type_video">Video</string>
+    <string name="attachment_type_image">Image</string>
+    <string name="attachment_type_others">Other</string>
+
+    <!-- enum names -->
+    <string name="model_name_none">None</string>
+    <string name="model_name_note">Note</string>
+    <string name="model_name_notebook">Notebook</string>
+    <string name="model_name_alarm">Alarm</string>
+    <string name="model_name_attachment">Attachment</string>
+    <string name="model_name_location">Location</string>
+    <string name="model_name_mind_snagging">Quick Note</string>
+    <string name="model_name_timeline">Timeline</string>
+    <string name="model_name_weather">Weather</string>
+    <string name="model_name_category">Category</string>
+    <string name="operation_none">None</string>
+    <string name="operation_added">Added</string>
+    <string name="operation_modified">Modified</string>
+    <string name="operation_deleted">Deleted</string>
+    <string name="operation_completed">Completed</string>
+    <string name="operation_trashed">Trashed</string>
+    <string name="operation_recover">Recovered</string>
+    <string name="operation_archived">Archived</string>
+    <string name="operation_synced">Synced</string>
+    <string name="operation_uncompleted">Uncompleted</string>
+
+    <!-- setting -->
+    <string name="setting_title">设置</string>
+    <string name="setting_category_personal">个性化</string>
+    <string name="setting_category_personal_theme">主题</string>
+    <string name="setting_category_personal_theme_sub">更改应用的主题颜色</string>
+    <string name="setting_category_personal_beautify_date">美化日期</string>
+    <string name="setting_category_personal_beautify_date_sub">使用简化的日期</string>
+    <string name="setting_category_personal_fab">Custom float buttons</string>
+    <string name="setting_category_personal_fab_sub">Custom float action buttons behaviors of dashboard</string>
+    <string name="setting_category_personal_navbar">Colored navigation bar</string>
+    <string name="setting_category_personal_navbar_sub">Use colored navigation bar</string>
+    <string name="setting_category_universal">Universal</string>
+    <string name="setting_category_universal_note">Note</string>
+    <string name="setting_category_universal_note_sub">Set note performance</string>
+    <string name="setting_category_universal_backup">Backup</string>
+    <string name="setting_category_universal_backup_sub">Import and export data</string>
+    <string name="setting_category_universal_security">Security</string>
+    <string name="setting_category_universal_security_sub">Add independent lock</string>
+    <string name="setting_category_help">Help</string>
+    <string name="setting_category_help_user_guide">User guide</string>
+    <string name="setting_category_help_user_guide_sub">Get online user guide</string>
+    <string name="setting_category_help_feedback">Feedback</string>
+    <string name="setting_category_help_feedback_sub">Help developer make application better</string>
+    <string name="setting_category_help_translate">Translate</string>
+    <string name="setting_category_help_translate_sub">If you want to translate or improve your language, please contact me: shouheng2015@gmail.com</string>
+    <string name="setting_category_others">Others</string>
+    <string name="setting_category_others_about_app">关于应用</string>
+    <string name="setting_category_others_about_app_sub">了解我们开发这款应用的初衷和应用的详细信息</string>
+    <string name="setting_category_others_about_privacy">隐私政策</string>
+    <string name="setting_category_others_about_open_source">开源许可</string>
+    <!-- setting->theme -->
+    <string name="setting_theme_picker_title">Pick a theme</string>
+    <string name="setting_theme_light_blue">Blue Sky</string>
+    <string name="setting_theme_light_red">Sakura</string>
+    <string name="setting_theme_dark_blue">Dawn</string>
+    <!-- setting->note -->
+    <string name="setting_note_file_extension">Default note file extension</string>
+    <string name="setting_note_file_extension_sub">The extension when create note file</string>
+    <string name="setting_note_list_type">Use expanded note list view</string>
+    <string name="setting_note_list_type_sub">Checked to use expanded list widget, otherwise use the shrunk widget</string>
+    <string name="setting_note_compress">Auto compress image</string>
+    <string name="setting_note_compress_sub">The compressed image will save a lot of storage and data usage</string>
+    <!-- setting->security -->
+    <string name="setting_security_psd_enable">Enable password</string>
+    <string name="setting_security_psd_enable_sub">The password will be required when enabled.</string>
+    <string name="setting_security_psd">Set password</string>
+    <string name="setting_security_psd_sub">Set a password required when access to this application</string>
+    <string name="setting_security_psd_freeze">Password frozen time</string>
+    <string name="setting_security_psd_freeze_sub">The frozen when hit the limit time</string>
+    <string name="setting_security_question">Security question</string>
+    <string name="setting_security_question_sub">The security question used when forget password</string>
+    <!-- setting->security->lock -->
+    <string name="setting_lock_psd_hint">Input again</string>
+    <string name="setting_lock_psd_changes_left">Wrong password, %d chances left</string>
+    <string name="setting_lock_new_psd">New password</string>
+    <string name="setting_lock_psd_frozen">Password frozen. Try %d minutes later</string>
+    <string name="setting_lock_psd_frozen_tips">Password frozen. Disable password by answering security question.</string>
+    <string name="setting_lock_security_question_wrong">Wrong answer</string>
+    <string name="setting_lock_security_question_removed">You passed the question. And the password check is disabled. Now you are able to change the password in setting.</string>
+    <!-- setting->security->security question -->
+    <string name="setting_security_question_tips">Make sure to set the security question in case you forget the password.</string>
+    <string name="text_security_question">Question</string>
+    <string name="setting_security_question_answer">Answer</string>
+    <string name="setting_security_question_confirm_answer">Confirm answer</string>
+    <string name="setting_security_question_answer_differ">The confirm answer is not the same as answer</string>
+    <string name="setting_security_question_required">Security question is required</string>
+    <string name="setting_security_question_answer_required">Answer is required</string>
+    <string name="setting_security_question_confirm_answer_required">Confirm answer is required</string>
+    <string name="wrong_numeric_string">The string contains illegal chars</string>
+    <!-- setting->security->frozen time -->
+    <string name="setting_frozen_time_message">frozen time (0 &#8211; 30 minutes)</string>
+    <string name="setting_frozen_time_long">The time is too long</string>
+    <string name="setting_frozen_time_illegal">Illegal number</string>
+    <!-- setting->backup -->
+    <string name="setting_backup_external">External Storage</string>
+    <string name="setting_backup_backup">Backup to external storage</string>
+    <string name="setting_backup_backup_sub">The data backup on external storage won\'t be delete when the application is uninstalled</string>
+    <string name="setting_backup_import">Import from external storage</string>
+    <string name="setting_backup_import_sub">Import data backup on external storage</string>
+    <string name="setting_backup_delete">Delete external backup</string>
+    <string name="setting_backup_delete_sub">Delete the backup on external storage</string>
+    <string name="setting_backup_onedrive">OneDrive</string>
+    <string name="setting_backup_onedrive_sign">Connect OneDrive</string>
+    <string name="setting_backup_onedrive_sign_sub">Sign in to synchronize files to OneDrive</string>
+    <string name="setting_backup_onedrive_sign_out">Sign out OneDrive</string>
+    <string name="setting_backup_onedrive_sign_out_sub">Sign out OneDrive to stop synchronize</string>
+    <string name="setting_backup_settings">Synchronization settings</string>
+    <string name="setting_backup_settings_wifi">Only in WiFi environment</string>
+    <string name="setting_backup_settings_wifi_sub">Backup only in WiFi environment</string>
+    <string name="setting_backup_settings_interval">Synchronization time interval</string>
+    <!-- setting->backup->external -->
+    <string name="setting_backup_text_setting_included">Settings included</string>
+    <string name="setting_backup_external_name">Input backup name</string>
+    <string name="setting_backup_external_include">Include settings（with password）</string>
+    <string name="setting_backup_external_empty">No available backup</string>
+    <string name="setting_backup_external_import">Import backup</string>
+    <string name="setting_backup_external_import_warn">Warning: this will cover current data!</string>
+    <string name="setting_backup_external_backup_completed">Backup Completed!</string>
+    <string name="setting_backup_external_import_tips">Confirm to restore from backup</string>
+    <string name="setting_backup_external_import_completed">Data import completed</string>
+    <string name="setting_backup_external_import_content">Click to refresh application</string>
+    <string name="setting_backup_external_delete_confirm">Confirm to delete backup</string>
+    <string name="setting_backup_external_delete_completed">Backup delete completed</string>
+    <!-- setting->backup->cloud -->
+    <string name="setting_backup_onedrive_backup_folder">Currently synchronization folder is %1$s</string>
+    <string name="setting_backup_onedrive_failed_query_sync_cloud">Unknown error occurred!</string>
+    <string name="setting_backup_onedrive_text_folder_explore">Pick folder</string>
+    <string name="setting_backup_onedrive_no_more_folders">No more folders</string>
+    <string name="setting_backup_onedrive_error_when_try_to_backup">Error when try to synchronize : %1$s</string>
+    <string name="setting_backup_onedrive_backup_dir_selected_message">Successfully get synchronization directory</string>
+    <string name="setting_backup_onedrive_pick_backup_directory_message">Get into the folder you want to synchronize to and select \"DONE\".</string>
+    <string name="setting_backup_onedrive_available_directory_found">Available folder \"NotePal\" is found in current folder. You can press \"Done\" to complete selection.</string>
+    <string name="setting_backup_onedrive_login_drive_message">Sign in your OneDrive account before synchronize.</string>
+    <string name="setting_backup_onedrive_sync_path_changed_message">The system detected that you have changed the synchronization path. All the synchronization state will be cleared. That means you have to re-synchronize everything again, which may take few time to accomplish.</string>
+    <string name="setting_backup_interval_sync_every_15_minutes">Every 15 minutes</string>
+    <string name="setting_backup_interval_sync_every_30_minutes">Every 30 minutes</string>
+    <string name="setting_backup_interval_sync_every_hour">Every hour</string>
+    <string name="setting_backup_interval_sync_every_2_hours">Every 2 hours</string>
+    <string name="setting_backup_interval_sync_every_6_hours">Every 6 hours</string>
+    <string name="setting_backup_interval_sync_every_12_hours">Every 12 hours</string>
+    <string name="setting_backup_interval_sync_every_day">Daily</string>
+    <!-- setting->about -->
+    <string name="about_slogan">爱记账、爱生活</string>
+    <string name="about_section_description">记·账</string>
+    <string name="about_section_description_details"><![CDATA[欢迎您使用%s！<br/><br/>%s是一款运行于Android设备上的优雅的记账软件。它的设计是基于Material Design的，这能够带给你非常轻快、愉悦的用户体验。<br/><br/>我们致力于打造一款功能丰富和健全的记账软件，如果您对该软件感兴趣，可以联系开发者进行反馈。<br/><br/>请享用。]]></string>
+    <string name="about_section_developer">开发者</string>
+    <string name="about_section_developer_desc">设计 &amp; 开发</string>
+    <string name="about_section_open_sources">开源协议</string>
 
 </resources>

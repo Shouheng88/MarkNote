@@ -40,7 +40,7 @@
                 <EditText
                     android:id="@+id/et_question"
                     android:padding="8dp"
-                    android:hint="@string/text_question"
+                    android:hint="@string/text_security_question"
                     android:maxLength="@integer/question_length"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -61,7 +61,7 @@
                 <EditText
                     android:id="@+id/et_answer"
                     android:padding="8dp"
-                    android:hint="@string/text_answer"
+                    android:hint="@string/setting_security_question_answer"
                     android:maxLines="1"
                     android:singleLine="true"
                     android:inputType="textPassword"
@@ -86,7 +86,7 @@
                 <EditText
                     android:id="@+id/et_confirm_answer"
                     android:padding="8dp"
-                    android:hint="@string/text_confirm_answer"
+                    android:hint="@string/setting_security_question_confirm_answer"
                     android:maxLines="1"
                     android:singleLine="true"
                     android:inputType="textPassword"

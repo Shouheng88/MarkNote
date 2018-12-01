@@ -168,7 +168,7 @@ public class QuickNoteActivity extends PermissionActivity implements OnAttaching
 
     @Override
     public void onAttachingFileErrorOccurred(Attachment attachment) {
-        ToastUtils.makeToast(R.string.failed_to_save_attachment);
+        ToastUtils.makeToast(R.string.text_failed_to_save_attachment);
     }
 
     @Override

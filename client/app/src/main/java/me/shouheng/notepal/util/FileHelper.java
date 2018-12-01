@@ -466,7 +466,7 @@ public class FileHelper {
 
     private static File createExternalStoragePrivateFile(Context mContext, Uri uri, String extension) {
         if (!isStorageWritable()) {
-            ToastUtils.makeToast(R.string.storage_not_available);
+            ToastUtils.makeToast(R.string.text_storage_unavailable);
             return null;
         }
         File file = createNewAttachmentFile(mContext, extension);
@@ -532,7 +532,7 @@ public class FileHelper {
     public static boolean delete(Context mContext, String name) {
         boolean res = false;
         if (!isStorageWritable()) {
-            ToastUtils.makeToast(R.string.storage_not_available);
+            ToastUtils.makeToast(R.string.text_storage_unavailable);
             return false;
         }
         File file = new File(name);

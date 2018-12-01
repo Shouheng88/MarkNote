@@ -31,8 +31,8 @@
             <me.shouheng.commons.widget.recycler.EmptyView
                 android:id="@+id/iv_empty"
                 app:empty_image="@drawable/ic_large_search"
-                app:title="@string/no_search_result_found"
-                app:sub_title="@string/try_other_conditions"
+                app:title="@string/note_search_no_result"
+                app:sub_title="@string/note_search_sub_title"
                 app:tint_drawable="true"
                 android:layout_centerInParent="true"
                 android:layout_width="wrap_content"

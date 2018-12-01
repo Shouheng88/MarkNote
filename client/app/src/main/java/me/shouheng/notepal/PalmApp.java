@@ -1,6 +1,5 @@
 package me.shouheng.notepal;
 
-import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.ColorInt;
@@ -11,13 +10,11 @@ import android.support.annotation.StringRes;
 import com.facebook.stetho.Stetho;
 
 import me.shouheng.commons.BaseApplication;
-import me.shouheng.data.entity.Model;
 
 /**
  * TODO All the todo items in later version:
  *
  * 1. Add ringtone to {@link me.shouheng.notepal.async.DataBackupIntentService} when included the notification logic;
- * 2. Enable copy link logic when the server is ready. {@link me.shouheng.notepal.util.ModelHelper#copyLink(Activity, Model)};
  * 3. Add Google Drive logic, check if the file has backup time in google drive;
  * 6. Modify import from external logic, since current logic did nothing according to the db version and change,
  *    You may also research the performance when the db version is different.

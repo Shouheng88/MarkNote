@@ -39,7 +39,7 @@ public class SynchronizeUtils {
         // If forced to synchronize and the information is not set, go to the setting page.
         if (!SynchronizeUtils.checkOneDriveSettings()) {
             if (force) {
-                ToastUtils.makeToast(R.string.login_drive_message);
+                ToastUtils.makeToast(R.string.setting_backup_onedrive_login_drive_message);
                 SettingsActivity.open(SettingsBackup.class).launch(activity);
             }
             return;

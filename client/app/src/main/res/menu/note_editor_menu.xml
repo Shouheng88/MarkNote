@@ -36,10 +36,10 @@
         android:title="@string/note_send"/>
 
     <item android:id="@+id/action_copy_title"
-        android:title="@string/note_copy_title"/>
+        android:title="@string/text_copy_title"/>
 
     <item android:id="@+id/action_copy_content"
-        android:title="@string/note_copy_content"/>
+        android:title="@string/text_copy_content"/>
 
     <item android:id="@+id/action_setting_note"
         android:title="@string/note_settings"/>

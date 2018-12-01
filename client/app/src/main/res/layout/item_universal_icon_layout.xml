@@ -7,7 +7,7 @@
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/iv_icon"
-        tools:src="@drawable/ic_announcement_grey_24dp"
+        tools:src="@drawable/circle"
         android:padding="13dp"
         android:layout_centerVertical="true"
         android:layout_marginStart="5dp"
@@ -18,7 +18,7 @@
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/iv_more"
         android:background="?attr/selectableItemBackgroundBorderless"
-        tools:src="@drawable/ic_more_vert_black"
+        tools:src="@drawable/ic_more_vert_black_24dp"
         android:layout_alignParentEnd="true"
         android:paddingBottom="16dp"
         android:paddingTop="16dp"

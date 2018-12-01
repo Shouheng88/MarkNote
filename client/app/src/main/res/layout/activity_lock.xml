@@ -28,7 +28,7 @@
             android:gravity="center"
             android:maxLines="2"
             android:ellipsize="end"
-            android:text="@string/text_input_password_and_continue"
+            android:text="@string/text_input_password"
             android:textColor="@color/white"
             android:textSize="30sp" />
 

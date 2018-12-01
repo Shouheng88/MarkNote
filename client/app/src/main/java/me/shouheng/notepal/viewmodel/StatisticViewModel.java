@@ -141,7 +141,7 @@ public class StatisticViewModel extends ViewModel {
                         PalmApp.getStringCompact(R.string.attachment_type_images),
                         PalmApp.getStringCompact(R.string.attachment_type_sketches),
                         PalmApp.getStringCompact(R.string.attachment_type_videos),
-                        PalmApp.getStringCompact(R.string.attachment_type_recordings)));
+                        PalmApp.getStringCompact(R.string.attachment_type_voice)));
 
         data.setAxisXBottom(axisX);
         data.setAxisYLeft(null);

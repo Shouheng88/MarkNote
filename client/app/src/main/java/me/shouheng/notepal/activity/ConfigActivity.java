@@ -63,13 +63,10 @@ public class ConfigActivity extends AppCompatActivity {
 
     private void fetchNotebook(long nbCode) {
         notebookViewModel.get(nbCode).observe(this, notebookResource -> {
-            if (notebookResource == null) {
-                ToastUtils.makeToast(R.string.text_failed_to_load_data);
-                return;
-            }
+            assert notebookResource != null;
             switch (notebookResource.status) {
                 case FAILED:
-                    ToastUtils.makeToast(R.string.text_failed_to_load_data);
+                    ToastUtils.makeToast(R.string.text_notebook_not_found);
                     break;
                 case SUCCESS:
                     if (notebookResource.data != null) {

@@ -153,7 +153,7 @@ public class SearchActivity extends CommonActivity<ActivitySearchBinding>
             LogUtils.d(searchResultResource);
             getBinding().topMpb.setVisibility(View.GONE);
             if (searchResultResource == null) {
-                ToastUtils.makeToast(R.string.text_error_when_save);
+                ToastUtils.makeToast(R.string.text_failed);
                 return;
             }
             switch (searchResultResource.status) {
@@ -163,7 +163,7 @@ public class SearchActivity extends CommonActivity<ActivitySearchBinding>
                     }
                     break;
                 case FAILED:
-                    ToastUtils.makeToast(R.string.text_error_when_save);
+                    ToastUtils.makeToast(R.string.text_failed);
                     break;
             }
         });

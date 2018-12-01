@@ -87,7 +87,7 @@ public class DirectoriesFragment extends BaseFragment<FragmentDirectoriesBinding
         directoryViewModel.getDirectories(directory.getId()).observe(this, listResource -> {
             getBinding().sl.setVisibility(View.GONE);
             if (listResource == null) {
-                ToastUtils.makeToast(R.string.failed_query_sync_cloud);
+                ToastUtils.makeToast(R.string.setting_backup_onedrive_failed_query_sync_cloud);
                 return;
             }
             switch (listResource.status) {
@@ -111,7 +111,7 @@ public class DirectoriesFragment extends BaseFragment<FragmentDirectoriesBinding
     private void showSelectionTips() {
         new MaterialDialog.Builder(getContext())
                 .title(R.string.text_tips)
-                .content(R.string.available_directory_found)
+                .content(R.string.setting_backup_onedrive_available_directory_found)
                 .positiveText(R.string.text_get_it)
                 .show();
     }
@@ -154,17 +154,17 @@ public class DirectoriesFragment extends BaseFragment<FragmentDirectoriesBinding
         directoryViewModel.createBackupDir(directory, adapter.getData()).observe(this, directoryResource -> {
             pd.dismiss();
             if (directoryResource == null) {
-                ToastUtils.makeToast(R.string.failed_query_sync_cloud);
+                ToastUtils.makeToast(R.string.setting_backup_onedrive_failed_query_sync_cloud);
                 return;
             }
             switch (directoryResource.status) {
                 case FAILED:
                     ToastUtils.makeToast(String.format(
-                            PalmApp.getStringCompact(R.string.error_when_try_to_backup),
+                            PalmApp.getStringCompact(R.string.setting_backup_onedrive_error_when_try_to_backup),
                             directoryResource.message));
                     break;
                 case SUCCESS:
-                    ToastUtils.makeToast(R.string.backup_dir_selected_message);
+                    ToastUtils.makeToast(R.string.setting_backup_onedrive_backup_dir_selected_message);
                     if (getActivity() != null && getActivity() instanceof OnFragmentInteractionListener) {
                         ((OnFragmentInteractionListener) getActivity()).onDirectoryPicked(directory);
                     }

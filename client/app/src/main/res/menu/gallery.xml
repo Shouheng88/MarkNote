@@ -8,12 +8,8 @@
         app:showAsAction="always"/>
 
     <item android:id="@+id/action_open"
-        android:title="@string/use_to_open"
-        android:icon="@drawable/ic_picture_white"
+        android:title="@string/attachment_open_with"
+        android:icon="@drawable/ic_picture_black"
         app:showAsAction="always"/>
-
-    <item android:id="@+id/action_info"
-        android:title="@string/information"
-        app:showAsAction="never"/>
 
 </menu>

@@ -41,7 +41,7 @@ public class OpenResolver extends DialogFragment {
                 resolveClicked(Constants.MIME_TYPE_OTHERS));
 
         return new AlertDialog.Builder(getContext())
-                .setTitle(R.string.openas)
+                .setTitle(R.string.attachment_open_as)
                 .setView(root)
                 .create();
     }

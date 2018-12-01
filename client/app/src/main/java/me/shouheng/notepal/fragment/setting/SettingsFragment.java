@@ -8,27 +8,26 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 
-import me.shouheng.commons.helper.ActivityHelper;
 import me.shouheng.commons.activity.ContainerActivity;
 import me.shouheng.commons.activity.ThemedActivity;
 import me.shouheng.commons.fragment.BPreferenceFragment;
-import me.shouheng.commons.helper.DialogHelper;
 import me.shouheng.commons.fragment.WebviewFragment;
-import me.shouheng.commons.utils.PersistData;
+import me.shouheng.commons.helper.ActivityHelper;
+import me.shouheng.commons.helper.DialogHelper;
 import me.shouheng.commons.utils.IntentUtils;
 import me.shouheng.commons.utils.PalmUtils;
+import me.shouheng.commons.utils.PersistData;
+import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.AboutActivity;
 import me.shouheng.notepal.activity.FabSortActivity;
 import me.shouheng.notepal.activity.LockActivity;
-import me.shouheng.notepal.activity.MenuSortActivity;
 import me.shouheng.notepal.activity.SettingsActivity;
-import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.dialog.ThemePickDialog;
 import me.shouheng.notepal.util.preferences.LockPreferences;
 
 /**
- * Created by wang shouheng on 2017/12/21.*/
+ * Created by WngShhng (shouheng2015@gmail.com) on 2017/12/21.*/
 public class SettingsFragment extends BPreferenceFragment {
 
     @Override
@@ -55,11 +54,6 @@ public class SettingsFragment extends BPreferenceFragment {
 
         findPreference(R.string.key_custom_fab).setOnPreferenceClickListener(preference -> {
             ActivityHelper.start(getActivity(), FabSortActivity.class);
-            return true;
-        });
-
-        findPreference(R.string.key_note_editor_menu_sort).setOnPreferenceClickListener(preference -> {
-            ActivityHelper.start(getActivity(), MenuSortActivity.class);
             return true;
         });
 
@@ -98,16 +92,17 @@ public class SettingsFragment extends BPreferenceFragment {
         // region preferences : help & feedback
         findPreference(R.string.key_user_guide).setOnPreferenceClickListener(preference -> {
             ContainerActivity.open(WebviewFragment.class)
-                    .put(WebviewFragment.ARGUMENT_KEY_TITLE, PalmUtils.getStringCompact(R.string.setting_help_guide))
+                    .put(WebviewFragment.ARGUMENT_KEY_TITLE, PalmUtils.getStringCompact(R.string.setting_category_help_user_guide))
                     .put(WebviewFragment.ARGUMENT_KEY_URL, Constants.GUIDE_PAGE)
                     .launch(getActivity());
             return true;
         });
 
+        // TODO the problem of feedback page.
         findPreference(R.string.key_feedback).setOnPreferenceClickListener(preference -> {
             boolean isEn = "en".equals(PalmUtils.getStringCompact(R.string.language_code));
             ContainerActivity.open(WebviewFragment.class)
-                    .put(WebviewFragment.ARGUMENT_KEY_TITLE, PalmUtils.getStringCompact(R.string.feedback))
+                    .put(WebviewFragment.ARGUMENT_KEY_TITLE, PalmUtils.getStringCompact(R.string.setting_category_help_feedback))
                     .put(WebviewFragment.ARGUMENT_KEY_URL, isEn ? Constants.FEEDBACK_ENGLISH : Constants.FEEDBACK_CHINESE)
                     .launch(getActivity());
             return true;
@@ -129,7 +124,7 @@ public class SettingsFragment extends BPreferenceFragment {
 
         findPreference(R.string.key_setting_item_about_privacy).setOnPreferenceClickListener(preference -> {
             ContainerActivity.open(WebviewFragment.class)
-                    .put(WebviewFragment.ARGUMENT_KEY_TITLE, PalmUtils.getStringCompact(R.string.setting_about_privacy))
+                    .put(WebviewFragment.ARGUMENT_KEY_TITLE, PalmUtils.getStringCompact(R.string.setting_category_others_about_privacy))
                     .put(WebviewFragment.ARGUMENT_KEY_URL, Constants.PRIVACY_PAGE)
                     .launch(getActivity());
             return true;

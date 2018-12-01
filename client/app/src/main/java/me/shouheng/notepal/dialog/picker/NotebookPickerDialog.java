@@ -32,9 +32,9 @@ public class NotebookPickerDialog extends BasePickerDialog<Notebook> {
 
     @Override
     protected void onCreateDialog(AlertDialog.Builder builder, EmptyView emptyView) {
-        builder.setTitle(getString(R.string.pick_notebook));
+        builder.setTitle(getString(R.string.notebook_picker_title));
         builder.setPositiveButton(R.string.text_cancel, null);
-        emptyView.setTitle(getString(R.string.no_notebook_available));
+        emptyView.setTitle(getString(R.string.notebook_picker_empty_message));
         emptyView.setIcon(ColorUtils.tintDrawable(
                 getContext().getResources().getDrawable(R.drawable.ic_folder_black_24dp), getImageTintColor()));
     }

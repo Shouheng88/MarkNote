@@ -11,5 +11,5 @@
                 android:top="13dp"/>
         </shape>
     </item>
-    <item android:drawable="@drawable/ic_insert_drive_file_black_24dp"/>
+    <item android:drawable="@drawable/ic_description_black_24dp"/>
 </layer-list>

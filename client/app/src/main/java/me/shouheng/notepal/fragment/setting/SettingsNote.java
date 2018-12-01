@@ -21,7 +21,7 @@ public class SettingsNote extends BPreferenceFragment {
         super.onCreate(savedInstanceState);
 
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        if (actionBar != null) actionBar.setTitle(R.string.setting_note);
+        if (actionBar != null) actionBar.setTitle(R.string.setting_category_universal_note);
 
         addPreferencesFromResource(R.xml.preferences_note);
 

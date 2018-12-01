@@ -52,12 +52,6 @@ public class AttachmentPicker extends DialogFragment {
         binding.tvFile.setOnClickListener(v -> resolveFileClickEvent());
         binding.tvFile.setVisibility(isFilesVisible ? View.VISIBLE : View.GONE);
 
-        binding.tvLink.setOnClickListener(v -> {
-            if (onAddNetUriSelectedListener != null) onAddNetUriSelectedListener.onAddUriSelected();
-            dismiss();
-        });
-        binding.tvLink.setVisibility(isAddLinkVisible ? View.VISIBLE : View.GONE);
-
         binding.tvTakePhoto.setOnClickListener(v -> resolveCaptureEvent());
 
         binding.tvRecordSound.setOnClickListener(v -> resolveRecordEvent());

@@ -27,10 +27,10 @@ public class CategoryViewModel extends BaseViewModel<Category> {
     public String getEmptySubTitle(Status status) {
         if (status == null) return null;
         return PalmApp.getContext().getString(
-                status == Status.NORMAL ? R.string.tags_list_empty_sub_normal :
-                        status == Status.TRASHED ? R.string.tags_list_empty_sub_trashed :
-                                status == Status.ARCHIVED ? R.string.tags_list_empty_sub_archived :
-                                        R.string.tags_list_empty_sub_normal);
+                status == Status.NORMAL ? R.string.category_list_empty_subtitle :
+                        status == Status.TRASHED ? R.string.category_list_empty_for_trashed :
+                                status == Status.ARCHIVED ? R.string.category_list_empty_for_archived :
+                                        R.string.category_list_empty_subtitle);
     }
 
     public LiveData<Resource<List<Category>>> getCategories(Status status) {

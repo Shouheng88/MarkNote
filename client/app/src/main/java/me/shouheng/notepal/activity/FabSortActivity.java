@@ -118,7 +118,7 @@ public class FabSortActivity extends CommonActivity<ActivityFabSortBinding> {
         everSaved = true;
         List<FabSortItem> fabSortItems = mAdapter.getFabSortItems();
         PrefUtils.getInstance().setFabSortResult(fabSortItems);
-        ToastUtils.makeToast(R.string.fab_sort_save_successfully);
+        ToastUtils.makeToast(R.string.text_succeed);
     }
 
     private void resetFabOrders() {
@@ -138,8 +138,7 @@ public class FabSortActivity extends CommonActivity<ActivityFabSortBinding> {
 
     private void back() {
         new MaterialDialog.Builder(this)
-                .title(R.string.fab_sort_save)
-                .content(R.string.fab_sort_save_or_lose)
+                .content(R.string.text_save_or_discard)
                 .positiveText(R.string.text_save)
                 .negativeText(R.string.text_give_up)
                 .onPositive((materialDialog, dialogAction) -> {

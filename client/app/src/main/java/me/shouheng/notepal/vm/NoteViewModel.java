@@ -37,7 +37,8 @@ import me.shouheng.notepal.util.ModelHelper;
 /**
  * The ViewModel for the note fragment.
  *
- * Created WngShhng on 2018/11/30.
+ * @author WngShhng (shouheng2015@gmail.com)
+ * @version $Id: NoteViewModel, v 0.1 2018/12/1 0:49 shouh Exp$
  */
 public class NoteViewModel extends ViewModel {
 

@@ -12,7 +12,7 @@
 
         <EditText
             android:id="@+id/export_file_name"
-            android:hint="@string/backup_data_export_message"
+            android:hint="@string/setting_backup_external_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -28,7 +28,7 @@
 
     <android.support.v7.widget.AppCompatCheckBox
         android:id="@+id/backup_include_settings"
-        android:text="@string/backup_include_settings"
+        android:text="@string/setting_backup_external_include"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:checked="true" />

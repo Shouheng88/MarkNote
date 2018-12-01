@@ -99,7 +99,7 @@ public class SimpleEditDialog extends DialogFragment {
         return new AlertDialog.Builder(getContext())
                 .setTitle(R.string.text_edit)
                 .setView(dlgRootView)
-                .setPositiveButton(R.string.text_accept, (dialog, which) -> {
+                .setPositiveButton(R.string.text_confirm, (dialog, which) -> {
                     if (onAcceptListener != null){
                         onAcceptListener.onAccept(etContent.getText().toString());
                     }

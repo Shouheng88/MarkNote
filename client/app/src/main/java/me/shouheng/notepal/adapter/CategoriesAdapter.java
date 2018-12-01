@@ -46,7 +46,7 @@ public class CategoriesAdapter extends BaseQuickAdapter<Category, BaseViewHolder
 
         helper.setText(R.id.tv_title, category.getName());
         helper.setText(R.id.tv_sub_title, context.getResources().getQuantityString(
-                R.plurals.notes_number, category.getCount(), category.getCount()));
+                R.plurals.text_notes_number, category.getCount(), category.getCount()));
 
         ((CircleImageView) helper.getView(R.id.iv_folder_background)).setFillingCircleColor(categoryColor);
 

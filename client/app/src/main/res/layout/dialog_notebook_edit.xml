@@ -26,7 +26,7 @@
             android:layout_height="100dp" />
 
         <me.shouheng.commons.widget.theme.SupportTextView
-            android:text="@string/notebook_edit_tips"
+            android:text="@string/notebook_editor_tips"
             android:padding="30dp"
             android:textSize="16sp"
             android:gravity="center"
@@ -47,7 +47,7 @@
                 <android.support.v7.widget.AppCompatEditText
                     android:id="@+id/et_notebook_name"
                     android:padding="8dp"
-                    android:hint="@string/notebook_edit_name_hint"
+                    android:hint="@string/notebook_editor_name_hint"
                     android:maxLines="1"
                     android:singleLine="true"
                     android:maxLength="@integer/title_length"

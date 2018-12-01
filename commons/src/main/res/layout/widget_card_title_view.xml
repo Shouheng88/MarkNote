@@ -13,7 +13,7 @@
             android:id="@+id/iv_icon"
             android:layout_width="@dimen/icon_width_height"
             android:layout_height="@dimen/icon_width_height"
-            tools:src="@drawable/ic_account_balance_black_24dp"
+            tools:src="@drawable/circle"
             style="@style/ProfilesCardItemIconStyle"/>
 
         <LinearLayout
@@ -23,7 +23,7 @@
 
             <me.shouheng.commons.widget.theme.SupportTextView
                 android:id="@+id/tv_title"
-                tools:text="@string/school"
+                tools:text="school"
                 style="@style/ProfileTitleStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />

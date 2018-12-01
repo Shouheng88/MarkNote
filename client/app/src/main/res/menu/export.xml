@@ -10,7 +10,7 @@
         android:id="@+id/export_html"/>
 
     <item android:icon="@drawable/ic_picture_black"
-        android:title="@string/note_capture_note"
+        android:title="@string/note_captured_image"
         android:id="@+id/capture"/>
 
     <item android:icon="@drawable/ic_local_printshop_black_24dp"

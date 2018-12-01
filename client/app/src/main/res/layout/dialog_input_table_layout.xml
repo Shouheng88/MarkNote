@@ -26,7 +26,7 @@
                     android:layout_height="wrap_content"
                     android:digits="123456789"
                     android:focusable="true"
-                    android:hint="@string/md_input_rows_number"
+                    android:hint="@string/note_table_rows_number"
                     android:inputType="number"
                     android:maxLength="2"
                     android:text=""/>
@@ -46,7 +46,7 @@
                     android:layout_height="wrap_content"
                     android:digits="123456789"
                     android:focusable="true"
-                    android:hint="@string/md_input_cols_number"
+                    android:hint="@string/note_table_cols_number"
                     android:inputType="number"
                     android:maxLength="2"
                     android:text=""/>

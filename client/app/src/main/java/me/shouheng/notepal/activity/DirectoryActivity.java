@@ -76,7 +76,7 @@ public class DirectoryActivity extends CommonActivity<ActivityDirectoryBinding> 
         ActionBar ab = getSupportActionBar();
         if (!isDarkTheme()) toolbar.setPopupTheme(R.style.AppTheme_PopupOverlay);
         if (ab != null) {
-            ab.setTitle(R.string.text_folder_explore);
+            ab.setTitle(R.string.setting_backup_onedrive_text_folder_explore);
             ab.setDisplayHomeAsUpEnabled(true);
         }
     }
@@ -84,7 +84,7 @@ public class DirectoryActivity extends CommonActivity<ActivityDirectoryBinding> 
     private void createFolder() {
         new SimpleEditDialog("", content -> {
             if (TextUtils.isEmpty(content)) {
-                ToastUtils.makeToast(R.string.title_required);
+                ToastUtils.makeToast(R.string.text_title_required);
                 return;
             }
             final ProgressDialog pd = new ProgressDialog(this);
@@ -106,7 +106,7 @@ public class DirectoryActivity extends CommonActivity<ActivityDirectoryBinding> 
                 public void failure(ClientException ex) {
                     pd.dismiss();
                     ToastUtils.makeToast(String.format(
-                            PalmApp.getStringCompact(R.string.error_when_try_to_backup), ex.getMessage()));
+                            PalmApp.getStringCompact(R.string.setting_backup_onedrive_error_when_try_to_backup), ex.getMessage()));
                 }
             });
         }).setMaxLength(100).show(getSupportFragmentManager(), "EDIT FOLDER NAME");
@@ -137,8 +137,8 @@ public class DirectoryActivity extends CommonActivity<ActivityDirectoryBinding> 
         if (!TextUtils.isEmpty(oldOneDriveBackupItemId) && !oldOneDriveBackupItemId.equals(newBackupDir)) {
             new MaterialDialog.Builder(this)
                     .title(R.string.text_warning)
-                    .content(R.string.synchronize_path_changed_message)
-                    .positiveText(R.string.confirm)
+                    .content(R.string.setting_backup_onedrive_sync_path_changed_message)
+                    .positiveText(R.string.text_confirm)
                     .onPositive((dialog, which) -> {
                         clearLastSyncState();
                         finishWithOK();

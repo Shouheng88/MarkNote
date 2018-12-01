@@ -27,7 +27,7 @@ public class NotebookPickerStrategy implements ModelsPickerStrategy<Notebook> {
     @Override
     public String getSubTitle(Notebook notebook) {
         return context.getResources().getQuantityString(
-                R.plurals.notes_number, notebook.getCount(), notebook.getCount());
+                R.plurals.text_notes_number, notebook.getCount(), notebook.getCount());
     }
 
     @Override

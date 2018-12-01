@@ -58,9 +58,9 @@ public class CategoryEditDialog extends DialogFragment implements ColorChooserDi
 
         return new AlertDialog.Builder(getContext())
                 .setView(binding.getRoot())
-                .setPositiveButton(R.string.confirm, (dialog, which) -> {
+                .setPositiveButton(R.string.text_confirm, (dialog, which) -> {
                     if (TextUtils.isEmpty(binding.etCategoryName.getText())){
-                        ToastUtils.makeToast(R.string.title_required);
+                        ToastUtils.makeToast(R.string.text_title_required);
                         return;
                     }
                     category.setName(binding.etCategoryName.getText().toString());
@@ -69,7 +69,7 @@ public class CategoryEditDialog extends DialogFragment implements ColorChooserDi
                     }
                     dialog.dismiss();
                 })
-                .setNegativeButton(R.string.cancel, null)
+                .setNegativeButton(R.string.text_cancel, null)
                 .create();
     }
 
@@ -94,7 +94,7 @@ public class CategoryEditDialog extends DialogFragment implements ColorChooserDi
 
     private void showColorPickerDialog() {
         assert getContext() != null;
-        new ColorChooserDialog.Builder(getContext(), R.string.pick_notebook_color)
+        new ColorChooserDialog.Builder(getContext(), R.string.notebook_color_picker_title)
                 .preselect(categoryColor)
                 .accentMode(false)
                 .presetsButton(R.string.text_presets)

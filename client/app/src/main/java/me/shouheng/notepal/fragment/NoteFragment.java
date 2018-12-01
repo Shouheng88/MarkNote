@@ -31,7 +31,6 @@ import io.reactivex.schedulers.Schedulers;
 import me.shouheng.commons.activity.ContainerActivity;
 import me.shouheng.commons.activity.interaction.BackEventResolver;
 import me.shouheng.commons.fragment.CommonFragment;
-import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.commons.utils.StringUtils;
 import me.shouheng.commons.utils.ToastUtils;
@@ -58,10 +57,7 @@ import me.shouheng.notepal.fragment.setting.SettingsNote;
 import me.shouheng.notepal.util.AppWidgetUtils;
 import me.shouheng.notepal.util.FileHelper;
 import me.shouheng.notepal.util.ModelHelper;
-import me.shouheng.notepal.viewmodel.AttachmentViewModel;
 import me.shouheng.notepal.viewmodel.CategoryViewModel;
-import me.shouheng.notepal.viewmodel.LocationViewModel;
-import me.shouheng.notepal.viewmodel.NotebookViewModel;
 import me.shouheng.notepal.vm.NoteViewModel;
 import me.shouheng.notepal.widget.MDEditorLayout;
 
@@ -94,12 +90,6 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding> implements
     private final static String EXTRA_IS_THIRD_PART = "extra_is_third_part";
     private final static String EXTRA_ACTION = "extra_action";
     private final static String TAB_REPLACEMENT = "    ";
-
-    private NoteViewModel noteViewModel;
-    private AttachmentViewModel attachmentViewModel;
-    private LocationViewModel locationViewModel;
-    private CategoryViewModel categoryViewModel;
-    private NotebookViewModel notebookViewModel;
 
     private NoteViewModel viewModel;
     private EditText etTitle;
@@ -335,14 +325,14 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding> implements
 
 //    @Override
     protected void onFailedGetAttachment(Attachment attachment) {
-        ToastUtils.makeToast(R.string.failed_to_save_attachment);
+        ToastUtils.makeToast(R.string.text_failed_to_save_attachment);
     }
 
 //    @Override
     protected void onGetAttachment(@NonNull Attachment attachment) {
 //        attachment.setModelCode(note.getCode());
         attachment.setModelType(ModelType.NOTE);
-        attachmentViewModel.saveModel(attachment).observe(this, LogUtils::d);
+//        attachmentViewModel.saveModel(attachment).observe(this, LogUtils::d);
 
         String title = FileHelper.getNameFromUri(getContext(), attachment.getUri());
         if (TextUtils.isEmpty(title)) title = getString(R.string.text_attachment);

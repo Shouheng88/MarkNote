@@ -105,7 +105,7 @@ public class DataBackupIntentService extends IntentService {
 
         if (includeSettings) exportSettings(backupDir);
 
-        createNotification(intent, this, getString(R.string.backup_data_export_completed), backupDir.getPath(), backupDir);
+        createNotification(intent, this, getString(R.string.setting_backup_external_backup_completed), backupDir.getPath(), backupDir);
     }
 
     private boolean exportDB(File backupDir) {
@@ -144,8 +144,8 @@ public class DataBackupIntentService extends IntentService {
 
         importSettings(backupDir);
 
-        String title = getString(R.string.backup_data_import_completed);
-        String text = getString(R.string.backup_click_to_refresh_application);
+        String title = getString(R.string.setting_backup_external_import_completed);
+        String text = getString(R.string.setting_backup_external_import_content);
         createNotification(intent, this, title, text, backupDir);
     }
 
@@ -194,7 +194,7 @@ public class DataBackupIntentService extends IntentService {
             names.append(",");
         }
 
-        String title = getString(R.string.backup_data_deletion_completed);
+        String title = getString(R.string.setting_backup_external_delete_completed);
         names.append(getString(R.string.text_delete));
         createNotification(intent, this, title, names.toString(), null);
     }

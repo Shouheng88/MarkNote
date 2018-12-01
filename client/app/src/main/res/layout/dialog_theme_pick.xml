@@ -18,7 +18,7 @@
                 android:layout_height="match_parent" />
 
             <android.support.v7.widget.AppCompatTextView
-                android:text="@string/setting_category_personal_theme_pick_title"
+                android:text="@string/setting_theme_picker_title"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
                 android:layout_gravity="center"
@@ -36,7 +36,7 @@
             android:layout_height="80dp">
 
             <android.support.v7.widget.AppCompatTextView
-                android:text="@string/setting_category_personal_theme_light_blue"
+                android:text="@string/setting_theme_light_blue"
                 android:textColor="@color/colorAccentBlue"
                 android:textSize="18sp"
                 android:layout_width="wrap_content"
@@ -65,7 +65,7 @@
             android:layout_height="80dp">
 
             <android.support.v7.widget.AppCompatTextView
-                android:text="@string/setting_category_personal_theme_light_red"
+                android:text="@string/setting_theme_light_red"
                 android:textColor="@color/colorAccentRed"
                 android:textSize="18sp"
                 android:layout_width="wrap_content"
@@ -94,7 +94,7 @@
             android:layout_height="80dp">
 
             <android.support.v7.widget.AppCompatTextView
-                android:text="@string/setting_category_personal_theme_dark_blue"
+                android:text="@string/setting_theme_dark_blue"
                 android:textColor="@color/colorAccentBlue"
                 android:textSize="18sp"
                 android:layout_width="wrap_content"

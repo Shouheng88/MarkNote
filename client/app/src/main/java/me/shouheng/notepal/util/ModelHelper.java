@@ -7,9 +7,6 @@ import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.text.ClipboardManager;
 import android.text.TextUtils;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -19,21 +16,14 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.commons.utils.TimeUtils;
-import me.shouheng.commons.utils.ToastUtils;
-import me.shouheng.commons.utils.ViewUtils;
-import me.shouheng.commons.widget.FlowLayout;
 import me.shouheng.data.entity.Attachment;
-import me.shouheng.data.entity.Location;
-import me.shouheng.data.entity.MindSnagging;
 import me.shouheng.data.entity.Model;
+import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.config.TextLength;
-import me.shouheng.notepal.viewmodel.CategoryViewModel;
 
 /**
  * Created by wangshouheng on 2017/11/4.*/
@@ -46,9 +36,9 @@ public class ModelHelper {
     private static Pattern imagePattern;
 
     public static <T extends Model> String getTimeInfo(T model) {
-        return PalmUtils.getStringCompact(R.string.text_created_at)
+        return PalmUtils.getStringCompact(R.string.text_created)
                 + " : " + TimeUtils.getPrettyTime(model.getAddedTime()) + "\n"
-                + PalmUtils.getStringCompact(R.string.text_last_modified_at)
+                + PalmUtils.getStringCompact(R.string.text_updated)
                 + " : " + TimeUtils.getPrettyTime(model.getLastModifiedTime());
     }
 
@@ -81,20 +71,7 @@ public class ModelHelper {
         shareIntent.putExtra(Intent.EXTRA_TEXT, content);
 
         context.startActivity(Intent.createChooser(shareIntent,
-                context.getResources().getString(R.string.share_message_chooser)));
-    }
-
-    public static void share(Context context, MindSnagging mindSnagging) {
-        Intent shareIntent = new Intent();
-        shareIntent.setAction(Intent.ACTION_SEND);
-        shareIntent.putExtra(Intent.EXTRA_TEXT, mindSnagging.getContent());
-
-        if (mindSnagging.getPicture() != null) {
-            shareIntent.setType(FileHelper.getMimeTypeInternal(context, mindSnagging.getPicture()));
-            shareIntent.putExtra(Intent.EXTRA_STREAM, mindSnagging.getPicture());
-        }
-
-        context.startActivity(Intent.createChooser(shareIntent, context.getResources().getString(R.string.share_message_chooser)));
+                context.getResources().getString(R.string.text_send_to)));
     }
 
     public static void shareFile(Context context, File file, String mimeType) {
@@ -102,45 +79,7 @@ public class ModelHelper {
         shareIntent.setAction(Intent.ACTION_SEND);
         shareIntent.setType(mimeType);
         shareIntent.putExtra(Intent.EXTRA_STREAM, FileHelper.getUriFromFile(context, file));
-        context.startActivity(Intent.createChooser(shareIntent,
-                context.getResources().getString(R.string.share_message_chooser)));
-    }
-
-    public static <T extends Model> void copyLink(Activity ctx, T model) {
-        if (model.getLastSyncTime().getTime() == 0) {
-            ToastUtils.makeToast(R.string.cannot_get_link_of_not_synced_item);
-            return;
-        }
-
-        ClipboardManager clipboardManager = (ClipboardManager) ctx.getSystemService(Context.CLIPBOARD_SERVICE);
-        clipboardManager.setText(null);
-    }
-
-    public static String getFormatLocation(Location location) {
-        return location.getCountry() + "|"
-                + location.getProvince() + "|"
-                + location.getCity() + "|"
-                + location.getDistrict();
-    }
-
-    private static void addTagsToLayout(Context context, FlowLayout flowLayout, String stringTags){
-        if (TextUtils.isEmpty(stringTags)) return;
-        String[] tags = stringTags.split(CategoryViewModel.CATEGORY_SPLIT);
-        for (String tag : tags) addTagToLayout(context, flowLayout, tag);
-    }
-
-    private static  void addTagToLayout(Context context, FlowLayout flowLayout, String tag){
-        int margin = ViewUtils.dp2Px(context, 2f);
-        int padding = ViewUtils.dp2Px(context, 5f);
-        TextView tvLabel = new TextView(context);
-        tvLabel.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        ViewGroup.MarginLayoutParams params = new ViewGroup.MarginLayoutParams(tvLabel.getLayoutParams());
-        params.setMargins(margin, margin, margin, margin);
-        tvLabel.setLayoutParams(params);
-        tvLabel.setPadding(padding, 0, padding, 0);
-        tvLabel.setBackgroundResource(ColorUtils.isDarkTheme(context) ? R.drawable.label_background_dark : R.drawable.label_background);
-        tvLabel.setText(tag);
-        flowLayout.addView(tvLabel);
+        context.startActivity(Intent.createChooser(shareIntent, context.getResources().getString(R.string.text_send_to)));
     }
 
     public static String getNoteTitle(String inputTitle, String noteContent) {
@@ -153,7 +92,7 @@ public class ModelHelper {
 
         // Use default note title
         if (TextUtils.isEmpty(noteContent)) {
-            return PalmApp.getStringCompact(R.string.note_default_name);
+            return PalmApp.getStringCompact(R.string.text_default_note_name);
         }
 
         // Get title from note content
@@ -182,7 +121,7 @@ public class ModelHelper {
         }
 
         // Use default note title
-        return PalmApp.getStringCompact(R.string.note_default_name);
+        return PalmApp.getStringCompact(R.string.text_default_note_name);
     }
 
     public static String getNotePreview(String noteContent) {

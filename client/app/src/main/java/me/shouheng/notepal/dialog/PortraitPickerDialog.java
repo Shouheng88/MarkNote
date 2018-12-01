@@ -61,8 +61,8 @@ public class PortraitPickerDialog extends DialogFragment {
         recyclerView.addItemDecoration(new SpaceItemDecoration(padding, padding, padding, padding));
 
         return new AlertDialog.Builder(getContext())
-                .setTitle(R.string.pick_portrait)
-                .setNegativeButton(R.string.cancel, null)
+                .setTitle(R.string.portrait_picker_title)
+                .setNegativeButton(R.string.text_cancel, null)
                 .setView(rootView)
                 .create();
     }

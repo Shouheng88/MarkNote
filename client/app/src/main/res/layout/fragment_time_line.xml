@@ -15,8 +15,8 @@
                 android:layout_centerInParent="true"
                 app:empty_image="@drawable/ic_timeline_large"
                 app:tint_drawable="true"
-                app:title="@string/no_activity_in_timeline"
-                app:sub_title="@string/activities_on_app_will_display_here"
+                app:title="@string/timeline_list_empty_title"
+                app:sub_title="@string/timeline_list_empty_subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 

@@ -13,17 +13,18 @@ import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.LinearLayout;
-import android.widget.PopupMenu;
 
 import com.facebook.stetho.common.LogUtil;
 import com.just.agentweb.AgentWeb;
 import com.just.agentweb.DefaultWebClient;
 
 import me.shouheng.commons.R;
-import me.shouheng.commons.databinding.FragmentWebviewBinding;
 import me.shouheng.commons.activity.interaction.FragmentKeyDown;
+import me.shouheng.commons.databinding.FragmentWebviewBinding;
 import me.shouheng.commons.utils.IntentUtils;
 import me.shouheng.commons.utils.PalmUtils;
+
+import static me.shouheng.commons.BaseConstants.MAX_WEB_PAGE_TITLE_LENGTH;
 
 /**
  * @author shouh
@@ -37,7 +38,6 @@ public class WebviewFragment extends CommonFragment<FragmentWebviewBinding> impl
 
     private AgentWeb mAgentWeb;
     private boolean usePageTitle;
-    private PopupMenu mPopupMenu;
     private String url;
 
     @Override
@@ -57,6 +57,7 @@ public class WebviewFragment extends CommonFragment<FragmentWebviewBinding> impl
         }
         usePageTitle = arguments.getBoolean(ARGUMENT_KEY_USE_PAGE_TITLE);
 
+        // TODO the custom error page.
         mAgentWeb = AgentWeb.with(this)
                 .setAgentWebParent(getBinding().llContainer, -1, new LinearLayout.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
@@ -67,8 +68,8 @@ public class WebviewFragment extends CommonFragment<FragmentWebviewBinding> impl
                 .setOpenOtherPageWays(DefaultWebClient.OpenOtherPageWays.DISALLOW)
                 .interceptUnkownUrl()
                 .createAgentWeb()
-                .ready().go(url);
-
+                .ready()
+                .go(url);
     }
 
     protected WebChromeClient mWebChromeClient = new WebChromeClient() {
@@ -82,8 +83,8 @@ public class WebviewFragment extends CommonFragment<FragmentWebviewBinding> impl
         public void onReceivedTitle(WebView view, String title) {
             if (usePageTitle) {
                 if (!TextUtils.isEmpty(title)) {
-                    if (title.length() > 15) {
-                        title = title.substring(0, 15).concat("...");
+                    if (title.length() > MAX_WEB_PAGE_TITLE_LENGTH) {
+                        title = title.substring(0, MAX_WEB_PAGE_TITLE_LENGTH).concat("...");
                     }
                 }
                 if (getActivity() != null) {
@@ -102,27 +103,16 @@ public class WebviewFragment extends CommonFragment<FragmentWebviewBinding> impl
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_web, menu);
+        inflater.inflate(R.menu.menu_web_items, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.item_more) {
-            if (mPopupMenu == null) {
-                mPopupMenu = new PopupMenu(this.getActivity(), getBinding().v);
-                mPopupMenu.inflate(R.menu.menu_web_items);
-                mPopupMenu.setOnMenuItemClickListener(item1 -> {
-                    if (item1.getItemId() == R.id.item_copy) {
-                        PalmUtils.copy(getActivity(), url);
-                        return true;
-                    } else if (item1.getItemId() == R.id.item_open) {
-                        IntentUtils.openWebPage(getContext(), url);
-                        return true;
-                    }
-                    return false;
-                });
-            }
-            mPopupMenu.show();
+        if (item.getItemId() == R.id.item_copy) {
+            PalmUtils.copy(getActivity(), url);
+            return true;
+        } else if (item.getItemId() == R.id.item_open) {
+            IntentUtils.openWebPage(getContext(), url);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -130,7 +120,7 @@ public class WebviewFragment extends CommonFragment<FragmentWebviewBinding> impl
 
     @Override
     public void onResume() {
-        mAgentWeb.getWebLifeCycle().onResume();//恢复
+        mAgentWeb.getWebLifeCycle().onResume();// 恢复
         super.onResume();
     }
 

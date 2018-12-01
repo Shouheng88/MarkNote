@@ -155,10 +155,10 @@ public final class DaysOfWeek {
     public String toString(Context context, boolean showNever) {
         StringBuilder ret = new StringBuilder();
         if (mDays == 0) {
-            return showNever ? context.getText(R.string.one_shot).toString() : "";
+            return showNever ? context.getText(R.string.text_one_shot).toString() : "";
         }
         if (mDays == 0x7f) {
-            return context.getText(R.string.every_day).toString();
+            return context.getText(R.string.text_every_day).toString();
         }
         int dayCount = 0, days = mDays;
         while (days > 0) {
@@ -174,7 +174,7 @@ public final class DaysOfWeek {
                 ret.append(dayList[DAY_MAP[i]]);
                 dayCount -= 1;
                 if (dayCount > 0) {
-                    ret.append(context.getText(R.string.day_concat));
+                    ret.append(context.getText(R.string.text_day_concat));
                 }
             }
         }

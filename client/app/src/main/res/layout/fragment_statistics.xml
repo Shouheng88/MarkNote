@@ -25,7 +25,7 @@
                     android:layout_height="match_parent">
 
                     <me.shouheng.commons.widget.theme.CardTitleView
-                        app:card_icon="@drawable/ic_note_add_grey_24dp"
+                        app:card_icon="@drawable/ic_description_black_24dp"
                         app:card_title="@string/statistic_activities"
                         app:card_sub_title="@string/statistic_title_activities"
                         android:layout_width="match_parent"

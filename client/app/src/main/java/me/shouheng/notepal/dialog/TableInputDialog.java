@@ -48,7 +48,7 @@ public class TableInputDialog extends DialogFragment {
         binding.tvMdCancel.setOnClickListener(v -> dismiss());
 
         return new AlertDialog.Builder(getContext())
-                .setTitle(R.string.md_insert_table)
+                .setTitle(R.string.note_table_insert)
                 .setView(binding.getRoot())
                 .create();
     }
@@ -57,8 +57,8 @@ public class TableInputDialog extends DialogFragment {
         String rowNumberStr = binding.etMdRowsNumber.getText().toString().trim();
         String columnNumberStr = binding.etMdColsNumber.getText().toString().trim();
 
-        if (TextUtils.isEmpty(rowNumberStr)) binding.rowNumberHint.setError(getString(R.string.md_rows_cannot_empty));
-        if (TextUtils.isEmpty(columnNumberStr)) binding.columnNumberHint.setError(getString(R.string.md_cols_cannot_empty));
+        if (TextUtils.isEmpty(rowNumberStr)) binding.rowNumberHint.setError(getString(R.string.note_table_rows_required));
+        if (TextUtils.isEmpty(columnNumberStr)) binding.columnNumberHint.setError(getString(R.string.note_table_cols_required));
 
         if (binding.rowNumberHint.isErrorEnabled()) binding.rowNumberHint.setErrorEnabled(false);
         if (binding.columnNumberHint.isErrorEnabled()) binding.columnNumberHint.setErrorEnabled(false);

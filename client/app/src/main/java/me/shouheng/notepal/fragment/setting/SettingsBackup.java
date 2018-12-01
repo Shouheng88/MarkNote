@@ -61,7 +61,7 @@ public class SettingsBackup extends BPreferenceFragment {
 
     private void configToolbar() {
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        if (actionBar != null) actionBar.setTitle(R.string.setting_backup);
+        if (actionBar != null) actionBar.setTitle(R.string.setting_category_universal_backup);
     }
 
     private void setPreferenceClickListeners() {
@@ -137,10 +137,10 @@ public class SettingsBackup extends BPreferenceFragment {
     private void refreshOneDriveMessage() {
         String backItemId = syncPreferences.getOneDriveBackupItemId();
         if (!TextUtils.isEmpty(backItemId)) {
-            prefOneDrive.setSummary(String.format(getString(R.string.one_drive_backup_folder), backItemId));
+            prefOneDrive.setSummary(String.format(getString(R.string.setting_backup_onedrive_backup_folder), backItemId));
             prefOneDriveSignOut.setEnabled(true);
         } else {
-            prefOneDrive.setSummary(R.string.one_drive_backup_sub_title);
+            prefOneDrive.setSummary(R.string.setting_backup_onedrive_sign_sub);
             prefOneDriveSignOut.setEnabled(false);
         }
     }
@@ -157,13 +157,12 @@ public class SettingsBackup extends BPreferenceFragment {
         AppCompatCheckBox cb = v.findViewById(R.id.backup_include_settings);
 
         new MaterialDialog.Builder(getActivity())
-                .title(R.string.backup_data_export_message)
+                .title(R.string.setting_backup_external_name)
                 .customView(v, false)
-                .positiveText(R.string.confirm)
+                .positiveText(R.string.text_confirm)
                 .onPositive((dialog, which) -> {
                     String backupName;
                     if (TextUtils.isEmpty(backupName = tvFileName.getText().toString())) {
-                        ToastUtils.makeToast(R.string.backup_data_export_name_empty);
                         backupName = defName;
                     }
                     Intent service = new Intent(getActivity(), DataBackupIntentService.class);
@@ -177,22 +176,22 @@ public class SettingsBackup extends BPreferenceFragment {
     private void showExternalBackupImport() {
         final String[] backups = getExternalBackups();
         if (backups.length == 0) {
-            ToastUtils.makeToast(R.string.backup_no_backups_available);
+            ToastUtils.makeToast(R.string.setting_backup_external_empty);
             return;
         }
 
         new MaterialDialog.Builder(getActivity())
-                .title(R.string.backup_data_import_message)
+                .title(R.string.setting_backup_external_import)
                 .items(backups)
                 .itemsCallbackSingleChoice(-1, (dialog, itemView, which, text) -> {
                     if (TextUtils.isEmpty(text)) {
-                        ToastUtils.makeToast(R.string.backup_no_backup_data_selected);
+                        ToastUtils.makeToast(R.string.text_failed);
                         return true;
                     }
                     showExternalBackupImportConfirm(text.toString());
                     return true;
                 })
-                .positiveText(R.string.confirm)
+                .positiveText(R.string.text_confirm)
                 .onPositive((dialog, which) -> {})
                 .build().show();
     }
@@ -205,13 +204,13 @@ public class SettingsBackup extends BPreferenceFragment {
         String prefName = FileHelper.getPreferencesFile(getActivity()).getName();
         boolean hasPreferences = (new File(backupDir, prefName)).exists();
 
-        String message = getString(R.string.backup_data_import_message_warning) + "\n\n"
-                + backup + " (" + sizeString + (hasPreferences ? " " + getString(R.string.backup_settings_included) : "") + ")";
+        String message = getString(R.string.setting_backup_external_import_warn) + "\n\n"
+                + backup + " (" + sizeString + (hasPreferences ? " " + getString(R.string.setting_backup_text_setting_included) : "") + ")";
 
         new MaterialDialog.Builder(getActivity())
-                .title(R.string.backup_confirm_restoring_backup)
+                .title(R.string.setting_backup_external_import_tips)
                 .content(message)
-                .positiveText(R.string.confirm)
+                .positiveText(R.string.text_confirm)
                 .onPositive((dialog, which) -> {
                     Intent service = new Intent(getActivity(), DataBackupIntentService.class);
                     service.setAction(DataBackupIntentService.ACTION_DATA_IMPORT);
@@ -229,13 +228,13 @@ public class SettingsBackup extends BPreferenceFragment {
     private void showExternalBackupDelete() {
         final String[] backups = getExternalBackups();
         if (backups.length == 0) {
-            ToastUtils.makeToast(R.string.backup_no_backups_to_delete);
+            ToastUtils.makeToast(R.string.setting_backup_external_empty);
             return;
         }
 
         ArrayList<String> selected = new ArrayList<>();
         new AlertDialog.Builder(getActivity())
-                .setTitle(R.string.backup_data_delete_message)
+                .setTitle(R.string.text_delete)
                 .setMultiChoiceItems(backups, new boolean[backups.length], (dialog, which, isChecked) -> {
                     if (isChecked) {
                         selected.add(backups[which]);
@@ -243,11 +242,11 @@ public class SettingsBackup extends BPreferenceFragment {
                         selected.remove(backups[which]);
                     }
                 })
-                .setNegativeButton(R.string.cancel, null)
-                .setPositiveButton(R.string.confirm, (dialog, which) -> {
+                .setNegativeButton(R.string.text_cancel, null)
+                .setPositiveButton(R.string.text_confirm, (dialog, which) -> {
                     LogUtils.d(selected);
                     if (selected.isEmpty()) {
-                        ToastUtils.makeToast(R.string.backup_no_backup_data_selected);
+                        ToastUtils.makeToast(R.string.text_failed);
                     } else {
                         showExternalBackupDeleteConfirm(selected);
                     }
@@ -257,8 +256,8 @@ public class SettingsBackup extends BPreferenceFragment {
     private void showExternalBackupDeleteConfirm(ArrayList<String> selected) {
         new MaterialDialog.Builder(getActivity())
                 .title(R.string.text_warning)
-                .content(R.string.backup_confirm_removing_backup)
-                .positiveText(R.string.confirm)
+                .content(R.string.setting_backup_external_delete_confirm)
+                .positiveText(R.string.text_confirm)
                 .onPositive((dialog, which) -> {
                     Intent service = new Intent(getActivity(), DataBackupIntentService.class);
                     service.setAction(DataBackupIntentService.ACTION_DATA_DELETE);

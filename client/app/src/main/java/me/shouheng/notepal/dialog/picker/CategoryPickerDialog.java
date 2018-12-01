@@ -40,19 +40,19 @@ public class CategoryPickerDialog extends BasePickerDialog<Category> {
 
     @Override
     protected void onCreateDialog(AlertDialog.Builder builder, EmptyView emptyView) {
-        builder.setTitle(getString(R.string.pick_category));
+        builder.setTitle(getString(R.string.category_picker_title));
         builder.setNegativeButton(R.string.text_cancel, null);
         builder.setPositiveButton(R.string.text_ok, (dialogInterface, i) -> {
             if (onConfirmClickListener != null) {
                 onConfirmClickListener.onConfirm(getSelected());
             }
         });
-        builder.setNeutralButton(R.string.text_add_tags, (dialogInterface, i) -> {
+        builder.setNeutralButton(R.string.text_add, (dialogInterface, i) -> {
             if (onAddClickListener != null) {
                 onAddClickListener.onAdd();
             }
         });
-        emptyView.setTitle(getString(R.string.no_category_available));
+        emptyView.setTitle(getString(R.string.category_picker_empty_message));
         emptyView.setIcon(ColorUtils.tintDrawable(
                 PalmApp.getDrawableCompact(R.drawable.ic_labels_grey_24dp), getImageTintColor()));
     }

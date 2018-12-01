@@ -42,8 +42,7 @@ public class SearchItemsAdapter extends RecyclerView.Adapter<SearchItemsAdapter.
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(context).inflate(viewType == NOTE ? R.layout.item_note
-                : R.layout.item_section_title, parent, false));
+        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_note, parent, false));
     }
 
     @Override
@@ -53,12 +52,6 @@ public class SearchItemsAdapter extends RecyclerView.Adapter<SearchItemsAdapter.
 
         if (viewType == NOTE) {
             onBindNote(holder, position);
-        } else {
-            if (holder.getItemViewType() == STRING) {
-                holder.tvSectionTitle.setText((String) searchResults.get(position));
-                holder.tvSectionTitle.setTextColor(primaryColor);
-                holder.itemView.setBackgroundResource(isDarkTheme ? R.color.dark_theme_background : R.color.light_theme_background);
-            }
         }
     }
 
@@ -88,8 +81,6 @@ public class SearchItemsAdapter extends RecyclerView.Adapter<SearchItemsAdapter.
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         View itemView;
 
-        TextView tvSectionTitle;
-
         TextView tvSubTitle;
 
         TextView tvNoteTitle;
@@ -105,7 +96,6 @@ public class SearchItemsAdapter extends RecyclerView.Adapter<SearchItemsAdapter.
 
             this.itemView = itemView;
 
-            tvSectionTitle = itemView.findViewById(R.id.tv_section_title);
             ivMore = itemView.findViewById(R.id.iv_more);
             if (ivMore != null) ivMore.setVisibility(View.GONE);
 

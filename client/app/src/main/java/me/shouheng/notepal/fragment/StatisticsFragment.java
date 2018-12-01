@@ -37,7 +37,7 @@ public class StatisticsFragment extends BaseFragment<FragmentStatisticsBinding> 
 
         if (getActivity() != null) {
             ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
-            if (ab != null) ab.setTitle(R.string.statistic);
+            if (ab != null) ab.setTitle(R.string.drawer_menu_statistics);
         }
 
         getBinding().lcvNote.setValueSelectionEnabled(false);
@@ -51,16 +51,14 @@ public class StatisticsFragment extends BaseFragment<FragmentStatisticsBinding> 
     private void outputStats() {
         viewModel.getStats().observe(this, resource -> {
             LogUtils.d(resource);
-            if (resource == null) {
-                ToastUtils.makeToast(R.string.text_failed_to_load_data);
-                return;
-            }
+            assert resource != null;
             switch (resource.status) {
                 case SUCCESS:
+                    assert resource.data != null;
                     outputStats(resource.data);
                     break;
                 case FAILED:
-                    ToastUtils.makeToast(R.string.text_failed_to_load_data);
+                    ToastUtils.makeToast(R.string.text_failed);
                     break;
             }
         });

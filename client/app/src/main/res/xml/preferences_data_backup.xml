@@ -1,54 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="@string/text_external_storage">
+    <PreferenceCategory android:title="@string/setting_backup_external">
 
         <Preference
             android:key="@string/key_backup_to_external_storage"
             android:persistent="false"
-            android:title="@string/backup_to_external_storage"
-            android:summary="@string/backup_to_external_storage_sub"/>
+            android:title="@string/setting_backup_backup"
+            android:summary="@string/setting_backup_backup_sub"/>
 
         <Preference
             android:key="@string/import_from_external_storage"
             android:persistent="false"
-            android:title="@string/backup_import_from_external_storage"
-            android:summary="@string/backup_import_from_external_storage_sub" />
+            android:title="@string/setting_backup_import"
+            android:summary="@string/setting_backup_import_sub" />
 
         <Preference
             android:key="@string/delete_external_storage_backup"
             android:persistent="false"
-            android:title="@string/backup_delete_external_backup"
-            android:summary="@string/backup_delete_external_backup_sub" />
+            android:title="@string/setting_backup_delete"
+            android:summary="@string/setting_backup_delete_sub" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/text_one_drive">
+    <PreferenceCategory android:title="@string/setting_backup_onedrive">
 
         <Preference android:key="@string/key_one_drive_backup"
             android:persistent="false"
-            android:title="@string/one_drive_backup_title"
-            android:summary="@string/one_drive_backup_sub_title"/>
+            android:title="@string/setting_backup_onedrive_sign"
+            android:summary="@string/setting_backup_onedrive_sign_sub"/>
 
         <Preference android:key="@string/key_one_drive_sign_out"
             android:persistent="false"
-            android:title="@string/sign_out_one_drive"
-            android:summary="@string/sign_out_one_drive_sub"/>
+            android:title="@string/setting_backup_onedrive_sign_out"
+            android:summary="@string/setting_backup_onedrive_sign_out_sub"/>
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/text_sync_settings">
+    <PreferenceCategory android:title="@string/setting_backup_settings">
 
         <Preference
             android:key="@string/key_sync_time_interval"
             android:persistent="false"
-            android:title="@string/backup_time_interval"/>
+            android:title="@string/setting_backup_settings_interval"/>
 
         <SwitchPreference
             android:key="@string/key_backup_only_wifi"
             android:defaultValue="true"
-            android:title="@string/backup_only_wifi"
-            android:summary="@string/backup_only_wifi_sub"/>
+            android:title="@string/setting_backup_settings_wifi"
+            android:summary="@string/setting_backup_settings_wifi_sub"/>
 
     </PreferenceCategory>
 

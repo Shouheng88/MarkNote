@@ -540,7 +540,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                 CategoryEditDialog.newInstance(ModelFactory.getCategory(), this::saveCategory)
                         .show(getSupportFragmentManager(), "CATEGORY_EDIT_DIALOG");
                 break;
-            case MIND_SNAGGING:
+            case QUICK_NOTE:
                 editMindSnagging(ModelFactory.getMindSnagging());
                 break;
             case DRAFT:
@@ -621,7 +621,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                     }
                     break;
                 case FAILED:
-                    ToastUtils.makeToast(R.string.text_error_when_save);
+                    ToastUtils.makeToast(R.string.text_failed);
                     break;
             }
         });
@@ -679,7 +679,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                     }
                     break;
                 case FAILED:
-                    ToastUtils.makeToast(R.string.text_error_when_save);
+                    ToastUtils.makeToast(R.string.text_failed);
                     break;
             }
         });

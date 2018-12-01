@@ -45,7 +45,7 @@ public class TimeLineFragment extends CommonFragment<FragmentTimeLineBinding> {
     private void configToolbar() {
         if (getActivity() != null) {
             ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
-            if (ab != null) ab.setTitle(R.string.timeline);
+            if (ab != null) ab.setTitle(R.string.drawer_menu_time_line);
         }
     }
 
@@ -86,7 +86,7 @@ public class TimeLineFragment extends CommonFragment<FragmentTimeLineBinding> {
         startIndex += pageNumber;
         if (startIndex > modelsCount) {
             startIndex -= pageNumber;
-            ToastUtils.makeToast(R.string.no_more_data);
+            ToastUtils.makeToast(R.string.timeline_no_more_data);
         } else {
             List<TimeLine> list = TimelineStore.getInstance().getPage(startIndex,
                     pageNumber,

@@ -8,7 +8,7 @@
     <TextView
         android:id="@+id/tv_text"
         style="@style/OpenResolver"
-        android:text="@string/text"
+        android:text="@string/attachment_type_text"
         android:drawableLeft="@drawable/ic_insert_drive_file_grey_24dp"
         android:layout_width="match_parent"
         android:layout_height="45dp" />
@@ -16,15 +16,15 @@
     <TextView
         android:id="@+id/tv_image"
         style="@style/OpenResolver"
-        android:text="@string/image"
-        android:drawableLeft="@drawable/ic_collections"
+        android:text="@string/attachment_type_image"
+        android:drawableLeft="@drawable/ic_photo_library_grey_24dp"
         android:layout_width="match_parent"
         android:layout_height="45dp" />
 
     <TextView
         android:id="@+id/tv_audio"
         style="@style/OpenResolver"
-        android:text="@string/audio"
+        android:text="@string/attachment_type_audio"
         android:drawableLeft="@drawable/ic_headset"
         android:layout_width="match_parent"
         android:layout_height="45dp" />
@@ -32,15 +32,15 @@
     <TextView
         android:id="@+id/tv_video"
         style="@style/OpenResolver"
-        android:text="@string/video"
-        android:drawableLeft="@drawable/ic_videocam"
+        android:text="@string/attachment_type_video"
+        android:drawableLeft="@drawable/ic_videocam_grey_24dp"
         android:layout_width="match_parent"
         android:layout_height="45dp" />
 
     <TextView
         android:id="@+id/tv_other"
         style="@style/OpenResolver"
-        android:text="@string/other"
+        android:text="@string/attachment_type_others"
         android:drawableLeft="@drawable/ic_more_horiz"
         android:layout_width="match_parent"
         android:layout_height="45dp" />

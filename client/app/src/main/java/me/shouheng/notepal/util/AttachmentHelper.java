@@ -71,7 +71,7 @@ public class AttachmentHelper {
         if (IntentUtils.isAvailable(context.getApplicationContext(), intent, null)) {
             context.startActivity(intent);
         } else {
-            ToastUtils.makeToast(R.string.activity_not_found_to_resolve);
+            ToastUtils.makeToast(R.string.text_failed_to_resolve_intent);
         }
     }
 

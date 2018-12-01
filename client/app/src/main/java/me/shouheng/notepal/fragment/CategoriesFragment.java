@@ -15,7 +15,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.Collections;
@@ -26,19 +25,19 @@ import javax.annotation.Nonnull;
 import me.shouheng.commons.event.RxMessage;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.LogUtils;
+import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.commons.utils.ViewUtils;
+import me.shouheng.commons.widget.recycler.CustomItemAnimator;
+import me.shouheng.commons.widget.recycler.CustomItemTouchHelper;
+import me.shouheng.commons.widget.recycler.DividerItemDecoration;
+import me.shouheng.data.entity.Category;
 import me.shouheng.data.model.enums.Status;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.CategoriesAdapter;
 import me.shouheng.notepal.databinding.FragmentCategoriesBinding;
 import me.shouheng.notepal.dialog.CategoryEditDialog;
 import me.shouheng.notepal.fragment.base.BaseFragment;
-import me.shouheng.data.entity.Category;
-import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.notepal.viewmodel.CategoryViewModel;
-import me.shouheng.commons.widget.recycler.CustomItemAnimator;
-import me.shouheng.commons.widget.recycler.CustomItemTouchHelper;
-import me.shouheng.commons.widget.recycler.DividerItemDecoration;
 
 /**
  * Created by wangshouheng on 2017/3/29.*/
@@ -146,7 +145,7 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
                     mAdapter.setNewData(listResource.data);
                     break;
                 case FAILED:
-                    ToastUtils.makeToast(R.string.text_failed_to_load_data);
+                    ToastUtils.makeToast(R.string.text_failed);
                     break;
             }
         });
@@ -215,7 +214,7 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
                     showEditor(position, mAdapter.getItem(position));
                     break;
                 case R.id.action_delete:
-                    showDeleteDialog(position, mAdapter.getItem(position));
+                    update(position, param, Status.DELETED);
                     break;
             }
             return true;
@@ -226,17 +225,6 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
     private void showEditor(int position, Category param) {
         CategoryEditDialog.newInstance(param, category -> update(position, category))
                 .show(getFragmentManager(), "CATEGORY_EDIT_DIALOG");
-    }
-
-    private void showDeleteDialog(int position, Category param) {
-        new MaterialDialog.Builder(getContext())
-                .title(R.string.text_warning)
-                .content(R.string.tag_delete_message)
-                .positiveText(R.string.text_confirm)
-                .onPositive((materialDialog, dialogAction) -> update(position, param, Status.DELETED))
-                .negativeText(R.string.text_cancel)
-                .onNegative((materialDialog, dialogAction) -> materialDialog.dismiss())
-                .show();
     }
 
     @Override

@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content">
 
                 <me.shouheng.commons.widget.theme.SupportTextView
-                    android:text="@string/note_note_information"
+                    android:text="@string/note_view_note_information"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
@@ -86,7 +86,7 @@
                     android:layout_height="wrap_content" />
 
                 <me.shouheng.commons.widget.theme.SupportTextView
-                    android:text="@string/text_copy_text"
+                    android:text="@string/text_copy_content"
                     android:layout_marginStart="30dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -111,7 +111,7 @@
                     android:layout_height="wrap_content" />
 
                 <me.shouheng.commons.widget.theme.SupportTextView
-                    android:text="@string/text_add_to_home_screen"
+                    android:text="@string/text_add_shortcut"
                     android:layout_marginStart="30dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />

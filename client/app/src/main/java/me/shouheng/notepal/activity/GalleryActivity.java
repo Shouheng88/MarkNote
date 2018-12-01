@@ -24,15 +24,17 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-import me.shouheng.notepal.R;
-import me.shouheng.notepal.adapter.AttachmentPagerAdapter;
-import me.shouheng.data.entity.Attachment;
-import me.shouheng.notepal.util.FileHelper;
-import me.shouheng.notepal.util.SystemUiVisibilityUtil;
+import me.shouheng.commons.theme.ThemeUtils;
+import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.commons.utils.ViewUtils;
-import me.shouheng.commons.widget.HackyViewPager;
 import me.shouheng.commons.widget.DepthPageTransformer;
+import me.shouheng.commons.widget.HackyViewPager;
+import me.shouheng.data.entity.Attachment;
+import me.shouheng.notepal.R;
+import me.shouheng.notepal.adapter.AttachmentPagerAdapter;
+import me.shouheng.notepal.util.FileHelper;
+import me.shouheng.notepal.util.SystemUiVisibilityUtil;
 import ooo.oxo.library.widget.PullBackLayout;
 
 public class GalleryActivity extends AppCompatActivity implements PullBackLayout.Callback {
@@ -186,6 +188,7 @@ public class GalleryActivity extends AppCompatActivity implements PullBackLayout
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+        ThemeUtils.themeMenu(menu, ColorUtils.isDarkTheme());
         return super.onPrepareOptionsMenu(menu);
     }
 

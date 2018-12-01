@@ -19,7 +19,7 @@ public class CategoryPickerStrategy implements ModelsPickerStrategy<Category> {
     @Override
     public String getSubTitle(Category model) {
         return PalmApp.getContext().getResources().getQuantityString(
-                R.plurals.notes_number, model.getCount(), model.getCount());
+                R.plurals.text_notes_number, model.getCount(), model.getCount());
     }
 
     @Override

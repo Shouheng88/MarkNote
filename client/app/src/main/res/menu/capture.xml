@@ -4,6 +4,6 @@
 
     <item android:id="@+id/action_capture"
         app:showAsAction="never"
-        android:title="@string/capture_list" />
+        android:title="@string/text_capture" />
 
 </menu>

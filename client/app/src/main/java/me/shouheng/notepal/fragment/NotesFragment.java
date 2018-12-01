@@ -297,8 +297,8 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
     private void showDeleteMsgDialog(final Notebook nb, final int position) {
         new MaterialDialog.Builder(getContext())
                 .title(R.string.text_warning)
-                .content(R.string.msg_when_delete_notebook)
-                .positiveText(R.string.text_delete_still)
+                .content(R.string.notebook_delete_warning)
+                .positiveText(R.string.text_delete)
                 .negativeText(R.string.text_give_up)
                 .onPositive((materialDialog, dialogAction) -> update(nb, status, Status.DELETED))
                 .show();
@@ -328,7 +328,7 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
                 case LOADING:
                     break;
                 case FAILED:
-                    ToastUtils.makeToast(R.string.text_failed_to_load_data);
+                    ToastUtils.makeToast(R.string.text_failed);
                     break;
             }
         });
@@ -339,7 +339,7 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
             assert noteResource != null;
             switch (noteResource.status) {
                 case SUCCESS:
-                    ToastUtils.makeToast(R.string.moved_successfully);
+                    ToastUtils.makeToast(R.string.text_succeed);
                     reload();
                     notifyDataChanged();
                     break;
@@ -375,7 +375,7 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
             switch (notebookResource.status) {
                 case SUCCESS:
                     adapter.notifyItemChanged(position);
-                    ToastUtils.makeToast(R.string.moved_successfully);
+                    ToastUtils.makeToast(R.string.text_succeed);
                     break;
                 case LOADING:
                     break;
@@ -391,7 +391,7 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
             assert notebookResource != null;
             switch (notebookResource.status) {
                 case SUCCESS:
-                    ToastUtils.makeToast(R.string.moved_successfully);
+                    ToastUtils.makeToast(R.string.text_succeed);
                     reload();
                     notifyDataChanged();
                     break;

@@ -186,7 +186,7 @@ public class Alarm extends Model {
                 return TimeUtils.getShortDate(context, endDate)  + " " + TimeUtils.getShortTime(context, hour, minute);
             case WEEK_REPEAT:
                 return daysOfWeek.toString(context, true)  + " " + TimeUtils.getShortTime(context, hour, minute) + " "
-                        + context.getString(R.string.until) + " " + TimeUtils.getShortDate(context, endDate);
+                        + context.getString(R.string.text_until) + " " + TimeUtils.getShortDate(context, endDate);
             default:
                 return null;
         }

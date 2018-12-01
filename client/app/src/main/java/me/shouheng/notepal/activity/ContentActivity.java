@@ -15,7 +15,6 @@ import java.io.Serializable;
 import me.shouheng.commons.activity.CommonActivity;
 import me.shouheng.commons.activity.interaction.BackEventResolver;
 import me.shouheng.commons.utils.LogUtils;
-import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.data.ModelFactory;
 import me.shouheng.data.entity.Note;
 import me.shouheng.data.store.NotesStore;
@@ -81,14 +80,12 @@ public class ContentActivity extends CommonActivity<ActivityContentBinding> {
     private void handleIntent() {
         Intent intent = getIntent();
         if (intent == null) {
-            ToastUtils.makeToast(R.string.content_failed_to_parse_intent);
             finish();
             return;
         }
 
         if (intent.hasExtra(Constants.EXTRA_MODEL)) {
             if (!(intent.getSerializableExtra(Constants.EXTRA_MODEL) instanceof Note)) {
-                ToastUtils.makeToast(R.string.content_failed_to_parse_intent);
                 LogUtils.d("Failed to resolve note intent : " + intent);
                 finish();
                 return;
@@ -105,7 +102,6 @@ public class ContentActivity extends CommonActivity<ActivityContentBinding> {
             long code = intent.getLongExtra(Constants.EXTRA_CODE, -1);
             note = note != null ? note : NotesStore.getInstance().get(code);
             if (note == null){
-                ToastUtils.makeToast(R.string.text_no_such_note);
                 LogUtils.d("Failed to resolve intent : " + intent);
                 finish();
                 return;

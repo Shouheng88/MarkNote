@@ -88,7 +88,7 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
         getBinding().indicatorDots.setIndicatorType(IndicatorDots.IndicatorType.FIXED);
 
         if (ACTION_SET_PASSWORD.equals(getIntent().getAction())) {
-            getBinding().profileName.setText(R.string.setting_input_password_newly);
+            getBinding().profileName.setText(R.string.setting_lock_new_psd);
         }
     }
 
@@ -165,7 +165,7 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
                 isPasswordFrozen = true;
                 showFreezeToast();
             } else {
-                ToastUtils.makeToast(String.format(getString(R.string.setting_input_wrong_password), 5 - errorTimes));
+                ToastUtils.makeToast(String.format(getString(R.string.setting_lock_psd_changes_left), 5 - errorTimes));
             }
         }
     }
@@ -182,7 +182,7 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
             /*
              * record last input password witch will be used to check twice-input-logic */
             lastInputPassword = encryptedPin;
-            getBinding().profileName.setText(R.string.setting_input_password_again);
+            getBinding().profileName.setText(R.string.setting_lock_psd_hint);
             getBinding().pinLockView.resetPinLockView();
         } else {
             if (lastInputPassword.equals(encryptedPin)) {
@@ -191,14 +191,14 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
                 /*
                  * Clear last input password, need to input same password twice. */
                 lastInputPassword = null;
-                getBinding().profileName.setText(R.string.setting_input_password_newly);
+                getBinding().profileName.setText(R.string.setting_lock_new_psd);
                 getBinding().pinLockView.resetPinLockView();
             }
         }
     }
 
     private void showFreezeToast() {
-        String msg = String.format(getString(R.string.setting_password_frozen_minutes),
+        String msg = String.format(getString(R.string.setting_lock_psd_frozen),
                 lockPreferences.getPasswordFreezeTime());
         ToastUtils.makeToast(msg);
     }
@@ -206,7 +206,7 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
     private void showFreezeDialog() {
         new MaterialDialog.Builder(this)
                 .title(R.string.text_tips)
-                .content(R.string.setting_password_frozen)
+                .content(R.string.setting_lock_psd_frozen_tips)
                 .positiveText(R.string.text_ok)
                 .onPositive((dialog, which) -> showQuestionDialog())
                 .negativeText(R.string.text_cancel)
@@ -217,7 +217,7 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
         String question = lockPreferences.getPasswordQuestion();
         String answer = lockPreferences.getPasswordAnswer();
         new MaterialDialog.Builder(this)
-                .title(R.string.setting_answer_question)
+                .title(R.string.text_security_question)
                 .content(question)
                 .inputType(InputType.TYPE_TEXT_VARIATION_PASSWORD)
                 .input(null, null, (dialog, input) -> {
@@ -228,18 +228,18 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
                         lockPreferences.setLastInputErrorTime(0);
                         showDisableDialog();
                     } else {
-                        ToastUtils.makeToast(R.string.setting_wrong_answer);
+                        ToastUtils.makeToast(R.string.setting_lock_security_question_wrong);
                     }
                 })
-                .negativeText(R.string.cancel)
-                .positiveText(R.string.confirm)
+                .negativeText(R.string.text_cancel)
+                .positiveText(R.string.text_confirm)
                 .build().show();
     }
 
     private void showDisableDialog() {
         MaterialDialog dlg = new MaterialDialog.Builder(this)
                 .title(R.string.text_tips)
-                .content(R.string.setting_disable_password)
+                .content(R.string.setting_lock_security_question_removed)
                 .positiveText(R.string.text_ok)
                 .onPositive((dialog, which) -> passCheck())
                 .build();

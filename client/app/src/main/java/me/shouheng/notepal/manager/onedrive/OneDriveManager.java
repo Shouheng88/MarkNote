@@ -125,7 +125,7 @@ public class OneDriveManager {
         mClient.get().getAuthenticator().logout(new ICallback<Void>() {
             @Override
             public void success(final Void result) {
-                ToastUtils.makeToast(R.string.text_successfully_logout);
+                ToastUtils.makeToast(R.string.text_succeed);
             }
 
             @Override

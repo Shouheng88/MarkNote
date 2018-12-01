@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item android:id="@+id/item_open"
-        app:showAsAction="always"
+        app:showAsAction="never"
         android:title="@string/text_open_in_browser"/>
 
     <item android:id="@+id/item_copy"
-        app:showAsAction="always"
+        app:showAsAction="never"
         android:title="@string/text_copy_link"/>
 
 </menu>

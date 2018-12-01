@@ -65,7 +65,7 @@ public class NotebookEditDialog extends DialogFragment implements ColorChooserDi
                 .setView(binding.getRoot())
                 .setPositiveButton(R.string.text_confirm, (dialog, which) -> {
                     if (TextUtils.isEmpty(binding.etNotebookName.getText())){
-                        ToastUtils.makeToast(R.string.title_required);
+                        ToastUtils.makeToast(R.string.text_title_required);
                         return;
                     }
                     notebookName = binding.etNotebookName.getText().toString();
@@ -80,7 +80,7 @@ public class NotebookEditDialog extends DialogFragment implements ColorChooserDi
 
     private void showColorPickerDialog() {
         assert getContext() != null;
-        new ColorChooserDialog.Builder(getContext(), R.string.pick_notebook_color)
+        new ColorChooserDialog.Builder(getContext(), R.string.notebook_color_picker_title)
                 .preselect(notebookColor)
                 .accentMode(false)
                 .presetsButton(R.string.text_presets)

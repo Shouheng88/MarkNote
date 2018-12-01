@@ -10,7 +10,7 @@ public enum Portrait {
     FOLDER(1, R.drawable.ic_folder_black_24dp),
     LOCK(2, R.drawable.ic_lock),
     ENVELOPE(3, R.drawable.ic_envelope),
-    WRITE(4, R.drawable.ic_write),
+    WRITE(4, R.drawable.ic_description_black_24dp),
     TIMELINE(5, R.drawable.ic_timeline),
     DEMO(6, R.drawable.ic_demostrate),
 
@@ -22,7 +22,7 @@ public enum Portrait {
     HOUSE(12, R.drawable.ic_house),
 
     CLOUD(13, R.drawable.ic_cloud),
-    ATTACHMENT(14, R.drawable.ic_pin),
+    ATTACHMENT(14, R.drawable.ic_attach_file_grey),
     MUSIC(15, R.drawable.ic_music),
     FLAG(16, R.drawable.ic_flag),
     STAR(17, R.drawable.ic_star),

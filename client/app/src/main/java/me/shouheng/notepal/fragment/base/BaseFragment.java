@@ -45,7 +45,7 @@ public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFrag
      */
     protected void createScreenCapture(final RecyclerView recyclerView) {
         if (recyclerView.getAdapter() == null || recyclerView.getAdapter().getItemCount() == 0) {
-            ToastUtils.makeToast(R.string.empty_list_to_capture);
+            ToastUtils.makeToast(R.string.text_empty_list);
             return;
         }
         if (getActivity() == null) return;
@@ -54,7 +54,7 @@ public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFrag
 
     protected void createScreenCapture(final RecyclerView recyclerView, final int itemHeight) {
         if (recyclerView.getAdapter() == null || recyclerView.getAdapter().getItemCount() == 0) {
-            ToastUtils.makeToast(R.string.empty_list_to_capture);
+            ToastUtils.makeToast(R.string.text_empty_list);
             return;
         }
         if (getActivity() == null) return;
@@ -70,7 +70,7 @@ public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFrag
      */
     private void doCapture(RecyclerView recyclerView, int itemHeight) {
         final ProgressDialog pd = new ProgressDialog(getContext());
-        pd.setTitle(R.string.capturing);
+        pd.setTitle(R.string.text_capturing);
         new Invoker<>(new Callback<File>() {
             @Override
             public void onBefore() {
@@ -122,7 +122,7 @@ public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFrag
         assert getActivity() != null;
         PermissionUtils.checkStoragePermission((PermissionActivity) getActivity(), () -> {
             final ProgressDialog pd = new ProgressDialog(getContext());
-            pd.setTitle(R.string.capturing);
+            pd.setTitle(R.string.text_capturing);
             pd.setCancelable(false);
             pd.show();
 

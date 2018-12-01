@@ -38,7 +38,7 @@ public class SettingsSecurity extends BPreferenceFragment {
         lockPreferences = LockPreferences.getInstance();
 
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        if (actionBar != null) actionBar.setTitle(R.string.setting_data_security);
+        if (actionBar != null) actionBar.setTitle(R.string.setting_category_universal_security);
 
         addPreferencesFromResource(R.xml.preferences_data_security);
 
@@ -69,21 +69,21 @@ public class SettingsSecurity extends BPreferenceFragment {
 
     private void showInputDialog() {
         new MaterialDialog.Builder(getActivity())
-                .title(R.string.setting_password_freeze)
-                .content(R.string.input_the_freeze_minutes_in_minute)
+                .title(R.string.setting_security_psd_freeze)
+                .content(R.string.setting_frozen_time_message)
                 .inputType(InputType.TYPE_CLASS_NUMBER)
                 .inputRange(0, 2)
-                .negativeText(R.string.cancel)
-                .input(getString(R.string.input_the_freeze_minutes_in_minute), String.valueOf(lockPreferences.getPasswordFreezeTime()),
+                .negativeText(R.string.text_cancel)
+                .input(getString(R.string.setting_frozen_time_message), String.valueOf(lockPreferences.getPasswordFreezeTime()),
                         (materialDialog, charSequence) -> {
                             try {
                                 int minutes = Integer.parseInt(charSequence.toString());
                                 if (minutes < 0) {
-                                    ToastUtils.makeToast(R.string.illegal_number);
+                                    ToastUtils.makeToast(R.string.setting_frozen_time_illegal);
                                     return;
                                 }
                                 if (minutes > 30) {
-                                    ToastUtils.makeToast(R.string.freeze_time_too_long);
+                                    ToastUtils.makeToast(R.string.setting_frozen_time_long);
                                     return;
                                 }
                                 lockPreferences.setPasswordFreezeTime(minutes);
@@ -120,7 +120,7 @@ public class SettingsSecurity extends BPreferenceFragment {
             public void afterTextChanged(Editable s) {
                 if (!binding.etAnswer.getText().toString().equals(s.toString())) {
                     binding.tilConfirmAnswer.setErrorEnabled(true);
-                    binding.tilConfirmAnswer.setError(getString(R.string.setting_answer_different));
+                    binding.tilConfirmAnswer.setError(getString(R.string.setting_security_question_answer_differ));
                 } else {
                     binding.tilConfirmAnswer.setErrorEnabled(false);
                 }
@@ -128,7 +128,7 @@ public class SettingsSecurity extends BPreferenceFragment {
         });
 
         new AlertDialog.Builder(getActivity())
-                .setNegativeButton(R.string.cancel, null)
+                .setNegativeButton(R.string.text_cancel, null)
                 .setPositiveButton(R.string.text_save, (dialog, which) -> {
                     String question = binding.etQuestion.getText().toString();
                     String answer = binding.etAnswer.getText().toString();
@@ -144,19 +144,19 @@ public class SettingsSecurity extends BPreferenceFragment {
 
     private boolean checkSecurityQuestion(String question, String answer, String confirmAnswer) {
         if (TextUtils.isEmpty(question)) {
-            ToastUtils.makeToast(R.string.setting_question_required);
+            ToastUtils.makeToast(R.string.setting_security_question_required);
             return false;
         }
         if (TextUtils.isEmpty(answer)) {
-            ToastUtils.makeToast(R.string.setting_answer_required);
+            ToastUtils.makeToast(R.string.setting_security_question_answer_required);
             return false;
         }
         if (TextUtils.isEmpty(confirmAnswer)) {
-            ToastUtils.makeToast(R.string.setting_confirm_answer_required);
+            ToastUtils.makeToast(R.string.setting_security_question_confirm_answer_required);
             return false;
         }
         if (!answer.equals(confirmAnswer)) {
-            ToastUtils.makeToast(R.string.setting_answer_different);
+            ToastUtils.makeToast(R.string.setting_security_question_answer_differ);
             return false;
         }
         return true;
@@ -191,10 +191,10 @@ public class SettingsSecurity extends BPreferenceFragment {
                 || !lockPreferences.isPasswordRequired()) return;
         new MaterialDialog.Builder(getActivity())
                 .title(R.string.text_tips)
-                .content(R.string.setting_no_security_question_message)
+                .content(R.string.setting_security_question_tips)
                 .positiveText(R.string.text_ok)
                 .onPositive((dialog, which) -> showQuestionEditor())
-                .negativeText(R.string.cancel)
+                .negativeText(R.string.text_cancel)
                 .build()
                 .show();
     }

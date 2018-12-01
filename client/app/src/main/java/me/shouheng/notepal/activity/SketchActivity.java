@@ -263,7 +263,7 @@ public class SketchActivity extends CommonActivity<ActivitySketchBinding>
             case R.id.iv_clear:
                 new MaterialDialog.Builder(this)
                         .title(R.string.text_tips)
-                        .content(R.string.confirm_to_clear_bitmap)
+                        .content(R.string.sketch_clear_tips)
                         .positiveText(R.string.text_confirm)
                         .negativeText(R.string.text_cancel)
                         .onPositive((materialDialog, dialogAction) -> clearAll())

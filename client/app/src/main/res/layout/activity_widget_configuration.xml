@@ -13,7 +13,7 @@
         tools:context="me.shouheng.notepal.activity.ConfigActivity">
 
         <TextView
-            android:text="@string/text_config_widget"
+            android:text="@string/text_configuration"
             android:textSize="@dimen/sp_16"
             android:textStyle="bold"
             android:paddingBottom="16dp"
@@ -35,7 +35,7 @@
                 android:paddingBottom="12dp"
                 android:paddingEnd="12dp"
                 android:paddingTop="12dp"
-                android:src="@drawable/ic_move_to_inbox_black_24dp"
+                android:src="@drawable/ic_book"
                 android:tint="@color/md_grey_500" />
 
             <TextView
@@ -46,7 +46,7 @@
                 android:gravity="center_vertical"
                 android:lines="1"
                 android:singleLine="true"
-                android:text="@string/all_notes"
+                android:text="@string/notebook_default_selection"
                 android:textStyle="bold" />
 
         </LinearLayout>
@@ -58,10 +58,10 @@
             <Button
                 android:id="@+id/btn_positive"
                 android:layout_alignParentEnd="true"
-                android:text="@string/text_accept"
+                android:text="@string/text_confirm"
                 android:textColor="@color/colorAccent"
                 android:background="@android:color/transparent"
-                android:layout_width="60dp"
+                android:layout_width="70dp"
                 android:layout_height="wrap_content" />
 
         </RelativeLayout>

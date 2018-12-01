@@ -130,7 +130,7 @@ public class QuickNoteDialog extends DialogFragment implements OnAttachingFileLi
 
     @Override
     public void onAttachingFileErrorOccurred(Attachment attachment) {
-        ToastUtils.makeToast(R.string.failed_to_save_attachment);
+        ToastUtils.makeToast(R.string.text_failed_to_save_attachment);
     }
 
     @Override
@@ -138,7 +138,7 @@ public class QuickNoteDialog extends DialogFragment implements OnAttachingFileLi
         if (AttachmentHelper.checkAttachment(attachment)) {
             setupAttachment(attachment);
         } else {
-            ToastUtils.makeToast(R.string.failed_to_save_attachment);
+            ToastUtils.makeToast(R.string.text_failed_to_save_attachment);
         }
     }
 
@@ -223,7 +223,7 @@ public class QuickNoteDialog extends DialogFragment implements OnAttachingFileLi
                 notifyPlayingStateChanged(false);
             });
         } catch (IOException e) {
-            ToastUtils.makeToast(R.string.failed_when_play_audio);
+            ToastUtils.makeToast(R.string.attachment_play_record_failed);
         }
     }
 
