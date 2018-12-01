@@ -144,7 +144,6 @@ public class QuickNoteActivity extends PermissionActivity implements OnAttaching
 
     private void showAttachmentPicker() {
         new AttachmentPicker.Builder()
-                .setAddLinkVisible(false)
                 .setRecordVisible(false)
                 .setVideoVisible(false)
                 .build().show(getSupportFragmentManager(), "ATTACHMENT PICKER");

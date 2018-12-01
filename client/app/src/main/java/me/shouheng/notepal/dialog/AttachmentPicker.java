@@ -20,20 +20,20 @@ import me.shouheng.notepal.databinding.DialogAttachmentPickerLayoutBinding;
 import me.shouheng.notepal.util.AttachmentHelper;
 
 /**
- * Created by wangshouheng on 2017/4/7.*/
+ * The attachment picker dialog
+ *
+ * Created by WngShhng (shouheng2015@gmail.com) on 2017/4/7.
+ * Refactored by WngShhng (shouheng2015@gmail.com) on 2018/12/01. */
 public class AttachmentPicker extends DialogFragment {
 
     private boolean isRecordVisible;
     private boolean isVideoVisible;
     private boolean isAlbumVisible;
     private boolean isFilesVisible;
-    private boolean isAddLinkVisible;
 
     private Fragment mFragment;
 
     private OnPickAudioSelectedListener onItemSelectedListener;
-
-    private OnAddNetUriSelectedListener onAddNetUriSelectedListener;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,9 +72,7 @@ public class AttachmentPicker extends DialogFragment {
         this.isVideoVisible = builder.isVideoVisible;
         this.isFilesVisible = builder.isFilesVisible;
         this.isAlbumVisible = builder.isAlbumVisible;
-        this.isAddLinkVisible = builder.isAddLinkVisible;
         this.onItemSelectedListener = builder.onItemSelectedListener;
-        this.onAddNetUriSelectedListener = builder.onAddNetUriSelectedListener;
     }
 
     private void resolveAlbumClickEvent() {
@@ -104,7 +102,7 @@ public class AttachmentPicker extends DialogFragment {
     private void resolveCaptureEvent() {
         assert getActivity() != null;
         PermissionUtils.checkStoragePermission((PermissionActivity) getActivity(), () -> {
-            if (mFragment != null){
+            if (mFragment != null) {
                 AttachmentHelper.capture(mFragment);
             } else {
                 AttachmentHelper.capture(getActivity());
@@ -142,11 +140,8 @@ public class AttachmentPicker extends DialogFragment {
         private boolean isVideoVisible = true;
         private boolean isAlbumVisible = true;
         private boolean isFilesVisible = true;
-        private boolean isAddLinkVisible = true;
 
         private OnPickAudioSelectedListener onItemSelectedListener;
-
-        private OnAddNetUriSelectedListener onAddNetUriSelectedListener;
 
         public Builder() {}
 
@@ -174,18 +169,8 @@ public class AttachmentPicker extends DialogFragment {
             return this;
         }
 
-        public Builder setAddLinkVisible(boolean addLinkVisible) {
-            isAddLinkVisible = addLinkVisible;
-            return this;
-        }
-
         public Builder setOnItemSelectedListener(OnPickAudioSelectedListener onItemSelectedListener) {
             this.onItemSelectedListener = onItemSelectedListener;
-            return this;
-        }
-
-        public Builder setOnAddNetUriSelectedListener(OnAddNetUriSelectedListener onAddNetUriSelectedListener) {
-            this.onAddNetUriSelectedListener = onAddNetUriSelectedListener;
             return this;
         }
 
@@ -198,9 +183,5 @@ public class AttachmentPicker extends DialogFragment {
 
     public interface OnPickAudioSelectedListener {
         void onSelectedAudioRecord();
-    }
-
-    public interface OnAddNetUriSelectedListener {
-        void onAddUriSelected();
     }
 }

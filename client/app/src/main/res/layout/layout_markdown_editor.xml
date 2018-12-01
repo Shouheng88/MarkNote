@@ -34,7 +34,10 @@
                 android:textSize="15sp"
                 android:layout_width="match_parent"
                 android:minHeight="600dp"
-                android:padding="16dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="450dp"
                 android:hint="@string/note_hint_content"
                 tools:text="12312321ji12j3po21j3po213j2po13j21po米纳斯街道i是"
                 android:layout_height="match_parent"
@@ -49,7 +52,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_gravity="bottom"
-        android:background="#9e000000"
+        android:background="#bd000000"
         android:layout_height="200dp"
         android:visibility="gone"
         tools:visibility="visible">
@@ -61,12 +64,37 @@
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/iv_soft"
-                android:tint="@android:color/white"
-                android:paddingStart="13dp"
-                android:paddingEnd="13dp"
-                android:src="@drawable/ic_keyboard_black_24dp"
-                android:layout_width="50dp"
-                android:layout_height="match_parent" />
+                style="@style/MDButton"
+                android:src="@drawable/ic_keyboard_black_24dp" />
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/ll_container"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+
+                    <android.support.v7.widget.AppCompatImageView
+                        style="@style/MDButton"
+                        android:id="@+id/iv_left"
+                        android:src="@drawable/ic_keyboard_arrow_left_black_24dp" />
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/iv_right"
+                        style="@style/MDButton"
+                        android:src="@drawable/ic_keyboard_arrow_right_black_24dp" />
+
+                    <android.support.v7.widget.AppCompatImageView
+                        style="@style/MDButton"
+                        android:id="@+id/iv_attach"
+                        android:src="@drawable/ic_attach_file_black" />
+
+                </LinearLayout>
+
+            </HorizontalScrollView>
 
         </LinearLayout>
 

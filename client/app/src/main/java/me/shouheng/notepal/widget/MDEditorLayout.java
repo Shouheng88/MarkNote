@@ -15,8 +15,11 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import org.jetbrains.annotations.NotNull;
+
 import me.shouheng.easymark.EasyMarkEditor;
 import me.shouheng.easymark.editor.Format;
+import me.shouheng.easymark.editor.format.DayOneFormatHandler;
 import me.shouheng.easymark.scroller.FastScrollScrollView;
 import me.shouheng.easymark.tools.Utils;
 import me.shouheng.notepal.R;
@@ -28,12 +31,19 @@ import me.shouheng.sil.BaseSoftInputLayout;
  */
 public class MDEditorLayout extends BaseSoftInputLayout {
 
+    public static final int FORMAT_ID_LEFT = 0;
+    public static final int FORMAT_ID_RIGHT = 1;
+    public static final int FORMAT_ID_UP = 2;
+    public static final int FORMAT_ID_DOWN = 3;
+    public static final int FORMAT_ID_ATTACHMENT = 4;
+
     private View frame;
     private View container;
     private EditText titleEditor;
     private EasyMarkEditor easyMarkEditor;
     private FastScrollScrollView fssv;
     private OnFormatClickListener onFormatClickListener;
+    private OnCustomFormatClickListener onCustomFormatClickListener;
     private Adapter adapter;
 
     public MDEditorLayout(Context context) {
@@ -67,14 +77,28 @@ public class MDEditorLayout extends BaseSoftInputLayout {
         adapter = new Adapter(context, onFormatClickListener);
         rv.setLayoutManager(new GridLayoutManager(context, 8));
         rv.setAdapter(adapter);
+        easyMarkEditor.setFormatHandler(new CustomFormatHandler());
 
-        findViewById(R.id.iv_soft).setOnClickListener(v -> {
+        ImageView ivSoft = findViewById(R.id.iv_soft);
+        ivSoft.setOnClickListener(v -> {
             if (isKeyboardShowing()) {
                 hideSoftInputOnly();
+                ivSoft.animate().rotation(180).setDuration(500).start();
             } else {
                 showSoftInputOnly();
+                ivSoft.animate().rotation(0).setDuration(500).start();
             }
         });
+
+        findViewById(R.id.iv_left).setOnClickListener(v -> performCustomButtonClick(FORMAT_ID_LEFT));
+        findViewById(R.id.iv_right).setOnClickListener(v -> performCustomButtonClick(FORMAT_ID_RIGHT));
+        findViewById(R.id.iv_attach).setOnClickListener(v -> performCustomButtonClick(FORMAT_ID_ATTACHMENT));
+    }
+
+    private void performCustomButtonClick(int formatId) {
+        if (onCustomFormatClickListener != null) {
+            onCustomFormatClickListener.onCustomFormatClick(formatId);
+        }
     }
 
     public final static class Adapter extends RecyclerView.Adapter<Adapter.Holder> {
@@ -122,7 +146,7 @@ public class MDEditorLayout extends BaseSoftInputLayout {
             }
         }
 
-        public void setOnFormatClickListener(OnFormatClickListener onFormatClickListener) {
+        void setOnFormatClickListener(OnFormatClickListener onFormatClickListener) {
             this.onFormatClickListener = onFormatClickListener;
         }
     }
@@ -172,7 +196,57 @@ public class MDEditorLayout extends BaseSoftInputLayout {
         }
     }
 
+    /**
+     * Set the custom format callback, the format id will be send the the listener.
+     *
+     * @param onCustomFormatClickListener the format listener
+     */
+    public void setOnCustomFormatClickListener(OnCustomFormatClickListener onCustomFormatClickListener) {
+        this.onCustomFormatClickListener = onCustomFormatClickListener;
+    }
+
+    /**
+     * The custom format handler
+     */
+    public static class CustomFormatHandler extends DayOneFormatHandler {
+
+        @Override
+        public void handle(int formatId,
+                           @org.jetbrains.annotations.Nullable String source,
+                           int selectionStart,
+                           int selectionEnd,
+                           @org.jetbrains.annotations.Nullable String selection,
+                           @org.jetbrains.annotations.Nullable EditText editor,
+                           @NotNull Object... params) {
+            switch (formatId) {
+                case FORMAT_ID_LEFT: {
+                    assert editor != null;
+                    int pos = selectionStart - 1;
+                    editor.setSelection(pos < 0 ? 0 : pos);
+                    break;
+                }
+                case FORMAT_ID_RIGHT: {
+                    assert editor != null;
+                    int pos = selectionStart + 1;
+                    assert source != null;
+                    int length = source.length();
+                    editor.setSelection(pos >= length ? length : pos);
+                    break;
+                }
+                case FORMAT_ID_UP:
+                    break;
+                case FORMAT_ID_DOWN:
+                    break;
+            }
+            super.handle(formatId, source, selectionStart, selectionEnd, selection, editor, params);
+        }
+    }
+
     public interface OnFormatClickListener {
         void onFormatClick(Format format);
+    }
+
+    public interface OnCustomFormatClickListener {
+        void onCustomFormatClick(int formatId);
     }
 }

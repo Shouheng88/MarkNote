@@ -108,7 +108,6 @@ public class QuickNoteDialog extends DialogFragment implements OnAttachingFileLi
             btnNeu = dialog.getButton(AlertDialog.BUTTON_NEUTRAL);
             dialog.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(v ->
                     new AttachmentPicker.Builder(QuickNoteDialog.this)
-                            .setAddLinkVisible(false)
                             .setRecordVisible(false)
                             .setVideoVisible(false)
                             .build().show(getChildFragmentManager(), "Attachment picker"));

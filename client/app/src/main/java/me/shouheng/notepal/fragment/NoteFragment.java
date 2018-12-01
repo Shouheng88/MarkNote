@@ -17,6 +17,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
 
+import com.kennyc.bottomsheet.BottomSheet;
+import com.kennyc.bottomsheet.BottomSheetListener;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +34,7 @@ import io.reactivex.schedulers.Schedulers;
 import me.shouheng.commons.activity.ContainerActivity;
 import me.shouheng.commons.activity.interaction.BackEventResolver;
 import me.shouheng.commons.fragment.CommonFragment;
+import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.commons.utils.StringUtils;
 import me.shouheng.commons.utils.ToastUtils;
@@ -41,14 +45,12 @@ import me.shouheng.data.entity.Note;
 import me.shouheng.data.model.enums.ModelType;
 import me.shouheng.data.store.CategoryStore;
 import me.shouheng.easymark.EasyMarkEditor;
-import me.shouheng.easymark.editor.format.DayOneFormatHandler;
 import me.shouheng.easymark.tools.Utils;
 import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.SettingsActivity;
 import me.shouheng.notepal.databinding.FragmentNoteBinding;
-import me.shouheng.notepal.dialog.AttachmentPicker;
 import me.shouheng.notepal.dialog.CategoryEditDialog;
 import me.shouheng.notepal.dialog.TableInputDialog;
 import me.shouheng.notepal.dialog.picker.CategoryPickerDialog;
@@ -66,7 +68,7 @@ import static me.shouheng.notepal.Constants.SHORTCUT_ACTION_CREATE_NOTE;
 import static me.shouheng.notepal.Constants.SHORTCUT_ACTION_VIEW_NOTE;
 
 /**
- * Created by wangshouheng on 2017/5/12.*/
+ * Created by WngShhng (shouehng2015@gmail.com) on 2017/5/12.*/
 public class NoteFragment extends CommonFragment<FragmentNoteBinding> implements BackEventResolver {
 
     /**
@@ -86,25 +88,11 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding> implements
      */
     public final static String ARGS_KEY_NOTE = "__args_key_note";
 
-
-    private final static String EXTRA_IS_THIRD_PART = "extra_is_third_part";
-    private final static String EXTRA_ACTION = "extra_action";
     private final static String TAB_REPLACEMENT = "    ";
 
     private NoteViewModel viewModel;
     private EditText etTitle;
     private EasyMarkEditor eme;
-
-    public static NoteFragment newInstance(Note note, boolean isThirdPart, String action) {
-        Bundle arg = new Bundle();
-        arg.putBoolean(EXTRA_IS_THIRD_PART, isThirdPart);
-        if (note == null) throw new IllegalArgumentException("Note cannot be null");
-        arg.putSerializable(Constants.EXTRA_MODEL, note);
-        if (action != null) arg.putString(EXTRA_ACTION, action);
-        NoteFragment fragment = new NoteFragment();
-        fragment.setArguments(arg);
-        return fragment;
-    }
 
     @Override
     protected int getLayoutResId() {
@@ -150,7 +138,6 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding> implements
         });
         eme = mel.getEditText();
         eme.setFormatPasteEnable(true);
-        eme.setFormatHandler(new DayOneFormatHandler());
         etTitle = mel.getTitleEditor();
         etTitle.addTextChangedListener(inputWatcher);
         eme.addTextChangedListener(inputWatcher);
@@ -158,6 +145,15 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding> implements
         mel.getFastScrollView().getFastScrollDelegate().setThumbDynamicHeight(false);
         mel.getFastScrollView().getFastScrollDelegate().setThumbDrawable(PalmApp.getDrawableCompact(isDarkTheme() ?
                 R.drawable.fast_scroll_bar_dark : R.drawable.fast_scroll_bar_light));
+        mel.setOnCustomFormatClickListener(formatId -> {
+            switch (formatId) {
+                case MDEditorLayout.FORMAT_ID_ATTACHMENT:
+                    showAttachmentPicker();
+                    break;
+                default:
+                    eme.useFormat(formatId);
+            }
+        });
     }
 
     private TextWatcher inputWatcher = new TextWatcher() {
@@ -312,13 +308,31 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding> implements
     // endregion
 
     private void showAttachmentPicker() {
-        new AttachmentPicker.Builder(this)
-                .setRecordVisible(false)
-                .setVideoVisible(false)
-                .setAddLinkVisible(true)
-                .setFilesVisible(true)
-//                .setOnAddNetUriSelectedListener(this::addImageLink)
-                .build().show(Objects.requireNonNull(getFragmentManager()), "Attachment picker");
+        new BottomSheet.Builder(Objects.requireNonNull(getContext()))
+                .setStyle(isDarkTheme() ? R.style.BottomSheet_Dark : R.style.BottomSheet)
+                .setMenu(ColorUtils.getThemedBottomSheetMenu(getContext(), R.menu.attachment_picker))
+                .setListener(new BottomSheetListener() {
+                    @Override
+                    public void onSheetShown(@NonNull BottomSheet bottomSheet, @Nullable Object o) {}
+
+                    @Override
+                    public void onSheetItemSelected(@NonNull BottomSheet bottomSheet, MenuItem menuItem, @Nullable Object o) {
+                        switch (menuItem.getItemId()) {
+                            case R.id.item_pick_from_album:
+                                break;
+                            case R.id.item_pick_a_file:
+                                break;
+                            case R.id.item_pick_take_a_photo:
+                                break;
+                            case R.id.item_pick_create_sketch:
+                                break;
+                        }
+                    }
+
+                    @Override
+                    public void onSheetDismissed(@NonNull BottomSheet bottomSheet, @Nullable Object o, int i) {}
+                })
+                .show();
     }
 
     // endregion

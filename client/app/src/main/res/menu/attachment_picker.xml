@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/item_pick_from_album"
+        android:title="@string/attachment_pick_from_album"
+        android:icon="@drawable/ic_photo_library_grey_24dp"/>
+
+    <item android:id="@+id/item_pick_a_file"
+        android:title="@string/attachment_pick_a_file"
+        android:icon="@drawable/ic_insert_drive_file_grey_24dp"/>
+
+    <item android:id="@+id/item_pick_take_a_photo"
+        android:title="@string/attachment_take_a_photo"
+        android:icon="@drawable/ic_add_a_photo_grey_24dp"/>
+
+    <item android:id="@+id/item_pick_create_sketch"
+        android:title="@string/attachment_add_sketch"
+        android:icon="@drawable/ic_gesture_grey_24dp"/>
+
+</menu>

@@ -243,4 +243,15 @@
         <item name="android:drawablePadding">13dp</item>
     </style>
 
+    <style name="MDButton">
+        <item name="android:layout_marginStart">7dp</item>
+        <item name="android:layout_marginEnd">7dp</item>
+        <item name="android:paddingStart">7dp</item>
+        <item name="android:paddingEnd">7dp</item>
+        <item name="android:layout_width">38dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:tint">@android:color/white</item>
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+    </style>
+
 </resources>
