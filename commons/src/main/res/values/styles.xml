@@ -135,18 +135,6 @@
         <item name="android:textColor">@color/about_page_card_text_color</item>
     </style>
 
-    <style name="ThemeBaseLight" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowNoTitle">true</item>
-    </style>
-
-    <style name="AppTheme.FullScreen.Light" parent="ThemeBaseLight"/>
-
-    <style name="AppThemeNormalLight" parent="ThemeBaseLight"/>
-
     <style name="TransParentDialog" parent="Theme.AppCompat.DayNight.Dialog">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -160,12 +148,6 @@
         <item name="windowNoTitle">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
-    </style>
-
-    <style name="style_note_bottom_button">
-        <item name="android:padding">12dp</item>
-        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
-        <item name="android:tint">@color/white</item>
     </style>
     <!--endregion AboutPage-->
 

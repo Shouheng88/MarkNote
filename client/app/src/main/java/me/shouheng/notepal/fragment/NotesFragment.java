@@ -110,11 +110,6 @@ public class NotesFragment extends BaseFragment<FragmentNotesBinding> {
         configNotesList();
     }
 
-    @Override
-    protected String umengPageName() {
-        return "Notes";
-    }
-
     private void handleArguments() {
         Bundle args = getArguments();
         if (args == null) return;

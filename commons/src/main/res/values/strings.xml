@@ -31,7 +31,6 @@
     <string name="text_last">Last</string>
     <string name="text_give_up">Give up</string>
     <string name="text_last_sync_time">Last sync time</string>
-    <string name="text_chars">Chars</string>
     <string name="text_more">More</string>
     <string name="text_pick">Pick</string>
     <string name="text_preview">Preview</string>
@@ -95,6 +94,10 @@
     <string name="text_redo">Redo</string>
     <string name="text_undo">Undo</string>
     <string name="text_title">Title</string>
+    <string name="text_chars">Count</string>
+    <string name="text_succeed">Succeed</string>
+    <string name="text_failed_to_save_file">Failed to save file</string>
+    <string name="text_failed_to_resolve_intent">No available application</string>
 
     <!-- app common -->
     <string name="text_note_not_found">Note not found.</string>
@@ -110,7 +113,7 @@
     <string name="note_copy_content">Copy Content</string>
     <string name="note_copy_title">Copy Title</string>
     <string name="note_settings">Note Settings</string>
-    <string name="note_hint_content">Input your note content here&#8230;</string>
+    <string name="note_hint_content">Start writing your note here&#8230;</string>
     <string name="note_copied_success">Copied successfully.</string>
 
 
@@ -221,7 +224,6 @@
     <!--endregion-->
 
     <!--region Attachment-->
-    <string name="failed_to_create_file">Failed to create file</string>
     <string name="storage_not_available">Storage unavailable</string>
     <string name="failed_to_save_attachment">Failed to save attachment</string>
     <string name="add_attachment">Attach</string>
@@ -245,7 +247,6 @@
     <string name="use_to_open">Open with&#8230;</string>
     <string name="information">Information</string>
     <string name="failed_when_play_audio">Error occurred when play audio</string>
-    <string name="failed_to_resolve_intent">Failed to resolve intent</string>
 
     <string name="confirm_to_clear_bitmap">Confirm to clear bitmap?</string>
     <string name="stroke">Stroke</string>

@@ -60,11 +60,30 @@ public class ActivityHelper {
         return new Builder<>(activity);
     }
 
+    /**
+     * Get an builder to build an intent to start an third part activity
+     *
+     * @return the builder used to build intent
+     */
+    public static Builder open() {
+        return new Builder();
+    }
+
+    /**
+     * A builder used to build intent to start activity
+     *
+     * @param <T> the activity type
+     */
     public static class Builder<T extends Activity> {
 
         private Class<T> clz;
 
         private Intent intent = new Intent();
+
+        /**
+         * Builder with no params used to open the third part activity by intent.
+         */
+        public Builder() {}
 
         public Builder(Class<T> clz) {
             this.clz = clz;

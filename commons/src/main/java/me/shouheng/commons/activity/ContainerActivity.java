@@ -78,7 +78,7 @@ public class ContainerActivity extends CommonActivity<ActivityContainerBinding> 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                superOnBackPressed();
+                onBackPressed();
                 break;
         }
         return super.onOptionsItemSelected(item);

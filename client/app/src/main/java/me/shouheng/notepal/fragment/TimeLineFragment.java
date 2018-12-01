@@ -42,11 +42,6 @@ public class TimeLineFragment extends CommonFragment<FragmentTimeLineBinding> {
         configTimeline();
     }
 
-    @Override
-    protected String umengPageName() {
-        return "TimeLine";
-    }
-
     private void configToolbar() {
         if (getActivity() != null) {
             ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();

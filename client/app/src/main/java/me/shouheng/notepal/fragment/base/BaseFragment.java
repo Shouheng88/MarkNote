@@ -15,30 +15,41 @@ import java.io.File;
 import me.shouheng.commons.activity.PermissionActivity;
 import me.shouheng.commons.fragment.CommonFragment;
 import me.shouheng.commons.utils.PermissionUtils;
-import me.shouheng.notepal.R;
-import me.shouheng.notepal.util.listener.OnAttachingFileListener;
+import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.data.entity.Attachment;
+import me.shouheng.notepal.R;
 import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.util.FileHelper;
 import me.shouheng.notepal.util.ScreenShotHelper;
-import me.shouheng.commons.utils.ToastUtils;
+import me.shouheng.notepal.util.listener.OnAttachingFileListener;
 import me.shouheng.notepal.util.tools.Callback;
 import me.shouheng.notepal.util.tools.Invoker;
 import me.shouheng.notepal.util.tools.Message;
 
 /**
- * Created by wang shouheng on 2017/12/29.*/
-public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFragment<V>
-        implements OnAttachingFileListener  {
+ * Base fragment, used to handle the shared and common logic.
+ *
+ * Created by WngShhng (shouheng2015@gmail.com) on 2017/12/29.
+ * Refactored by WngShhng (shouheng2015@gmail.com) on 2017/12/01. */
+public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFragment<V> implements OnAttachingFileListener  {
 
-    // region Capture
+    // region Screen capture region
+
+    /**
+     * Screen capture method, used to capture the screen for RecyclerView.
+     * The {@link #createScreenCapture(RecyclerView, int)} used to capture the list with a
+     * fixed list item height. Override the method {@link #onGetScreenCaptureFile(File)} to handle
+     * the captured image file.
+     *
+     * @param recyclerView the recycler view to capture
+     */
     protected void createScreenCapture(final RecyclerView recyclerView) {
         if (recyclerView.getAdapter() == null || recyclerView.getAdapter().getItemCount() == 0) {
             ToastUtils.makeToast(R.string.empty_list_to_capture);
             return;
         }
         if (getActivity() == null) return;
-        PermissionUtils.checkStoragePermission((PermissionActivity) getActivity(), () -> doCapture(recyclerView));
+        PermissionUtils.checkStoragePermission((PermissionActivity) getActivity(), () -> doCapture(recyclerView, 0));
     }
 
     protected void createScreenCapture(final RecyclerView recyclerView, final int itemHeight) {
@@ -50,52 +61,13 @@ public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFrag
         PermissionUtils.checkStoragePermission((PermissionActivity) getActivity(), () -> doCapture(recyclerView, itemHeight));
     }
 
-    protected void createWebCapture(WebView webView, FileHelper.OnSavedToGalleryListener listener) {
-        assert getActivity() != null;
-        PermissionUtils.checkStoragePermission((PermissionActivity) getActivity(), () -> {
-            final ProgressDialog pd = new ProgressDialog(getContext());
-            pd.setTitle(R.string.capturing);
-            pd.setCancelable(false);
-            pd.show();
-
-            new Handler().postDelayed(() -> doCapture(webView, pd, listener), 500);
-        });
-    }
-
-    protected void onGetScreenCutFile(File file) {}
-
-    private void doCapture(RecyclerView recyclerView) {
-        final ProgressDialog pd = new ProgressDialog(getContext());
-        pd.setMessage(getString(R.string.capturing));
-        new Invoker<>(new Callback<File>() {
-            @Override
-            public void onBefore() {
-                pd.setCancelable(false);
-                pd.show();
-            }
-
-            @Override
-            public Message<File> onRun() {
-                Message<File> message = new Message<>();
-                Bitmap bitmap = ScreenShotHelper.shotRecyclerView(recyclerView);
-                boolean succeed = FileHelper.saveImageToGallery(getContext(), bitmap, true, message::setObj);
-                message.setSucceed(succeed);
-                return message;
-            }
-
-            @Override
-            public void onAfter(Message<File> message) {
-                pd.dismiss();
-                if (message.isSucceed()) {
-                    ToastUtils.makeToast(String.format(getString(R.string.text_file_saved_to), message.getObj().getPath()));
-                    onGetScreenCutFile(message.getObj());
-                } else {
-                    ToastUtils.makeToast(R.string.failed_to_create_file);
-                }
-            }
-        }).start();
-    }
-
+    /**
+     * Do the recycler view capture logic in this method. The method will use the fixed height
+     * screen capture method when the item height is not 0.
+     *
+     * @param recyclerView the recycler view
+     * @param itemHeight item height, will use the fixed height capture method when it's not 0.
+     */
     private void doCapture(RecyclerView recyclerView, int itemHeight) {
         final ProgressDialog pd = new ProgressDialog(getContext());
         pd.setTitle(R.string.capturing);
@@ -109,7 +81,12 @@ public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFrag
             @Override
             public Message<File> onRun() {
                 Message<File> message = new Message<>();
-                Bitmap bitmap = ScreenShotHelper.shotRecyclerView(recyclerView, itemHeight);
+               Bitmap bitmap;
+                if (itemHeight == 0) {
+                    bitmap = ScreenShotHelper.shotRecyclerView(recyclerView);
+                } else {
+                    bitmap = ScreenShotHelper.shotRecyclerView(recyclerView, itemHeight);
+                }
                 boolean succeed = FileHelper.saveImageToGallery(getContext(), bitmap, true, message::setObj);
                 message.setSucceed(succeed);
                 return message;
@@ -120,23 +97,56 @@ public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFrag
                 pd.dismiss();
                 if (message.isSucceed()) {
                     ToastUtils.makeToast(String.format(getString(R.string.text_file_saved_to), message.getObj().getPath()));
-                    onGetScreenCutFile(message.getObj());
+                    onGetScreenCaptureFile(message.getObj());
                 } else {
-                    ToastUtils.makeToast(R.string.failed_to_create_file);
+                    ToastUtils.makeToast(R.string.text_failed_to_save_file);
                 }
             }
         }).start();
     }
 
+    /**
+     * Called when got the captured image file.
+     *
+     * @param file the captured image file.
+     */
+    protected void onGetScreenCaptureFile(File file) { }
+
+    /**
+     * Capture the WebView.
+     *
+     * @param webView the WebView to capture.
+     * @param listener the image save callback.
+     */
+    protected void createWebCapture(WebView webView, FileHelper.OnSavedToGalleryListener listener) {
+        assert getActivity() != null;
+        PermissionUtils.checkStoragePermission((PermissionActivity) getActivity(), () -> {
+            final ProgressDialog pd = new ProgressDialog(getContext());
+            pd.setTitle(R.string.capturing);
+            pd.setCancelable(false);
+            pd.show();
+
+            new Handler().postDelayed(() -> doCapture(webView, pd, listener), 500);
+        });
+    }
+
+    /**
+     * Finally do the screen capture logic.
+     *
+     * @param webView the WebView to capture
+     * @param pd the progress dialog
+     * @param listener the callback
+     */
     private void doCapture(WebView webView, ProgressDialog pd, FileHelper.OnSavedToGalleryListener listener) {
         ScreenShotHelper.shotWebView(webView, listener);
         if (pd != null && pd.isShowing()) {
             pd.dismiss();
         }
     }
-    // endregion
 
-    // region Attachment
+    // endregion screen capture region
+
+    // region Attachment handler region
 
     /**
      * This method will called when the attachment is sure usable. For the check logic, you may refer
@@ -166,6 +176,7 @@ public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFrag
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
-    // endregion
+
+    // endregion attachment handler region
 
 }

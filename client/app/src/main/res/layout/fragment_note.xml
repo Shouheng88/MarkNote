@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -11,18 +12,27 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <FrameLayout
-            android:orientation="vertical"
+        <me.shouheng.notepal.widget.MDEditorLayout
+            android:id="@+id/mel"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"/>
 
-            <me.shouheng.notepal.widget.MDEditorLayout
-                android:id="@+id/mel"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tv_count"
+            tools:text="Count:123"
+            android:textSize="10sp"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="8dp"
+            android:layout_gravity="end"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:paddingEnd="4dp"
+            android:paddingStart="6dp"
+            android:gravity="center_vertical|end"
+            android:background="@drawable/ic_count_bg"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp" />
 
-        </FrameLayout>
-
-    </RelativeLayout>
+    </FrameLayout>
 
 </layout>

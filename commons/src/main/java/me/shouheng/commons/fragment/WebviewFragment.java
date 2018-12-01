@@ -82,8 +82,8 @@ public class WebviewFragment extends CommonFragment<FragmentWebviewBinding> impl
         public void onReceivedTitle(WebView view, String title) {
             if (usePageTitle) {
                 if (!TextUtils.isEmpty(title)) {
-                    if (title.length() > 10) {
-                        title = title.substring(0, 10).concat("...");
+                    if (title.length() > 15) {
+                        title = title.substring(0, 15).concat("...");
                     }
                 }
                 if (getActivity() != null) {
@@ -149,10 +149,5 @@ public class WebviewFragment extends CommonFragment<FragmentWebviewBinding> impl
     public void onDestroyView() {
         mAgentWeb.getWebLifeCycle().onDestroy();
         super.onDestroyView();
-    }
-
-    @Override
-    protected String umengPageName() {
-        return "Webview";
     }
 }

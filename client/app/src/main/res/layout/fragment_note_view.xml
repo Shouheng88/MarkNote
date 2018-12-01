@@ -14,13 +14,14 @@
             <me.shouheng.easymark.EasyMarkViewer
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/md_view" />
+                android:id="@+id/emv" />
 
             <com.github.clans.fab.FloatingActionButton
                 android:id="@+id/fab"
                 app:fab_size="normal"
                 app:fab_colorRipple="#99FFFFFF"
                 app:fab_colorNormal="?colorAccent"
+                app:fab_colorPressed="?colorAccent"
                 app:fab_shadowRadius="5dp"
                 app:fab_shadowXOffset="1.5dp"
                 app:fab_shadowYOffset="1.5dp"

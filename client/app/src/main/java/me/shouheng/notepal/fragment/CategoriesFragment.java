@@ -87,11 +87,6 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
         configCategories();
     }
 
-    @Override
-    protected String umengPageName() {
-        return "Categories";
-    }
-
     private void configToolbar() {
         if (getActivity() != null) {
             ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();

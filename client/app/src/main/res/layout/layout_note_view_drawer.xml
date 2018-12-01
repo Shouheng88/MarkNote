@@ -37,7 +37,7 @@
                 <me.shouheng.commons.widget.theme.SupportTextView
                     android:id="@+id/tv_chars"
                     android:gravity="end|center_vertical"
-                    android:text="Chars: 102"
+                    tools:text="Chars: 102"
                     android:textSize="12sp"
                     android:fontFamily="serif"
                     android:layout_width="match_parent"

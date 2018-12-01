@@ -356,7 +356,7 @@ public class AttachmentHelper {
     private static Intent captureIntent(Context context) {
         File file = FileHelper.createNewAttachmentFile(context, Constants.MIME_TYPE_IMAGE_EXTENSION);
         if (file == null){
-            ToastUtils.makeToast(R.string.failed_to_create_file);
+            ToastUtils.makeToast(R.string.text_failed_to_save_file);
             return null;
         }
         String filePath = file.getPath();
@@ -388,7 +388,7 @@ public class AttachmentHelper {
     private static Intent sketchIntent(Context context) {
         File file = FileHelper.createNewAttachmentFile(context, Constants.MIME_TYPE_SKETCH_EXTENSION);
         if (file == null) {
-            ToastUtils.makeToast(R.string.failed_to_create_file);
+            ToastUtils.makeToast(R.string.text_failed_to_save_file);
             return null;
         }
         String filePath = file.getPath();
@@ -404,7 +404,7 @@ public class AttachmentHelper {
         if (attachment == null
                 || attachment.getUri() == null
                 || TextUtils.isEmpty(attachment.getUri().toString())) {
-            ToastUtils.makeToast(R.string.failed_to_create_file);
+            ToastUtils.makeToast(R.string.text_failed_to_save_file);
             return false;
         }
         return true;

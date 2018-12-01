@@ -51,7 +51,7 @@ public class IntentUtils {
         if (IntentUtils.isAvailable(context, i, null)) {
             context.startActivity(i);
         } else {
-            ToastUtils.makeToast(R.string.failed_to_resolve_intent);
+            ToastUtils.makeToast(R.string.text_failed_to_resolve_intent);
         }
     }
 
@@ -70,14 +70,14 @@ public class IntentUtils {
             try {
                 context.startActivity(i);
             } catch (ActivityNotFoundException ex) {
-                ToastUtils.makeToast(R.string.failed_to_resolve_intent);
+                ToastUtils.makeToast(R.string.text_failed_to_resolve_intent);
             }
         } else {
             Intent i2 = new Intent(Intent.ACTION_VIEW, Uri.parse(GOOGLE_PLAY_WEB_PAGE));
             if (IntentUtils.isAvailable(context, i2, null)) {
                 launchUrl(context, GOOGLE_PLAY_WEB_PAGE);
             } else {
-                ToastUtils.makeToast(R.string.failed_to_resolve_intent);
+                ToastUtils.makeToast(R.string.text_failed_to_resolve_intent);
             }
         }
     }
@@ -93,7 +93,25 @@ public class IntentUtils {
         if (IntentUtils.isAvailable(context, i, null)) {
             launchUrl(context, url);
         } else {
-            ToastUtils.makeToast(R.string.failed_to_resolve_intent);
+            ToastUtils.makeToast(R.string.text_failed_to_resolve_intent);
+        }
+    }
+
+    /**
+     * Start activity of given uri and mime type.
+     *
+     * @param context the context
+     * @param uri the uri for intent
+     * @param mimeType the mime type for intent
+     */
+    public static void startActivity(Context context, Uri uri, String mimeType) {
+        Intent intent = new Intent();
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.setDataAndType(uri, mimeType);
+        if (IntentUtils.isAvailable(context, intent, null)) {
+            context.startActivity(intent);
+        } else {
+            ToastUtils.makeToast(R.string.text_failed_to_resolve_intent);
         }
     }
 

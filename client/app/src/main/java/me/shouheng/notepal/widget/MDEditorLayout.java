@@ -33,6 +33,8 @@ public class MDEditorLayout extends BaseSoftInputLayout {
     private EditText titleEditor;
     private EasyMarkEditor easyMarkEditor;
     private FastScrollScrollView fssv;
+    private OnFormatClickListener onFormatClickListener;
+    private Adapter adapter;
 
     public MDEditorLayout(Context context) {
         super(context);
@@ -62,7 +64,7 @@ public class MDEditorLayout extends BaseSoftInputLayout {
         fssv = findViewById(R.id.fssv);
 
         RecyclerView rv = findViewById(R.id.rv);
-        Adapter adapter = new Adapter(context, format -> easyMarkEditor.useFormat(format));
+        adapter = new Adapter(context, onFormatClickListener);
         rv.setLayoutManager(new GridLayoutManager(context, 8));
         rv.setAdapter(adapter);
 
@@ -112,19 +114,16 @@ public class MDEditorLayout extends BaseSoftInputLayout {
                 super(itemView);
 
                 iv = itemView.findViewById(R.id.iv);
-                itemView.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (onFormatClickListener != null) {
-                            onFormatClickListener.onFormatClick(Format.values()[getAdapterPosition()]);
-                        }
+                itemView.setOnClickListener(v -> {
+                    if (onFormatClickListener != null) {
+                        onFormatClickListener.onFormatClick(Format.values()[getAdapterPosition()]);
                     }
                 });
             }
         }
 
-        public interface OnFormatClickListener {
-            void onFormatClick(Format format);
+        public void setOnFormatClickListener(OnFormatClickListener onFormatClickListener) {
+            this.onFormatClickListener = onFormatClickListener;
         }
     }
 
@@ -159,5 +158,21 @@ public class MDEditorLayout extends BaseSoftInputLayout {
      */
     public FastScrollScrollView getFastScrollView() {
         return fssv;
+    }
+
+    /**
+     * Set the format click event callback.
+     *
+     * @param onFormatClickListener the format click callback
+     */
+    public void setOnFormatClickListener(OnFormatClickListener onFormatClickListener) {
+        this.onFormatClickListener = onFormatClickListener;
+        if (adapter != null) {
+            adapter.setOnFormatClickListener(onFormatClickListener);
+        }
+    }
+
+    public interface OnFormatClickListener {
+        void onFormatClick(Format format);
     }
 }

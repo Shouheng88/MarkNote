@@ -48,11 +48,6 @@ public class StatisticsFragment extends BaseFragment<FragmentStatisticsBinding> 
         outputStats();
     }
 
-    @Override
-    protected String umengPageName() {
-        return "Statistics";
-    }
-
     private void outputStats() {
         viewModel.getStats().observe(this, resource -> {
             LogUtils.d(resource);

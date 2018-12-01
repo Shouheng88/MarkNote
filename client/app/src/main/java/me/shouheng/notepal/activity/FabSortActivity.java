@@ -80,7 +80,7 @@ public class FabSortActivity extends CommonActivity<ActivityFabSortBinding> {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.sort_edit, menu);
+        getMenuInflater().inflate(R.menu.sort_editor_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 

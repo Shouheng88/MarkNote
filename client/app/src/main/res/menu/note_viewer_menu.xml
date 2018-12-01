@@ -5,6 +5,7 @@
     <item android:id="@+id/action_find"
         android:title="@string/text_search"
         android:icon="@drawable/ic_search_white_24dp"
+        app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="always"/>
 
     <item android:id="@+id/action_info"

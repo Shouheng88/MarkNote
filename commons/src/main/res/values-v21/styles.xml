@@ -1,17 +1,5 @@
 <resources>
 
-    <style name="ThemeBaseLight" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowNoTitle">true</item>
-    </style>
-
-    <style name="AppTheme.FullScreen.Light" parent="ThemeBaseLight"/>
-
-    <style name="AppThemeNormalLight" parent="ThemeBaseLight"/>
-
     <style name="TransParentDialog" parent="Theme.AppCompat.DayNight.Dialog">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

@@ -8,12 +8,12 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import java.io.Serializable;
-
+import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.R;
 
 /**
- * Created by wang shouheng on 2018/1/3.*/
+ * Created by WngShhng (shouheng2015@gmail.com) on 2018/1/3.
+ * Refactored by WngShhng (shouheng2015@gmail.com) on 2018/12/01. */
 public class OpenResolver extends DialogFragment {
 
     private OnResolverTypeClickListener onResolverTypeClickListener;
@@ -29,11 +29,16 @@ public class OpenResolver extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         View root = LayoutInflater.from(getContext()).inflate(R.layout.dialog_open_resolver, null, false);
 
-        root.findViewById(R.id.tv_text).setOnClickListener(view -> resolveClicked(MimeType.Text));
-        root.findViewById(R.id.tv_image).setOnClickListener(view -> resolveClicked(MimeType.Image));
-        root.findViewById(R.id.tv_audio).setOnClickListener(view -> resolveClicked(MimeType.Audio));
-        root.findViewById(R.id.tv_video).setOnClickListener(view -> resolveClicked(MimeType.Video));
-        root.findViewById(R.id.tv_other).setOnClickListener(view -> resolveClicked(MimeType.Other));
+        root.findViewById(R.id.tv_text).setOnClickListener(view ->
+                resolveClicked(Constants.MIME_TYPE_OF_PLAIN_TEXT));
+        root.findViewById(R.id.tv_image).setOnClickListener(view ->
+                resolveClicked(Constants.MIME_TYPE_OF_IMAGE));
+        root.findViewById(R.id.tv_audio).setOnClickListener(view ->
+                resolveClicked(Constants.MIME_TYPE_OF_AUDIO));
+        root.findViewById(R.id.tv_video).setOnClickListener(view ->
+                resolveClicked(Constants.MIME_TYPE_OF_VIDEO));
+        root.findViewById(R.id.tv_other).setOnClickListener(view ->
+                resolveClicked(Constants.MIME_TYPE_OTHERS));
 
         return new AlertDialog.Builder(getContext())
                 .setTitle(R.string.openas)
@@ -41,31 +46,17 @@ public class OpenResolver extends DialogFragment {
                 .create();
     }
 
-    public void setOnResolverTypeClickListener(OnResolverTypeClickListener onResolverTypeClickListener) {
+    private void setOnResolverTypeClickListener(OnResolverTypeClickListener onResolverTypeClickListener) {
         this.onResolverTypeClickListener = onResolverTypeClickListener;
     }
 
-    private void resolveClicked(MimeType mimeType) {
+    private void resolveClicked(String mimeType) {
         if (onResolverTypeClickListener != null) {
             onResolverTypeClickListener.onResolverClicked(mimeType);
         }
     }
 
-    public enum MimeType {
-        Text("text/plain"),
-        Image("image/*"),
-        Audio("audio/*"),
-        Video("video/*"),
-        Other("*/*");
-
-        public final String mimeType;
-
-        MimeType(String mimeType) {
-            this.mimeType = mimeType;
-        }
-    }
-
-    public interface OnResolverTypeClickListener extends Serializable {
-        void onResolverClicked(MimeType mimeType);
+    public interface OnResolverTypeClickListener {
+        void onResolverClicked(String mimeType);
     }
 }

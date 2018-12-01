@@ -206,7 +206,7 @@
     <!--endregion-->
 
     <!--region Attachment-->
-    <string name="failed_to_create_file">创建文件失败</string>
+    <string name="text_failed_to_save_file">创建文件失败</string>
     <string name="storage_not_available">存储空间不可用</string>
     <string name="failed_to_save_attachment">保存附件失败</string>
     <string name="add_attachment">添加附件</string>
@@ -230,7 +230,7 @@
     <string name="use_to_open">用&#8230;打开</string>
     <string name="information">信息</string>
     <string name="failed_when_play_audio">播放音频时出现错误</string>
-    <string name="failed_to_resolve_intent">没有找到可用的应用</string>
+    <string name="text_failed_to_resolve_intent">没有找到可用的应用</string>
 
     <string name="confirm_to_clear_bitmap">确认全部擦除？</string>
     <string name="stroke">线宽</string>

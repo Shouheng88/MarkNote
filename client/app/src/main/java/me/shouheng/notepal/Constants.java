@@ -60,29 +60,40 @@ public interface Constants extends BaseConstants {
      */
     String APP_WIDGET_ACTION_LAUNCH_APP = "me.shouheng.notepal.widget.LAUNCH";
 
-
-
+    /**
+     * Default note file encoding.
+     */
     String NOTE_FILE_ENCODING = "utf-8";
 
 
-    // region Extras
     String EXTRA_MODEL = "extra_model";
     String EXTRA_CODE = "extra_code";
     String EXTRA_POSITION = "extra_position";
     String EXTRA_REQUEST_CODE = "extra_request_code";
-    String EXTRA_IS_GOOGLE_NOW = "extra_is_from_google_now";
-
     String ACTION_TO_NOTE_FROM_THIRD_PART = "to_note_from_third_part";
-    // endregion
 
-    String VIDEO_MIME_TYPE = "video/*";
-    String SCHEME_HTTPS = "https";
-    String SCHEME_HTTP = "http";
-    String PDF_MIME_TYPE = "application/pdf";
-    String _3GP = ".3gp";
-    String _MP4 = ".mp4";
-    String _PDF = ".pdf";
-    // endregion
+
+    // region REGION: Constant fields for URI
+
+    /**
+     * Schemas for Http and Https, used to detect the url type.
+     */
+    String URI_SCHEME_HTTPS = "https";
+    String URI_SCHEME_HTTP = "http";
+
+    String MIME_TYPE_OF_VIDEO = "video/*";
+    String MIME_TYPE_OF_PDF = "application/pdf";
+    String MIME_TYPE_OF_PLAIN_TEXT = "text/plain";
+    String MIME_TYPE_OF_IMAGE = "image/*";
+    String MIME_TYPE_OF_AUDIO = "audio/*";
+    String MIME_TYPE_OTHERS = "*/*";
+
+    String EXTENSION_3GP = ".3gp";
+    String EXTENSION_MP4 = ".mp4";
+    String EXTENSION_PDF = ".pdf";
+
+    // endregion REGION: Fields for URI
+
 
     // region Action
     String ACTION_SHORTCUT = "ACTION_SHORTCUT";

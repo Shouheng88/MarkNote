@@ -1,5 +1,6 @@
 package me.shouheng.notepal.fragment;
 
+import android.app.Activity;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.net.Uri;
@@ -14,7 +15,6 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
 
 import java.io.Serializable;
@@ -32,6 +32,8 @@ import me.shouheng.commons.activity.ContainerActivity;
 import me.shouheng.commons.activity.interaction.BackEventResolver;
 import me.shouheng.commons.fragment.CommonFragment;
 import me.shouheng.commons.utils.LogUtils;
+import me.shouheng.commons.utils.PalmUtils;
+import me.shouheng.commons.utils.StringUtils;
 import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.data.ModelFactory;
 import me.shouheng.data.entity.Attachment;
@@ -49,7 +51,7 @@ import me.shouheng.notepal.activity.SettingsActivity;
 import me.shouheng.notepal.databinding.FragmentNoteBinding;
 import me.shouheng.notepal.dialog.AttachmentPicker;
 import me.shouheng.notepal.dialog.CategoryEditDialog;
-import me.shouheng.notepal.dialog.LinkInputDialog;
+import me.shouheng.notepal.dialog.TableInputDialog;
 import me.shouheng.notepal.dialog.picker.CategoryPickerDialog;
 import me.shouheng.notepal.dialog.picker.NotebookPickerDialog;
 import me.shouheng.notepal.fragment.setting.SettingsNote;
@@ -142,7 +144,20 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding> implements
 
         /* Config the edit layout */
         MDEditorLayout mel = getBinding().mel;
-        mel.setOverHeight(Utils.dp2px(getContext(), 40));
+        mel.setOverHeight(Utils.dp2px(getContext(), 50));
+        mel.setOnFormatClickListener(format -> {
+            switch (format) {
+                case TABLE:
+                    TableInputDialog.getInstance((rowsStr, colsStr) -> {
+                        int rows = StringUtils.parseInteger(rowsStr, 3);
+                        int cols = StringUtils.parseInteger(colsStr, 3);
+                        eme.useFormat(format, rows, cols);
+                    }).show(Objects.requireNonNull(getFragmentManager()), "TABLE EDITOR");
+                    break;
+                default:
+                    eme.useFormat(format);
+            }
+        });
         eme = mel.getEditText();
         eme.setFormatPasteEnable(true);
         eme.setFormatHandler(new DayOneFormatHandler());
@@ -164,7 +179,10 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding> implements
 
         @Override
         public void afterTextChanged(Editable editable) {
-//            updateCharsInfo();
+            String title = etTitle.getText().toString();
+            String content = eme.getText().toString();
+            String count = PalmUtils.getStringCompact(R.string.text_chars) + ":" + (title.length() + content.length());
+            getBinding().tvCount.setText(count);
         }
     };
 
@@ -258,6 +276,7 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding> implements
             switch (resources.status) {
                 case SUCCESS:
                     AppWidgetUtils.notifyAppWidgets(getContext());
+                    getActivity().setResult(Activity.RESULT_OK);
                     getActivity().finish();
                     break;
                 case FAILED:
@@ -302,91 +321,13 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding> implements
     }
     // endregion
 
-    // region fetch data
-    private void fetchData(Note note) {
-
-//        fetchCategories(note);
-
-//        fetchNotebook(note);
-    }
-
-    private void fetchNotebook(Note note) {
-        notebookViewModel.get(note.getParentCode()).observe(this, notebookResource -> {
-            if (notebookResource == null) {
-                ToastUtils.makeToast(R.string.text_failed_to_load_data);
-                return;
-            }
-            switch (notebookResource.status) {
-                case SUCCESS:
-//                    if (notebookResource.data != null) {
-//                        getBinding().tvFolder.setText(notebookResource.data.getTitle());
-//                        getBinding().tvFolder.setTextColor(notebookResource.data.getColor());
-//                    }
-                    break;
-            }
-        });
-    }
-    // endregion
-
-    private void onFormatClick(View v) {
-        switch (v.getId()){
-//            case R.id.iv_undo:getBinding().etContent.undo();break;
-//            case R.id.iv_redo:getBinding().etContent.redo();break;
-//            case R.id.iv_insert_picture:showAttachmentPicker();break;
-//            case R.id.iv_insert_link:showLinkEditor();break;
-//            case R.id.iv_table:showTableEditor();break;
-        }
-    }
-
-    private void switchFormat() {
-//        boolean rlBottomVisible = getBinding().rlBottomEditors.getVisibility() == View.VISIBLE;
-//        getBinding().rlBottomEditors.setVisibility(rlBottomVisible ? View.GONE : View.VISIBLE);
-//        getBinding().ivEnableFormat.setImageDrawable(ColorUtils.tintDrawable(
-//                R.drawable.ic_text_format_black_24dp,
-//                rlBottomVisible ? Color.WHITE : primaryColor()));
-//        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-//                ViewGroup.LayoutParams.MATCH_PARENT,
-//                getBinding().ivEnableFormat.getHeight() * (rlBottomVisible ? 1 : 2));
-//        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-//        getBinding().rlBottom.setLayoutParams(params);
-    }
-
-    // TODO
-    private void addImageLink() {
-        LinkInputDialog.getInstance((title, link) -> {}
-//                getBinding().etContent.addLinkEffect(MarkdownFormat.ATTACHMENT, title, link)
-        ).show(Objects.requireNonNull(getFragmentManager()), "Link Image");
-    }
-
-    // TODO
-    private void showMarkJaxEditor() {
-//        MathJaxEditor.newInstance((exp, isSingleLine) ->
-//                getBinding().etContent.useFormat(Format.MATH_JAX)
-//        ).show(Objects.requireNonNull(getFragmentManager()), "MATH JAX EDITOR");
-    }
-
-    private void showTableEditor() {
-//        TableInputDialog.getInstance((rowsStr, colsStr) -> {
-//            int rows = StringUtils.parseInteger(rowsStr, 3);
-//            int cols = StringUtils.parseInteger(colsStr, 3);
-//            getBinding().etContent.useFormat(Format.TABLE);
-//        }).show(Objects.requireNonNull(getFragmentManager()), "TABLE INPUT");
-    }
-
-    // TODO
-    private void showLinkEditor() {
-//        LinkInputDialog.getInstance((title, link) ->
-//                getBinding().etContent.useFormat(Format.LINK)
-//        ).show(Objects.requireNonNull(getFragmentManager()), "LINK INPUT");
-    }
-
     private void showAttachmentPicker() {
         new AttachmentPicker.Builder(this)
                 .setRecordVisible(false)
                 .setVideoVisible(false)
                 .setAddLinkVisible(true)
                 .setFilesVisible(true)
-                .setOnAddNetUriSelectedListener(this::addImageLink)
+//                .setOnAddNetUriSelectedListener(this::addImageLink)
                 .build().show(Objects.requireNonNull(getFragmentManager()), "Attachment picker");
     }
 
@@ -464,12 +405,6 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding> implements
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home: {
-                String title = etTitle.getText().toString();
-                String content = eme.getText().toString();
-                viewModel.saveOrUpdateNote(title, content);
-                break;
-            }
             case R.id.action_preview: {
                 String title = etTitle.getText().toString();
                 String content = eme.getText().toString() + " ";
@@ -528,10 +463,5 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding> implements
         String title = etTitle.getText().toString();
         String content = eme.getText().toString();
         viewModel.saveOrUpdateNote(title, content);
-    }
-
-    @Override
-    protected String umengPageName() {
-        return "NoteEditFragment";
     }
 }

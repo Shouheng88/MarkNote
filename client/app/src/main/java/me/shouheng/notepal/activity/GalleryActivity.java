@@ -217,7 +217,7 @@ public class GalleryActivity extends AppCompatActivity implements PullBackLayout
                     intent.setDataAndType(attachment.getUri(), FileHelper.getMimeType(this, attachment.getUri()));
                     startActivity(intent);
                 } catch (ActivityNotFoundException e) {
-                    ToastUtils.makeToast(R.string.failed_to_resolve_intent);
+                    ToastUtils.makeToast(R.string.text_failed_to_resolve_intent);
                 }
             }
             break;

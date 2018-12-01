@@ -76,9 +76,9 @@ dependencies {
     api 'com.larswerkman:HoloColorPicker:1.5'
     api 'com.afollestad.material-dialogs:core:0.9.6.0'
     api 'com.afollestad.material-dialogs:commons:0.9.6.0'
-    api 'com.github.Kennyc1012:BottomSheet:2.4.0'
+    api 'com.github.Kennyc1012:BottomSheet:2.4.1'
     // recycler
-    api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
+    api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.40'
     // fabric
     api('com.crashlytics.sdk.android:crashlytics:2.9.4@aar') {
         transitive = true

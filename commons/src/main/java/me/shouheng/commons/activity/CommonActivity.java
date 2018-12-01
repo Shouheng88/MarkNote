@@ -59,7 +59,9 @@ public abstract class CommonActivity<T extends ViewDataBinding> extends ThemedAc
     }
 
     /**
-     * Used to call {@link #onBackPressed()} to avoid override by sub class */
+     * Provide to the Fragment to call its Activity's {@link super#onBackPressed()} directly.
+     * Mainly used to avoid the call to the override {@link #onBackPressed()} method.
+     */
     public void superOnBackPressed() {
         super.onBackPressed();
     }
