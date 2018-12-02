@@ -3,7 +3,7 @@ package me.shouheng.data.helper;
 import me.shouheng.data.ModelFactory;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.data.entity.Location;
-import me.shouheng.data.entity.MindSnagging;
+import me.shouheng.data.entity.QuickNote;
 import me.shouheng.data.entity.Model;
 import me.shouheng.data.entity.Note;
 import me.shouheng.data.entity.Notebook;
@@ -29,7 +29,7 @@ public class TimelineHelper {
     private static<T extends Model> boolean hasTimeLine(T model, Operation operation) {
         return model != null && (model instanceof Note
                 || model instanceof Notebook
-                || model instanceof MindSnagging
+                || model instanceof QuickNote
                 || (model instanceof Weather && Operation.ADD == operation)
                 || (model instanceof Location && Operation.ADD == operation)
                 || (model instanceof Attachment && Operation.ADD == operation));

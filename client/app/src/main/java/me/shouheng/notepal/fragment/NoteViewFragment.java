@@ -57,7 +57,6 @@ import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.FragmentNoteViewBinding;
 import me.shouheng.notepal.dialog.OpenResolver;
-import me.shouheng.notepal.fragment.base.BaseFragment;
 import me.shouheng.notepal.manager.NoteManager;
 import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.manager.FileManager;

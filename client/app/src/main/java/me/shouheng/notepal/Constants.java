@@ -152,7 +152,7 @@ public interface Constants extends BaseConstants {
 
     // endregion regex expression
 
-
+    long AGAIN_EXIT_TIME_INTERVAL = 2000;
 
 
     String HTML_EXPORT_DIR_NAME = "ExportedHtml";

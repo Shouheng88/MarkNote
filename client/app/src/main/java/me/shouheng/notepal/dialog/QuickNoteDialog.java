@@ -26,7 +26,7 @@ import java.util.Objects;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.data.entity.Attachment;
-import me.shouheng.data.entity.MindSnagging;
+import me.shouheng.data.entity.QuickNote;
 import me.shouheng.data.model.enums.ModelType;
 import me.shouheng.data.store.AttachmentsStore;
 import me.shouheng.notepal.Constants;
@@ -45,7 +45,7 @@ public class QuickNoteDialog extends DialogFragment implements AttachmentHelper.
 
     public final static String ARGS_KEY_QUICK_NOTE = "__args_key_quick_note";
 
-    private MindSnagging mindSnagging;
+    private QuickNote quickNote;
     private Attachment attachment;
 
     private MediaPlayer mPlayer;
@@ -53,9 +53,9 @@ public class QuickNoteDialog extends DialogFragment implements AttachmentHelper.
     private DialogQuickNoteBinding binding;
     private Button btnPos, btnNeg, btnNeu;
 
-    public static QuickNoteDialog newInstance(@NonNull MindSnagging mindSnagging, DialogInteraction interaction) {
+    public static QuickNoteDialog newInstance(@NonNull QuickNote quickNote, DialogInteraction interaction) {
         Bundle args = new Bundle();
-        args.putSerializable(ARGS_KEY_QUICK_NOTE, mindSnagging);
+        args.putSerializable(ARGS_KEY_QUICK_NOTE, quickNote);
         QuickNoteDialog fragment = new QuickNoteDialog();
         fragment.setArguments(args);
         fragment.setInteraction(interaction);
@@ -67,16 +67,16 @@ public class QuickNoteDialog extends DialogFragment implements AttachmentHelper.
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Bundle args = getArguments();
         assert args != null;
-        this.mindSnagging = (MindSnagging) args.getSerializable(ARGS_KEY_QUICK_NOTE);
+        this.quickNote = (QuickNote) args.getSerializable(ARGS_KEY_QUICK_NOTE);
         // use the attachment from database as default
         this.attachment = AttachmentsStore.getInstance()
-                .getAttachment(ModelType.MIND_SNAGGING, mindSnagging.getCode());
+                .getAttachment(ModelType.MIND_SNAGGING, quickNote.getCode());
 
         binding = DataBindingUtil.inflate(LayoutInflater.from(getContext()),
                 R.layout.dialog_quick_note, null, false);
 
         binding.wtv.bindEditText(binding.et);
-        binding.et.setText(mindSnagging.getContent());
+        binding.et.setText(quickNote.getContent());
         binding.et.addTextChangedListener(new EtTextWatcher());
 
         setupAttachment(attachment);
@@ -93,8 +93,8 @@ public class QuickNoteDialog extends DialogFragment implements AttachmentHelper.
             btnPos = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
                 if (interaction != null) {
-                    mindSnagging.setContent(binding.et.getText().toString());
-                    interaction.onConfirm(getDialog(), mindSnagging, attachment);
+                    quickNote.setContent(binding.et.getText().toString());
+                    interaction.onConfirm(getDialog(), quickNote, attachment);
                 }
             });
 
@@ -175,7 +175,7 @@ public class QuickNoteDialog extends DialogFragment implements AttachmentHelper.
         // this means the user added a new attachment
         if (this.attachment == null) setCancelable(false);
         this.attachment = attachment;
-        mindSnagging.setPicture(attachment.getUri());
+        quickNote.setPicture(attachment.getUri());
 
         btnNeu.setEnabled(false);
         btnNeu.setTextColor(Color.GRAY);
@@ -269,6 +269,6 @@ public class QuickNoteDialog extends DialogFragment implements AttachmentHelper.
         void onCancel();
         void onDismiss();
         void onCancel(Dialog dialog);
-        void onConfirm(Dialog dialog, MindSnagging mindSnagging, Attachment attachment);
+        void onConfirm(Dialog dialog, QuickNote quickNote, Attachment attachment);
     }
 }

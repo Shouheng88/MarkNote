@@ -14,7 +14,7 @@ import me.shouheng.commons.model.data.Resource;
 import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.data.ModelFactory;
 import me.shouheng.data.entity.Attachment;
-import me.shouheng.data.entity.MindSnagging;
+import me.shouheng.data.entity.QuickNote;
 import me.shouheng.data.entity.Note;
 import me.shouheng.data.model.enums.ModelType;
 import me.shouheng.data.store.AttachmentsStore;
@@ -37,7 +37,7 @@ public class NoteViewModel extends BaseViewModel<Note> {
         return new NoteRepository();
     }
 
-    public LiveData<Resource<Note>> saveSnagging(@NonNull Note note, MindSnagging snagging, @Nullable Attachment attachment) {
+    public LiveData<Resource<Note>> saveSnagging(@NonNull Note note, QuickNote snagging, @Nullable Attachment attachment) {
         MutableLiveData<Resource<Note>> result = new MutableLiveData<>();
         new ResourceAsyncTask<>(result, () -> {
             String content = snagging.getContent();

@@ -1,4 +1,4 @@
-package me.shouheng.notepal.fragment.base;
+package me.shouheng.notepal.fragment;
 
 import android.app.Activity;
 import android.app.ProgressDialog;

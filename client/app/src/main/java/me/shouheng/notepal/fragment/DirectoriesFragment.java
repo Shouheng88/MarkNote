@@ -19,7 +19,6 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.DirectoriesAdapter;
 import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.databinding.FragmentDirectoriesBinding;
-import me.shouheng.notepal.fragment.base.BaseFragment;
 import me.shouheng.data.model.Directory;
 import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.notepal.viewmodel.DirectoryViewModel;

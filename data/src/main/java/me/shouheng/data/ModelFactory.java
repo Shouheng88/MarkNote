@@ -16,7 +16,7 @@ import me.shouheng.data.entity.Alarm;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.data.entity.Category;
 import me.shouheng.data.entity.Location;
-import me.shouheng.data.entity.MindSnagging;
+import me.shouheng.data.entity.QuickNote;
 import me.shouheng.data.entity.Model;
 import me.shouheng.data.entity.Note;
 import me.shouheng.data.entity.Notebook;
@@ -112,8 +112,8 @@ public class ModelFactory {
         return location;
     }
 
-    public static MindSnagging getMindSnagging() {
-        return getModel(MindSnagging.class);
+    public static QuickNote getMindSnagging() {
+        return getModel(QuickNote.class);
     }
 
     public static Notebook getNotebook() {
@@ -184,7 +184,7 @@ public class ModelFactory {
     private static <M extends Model> String getModelName(M model) {
         String modelName = null;
         if (model instanceof Attachment) return ((Attachment) model).getUri().toString();
-        else if (model instanceof MindSnagging) modelName = ((MindSnagging) model).getContent();
+        else if (model instanceof QuickNote) modelName = ((QuickNote) model).getContent();
         else if (model instanceof Note) modelName = ((Note) model).getTitle();
         else if (model instanceof Notebook) modelName = ((Notebook) model).getTitle();
         else if (model instanceof Location) {

@@ -239,7 +239,7 @@
     <string name="model_name_alarm">Alarm</string>
     <string name="model_name_attachment">Attachment</string>
     <string name="model_name_location">Location</string>
-    <string name="model_name_mind_snagging">Quick Note</string>
+    <string name="model_name_quick_note">Quick Note</string>
     <string name="model_name_timeline">Timeline</string>
     <string name="model_name_weather">Weather</string>
     <string name="model_name_category">Category</string>

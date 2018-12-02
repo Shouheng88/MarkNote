@@ -3,6 +3,7 @@ package me.shouheng.data.entity;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import java.util.Date;
 
@@ -11,9 +12,10 @@ import me.shouheng.data.utils.annotation.Column;
 import me.shouheng.data.utils.annotation.Table;
 
 /**
- * Created by wangshouheng on 2017/8/18. */
+ * Created by WngShhng on 2017/8/18.
+ */
 @Table(name = "gt_mind_snagging")
-public class MindSnagging extends Model implements Parcelable {
+public class QuickNote extends Model implements Parcelable {
 
     @Column(name = "content")
     private String content;
@@ -21,9 +23,9 @@ public class MindSnagging extends Model implements Parcelable {
     @Column(name = "picture")
     private Uri picture;
 
-    public MindSnagging() {}
+    public QuickNote() {}
 
-    protected MindSnagging(Parcel in) {
+    protected QuickNote(Parcel in) {
         setId(in.readLong());
         setCode(in.readLong());
         setUserId(in.readLong());
@@ -36,15 +38,15 @@ public class MindSnagging extends Model implements Parcelable {
         picture = Uri.parse(in.readString());
     }
 
-    public static final Creator<MindSnagging> CREATOR = new Creator<MindSnagging>() {
+    public static final Creator<QuickNote> CREATOR = new Creator<QuickNote>() {
         @Override
-        public MindSnagging createFromParcel(Parcel in) {
-            return new MindSnagging(in);
+        public QuickNote createFromParcel(Parcel in) {
+            return new QuickNote(in);
         }
 
         @Override
-        public MindSnagging[] newArray(int size) {
-            return new MindSnagging[size];
+        public QuickNote[] newArray(int size) {
+            return new QuickNote[size];
         }
     };
 
@@ -64,9 +66,10 @@ public class MindSnagging extends Model implements Parcelable {
         this.picture = picture;
     }
 
+    @NonNull
     @Override
     public String toString() {
-        return "MindSnagging{" +
+        return "QuickNote{" +
                 "content='" + content + '\'' +
                 ", picture=" + picture +
                 "} " + super.toString();

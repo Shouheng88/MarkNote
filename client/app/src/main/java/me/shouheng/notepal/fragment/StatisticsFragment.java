@@ -16,7 +16,6 @@ import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.data.model.Stats;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.FragmentStatisticsBinding;
-import me.shouheng.notepal.fragment.base.BaseFragment;
 import me.shouheng.notepal.vm.StatisticViewModel;
 
 /**

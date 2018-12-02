@@ -6,7 +6,7 @@ import me.shouheng.data.R;
 import me.shouheng.data.entity.Alarm;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.data.entity.Location;
-import me.shouheng.data.entity.MindSnagging;
+import me.shouheng.data.entity.QuickNote;
 import me.shouheng.data.entity.Model;
 import me.shouheng.data.entity.Note;
 import me.shouheng.data.entity.Notebook;
@@ -14,7 +14,8 @@ import me.shouheng.data.entity.TimeLine;
 import me.shouheng.data.entity.Weather;
 
 /**
- * Created by wangshouheng on 2017/8/12. */
+ * Created by WngShhng (shouheng2015@gmail.com) on 2017/8/12.
+ */
 public enum ModelType {
     NONE(0, Model.class, R.string.model_name_none),
     NOTE(3, Note.class, R.string.model_name_note),
@@ -22,7 +23,7 @@ public enum ModelType {
     ALARM(10, Alarm.class, R.string.model_name_alarm),
     ATTACHMENT(11, Attachment.class, R.string.model_name_attachment),
     LOCATION(13, Location.class, R.string.model_name_location),
-    MIND_SNAGGING(14, MindSnagging.class, R.string.model_name_mind_snagging),
+    MIND_SNAGGING(14, QuickNote.class, R.string.model_name_quick_note),
     TIME_LINE(15, TimeLine.class, R.string.model_name_timeline),
     WEATHER(16, Weather.class, R.string.model_name_weather);
 

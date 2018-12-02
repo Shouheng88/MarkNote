@@ -1,7 +1,6 @@
 package me.shouheng.notepal.activity;
 
 import android.app.Dialog;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
@@ -55,7 +54,7 @@ import me.shouheng.commons.widget.recycler.CustomRecyclerScrollViewListener;
 import me.shouheng.data.ModelFactory;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.data.entity.Category;
-import me.shouheng.data.entity.MindSnagging;
+import me.shouheng.data.entity.QuickNote;
 import me.shouheng.data.entity.Model;
 import me.shouheng.data.entity.Note;
 import me.shouheng.data.entity.Notebook;
@@ -81,9 +80,6 @@ import me.shouheng.notepal.fragment.setting.SettingsFragment;
 import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.notepal.util.SynchronizeUtils;
 import me.shouheng.notepal.util.preferences.PrefUtils;
-import me.shouheng.notepal.viewmodel.CategoryViewModel;
-import me.shouheng.notepal.viewmodel.NoteViewModel;
-import me.shouheng.notepal.viewmodel.NotebookViewModel;
 import me.shouheng.notepal.vm.MainViewModel;
 
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
@@ -98,17 +94,12 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         CategoriesFragment.CategoriesInteraction {
 
     private final static int REQUEST_PASSWORD = 0x0006;
-    private final static long TIME_INTERVAL_BACK = 2000;
 
     private RecyclerView.OnScrollListener onScrollListener;
 
     private FloatingActionButton[] fabs;
     private long onBackPressed;
     private Drawer drawer;
-
-    private NotebookViewModel notebookViewModel;
-    private CategoryViewModel categoryViewModel;
-    private NoteViewModel noteViewModel;
 
     private MainViewModel viewModel;
 
@@ -120,11 +111,6 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     @Override
     protected void doCreateView(Bundle savedInstanceState) {
         viewModel = getViewModel(MainViewModel.class);
-
-        // Get view models -- NOT STANDARD THIS WAY! :( TODO
-        notebookViewModel = ViewModelProviders.of(this).get(NotebookViewModel.class);
-        noteViewModel = ViewModelProviders.of(this).get(NoteViewModel.class);
-        categoryViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
 
         checkPsdIfNecessary(savedInstanceState);
 
@@ -424,8 +410,8 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                                 .put(NoteViewFragment.ARGS_KEY_NOTE, model)
                                 .put(NoteViewFragment.ARGS_KEY_IS_PREVIEW, false)
                                 .launch(this);
-                    } else if (model instanceof MindSnagging) {
-                        editMindSnagging((MindSnagging) model);
+                    } else if (model instanceof QuickNote) {
+                        editMindSnagging((QuickNote) model);
                     }
                 }
                 break;
@@ -624,21 +610,21 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     }
 
     private void saveNotebook(Notebook notebook) {
-        notebookViewModel.saveModel(notebook).observe(this, notebookResource -> {
-            assert notebookResource != null;
-            switch (notebookResource.status) {
-                case SUCCESS:
-                    ToastUtils.makeToast(R.string.text_save_successfully);
-                    postEvent(new RxMessage(RxMessage.CODE_NOTE_DATA_CHANGED, null));
-                    break;
-                case FAILED:
-                    ToastUtils.makeToast(R.string.text_failed);
-                    break;
-            }
-        });
+//        notebookViewModel.saveModel(notebook).observe(this, notebookResource -> {
+//            assert notebookResource != null;
+//            switch (notebookResource.status) {
+//                case SUCCESS:
+//                    ToastUtils.makeToast(R.string.text_save_successfully);
+//                    postEvent(new RxMessage(RxMessage.CODE_NOTE_DATA_CHANGED, null));
+//                    break;
+//                case FAILED:
+//                    ToastUtils.makeToast(R.string.text_failed);
+//                    break;
+//            }
+//        });
     }
 
-    private void editMindSnagging(@NonNull MindSnagging param) {
+    private void editMindSnagging(@NonNull QuickNote param) {
         QuickNoteDialog.newInstance(param, new QuickNoteDialog.DialogInteraction() {
             @Override
             public void onCancel() { }
@@ -652,45 +638,45 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
             }
 
             @Override
-            public void onConfirm(Dialog dialog, MindSnagging mindSnagging, Attachment attachment) {
+            public void onConfirm(Dialog dialog, QuickNote quickNote, Attachment attachment) {
                 dialog.dismiss();
-                saveMindSnagging(mindSnagging, attachment);
+                saveMindSnagging(quickNote, attachment);
             }
         }).show(getSupportFragmentManager(), "QUICK NOTE");
     }
 
-    private void saveMindSnagging(MindSnagging mindSnagging, Attachment attachment) {
-        noteViewModel.saveSnagging(getNewNote(), mindSnagging, attachment).observe(this, noteResource -> {
-            assert noteResource != null;
-            switch (noteResource.status) {
-                case SUCCESS:
-                    ToastUtils.makeToast(R.string.text_save_successfully);
-                    postEvent(new RxMessage(RxMessage.CODE_NOTE_DATA_CHANGED, null));
-                    break;
-                case FAILED:
-                    ToastUtils.makeToast(R.string.text_failed_to_modify_data);
-                    break;
-                case LOADING:break;
-            }
-        });
+    private void saveMindSnagging(QuickNote quickNote, Attachment attachment) {
+//        noteViewModel.saveSnagging(getNewNote(), quickNote, attachment).observe(this, noteResource -> {
+//            assert noteResource != null;
+//            switch (noteResource.status) {
+//                case SUCCESS:
+//                    ToastUtils.makeToast(R.string.text_save_successfully);
+//                    postEvent(new RxMessage(RxMessage.CODE_NOTE_DATA_CHANGED, null));
+//                    break;
+//                case FAILED:
+//                    ToastUtils.makeToast(R.string.text_failed_to_modify_data);
+//                    break;
+//                case LOADING:break;
+//            }
+//        });
     }
 
     private void saveCategory(Category category) {
-        categoryViewModel.saveModel(category).observe(this, categoryResource -> {
-            assert categoryResource != null;
-            switch (categoryResource.status) {
-                case SUCCESS:
-                    ToastUtils.makeToast(R.string.text_save_successfully);
-                    Fragment fragment = getCurrentFragment();
-                    if (fragment instanceof CategoriesFragment) {
-                        ((CategoriesFragment) fragment).addCategory(category);
-                    }
-                    break;
-                case FAILED:
-                    ToastUtils.makeToast(R.string.text_failed);
-                    break;
-            }
-        });
+//        categoryViewModel.saveModel(category).observe(this, categoryResource -> {
+//            assert categoryResource != null;
+//            switch (categoryResource.status) {
+//                case SUCCESS:
+//                    ToastUtils.makeToast(R.string.text_save_successfully);
+//                    Fragment fragment = getCurrentFragment();
+//                    if (fragment instanceof CategoriesFragment) {
+//                        ((CategoriesFragment) fragment).addCategory(category);
+//                    }
+//                    break;
+//                case FAILED:
+//                    ToastUtils.makeToast(R.string.text_failed);
+//                    break;
+//            }
+//        });
     }
     // endregion
 
@@ -798,7 +784,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     }
 
     private void againExit() {
-        if (onBackPressed + TIME_INTERVAL_BACK > System.currentTimeMillis()) {
+        if (onBackPressed + Constants.AGAIN_EXIT_TIME_INTERVAL > System.currentTimeMillis()) {
             SynchronizeUtils.syncOneDrive(this);
             super.onBackPressed();
             return;

@@ -30,7 +30,6 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.CategoriesAdapter;
 import me.shouheng.notepal.databinding.FragmentCategoriesBinding;
 import me.shouheng.notepal.dialog.CategoryEditDialog;
-import me.shouheng.notepal.fragment.base.BaseFragment;
 import me.shouheng.notepal.vm.CategoriesViewModel;
 
 /**

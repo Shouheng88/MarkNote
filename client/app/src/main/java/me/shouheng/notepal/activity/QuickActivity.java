@@ -17,7 +17,7 @@ import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.data.ModelFactory;
 import me.shouheng.data.entity.Attachment;
-import me.shouheng.data.entity.MindSnagging;
+import me.shouheng.data.entity.QuickNote;
 import me.shouheng.data.entity.Model;
 import me.shouheng.data.entity.Note;
 import me.shouheng.notepal.Constants;
@@ -75,9 +75,9 @@ public class QuickActivity extends PermissionActivity implements AttachmentHelpe
                 Model model;
                 if (intent.hasExtra(Constants.EXTRA_MODEL)
                         && (model = (Model) intent.getSerializableExtra(Constants.EXTRA_MODEL)) != null) {
-                    if (model instanceof MindSnagging) {
+                    if (model instanceof QuickNote) {
                         LogUtils.d(model);
-                        editMindSnagging((MindSnagging) model);
+                        editMindSnagging((QuickNote) model);
                     }
                 }
                 break;
@@ -90,7 +90,7 @@ public class QuickActivity extends PermissionActivity implements AttachmentHelpe
     }
 
     // TODO
-    private void editMindSnagging(@NonNull MindSnagging param) {
+    private void editMindSnagging(@NonNull QuickNote param) {
 //        quickNoteDialog = new QuickNoteDialog.Builder()
 //                .setMindSnagging(param)
 //                .setOnAddAttachmentListener(mindSnagging -> showAttachmentPicker())
@@ -119,8 +119,8 @@ public class QuickActivity extends PermissionActivity implements AttachmentHelpe
                 attachment.getName());
     }
 
-    private void saveMindSnagging(MindSnagging mindSnagging, Attachment attachment) {
-        noteViewModel.saveSnagging(ModelFactory.getNote(), mindSnagging, attachment).observe(this, new Observer<Resource<Note>>() {
+    private void saveMindSnagging(QuickNote quickNote, Attachment attachment) {
+        noteViewModel.saveSnagging(ModelFactory.getNote(), quickNote, attachment).observe(this, new Observer<Resource<Note>>() {
             @Override
             public void onChanged(@Nullable Resource<Note> noteResource) {
                 assert noteResource != null;

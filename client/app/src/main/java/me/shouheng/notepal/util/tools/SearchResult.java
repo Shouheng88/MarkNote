@@ -3,7 +3,7 @@ package me.shouheng.notepal.util.tools;
 import java.util.LinkedList;
 import java.util.List;
 
-import me.shouheng.data.entity.MindSnagging;
+import me.shouheng.data.entity.QuickNote;
 import me.shouheng.data.entity.Note;
 
 /**
@@ -12,9 +12,9 @@ public class SearchResult {
 
     private List<Note> notes = new LinkedList<>();
 
-    private List<MindSnagging> minds = new LinkedList<>();
+    private List<QuickNote> minds = new LinkedList<>();
 
-    public SearchResult(List<Note> notes, List<MindSnagging> minds) {
+    public SearchResult(List<Note> notes, List<QuickNote> minds) {
         this.notes = notes;
         this.minds = minds;
     }
@@ -27,11 +27,11 @@ public class SearchResult {
         this.notes = notes;
     }
 
-    public List<MindSnagging> getMinds() {
+    public List<QuickNote> getMinds() {
         return minds;
     }
 
-    public void setMinds(List<MindSnagging> minds) {
+    public void setMinds(List<QuickNote> minds) {
         this.minds = minds;
     }
 
