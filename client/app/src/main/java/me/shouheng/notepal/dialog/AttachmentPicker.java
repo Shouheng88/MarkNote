@@ -23,7 +23,8 @@ import me.shouheng.notepal.util.AttachmentHelper;
  * The attachment picker dialog
  *
  * Created by WngShhng (shouheng2015@gmail.com) on 2017/4/7.
- * Refactored by WngShhng (shouheng2015@gmail.com) on 2018/12/01. */
+ * Refactored by WngShhng (shouheng2015@gmail.com) on 2018/12/01.
+ */
 public class AttachmentPicker extends DialogFragment {
 
     private boolean isRecordVisible;

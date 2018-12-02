@@ -19,7 +19,8 @@ import me.shouheng.commons.widget.CircleImageView;
 import me.shouheng.commons.widget.Timeline;
 
 /**
- * Created by wangshouheng on 2017/8/19. */
+ * Created by WngShhng on 2017/8/19.
+ * */
 public class TimeLinesAdapter extends BaseQuickAdapter<TimeLine, BaseViewHolder> {
 
     private Context context;
@@ -57,8 +58,8 @@ public class TimeLinesAdapter extends BaseQuickAdapter<TimeLine, BaseViewHolder>
 
     private @DrawableRes int getOperationRes(TimeLine timeLine) {
         switch (timeLine.getModelType()) {
-            case NOTE: return R.drawable.ic_doc_text_alpha;
-            case NOTEBOOK: return R.drawable.ic_folder_black_24dp;
+            case NOTE: return R.drawable.ic_description_black_24dp;
+            case NOTEBOOK: return R.drawable.ic_book;
             case ALARM: return R.drawable.ic_access_alarm_grey;
             case MIND_SNAGGING: return R.drawable.ic_lightbulb_outline_black_24dp;
             case ATTACHMENT: return R.drawable.ic_attach_file_black;

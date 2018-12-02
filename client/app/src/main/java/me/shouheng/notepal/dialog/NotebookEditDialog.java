@@ -20,7 +20,8 @@ import me.shouheng.data.entity.Notebook;
 import me.shouheng.commons.utils.ToastUtils;
 
 /**
- * Created by wangshouheng on 2017/7/23.*/
+ * Created by wangshouheng on 2017/7/23.
+ */
 public class NotebookEditDialog extends DialogFragment implements ColorChooserDialog.ColorCallback {
 
     public final static String ARG_KEY_NOTEBOOK = "__arg_key_notebook";

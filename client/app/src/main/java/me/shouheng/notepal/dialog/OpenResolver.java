@@ -13,7 +13,8 @@ import me.shouheng.notepal.R;
 
 /**
  * Created by WngShhng (shouheng2015@gmail.com) on 2018/1/3.
- * Refactored by WngShhng (shouheng2015@gmail.com) on 2018/12/01. */
+ * Refactored by WngShhng (shouheng2015@gmail.com) on 2018/12/01.
+ */
 public class OpenResolver extends DialogFragment {
 
     private OnResolverTypeClickListener onResolverTypeClickListener;

@@ -17,7 +17,8 @@ import me.shouheng.data.entity.Note;
 import me.shouheng.commons.utils.TimeUtils;
 
 /**
- * Created by wangshouheng on 2017/5/8.*/
+ * Created by wangshouheng on 2017/5/8.
+ */
 public class SearchItemsAdapter extends RecyclerView.Adapter<SearchItemsAdapter.ViewHolder>{
 
     private List searchResults = new LinkedList();

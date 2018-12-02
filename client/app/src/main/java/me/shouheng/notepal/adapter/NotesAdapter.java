@@ -23,7 +23,8 @@ import me.shouheng.notepal.util.preferences.NotePreferences;
 import me.shouheng.commons.widget.recycler.BubbleTextGetter;
 
 /**
- * Created by wang shouheng on 2017/12/23.*/
+ * Created by wang shouheng on 2017/12/23.
+ */
 public class NotesAdapter extends BaseMultiItemQuickAdapter<NotesAdapter.MultiItem, BaseViewHolder> implements BubbleTextGetter {
 
     private Context context;

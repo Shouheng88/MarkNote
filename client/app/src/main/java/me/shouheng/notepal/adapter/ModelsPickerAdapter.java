@@ -17,7 +17,8 @@ import me.shouheng.data.entity.Model;
 import me.shouheng.data.utils.Selectable;
 
 /**
- * Created by wangshouheng on 2017/10/5.*/
+ * Created by wangshouheng on 2017/10/5.
+ */
 public class ModelsPickerAdapter<T extends Model & Selectable> extends BaseQuickAdapter<T, BaseViewHolder> {
 
     private int selectedColor = -1;

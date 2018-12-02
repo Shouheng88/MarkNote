@@ -40,7 +40,6 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.GalleryActivity;
 import me.shouheng.notepal.activity.SketchActivity;
 import me.shouheng.notepal.async.CreateAttachmentTask;
-import me.shouheng.notepal.config.RequestCodes;
 import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.notepal.util.preferences.NotePreferences;
 import me.shouheng.notepal.util.preferences.PersistPreferences;
@@ -88,6 +87,13 @@ public class AttachmentHelper {
      * Won't compress the image when hit the size (KB).
      */
     private final static int COMPRESS_IGNORE_SIZE_KB = 100; // KB
+
+    // TODO OLD request codes, remove later
+    private final static int REQUEST_TAKE_PHOTO = 0x1001;
+    private final static int REQUEST_SELECT_IMAGE = 0x1002;
+    private final static int REQUEST_TAKE_VIDEO = 0x1003;
+    private final static int REQUEST_FILES = 0x1004;
+    private final static int REQUEST_SKETCH = 0x1005;
 
     /**
      * The photo file path
@@ -426,7 +432,7 @@ public class AttachmentHelper {
     // region Resolve attachment picking result.
     public static<T extends Fragment & OnAttachingFileListener> void resolveResult(T fragment, int requestCode, Intent data) {
         switch (requestCode){
-            case RequestCodes.REQUEST_TAKE_PHOTO:
+            case REQUEST_TAKE_PHOTO:
                 getPhoto(fragment.getContext(), Constants.MIME_TYPE_IMAGE, new OnAttachingFileListener() {
                     @Override
                     public void onAttachingFileErrorOccurred(Attachment attachment) {
@@ -441,18 +447,18 @@ public class AttachmentHelper {
                     }
                 });
                 break;
-            case RequestCodes.REQUEST_SELECT_IMAGE:
+            case REQUEST_SELECT_IMAGE:
                 startTask(fragment, data);
                 break;
-            case RequestCodes.REQUEST_TAKE_VIDEO:
+            case REQUEST_TAKE_VIDEO:
                 if (PalmUtils.isAlive(fragment)) {
                     fragment.onAttachingFileFinished(getVideo(data));
                 }
                 break;
-            case RequestCodes.REQUEST_FILES:
+            case REQUEST_FILES:
                 startTask(fragment, data);
                 break;
-            case RequestCodes.REQUEST_SKETCH:
+            case REQUEST_SKETCH:
                 if (PalmUtils.isAlive(fragment)) {
                     fragment.onAttachingFileFinished(getSketch(Constants.MIME_TYPE_SKETCH));
                 }
@@ -462,7 +468,7 @@ public class AttachmentHelper {
 
     public static<T extends Activity & OnAttachingFileListener> void resolveResult(T activity, int requestCode, Intent data) {
         switch (requestCode){
-            case RequestCodes.REQUEST_TAKE_PHOTO:
+            case REQUEST_TAKE_PHOTO:
                 getPhoto(activity, Constants.MIME_TYPE_IMAGE, new OnAttachingFileListener() {
                     @Override
                     public void onAttachingFileErrorOccurred(Attachment attachment) {
@@ -477,18 +483,18 @@ public class AttachmentHelper {
                     }
                 });
                 break;
-            case RequestCodes.REQUEST_SELECT_IMAGE:
+            case REQUEST_SELECT_IMAGE:
                 startTask(activity, data);
                 break;
-            case RequestCodes.REQUEST_TAKE_VIDEO:
+            case REQUEST_TAKE_VIDEO:
                 if (PalmUtils.isAlive(activity)) {
                     activity.onAttachingFileFinished(getVideo(data));
                 }
                 break;
-            case RequestCodes.REQUEST_FILES:
+            case REQUEST_FILES:
                 startTask(activity, data);
                 break;
-            case RequestCodes.REQUEST_SKETCH:
+            case REQUEST_SKETCH:
                 if (PalmUtils.isAlive(activity)) {
                     activity.onAttachingFileFinished(getSketch(Constants.MIME_TYPE_SKETCH));
                 }
@@ -588,7 +594,7 @@ public class AttachmentHelper {
 
 
     public static void pickFromAlbum(android.app.Fragment fragment) {
-        fragment.startActivityForResult(pickFromAlbum(), RequestCodes.REQUEST_SELECT_IMAGE);
+        fragment.startActivityForResult(pickFromAlbum(), REQUEST_SELECT_IMAGE);
     }
 
     private static Intent pickFromAlbum() {
@@ -599,11 +605,11 @@ public class AttachmentHelper {
     }
 
     public static void pickFiles(Activity activity) {
-        activity.startActivityForResult(pickFiles(), RequestCodes.REQUEST_FILES);
+        activity.startActivityForResult(pickFiles(), REQUEST_FILES);
     }
 
     public static void pickFiles(Fragment fragment) {
-        fragment.startActivityForResult(pickFiles(), RequestCodes.REQUEST_FILES);
+        fragment.startActivityForResult(pickFiles(), REQUEST_FILES);
     }
 
     private static Intent pickFiles() {
@@ -618,13 +624,13 @@ public class AttachmentHelper {
     public static void capture(Activity activity) {
         Intent intent = captureIntent(activity);
         if (intent == null) return;
-        activity.startActivityForResult(intent, RequestCodes.REQUEST_TAKE_PHOTO);
+        activity.startActivityForResult(intent, REQUEST_TAKE_PHOTO);
     }
 
     public static void capture(Fragment fragment) {
         Intent intent = captureIntent(fragment.getContext());
         if (intent == null) return;
-        fragment.startActivityForResult(intent, RequestCodes.REQUEST_TAKE_PHOTO);
+        fragment.startActivityForResult(intent, REQUEST_TAKE_PHOTO);
     }
 
     @Nullable
@@ -650,13 +656,13 @@ public class AttachmentHelper {
     public static void sketch(Activity activity) {
         Intent intent = sketchIntent(activity);
         if (intent == null) return;
-        activity.startActivityForResult(intent, RequestCodes.REQUEST_SKETCH);
+        activity.startActivityForResult(intent, REQUEST_SKETCH);
     }
 
     public static void sketch(Fragment fragment) {
         Intent intent = sketchIntent(fragment.getContext());
         if (intent == null) return;
-        fragment.startActivityForResult(intent, RequestCodes.REQUEST_SKETCH);
+        fragment.startActivityForResult(intent, REQUEST_SKETCH);
     }
 
     @Nullable

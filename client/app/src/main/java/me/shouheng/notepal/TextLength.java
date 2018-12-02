@@ -1,7 +1,7 @@
-package me.shouheng.notepal.config;
+package me.shouheng.notepal;
 
 /**
- * 文字的长度的设置
+ * 文字的长度的设置 TODO refactor later
  *
  * Created by wangshouheng on 2017/10/7. */
 public enum TextLength {

@@ -364,7 +364,7 @@ public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
         setHasOptionsMenu(true);
         Activity activity = getActivity();
         if (!viewModel.isTopStack() && activity instanceof OnNotesInteractListener) {
-            ((OnNotesInteractListener) getActivity()).onActivityAttached(viewModel.isTopStack());
+            ((OnNotesInteractListener) activity).onActivityAttached(viewModel.isTopStack());
         }
     }
 

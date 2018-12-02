@@ -76,7 +76,8 @@ import static me.shouheng.notepal.Constants.URI_SCHEME_HTTPS;
  * The fragment used to display the parsed the markdown text, based on the WebView.
  *
  * Created by WngShhng (shouheng2015@gmail.com) on 2017/5/13.
- * Refactored by WngShhng (shouheng2015@gmail.com) on 2018/11/30 */
+ * Refactored by WngShhng (shouheng2015@gmail.com) on 2018/11/30
+ */
 public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> implements BackEventResolver {
 
     /**
@@ -246,7 +247,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
             }
         });
         viewModel.getCategoriesObservable().observe(this, new Observer<Resource<List<Category>>>() {
-            int margin = ViewUtils.dp2Px(getContext(), 2f);
+            int margin = ViewUtils.dp2Px(PalmApp.getContext(), 2f);
             ViewGroup.LayoutParams params = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             @Override
@@ -418,7 +419,10 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
                 @Override
                 public boolean onQueryTextSubmit(String query) {
                     getBinding().emv.findAllAsync(query);
-                    ((AppCompatActivity) getActivity()).startSupportActionMode(new ActionModeCallback());
+                    Activity activity = getActivity();
+                    if (activity != null) {
+                        ((AppCompatActivity) activity).startSupportActionMode(new ActionModeCallback());
+                    }
                     return true;
                 }
 

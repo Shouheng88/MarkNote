@@ -22,7 +22,8 @@ import me.shouheng.commons.utils.ToastUtils;
 /**
  * TODO 分类添加之后时间线统计错误
  *
- * Created by wangshouheng on 2017/4/2.*/
+ * Created by wangshouheng on 2017/4/2.
+ */
 public class CategoryEditDialog extends DialogFragment implements ColorChooserDialog.ColorCallback {
 
     private OnConfirmListener onConfirmListener;

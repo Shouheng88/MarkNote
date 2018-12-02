@@ -14,7 +14,8 @@ import me.shouheng.notepal.R;
 import me.shouheng.data.model.Directory;
 
 /**
- * Created by shouh on 2018/3/30.*/
+ * Created by shouh on 2018/3/30.
+ */
 public class DirectoriesAdapter extends BaseQuickAdapter<Directory, BaseViewHolder> {
 
     private int primaryColor;

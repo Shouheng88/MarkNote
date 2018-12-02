@@ -17,14 +17,16 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.commons.utils.TimeUtils;
 import me.shouheng.data.entity.Attachment;
+import me.shouheng.data.entity.Category;
 import me.shouheng.data.entity.Model;
 import me.shouheng.data.entity.Note;
 import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.config.TextLength;
+import me.shouheng.notepal.TextLength;
 
 /**
  * The manger for note witch provided many useful methods to handle the note.
@@ -32,6 +34,11 @@ import me.shouheng.notepal.config.TextLength;
  * Created by WngShhng (shouheng2015@gmail.com) on 2017/11/4.
  * Refactored by WngShhng (shouheng2015@gmail.com) on 2018/12/02. */
 public class NoteManager {
+
+    /**
+     * The split char used to connect the category code.
+     */
+    private final static String CATEGORY_SPLIT = ",";
 
     /**
      * The note title regex expression pattern, use the {@link Constants#REGEX_NOTE_TITLE}.
@@ -229,5 +236,23 @@ public class NoteManager {
                 printManager.print("PRINT-NOTE", webView.createPrintDocumentAdapter(), null);
             }
         }
+    }
+
+    /**
+     * Connect the category code, which will then be used to get the categories of the note.
+     *
+     * @param categories the categories
+     * @return the result string
+     */
+    public static String getCategoriesField(List<Category> categories) {
+        if (categories == null || categories.isEmpty()) return null;
+        int len = categories.size();
+        StringBuilder sb = new StringBuilder();
+        for (int i=0; i<len; i++) {
+            sb.append(categories.get(i).getCode());
+            if (i != len - 1) sb.append(CATEGORY_SPLIT);
+        }
+        LogUtils.d(sb.toString());
+        return sb.toString();
     }
 }

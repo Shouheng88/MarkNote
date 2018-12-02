@@ -14,7 +14,8 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.DialogInputTableLayoutBinding;
 
 /**
- * Created by wangshouheng on 2017/7/1. */
+ * Created by wangshouheng on 2017/7/1.
+ */
 public class TableInputDialog extends DialogFragment {
 
     private OnConfirmClickListener onConfirmClickListener;

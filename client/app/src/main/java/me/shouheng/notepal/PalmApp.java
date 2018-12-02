@@ -46,7 +46,8 @@ import me.shouheng.commons.BaseApplication;
  * TODO 分享和捐赠集成
  * TODO 指纹解锁
  *
- * Created by wangshouheng on 2017/2/26. */
+ * Created by wangshouheng on 2017/2/26.
+ */
 public class PalmApp extends BaseApplication {
 
     private static PalmApp mInstance;

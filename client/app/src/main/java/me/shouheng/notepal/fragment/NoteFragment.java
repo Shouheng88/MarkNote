@@ -67,7 +67,6 @@ import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.notepal.manager.NoteManager;
 import me.shouheng.notepal.util.AppWidgetUtils;
 import me.shouheng.notepal.util.AttachmentHelper;
-import me.shouheng.notepal.viewmodel.CategoryViewModel;
 import me.shouheng.notepal.vm.NoteViewModel;
 import me.shouheng.notepal.widget.MDEditorLayout;
 
@@ -403,7 +402,7 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding>
                 CategoryPickerDialog dialog = CategoryPickerDialog.newInstance(categories);
                 dialog.setOnConfirmClickListener(selections -> {
                     viewModel.setCategories(selections);
-                    viewModel.getNote().setTags(CategoryViewModel.getTags(selections));
+                    viewModel.getNote().setTags(NoteManager.getCategoriesField(selections));
                 });
                 dialog.setOnAddClickListener(() -> showCategoryEditor());
                 dialog.show(getChildFragmentManager(), "CATEGORY_PICKER");

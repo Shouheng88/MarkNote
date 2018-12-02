@@ -32,7 +32,7 @@ public class DirectoriesFragment extends BaseFragment<FragmentDirectoriesBinding
 
     private final static String KEY_DIRECTORY = "key_item_id";
 
-    private DirectoryViewModel directoryViewModel;
+    private DirectoryViewModel viewModel;
 
     private Directory directory;
 
@@ -55,7 +55,7 @@ public class DirectoriesFragment extends BaseFragment<FragmentDirectoriesBinding
     protected void doCreateView(Bundle savedInstanceState) {
         assert getArguments() != null;
         directory = (Directory) getArguments().get(KEY_DIRECTORY);
-        directoryViewModel = ViewModelProviders.of(this).get(DirectoryViewModel.class);
+        viewModel = ViewModelProviders.of(this).get(DirectoryViewModel.class);
 
         adapter = new DirectoriesAdapter(getContext());
         adapter.setOnItemClickListener((adapter, view, position) -> {
@@ -84,7 +84,7 @@ public class DirectoriesFragment extends BaseFragment<FragmentDirectoriesBinding
 
     private void fetchDirectories() {
         getBinding().sl.setVisibility(View.VISIBLE);
-        directoryViewModel.getDirectories(directory.getId()).observe(this, listResource -> {
+        viewModel.getDirectories(directory.getId()).observe(this, listResource -> {
             getBinding().sl.setVisibility(View.GONE);
             if (listResource == null) {
                 ToastUtils.makeToast(R.string.setting_backup_onedrive_failed_query_sync_cloud);
@@ -151,7 +151,7 @@ public class DirectoriesFragment extends BaseFragment<FragmentDirectoriesBinding
         pd.setCancelable(false);
         pd.show();
 
-        directoryViewModel.createBackupDir(directory, adapter.getData()).observe(this, directoryResource -> {
+        viewModel.createBackupDir(directory, adapter.getData()).observe(this, directoryResource -> {
             pd.dismiss();
             if (directoryResource == null) {
                 ToastUtils.makeToast(R.string.setting_backup_onedrive_failed_query_sync_cloud);

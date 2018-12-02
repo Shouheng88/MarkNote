@@ -39,7 +39,8 @@ import me.shouheng.notepal.util.AttachmentHelper;
 import static android.app.Activity.RESULT_OK;
 
 /**
- * Created by wangshouheng on 2017/8/19. */
+ * Created by wangshouheng on 2017/8/19.
+ */
 public class QuickNoteDialog extends DialogFragment implements AttachmentHelper.OnAttachingFileListener {
 
     public final static String ARGS_KEY_QUICK_NOTE = "__args_key_quick_note";

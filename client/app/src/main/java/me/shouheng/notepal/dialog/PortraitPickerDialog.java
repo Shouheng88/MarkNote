@@ -21,7 +21,9 @@ import me.shouheng.commons.widget.CircleImageView;
 import me.shouheng.commons.widget.recycler.SpaceItemDecoration;
 
 /**
- * Created by wangshouheng on 2017/4/3.*/
+ * Created by wangshouheng on 2017/4/3.
+ */
+@SuppressLint("ValidFragment")
 public class PortraitPickerDialog extends DialogFragment {
 
     private final Portrait[] portraits = Portrait.values();
