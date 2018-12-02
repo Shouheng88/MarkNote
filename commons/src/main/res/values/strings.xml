@@ -150,7 +150,7 @@
     <string name="fab_sort_save">Save</string>
 
     <!-- statistic -->
-    <string name="statistic_activities">Activities</string>
+    <string name="statistic_activities">Notes</string>
     <string name="statistic_title_activities">Notes added during recent 7 days</string>
     <string name="statistic_models_added">Models</string>
     <string name="statistic_title_models_added">Statistics of added models</string>

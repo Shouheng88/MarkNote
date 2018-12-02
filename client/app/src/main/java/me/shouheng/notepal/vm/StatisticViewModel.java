@@ -1,4 +1,4 @@
-package me.shouheng.notepal.viewmodel;
+package me.shouheng.notepal.vm;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
@@ -15,6 +15,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.Column;
 import lecho.lib.hellocharts.model.ColumnChartData;
@@ -23,28 +28,45 @@ import lecho.lib.hellocharts.model.LineChartData;
 import lecho.lib.hellocharts.model.PointValue;
 import lecho.lib.hellocharts.model.SubcolumnValue;
 import lecho.lib.hellocharts.model.ValueShape;
+import me.shouheng.commons.model.data.Resource;
 import me.shouheng.commons.utils.LogUtils;
+import me.shouheng.commons.utils.ViewUtils;
+import me.shouheng.data.helper.StatisticsHelper;
+import me.shouheng.data.model.Stats;
 import me.shouheng.data.model.enums.ModelType;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.async.NormalAsyncTask;
-import me.shouheng.data.model.Stats;
-import me.shouheng.commons.model.data.Resource;
-import me.shouheng.data.helper.StatisticsHelper;
 
 /**
  * Created by Employee on 2018/3/15.*/
 public class StatisticViewModel extends ViewModel {
 
     /**
-     * The days count of added model statistic. */
-    public final static int DAYS_OF_ADDED_MODEL = 7;
+     * The days count of added model statistic.
+     */
+    private final static int DAYS_OF_ADDED_MODEL = 7;
 
     /**
-     * The default value of added model */
+     * The default value of added model.
+     */
     private final static int DEFAULT_ADDED_VALUE = 0;
 
+    /**
+     * The default total values.
+     */
     private final static int DEFAULT_TOTAL_VALUE = 0;
+
+    private int lineStrokeWidth = ViewUtils.dp2Px(PalmApp.getContext(), 1);
+
+    private MutableLiveData<Resource<Stats>> statsLiveData;
+
+    public MutableLiveData<Resource<Stats>> getStatsLiveData() {
+        if (statsLiveData == null) {
+            statsLiveData = new MutableLiveData<>();
+        }
+        return statsLiveData;
+    }
 
     public LineChartData getDefaultNoteData(int lineColor) {
         List<Integer> defaultValues = new LinkedList<>();
@@ -70,7 +92,8 @@ public class StatisticViewModel extends ViewModel {
         line.setHasLabels(true);
         line.setHasLines(true);
         line.setHasPoints(true);
-        line.setPointRadius(3);
+        line.setPointRadius(2);
+        line.setStrokeWidth(2);
 
         return line;
     }
@@ -149,9 +172,15 @@ public class StatisticViewModel extends ViewModel {
         return data;
     }
 
-    public LiveData<Resource<Stats>> getStats() {
-        MutableLiveData<Resource<Stats>> result = new MutableLiveData<>();
-        new NormalAsyncTask<>(result, () -> StatisticsHelper.getStats(PalmApp.getContext())).execute();
-        return result;
+    public Disposable getStats() {
+        return Observable
+                .create((ObservableOnSubscribe<Stats>) emitter -> {
+                    Stats stats = StatisticsHelper.getStats(PalmApp.getContext());
+                    emitter.onNext(stats);
+                }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(stats -> {
+                    if (statsLiveData != null) {
+                        statsLiveData.setValue(Resource.success(stats));
+                    }
+                });
     }
 }

@@ -12,16 +12,18 @@ import lecho.lib.hellocharts.model.Column;
 import lecho.lib.hellocharts.model.Line;
 import lecho.lib.hellocharts.model.PointValue;
 import lecho.lib.hellocharts.model.SubcolumnValue;
-import me.shouheng.commons.utils.LogUtils;
+import me.shouheng.commons.utils.ToastUtils;
+import me.shouheng.data.model.Stats;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.FragmentStatisticsBinding;
 import me.shouheng.notepal.fragment.base.BaseFragment;
-import me.shouheng.data.model.Stats;
-import me.shouheng.commons.utils.ToastUtils;
-import me.shouheng.notepal.viewmodel.StatisticViewModel;
+import me.shouheng.notepal.vm.StatisticViewModel;
 
 /**
- * Created by wang shouheng on 2018/1/19. */
+ * The statistics fragment used to show the user statistics.
+ *
+ * Created by WngShhng (shouheng2015@gmail.com) on 2018/1/19.
+ */
 public class StatisticsFragment extends BaseFragment<FragmentStatisticsBinding> {
 
     private StatisticViewModel viewModel;
@@ -45,17 +47,18 @@ public class StatisticsFragment extends BaseFragment<FragmentStatisticsBinding> 
         getBinding().ccvModels.setColumnChartData(viewModel.getDefaultModelsData());
         getBinding().ccvAttachment.setColumnChartData(viewModel.getDefaultAttachmentData());
 
-        outputStats();
+        addSubscription();
+
+        viewModel.getStats();
     }
 
-    private void outputStats() {
-        viewModel.getStats().observe(this, resource -> {
-            LogUtils.d(resource);
-            assert resource != null;
-            switch (resource.status) {
+    private void addSubscription() {
+        viewModel.getStatsLiveData().observe(this, resources -> {
+            assert resources != null;
+            switch (resources.status) {
                 case SUCCESS:
-                    assert resource.data != null;
-                    outputStats(resource.data);
+                    assert resources.data != null;
+                    outputStats(resources.data);
                     break;
                 case FAILED:
                     ToastUtils.makeToast(R.string.text_failed);
