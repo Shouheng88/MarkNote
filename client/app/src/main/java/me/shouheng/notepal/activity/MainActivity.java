@@ -43,6 +43,7 @@ import me.shouheng.commons.activity.CommonActivity;
 import me.shouheng.commons.activity.ContainerActivity;
 import me.shouheng.commons.event.RxMessage;
 import me.shouheng.commons.helper.ActivityHelper;
+import me.shouheng.commons.helper.FragmentHelper;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.IntentUtils;
 import me.shouheng.commons.utils.LogUtils;
@@ -78,7 +79,6 @@ import me.shouheng.notepal.fragment.StatisticsFragment;
 import me.shouheng.notepal.fragment.TimeLineFragment;
 import me.shouheng.notepal.fragment.setting.SettingsFragment;
 import me.shouheng.notepal.manager.FileManager;
-import me.shouheng.notepal.util.FragmentHelper;
 import me.shouheng.notepal.util.SynchronizeUtils;
 import me.shouheng.notepal.util.preferences.PrefUtils;
 import me.shouheng.notepal.viewmodel.CategoryViewModel;
@@ -143,7 +143,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
 
     private void addSubscriptions() {
         addSubscription(RxMessage.class, RxMessage.CODE_NOTE_DATA_CHANGED, rxMessage -> {
-            if (isNotesFragment()) ((NotesFragment) getCurrentFragment()).reload();
+            if (isNotesFragment()) ((NotesFragment) getCurrentFragment()).loadNotesAndNotebooks();
         });
         addSubscription(RxMessage.class, RxMessage.CODE_SORT_FLOAT_BUTTONS, rxMessage -> {
             initFabSortItems();
@@ -639,7 +639,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                     ToastUtils.makeToast(R.string.text_save_successfully);
                     Fragment fragment = getCurrentFragment();
                     if (fragment instanceof NotesFragment) {
-                        ((NotesFragment) fragment).reload();
+                        ((NotesFragment) fragment).loadNotesAndNotebooks();
                     }
                     break;
                 case FAILED:
@@ -678,7 +678,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                     ToastUtils.makeToast(R.string.text_save_successfully);
                     Fragment fragment = getCurrentFragment();
                     if (fragment instanceof NotesFragment) {
-                        ((NotesFragment) fragment).reload();
+                        ((NotesFragment) fragment).loadNotesAndNotebooks();
                     }
                     break;
                 case FAILED:
@@ -715,17 +715,20 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     }
 
     private void toNotesFragment(boolean checkDuplicate) {
-        if (checkDuplicate && isNotesFragment()) return;
-        NotesFragment notesFragment = NotesFragment.newInstance(Status.NORMAL);
+        Fragment f = getCurrentFragment();
+        if (checkDuplicate && f instanceof NotesFragment) return;
+        NotesFragment notesFragment = FragmentHelper.open(NotesFragment.class)
+                .put(NotesFragment.ARGS_KEY_STATUS, Status.NORMAL)
+                .get();
         notesFragment.setScrollListener(onScrollListener);
-        FragmentHelper.replace(this, notesFragment, R.id.fragment_container);
+        FragmentHelper.replace(this, notesFragment, R.id.fragment_container, false);
     }
 
     private void toCategoriesFragment() {
         if (getCurrentFragment() instanceof CategoriesFragment) return;
         CategoriesFragment categoriesFragment = CategoriesFragment.newInstance();
         categoriesFragment.setScrollListener(onScrollListener);
-        FragmentHelper.replace(this, categoriesFragment, R.id.fragment_container);
+        FragmentHelper.replace(this, categoriesFragment, R.id.fragment_container, false);
     }
 
     private Fragment getCurrentFragment(){
@@ -823,14 +826,14 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     public void onNotebookSelected(Notebook notebook) {
         NotesFragment notesFragment = NotesFragment.newInstance(notebook, Status.NORMAL);
         notesFragment.setScrollListener(onScrollListener);
-        FragmentHelper.replaceWithCallback(this, notesFragment, R.id.fragment_container);
+        FragmentHelper.replace(this, notesFragment, R.id.fragment_container, true);
     }
 
     @Override
     public void onCategorySelected(Category category) {
         NotesFragment notesFragment = NotesFragment.newInstance(category, Status.NORMAL);
         notesFragment.setScrollListener(onScrollListener);
-        FragmentHelper.replaceWithCallback(this, notesFragment, R.id.fragment_container);
+        FragmentHelper.replace(this, notesFragment, R.id.fragment_container, true);
     }
 
     @Override
@@ -845,11 +848,6 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
 
     @Override
     public void onCategoryLoadStateChanged(me.shouheng.commons.model.data.Status status) {
-        onLoadStateChanged(status);
-    }
-
-    @Override
-    public void onNoteLoadStateChanged(me.shouheng.commons.model.data.Status status) {
         onLoadStateChanged(status);
     }
 

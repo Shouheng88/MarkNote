@@ -110,16 +110,14 @@ public class NotebookStore extends BaseStore<Notebook> {
         database.beginTransaction();
         try {
 
-            /*
-             * Update current notebook itself OF GIVEN STATUS. */
+            /* Update current notebook itself OF GIVEN STATUS. */
             database.execSQL(" UPDATE " + tableName
                             + " SET " + BaseSchema.STATUS + " = " + toStatus.id + " , " + BaseSchema.LAST_MODIFIED_TIME + " = ? "
                             + " WHERE " + BaseSchema.CODE + " = " + model.getCode()
                             + " AND " + BaseSchema.USER_ID + " = " + userId,
                     new String[]{String.valueOf(System.currentTimeMillis())});
 
-            /*
-             * Update the status of all associated notebooks OF GIVEN STATUS. */
+            /* Update the status of all associated notebooks OF GIVEN STATUS. */
             database.execSQL(" UPDATE " + tableName
                             + " SET " + BaseSchema.STATUS + " = " + toStatus.id + " , " + BaseSchema.LAST_MODIFIED_TIME + " = ? "
                             + " WHERE " + NotebookSchema.TREE_PATH + " LIKE '" + model.getTreePath() + "'||'%'"
@@ -127,8 +125,7 @@ public class NotebookStore extends BaseStore<Notebook> {
                             + " AND " + BaseSchema.STATUS + " = " + fromStatus.id,
                     new String[]{String.valueOf(System.currentTimeMillis())});
 
-            /*
-             * Update the status of all associated notes OF GIVEN STATUS. */
+            /* Update the status of all associated notes OF GIVEN STATUS. */
             database.execSQL(" UPDATE " + NoteSchema.TABLE_NAME
                             + " SET " + BaseSchema.STATUS + " = " + toStatus.id + " , " + BaseSchema.LAST_MODIFIED_TIME + " = ? "
                             + " WHERE " + NoteSchema.TREE_PATH + " LIKE '" + model.getTreePath() + "'||'%'"
@@ -159,22 +156,19 @@ public class NotebookStore extends BaseStore<Notebook> {
         database.beginTransaction();
         try {
 
-            /*
-             * Update the notebook`s tree path itself. */
+            /* Update the notebook`s tree path itself. */
             database.update(tableName, getContentValues(notebook),
                     BaseSchema.CODE + " = ? " + " AND " + BaseSchema.USER_ID + " = ? ",
                     new String[]{String.valueOf(notebook.getCode()), String.valueOf(userId)});
 
-            /*
-             * Need to modify the tree path of all notebook children of all status. */
+            /* Need to modify the tree path of all notebook children of all status. */
             database.execSQL(" UPDATE " + tableName
                     + " SET " + NotebookSchema.TREE_PATH + " = replace(" + NoteSchema.TREE_PATH + ", '" + oldTreePath + "', '" + notebook.getTreePath() + "') "
                     + " WHERE " + NotebookSchema.TREE_PATH + " LIKE '" + oldTreePath + "'||'%'"
                     + " AND " + BaseSchema.CODE + " != " + notebook.getCode() // exclude itself
                     + " AND " + BaseSchema.USER_ID + " = " + userId, new String[]{});
 
-            /*
-             * Need to modify the tree path of all note children of all status. */
+            /* Need to modify the tree path of all note children of all status. */
             database.execSQL(" UPDATE " + NoteSchema.TABLE_NAME
                     + " SET " + NoteSchema.TREE_PATH + " = replace(" + NoteSchema.TREE_PATH + ", '" + oldTreePath + "', '" + notebook.getTreePath() + "') "
                     + " WHERE " + NoteSchema.TREE_PATH + " LIKE '" + oldTreePath + "'||'%'"

@@ -16,6 +16,9 @@ import com.onedrive.sdk.extensions.Folder;
 import com.onedrive.sdk.extensions.Item;
 
 import me.shouheng.commons.activity.CommonActivity;
+import me.shouheng.commons.helper.FragmentHelper;
+import me.shouheng.commons.utils.ToastUtils;
+import me.shouheng.data.model.Directory;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.async.onedrive.ClearBackupStateTask;
@@ -23,9 +26,6 @@ import me.shouheng.notepal.databinding.ActivityDirectoryBinding;
 import me.shouheng.notepal.dialog.SimpleEditDialog;
 import me.shouheng.notepal.fragment.DirectoriesFragment;
 import me.shouheng.notepal.manager.onedrive.OneDriveManager;
-import me.shouheng.data.model.Directory;
-import me.shouheng.notepal.util.FragmentHelper;
-import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.notepal.util.preferences.SyncPreferences;
 
 public class DirectoryActivity extends CommonActivity<ActivityDirectoryBinding> implements
@@ -57,7 +57,7 @@ public class DirectoryActivity extends CommonActivity<ActivityDirectoryBinding> 
         Directory directory = new Directory();
         directory.setId("root");
         directory.setPath("root");
-        FragmentHelper.replace(this, DirectoriesFragment.newInstance(directory), R.id.fragment_container);
+        FragmentHelper.replace(this, DirectoriesFragment.newInstance(directory), R.id.fragment_container, false);
 
         getBinding().fabCreate.setColorNormal(accentColor());
         getBinding().fabCreate.setColorPressed(accentColor());
@@ -124,7 +124,7 @@ public class DirectoryActivity extends CommonActivity<ActivityDirectoryBinding> 
 
     @Override
     public void onDirectoryClicked(Directory item) {
-        FragmentHelper.replaceWithCallback(this, DirectoriesFragment.newInstance(item), R.id.fragment_container);
+        FragmentHelper.replace(this, DirectoriesFragment.newInstance(item), R.id.fragment_container, true);
     }
 
     private DirectoriesFragment getCurrentFragment() {

@@ -123,10 +123,7 @@ public class QuickNoteActivity extends PermissionActivity implements AttachmentH
         noteViewModel.saveSnagging(ModelFactory.getNote(), mindSnagging, attachment).observe(this, new Observer<Resource<Note>>() {
             @Override
             public void onChanged(@Nullable Resource<Note> noteResource) {
-                if (noteResource == null) {
-                    ToastUtils.makeToast(R.string.text_failed_to_modify_data);
-                    return;
-                }
+                assert noteResource != null;
                 switch (noteResource.status) {
                     case SUCCESS:
                         ToastUtils.makeToast(R.string.text_save_successfully);

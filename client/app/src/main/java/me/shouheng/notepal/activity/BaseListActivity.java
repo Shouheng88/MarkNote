@@ -18,18 +18,18 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 
 import me.shouheng.commons.activity.CommonActivity;
 import me.shouheng.commons.event.RxMessage;
+import me.shouheng.commons.helper.FragmentHelper;
+import me.shouheng.commons.model.data.Status;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.ActivityBaseListBinding;
 import me.shouheng.notepal.fragment.CategoriesFragment;
 import me.shouheng.notepal.fragment.NotesFragment;
-import me.shouheng.commons.model.data.Status;
-import me.shouheng.notepal.util.FragmentHelper;
-
 
 /**
- * Created by wangshouheng on 2017/10/10.*/
+ * Created by WngShhng on 2017/10/10.
+ */
 public abstract class BaseListActivity extends CommonActivity<ActivityBaseListBinding> implements
         NotesFragment.OnNotesInteractListener,
         CategoriesFragment.OnCategoriesInteractListener {
@@ -117,11 +117,11 @@ public abstract class BaseListActivity extends CommonActivity<ActivityBaseListBi
                     switch ((int) drawerItem.getIdentifier()) {
                         case 0:
                             drawer.closeDrawer();
-                            FragmentHelper.replace(this, getNotesFragment(), R.id.fragment_container);
+                            FragmentHelper.replace(this, getNotesFragment(), R.id.fragment_container, false);
                             break;
                         case 1:
                             drawer.closeDrawer();
-                            FragmentHelper.replace(this, getCategoryFragment(), R.id.fragment_container);
+                            FragmentHelper.replace(this, getCategoryFragment(), R.id.fragment_container, false);
                             break;
                         case 2:
                             if (isListChanged) {
@@ -136,7 +136,7 @@ public abstract class BaseListActivity extends CommonActivity<ActivityBaseListBi
                 .withShowDrawerOnFirstLaunch(true)
                 .build();
 
-        FragmentHelper.replace(this, getNotesFragment(), R.id.fragment_container);
+        FragmentHelper.replace(this, getNotesFragment(), R.id.fragment_container, false);
     }
 
     public void setDrawerLayoutLocked(boolean lock){
@@ -192,11 +192,6 @@ public abstract class BaseListActivity extends CommonActivity<ActivityBaseListBi
 
     @Override
     public void onCategoryLoadStateChanged(Status status) {
-        onLoadStateChanged(status);
-    }
-
-    @Override
-    public void onNoteLoadStateChanged(Status status) {
         onLoadStateChanged(status);
     }
 
