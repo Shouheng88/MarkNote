@@ -15,7 +15,6 @@ import android.view.View;
 import java.io.Serializable;
 import java.util.Collections;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import me.shouheng.commons.activity.ContainerActivity;
@@ -67,24 +66,6 @@ public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
     private RecyclerView.OnScrollListener scrollListener;
     private NotesAdapter adapter;
     private NotesViewModel viewModel;
-
-    public static NotesFragment newInstance(@Nonnull Notebook notebook, @Nonnull Status status) {
-        Bundle args = new Bundle();
-        args.putSerializable(ARGS_KEY_NOTEBOOK, notebook);
-        args.putSerializable(ARGS_KEY_STATUS, status);
-        NotesFragment fragment = new NotesFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    public static NotesFragment newInstance(@Nonnull Category category, @Nonnull Status status) {
-        Bundle args = new Bundle();
-        args.putSerializable(ARGS_KEY_CATEGORY, category);
-        args.putSerializable(ARGS_KEY_STATUS, status);
-        NotesFragment fragment = new NotesFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     protected int getLayoutResId() {

@@ -810,14 +810,20 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
 
     @Override
     public void onNotebookSelected(Notebook notebook) {
-        NotesFragment notesFragment = NotesFragment.newInstance(notebook, Status.NORMAL);
+        NotesFragment notesFragment = FragmentHelper.open(NotesFragment.class)
+                .put(NotesFragment.ARGS_KEY_NOTEBOOK, notebook)
+                .put(NotesFragment.ARGS_KEY_STATUS, Status.NORMAL)
+                .get();
         notesFragment.setScrollListener(onScrollListener);
         FragmentHelper.replace(this, notesFragment, R.id.fragment_container, true);
     }
 
     @Override
     public void onCategorySelected(Category category) {
-        NotesFragment notesFragment = NotesFragment.newInstance(category, Status.NORMAL);
+        NotesFragment notesFragment = FragmentHelper.open(NotesFragment.class)
+                .put(NotesFragment.ARGS_KEY_CATEGORY, category)
+                .put(NotesFragment.ARGS_KEY_STATUS, Status.NORMAL)
+                .get();
         notesFragment.setScrollListener(onScrollListener);
         FragmentHelper.replace(this, notesFragment, R.id.fragment_container, true);
     }
