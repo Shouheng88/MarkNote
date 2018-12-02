@@ -108,8 +108,8 @@
     <string name="drawer_menu_statistics">Statistics</string>
     <string name="drawer_menu_time_line">TimeLine</string>
     <string name="drawer_menu_setting">Settings</string>
-    <string name="drawer_menu_share">Share APP</string>
-    <string name="drawer_menu_donate">Support development</string>
+    <string name="drawer_menu_share">Share App</string>
+    <string name="drawer_menu_donate">Support Development</string>
 
     <!-- shortcuts -->
     <string name="shortcut_add_long_name">Create new notes</string>
