@@ -327,6 +327,9 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         switch (action) {
             /* Actions shortcuts, check at first and then send the note fragment. */
             case SHORTCUT_ACTION_SEARCH_NOTE:
+                ActivityHelper.open(SearchActivity.class)
+                        .setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                        .launch(getContext());
                 break;
             case SHORTCUT_ACTION_CAPTURE:
                 PermissionUtils.checkPermissions(this, () ->
