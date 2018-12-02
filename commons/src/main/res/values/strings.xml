@@ -202,6 +202,9 @@
     <string name="note_table_cols_number">Columns</string>
     <string name="note_table_rows_required">The row number can\'t be empty.</string>
     <string name="note_table_cols_required">The column number can\'t be empty.</string>
+    <string name="note_action_view_message">Found that you opened an external file, please select an action:</string>
+    <string name="note_action_view_create_note">Create mew note</string>
+    <string name="note_action_view_file_type_not_support">This file type is not supported.</string>
 
     <!-- attachment -->
     <string name="attachment_type_files">File</string>

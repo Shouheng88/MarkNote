@@ -21,6 +21,10 @@ import android.widget.EditText;
 import com.kennyc.bottomsheet.BottomSheet;
 import com.kennyc.bottomsheet.BottomSheetListener;
 
+import org.apache.commons.io.FileUtils;
+
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -72,8 +76,11 @@ import static me.shouheng.notepal.Constants.SHORTCUT_ACTION_CREATE_NOTE;
 import static me.shouheng.notepal.Constants.SHORTCUT_ACTION_VIEW_NOTE;
 
 /**
+ * The note edit fragment.
+ *
  * Created by WngShhng (shouehng2015@gmail.com) on 2017/5/12.
- * Refactored by WngShhng (shouheng2015@gmail.com) on 2017/12/2. */
+ * Refactored by WngShhng (shouheng2015@gmail.com) on 2017/12/2.
+ */
 public class NoteFragment extends CommonFragment<FragmentNoteBinding>
         implements BackEventResolver, AttachmentHelper.OnAttachingFileListener {
 
@@ -236,8 +243,31 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding>
                     break;
                 }
                 case Intent.ACTION_VIEW:
-                case Intent.ACTION_EDIT:
+                case Intent.ACTION_EDIT: {
+                    Note note = ModelFactory.getNote();
+                    Intent intent = arguments.getParcelable(ARGS_KEY_INTENT);
+                    assert intent != null;
+                    Uri uri = intent.getData();
+                    String path = FileManager.getPath(getContext(), uri);
+                    Disposable disposable = Observable.create((ObservableOnSubscribe<String>) emitter -> {
+                        try {
+                            if (path == null) {
+                                emitter.onError(new Exception("The file path is null"));
+                                return;
+                            }
+                            File file = new File(path);
+                            String content = FileUtils.readFileToString(file, Constants.NOTE_FILE_ENCODING);
+                            emitter.onNext(content);
+                        } catch (IOException ex) {
+                            emitter.onError(ex);
+                        }
+                    }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(s -> {
+                                note.setContent(s);
+                                viewModel.notifyNoteChanged(note);
+                            }, throwable -> viewModel.notifyNoteChanged(note));
                     break;
+                }
 
                  /* Handle the AppWidget actions. */
 

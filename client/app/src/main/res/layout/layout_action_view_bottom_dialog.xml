@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:clickable="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true">
+
+        <me.shouheng.commons.widget.theme.SupportTextView
+            android:text="@string/note_action_view_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tv_path"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            tools:text="213123213"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:gravity="end"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/btn_cancel"
+                android:text="@string/text_cancel"
+                android:background="@android:color/transparent"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp" />
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/btn_create"
+                android:text="@string/note_action_view_create_note"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textColor="@android:color/white"
+                android:background="?colorAccent"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</layout>

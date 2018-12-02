@@ -3,15 +3,18 @@ package me.shouheng.notepal.activity;
 import android.app.Dialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +23,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.RelativeLayout;
 
 import com.github.clans.fab.FloatingActionButton;
+import com.kennyc.bottomsheet.BottomSheet;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -61,6 +65,7 @@ import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.ActivityMainBinding;
+import me.shouheng.notepal.databinding.LayoutActionViewBottomDialogBinding;
 import me.shouheng.notepal.dialog.CategoryEditDialog;
 import me.shouheng.notepal.dialog.NotebookEditDialog;
 import me.shouheng.notepal.dialog.QuickNoteDialog;
@@ -72,6 +77,7 @@ import me.shouheng.notepal.fragment.NotesFragment;
 import me.shouheng.notepal.fragment.StatisticsFragment;
 import me.shouheng.notepal.fragment.TimeLineFragment;
 import me.shouheng.notepal.fragment.setting.SettingsFragment;
+import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.notepal.util.FragmentHelper;
 import me.shouheng.notepal.util.SynchronizeUtils;
 import me.shouheng.notepal.util.preferences.PrefUtils;
@@ -373,14 +379,27 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                 PermissionUtils.checkStoragePermission(this, () -> {
                     if (IntentUtils.checkAction(intent, Intent.ACTION_EDIT, Intent.ACTION_VIEW)
                             && intent.getType() != null) {
-                        // TODO check file type, behave like PureWriter.
                         Uri uri = intent.getData();
-
-                        // Passed check, launch the note fragment.
-                        ContainerActivity.open(NoteFragment.class)
-                                .put(NoteFragment.ARGS_KEY_ACTION, action)
-                                .put(NoteFragment.ARGS_KEY_INTENT, intent)
-                                .launch(getContext());
+                        String path = FileManager.getPath(this, uri);
+                        LayoutActionViewBottomDialogBinding binding = DataBindingUtil.inflate(
+                                LayoutInflater.from(getContext()), R.layout.layout_action_view_bottom_dialog, null, false);
+                        binding.tvPath.setText(path);
+                        BottomSheet bottomSheet = new BottomSheet.Builder(this)
+                                .setStyle(isDarkTheme() ? R.style.BottomSheet_Dark : R.style.BottomSheet)
+                                .setView(binding.getRoot()).create();
+                        binding.btnCancel.setOnClickListener(v -> bottomSheet.dismiss());
+                        binding.btnCreate.setOnClickListener(v -> {
+                            if (Constants.MIME_TYPE_OF_PLAIN_TEXT.equals(intent.getType())) {
+                                ContainerActivity.open(NoteFragment.class)
+                                        .put(NoteFragment.ARGS_KEY_ACTION, action)
+                                        .put(NoteFragment.ARGS_KEY_INTENT, intent)
+                                        .launch(getContext());
+                                bottomSheet.dismiss();
+                            } else {
+                                ToastUtils.makeToast(R.string.note_action_view_file_type_not_support);
+                            }
+                        });
+                        new Handler().postDelayed(bottomSheet::show, 500);
                     }
                 });
                 break;
