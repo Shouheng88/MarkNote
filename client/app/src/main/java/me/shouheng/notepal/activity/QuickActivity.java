@@ -32,7 +32,7 @@ import me.shouheng.notepal.viewmodel.NoteViewModel;
 
 import static me.shouheng.notepal.Constants.SHORTCUT_ACTION_QUICK_NOTE;
 
-public class QuickNoteActivity extends PermissionActivity implements AttachmentHelper.OnAttachingFileListener {
+public class QuickActivity extends PermissionActivity implements AttachmentHelper.OnAttachingFileListener {
 
     private final static int REQUEST_PASSWORD = 0x0016;
 
@@ -127,7 +127,7 @@ public class QuickNoteActivity extends PermissionActivity implements AttachmentH
                 switch (noteResource.status) {
                     case SUCCESS:
                         ToastUtils.makeToast(R.string.text_save_successfully);
-                        AppWidgetUtils.notifyAppWidgets(QuickNoteActivity.this);
+                        AppWidgetUtils.notifyAppWidgets(QuickActivity.this);
                         break;
                     case FAILED:
                         ToastUtils.makeToast(R.string.text_failed_to_modify_data);

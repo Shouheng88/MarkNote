@@ -14,7 +14,7 @@ import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.MainActivity;
 import me.shouheng.notepal.activity.ConfigActivity;
-import me.shouheng.notepal.activity.QuickNoteActivity;
+import me.shouheng.notepal.activity.QuickActivity;
 import me.shouheng.notepal.Constants;
 
 public abstract class WidgetProvider extends AppWidgetProvider {
@@ -83,7 +83,7 @@ public abstract class WidgetProvider extends AppWidgetProvider {
     }
 
     private PendingIntent pendingIntentAddMind(Context context, int widgetId) {
-        Intent intentAddMind = new Intent(context, QuickNoteActivity.class);
+        Intent intentAddMind = new Intent(context, QuickActivity.class);
         intentAddMind.setAction(Constants.ACTION_ADD_MIND);
         intentAddMind.putExtra(Constants.INTENT_WIDGET, widgetId);
         return PendingIntent.getActivity(context, widgetId, intentAddMind, PendingIntent.FLAG_CANCEL_CURRENT);

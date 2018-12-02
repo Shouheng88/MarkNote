@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -24,32 +23,10 @@
         </me.shouheng.commons.widget.theme.SupportAppBarLayout>
 
         <FrameLayout
+            android:id="@+id/fragment_container"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <FrameLayout
-                android:id="@+id/fragment_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <me.shouheng.commons.widget.theme.SupportLoading
-                android:id="@+id/sl"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
-            <me.zhanghai.android.materialprogressbar.MaterialProgressBar
-                android:id="@+id/top_mpb"
-                app:mpb_progressStyle="horizontal"
-                style="@style/Widget.MaterialProgressBar.ProgressBar.Horizontal"
-                android:indeterminate="true"
-                android:visibility="gone"
-                tools:visibility="visible"
-                app:mpb_useIntrinsicPadding="false"
-                android:layout_width="match_parent"
-                android:layout_height="5dp" />
-
-        </FrameLayout>
+            android:layout_height="match_parent"/>
 
     </android.support.design.widget.CoordinatorLayout>
 

@@ -282,10 +282,14 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                             toCategoriesFragment();
                             break;
                         case 2:
-                            ActivityHelper.start(this, ArchiveActivity.class);
+                            ActivityHelper.open(ListActivity.class)
+                                    .put(ListActivity.ARGS_KEY_LIST_TYPE, Status.ARCHIVED)
+                                    .launch(getContext());
                             break;
                         case 3:
-                            ActivityHelper.start(this, TrashedActivity.class);
+                            ActivityHelper.open(ListActivity.class)
+                                    .put(ListActivity.ARGS_KEY_LIST_TYPE, Status.TRASHED)
+                                    .launch(getContext());
                             break;
                         case 4:
                             SettingsActivity.open(SettingsFragment.class).launch(this);
@@ -441,37 +445,28 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         }
     }
 
-    private void handleThirdPart() {
-        Intent i = getIntent();
-        if (IntentUtils.checkAction(i,
-                Intent.ACTION_SEND,
-                Intent.ACTION_SEND_MULTIPLE) && i.getType() != null) {
-            ContentActivity.resolveThirdPart(this, i);
-        }
-    }
-
     private void startAddPhoto() {
-        PermissionUtils.checkStoragePermission(this, () ->
-                ContentActivity.resolveAction(
-                        MainActivity.this,
-                        getNewNote(),
-                        Constants.ACTION_TAKE_PHOTO));
+//        PermissionUtils.checkStoragePermission(this, () ->
+//                ContentActivity.resolveAction(
+//                        MainActivity.this,
+//                        getNewNote(),
+//                        Constants.ACTION_TAKE_PHOTO));
     }
 
     private void startAddSketch() {
-        PermissionUtils.checkStoragePermission(this, () ->
-                ContentActivity.resolveAction(
-                        MainActivity.this,
-                        getNewNote(),
-                        Constants.ACTION_ADD_SKETCH));
+//        PermissionUtils.checkStoragePermission(this, () ->
+//                ContentActivity.resolveAction(
+//                        MainActivity.this,
+//                        getNewNote(),
+//                        Constants.ACTION_ADD_SKETCH));
     }
 
     private void startAddFile() {
-        PermissionUtils.checkStoragePermission(this, () ->
-                ContentActivity.resolveAction(
-                        MainActivity.this,
-                        getNewNote(),
-                        Constants.ACTION_ADD_FILES));
+//        PermissionUtils.checkStoragePermission(this, () ->
+//                ContentActivity.resolveAction(
+//                        MainActivity.this,
+//                        getNewNote(),
+//                        Constants.ACTION_ADD_FILES));
     }
     // endregion
 
@@ -575,8 +570,8 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     }
 
     private void editNote(@NonNull final Note note) {
-        PermissionUtils.checkStoragePermission(this, () ->
-                ContentActivity.editNote(this, note));
+//        PermissionUtils.checkStoragePermission(this, () ->
+//                ContentActivity.editNote(this, note));
     }
 
     /**
@@ -634,10 +629,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
             switch (notebookResource.status) {
                 case SUCCESS:
                     ToastUtils.makeToast(R.string.text_save_successfully);
-                    Fragment fragment = getCurrentFragment();
-                    if (fragment instanceof NotesFragment) {
-                        ((NotesFragment) fragment).loadNotesAndNotebooks();
-                    }
+                    postEvent(new RxMessage(RxMessage.CODE_NOTE_DATA_CHANGED, null));
                     break;
                 case FAILED:
                     ToastUtils.makeToast(R.string.text_failed);
@@ -673,10 +665,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
             switch (noteResource.status) {
                 case SUCCESS:
                     ToastUtils.makeToast(R.string.text_save_successfully);
-                    Fragment fragment = getCurrentFragment();
-                    if (fragment instanceof NotesFragment) {
-                        ((NotesFragment) fragment).loadNotesAndNotebooks();
-                    }
+                    postEvent(new RxMessage(RxMessage.CODE_NOTE_DATA_CHANGED, null));
                     break;
                 case FAILED:
                     ToastUtils.makeToast(R.string.text_failed_to_modify_data);

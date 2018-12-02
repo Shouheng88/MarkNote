@@ -21,7 +21,7 @@
         <intent
             android:action="me.shouheng.notepal.QUICK_NOTE"
             android:targetPackage="me.shouheng.notepal"
-            android:targetClass="me.shouheng.notepal.activity.QuickNoteActivity" />
+            android:targetClass="me.shouheng.notepal.activity.QuickActivity" />
     </shortcut>
 
     <!--Action : Capture pictures-->

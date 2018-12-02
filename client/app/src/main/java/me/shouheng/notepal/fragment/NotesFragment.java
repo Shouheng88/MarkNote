@@ -202,7 +202,6 @@ public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
             assert resources != null;
             switch (resources.status) {
                 case SUCCESS:
-                    loadNotesAndNotebooks();
                     notifyDataChanged();
                     break;
                 case LOADING:
@@ -216,7 +215,6 @@ public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
             assert resources != null;
             switch (resources.status) {
                 case SUCCESS:
-                    loadNotesAndNotebooks();
                     notifyDataChanged();
                     break;
                 case LOADING:
@@ -368,17 +366,15 @@ public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
     /**
      * Load notes and notebooks
      */
-    public void loadNotesAndNotebooks() {
+    private void loadNotesAndNotebooks() {
         viewModel.fetchMultiItems();
     }
 
     private void notifyDataChanged() {
+        /* Send the note change broadcast. */
+        postEvent(new RxMessage(RxMessage.CODE_NOTE_DATA_CHANGED, null));
         /* Notify app widget that the list is changed. */
         AppWidgetUtils.notifyAppWidgets(getContext());
-        /* Notify the attached activity that the list is changed. */
-        if (getActivity() != null && getActivity() instanceof OnNotesInteractListener) {
-            ((OnNotesInteractListener) getActivity()).onNoteDataChanged();
-        }
     }
 
     @Override
@@ -439,15 +435,19 @@ public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
         /**
          * On the notebook is selected, this method will be called.
          *
-         * @param notebook notebook selected */
-        default void onNotebookSelected(Notebook notebook){}
+         * @param notebook notebook selected
+         */
+        default void onNotebookSelected(Notebook notebook) {
+
+        }
 
         /**
          * When the fragment is attached to the activity, will call this method to lock the drawer
          *
-         * @param isTopStack whether current fragment is the top stack of all fragments */
-        default void onActivityAttached(boolean isTopStack){}
+         * @param isTopStack whether current fragment is the top stack of all fragments
+         */
+        default void onActivityAttached(boolean isTopStack) {
 
-        default void onNoteDataChanged(){}
+        }
     }
 }

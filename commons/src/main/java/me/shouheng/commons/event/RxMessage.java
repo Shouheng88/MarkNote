@@ -11,10 +11,10 @@ public class RxMessage {
     public final static int CODE_NOTE_LIST_STYLE_CHANGED = 2;
 
     /**
-     * The message code for note data set change event.
-     * The message code will be sent if the note data changed.
+     * The code to identify the NOTE AND NOTEBOOK data change event.
      */
     public final static int CODE_NOTE_DATA_CHANGED = 3;
+
     public final static int CODE_CATEGORY_DATA_CHANGED = 4;
 
     public final int code;

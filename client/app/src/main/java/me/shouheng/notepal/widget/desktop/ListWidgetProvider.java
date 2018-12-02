@@ -15,7 +15,7 @@ import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.MainActivity;
-import me.shouheng.notepal.activity.QuickNoteActivity;
+import me.shouheng.notepal.activity.QuickActivity;
 import me.shouheng.notepal.Constants;
 
 public class ListWidgetProvider extends WidgetProvider {
@@ -67,7 +67,7 @@ public class ListWidgetProvider extends WidgetProvider {
         int id = sharedPreferences.getInt(Constants.PREF_WIDGET_TYPE_PREFIX + String.valueOf(widgetId), ListWidgetType.NOTES_LIST.id);
         ListWidgetType listWidgetType = ListWidgetType.getListWidgetType(id);
 
-        Intent clickIntent = new Intent(context, listWidgetType == ListWidgetType.MINDS_LIST ? QuickNoteActivity.class : MainActivity.class);
+        Intent clickIntent = new Intent(context, listWidgetType == ListWidgetType.MINDS_LIST ? QuickActivity.class : MainActivity.class);
         clickIntent.setAction(Constants.ACTION_WIDGET_LIST);
 
         return PendingIntent.getActivity(context, 0, clickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
