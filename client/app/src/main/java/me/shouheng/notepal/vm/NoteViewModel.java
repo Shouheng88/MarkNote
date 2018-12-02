@@ -92,11 +92,11 @@ public class NoteViewModel extends ViewModel {
             /* Get the note file of note. */
             Attachment atFile = AttachmentsStore.getInstance().get(note.getContentCode());
             if (atFile == null) {
-                emitter.onNext("");
+                emitter.onNext(note.getContent() == null ? "" : note.getContent());
             } else {
                 try {
                     File noteFile = new File(atFile.getPath());
-                    String content = FileUtils.readFileToString(noteFile, "utf-8");
+                    String content = FileUtils.readFileToString(noteFile, Constants.NOTE_FILE_ENCODING);
                     emitter.onNext(content);
                 } catch (IOException e) {
                     emitter.onError(e);

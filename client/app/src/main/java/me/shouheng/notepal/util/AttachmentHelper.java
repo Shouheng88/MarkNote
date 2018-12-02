@@ -221,6 +221,45 @@ public class AttachmentHelper {
     }
 
     /**
+     * Method used to handle attachments from the third part app send event.
+     *
+     * @param fragment the fragment to handle the result
+     * @param uris the attachment uris
+     * @param model the model
+     * @param <CTX> the fragment requirement
+     * @param <M> the model requirement
+     * @return the disposable
+     */
+    public static <CTX extends Fragment & OnAttachingFileListener, M extends Model> Disposable handleAttachments(
+            CTX fragment, List<Uri> uris, M model) {
+        return Observable.fromIterable(uris)
+                .map(uri -> {
+                    Attachment attachment = FileManager.createAttachmentFromUri(fragment.getContext(), uri);
+                    attachment.setModelCode(model.getCode());
+                    attachment.setModelType(ModelType.getTypeByName(model.getClass()));
+                    return attachment;
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(attachment -> {
+                    if (Constants.MIME_TYPE_IMAGE.equals(attachment.getMineType())) {
+                        /* Compress if the attachment was image. */
+                        handleImageCompress(fragment, attachment, new DefaultCompressListener(fragment, attachment));
+                    } else {
+                        /* Save the attachment to database and notify the fragment. */
+                        Observable.create((ObservableOnSubscribe<Attachment>) emitter -> {
+                            AttachmentsStore.getInstance().saveModel(attachment);
+                            emitter.onNext(attachment);
+                        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(attachment1 -> {
+                            if (PalmUtils.isAlive(fragment)) {
+                                fragment.onAttachingFileFinished(attachment1);
+                            }
+                        });
+                    }
+                });
+    }
+
+    /**
      * Handle the images pick results from the custom image picker.
      *
      * @param fragment the fragment to resolve the result

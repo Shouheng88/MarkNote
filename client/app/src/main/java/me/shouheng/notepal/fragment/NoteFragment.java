@@ -1,9 +1,11 @@
 package me.shouheng.notepal.fragment;
 
+import android.app.Activity;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
@@ -21,6 +23,7 @@ import com.kennyc.bottomsheet.BottomSheetListener;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
@@ -68,9 +71,9 @@ import static me.shouheng.notepal.Constants.SHORTCUT_ACTION_CAPTURE;
 import static me.shouheng.notepal.Constants.SHORTCUT_ACTION_CREATE_NOTE;
 import static me.shouheng.notepal.Constants.SHORTCUT_ACTION_VIEW_NOTE;
 
-/**TODO the edit buttons (attachment & preview)
- * TODO MD buttons
- * Created by WngShhng (shouehng2015@gmail.com) on 2017/5/12.*/
+/**
+ * Created by WngShhng (shouehng2015@gmail.com) on 2017/5/12.
+ * Refactored by WngShhng (shouheng2015@gmail.com) on 2017/12/2. */
 public class NoteFragment extends CommonFragment<FragmentNoteBinding>
         implements BackEventResolver, AttachmentHelper.OnAttachingFileListener {
 
@@ -182,17 +185,56 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding>
                 && (action = arguments.getString(ARGS_KEY_ACTION)) != null) {
             switch (action) {
                 /* Handle the shortcut actions. */
-                case SHORTCUT_ACTION_CREATE_NOTE:
+                case SHORTCUT_ACTION_CREATE_NOTE: {
+                    // Create a note of default notebook and no category.
+                    Note note = ModelFactory.getNote();
+                    viewModel.notifyNoteChanged(note);
                     break;
-                case SHORTCUT_ACTION_VIEW_NOTE:
+                }
+                case SHORTCUT_ACTION_VIEW_NOTE: {
+                    Note note = (Note) arguments.getSerializable(ARGS_KEY_NOTE);
+                    assert note != null;
+                    viewModel.notifyNoteChanged(note);
                     break;
-                case SHORTCUT_ACTION_CAPTURE:
+                }
+                case SHORTCUT_ACTION_CAPTURE: {
+                    Note note = ModelFactory.getNote();
+                    viewModel.notifyNoteChanged(note);
+                    /* Need to delay few minutes, otherwise the fragment can't get the result. */
+                    new Handler().postDelayed(() -> AttachmentHelper.takeAPhoto(NoteFragment.this), 800);
                     break;
+                }
 
                 /* Handle the third part actions. */
                 case Intent.ACTION_SEND:
-                case Intent.ACTION_SEND_MULTIPLE:
+                case Intent.ACTION_SEND_MULTIPLE: {
+                    /* Handle the note title and content. */
+                    Note note = ModelFactory.getNote();
+                    Intent intent = arguments.getParcelable(ARGS_KEY_INTENT);
+                    assert intent != null;
+                    String title = intent.getStringExtra(Intent.EXTRA_SUBJECT);
+                    note.setTitle(title);
+                    String content = intent.getStringExtra(Intent.EXTRA_TEXT);
+                    if (!TextUtils.isEmpty(content)) {
+                        content = content.replace("\t", TAB_REPLACEMENT);
+                    }
+                    note.setContent(content);
+                    viewModel.notifyNoteChanged(note);
+                    /* Handle the attachments. */
+                    List<Uri> uris = new LinkedList<>();
+                    Uri uri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
+                    if (uri != null) {
+                        uris.add(uri);
+                    }
+                    ArrayList<Uri> list = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
+                    if (list != null) {
+                        uris.addAll(list);
+                    }
+                    if (!uris.isEmpty()) {
+                        AttachmentHelper.handleAttachments(this, uris, note);
+                    }
                     break;
+                }
                 case Intent.ACTION_VIEW:
                 case Intent.ACTION_EDIT:
                     break;
@@ -262,8 +304,11 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding>
             switch (resources.status) {
                 case SUCCESS:
                     AppWidgetUtils.notifyAppWidgets(getContext());
-                    getActivity().setResult(RESULT_OK);
-                    getActivity().finish();
+                    Activity activity  =getActivity();
+                    if (activity != null) {
+                        activity.setResult(RESULT_OK);
+                        activity.finish();
+                    }
                     break;
                 case FAILED:
                     ToastUtils.makeToast(R.string.text_failed_to_save_note);
@@ -273,39 +318,6 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding>
             }
         });
     }
-
-    private void handleThirdPart() {
-        Intent intent = null;
-
-//        = ((OnNoteInteractListener) getActivity()).getIntentForThirdPart();
-
-        String title = intent.getStringExtra(Intent.EXTRA_SUBJECT);
-//        note.setTitle(title);
-
-        String content = intent.getStringExtra(Intent.EXTRA_TEXT);
-        if (!TextUtils.isEmpty(content)) {
-            content = content.replace("\t", TAB_REPLACEMENT);
-        }
-//        note.setContent(content);
-
-        // Single attachment data
-        Uri uri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
-
-        // Due to the fact that Google Now passes intent as text but with
-        // audio recording attached the case must be handled in specific way
-        if (uri != null) {
-//            new CreateAttachmentTask(this, uri, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        }
-
-        // Multiple attachment data
-        ArrayList<Uri> uris = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
-        if (uris != null) {
-            for (Uri uriSingle : uris) {
-//                new CreateAttachmentTask(this, uriSingle, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            }
-        }
-    }
-    // endregion
 
     private void showAttachmentPicker() {
         new BottomSheet.Builder(Objects.requireNonNull(getContext()))
@@ -335,13 +347,6 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding>
                     public void onSheetDismissed(@NonNull BottomSheet bottomSheet, @Nullable Object o, int i) {}
                 })
                 .show();
-    }
-
-    // endregion
-
-//    @Override
-    protected void onFailedGetAttachment(Attachment attachment) {
-        ToastUtils.makeToast(R.string.text_failed_to_save_attachment);
     }
 
     private void showCategoriesPicker() {
