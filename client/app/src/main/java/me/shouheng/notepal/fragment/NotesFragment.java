@@ -19,6 +19,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import me.shouheng.commons.activity.ContainerActivity;
+import me.shouheng.commons.event.RxMessage;
 import me.shouheng.commons.fragment.CommonFragment;
 import me.shouheng.commons.helper.FragmentHelper;
 import me.shouheng.commons.utils.ToastUtils;
@@ -225,7 +226,9 @@ public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
                     break;
             }
         });
-        // TODO add data set change subscription
+        addSubscription(RxMessage.class, RxMessage.CODE_NOTE_DATA_CHANGED, rxMessage -> {
+            loadNotesAndNotebooks();
+        });
     }
 
     private void popNoteMenu(View v, NotesAdapter.MultiItem multiItem) {

@@ -142,9 +142,6 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     }
 
     private void addSubscriptions() {
-        addSubscription(RxMessage.class, RxMessage.CODE_NOTE_DATA_CHANGED, rxMessage -> {
-            if (isNotesFragment()) ((NotesFragment) getCurrentFragment()).loadNotesAndNotebooks();
-        });
         addSubscription(RxMessage.class, RxMessage.CODE_SORT_FLOAT_BUTTONS, rxMessage -> {
             initFabSortItems();
         });

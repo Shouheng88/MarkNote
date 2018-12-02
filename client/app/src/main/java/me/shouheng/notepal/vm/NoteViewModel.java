@@ -50,7 +50,7 @@ public class NoteViewModel extends ViewModel {
 
     private MutableLiveData<Resource<String>> noteContentObservable;
 
-    private MutableLiveData<Resource<Note>> saveOrUpdateObservable;
+    private MutableLiveData<Resource<Boolean>> saveOrUpdateObservable;
 
     public LiveData<Resource<Note>> getNoteObservable() {
         if (noteObservable == null) {
@@ -66,7 +66,7 @@ public class NoteViewModel extends ViewModel {
         return noteContentObservable;
     }
 
-    public LiveData<Resource<Note>> getSaveOrUpdateObservable() {
+    public LiveData<Resource<Boolean>> getSaveOrUpdateObservable() {
         if (saveOrUpdateObservable == null) {
             saveOrUpdateObservable = new MutableLiveData<>();
         }
@@ -125,11 +125,11 @@ public class NoteViewModel extends ViewModel {
      * @return the disposable
      */
     public Disposable saveOrUpdateNote(String title, String content) {
-        return Observable.create((ObservableOnSubscribe<Note>) emitter -> {
+        return Observable.create((ObservableOnSubscribe<Boolean>) emitter -> {
 
             /* The title is empty and the content is empty and the note is a new note, don't save it. */
             if (TextUtils.isEmpty(title) && TextUtils.isEmpty(content) && note.getContentCode() == 0) {
-                emitter.onNext(note);
+                emitter.onNext(false);
                 return;
             }
 
@@ -176,15 +176,15 @@ public class NoteViewModel extends ViewModel {
             /* Save or update the note. */
             NotesStore.getInstance().saveOrUpdate(note);
 
-            emitter.onNext(note);
+            emitter.onNext(true);
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(note -> {
+                .subscribe(bool -> {
                     if (saveOrUpdateObservable != null) {
-                        saveOrUpdateObservable.setValue(Resource.success(note));
+                        saveOrUpdateObservable.setValue(Resource.success(bool));
                     }
                 }, throwable -> {
                     if (saveOrUpdateObservable != null) {
-                        saveOrUpdateObservable.setValue(Resource.error(throwable.getMessage(), note));
+                        saveOrUpdateObservable.setValue(Resource.error(throwable.getMessage(), false));
                     }
                 });
     }

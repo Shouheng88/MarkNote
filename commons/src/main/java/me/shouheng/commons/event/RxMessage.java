@@ -9,6 +9,11 @@ public class RxMessage {
     public final static int CODE_SORT_FLOAT_BUTTONS = 0;
     public final static int CODE_SORT_EDIT_MENU = 1;
     public final static int CODE_NOTE_LIST_STYLE_CHANGED = 2;
+
+    /**
+     * The message code for note data set change event.
+     * The message code will be sent if the note data changed.
+     */
     public final static int CODE_NOTE_DATA_CHANGED = 3;
     public final static int CODE_CATEGORY_DATA_CHANGED = 4;
 

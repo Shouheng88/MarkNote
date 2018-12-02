@@ -39,6 +39,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import me.shouheng.commons.activity.ContainerActivity;
 import me.shouheng.commons.activity.interaction.BackEventResolver;
+import me.shouheng.commons.event.RxMessage;
 import me.shouheng.commons.fragment.CommonFragment;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.PalmUtils;
@@ -333,10 +334,16 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding>
             assert resources != null;
             switch (resources.status) {
                 case SUCCESS:
-                    AppWidgetUtils.notifyAppWidgets(getContext());
-                    Activity activity  =getActivity();
+                    Activity activity = getActivity();
+                    assert resources.data != null;
+                    if (resources.data) {
+                        AppWidgetUtils.notifyAppWidgets(getContext());
+                        postEvent(new RxMessage(RxMessage.CODE_NOTE_DATA_CHANGED, null));
+                        if (activity != null) {
+                            activity.setResult(RESULT_OK);
+                        }
+                    }
                     if (activity != null) {
-                        activity.setResult(RESULT_OK);
                         activity.finish();
                     }
                     break;
