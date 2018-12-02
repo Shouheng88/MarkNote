@@ -33,7 +33,9 @@ public class TrashedActivity extends BaseListActivity {
 
     @Override
     protected Fragment getCategoryFragment() {
-        return CategoriesFragment.newInstance(Status.TRASHED);
+        return FragmentHelper.open(CategoriesFragment.class)
+                .put(CategoriesFragment.ARGS_KEY_STATUS, Status.TRASHED)
+                .get();
     }
 
     @Override

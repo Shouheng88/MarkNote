@@ -1,6 +1,6 @@
 package me.shouheng.notepal.fragment;
 
-import android.arch.lifecycle.ViewModelProviders;
+import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,54 +17,38 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.Collections;
-import java.util.Objects;
 
-import javax.annotation.Nonnull;
-
-import me.shouheng.commons.event.RxMessage;
 import me.shouheng.commons.utils.ColorUtils;
-import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.commons.utils.ViewUtils;
 import me.shouheng.commons.widget.recycler.CustomItemAnimator;
-import me.shouheng.commons.widget.recycler.CustomItemTouchHelper;
 import me.shouheng.commons.widget.recycler.DividerItemDecoration;
 import me.shouheng.data.entity.Category;
 import me.shouheng.data.model.enums.Status;
+import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.CategoriesAdapter;
 import me.shouheng.notepal.databinding.FragmentCategoriesBinding;
 import me.shouheng.notepal.dialog.CategoryEditDialog;
 import me.shouheng.notepal.fragment.base.BaseFragment;
-import me.shouheng.notepal.viewmodel.CategoryViewModel;
+import me.shouheng.notepal.vm.CategoriesViewModel;
 
 /**
- * Created by wangshouheng on 2017/3/29.*/
+ * Fragment used to display the categories.
+ *
+ * Created by WngShhng (shouheng2015@gmail.com) on 2017/3/29.
+ */
 public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> implements BaseQuickAdapter.OnItemClickListener {
 
-    private final static String ARG_STATUS = "__args_key_status";
+    /**
+     * The argument key for this fragment. The status of current categories list.
+     * Or null of showing the normal categories.
+     */
+    public final static String ARGS_KEY_STATUS = "__args_key_status";
 
     private RecyclerView.OnScrollListener scrollListener;
     private CategoriesAdapter mAdapter;
-
-    private Status status;
-    private CategoryViewModel viewModel;
-
-    public static CategoriesFragment newInstance() {
-        Bundle args = new Bundle();
-        CategoriesFragment fragment = new CategoriesFragment();
-        args.putSerializable(ARG_STATUS, Status.NORMAL);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    public static CategoriesFragment newInstance(@Nonnull Status status) {
-        Bundle args = new Bundle();
-        CategoriesFragment fragment = new CategoriesFragment();
-        args.putSerializable(ARG_STATUS, status);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private CategoriesViewModel viewModel;
 
     @Override
     protected int getLayoutResId() {
@@ -74,126 +57,88 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {
-        viewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
-
-        // handle arguments
-        if (getArguments() != null && getArguments().containsKey(ARG_STATUS)) {
-            status = (Status) getArguments().get(ARG_STATUS);
+        viewModel = getViewModel(CategoriesViewModel.class);
+        if (savedInstanceState == null) {
+            if (getArguments() != null && getArguments().containsKey(ARGS_KEY_STATUS)) {
+                Status status = (Status) getArguments().get(ARGS_KEY_STATUS);
+                viewModel.setStatus(status);
+            }
         }
 
         configToolbar();
 
-        configCategories();
-    }
-
-    private void configToolbar() {
-        if (getActivity() != null) {
-            ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-            if (actionBar != null) {
-                actionBar.setTitle(R.string.drawer_menu_categories);
-                actionBar.setSubtitle(null);
-                actionBar.setDisplayHomeAsUpEnabled(true);
-                actionBar.setHomeAsUpIndicator(ColorUtils.tintDrawable(R.drawable.ic_menu_black,
-                        getThemeStyle().isDarkTheme ? Color.WHITE : Color.BLACK));
-            }
-        }
-    }
-
-    private void configCategories() {
+        /* Config the categories list. */
         mAdapter = new CategoriesAdapter(getContext(), Collections.emptyList());
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             switch (view.getId()) {
                 case R.id.iv_more:
-                    popCategoryMenu(view, position, Objects.requireNonNull(mAdapter.getItem(position)));
+                    Category category = mAdapter.getItem(position);
+                    if (category != null) {
+                        popMenu(view, category);
+                    }
                     break;
             }
         });
         mAdapter.setOnItemClickListener(this);
-
-        getBinding().ivEmpty.setSubTitle(viewModel.getEmptySubTitle(status));
-
         getBinding().rvCategories.setEmptyView(getBinding().ivEmpty);
         getBinding().rvCategories.setHasFixedSize(true);
         getBinding().rvCategories.addItemDecoration(new DividerItemDecoration(getContext(),
                 DividerItemDecoration.VERTICAL_LIST, isDarkTheme()));
         getBinding().rvCategories.setItemAnimator(new CustomItemAnimator());
         getBinding().rvCategories.setLayoutManager(new LinearLayoutManager(getContext()));
+        getBinding().ivEmpty.setSubTitle(viewModel.getEmptySubTitle());
         getBinding().rvCategories.setAdapter(mAdapter);
-        if (scrollListener != null) getBinding().rvCategories.addOnScrollListener(scrollListener);
-
-        ItemTouchHelper.Callback callback = new CustomItemTouchHelper(true, false, mAdapter);
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
-        itemTouchHelper.attachToRecyclerView(getBinding().rvCategories);
-
-        reload();
-    }
-
-    // region ViewModel
-    public void reload() {
-        if (getActivity() instanceof OnCategoriesInteractListener) {
-            ((OnCategoriesInteractListener) getActivity()).onCategoryLoadStateChanged(
-                    me.shouheng.commons.model.data.Status.LOADING);
+        if (scrollListener != null) {
+            getBinding().rvCategories.addOnScrollListener(scrollListener);
         }
 
-        viewModel.getCategories(status).observe(this, listResource -> {
-            assert listResource != null;
-            if (getActivity() instanceof OnCategoriesInteractListener) {
-                ((OnCategoriesInteractListener) getActivity()).onCategoryLoadStateChanged(listResource.status);
+        addSubscriptions();
+
+        viewModel.fetchCategories();
+    }
+
+    private void configToolbar() {
+        Activity activity = getActivity();
+        if (activity != null) {
+            ActionBar ab = ((AppCompatActivity) activity).getSupportActionBar();
+            if (ab != null) {
+                ab.setTitle(R.string.drawer_menu_categories);
+                ab.setSubtitle(null);
+                ab.setDisplayHomeAsUpEnabled(true);
+                ab.setHomeAsUpIndicator(ColorUtils.tintDrawable(R.drawable.ic_menu_black,
+                        getThemeStyle().isDarkTheme ? Color.WHITE : Color.BLACK));
             }
-            switch (listResource.status) {
+        }
+    }
+
+    private void addSubscriptions() {
+        viewModel.getCategoriesLiveData().observe(this, resources -> {
+            assert resources != null;
+            switch (resources.status) {
                 case SUCCESS:
-                    mAdapter.setNewData(listResource.data);
+                    mAdapter.setNewData(resources.data);
+                    break;
+                case FAILED:
+                    ToastUtils.makeToast(R.string.text_failed);
+                    break;
+                case LOADING:
+                    break;
+            }
+        });
+        viewModel.getCategoryUpdateObserver().observe(this, resource -> {
+            assert resource != null;
+            switch (resource.status) {
+                case SUCCESS:
+                    viewModel.fetchCategories();
+                    break;
+                case LOADING:
                     break;
                 case FAILED:
                     ToastUtils.makeToast(R.string.text_failed);
                     break;
             }
         });
-
-        postEvent(new RxMessage(RxMessage.CODE_CATEGORY_DATA_CHANGED, null));
     }
-
-    private void update(int position, Category category) {
-        viewModel.update(category).observe(this, categoryResource -> {
-            assert categoryResource != null;
-            switch (categoryResource.status) {
-                case SUCCESS:
-                    mAdapter.notifyItemChanged(position);
-                    ToastUtils.makeToast(R.string.text_save_successfully);
-                    break;
-                case FAILED:
-                    ToastUtils.makeToast(R.string.text_failed_to_modify_data);
-                    break;
-            }
-        });
-    }
-
-    private void update(int position, Category category, Status toStatus) {
-        viewModel.update(category, toStatus).observe(this, categoryResource -> {
-            assert categoryResource != null;
-            switch (categoryResource.status) {
-                case SUCCESS:
-                    mAdapter.remove(position);
-                    break;
-                case FAILED:
-                    ToastUtils.makeToast(R.string.text_failed_to_modify_data);
-                    break;
-                case LOADING:
-                    break;
-            }
-        });
-    }
-
-    private void updateOrders() {
-        viewModel.updateOrders(mAdapter.getData()).observe(this, listResource -> {
-            if (listResource == null) {
-                LogUtils.d("listResource is null");
-                return;
-            }
-            LogUtils.d(listResource.message);
-        });
-    }
-    // endregion
 
     public void addCategory(Category category) {
         mAdapter.addData(0, category);
@@ -204,27 +149,23 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
         this.scrollListener = scrollListener;
     }
 
-    private void popCategoryMenu(View v, int position, Category param) {
-        final int categoryColor = param.getColor();
+    private void popMenu(View v, Category param) {
         PopupMenu popupM = new PopupMenu(getContext(), v);
         popupM.inflate(R.menu.category_pop_menu);
         popupM.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()){
                 case R.id.action_edit:
-                    showEditor(position, mAdapter.getItem(position));
+                    CategoryEditDialog.newInstance(param,
+                            category -> viewModel.updateCategory(category)
+                    ).show(getChildFragmentManager(), "CATEGORY_EDIT_DIALOG");
                     break;
                 case R.id.action_delete:
-                    update(position, param, Status.DELETED);
+                    viewModel.updateCategory(param, Status.DELETED);
                     break;
             }
             return true;
         });
         popupM.show();
-    }
-
-    private void showEditor(int position, Category param) {
-        CategoryEditDialog.newInstance(param, category -> update(position, category))
-                .show(getFragmentManager(), "CATEGORY_EDIT_DIALOG");
     }
 
     @Override
@@ -235,8 +176,7 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        // disabled capture function currently
-//        inflater.inflate(R.menu.capture, menu);
+        // inflater.inflate(R.menu.capture, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -244,43 +184,34 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_capture:
-                createScreenCapture(getBinding().rvCategories, ViewUtils.dp2Px(getContext(), 60));
+                createScreenCapture(getBinding().rvCategories, ViewUtils.dp2Px(PalmApp.getContext(), 60));
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        if (mAdapter.isPositionChanged()){
-            updateOrders();
-        }
-        configToolbar();
-    }
-
-    @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        if (getActivity() != null && getActivity() instanceof OnCategoriesInteractListener) {
-            ((OnCategoriesInteractListener) getActivity()).onCategorySelected(mAdapter.getItem(position));
+        Activity activity = getActivity();
+        if (activity instanceof CategoriesInteraction) {
+            ((CategoriesInteraction) activity).onCategorySelected(mAdapter.getItem(position));
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (getActivity() != null && getActivity() instanceof OnCategoriesInteractListener) {
-            ((OnCategoriesInteractListener) getActivity()).onResumeToCategory();
+        Activity activity = getActivity();
+        if (activity instanceof CategoriesInteraction) {
+            ((CategoriesInteraction) activity).onResumeToCategory();
         }
         configToolbar();
     }
 
-    public interface OnCategoriesInteractListener {
+    public interface CategoriesInteraction {
 
         default void onResumeToCategory() {}
 
         default void onCategorySelected(Category category) {}
-
-        default void onCategoryLoadStateChanged(me.shouheng.commons.model.data.Status status) {}
     }
 }

@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
@@ -19,7 +18,6 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import me.shouheng.commons.activity.CommonActivity;
 import me.shouheng.commons.event.RxMessage;
 import me.shouheng.commons.helper.FragmentHelper;
-import me.shouheng.commons.model.data.Status;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.notepal.R;
@@ -32,7 +30,7 @@ import me.shouheng.notepal.fragment.NotesFragment;
  */
 public abstract class BaseListActivity extends CommonActivity<ActivityBaseListBinding> implements
         NotesFragment.OnNotesInteractListener,
-        CategoriesFragment.OnCategoriesInteractListener {
+        CategoriesFragment.CategoriesInteraction {
 
     private Drawer drawer;
 
@@ -188,22 +186,5 @@ public abstract class BaseListActivity extends CommonActivity<ActivityBaseListBi
     @Override
     public void onActivityAttached(boolean isTopStack) {
         setDrawerLayoutLocked(!isTopStack);
-    }
-
-    @Override
-    public void onCategoryLoadStateChanged(Status status) {
-        onLoadStateChanged(status);
-    }
-
-    private void onLoadStateChanged(Status status) {
-        switch (status) {
-            case SUCCESS:
-            case FAILED:
-                getBinding().sl.setVisibility(View.GONE);
-                break;
-            case LOADING:
-                getBinding().sl.setVisibility(View.VISIBLE);
-                break;
-        }
     }
 }

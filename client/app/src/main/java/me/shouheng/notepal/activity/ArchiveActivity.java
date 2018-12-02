@@ -32,7 +32,9 @@ public class ArchiveActivity extends BaseListActivity {
 
     @Override
     protected Fragment getCategoryFragment() {
-        return CategoriesFragment.newInstance(Status.ARCHIVED);
+        return FragmentHelper.open(CategoriesFragment.class)
+                .put(CategoriesFragment.ARGS_KEY_STATUS, Status.ARCHIVED)
+                .get();
     }
 
     @Override

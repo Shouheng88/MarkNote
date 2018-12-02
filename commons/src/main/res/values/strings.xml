@@ -139,11 +139,11 @@
     <!-- fabs -->
     <string name="fab_opt_note">Note</string>
     <string name="fab_opt_notebook">Notebook</string>
-    <string name="fab_opt_tags">Tags</string>
+    <string name="fab_opt_tags">Category</string>
     <string name="fab_opt_capture">Capture</string>
     <string name="fab_opt_file">File</string>
     <string name="fab_opt_draft">Sketch</string>
-    <string name="fab_quick_note">Quick note</string>
+    <string name="fab_quick_note">Quick Note</string>
     <string name="fab_sort_custom_fab">Custom FABs</string>
     <string name="fab_sort_custom">Custom&#8230;</string>
     <string name="fab_sort_custom_fab_tip">Drag the rear icon to sort, the top 5 ones will be showed in dashboard.</string>

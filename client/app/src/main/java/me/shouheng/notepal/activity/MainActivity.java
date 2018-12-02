@@ -95,7 +95,7 @@ import static me.shouheng.notepal.Constants.SHORTCUT_EXTRA_NOTE_CODE;
 
 public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         NotesFragment.OnNotesInteractListener,
-        CategoriesFragment.OnCategoriesInteractListener {
+        CategoriesFragment.CategoriesInteraction {
 
     private final static int REQUEST_PASSWORD = 0x0006;
     private final static long TIME_INTERVAL_BACK = 2000;
@@ -723,7 +723,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
 
     private void toCategoriesFragment() {
         if (getCurrentFragment() instanceof CategoriesFragment) return;
-        CategoriesFragment categoriesFragment = CategoriesFragment.newInstance();
+        CategoriesFragment categoriesFragment = FragmentHelper.open(CategoriesFragment.class).get();
         categoriesFragment.setScrollListener(onScrollListener);
         FragmentHelper.replace(this, categoriesFragment, R.id.fragment_container, false);
     }
@@ -841,22 +841,5 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     @Override
     public void onActivityAttached(boolean isTopStack) {
         setDrawerLayoutLocked(!isTopStack);
-    }
-
-    @Override
-    public void onCategoryLoadStateChanged(me.shouheng.commons.model.data.Status status) {
-        onLoadStateChanged(status);
-    }
-
-    private void onLoadStateChanged(me.shouheng.commons.model.data.Status status) {
-        switch (status) {
-            case SUCCESS:
-            case FAILED:
-                getBinding().topMpb.setVisibility(View.GONE);
-                break;
-            case LOADING:
-                getBinding().topMpb.setVisibility(View.VISIBLE);
-                break;
-        }
     }
 }
