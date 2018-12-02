@@ -17,6 +17,12 @@ import android.widget.ImageView;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.LinkedList;
+import java.util.List;
+
+import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import me.shouheng.easymark.EasyMarkEditor;
 import me.shouheng.easymark.editor.Format;
 import me.shouheng.easymark.editor.format.DayOneFormatHandler;
@@ -35,7 +41,6 @@ public class MDEditorLayout extends BaseSoftInputLayout {
     public static final int FORMAT_ID_RIGHT = 1;
     public static final int FORMAT_ID_UP = 2;
     public static final int FORMAT_ID_DOWN = 3;
-    public static final int FORMAT_ID_ATTACHMENT = 4;
 
     private View frame;
     private View container;
@@ -67,18 +72,35 @@ public class MDEditorLayout extends BaseSoftInputLayout {
     protected void doInitView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         LayoutInflater.from(context).inflate(R.layout.layout_markdown_editor, this, true);
 
+        /* Get widgets */
         frame = findViewById(R.id.frame);
         container = findViewById(R.id.container);
         titleEditor = findViewById(R.id.et_title);
         easyMarkEditor = findViewById(R.id.eme);
         fssv = findViewById(R.id.fssv);
 
+        /* Filter formats */
+        List<Format> formats = new LinkedList<>();
+        Disposable disposable = Observable.fromArray(Format.values())
+                .filter(format -> format != Format.H2
+                        && format != Format.H3
+                        && format != Format.H4
+                        && format != Format.H5
+                        && format != Format.H6
+                        && format != Format.NORMAL_LIST
+                        && format != Format.INDENT
+                        && format != Format.DEDENT
+                        && format != Format.CHECKBOX)
+                .toList()
+                .subscribe((Consumer<List<Format>>) formats::addAll);
+
         RecyclerView rv = findViewById(R.id.rv);
-        adapter = new Adapter(context, onFormatClickListener);
+        adapter = new Adapter(context, formats, onFormatClickListener);
         rv.setLayoutManager(new GridLayoutManager(context, 8));
         rv.setAdapter(adapter);
         easyMarkEditor.setFormatHandler(new CustomFormatHandler());
 
+        /* Add the bottom buttons click event. */
         ImageView ivSoft = findViewById(R.id.iv_soft);
         ivSoft.setOnClickListener(v -> {
             if (isKeyboardShowing()) {
@@ -89,10 +111,10 @@ public class MDEditorLayout extends BaseSoftInputLayout {
                 ivSoft.animate().rotation(0).setDuration(500).start();
             }
         });
-
         findViewById(R.id.iv_left).setOnClickListener(v -> performCustomButtonClick(FORMAT_ID_LEFT));
         findViewById(R.id.iv_right).setOnClickListener(v -> performCustomButtonClick(FORMAT_ID_RIGHT));
-        findViewById(R.id.iv_attach).setOnClickListener(v -> performCustomButtonClick(FORMAT_ID_ATTACHMENT));
+        findViewById(R.id.iv_dedent).setOnClickListener(v -> performCustomButtonClick(Format.DEDENT.id));
+        findViewById(R.id.iv_indent).setOnClickListener(v -> performCustomButtonClick(Format.INDENT.id));
     }
 
     private void performCustomButtonClick(int formatId) {
@@ -107,8 +129,11 @@ public class MDEditorLayout extends BaseSoftInputLayout {
 
         private OnFormatClickListener onFormatClickListener;
 
-        Adapter(Context context, OnFormatClickListener onFormatClickListener) {
+        private List<Format> formats;
+
+        Adapter(Context context, List<Format> formats, OnFormatClickListener onFormatClickListener) {
             this.context = context;
+            this.formats = formats;
             this.onFormatClickListener = onFormatClickListener;
         }
 
@@ -121,13 +146,13 @@ public class MDEditorLayout extends BaseSoftInputLayout {
 
         @Override
         public void onBindViewHolder(@NonNull Holder holder, int i) {
-            Format format = Format.values()[i];
+            Format format = formats.get(i);
             holder.iv.setImageDrawable(Utils.tintDrawable(context, format.drawableResId, Color.WHITE));
         }
 
         @Override
         public int getItemCount() {
-            return Format.values().length;
+            return formats.size();
         }
 
         class Holder extends RecyclerView.ViewHolder {
@@ -140,7 +165,7 @@ public class MDEditorLayout extends BaseSoftInputLayout {
                 iv = itemView.findViewById(R.id.iv);
                 itemView.setOnClickListener(v -> {
                     if (onFormatClickListener != null) {
-                        onFormatClickListener.onFormatClick(Format.values()[getAdapterPosition()]);
+                        onFormatClickListener.onFormatClick(formats.get(getAdapterPosition()));
                     }
                 });
             }

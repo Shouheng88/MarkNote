@@ -14,15 +14,15 @@
         app:showAsAction="always"
         android:orderInCategory="9"/>
 
-    <item android:id="@+id/action_notebook"
-        android:title="@string/note_change_notebook"
-        android:icon="@drawable/ic_book"
-        app:showAsAction="always"
-        android:orderInCategory="10"/>
-
     <item android:id="@+id/action_category"
         android:title="@string/note_change_categories"
         android:icon="@drawable/ic_view_module_white_24dp"
+        app:showAsAction="always"
+        android:orderInCategory="10"/>
+
+    <item android:id="@+id/action_attachment"
+        android:title="@string/note_add_attachment"
+        android:icon="@drawable/ic_attach_file_black"
         app:showAsAction="always"
         android:orderInCategory="11"/>
 
@@ -32,16 +32,25 @@
         app:showAsAction="always"
         android:orderInCategory="12"/>
 
+    <item android:id="@+id/action_notebook"
+        android:title="@string/note_change_notebook"
+        android:icon="@drawable/ic_book"
+        app:showAsAction="never"/>
+
     <item android:id="@+id/action_send"
-        android:title="@string/note_send"/>
+        android:title="@string/note_send"
+        app:showAsAction="never"/>
 
     <item android:id="@+id/action_copy_title"
-        android:title="@string/text_copy_title"/>
+        android:title="@string/text_copy_title"
+        app:showAsAction="never"/>
 
     <item android:id="@+id/action_copy_content"
-        android:title="@string/text_copy_content"/>
+        android:title="@string/text_copy_content"
+        app:showAsAction="never"/>
 
     <item android:id="@+id/action_setting_note"
-        android:title="@string/note_settings"/>
+        android:title="@string/note_settings"
+        app:showAsAction="never"/>
 
 </menu>

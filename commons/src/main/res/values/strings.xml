@@ -163,6 +163,7 @@
     <string name="timeline_list_empty_subtitle">your activities in application will be showed here</string>
 
     <!-- note -->
+    <string name="note_add_attachment">Add Attachment</string>
     <string name="note_change_notebook">Change Notebook</string>
     <string name="note_change_categories">Change Categories</string>
     <string name="note_send">Send to Another App</string>

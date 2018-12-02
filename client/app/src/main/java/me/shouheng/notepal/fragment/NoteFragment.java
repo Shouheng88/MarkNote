@@ -150,9 +150,6 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding>
                 R.drawable.fast_scroll_bar_dark : R.drawable.fast_scroll_bar_light));
         mel.setOnCustomFormatClickListener(formatId -> {
             switch (formatId) {
-                case MDEditorLayout.FORMAT_ID_ATTACHMENT:
-                    showAttachmentPicker();
-                    break;
                 default:
                     eme.useFormat(formatId);
             }
@@ -412,6 +409,9 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding>
                 break;
             case R.id.action_redo:
                 eme.redo();
+                break;
+            case R.id.action_attachment:
+                showAttachmentPicker();
                 break;
             case R.id.action_notebook:
                 NotebookPickerDialog.newInstance().setOnItemSelectedListener((dialog, value, position) -> {

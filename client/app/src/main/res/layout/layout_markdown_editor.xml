@@ -89,8 +89,13 @@
 
                     <android.support.v7.widget.AppCompatImageView
                         style="@style/MDButton"
-                        android:id="@+id/iv_attach"
-                        android:src="@drawable/ic_attach_file_black" />
+                        android:id="@+id/iv_indent"
+                        android:src="@drawable/ic_format_indent_increase_white_24dp" />
+
+                    <android.support.v7.widget.AppCompatImageView
+                        style="@style/MDButton"
+                        android:id="@+id/iv_dedent"
+                        android:src="@drawable/ic_format_indent_decrease_white_24dp" />
 
                 </LinearLayout>
 
