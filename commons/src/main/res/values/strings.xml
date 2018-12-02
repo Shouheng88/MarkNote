@@ -141,7 +141,7 @@
     <string name="fab_opt_notebook">Notebook</string>
     <string name="fab_opt_tags">Category</string>
     <string name="fab_opt_capture">Capture</string>
-    <string name="fab_opt_file">File</string>
+    <string name="fab_opt_image">Image</string>
     <string name="fab_opt_draft">Sketch</string>
     <string name="fab_quick_note">Quick Note</string>
     <string name="fab_sort_custom_fab">Custom FABs</string>

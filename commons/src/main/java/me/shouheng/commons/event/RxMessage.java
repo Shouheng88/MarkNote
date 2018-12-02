@@ -6,12 +6,15 @@ package me.shouheng.commons.event;
  */
 public class RxMessage {
 
+    /**
+     * Float action buttons order has changed.
+     */
     public final static int CODE_SORT_FLOAT_BUTTONS = 0;
-    public final static int CODE_SORT_EDIT_MENU = 1;
+
     public final static int CODE_NOTE_LIST_STYLE_CHANGED = 2;
 
     /**
-     * The code to identify the NOTE AND NOTEBOOK data change event.
+     * NOTE AND NOTEBOOK data has changed.
      */
     public final static int CODE_NOTE_DATA_CHANGED = 3;
 

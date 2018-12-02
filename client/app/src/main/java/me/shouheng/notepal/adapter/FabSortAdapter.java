@@ -2,6 +2,7 @@ package me.shouheng.notepal.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,25 +29,24 @@ public class FabSortAdapter extends RecyclerView.Adapter<FabSortAdapter.ViewHold
 
     private boolean isDarkTheme;
 
-    private Context context;
-
     public FabSortAdapter(Context context, List<FabSortItem> fabSortItems) {
         this.fabSortItems = fabSortItems;
-        this.context = context;
         accentColor = ColorUtils.accentColor(context);
         isDarkTheme = ColorUtils.isDarkTheme(context);
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_fab_drag_sort, parent, false);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(
+                R.layout.item_fab_drag_sort, parent, false);
         return new ViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         FabSortItem fabSortItem = fabSortItems.get(position);
-        holder.ivFabIcon.setImageDrawable(ColorUtils.tintDrawable(context.getResources().getDrawable(fabSortItem.iconRes), Color.WHITE));
+        holder.ivFabIcon.setImageDrawable(ColorUtils.tintDrawable(fabSortItem.iconRes, Color.WHITE));
         holder.tvFabName.setText(fabSortItem.nameRes);
         holder.civFabIconBG.setFillingCircleColor(accentColor);
         holder.ivHandler.setImageResource(isDarkTheme ? R.drawable.ic_menu_white : R.drawable.ic_menu_black);

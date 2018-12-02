@@ -9,19 +9,18 @@ import android.view.MenuItem;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import me.shouheng.commons.activity.CommonActivity;
 import me.shouheng.commons.event.RxMessage;
 import me.shouheng.commons.utils.ColorUtils;
+import me.shouheng.commons.utils.ToastUtils;
+import me.shouheng.commons.widget.recycler.DragSortRecycler;
+import me.shouheng.data.model.enums.FabSortItem;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.FabSortAdapter;
 import me.shouheng.notepal.databinding.ActivityFabSortBinding;
-import me.shouheng.data.model.enums.FabSortItem;
-import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.notepal.util.preferences.PrefUtils;
-import me.shouheng.commons.widget.recycler.DragSortRecycler;
 
 public class FabSortActivity extends CommonActivity<ActivityFabSortBinding> {
 
@@ -56,7 +55,7 @@ public class FabSortActivity extends CommonActivity<ActivityFabSortBinding> {
     }
 
     private void configFabList() {
-        mAdapter = new FabSortAdapter(this, new ArrayList<>(PrefUtils.getInstance().getFabSortResult()));
+        mAdapter = new FabSortAdapter(this, PrefUtils.getInstance().getFabSortResult());
         getBinding().rvFabs.setAdapter(mAdapter);
 
         DragSortRecycler dragSortRecycler = new DragSortRecycler();

@@ -10,6 +10,8 @@ import java.util.Set;
 import me.shouheng.notepal.PalmApp;
 
 /**
+ * TODO refactor this class
+ *
  * Created by WangShouheng on 2018/3/3. */
 public class BasePreferences {
 

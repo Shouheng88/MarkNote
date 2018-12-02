@@ -47,15 +47,8 @@
     <string name="key_last_input_error_time" translatable="false">__last_input_error_time</string>
     <!--endregion SECURITY-->
 
-    <!--region preferences-->
-    <string name="key_fab_sort_result" translatable="false">fab_sort_result</string>
-    <string name="key_operation_color_prefix" translatable="false">operation_color_</string>
-    <string name="key_list_animation" translatable="false">list_animation</string>
-    <string name="key_system_animation" translatable="false">system_animation</string>
-    <string name="key_search_conditions" translatable="false">search_conditions</string>
-    <string name="key_note_editor_menu_sort" translatable="false">note_editor_menu_sort</string>
-    <string name="key_fast_scroller" translatable="false">enable_fast_scroller</string>
-    <!--endregion-->
+    <string name="key_fab_sort_result" translatable="false">__fab_sort_result</string>
+    <string name="key_operation_color_prefix" translatable="false">__operation_color_</string>
 
     <!--region dashboard-->
     <string name="key_user_info_bg_visible" translatable="false">key_user_info_bg_visible</string>

@@ -332,6 +332,7 @@ public class AttachmentHelper {
                 .create((ObservableOnSubscribe<Attachment>) emitter -> {
                     Attachment attachment = ModelFactory.getAttachment();
                     attachment.setMineType(Constants.MIME_TYPE_IMAGE);
+                    attachment.setUri(FileManager.getUriFromFile(fragment.getContext(), new File(photoFilePath)));
                     attachment.setPath(photoFilePath);
                     attachment.setModelCode(model.getCode());
                     attachment.setModelType(ModelType.getTypeByName(model.getClass()));

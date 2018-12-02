@@ -71,6 +71,9 @@ import me.shouheng.notepal.vm.NoteViewModel;
 import me.shouheng.notepal.widget.MDEditorLayout;
 
 import static android.app.Activity.RESULT_OK;
+import static me.shouheng.notepal.Constants.FAB_ACTION_CAPTURE;
+import static me.shouheng.notepal.Constants.FAB_ACTION_CREATE_SKETCH;
+import static me.shouheng.notepal.Constants.FAB_ACTION_PICK_IMAGE;
 import static me.shouheng.notepal.Constants.SHORTCUT_ACTION_CAPTURE;
 import static me.shouheng.notepal.Constants.SHORTCUT_ACTION_CREATE_NOTE;
 import static me.shouheng.notepal.Constants.SHORTCUT_ACTION_VIEW_NOTE;
@@ -269,7 +272,30 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding>
                     break;
                 }
 
-                 /* Handle the AppWidget actions. */
+                /* FAB actions */
+                case FAB_ACTION_CAPTURE: {
+                    Note note = (Note) arguments.getSerializable(ARGS_KEY_NOTE);
+                    assert note != null;
+                    viewModel.notifyNoteChanged(note);
+                    new Handler().postDelayed(() -> AttachmentHelper.takeAPhoto(NoteFragment.this), 800);
+                    break;
+                }
+                case FAB_ACTION_PICK_IMAGE: {
+                    Note note = (Note) arguments.getSerializable(ARGS_KEY_NOTE);
+                    assert note != null;
+                    viewModel.notifyNoteChanged(note);
+                    new Handler().postDelayed(() -> AttachmentHelper.pickFromCustomAlbum(NoteFragment.this), 800);
+                    break;
+                }
+                case FAB_ACTION_CREATE_SKETCH: {
+                    Note note = (Note) arguments.getSerializable(ARGS_KEY_NOTE);
+                    assert note != null;
+                    viewModel.notifyNoteChanged(note);
+                    new Handler().postDelayed(() -> AttachmentHelper.createSketch(NoteFragment.this), 800);
+                    break;
+                }
+
+                /* Handle the AppWidget actions. */
 
             }
         } else {
@@ -284,25 +310,6 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding>
             }
 
             viewModel.notifyNoteChanged(note);
-
-            // Handle arguments for intent from third part
-//            if (arguments.getBoolean(EXTRA_IS_THIRD_PART)) {
-//                handleThirdPart();
-//            } else if(Constants.ACTION_ADD_SKETCH.equals(arguments.getString(EXTRA_ACTION))) {
-//                if (getActivity() != null) {
-//                    PermissionUtils.checkStoragePermission((PermissionActivity) getActivity(), () -> AttachmentHelper.sketch(this));
-//                }
-//            } else if (Constants.ACTION_TAKE_PHOTO.equals(arguments.getString(EXTRA_ACTION))) {
-//                if (getActivity() != null) {
-//                    PermissionUtils.checkStoragePermission((PermissionActivity) getActivity(), () -> AttachmentHelper.capture(this));
-//                }
-//            } else if (Constants.ACTION_ADD_FILES.equals(arguments.getString(EXTRA_ACTION))) {
-//                if (getActivity() != null) {
-//                    PermissionUtils.checkStoragePermission((PermissionActivity) getActivity(), () -> AttachmentHelper.pickFiles(this));
-//                }
-//            } else {
-                // The cases above is new model, don't need to fetch data.
-//            }
         }
     }
 

@@ -60,6 +60,23 @@ public interface Constants extends BaseConstants {
      */
     String APP_WIDGET_ACTION_LAUNCH_APP = "me.shouheng.notepal.widget.LAUNCH";
 
+
+    /**
+     * Action from fab to capture and create note.
+     */
+    String FAB_ACTION_CAPTURE = "me.shouheng.notepal.fab.CAPTURE";
+
+    /**
+     * Action from fab to pick images from album and create note.
+     */
+    String FAB_ACTION_PICK_IMAGE = "me.shouheng.notepal.fab.PICK_FROM_ALBUM";
+
+    /**
+     * Actiuon from fab to create a sketch and create note.
+     */
+    String FAB_ACTION_CREATE_SKETCH = "me.shouheng.notepal.fab.CREATE_SKETCH";
+
+
     /**
      * Default note file encoding.
      */

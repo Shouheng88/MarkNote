@@ -31,7 +31,6 @@ import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -54,10 +53,10 @@ import me.shouheng.commons.widget.recycler.CustomRecyclerScrollViewListener;
 import me.shouheng.data.ModelFactory;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.data.entity.Category;
-import me.shouheng.data.entity.QuickNote;
 import me.shouheng.data.entity.Model;
 import me.shouheng.data.entity.Note;
 import me.shouheng.data.entity.Notebook;
+import me.shouheng.data.entity.QuickNote;
 import me.shouheng.data.model.enums.FabSortItem;
 import me.shouheng.data.model.enums.Status;
 import me.shouheng.data.store.NotesStore;
@@ -83,6 +82,9 @@ import me.shouheng.notepal.util.preferences.PrefUtils;
 import me.shouheng.notepal.vm.MainViewModel;
 
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
+import static me.shouheng.notepal.Constants.FAB_ACTION_CAPTURE;
+import static me.shouheng.notepal.Constants.FAB_ACTION_CREATE_SKETCH;
+import static me.shouheng.notepal.Constants.FAB_ACTION_PICK_IMAGE;
 import static me.shouheng.notepal.Constants.SHORTCUT_ACTION_CAPTURE;
 import static me.shouheng.notepal.Constants.SHORTCUT_ACTION_CREATE_NOTE;
 import static me.shouheng.notepal.Constants.SHORTCUT_ACTION_SEARCH_NOTE;
@@ -128,16 +130,14 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     }
 
     private void addSubscriptions() {
-        addSubscription(RxMessage.class, RxMessage.CODE_SORT_FLOAT_BUTTONS, rxMessage -> {
-            initFabSortItems();
-        });
+        addSubscription(RxMessage.class, RxMessage.CODE_SORT_FLOAT_BUTTONS, rxMessage -> configFabSortItems());
     }
 
     private void everything(Bundle savedInstanceState) {
         /* Handle all intents. */
         handleIntent(savedInstanceState);
 
-        // Config toolbar
+        /* Config toolbar */
         setSupportActionBar(getBinding().toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -151,15 +151,16 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
             getBinding().toolbar.setPopupTheme(R.style.AppTheme_PopupOverlayDark);
         }
 
-        // Custom left drawer
+        /* Custom left drawer */
         configDrawer(savedInstanceState);
 
-        // Initialize float action buttons
+        /* Initialize float action buttons */
         initFloatButtons();
 
-        // Initialize the FABs
-        initFabSortItems();
+        /* Initialize the FABs */
+        configFabSortItems();
 
+        /* Load the notes fragment. */
         toNotesFragment(true);
     }
 
@@ -447,16 +448,6 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
 //                        Constants.ACTION_ADD_SKETCH));
     }
 
-    private void startAddFile() {
-//        PermissionUtils.checkStoragePermission(this, () ->
-//                ContentActivity.resolveAction(
-//                        MainActivity.this,
-//                        getNewNote(),
-//                        Constants.ACTION_ADD_FILES));
-    }
-    // endregion
-
-    // region region : fab
     private void initFloatButtons() {
         getBinding().menu.setMenuButtonColorNormal(accentColor());
         getBinding().menu.setMenuButtonColorPressed(accentColor());
@@ -501,7 +492,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
             }
 
             @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 LogUtils.d("onScrollStateChanged: ");
                 if (newState == SCROLL_STATE_IDLE) {
                     LogUtils.d("onScrollStateChanged: SCROLL_STATE_IDLE");
@@ -510,7 +501,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         };
     }
 
-    private void initFabSortItems() {
+    private void configFabSortItems() {
         try {
             List<FabSortItem> fabSortItems = PrefUtils.getInstance().getFabSortResult();
             for (int i=0; i<fabs.length; i++) {
@@ -518,7 +509,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                 fabs[i].setLabelText(getString(fabSortItems.get(i).nameRes));
             }
         } catch (Exception e) {
-            LogUtils.d("initFabSortItems, error occurred : " + e);
+            LogUtils.d("configFabSortItems, error occurred : " + e);
             PrefUtils.getInstance().setFabSortResult(PrefUtils.defaultFabOrders);
         }
     }
@@ -544,13 +535,25 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                 editMindSnagging(ModelFactory.getMindSnagging());
                 break;
             case DRAFT:
-                startAddSketch();
+                PermissionUtils.checkStoragePermission(this, () ->
+                        ContainerActivity.open(NoteFragment.class)
+                                .put(NoteFragment.ARGS_KEY_ACTION, FAB_ACTION_CREATE_SKETCH)
+                                .put(NoteFragment.ARGS_KEY_NOTE, (Serializable) getNewNote())
+                                .launch(MainActivity.this));
                 break;
-            case FILE:
-                startAddFile();
+            case IMAGE:
+                PermissionUtils.checkStoragePermission(this, () ->
+                        ContainerActivity.open(NoteFragment.class)
+                                .put(NoteFragment.ARGS_KEY_ACTION, FAB_ACTION_PICK_IMAGE)
+                                .put(NoteFragment.ARGS_KEY_NOTE, (Serializable) getNewNote())
+                                .launch(MainActivity.this));
                 break;
             case CAPTURE:
-                startAddPhoto();
+                PermissionUtils.checkStoragePermission(this, () ->
+                        ContainerActivity.open(NoteFragment.class)
+                                .put(NoteFragment.ARGS_KEY_ACTION, FAB_ACTION_CAPTURE)
+                                .put(NoteFragment.ARGS_KEY_NOTE, (Serializable) getNewNote())
+                                .launch(MainActivity.this));
                 break;
         }
     }
@@ -566,26 +569,11 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
      * @return the note model
      */
     private Note getNewNote() {
-        Note note = ModelFactory.getNote();
-        boolean isNotes = getCurrentFragment() instanceof NoteFragment;
-
-        /* Add notebook filed according to current fragment */
-        Notebook notebook;
-        if (isNotes && (notebook = ((NotesFragment) getCurrentFragment()).getNotebook()) != null) {
-            note.setParentCode(notebook.getCode());
-            note.setTreePath(notebook.getTreePath() + "|" + note.getCode());
-        } else {
-            // The default tree path is itself.
-            note.setTreePath(String.valueOf(note.getCode()));
-        }
-
-        /* Add category field according to current fragment */
-        Category category;
-        if (isNotes && (category = ((NotesFragment) getCurrentFragment()).getCategory()) != null) {
-            note.setTags(ModelFactory.getTags(Collections.singletonList(category)));
-        }
-
-        return note;
+        Fragment f = getCurrentFragment();
+        boolean isNotes = f instanceof NotesFragment;
+        Notebook notebook = isNotes ? ((NotesFragment) f).getNotebook() : null;
+        Category category = isNotes ? ((NotesFragment) f).getCategory() : null;
+        return ModelFactory.getNote(notebook, category);
     }
 
     private void editNotebook() {
@@ -680,7 +668,6 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     }
     // endregion
 
-    // region region : drawer
     private void setDrawerLayoutLocked(boolean lockDrawer) {
         drawer.getDrawerLayout().setDrawerLockMode(lockDrawer ?
                 DrawerLayout.LOCK_MODE_LOCKED_CLOSED : DrawerLayout.LOCK_MODE_UNLOCKED);
@@ -716,7 +703,6 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         Fragment f = getCurrentFragment();
         return (f instanceof NotesFragment || f instanceof CategoriesFragment);
     }
-    // endregion
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

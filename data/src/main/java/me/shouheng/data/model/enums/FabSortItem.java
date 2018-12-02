@@ -6,12 +6,13 @@ import android.support.annotation.StringRes;
 import me.shouheng.data.R;
 
 /**
- * Created by wangshouheng on 2017/8/8. */
+ * Created by WngShhng on 2017/8/8.
+ */
 public enum FabSortItem {
     NOTE(R.string.fab_opt_note, R.drawable.ic_description_black_24dp),
     NOTEBOOK(R.string.fab_opt_notebook, R.drawable.ic_book),
     CATEGORY(R.string.fab_opt_tags, R.drawable.ic_view_module_white_24dp),
-    FILE(R.string.fab_opt_file, R.drawable.ic_format_image_white_24dp),
+    IMAGE(R.string.fab_opt_image, R.drawable.ic_format_image_white_24dp),
     CAPTURE(R.string.fab_opt_capture, R.drawable.ic_add_a_photo_white),
     DRAFT(R.string.fab_opt_draft, R.drawable.ic_gesture_grey_24dp),
     QUICK_NOTE(R.string.fab_quick_note, R.drawable.ic_lightbulb_outline_black_24dp);
