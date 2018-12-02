@@ -14,7 +14,7 @@ import me.shouheng.data.model.Directory;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.manager.onedrive.OneDriveManager;
-import me.shouheng.notepal.util.FileHelper;
+import me.shouheng.notepal.manager.FileManager;
 
 import static me.shouheng.notepal.Constants.BACKUP_DIR_NAME;
 import static me.shouheng.notepal.Constants.FILES_BACKUP_DIR_NAME;
@@ -110,7 +110,7 @@ public class PrepareBackupDirTask extends AsyncTask<Void, Integer, String> {
                     if (item.children != null && !item.children.getCurrentPage().isEmpty()) {
                         if (onGetResultListener != null) {
                             // Return the NotePal folder id.
-                            String prefName = FileHelper.getPreferencesName(PalmApp.getContext());
+                            String prefName = FileManager.getPreferencesName(PalmApp.getContext());
                             boolean isFilesGet = false;
                             // Check the other files and folder
                             for (final Item childItem : item.children.getCurrentPage()) {

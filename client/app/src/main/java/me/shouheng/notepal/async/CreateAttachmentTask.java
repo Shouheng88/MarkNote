@@ -7,11 +7,11 @@ import android.support.v4.app.Fragment;
 
 import java.lang.ref.WeakReference;
 
-import me.shouheng.notepal.PalmApp;
-import me.shouheng.notepal.util.listener.OnAttachingFileListener;
-import me.shouheng.data.entity.Attachment;
-import me.shouheng.notepal.util.FileHelper;
 import me.shouheng.commons.utils.PalmUtils;
+import me.shouheng.data.entity.Attachment;
+import me.shouheng.notepal.PalmApp;
+import me.shouheng.notepal.manager.FileManager;
+import me.shouheng.notepal.util.AttachmentHelper;
 
 /**
  * The async task to create attachment from uri. */
@@ -19,27 +19,19 @@ public class CreateAttachmentTask extends AsyncTask<Void, Void, Attachment> {
 
     private WeakReference<Fragment> mFragmentWeakReference;
 
-    private WeakReference<android.app.Fragment> mAppFragmentWeakReference;
-
     private WeakReference<Activity> mActivityWeakReference;
 
-    private OnAttachingFileListener mOnAttachingFileListener;
+    private AttachmentHelper.OnAttachingFileListener mOnAttachingFileListener;
 
     private Uri uri;
 
-    public CreateAttachmentTask(Fragment mFragment, Uri uri, OnAttachingFileListener listener) {
+    public CreateAttachmentTask(Fragment mFragment, Uri uri, AttachmentHelper.OnAttachingFileListener listener) {
         this.mFragmentWeakReference = new WeakReference<>(mFragment);
         this.uri = uri;
         this.mOnAttachingFileListener = listener;
     }
 
-    public CreateAttachmentTask(android.app.Fragment mFragment, Uri uri, OnAttachingFileListener listener) {
-        this.mAppFragmentWeakReference = new WeakReference<>(mFragment);
-        this.uri = uri;
-        this.mOnAttachingFileListener = listener;
-    }
-
-    public CreateAttachmentTask(Activity activity, Uri uri, OnAttachingFileListener listener) {
+    public CreateAttachmentTask(Activity activity, Uri uri, AttachmentHelper.OnAttachingFileListener listener) {
         mActivityWeakReference = new WeakReference<>(activity);
         this.uri = uri;
         this.mOnAttachingFileListener = listener;
@@ -47,14 +39,13 @@ public class CreateAttachmentTask extends AsyncTask<Void, Void, Attachment> {
 
     @Override
     protected Attachment doInBackground(Void... params) {
-        return FileHelper.createAttachmentFromUri(PalmApp.getContext(), uri);
+        return FileManager.createAttachmentFromUri(PalmApp.getContext(), uri);
     }
 
     @Override
     protected void onPostExecute(Attachment mAttachment) {
         if ((mFragmentWeakReference != null && PalmUtils.isAlive(mFragmentWeakReference.get()))
-                || (mActivityWeakReference != null && PalmUtils.isAlive(mActivityWeakReference.get()))
-                || (mAppFragmentWeakReference != null && PalmUtils.isAlive(mAppFragmentWeakReference.get()))) {
+                || (mActivityWeakReference != null && PalmUtils.isAlive(mActivityWeakReference.get()))) {
             if (mAttachment != null) {
                 mOnAttachingFileListener.onAttachingFileFinished(mAttachment);
             } else {
@@ -62,7 +53,7 @@ public class CreateAttachmentTask extends AsyncTask<Void, Void, Attachment> {
             }
         } else {
             if (mAttachment != null) {
-                FileHelper.delete(PalmApp.getContext(), mAttachment.getUri().getPath());
+                FileManager.delete(PalmApp.getContext(), mAttachment.getUri().getPath());
             }
         }
     }

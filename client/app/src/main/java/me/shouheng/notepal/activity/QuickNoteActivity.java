@@ -12,28 +12,27 @@ import android.text.TextUtils;
 import java.util.Collections;
 
 import me.shouheng.commons.activity.PermissionActivity;
+import me.shouheng.commons.model.data.Resource;
 import me.shouheng.commons.utils.LogUtils;
-import me.shouheng.notepal.PalmApp;
-import me.shouheng.notepal.R;
-import me.shouheng.notepal.Constants;
-import me.shouheng.notepal.dialog.AttachmentPicker;
-import me.shouheng.notepal.dialog.QuickNoteDialog;
-import me.shouheng.notepal.util.listener.OnAttachingFileListener;
+import me.shouheng.commons.utils.ToastUtils;
+import me.shouheng.data.ModelFactory;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.data.entity.MindSnagging;
 import me.shouheng.data.entity.Model;
-import me.shouheng.data.ModelFactory;
 import me.shouheng.data.entity.Note;
-import me.shouheng.commons.model.data.Resource;
+import me.shouheng.notepal.Constants;
+import me.shouheng.notepal.PalmApp;
+import me.shouheng.notepal.R;
+import me.shouheng.notepal.dialog.AttachmentPicker;
+import me.shouheng.notepal.dialog.QuickNoteDialog;
 import me.shouheng.notepal.util.AppWidgetUtils;
 import me.shouheng.notepal.util.AttachmentHelper;
-import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.notepal.util.preferences.LockPreferences;
 import me.shouheng.notepal.viewmodel.NoteViewModel;
 
 import static me.shouheng.notepal.Constants.SHORTCUT_ACTION_QUICK_NOTE;
 
-public class QuickNoteActivity extends PermissionActivity implements OnAttachingFileListener {
+public class QuickNoteActivity extends PermissionActivity implements AttachmentHelper.OnAttachingFileListener {
 
     private final static int REQUEST_PASSWORD = 0x0016;
 

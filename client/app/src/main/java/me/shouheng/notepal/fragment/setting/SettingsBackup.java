@@ -30,7 +30,7 @@ import me.shouheng.notepal.activity.DirectoryActivity;
 import me.shouheng.notepal.async.DataBackupIntentService;
 import me.shouheng.notepal.manager.onedrive.DefaultCallback;
 import me.shouheng.notepal.manager.onedrive.OneDriveManager;
-import me.shouheng.notepal.util.FileHelper;
+import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.notepal.util.enums.SyncTimeInterval;
 import me.shouheng.notepal.util.preferences.SyncPreferences;
@@ -197,11 +197,11 @@ public class SettingsBackup extends BPreferenceFragment {
     }
 
     private void showExternalBackupImportConfirm(String backup) {
-        File backupDir = FileHelper.getExternalBackupDir(backup);
-        long size = FileHelper.getSize(backupDir) / 1024;
+        File backupDir = FileManager.getExternalBackupDir(backup);
+        long size = FileManager.getSize(backupDir) / 1024;
         String sizeString = size > 1024 ? size / 1024 + "Mb" : size + "Kb";
 
-        String prefName = FileHelper.getPreferencesFile(getActivity()).getName();
+        String prefName = FileManager.getPreferencesFile(getActivity()).getName();
         boolean hasPreferences = (new File(backupDir, prefName)).exists();
 
         String message = getString(R.string.setting_backup_external_import_warn) + "\n\n"
@@ -220,7 +220,7 @@ public class SettingsBackup extends BPreferenceFragment {
     }
 
     private String[] getExternalBackups() {
-        String[] backups = FileHelper.getExternalBackupRootDir().list();
+        String[] backups = FileManager.getExternalBackupRootDir().list();
         Arrays.sort(backups);
         return backups;
     }

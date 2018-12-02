@@ -26,7 +26,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.async.onedrive.ConflictBehavior;
 import me.shouheng.data.model.Directory;
-import me.shouheng.notepal.util.FileHelper;
+import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.commons.utils.ToastUtils;
 
 /**
@@ -210,10 +210,10 @@ public class OneDriveManager {
 
     public void upload(String toItemId, File file, ConflictBehavior conflictBehavior, UploadProgressCallback<Item> callback) {
         final Option option = new QueryOption("@name.conflictBehavior", conflictBehavior.value);
-        final String filename = FileHelper.getFileName(file);
+        final String filename = FileManager.getFileName(file);
         final byte[] fileInMemory;
         try {
-            fileInMemory = FileHelper.getFileBytes(file);
+            fileInMemory = FileManager.getFileBytes(file);
             getOneDriveClient()
                     .getDrive()
                     .getItems(toItemId)

@@ -1,4 +1,4 @@
-package me.shouheng.commons.glide;
+package me.shouheng.commons.image;
 
 import android.content.Context;
 import android.graphics.Bitmap;

@@ -24,24 +24,23 @@ import java.util.Collections;
 import java.util.Objects;
 
 import me.shouheng.commons.utils.ColorUtils;
-import me.shouheng.data.model.enums.ModelType;
-import me.shouheng.notepal.PalmApp;
-import me.shouheng.notepal.R;
-import me.shouheng.notepal.Constants;
-import me.shouheng.notepal.databinding.DialogQuickNoteBinding;
-import me.shouheng.notepal.util.listener.OnAttachingFileListener;
+import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.data.entity.MindSnagging;
+import me.shouheng.data.model.enums.ModelType;
 import me.shouheng.data.store.AttachmentsStore;
+import me.shouheng.notepal.Constants;
+import me.shouheng.notepal.PalmApp;
+import me.shouheng.notepal.R;
+import me.shouheng.notepal.databinding.DialogQuickNoteBinding;
+import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.notepal.util.AttachmentHelper;
-import me.shouheng.notepal.util.FileHelper;
-import me.shouheng.commons.utils.ToastUtils;
 
 import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by wangshouheng on 2017/8/19. */
-public class QuickNoteDialog extends DialogFragment implements OnAttachingFileListener {
+public class QuickNoteDialog extends DialogFragment implements AttachmentHelper.OnAttachingFileListener {
 
     public final static String ARGS_KEY_QUICK_NOTE = "__args_key_quick_note";
 
@@ -187,7 +186,7 @@ public class QuickNoteDialog extends DialogFragment implements OnAttachingFileLi
         if (Constants.MIME_TYPE_AUDIO.equals(attachment.getMineType())){
             binding.siv.setImageResource(attachment.isAudioPlaying() ? R.drawable.stop : R.drawable.play);
         } else {
-            Uri thumbnailUri = FileHelper.getThumbnailUri(getContext(), attachment.getUri());
+            Uri thumbnailUri = FileManager.getThumbnailUri(getContext(), attachment.getUri());
             Glide.with(PalmApp.getContext()).load(thumbnailUri).centerCrop().crossFade().into(binding.siv);
         }
 

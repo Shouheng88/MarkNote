@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import me.shouheng.notepal.R;
+import me.shouheng.notepal.manager.FileManager;
 
 /**
  * Created by wang shouheng on 2018/1/25.*/
@@ -53,7 +54,7 @@ public class BitmapUtils {
                 height = (int)((float)srcBmp.getHeight() / ratio);
             }
 
-            String path = FileHelper.getPath(mContext, uri);
+            String path = FileManager.getPath(mContext, uri);
             int rotation = neededRotation(new File(path));
             if(rotation != 0) {
                 Matrix matrix = new Matrix();

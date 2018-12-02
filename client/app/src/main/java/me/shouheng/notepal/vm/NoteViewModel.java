@@ -31,8 +31,8 @@ import me.shouheng.data.store.NotesStore;
 import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.util.FileHelper;
-import me.shouheng.notepal.util.ModelHelper;
+import me.shouheng.notepal.manager.FileManager;
+import me.shouheng.notepal.manager.NoteManager;
 
 /**
  * The ViewModel for the note fragment.
@@ -135,20 +135,20 @@ public class NoteViewModel extends ViewModel {
 
             note.setContent(content);
             /* Get note title from title editor or note content. */
-            note.setTitle(ModelHelper.getNoteTitle(title, content));
+            note.setTitle(NoteManager.getTitle(title, content));
             /* Get preview image from note content. */
-            note.setPreviewImage(ModelHelper.getNotePreviewImage(content));
-            note.setPreviewContent(ModelHelper.getNotePreview(content));
+            note.setPreviewImage(NoteManager.getPreviewImage(content));
+            note.setPreviewContent(NoteManager.getPreview(content));
 
             /* Get the note file and save the note content to it. */
             Attachment atFile = AttachmentsStore.getInstance().get(note.getContentCode());
             if (atFile == null) {
                 String extension = "." + PersistData.getString(R.string.key_note_file_extension, "md");
-                File noteFile = FileHelper.createNewAttachmentFile(PalmApp.getContext(), extension);
+                File noteFile = FileManager.createNewAttachmentFile(PalmApp.getContext(), extension);
                 try {
                     FileUtils.writeStringToFile(noteFile, note.getContent(), Constants.NOTE_FILE_ENCODING);
                     atFile = ModelFactory.getAttachment();
-                    atFile.setUri(FileHelper.getUriFromFile(PalmApp.getContext(), noteFile));
+                    atFile.setUri(FileManager.getUriFromFile(PalmApp.getContext(), noteFile));
                     atFile.setSize(FileUtils.sizeOf(noteFile));
                     atFile.setPath(noteFile.getPath());
                     atFile.setName(noteFile.getName());

@@ -226,6 +226,7 @@
     <string name="attachment_type_video">Video</string>
     <string name="attachment_type_image">Image</string>
     <string name="attachment_type_others">Other</string>
+    <string name="attachment_error_gif">x or y bound size should be at least %1$dpx and file size should be no more than %2$sM</string>
 
     <!-- enum names -->
     <string name="model_name_none">None</string>

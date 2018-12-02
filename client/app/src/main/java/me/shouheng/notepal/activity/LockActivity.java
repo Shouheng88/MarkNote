@@ -14,13 +14,12 @@ import com.andrognito.pinlockview.IndicatorDots;
 import com.andrognito.pinlockview.PinLockListener;
 
 import me.shouheng.commons.activity.CommonActivity;
+import me.shouheng.commons.theme.SystemUiVisibilityUtil;
+import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.ActivityLockBinding;
-import me.shouheng.notepal.util.ActivityUtils;
 import me.shouheng.notepal.util.RSAUtil;
-import me.shouheng.notepal.util.SystemUiVisibilityUtil;
-import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.notepal.util.preferences.LockPreferences;
 
 public class LockActivity extends CommonActivity<ActivityLockBinding> {
@@ -266,7 +265,8 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
     @Override
     public void onBackPressed() {
         if (ACTION_REQUIRE_LAUNCH_APP.equals(getIntent().getAction())) {
-            ActivityUtils.finishAll();
+//            ActivityUtils.finishAll();
+            // TODO
         } else if (ACTION_SET_PASSWORD.equals(getIntent().getAction())) {
             Intent intent = new Intent();
             setResult(Activity.RESULT_CANCELED, intent);

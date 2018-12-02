@@ -5,10 +5,6 @@
         android:title="@string/attachment_pick_from_album"
         android:icon="@drawable/ic_photo_library_grey_24dp"/>
 
-    <item android:id="@+id/item_pick_a_file"
-        android:title="@string/attachment_pick_a_file"
-        android:icon="@drawable/ic_insert_drive_file_grey_24dp"/>
-
     <item android:id="@+id/item_pick_take_a_photo"
         android:title="@string/attachment_take_a_photo"
         android:icon="@drawable/ic_add_a_photo_grey_24dp"/>

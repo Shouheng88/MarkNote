@@ -20,7 +20,7 @@ import me.shouheng.commons.model.data.Resource;
 import me.shouheng.data.store.AttachmentsStore;
 import me.shouheng.notepal.repository.AttachmentRepository;
 import me.shouheng.notepal.repository.BaseRepository;
-import me.shouheng.notepal.util.FileHelper;
+import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.notepal.util.preferences.NotePreferences;
 
 /**
@@ -64,11 +64,11 @@ public class AttachmentViewModel extends BaseViewModel<Attachment> {
             if (atFile == null) {
                 // If the attachment is not exist, we will try to create a new one.
                 String extension = NotePreferences.getInstance().getNoteFileExtension();
-                File noteFile = FileHelper.createNewAttachmentFile(PalmApp.getContext(), extension);
+                File noteFile = FileManager.createNewAttachmentFile(PalmApp.getContext(), extension);
                 try {
                     FileUtils.writeStringToFile(noteFile, note.getContent(), "utf-8");
                     atFile = ModelFactory.getAttachment();
-                    atFile.setUri(FileHelper.getUriFromFile(PalmApp.getContext(), noteFile));
+                    atFile.setUri(FileManager.getUriFromFile(PalmApp.getContext(), noteFile));
                     atFile.setSize(FileUtils.sizeOf(noteFile));
                     atFile.setPath(noteFile.getPath());
                     atFile.setName(noteFile.getName());

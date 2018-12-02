@@ -19,6 +19,7 @@ import java.io.IOException;
 
 import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.notepal.PalmApp;
+import me.shouheng.notepal.manager.FileManager;
 
 /**
  * Created by wangshouheng on 2017/11/17. */
@@ -222,11 +223,11 @@ public class ScreenShotHelper {
     // endregion
 
     // region shot web view
-    public static void shotWebView(WebView webView, FileHelper.OnSavedToGalleryListener listener) {
+    public static void shotWebView(WebView webView, FileManager.OnSavedToGalleryListener listener) {
         createType2(webView, listener);
     }
 
-    private static Bitmap createType1(WebView webView, FileHelper.OnSavedToGalleryListener listener) {
+    private static Bitmap createType1(WebView webView, FileManager.OnSavedToGalleryListener listener) {
         Picture picture = webView.capturePicture();
         int width = picture.getWidth();
         int height = picture.getHeight();
@@ -239,14 +240,14 @@ public class ScreenShotHelper {
         return bitmap;
     }
 
-    private static void createType2(WebView webView, FileHelper.OnSavedToGalleryListener listener) {
+    private static void createType2(WebView webView, FileManager.OnSavedToGalleryListener listener) {
         float scale = webView.getScale();
         int webViewHeight = (int) (webView.getContentHeight() * scale + 0.5);
         Bitmap bitmap = Bitmap.createBitmap(webView.getWidth(), webViewHeight, Bitmap.Config.RGB_565);
         Canvas canvas = new Canvas(bitmap);
         webView.draw(canvas);
         try {
-            FileHelper.saveImageToGallery(PalmApp.getContext(), bitmap, true, listener);
+            FileManager.saveImageToGallery(PalmApp.getContext(), bitmap, true, listener);
             bitmap.recycle();
         } catch (Exception e) {
             LogUtils.e(e.getMessage());

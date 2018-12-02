@@ -1,12 +1,13 @@
-package me.shouheng.notepal.util;
+package me.shouheng.notepal.manager;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.annotation.Nullable;
+import android.print.PrintManager;
 import android.text.ClipboardManager;
 import android.text.TextUtils;
+import android.webkit.WebView;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -20,21 +21,36 @@ import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.commons.utils.TimeUtils;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.data.entity.Model;
+import me.shouheng.data.entity.Note;
 import me.shouheng.notepal.Constants;
-import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.config.TextLength;
 
 /**
- * Created by wangshouheng on 2017/11/4.*/
-public class ModelHelper {
+ * The manger for note witch provided many useful methods to handle the note.
+ *
+ * Created by WngShhng (shouheng2015@gmail.com) on 2017/11/4.
+ * Refactored by WngShhng (shouheng2015@gmail.com) on 2018/12/02. */
+public class NoteManager {
 
-    @Nullable
+    /**
+     * The note title regex expression pattern, use the {@link Constants#REGEX_NOTE_TITLE}.
+     */
     private static Pattern titlePattern;
 
-    @Nullable
+    /**
+     * The note preview image regex expression pattern,
+     * use the {@link Constants#REGEX_NOTE_PREVIEW_IMAGE}.
+     */
     private static Pattern imagePattern;
 
+    /**
+     * Get the standard time information for note and any other kinds of model when extends{@link Model}
+     *
+     * @param model the note
+     * @param <T> the type of model
+     * @return the time information string
+     */
     public static <T extends Model> String getTimeInfo(T model) {
         return PalmUtils.getStringCompact(R.string.text_created)
                 + " : " + TimeUtils.getPrettyTime(model.getAddedTime()) + "\n"
@@ -42,11 +58,26 @@ public class ModelHelper {
                 + " : " + TimeUtils.getPrettyTime(model.getLastModifiedTime());
     }
 
+    /**
+     * Copy the content to tbe clipboard.
+     *
+     * @param activity the activity used to get the {@link android.content.ClipboardManager}
+     * @param content the content to clip
+     */
     public static void copy(Activity activity, String content) {
         ClipboardManager clipboardManager = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
+        assert clipboardManager != null;
         clipboardManager.setText(content);
     }
 
+    /**
+     * Send the information to other app.
+     *
+     * @param context the context to send intent
+     * @param title the title to send
+     * @param content the content to send
+     * @param attachments the attachments to send
+     */
     public static void send(Context context, String title, String content, List<Attachment> attachments) {
         Intent shareIntent = new Intent();
         if (attachments.size() == 0) {
@@ -70,19 +101,32 @@ public class ModelHelper {
         shareIntent.putExtra(Intent.EXTRA_SUBJECT, title);
         shareIntent.putExtra(Intent.EXTRA_TEXT, content);
 
-        context.startActivity(Intent.createChooser(shareIntent,
-                context.getResources().getString(R.string.text_send_to)));
+        context.startActivity(Intent.createChooser(shareIntent, PalmUtils.getStringCompact(R.string.text_send_to)));
     }
 
-    public static void shareFile(Context context, File file, String mimeType) {
+    /**
+     * Send file to other app.
+     *
+     * @param context the context to send intent
+     * @param file the file to send
+     * @param mimeType the mime type of file
+     */
+    public static void sendFile(Context context, File file, String mimeType) {
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
         shareIntent.setType(mimeType);
-        shareIntent.putExtra(Intent.EXTRA_STREAM, FileHelper.getUriFromFile(context, file));
-        context.startActivity(Intent.createChooser(shareIntent, context.getResources().getString(R.string.text_send_to)));
+        shareIntent.putExtra(Intent.EXTRA_STREAM, FileManager.getUriFromFile(context, file));
+        context.startActivity(Intent.createChooser(shareIntent, PalmUtils.getStringCompact(R.string.text_send_to)));
     }
 
-    public static String getNoteTitle(String inputTitle, String noteContent) {
+    /**
+     * Get note title according to the input title and content
+     *
+     * @param inputTitle the title input
+     * @param noteContent the content of note
+     * @return the title string
+     */
+    public static String getTitle(String inputTitle, String noteContent) {
         if (!TextUtils.isEmpty(inputTitle)) {
             if (inputTitle.length() >= TextLength.TITLE_TEXT_LENGTH.length) {
                 return inputTitle.substring(0, TextLength.TITLE_TEXT_LENGTH.length);
@@ -92,12 +136,12 @@ public class ModelHelper {
 
         // Use default note title
         if (TextUtils.isEmpty(noteContent)) {
-            return PalmApp.getStringCompact(R.string.text_default_note_name);
+            return PalmUtils.getStringCompact(R.string.text_default_note_name);
         }
 
         // Get title from note content
         if (titlePattern == null) {
-            titlePattern = Pattern.compile(Constants.TITLE_REGEX);
+            titlePattern = Pattern.compile(Constants.REGEX_NOTE_TITLE);
         }
         Matcher matcher = titlePattern.matcher(noteContent);
         if (matcher.find()) {
@@ -120,11 +164,16 @@ public class ModelHelper {
             }
         }
 
-        // Use default note title
-        return PalmApp.getStringCompact(R.string.text_default_note_name);
+        return PalmUtils.getStringCompact(R.string.text_default_note_name);
     }
 
-    public static String getNotePreview(String noteContent) {
+    /**
+     * Get the preview content from the note content.
+     *
+     * @param noteContent the note content
+     * @return the image file
+     */
+    public static String getPreview(String noteContent) {
         if (TextUtils.isEmpty(noteContent)) {
             return "";
         }
@@ -136,13 +185,19 @@ public class ModelHelper {
         return noteContent.trim().replace('\n', ' ');
     }
 
-    public static Uri getNotePreviewImage(String noteContent) {
+    /**
+     * Get note preview image from the content.
+     *
+     * @param noteContent the note content
+     * @return the uri of preview image.
+     */
+    public static Uri getPreviewImage(String noteContent) {
         if (TextUtils.isEmpty(noteContent)) {
             return null;
         }
 
         if (imagePattern == null) {
-            imagePattern = Pattern.compile(Constants.IMAGE_REGEX);
+            imagePattern = Pattern.compile(Constants.REGEX_NOTE_PREVIEW_IMAGE);
         }
         Matcher matcher = imagePattern.matcher(noteContent);
         if (matcher.find()) {
@@ -154,5 +209,25 @@ public class ModelHelper {
             }
         }
         return null;
+    }
+
+    /**
+     * Print the WebView for note to PDF.
+     *
+     * @param context the context to get {@link PrintManager}
+     * @param webView the WebView
+     * @param note the note
+     */
+    public static void printPDF(Context context, WebView webView, Note note) {
+        if (PalmUtils.isKitKat()) {
+            PrintManager printManager = (PrintManager) context.getSystemService(Context.PRINT_SERVICE);
+            if (printManager != null) {
+                if (PalmUtils.isLollipop()) {
+                    printManager.print("PRINT-NOTE", webView.createPrintDocumentAdapter(note.getTitle()), null);
+                    return;
+                }
+                printManager.print("PRINT-NOTE", webView.createPrintDocumentAdapter(), null);
+            }
+        }
     }
 }

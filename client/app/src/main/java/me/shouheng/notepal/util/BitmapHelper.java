@@ -17,6 +17,7 @@ import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.Constants;
+import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.notepal.manager.MediaStoreFactory;
 
 import static java.lang.Long.parseLong;
@@ -27,7 +28,7 @@ public class BitmapHelper {
 		Bitmap bmp = null;
 		String path;
 
-		String mimeType = FileHelper.getMimeTypeInternal(mContext, uri);
+		String mimeType = FileManager.getMimeTypeInternal(mContext, uri);
 
 		if (Constants.MIME_TYPE_VIDEO.equals(mimeType)) {
 			path = getPath(mContext, remoteViewsService, uri);
@@ -43,7 +44,7 @@ public class BitmapHelper {
 			bmp = ThumbnailUtils.extractThumbnail(BitmapUtils.decodeSampledBitmapFromResourceMemOpt(
 					mContext.getResources().openRawResource(R.raw.play), width, height), width, height);
 		} else if (Constants.MIME_TYPE_FILES.equals(mimeType)) {
-			if (Constants.MIME_TYPE_CONTACT_EXTENSION.equals(FileHelper.getFileExtension(mContext, uri))) {
+			if (Constants.MIME_TYPE_CONTACT_EXTENSION.equals(FileManager.getFileExtension(mContext, uri))) {
 				bmp = ThumbnailUtils.extractThumbnail(BitmapUtils.decodeSampledBitmapFromResourceMemOpt(
 						mContext.getResources().openRawResource(R.raw.vcard), width, height), width, height);
 			} else {
@@ -61,17 +62,17 @@ public class BitmapHelper {
 
 		final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
 		if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
-			if (FileHelper.isExternalStorageDocument(uri)) {
+			if (FileManager.isExternalStorageDocument(uri)) {
 				final String docId = DocumentsContract.getDocumentId(uri);
 				final String[] split = docId.split(":");
 				final String type = split[0];
 				if ("primary".equalsIgnoreCase(type)) {
 					return Environment.getExternalStorageDirectory() + "/" + split[1];
 				}
-			} else if (FileHelper.isDownloadsDocument(uri)) {
+			} else if (FileManager.isDownloadsDocument(uri)) {
 				final Uri contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), parseLong(DocumentsContract.getDocumentId(uri)));
 				return getDataColumn(remoteViewsService, contentUri, null, null);
-			} else if (FileHelper.isMediaDocument(uri)) {
+			} else if (FileManager.isMediaDocument(uri)) {
 				final String docId = DocumentsContract.getDocumentId(uri);
 				final String[] split = docId.split(":");
 				final String type = split[0];

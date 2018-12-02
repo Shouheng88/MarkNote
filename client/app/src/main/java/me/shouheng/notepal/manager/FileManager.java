@@ -1,4 +1,4 @@
-package me.shouheng.notepal.util;
+package me.shouheng.notepal.manager;
 
 import android.annotation.SuppressLint;
 import android.content.ContentResolver;
@@ -46,13 +46,13 @@ import me.shouheng.notepal.BuildConfig;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.Constants;
-import me.shouheng.notepal.manager.MediaStoreFactory;
 
 import static java.lang.Long.parseLong;
 
 /**
- * Created by wangshouheng on 2017/4/7.*/
-public class FileHelper {
+ * Created by WngShhng (shouheng2015@gmail.com) on 2017/4/7.
+ * Refactored by WngShhng (shouheng2015@gmail.com) on2018/12/2. */
+public class FileManager {
 
     private static final String EXTERNAL_STORAGE_FOLDER = "NotePal";
     private static final String EXTERNAL_STORAGE_BACKUP_DIR = "Backup";
@@ -169,15 +169,15 @@ public class FileHelper {
         return null;
     }
 
-    static boolean isMediaDocument(Uri uri) {
+    public static boolean isMediaDocument(Uri uri) {
         return "com.android.providers.media.documents".equals(uri.getAuthority());
     }
 
-    static boolean isExternalStorageDocument(Uri uri) {
+    public static boolean isExternalStorageDocument(Uri uri) {
         return "com.android.externalstorage.documents".equals(uri.getAuthority());
     }
 
-    static boolean isDownloadsDocument(Uri uri) {
+    public static boolean isDownloadsDocument(Uri uri) {
         return "com.android.providers.downloads.documents".equals(uri.getAuthority());
     }
 
@@ -428,14 +428,25 @@ public class FileHelper {
         return createAttachmentFromUri(mContext, uri, false);
     }
 
-    private static Attachment createAttachmentFromUri(Context mContext, Uri uri, boolean moveSource) {
-        String name = FileHelper.getNameFromUri(mContext, uri);
-        String extension = FileHelper.getFileExtension(name).toLowerCase(Locale.getDefault());
 
-        /**
+    /**
+     * Create an attachment from the uri
+     *
+     * @param mContext the context to get the io stream
+     * @param uri the uri of file
+     * @param moveSource whether move the source file, the original file will be copied to
+     *                   the app private storage and deleted if set true.
+     * @return the attachment got
+     */
+    private static Attachment createAttachmentFromUri(Context mContext, Uri uri, boolean moveSource) {
+        String name = FileManager.getNameFromUri(mContext, uri);
+        String extension = FileManager.getFileExtension(name).toLowerCase(Locale.getDefault());
+
+        /*
          * The name got from last step is the {@link OpenableColumns.DISPLAY_NAME} value.
          * That means, for a mp3 file "Music.mp3", we may only get the "Music", so the extension can be empty.
-         * To avoid the extension empty, we should check it and try to get it from the mime type. */
+         * To avoid the extension empty, we should check it and try to get it from the mime type.
+         */
         if (TextUtils.isEmpty(extension)) extension = getFileExtension(mContext, uri);
 
         File file;
@@ -447,11 +458,10 @@ public class FileHelper {
                 LogUtils.e("Can't move file " + uri.getPath());
             }
         } else {
-            file = FileHelper.createExternalStoragePrivateFile(mContext, uri, extension);
+            file = FileManager.createExternalStoragePrivateFile(mContext, uri, extension);
         }
 
-        /**
-         * Create attachment object as return value. */
+        /* Create attachment object as return value. */
         Attachment mAttachment = ModelFactory.getAttachment();
         if (file != null) {
             mAttachment.setUri(getUriFromFile(mContext, file));
@@ -478,7 +488,7 @@ public class FileHelper {
             copyFile(is, os);
         } catch (IOException e) {
             try {
-                is = new FileInputStream(FileHelper.getPath(mContext, uri));
+                is = new FileInputStream(FileManager.getPath(mContext, uri));
                 os = new FileOutputStream(file);
                 copyFile(is, os);
             } catch (NullPointerException e1) {
@@ -634,7 +644,7 @@ public class FileHelper {
             e.printStackTrace();
             return false;
         }
-        context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(appDir)));
+        context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, getUriFromFile(context, appDir)));
         if (onSavedToGalleryListener != null) onSavedToGalleryListener.OnSavedToGallery(file);
         return true;
     }
@@ -643,7 +653,7 @@ public class FileHelper {
         Resources res = context.getResources();
         BitmapDrawable d = (BitmapDrawable) res.getDrawable(drawableRes);
         Bitmap img = d.getBitmap();
-        FileHelper.saveImageToGallery(context, img, true, onSavedToGalleryListener);
+        FileManager.saveImageToGallery(context, img, true, onSavedToGalleryListener);
     }
     // endregion
 
@@ -681,7 +691,7 @@ public class FileHelper {
     }
 
     public static File getExternalFilesBackupDir(File backupDir) {
-        File attachmentsDir = FileHelper.getAttachmentDir(PalmApp.getContext());
+        File attachmentsDir = FileManager.getAttachmentDir(PalmApp.getContext());
         return new File(backupDir, attachmentsDir.getName());
     }
 

@@ -238,6 +238,31 @@ public class MDEditorLayout extends BaseSoftInputLayout {
                 case FORMAT_ID_DOWN:
                     break;
             }
+            Format format = Format.getFormat(formatId);
+            if (format != null && editor != null) {
+                switch (format) {
+                    case IMAGE:
+                        if (params.length == 2) {
+                            String title = (String) params[0];
+                            String url = (String) params[1];
+                            String result = "\n![" + title + "](" + url + ")\n";
+                            editor.getText().insert(selectionStart, result);
+                            editor.setSelection(selectionStart + result.length());
+                            return;
+                        }
+                        break;
+                    case LINK:
+                        if (params.length == 2) {
+                            String title = (String) params[0];
+                            String url = (String) params[1];
+                            String result = "\n[" + title + "](" + url + ")\n";
+                            editor.getText().insert(selectionStart, result);
+                            editor.setSelection(selectionStart + result.length());
+                            return;
+                        }
+                        break;
+                }
+            }
             super.handle(formatId, source, selectionStart, selectionEnd, selection, editor, params);
         }
     }

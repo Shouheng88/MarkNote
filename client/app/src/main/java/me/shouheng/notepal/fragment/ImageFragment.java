@@ -18,8 +18,8 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.GalleryActivity;
 import me.shouheng.notepal.Constants;
 import me.shouheng.data.entity.Attachment;
-import me.shouheng.notepal.util.FileHelper;
-import me.shouheng.commons.glide.RotateTransformation;
+import me.shouheng.notepal.manager.FileManager;
+import me.shouheng.commons.image.RotateTransformation;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -84,7 +84,7 @@ public class ImageFragment extends Fragment {
 
     private void displayMedia(PhotoView photoView) {
         Glide.with(getContext())
-                .load(FileHelper.getThumbnailUri(getContext(), attachment.getUri()))
+                .load(FileManager.getThumbnailUri(getContext(), attachment.getUri()))
                 .asBitmap()
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .thumbnail(0.5f)
@@ -95,7 +95,7 @@ public class ImageFragment extends Fragment {
             if (attachment != null && Constants.MIME_TYPE_VIDEO.equals(attachment.getMineType())){
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                intent.setDataAndType(attachment.getUri(), FileHelper.getMimeType(getContext(), attachment.getUri()));
+                intent.setDataAndType(attachment.getUri(), FileManager.getMimeType(getContext(), attachment.getUri()));
                 startActivity(intent);
             }
         });
@@ -106,7 +106,7 @@ public class ImageFragment extends Fragment {
      * @param imageView view to show*/
     private void displayMedia(ImageView imageView){
         Glide.with(getContext())
-                .load(FileHelper.getThumbnailUri(getContext(), attachment.getUri()))
+                .load(FileManager.getThumbnailUri(getContext(), attachment.getUri()))
                 .asBitmap()
                 .animate(R.anim.fade_in_support)
                 .into(imageView);
@@ -114,7 +114,7 @@ public class ImageFragment extends Fragment {
             if (attachment != null && Constants.MIME_TYPE_VIDEO.equals(attachment.getMineType())){
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                intent.setDataAndType(attachment.getUri(), FileHelper.getMimeType(getContext(), attachment.getUri()));
+                intent.setDataAndType(attachment.getUri(), FileManager.getMimeType(getContext(), attachment.getUri()));
                 startActivity(intent);
             }
         });

@@ -138,8 +138,22 @@ public interface Constants extends BaseConstants {
             "tfNQPQu+gXgdXuZC+fhqVqNgYtWVRMIspveSm3AK+52AxxzTlfAU1fpCEFOf4AHc\n" +
             "/E33toB493pf9gS2xwIDAQAB";
 
-    String TITLE_REGEX = "^(#+)(.*)";
-    String IMAGE_REGEX = "!\\[.*]\\(.+.\\)";
+    // region regex expression
+
+    /**
+     * The note title regex expression, used to get the note title from the note content.
+     */
+    String REGEX_NOTE_TITLE = "^(#+)(.*)";
+
+    /**
+     * The note image regex expression, used to get the note image from the note content.
+     */
+    String REGEX_NOTE_PREVIEW_IMAGE = "!\\[.*]\\(.+.\\)";
+
+    // endregion regex expression
+
+
+
 
     String HTML_EXPORT_DIR_NAME = "ExportedHtml";
     String TEXT_EXPORT_DIR_NAME = "ExportedText";

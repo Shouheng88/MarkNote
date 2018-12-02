@@ -58,20 +58,19 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.FragmentNoteViewBinding;
 import me.shouheng.notepal.dialog.OpenResolver;
 import me.shouheng.notepal.fragment.base.BaseFragment;
+import me.shouheng.notepal.manager.NoteManager;
 import me.shouheng.notepal.util.AttachmentHelper;
-import me.shouheng.notepal.util.FileHelper;
-import me.shouheng.notepal.util.ModelHelper;
-import me.shouheng.notepal.util.PrintUtils;
+import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.notepal.util.ShortcutHelper;
 import me.shouheng.notepal.vm.NoteViewerViewModel;
 
-import static me.shouheng.notepal.Constants.MIME_TYPE_OF_PDF;
-import static me.shouheng.notepal.Constants.URI_SCHEME_HTTP;
-import static me.shouheng.notepal.Constants.URI_SCHEME_HTTPS;
-import static me.shouheng.notepal.Constants.MIME_TYPE_OF_VIDEO;
 import static me.shouheng.notepal.Constants.EXTENSION_3GP;
 import static me.shouheng.notepal.Constants.EXTENSION_MP4;
 import static me.shouheng.notepal.Constants.EXTENSION_PDF;
+import static me.shouheng.notepal.Constants.MIME_TYPE_OF_PDF;
+import static me.shouheng.notepal.Constants.MIME_TYPE_OF_VIDEO;
+import static me.shouheng.notepal.Constants.URI_SCHEME_HTTP;
+import static me.shouheng.notepal.Constants.URI_SCHEME_HTTPS;
 
 /**
  * The fragment used to display the parsed the markdown text, based on the WebView.
@@ -147,6 +146,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
         getBinding().emv.getFastScrollDelegate().setThumbDynamicHeight(false);
         getBinding().emv.useStyleCss(isDarkTheme() ? EasyMarkViewer.DARK_STYLE_CSS : EasyMarkViewer.LIGHT_STYLE_CSS);
         getBinding().emv.setOnImageClickListener((url, urls) -> {
+            // TODO the clicked image position
             List<Attachment> attachments = new ArrayList<>();
             Attachment clickedAttachment = null, attachment;
             for (String u : urls) {
@@ -211,7 +211,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
         /* Config Drawer. */
         getBinding().drawer.setIsDarkTheme(isDarkTheme());
         getBinding().drawer.llCopy.setOnClickListener(v -> {
-            ModelHelper.copy(getActivity(), viewModel.getNote().getContent());
+            NoteManager.copy(getActivity(), viewModel.getNote().getContent());
             ToastUtils.makeToast(R.string.note_copied_success);
         });
         getBinding().drawer.llShortcut.setOnClickListener(v -> {
@@ -236,7 +236,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
                     String charsInfo = getString(R.string.text_chars)
                             + " : " + viewModel.getNote().getContent().length();
                     getBinding().drawer.tvChars.setText(charsInfo);
-                    getBinding().drawer.tvNoteInfo.setText(ModelHelper.getTimeInfo(viewModel.getNote()));
+                    getBinding().drawer.tvNoteInfo.setText(NoteManager.getTimeInfo(viewModel.getNote()));
                     break;
                 case LOADING:
                     break;
@@ -314,7 +314,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
                         switch (menuItem.getItemId()) {
                             case R.id.action_share_text:
                                 // Send Raw Text
-                                ModelHelper.send(getContext(),
+                                NoteManager.send(getContext(),
                                         viewModel.getNote().getTitle(),
                                         viewModel.getNote().getContent(),
                                         new ArrayList<>());
@@ -326,7 +326,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
                             case R.id.action_share_image:
                                 // Send Captured Image
                                 createWebCapture(getBinding().emv,
-                                        file -> ModelHelper.shareFile(getContext(), file, Constants.MIME_TYPE_IMAGE));
+                                        file -> NoteManager.sendFile(getContext(), file, Constants.MIME_TYPE_IMAGE));
                                 break;
                         }
                     }
@@ -361,7 +361,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
                                 break;
                             case R.id.print:
                                 // Export Printed WebView
-                                PrintUtils.print(getContext(), getBinding().emv, viewModel.getNote());
+                                NoteManager.printPDF(getContext(), getBinding().emv, viewModel.getNote());
                                 break;
                             case R.id.export_text:
                                 // Export Raw Text
@@ -378,12 +378,12 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
 
     private void outputHtml(boolean isShare) {
         try {
-            File exDir = FileHelper.getHtmlExportDir();
-            File outFile = new File(exDir, FileHelper.getDefaultFileName(Constants.EXPORTED_HTML_EXTENSION));
+            File exDir = FileManager.getHtmlExportDir();
+            File outFile = new File(exDir, FileManager.getDefaultFileName(Constants.EXPORTED_HTML_EXTENSION));
             FileUtils.writeStringToFile(outFile, viewModel.getHtml(), Constants.NOTE_FILE_ENCODING);
             if (isShare) {
                 // Share, do share option
-                ModelHelper.shareFile(getContext(), outFile, Constants.MIME_TYPE_HTML);
+                NoteManager.sendFile(getContext(), outFile, Constants.MIME_TYPE_HTML);
             } else {
                 // Not share, just show a message
                 ToastUtils.makeToast(String.format(getString(R.string.text_file_saved_to), outFile.getPath()));
@@ -395,12 +395,12 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
 
     private void outputContent(boolean isShare) {
         try {
-            File exDir = FileHelper.getTextExportDir();
-            File outFile = new File(exDir, FileHelper.getDefaultFileName(Constants.EXPORTED_TEXT_EXTENSION));
+            File exDir = FileManager.getTextExportDir();
+            File outFile = new File(exDir, FileManager.getDefaultFileName(Constants.EXPORTED_TEXT_EXTENSION));
             FileUtils.writeStringToFile(outFile, viewModel.getNote().getContent(), "utf-8");
             if (isShare) {
                 // Share, do share option
-                ModelHelper.shareFile(getContext(), outFile, Constants.MIME_TYPE_FILES);
+                NoteManager.sendFile(getContext(), outFile, Constants.MIME_TYPE_FILES);
             } else {
                 // Not share, just show a message
                 ToastUtils.makeToast(String.format(getString(R.string.text_file_saved_to), outFile.getPath()));

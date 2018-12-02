@@ -1,6 +1,5 @@
 package me.shouheng.notepal.fragment;
 
-import android.app.Activity;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.net.Uri;
@@ -42,9 +41,9 @@ import me.shouheng.data.ModelFactory;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.data.entity.Category;
 import me.shouheng.data.entity.Note;
-import me.shouheng.data.model.enums.ModelType;
 import me.shouheng.data.store.CategoryStore;
 import me.shouheng.easymark.EasyMarkEditor;
+import me.shouheng.easymark.editor.Format;
 import me.shouheng.easymark.tools.Utils;
 import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.PalmApp;
@@ -56,20 +55,24 @@ import me.shouheng.notepal.dialog.TableInputDialog;
 import me.shouheng.notepal.dialog.picker.CategoryPickerDialog;
 import me.shouheng.notepal.dialog.picker.NotebookPickerDialog;
 import me.shouheng.notepal.fragment.setting.SettingsNote;
+import me.shouheng.notepal.manager.FileManager;
+import me.shouheng.notepal.manager.NoteManager;
 import me.shouheng.notepal.util.AppWidgetUtils;
-import me.shouheng.notepal.util.FileHelper;
-import me.shouheng.notepal.util.ModelHelper;
+import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.viewmodel.CategoryViewModel;
 import me.shouheng.notepal.vm.NoteViewModel;
 import me.shouheng.notepal.widget.MDEditorLayout;
 
+import static android.app.Activity.RESULT_OK;
 import static me.shouheng.notepal.Constants.SHORTCUT_ACTION_CAPTURE;
 import static me.shouheng.notepal.Constants.SHORTCUT_ACTION_CREATE_NOTE;
 import static me.shouheng.notepal.Constants.SHORTCUT_ACTION_VIEW_NOTE;
 
-/**
+/**TODO the edit buttons (attachment & preview)
+ * TODO MD buttons
  * Created by WngShhng (shouehng2015@gmail.com) on 2017/5/12.*/
-public class NoteFragment extends CommonFragment<FragmentNoteBinding> implements BackEventResolver {
+public class NoteFragment extends CommonFragment<FragmentNoteBinding>
+        implements BackEventResolver, AttachmentHelper.OnAttachingFileListener {
 
     /**
      * The key for action, used to send a command to this fragment.
@@ -262,7 +265,7 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding> implements
             switch (resources.status) {
                 case SUCCESS:
                     AppWidgetUtils.notifyAppWidgets(getContext());
-                    getActivity().setResult(Activity.RESULT_OK);
+                    getActivity().setResult(RESULT_OK);
                     getActivity().finish();
                     break;
                 case FAILED:
@@ -309,6 +312,7 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding> implements
 
     private void showAttachmentPicker() {
         new BottomSheet.Builder(Objects.requireNonNull(getContext()))
+                .setTitle(R.string.text_pick)
                 .setStyle(isDarkTheme() ? R.style.BottomSheet_Dark : R.style.BottomSheet)
                 .setMenu(ColorUtils.getThemedBottomSheetMenu(getContext(), R.menu.attachment_picker))
                 .setListener(new BottomSheetListener() {
@@ -319,12 +323,13 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding> implements
                     public void onSheetItemSelected(@NonNull BottomSheet bottomSheet, MenuItem menuItem, @Nullable Object o) {
                         switch (menuItem.getItemId()) {
                             case R.id.item_pick_from_album:
-                                break;
-                            case R.id.item_pick_a_file:
+                                AttachmentHelper.pickFromCustomAlbum(NoteFragment.this);
                                 break;
                             case R.id.item_pick_take_a_photo:
+                                AttachmentHelper.takeAPhoto(NoteFragment.this);
                                 break;
                             case R.id.item_pick_create_sketch:
+                                AttachmentHelper.createSketch(NoteFragment.this);
                                 break;
                         }
                     }
@@ -340,24 +345,6 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding> implements
 //    @Override
     protected void onFailedGetAttachment(Attachment attachment) {
         ToastUtils.makeToast(R.string.text_failed_to_save_attachment);
-    }
-
-//    @Override
-    protected void onGetAttachment(@NonNull Attachment attachment) {
-//        attachment.setModelCode(note.getCode());
-        attachment.setModelType(ModelType.NOTE);
-//        attachmentViewModel.saveModel(attachment).observe(this, LogUtils::d);
-
-        String title = FileHelper.getNameFromUri(getContext(), attachment.getUri());
-        if (TextUtils.isEmpty(title)) title = getString(R.string.text_attachment);
-
-        // TODO the attachment location
-        if (Constants.MIME_TYPE_IMAGE.equalsIgnoreCase(attachment.getMineType())
-                || Constants.MIME_TYPE_SKETCH.equalsIgnoreCase(attachment.getMineType())) {
-//            getBinding().etContent.useFormat(Format.IMAGE);
-        } else {
-//            getBinding().etContent.useFormat(Format.IMAGE);
-        }
     }
 
     private void showCategoriesPicker() {
@@ -439,18 +426,18 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding> implements
             case R.id.action_send: {
                 String title = etTitle.getText().toString();
                 String content = eme.getText().toString() + " ";
-                ModelHelper.send(getContext(), title, content, new ArrayList<>());
+                NoteManager.send(getContext(), title, content, new ArrayList<>());
                 break;
             }
             case R.id.action_copy_title: {
                 String title = etTitle.getText().toString();
-                ModelHelper.copy(getActivity(), title);
+                NoteManager.copy(getActivity(), title);
                 ToastUtils.makeToast(R.string.note_copied_success);
                 break;
             }
             case R.id.action_copy_content: {
                 String content = eme.getText().toString() + " ";
-                ModelHelper.copy(getActivity(), content);
+                NoteManager.copy(getActivity(), content);
                 ToastUtils.makeToast(R.string.note_copied_success);
                 break;
             }
@@ -467,5 +454,28 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding> implements
         String title = etTitle.getText().toString();
         String content = eme.getText().toString();
         viewModel.saveOrUpdateNote(title, content);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        AttachmentHelper.onActivityResult(this, requestCode, resultCode, data, viewModel.getNote());
+    }
+
+    @Override
+    public void onAttachingFileErrorOccurred(Attachment attachment) {
+        ToastUtils.makeToast(R.string.text_failed_to_save_attachment);
+    }
+
+    @Override
+    public void onAttachingFileFinished(Attachment attachment) {
+        String title = FileManager.getNameFromUri(getContext(), attachment.getUri());
+        if (TextUtils.isEmpty(title)) title = getString(R.string.text_attachment);
+        if (Constants.MIME_TYPE_IMAGE.equalsIgnoreCase(attachment.getMineType())
+                || Constants.MIME_TYPE_SKETCH.equalsIgnoreCase(attachment.getMineType())) {
+            eme.useFormat(Format.IMAGE, title, attachment.getUri().toString());
+        } else {
+            eme.useFormat(Format.LINK, title, attachment.getUri().toString());
+        }
     }
 }

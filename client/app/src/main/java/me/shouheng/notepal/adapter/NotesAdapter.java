@@ -17,7 +17,7 @@ import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.data.entity.Note;
 import me.shouheng.data.entity.Notebook;
-import me.shouheng.notepal.util.FileHelper;
+import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.commons.utils.TimeUtils;
 import me.shouheng.notepal.util.preferences.NotePreferences;
 import me.shouheng.commons.widget.recycler.BubbleTextGetter;
@@ -78,7 +78,7 @@ public class NotesAdapter extends BaseMultiItemQuickAdapter<NotesAdapter.MultiIt
         holder.setTextColor(R.id.tv_time, accentColor);
         if (note.getPreviewImage() != null) {
             holder.getView(R.id.iv_image).setVisibility(View.VISIBLE);
-            Uri thumbnailUri = FileHelper.getThumbnailUri(context, note.getPreviewImage());
+            Uri thumbnailUri = FileManager.getThumbnailUri(context, note.getPreviewImage());
             Glide.with(PalmApp.getContext())
                     .load(thumbnailUri)
                     .centerCrop()

@@ -30,8 +30,8 @@ import me.shouheng.data.store.AttachmentsStore;
 import me.shouheng.data.store.NotesStore;
 import me.shouheng.notepal.repository.BaseRepository;
 import me.shouheng.notepal.repository.NoteRepository;
-import me.shouheng.notepal.util.FileHelper;
-import me.shouheng.notepal.util.ModelHelper;
+import me.shouheng.notepal.manager.FileManager;
+import me.shouheng.notepal.manager.NoteManager;
 import me.shouheng.notepal.util.preferences.NotePreferences;
 
 /**
@@ -76,18 +76,18 @@ public class NoteViewModel extends BaseViewModel<Note> {
 
             // Prepare note info
             note.setContent(content);
-            note.setTitle(ModelHelper.getNoteTitle(snagging.getContent(), snagging.getContent()));
+            note.setTitle(NoteManager.getTitle(snagging.getContent(), snagging.getContent()));
             note.setPreviewImage(snagging.getPicture());
-            note.setPreviewContent(ModelHelper.getNotePreview(snagging.getContent()));
+            note.setPreviewContent(NoteManager.getPreview(snagging.getContent()));
 
             // Create note file and attach to note
             String extension = NotePreferences.getInstance().getNoteFileExtension();
-            File noteFile = FileHelper.createNewAttachmentFile(PalmApp.getContext(), extension);
+            File noteFile = FileManager.createNewAttachmentFile(PalmApp.getContext(), extension);
             try {
                 // Create note content attachment
                 Attachment atFile = ModelFactory.getAttachment();
                 FileUtils.writeStringToFile(noteFile, note.getContent(), "utf-8");
-                atFile.setUri(FileHelper.getUriFromFile(PalmApp.getContext(), noteFile));
+                atFile.setUri(FileManager.getUriFromFile(PalmApp.getContext(), noteFile));
                 atFile.setSize(FileUtils.sizeOf(noteFile));
                 atFile.setPath(noteFile.getPath());
                 atFile.setName(noteFile.getName());

@@ -14,7 +14,7 @@ import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.commons.utils.NetworkUtils;
 import me.shouheng.data.DBConfig;
 import me.shouheng.notepal.manager.onedrive.OneDriveManager;
-import me.shouheng.notepal.util.FileHelper;
+import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.notepal.util.SynchronizeUtils;
 import me.shouheng.notepal.util.preferences.SyncPreferences;
 
@@ -89,7 +89,7 @@ public class OneDriveBackupService extends IntentService {
     }
 
     private void uploadPreferences(String itemId) {
-        File preferences = FileHelper.getPreferencesFile(this);
+        File preferences = FileManager.getPreferencesFile(this);
         new FileUploadTask(itemId, ConflictBehavior.REPLACE, new OneDriveManager.UploadProgressCallback<Item>() {
 
             @Override

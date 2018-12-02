@@ -14,6 +14,7 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.SettingsActivity;
 import me.shouheng.notepal.async.onedrive.OneDriveBackupService;
 import me.shouheng.notepal.fragment.setting.SettingsBackup;
+import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.notepal.manager.onedrive.DefaultCallback;
 import me.shouheng.notepal.manager.onedrive.OneDriveManager;
 import me.shouheng.notepal.util.preferences.SyncPreferences;
@@ -94,14 +95,14 @@ public class SynchronizeUtils {
      * @return true if should sync. */
     public static boolean shouldOneDriveDatabaseSync() {
         long lastSyncTime = SyncPreferences.getInstance().getOneDriveDatabaseLastSyncTime();
-        File database = FileHelper.getDatabaseFile(PalmApp.getContext());
+        File database = FileManager.getDatabaseFile(PalmApp.getContext());
         long lastModifiedTime = database.lastModified();
         return lastModifiedTime > lastSyncTime;
     }
 
     public static boolean shouldOneDrivePreferencesSync() {
         long lastSyncTime = SyncPreferences.getInstance().getOneDrivePreferenceLastSyncTime();
-        File preferences = FileHelper.getPreferencesFile(PalmApp.getContext());
+        File preferences = FileManager.getPreferencesFile(PalmApp.getContext());
         long lastModifiedTime = preferences.lastModified();
         return lastModifiedTime > lastSyncTime;
     }

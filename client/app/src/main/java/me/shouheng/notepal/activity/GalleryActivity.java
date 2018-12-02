@@ -24,6 +24,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
+import me.shouheng.commons.theme.SystemUiVisibilityUtil;
 import me.shouheng.commons.theme.ThemeUtils;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.ToastUtils;
@@ -33,8 +34,7 @@ import me.shouheng.commons.widget.HackyViewPager;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.AttachmentPagerAdapter;
-import me.shouheng.notepal.util.FileHelper;
-import me.shouheng.notepal.util.SystemUiVisibilityUtil;
+import me.shouheng.notepal.manager.FileManager;
 import ooo.oxo.library.widget.PullBackLayout;
 
 public class GalleryActivity extends AppCompatActivity implements PullBackLayout.Callback {
@@ -207,7 +207,7 @@ public class GalleryActivity extends AppCompatActivity implements PullBackLayout
             case R.id.action_share: {
                 Attachment attachment = attachments.get(mViewPager.getCurrentItem());
                 Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.setType(FileHelper.getMimeType(this, attachment.getUri()));
+                intent.setType(FileManager.getMimeType(this, attachment.getUri()));
                 intent.putExtra(Intent.EXTRA_STREAM, attachment.getUri());
                 startActivity(intent);
             }
@@ -217,7 +217,7 @@ public class GalleryActivity extends AppCompatActivity implements PullBackLayout
                     Attachment attachment = attachments.get(mViewPager.getCurrentItem());
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                    intent.setDataAndType(attachment.getUri(), FileHelper.getMimeType(this, attachment.getUri()));
+                    intent.setDataAndType(attachment.getUri(), FileManager.getMimeType(this, attachment.getUri()));
                     startActivity(intent);
                 } catch (ActivityNotFoundException e) {
                     ToastUtils.makeToast(R.string.text_failed_to_resolve_intent);

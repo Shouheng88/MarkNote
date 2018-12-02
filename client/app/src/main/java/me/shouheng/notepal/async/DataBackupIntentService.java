@@ -22,7 +22,7 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.MainActivity;
 import me.shouheng.notepal.Constants;
 import me.shouheng.data.store.AttachmentsStore;
-import me.shouheng.notepal.util.FileHelper;
+import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.notepal.util.NotificationsHelper;
 
 /**
@@ -93,11 +93,11 @@ public class DataBackupIntentService extends IntentService {
         boolean includeSettings = intent.getBooleanExtra(INTENT_BACKUP_INCLUDE_SETTINGS, false);
         String backupName = intent.getStringExtra(INTENT_BACKUP_NAME);
 
-        File backupDir = FileHelper.getExternalBackupDir(backupName);
+        File backupDir = FileManager.getExternalBackupDir(backupName);
         // delete previous backup if exist
-        FileHelper.delete(this, backupDir.getAbsolutePath());
+        FileManager.delete(this, backupDir.getAbsolutePath());
 
-        backupDir = FileHelper.getExternalBackupDir(backupName);
+        backupDir = FileManager.getExternalBackupDir(backupName);
 
         exportDB(backupDir);
 
@@ -110,33 +110,33 @@ public class DataBackupIntentService extends IntentService {
 
     private boolean exportDB(File backupDir) {
         File database = getDatabasePath(DBConfig.DATABASE_NAME);
-        return (FileHelper.copyFile(database, new File(backupDir, DBConfig.DATABASE_NAME)));
+        return (FileManager.copyFile(database, new File(backupDir, DBConfig.DATABASE_NAME)));
     }
 
     private boolean exportAttachments(File backupDir) {
-        File destDir = FileHelper.getExternalFilesBackupDir(backupDir);
+        File destDir = FileManager.getExternalFilesBackupDir(backupDir);
 
         AttachmentsStore store = AttachmentsStore.getInstance();
         List<Attachment> list = store.get(null, null);
 
         int exported = 0, size = list.size();
         for (Attachment attachment : list) {
-            FileHelper.copyToBackupDir(destDir, new File(attachment.getPath()));
+            FileManager.copyToBackupDir(destDir, new File(attachment.getPath()));
             mNotificationsHelper.setMessage(getString(R.string.text_attachment) + " " + exported++ + "/" + size).show();
         }
         return true;
     }
 
     private boolean exportSettings(File backupDir) {
-        File preferences = FileHelper.getPreferencesFile(this);
-        return (FileHelper.copyFile(preferences, new File(backupDir, preferences.getName())));
+        File preferences = FileManager.getPreferencesFile(this);
+        return (FileManager.copyFile(preferences, new File(backupDir, preferences.getName())));
     }
     // endregion
 
     // region import data
     synchronized private void importData(Intent intent) {
         String backupName = intent.getStringExtra(INTENT_BACKUP_NAME);
-        File backupDir = FileHelper.getExternalBackupDir(backupName);
+        File backupDir = FileManager.getExternalBackupDir(backupName);
 
         importDB(backupDir);
 
@@ -154,11 +154,11 @@ public class DataBackupIntentService extends IntentService {
         if (database.exists()) {
             database.delete();
         }
-        return (FileHelper.copyFile(new File(backupDir, DBConfig.DATABASE_NAME), database));
+        return (FileManager.copyFile(new File(backupDir, DBConfig.DATABASE_NAME), database));
     }
 
     private void importAttachments(File backupDir) {
-        File attachmentsDir = FileHelper.getAttachmentDir(this);
+        File attachmentsDir = FileManager.getAttachmentDir(this);
         File backupAttachmentsDir = new File(backupDir, attachmentsDir.getName());
         if (!backupAttachmentsDir.exists()) {
             return;
@@ -176,9 +176,9 @@ public class DataBackupIntentService extends IntentService {
     }
 
     private boolean importSettings(File backupDir) {
-        File preferences = FileHelper.getPreferencesFile(this);
+        File preferences = FileManager.getPreferencesFile(this);
         File preferenceBackup = new File(backupDir, preferences.getName());
-        return (FileHelper.copyFile(preferenceBackup, preferences));
+        return (FileManager.copyFile(preferenceBackup, preferences));
     }
     // endregion
 
@@ -188,8 +188,8 @@ public class DataBackupIntentService extends IntentService {
 
         StringBuilder names = new StringBuilder();
         for (String backup : backups) {
-            File backupDir = FileHelper.getExternalBackupDir(backup);
-            FileHelper.delete(this, backupDir.getAbsolutePath());
+            File backupDir = FileManager.getExternalBackupDir(backup);
+            FileManager.delete(this, backupDir.getAbsolutePath());
             names.append(backup);
             names.append(",");
         }

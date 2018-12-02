@@ -18,10 +18,9 @@ import me.shouheng.commons.utils.PermissionUtils;
 import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.notepal.R;
+import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.notepal.util.AttachmentHelper;
-import me.shouheng.notepal.util.FileHelper;
 import me.shouheng.notepal.util.ScreenShotHelper;
-import me.shouheng.notepal.util.listener.OnAttachingFileListener;
 import me.shouheng.notepal.util.tools.Callback;
 import me.shouheng.notepal.util.tools.Invoker;
 import me.shouheng.notepal.util.tools.Message;
@@ -31,7 +30,8 @@ import me.shouheng.notepal.util.tools.Message;
  *
  * Created by WngShhng (shouheng2015@gmail.com) on 2017/12/29.
  * Refactored by WngShhng (shouheng2015@gmail.com) on 2017/12/01. */
-public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFragment<V> implements OnAttachingFileListener  {
+public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFragment<V>
+        implements AttachmentHelper.OnAttachingFileListener {
 
     // region Screen capture region
 
@@ -87,7 +87,7 @@ public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFrag
                 } else {
                     bitmap = ScreenShotHelper.shotRecyclerView(recyclerView, itemHeight);
                 }
-                boolean succeed = FileHelper.saveImageToGallery(getContext(), bitmap, true, message::setObj);
+                boolean succeed = FileManager.saveImageToGallery(getContext(), bitmap, true, message::setObj);
                 message.setSucceed(succeed);
                 return message;
             }
@@ -118,7 +118,7 @@ public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFrag
      * @param webView the WebView to capture.
      * @param listener the image save callback.
      */
-    protected void createWebCapture(WebView webView, FileHelper.OnSavedToGalleryListener listener) {
+    protected void createWebCapture(WebView webView, FileManager.OnSavedToGalleryListener listener) {
         assert getActivity() != null;
         PermissionUtils.checkStoragePermission((PermissionActivity) getActivity(), () -> {
             final ProgressDialog pd = new ProgressDialog(getContext());
@@ -137,7 +137,7 @@ public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFrag
      * @param pd the progress dialog
      * @param listener the callback
      */
-    private void doCapture(WebView webView, ProgressDialog pd, FileHelper.OnSavedToGalleryListener listener) {
+    private void doCapture(WebView webView, ProgressDialog pd, FileManager.OnSavedToGalleryListener listener) {
         ScreenShotHelper.shotWebView(webView, listener);
         if (pd != null && pd.isShowing()) {
             pd.dismiss();
