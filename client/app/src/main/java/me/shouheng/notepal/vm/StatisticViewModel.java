@@ -30,6 +30,7 @@ import lecho.lib.hellocharts.model.SubcolumnValue;
 import lecho.lib.hellocharts.model.ValueShape;
 import me.shouheng.commons.model.data.Resource;
 import me.shouheng.commons.utils.LogUtils;
+import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.commons.utils.ViewUtils;
 import me.shouheng.data.helper.StatisticsHelper;
 import me.shouheng.data.model.Stats;
@@ -126,18 +127,18 @@ public class StatisticViewModel extends ViewModel {
 
     public ColumnChartData getDefaultModelsData() {
         ColumnChartData data = new ColumnChartData(Arrays.asList(
-                getColumn(DEFAULT_TOTAL_VALUE, PalmApp.getColorCompact(R.color.md_lime_600)),
-                getColumn(DEFAULT_TOTAL_VALUE, PalmApp.getColorCompact(R.color.md_light_blue_500)),
-                getColumn(DEFAULT_TOTAL_VALUE, PalmApp.getColorCompact(R.color.md_green_600)),
-                getColumn(DEFAULT_TOTAL_VALUE, PalmApp.getColorCompact(R.color.md_pink_500)),
-                getColumn(DEFAULT_TOTAL_VALUE, PalmApp.getColorCompact(R.color.md_red_500))));
+                getColumn(DEFAULT_TOTAL_VALUE, PalmUtils.getColorCompact(R.color.md_lime_600)),
+                getColumn(DEFAULT_TOTAL_VALUE, PalmUtils.getColorCompact(R.color.md_light_blue_500)),
+                getColumn(DEFAULT_TOTAL_VALUE, PalmUtils.getColorCompact(R.color.md_green_600)),
+                getColumn(DEFAULT_TOTAL_VALUE, PalmUtils.getColorCompact(R.color.md_pink_500)),
+                getColumn(DEFAULT_TOTAL_VALUE, PalmUtils.getColorCompact(R.color.md_red_500))));
 
         Axis axisX = Axis.generateAxisFromCollection(Arrays.asList(0.0f, 1.0f, 2.0f, 3.0f, 4.0f),
-                Arrays.asList(PalmApp.getStringCompact(R.string.model_name_note),
-                        PalmApp.getStringCompact(R.string.model_name_notebook),
-                        PalmApp.getStringCompact(R.string.model_name_category),
-                        PalmApp.getStringCompact(R.string.model_name_attachment),
-                        PalmApp.getStringCompact(R.string.model_name_location)));
+                Arrays.asList(PalmUtils.getStringCompact(R.string.model_name_note),
+                        PalmUtils.getStringCompact(R.string.model_name_notebook),
+                        PalmUtils.getStringCompact(R.string.model_name_category),
+                        PalmUtils.getStringCompact(R.string.model_name_attachment),
+                        PalmUtils.getStringCompact(R.string.model_name_location)));
 
         data.setAxisXBottom(axisX);
         data.setAxisYLeft(null);
@@ -153,18 +154,18 @@ public class StatisticViewModel extends ViewModel {
 
     public ColumnChartData getDefaultAttachmentData() {
         ColumnChartData data = new ColumnChartData(Arrays.asList(
-                getColumn(DEFAULT_TOTAL_VALUE, PalmApp.getColorCompact(R.color.md_lime_600)),
-                getColumn(DEFAULT_TOTAL_VALUE, PalmApp.getColorCompact(R.color.md_light_blue_500)),
-                getColumn(DEFAULT_TOTAL_VALUE, PalmApp.getColorCompact(R.color.md_pink_500)),
-                getColumn(DEFAULT_TOTAL_VALUE, PalmApp.getColorCompact(R.color.md_green_600)),
-                getColumn(DEFAULT_TOTAL_VALUE, PalmApp.getColorCompact(R.color.md_red_500))));
+                getColumn(DEFAULT_TOTAL_VALUE, PalmUtils.getColorCompact(R.color.md_lime_600)),
+                getColumn(DEFAULT_TOTAL_VALUE, PalmUtils.getColorCompact(R.color.md_light_blue_500)),
+                getColumn(DEFAULT_TOTAL_VALUE, PalmUtils.getColorCompact(R.color.md_pink_500)),
+                getColumn(DEFAULT_TOTAL_VALUE, PalmUtils.getColorCompact(R.color.md_green_600)),
+                getColumn(DEFAULT_TOTAL_VALUE, PalmUtils.getColorCompact(R.color.md_red_500))));
 
         Axis axisX = Axis.generateAxisFromCollection(Arrays.asList(0.0f, 1.0f, 2.0f, 3.0f, 4.0f),
-                Arrays.asList(PalmApp.getStringCompact(R.string.attachment_type_files),
-                        PalmApp.getStringCompact(R.string.attachment_type_images),
-                        PalmApp.getStringCompact(R.string.attachment_type_sketches),
-                        PalmApp.getStringCompact(R.string.attachment_type_videos),
-                        PalmApp.getStringCompact(R.string.attachment_type_voice)));
+                Arrays.asList(PalmUtils.getStringCompact(R.string.attachment_type_files),
+                        PalmUtils.getStringCompact(R.string.attachment_type_images),
+                        PalmUtils.getStringCompact(R.string.attachment_type_sketches),
+                        PalmUtils.getStringCompact(R.string.attachment_type_videos),
+                        PalmUtils.getStringCompact(R.string.attachment_type_voice)));
 
         data.setAxisXBottom(axisX);
         data.setAxisYLeft(null);

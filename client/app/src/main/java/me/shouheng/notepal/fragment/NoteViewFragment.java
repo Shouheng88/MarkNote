@@ -43,6 +43,7 @@ import me.shouheng.commons.helper.FragmentHelper;
 import me.shouheng.commons.model.data.Resource;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.IntentUtils;
+import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.commons.utils.ViewUtils;
 import me.shouheng.commons.widget.Chip;
@@ -57,9 +58,9 @@ import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.FragmentNoteViewBinding;
 import me.shouheng.notepal.dialog.OpenResolver;
+import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.notepal.manager.NoteManager;
 import me.shouheng.notepal.util.AttachmentHelper;
-import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.notepal.util.ShortcutHelper;
 import me.shouheng.notepal.vm.NoteViewerViewModel;
 
@@ -140,7 +141,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
         }
 
         /* Config WebView. */
-        getBinding().emv.getFastScrollDelegate().setThumbDrawable(PalmApp.getDrawableCompact(
+        getBinding().emv.getFastScrollDelegate().setThumbDrawable(PalmUtils.getDrawableCompact(
                 isDarkTheme() ? R.drawable.fast_scroll_bar_dark : R.drawable.fast_scroll_bar_light));
         getBinding().emv.getFastScrollDelegate().setThumbSize(16, 40);
         getBinding().emv.getFastScrollDelegate().setThumbDynamicHeight(false);

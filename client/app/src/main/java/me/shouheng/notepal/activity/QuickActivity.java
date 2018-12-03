@@ -71,18 +71,18 @@ public class QuickActivity extends PermissionActivity implements AttachmentHelpe
         switch (action) {
             case SHORTCUT_ACTION_QUICK_NOTE:
                 break;
-            case Constants.ACTION_WIDGET_LIST:
+            case Constants.APP_WIDGET_ACTION_LIST_ITEM_CLICLED:
                 Model model;
-                if (intent.hasExtra(Constants.EXTRA_MODEL)
-                        && (model = (Model) intent.getSerializableExtra(Constants.EXTRA_MODEL)) != null) {
+                if (intent.hasExtra(Constants.APP_WIDGET_EXTRA_NOTE)
+                        && (model = (Model) intent.getSerializableExtra(Constants.APP_WIDGET_EXTRA_NOTE)) != null) {
                     if (model instanceof QuickNote) {
                         LogUtils.d(model);
                         editMindSnagging((QuickNote) model);
                     }
                 }
                 break;
-            case Constants.ACTION_ADD_MIND:
-                editMindSnagging(ModelFactory.getMindSnagging());
+            case Constants.APP_WIDGET_ACTION_QUICK_NOTE:
+                editMindSnagging(ModelFactory.getQuickNote());
                 break;
             default:
                 finish();

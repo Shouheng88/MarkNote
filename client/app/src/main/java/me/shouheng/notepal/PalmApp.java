@@ -1,12 +1,5 @@
 package me.shouheng.notepal;
 
-import android.graphics.drawable.Drawable;
-import android.os.Build;
-import android.support.annotation.ColorInt;
-import android.support.annotation.ColorRes;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.StringRes;
-
 import com.facebook.stetho.Stetho;
 
 import me.shouheng.commons.BaseApplication;
@@ -45,6 +38,7 @@ import me.shouheng.commons.BaseApplication;
  * TODO 更新日志和开发计划添加到关于界面
  * TODO 分享和捐赠集成
  * TODO 指纹解锁
+ * TODO Permissions check, storage!!
  *
  * Created by wangshouheng on 2017/2/26.
  */
@@ -64,8 +58,7 @@ public class PalmApp extends BaseApplication {
 
         mInstance = this;
 
-        /*
-         * Enable stetho only in debug mode. */
+        /* Enable stetho only in debug mode. */
         if (BuildConfig.DEBUG) {
             Stetho.initializeWithDefaults(this);
         }
@@ -77,25 +70,5 @@ public class PalmApp extends BaseApplication {
 
     public static void setPasswordChecked() {
         PalmApp.passwordChecked = true;
-    }
-
-    public static String getStringCompact(@StringRes int resId) {
-        return PalmApp.getContext().getString(resId);
-    }
-
-    public static @ColorInt int getColorCompact(@ColorRes int colorRes) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            return PalmApp.getContext().getColor(colorRes);
-        } else {
-            return PalmApp.getContext().getResources().getColor(colorRes);
-        }
-    }
-
-    public static Drawable getDrawableCompact(@DrawableRes int resId) {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            return getContext().getDrawable(resId);
-        } else {
-            return getContext().getResources().getDrawable(resId);
-        }
     }
 }

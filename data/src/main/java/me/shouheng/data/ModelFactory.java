@@ -112,7 +112,7 @@ public class ModelFactory {
         return location;
     }
 
-    public static QuickNote getMindSnagging() {
+    public static QuickNote getQuickNote() {
         return getModel(QuickNote.class);
     }
 
@@ -201,7 +201,7 @@ public class ModelFactory {
         return modelName;
     }
 
-    public static String getTags(List<Category> categories) {
+    private static String getTags(List<Category> categories) {
         if (categories == null || categories.isEmpty()) return null;
         int len = categories.size();
         StringBuilder sb = new StringBuilder();

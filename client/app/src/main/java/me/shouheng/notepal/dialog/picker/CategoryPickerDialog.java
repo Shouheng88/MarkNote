@@ -6,12 +6,12 @@ import java.util.LinkedList;
 import java.util.List;
 
 import me.shouheng.commons.utils.ColorUtils;
-import me.shouheng.notepal.PalmApp;
+import me.shouheng.commons.utils.PalmUtils;
+import me.shouheng.commons.widget.recycler.EmptyView;
+import me.shouheng.data.entity.Category;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.ModelsPickerAdapter;
 import me.shouheng.notepal.adapter.picker.CategoryPickerStrategy;
-import me.shouheng.data.entity.Category;
-import me.shouheng.commons.widget.recycler.EmptyView;
 
 /**
  * Created by shouh on 2018/3/20.*/
@@ -54,11 +54,11 @@ public class CategoryPickerDialog extends BasePickerDialog<Category> {
         });
         emptyView.setTitle(getString(R.string.category_picker_empty_message));
         emptyView.setIcon(ColorUtils.tintDrawable(
-                PalmApp.getDrawableCompact(R.drawable.ic_labels_grey_24dp), getImageTintColor()));
+                PalmUtils.getDrawableCompact(R.drawable.ic_labels_grey_24dp), getImageTintColor()));
     }
 
     private int getImageTintColor() {
-        return PalmApp.getColorCompact(ColorUtils.isDarkTheme(getContext())
+        return PalmUtils.getColorCompact(ColorUtils.isDarkTheme(getContext())
                 ? R.color.dark_theme_empty_icon_tint_color : R.color.light_theme_empty_icon_tint_color);
     }
 

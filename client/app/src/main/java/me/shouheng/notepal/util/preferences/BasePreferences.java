@@ -7,7 +7,7 @@ import android.support.annotation.StringRes;
 
 import java.util.Set;
 
-import me.shouheng.notepal.PalmApp;
+import me.shouheng.commons.utils.PalmUtils;
 
 /**
  * TODO refactor this class
@@ -30,7 +30,7 @@ public class BasePreferences {
     }
 
     protected String getKey(@StringRes int resId) {
-        return PalmApp.getStringCompact(resId);
+        return PalmUtils.getStringCompact(resId);
     }
 
     protected String getString(String key, String defaultValue) {

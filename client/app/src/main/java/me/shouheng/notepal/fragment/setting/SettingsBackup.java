@@ -23,15 +23,15 @@ import java.util.Arrays;
 import me.shouheng.commons.activity.CommonActivity;
 import me.shouheng.commons.fragment.BPreferenceFragment;
 import me.shouheng.commons.utils.LogUtils;
+import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.commons.utils.PermissionUtils;
-import me.shouheng.notepal.PalmApp;
+import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.DirectoryActivity;
 import me.shouheng.notepal.async.DataBackupIntentService;
+import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.notepal.manager.onedrive.DefaultCallback;
 import me.shouheng.notepal.manager.onedrive.OneDriveManager;
-import me.shouheng.notepal.manager.FileManager;
-import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.notepal.util.enums.SyncTimeInterval;
 import me.shouheng.notepal.util.preferences.SyncPreferences;
 
@@ -273,7 +273,7 @@ public class SettingsBackup extends BPreferenceFragment {
         String[] items = new String[timeIntervals.length];
         int length = timeIntervals.length;
         for (int i=0; i<length; i++) {
-            items[i] = PalmApp.getStringCompact(timeIntervals[i].resName);
+            items[i] = PalmUtils.getStringCompact(timeIntervals[i].resName);
         }
 
         new MaterialDialog.Builder(getActivity())

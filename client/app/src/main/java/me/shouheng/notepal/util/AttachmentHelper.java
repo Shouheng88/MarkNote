@@ -26,7 +26,6 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import me.shouheng.commons.image.GifSizeFilter;
 import me.shouheng.commons.utils.IntentUtils;
-import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.data.ModelFactory;
@@ -103,13 +102,6 @@ public class AttachmentHelper {
 
     // region attachment request methods
 
-    /**
-     * Pick images form album. This method will use the image phone gallery.
-     * The {@link #pickFromAlbum(android.app.Fragment)} is the same, except that it requires the
-     * fragment to handle the result.
-     *
-     * @param activity the activity to handle the result.
-     */
     public static void pickFromAlbum(Activity activity) {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
@@ -151,6 +143,19 @@ public class AttachmentHelper {
                 .countable(false)
                 .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
                 .maxSelectable(9)
+                .originalEnable(true)
+                .maxOriginalSize(5)
+                .imageEngine(new GlideEngine())
+                .forResult(REQUEST_CODE_SELECT_IMAGES_CUSTOM);
+    }
+
+    public static void pickOneFromCustomAlbum(Fragment fragment) {
+        Matisse.from(fragment)
+                .choose(MimeType.ofImage())
+                .theme(R.style.Matisse_Dracula)
+                .countable(false)
+                .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
+                .maxSelectable(1)
                 .originalEnable(true)
                 .maxOriginalSize(5)
                 .imageEngine(new GlideEngine())
@@ -203,13 +208,16 @@ public class AttachmentHelper {
      * Handle the activity result, call this method in your fragment's
      * {@link Fragment#onActivityResult(int, int, Intent)} method if you called one of the attachment
      * request method and want to handle the result automatically. Note that the fragment must
-     * implement the {@link OnAttachingFileListener} interface.
+     * implement the {@link OnAttachingFileListener} interface. This method will automatically
+     * attach the attachment to the model specified. The override method
+     * {@link #onActivityResult(Fragment, int, int, Intent)} won't attach the attachment. It only
+     * handle the attachment in file system and then call the listener to handle later.
      *
      * @param fragment the fragment to handle the result
      * @param requestCode the request code
      * @param resultCode the result code
      * @param data the data extras
-     * @param model the model
+     * @param model the model the attachment is attached to
      * @param <CTX> the fragment requirement
      * @param <M> the model requirement
      * @return the disposable
@@ -227,11 +235,66 @@ public class AttachmentHelper {
     }
 
     /**
+     * Handle the attachment picker result. Thie method won't save attachment model to database,
+     * instead it only call the callback to handle later. This method is used in the quick note
+     * dialog to get the attachment picked and handle later.
+     *
+     * @param fragment the fragment to get callback
+     * @param requestCode the request code
+     * @param resultCode tht result code
+     * @param data the data extras
+     * @param <CTX> the fragment requirement
+     * @return the disposable
+     */
+    public static <CTX extends Fragment & OnAttachingFileListener> Disposable onActivityResult(
+            CTX fragment, int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_CODE_SELECT_IMAGES_CUSTOM && resultCode == RESULT_OK) {
+            return Observable.fromIterable(Matisse.obtainResult(data))
+                    .map(uri -> FileManager.createAttachmentFromUri(fragment.getContext(), uri))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .forEach(attachment ->
+                            handleImageCompress(fragment, attachment,
+                                    new DefaultCompressListener(fragment, attachment, false)));
+        } else if (requestCode == REQUEST_CODE_TAKE_A_PHOTO && resultCode == RESULT_OK) {
+            return Observable
+                    .create((ObservableOnSubscribe<Attachment>) emitter -> {
+                        Attachment attachment = ModelFactory.getAttachment();
+                        attachment.setMineType(Constants.MIME_TYPE_IMAGE);
+                        attachment.setPath(photoFilePath);
+                        emitter.onNext(attachment);
+                    })
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(attachment ->
+                            handleImageCompress(fragment, attachment,
+                                    new DefaultCompressListener(fragment, attachment, false)));
+        } else if (requestCode == REQUEST_CODE_CREATE_SKETCH && resultCode == RESULT_OK) {
+            return Observable
+                    .create((ObservableOnSubscribe<Attachment>) emitter -> {
+                        Attachment attachment = ModelFactory.getAttachment();
+                        attachment.setMineType(Constants.MIME_TYPE_SKETCH);
+                        attachment.setUri(FileManager.getUriFromFile(fragment.getContext(), new File(photoFilePath)));
+                        attachment.setPath(photoFilePath);
+                        emitter.onNext(attachment);
+                    })
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(attachment -> {
+                        if (PalmUtils.isAlive(fragment)) {
+                            fragment.onAttachingFileFinished(attachment);
+                        }
+                    });
+        }
+        return null;
+    }
+
+    /**
      * Method used to handle attachments from the third part app send event.
      *
      * @param fragment the fragment to handle the result
      * @param uris the attachment uris
-     * @param model the model
+     * @param model the model the attachment is attached to
      * @param <CTX> the fragment requirement
      * @param <M> the model requirement
      * @return the disposable
@@ -250,7 +313,8 @@ public class AttachmentHelper {
                 .subscribe(attachment -> {
                     if (Constants.MIME_TYPE_IMAGE.equals(attachment.getMineType())) {
                         /* Compress if the attachment was image. */
-                        handleImageCompress(fragment, attachment, new DefaultCompressListener(fragment, attachment));
+                        handleImageCompress(fragment, attachment,
+                                new DefaultCompressListener(fragment, attachment, true));
                     } else {
                         /* Save the attachment to database and notify the fragment. */
                         Observable.create((ObservableOnSubscribe<Attachment>) emitter -> {
@@ -270,7 +334,7 @@ public class AttachmentHelper {
      *
      * @param fragment the fragment to resolve the result
      * @param data the data extras
-     * @param model the model
+     * @param model the model the attachment is attached to
      * @param <CTX> the fragment requirement
      * @param <M> the model type
      * @return the disposable
@@ -286,7 +350,8 @@ public class AttachmentHelper {
                 })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .forEach(attachment -> handleImageCompress(fragment, attachment, new DefaultCompressListener(fragment, attachment)));
+                .forEach(attachment -> handleImageCompress(fragment, attachment,
+                        new DefaultCompressListener(fragment, attachment, true)));
     }
 
     /**
@@ -294,7 +359,7 @@ public class AttachmentHelper {
      *
      * @param fragment the fragment to resolve the result
      * @param data the data extras
-     * @param model the model
+     * @param model the model the attachment is attached to
      * @param <CTX> the fragment requirement
      * @param <M> the model type
      * @return the disposable
@@ -312,7 +377,8 @@ public class AttachmentHelper {
                 })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(attachment -> handleImageCompress(fragment, attachment, new DefaultCompressListener(fragment, attachment)));
+                .subscribe(attachment -> handleImageCompress(fragment, attachment,
+                        new DefaultCompressListener(fragment, attachment, true)));
     }
 
     /**
@@ -321,7 +387,7 @@ public class AttachmentHelper {
      *
      * @param fragment the fragment to resolve the result
      * @param data the data extras
-     * @param model the model
+     * @param model the model the attachment is attached to
      * @param <CTX> the fragment requirement
      * @param <M> the model type
      * @return the disposable
@@ -331,7 +397,7 @@ public class AttachmentHelper {
         return Observable
                 .create((ObservableOnSubscribe<Attachment>) emitter -> {
                     Attachment attachment = ModelFactory.getAttachment();
-                    attachment.setMineType(Constants.MIME_TYPE_IMAGE);
+                    attachment.setMineType(Constants.MIME_TYPE_SKETCH);
                     attachment.setUri(FileManager.getUriFromFile(fragment.getContext(), new File(photoFilePath)));
                     attachment.setPath(photoFilePath);
                     attachment.setModelCode(model.getCode());
@@ -431,42 +497,6 @@ public class AttachmentHelper {
     // endregion
 
     // region Resolve attachment picking result.
-    public static<T extends Fragment & OnAttachingFileListener> void resolveResult(T fragment, int requestCode, Intent data) {
-        switch (requestCode){
-            case REQUEST_TAKE_PHOTO:
-                getPhoto(fragment.getContext(), Constants.MIME_TYPE_IMAGE, new OnAttachingFileListener() {
-                    @Override
-                    public void onAttachingFileErrorOccurred(Attachment attachment) {
-                        fragment.onAttachingFileErrorOccurred(attachment);
-                    }
-
-                    @Override
-                    public void onAttachingFileFinished(Attachment attachment) {
-                        if (PalmUtils.isAlive(fragment)) {
-                            fragment.onAttachingFileFinished(attachment);
-                        }
-                    }
-                });
-                break;
-            case REQUEST_SELECT_IMAGE:
-                startTask(fragment, data);
-                break;
-            case REQUEST_TAKE_VIDEO:
-                if (PalmUtils.isAlive(fragment)) {
-                    fragment.onAttachingFileFinished(getVideo(data));
-                }
-                break;
-            case REQUEST_FILES:
-                startTask(fragment, data);
-                break;
-            case REQUEST_SKETCH:
-                if (PalmUtils.isAlive(fragment)) {
-                    fragment.onAttachingFileFinished(getSketch(Constants.MIME_TYPE_SKETCH));
-                }
-                break;
-        }
-    }
-
     public static<T extends Activity & OnAttachingFileListener> void resolveResult(T activity, int requestCode, Intent data) {
         switch (requestCode){
             case REQUEST_TAKE_PHOTO:
@@ -572,12 +602,6 @@ public class AttachmentHelper {
         }
     }
 
-    private static <T extends Fragment & OnAttachingFileListener> void startTask(T fragment, Intent data) {
-        for (Uri uri : getUrisFromIntent(data)) {
-            new CreateAttachmentTask(fragment, uri, fragment).execute();
-        }
-    }
-
     private static List<Uri> getUrisFromIntent(Intent data) {
         List<Uri> uris = new ArrayList<>();
         if (PalmUtils.isJellyBean() && data.getClipData() != null) {
@@ -592,18 +616,6 @@ public class AttachmentHelper {
     // endregion
 
     // region Start picking action.
-
-
-    public static void pickFromAlbum(android.app.Fragment fragment) {
-        fragment.startActivityForResult(pickFromAlbum(), REQUEST_SELECT_IMAGE);
-    }
-
-    private static Intent pickFromAlbum() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("image/*");
-        return intent;
-    }
 
     public static void pickFiles(Activity activity) {
         activity.startActivityForResult(pickFiles(), REQUEST_FILES);
@@ -681,15 +693,16 @@ public class AttachmentHelper {
     }
     // endregion
 
+    /**
+     * Check the attachment availability
+     *
+     * @param attachment the attachment to check
+     * @return is the attachment available
+     */
     public static boolean checkAttachment(Attachment attachment) {
-        LogUtils.d(attachment);
-        if (attachment == null
-                || attachment.getUri() == null
-                || TextUtils.isEmpty(attachment.getUri().toString())) {
-            ToastUtils.makeToast(R.string.text_failed_to_save_file);
-            return false;
-        }
-        return true;
+        return attachment != null
+                && attachment.getUri() != null
+                && !TextUtils.isEmpty(attachment.getUri().toString());
     }
 
     private static String getPhotoFilePath() {
@@ -717,11 +730,13 @@ public class AttachmentHelper {
         private Attachment attachment;
         private OnAttachingFileListener onAttachingFileListener;
         private int type;
+        private boolean saveToDatabase;
 
-        <CTX extends Fragment & OnAttachingFileListener> DefaultCompressListener(CTX fragment, Attachment attachment) {
+        <CTX extends Fragment & OnAttachingFileListener> DefaultCompressListener(CTX fragment, Attachment attachment, boolean saveToDatabase) {
             this.fragment = fragment;
             this.attachment = attachment;
             this.onAttachingFileListener = fragment;
+            this.saveToDatabase = saveToDatabase;
             type = ATTACHING_TYPE_FRAGMENT;
         }
 
@@ -743,7 +758,9 @@ public class AttachmentHelper {
                     Observable.create((ObservableOnSubscribe<Attachment>) emitter -> {
                         attachment.setPath(result.getPath());
                         attachment.setUri(FileManager.getUriFromFile(PalmApp.getContext(), result));
-                        AttachmentsStore.getInstance().saveModel(attachment);
+                        if (saveToDatabase) {
+                            AttachmentsStore.getInstance().saveModel(attachment);
+                        }
                         emitter.onNext(attachment);
                     }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(attachment -> {
                         if (PalmUtils.isAlive(fragment)) {

@@ -3,9 +3,10 @@ package me.shouheng.notepal.adapter.picker;
 import android.graphics.drawable.Drawable;
 
 import me.shouheng.commons.utils.ColorUtils;
+import me.shouheng.commons.utils.PalmUtils;
+import me.shouheng.data.entity.Category;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
-import me.shouheng.data.entity.Category;
 
 /**
  * Created by shouh on 2018/3/20. */
@@ -24,7 +25,7 @@ public class CategoryPickerStrategy implements ModelsPickerStrategy<Category> {
 
     @Override
     public Drawable getIconDrawable(Category model) {
-        Drawable drawable =  PalmApp.getDrawableCompact(model.getPortrait().iconRes);
+        Drawable drawable =  PalmUtils.getDrawableCompact(model.getPortrait().iconRes);
         return ColorUtils.tintDrawable(drawable, model.getColor());
     }
 

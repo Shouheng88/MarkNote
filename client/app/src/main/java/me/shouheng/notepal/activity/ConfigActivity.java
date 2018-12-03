@@ -1,47 +1,51 @@
 package me.shouheng.notepal.activity;
 
 import android.appwidget.AppWidgetManager;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import me.shouheng.notepal.R;
+import io.reactivex.Observable;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+import me.shouheng.commons.utils.ToastUtils;
+import me.shouheng.data.entity.Notebook;
+import me.shouheng.data.schema.NoteSchema;
+import me.shouheng.data.store.NotebookStore;
 import me.shouheng.notepal.Constants;
+import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.ActivityWidgetConfigurationBinding;
 import me.shouheng.notepal.dialog.picker.NotebookPickerDialog;
-import me.shouheng.data.entity.Notebook;
-import me.shouheng.commons.utils.ToastUtils;
-import me.shouheng.notepal.viewmodel.NotebookViewModel;
-import me.shouheng.notepal.widget.desktop.ListRemoteViewsFactory;
+import me.shouheng.notepal.util.AppWidgetUtils;
 
 public class ConfigActivity extends AppCompatActivity {
 
     private int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
-
     private Notebook selectedNotebook;
-
+    private SharedPreferences sharedPreferences;
     private ActivityWidgetConfigurationBinding binding;
-
-    private NotebookViewModel notebookViewModel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setResult(RESULT_CANCELED);
         super.onCreate(savedInstanceState);
 
-        notebookViewModel = ViewModelProviders.of(this).get(NotebookViewModel.class);
-
-        binding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.activity_widget_configuration, null, false);
+        /* Setup the content layout. */
+        binding = DataBindingUtil.inflate(getLayoutInflater(),
+                R.layout.activity_widget_configuration, null, false);
         setContentView(binding.getRoot());
+        binding.llFolder.setOnClickListener(view -> showNotebookPicker());
+        binding.btnPositive.setOnClickListener(view -> onConfirm());
 
+        /* Handle arguments. */
         handleArguments();
-
-        doCreateView();
     }
 
     private void handleArguments() {
@@ -55,50 +59,44 @@ public class ConfigActivity extends AppCompatActivity {
             return;
         }
 
-        SharedPreferences sharedPreferences = getApplication().getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
-        long nbCode = sharedPreferences.getLong(Constants.PREF_WIDGET_NOTEBOOK_CODE_PREFIX + String.valueOf(mAppWidgetId), 0);
+        sharedPreferences = getApplication().getSharedPreferences(
+                Constants.APP_WIDGET_PREFERENCES_NAME, Context.MODE_MULTI_PROCESS);
+        String key = Constants.APP_WIDGET_PREFERENCE_KEY_NOTEBOOK_CODE_PREFIX + String.valueOf(mAppWidgetId);
+        long notebookCode = sharedPreferences.getLong(key, 0);
 
-        if (nbCode != 0) fetchNotebook(nbCode);
-    }
-
-    private void fetchNotebook(long nbCode) {
-        notebookViewModel.get(nbCode).observe(this, notebookResource -> {
-            assert notebookResource != null;
-            switch (notebookResource.status) {
-                case FAILED:
-                    ToastUtils.makeToast(R.string.text_notebook_not_found);
-                    break;
-                case SUCCESS:
-                    if (notebookResource.data != null) {
-                        selectedNotebook = notebookResource.data;
-                        updateWhenSelectNotebook();
-                    }
-                    break;
-            }
-        });
-    }
-
-    private void doCreateView() {
-        binding.llFolder.setOnClickListener(view -> showNotebookPicker());
-        binding.btnPositive.setOnClickListener(view -> onConfirm());
+        if (notebookCode != 0) {
+            Disposable disposable = Observable.create((ObservableOnSubscribe<Notebook>) emitter -> {
+                Notebook notebook = NotebookStore.getInstance().get(notebookCode);
+                emitter.onNext(notebook);
+            }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(notebook -> {
+                selectedNotebook = notebook;
+                updateWhenNotebookSelected();
+            }, throwable -> ToastUtils.makeToast(R.string.text_notebook_not_found));
+        }
     }
 
     private void onConfirm() {
-        ListRemoteViewsFactory.updateConfiguration(getApplicationContext(), mAppWidgetId, selectedNotebook);
+        Editor editor = sharedPreferences.edit();
+        String sqlCondition = null;
+        if (selectedNotebook != null) {
+            sqlCondition = NoteSchema.TREE_PATH + " LIKE '" + selectedNotebook.getTreePath() + "'||'%'";
+            String key = Constants.APP_WIDGET_PREFERENCE_KEY_NOTEBOOK_CODE_PREFIX + String.valueOf(mAppWidgetId);
+            editor.putLong(key, selectedNotebook.getCode());
+        }
+        editor.putString(Constants.APP_WIDGET_PREFERENCE_KEY_SQL_PREFIX + String.valueOf(mAppWidgetId), sqlCondition).apply();
+        AppWidgetUtils.notifyAppWidgets(getApplicationContext());
         finishWithOK();
     }
 
     private void showNotebookPicker() {
-        NotebookPickerDialog.newInstance()
-                .setOnItemSelectedListener((dialog, notebook, position) -> {
-                    selectedNotebook = notebook;
-                    updateWhenSelectNotebook();
-                    dialog.dismiss();
-                })
-                .show(getSupportFragmentManager(), "NOTEBOOK_PICKER");
+        NotebookPickerDialog.newInstance().setOnItemSelectedListener((dialog, notebook, position) -> {
+            selectedNotebook = notebook;
+            updateWhenNotebookSelected();
+            dialog.dismiss();
+        }).show(getSupportFragmentManager(), "NOTEBOOK_PICKER");
     }
 
-    private void updateWhenSelectNotebook() {
+    private void updateWhenNotebookSelected() {
         if (selectedNotebook != null) {
             binding.tvFolder.setText(selectedNotebook.getTitle());
             binding.tvFolder.setTextColor(selectedNotebook.getColor());

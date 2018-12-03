@@ -17,9 +17,9 @@ import com.onedrive.sdk.extensions.Item;
 
 import me.shouheng.commons.activity.CommonActivity;
 import me.shouheng.commons.helper.FragmentHelper;
+import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.data.model.Directory;
-import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.async.onedrive.ClearBackupStateTask;
 import me.shouheng.notepal.databinding.ActivityDirectoryBinding;
@@ -106,7 +106,7 @@ public class DirectoryActivity extends CommonActivity<ActivityDirectoryBinding> 
                 public void failure(ClientException ex) {
                     pd.dismiss();
                     ToastUtils.makeToast(String.format(
-                            PalmApp.getStringCompact(R.string.setting_backup_onedrive_error_when_try_to_backup), ex.getMessage()));
+                            PalmUtils.getStringCompact(R.string.setting_backup_onedrive_error_when_try_to_backup), ex.getMessage()));
                 }
             });
         }).setMaxLength(100).show(getSupportFragmentManager(), "EDIT FOLDER NAME");

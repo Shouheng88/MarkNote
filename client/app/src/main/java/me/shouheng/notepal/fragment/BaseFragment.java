@@ -1,12 +1,9 @@
 package me.shouheng.notepal.fragment;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.databinding.ViewDataBinding;
 import android.graphics.Bitmap;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.webkit.WebView;
 
@@ -16,10 +13,8 @@ import me.shouheng.commons.activity.PermissionActivity;
 import me.shouheng.commons.fragment.CommonFragment;
 import me.shouheng.commons.utils.PermissionUtils;
 import me.shouheng.commons.utils.ToastUtils;
-import me.shouheng.data.entity.Attachment;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.manager.FileManager;
-import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.util.ScreenShotHelper;
 import me.shouheng.notepal.util.tools.Callback;
 import me.shouheng.notepal.util.tools.Invoker;
@@ -29,11 +24,9 @@ import me.shouheng.notepal.util.tools.Message;
  * Base fragment, used to handle the shared and common logic.
  *
  * Created by WngShhng (shouheng2015@gmail.com) on 2017/12/29.
- * Refactored by WngShhng (shouheng2015@gmail.com) on 2017/12/01. */
-public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFragment<V>
-        implements AttachmentHelper.OnAttachingFileListener {
-
-    // region Screen capture region
+ * Refactored by WngShhng (shouheng2015@gmail.com) on 2017/12/01.
+ */
+public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFragment<V> {
 
     /**
      * Screen capture method, used to capture the screen for RecyclerView.
@@ -143,40 +136,4 @@ public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFrag
             pd.dismiss();
         }
     }
-
-    // endregion screen capture region
-
-    // region Attachment handler region
-
-    /**
-     * This method will called when the attachment is sure usable. For the check logic, you may refer
-     * to {@link BaseFragment#onAttachingFileFinished(Attachment)}
-     *
-     * @param attachment the usable attachment */
-    protected void onGetAttachment(@NonNull Attachment attachment) {}
-
-    protected void onFailedGetAttachment(Attachment attachment) {}
-
-    @Override
-    public void onAttachingFileErrorOccurred(Attachment attachment) {
-        onFailedGetAttachment(attachment);
-    }
-
-    @Override
-    public void onAttachingFileFinished(Attachment attachment) {
-        if (AttachmentHelper.checkAttachment(attachment)) {
-            onGetAttachment(attachment);
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK) {
-            AttachmentHelper.resolveResult(this, requestCode, data);
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    // endregion attachment handler region
-
 }

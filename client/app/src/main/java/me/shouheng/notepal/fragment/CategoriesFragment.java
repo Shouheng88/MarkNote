@@ -18,6 +18,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.Collections;
 
+import me.shouheng.commons.event.RxMessage;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.commons.utils.ViewUtils;
@@ -137,6 +138,8 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
                     break;
             }
         });
+        addSubscription(RxMessage.class, RxMessage.CODE_CATEGORY_DATA_CHANGED,
+                rxMessage -> viewModel.fetchCategories());
     }
 
     public void addCategory(Category category) {

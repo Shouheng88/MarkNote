@@ -1,5 +1,6 @@
 package me.shouheng.notepal.dialog;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,21 +10,29 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
 import com.bumptech.glide.Glide;
+import com.kennyc.bottomsheet.BottomSheet;
+import com.kennyc.bottomsheet.BottomSheet.Builder;
+import com.kennyc.bottomsheet.BottomSheetListener;
 
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Objects;
 
+import me.shouheng.commons.activity.PermissionActivity;
 import me.shouheng.commons.utils.ColorUtils;
+import me.shouheng.commons.utils.PermissionUtils;
+import me.shouheng.commons.utils.PermissionUtils.Permission;
 import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.data.entity.QuickNote;
@@ -35,8 +44,6 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.DialogQuickNoteBinding;
 import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.notepal.util.AttachmentHelper;
-
-import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by wangshouheng on 2017/8/19.
@@ -106,11 +113,7 @@ public class QuickNoteDialog extends DialogFragment implements AttachmentHelper.
             });
 
             btnNeu = dialog.getButton(AlertDialog.BUTTON_NEUTRAL);
-            dialog.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(v ->
-                    new AttachmentPicker.Builder(QuickNoteDialog.this)
-                            .setRecordVisible(false)
-                            .setVideoVisible(false)
-                            .build().show(getChildFragmentManager(), "Attachment picker"));
+            dialog.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(v -> showAttachmentPicker());
 
             btnNeg.setTextColor(ColorUtils.accentColor(getContext()));
             btnPos.setTextColor(Color.GRAY);
@@ -161,6 +164,52 @@ public class QuickNoteDialog extends DialogFragment implements AttachmentHelper.
                 }
             }
         }
+    }
+
+    private void showAttachmentPicker() {
+        new Builder(Objects.requireNonNull(getContext()))
+                .setTitle(R.string.text_pick)
+                .setStyle(ColorUtils.isDarkTheme() ? R.style.BottomSheet_Dark : R.style.BottomSheet)
+                .setMenu(ColorUtils.getThemedBottomSheetMenu(getContext(), R.menu.attachment_picker))
+                .setListener(new BottomSheetListener() {
+                    @Override
+                    public void onSheetShown(@NonNull BottomSheet bottomSheet, @Nullable Object o) {}
+
+                    @Override
+                    public void onSheetItemSelected(@NonNull BottomSheet bottomSheet, MenuItem menuItem, @Nullable Object o) {
+                        switch (menuItem.getItemId()) {
+                            case R.id.item_pick_from_album: {
+                                Activity activity = getActivity();
+                                if (activity != null) {
+                                    PermissionUtils.checkStoragePermission((PermissionActivity) activity,
+                                            () -> AttachmentHelper.pickOneFromCustomAlbum(QuickNoteDialog.this));
+                                }
+                                break;
+                            }
+                            case R.id.item_pick_take_a_photo: {
+                                Activity activity = getActivity();
+                                if (activity != null) {
+                                    PermissionUtils.checkPermissions((PermissionActivity) activity,
+                                            () -> AttachmentHelper.takeAPhoto(QuickNoteDialog.this),
+                                            Permission.STORAGE, Permission.CAMERA);
+                                }
+                                break;
+                            }
+                            case R.id.item_pick_create_sketch: {
+                                Activity activity = getActivity();
+                                if (activity != null) {
+                                    PermissionUtils.checkStoragePermission((PermissionActivity) activity,
+                                            () -> AttachmentHelper.createSketch(QuickNoteDialog.this));
+                                }
+                                break;
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onSheetDismissed(@NonNull BottomSheet bottomSheet, @Nullable Object o, int i) {}
+                })
+                .show();
     }
 
     /**
@@ -260,15 +309,18 @@ public class QuickNoteDialog extends DialogFragment implements AttachmentHelper.
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode != RESULT_OK) return;
-        AttachmentHelper.resolveResult(this, requestCode, data);
         super.onActivityResult(requestCode, resultCode, data);
+        AttachmentHelper.onActivityResult(this, requestCode, resultCode, data);
     }
 
     public interface DialogInteraction {
-        void onCancel();
-        void onDismiss();
+
+        default void onCancel() { }
+
+        default void onDismiss() { }
+
         void onCancel(Dialog dialog);
+
         void onConfirm(Dialog dialog, QuickNote quickNote, Attachment attachment);
     }
 }

@@ -5,60 +5,107 @@ import me.shouheng.commons.BaseConstants;
 public interface Constants extends BaseConstants {
 
     /**
-     * Shortcut action, used to create new note, registered in the shortcuts.xml.
+     * Action: shortcut action, used to create new note, registered in the shortcuts.xml.
      * Used fot app version after {@link android.os.Build.VERSION_CODES#N_MR1}
      */
     String SHORTCUT_ACTION_CREATE_NOTE = "me.shouheng.notepal.CREATE_NOTE";
 
     /**
-     * Shortcut action, used to search note, registered in the shortcuts.xml.
+     * Action: shortcut action, used to search note, registered in the shortcuts.xml.
      * Used fot app version after {@link android.os.Build.VERSION_CODES#N_MR1}
      */
     String SHORTCUT_ACTION_SEARCH_NOTE = "me.shouheng.notepal.SEARCH_NOTE";
 
     /**
-     * Shortcut action, used to capture a photo fot note, registered in the shortcuts.xml.
+     * Action: shortcut action, used to capture a photo fot note, registered in the shortcuts.xml.
      * Used fot app version after {@link android.os.Build.VERSION_CODES#N_MR1}
      */
     String SHORTCUT_ACTION_CAPTURE = "me.shouheng.notepal.CAPTURE";
 
     /**
-     * Shortcut action, used to start a note view page, the intent contains information of the note.
+     * Action: shortcut action, used to start a note view page, the intent contains information of the note.
      * @see #SHORTCUT_EXTRA_NOTE_CODE
      */
     String SHORTCUT_ACTION_VIEW_NOTE = "me.shouheng.notepal.VIEW_NOTE";
 
     /**
-     * The intent extra key for {@link #SHORTCUT_ACTION_VIEW_NOTE} used to send the note code
+     * Action: shortcut action, used to create quick note, registered in the shortcuts.xml
+     */
+    String SHORTCUT_ACTION_QUICK_NOTE = "me.shouheng.notepal.QUICK_NOTE";
+
+    /**
+     * Extra: the intent extra key for {@link #SHORTCUT_ACTION_VIEW_NOTE} used to send the note code
      * to the MainActivity. The code will later be used to get the full note information.
      */
     String SHORTCUT_EXTRA_NOTE_CODE = "me.shouheng.notepal.intent.extras.NOTE_CODE";
 
-    /**
-     * Shortcut action, used to create quick note, registered in the shortcuts.xml
-     */
-    String SHORTCUT_ACTION_QUICK_NOTE = "me.shouheng.notepal.QUICK_NOTE";
-
 
     /**
-     * The action for app widget, used to create a new note.
+     * Action: action for app widget, used to create a new note.
      */
     String APP_WIDGET_ACTION_CREATE_NOTE = "me.shouheng.notepal.widget.CREATE";
 
     /**
-     * The action for app widget, used to take a photo, and then create a note.
+     * Action: action for app widget, used to take a photo, and then create a note.
      */
     String APP_WIDGET_ACTION_CAPTURE = "me.shouheng.notepal.widget.CAPTURE";
 
     /**
-     * The action for app widget, used to quickly create a note.
+     * Action: action for app widget, used to quickly create a note.
      */
     String APP_WIDGET_ACTION_QUICK_NOTE = "me.shouheng.notepal.widget.QUICK_NOTE";
 
     /**
-     * The action for app widget, used to launch the app.
+     * Action: action for app widget, used to launch the app.
      */
     String APP_WIDGET_ACTION_LAUNCH_APP = "me.shouheng.notepal.widget.LAUNCH";
+
+    /**
+     * Action: action for app widget to create sketch.
+     */
+    String APP_WIDGET_ACTION_CREATE_SKETCH = "me.shouheng.notepal.widget.CREATE_SKETCH";
+
+    /**
+     * Action: action for app widget to config the list widget.
+     */
+    String APP_WIDGET_ACTION_CONFIG_LIST = "me.shouheng.notepal.widget.CONFIG_LIST";
+
+    /**
+     * Action: action for app widget to identify the list item click event.
+     */
+    String APP_WIDGET_ACTION_LIST_ITEM_CLICLED = "me.shouheng.notepal.widget.LIST_ITEM_CLICKED";
+
+    /**
+     * Extra: extra key for app widget, the app widget id.
+     */
+    String APP_WIDGET_EXTRA_WIDGET_ID = "me.shouheng.notepal.widget.WIDGET_ID";
+
+    /**
+     * Extra: extra key for app widget, the note in parcel.
+     */
+    String APP_WIDGET_EXTRA_NOTE = "me.shouheng.notepal.widget.NOTE";
+
+    /**
+     * Extra: extra key to identify is switching notebook allowed in the config activity.
+     */
+    String APP_WIDGET_EXTRA_ALLOW_SWITCH_NOTEBOOK = "me.shouheng.notepal.widget.ALLOW_SWITCH_NOTEBOOK";
+
+    /**
+     * App widget preferences file name.
+     */
+    String APP_WIDGET_PREFERENCES_NAME = BuildConfig.APPLICATION_ID + "_preferences";
+
+    /**
+     * Preference key prefix to get the notebook code of given widget.
+     * The final preference key is : APP_WIDGET_PREFERENCE_KEY_NOTEBOOK_CODE_PREFIX + widgetId
+     */
+    String APP_WIDGET_PREFERENCE_KEY_NOTEBOOK_CODE_PREFIX = "me.shouheng.notepal.widget.NOTE_BOOK_CODE_";
+
+    /**
+     * Preference key prefix to get the sql of list of given widget.
+     * The final preference key is : APP_WIDGET_PREFERENCE_KEY_SQL_PREFIX + widgetId
+     */
+    String APP_WIDGET_PREFERENCE_KEY_SQL_PREFIX = "me.shouheng.notepal.widget.WIDGET_SQL_";
 
 
     /**
@@ -77,20 +124,14 @@ public interface Constants extends BaseConstants {
     String FAB_ACTION_CREATE_SKETCH = "me.shouheng.notepal.fab.CREATE_SKETCH";
 
 
+    String ACTION_RESTART_APP = "me.shouheng.notepal.RESTART";
+
+
     /**
      * Default note file encoding.
      */
     String NOTE_FILE_ENCODING = "utf-8";
 
-
-    String EXTRA_MODEL = "extra_model";
-    String EXTRA_CODE = "extra_code";
-    String EXTRA_POSITION = "extra_position";
-    String EXTRA_REQUEST_CODE = "extra_request_code";
-    String ACTION_TO_NOTE_FROM_THIRD_PART = "to_note_from_third_part";
-
-
-    // region REGION: Constant fields for URI
 
     /**
      * Schemas for Http and Https, used to detect the url type.
@@ -109,17 +150,6 @@ public interface Constants extends BaseConstants {
     String EXTENSION_MP4 = ".mp4";
     String EXTENSION_PDF = ".pdf";
 
-    // endregion REGION: Fields for URI
-
-
-    // region Action
-    String ACTION_SHORTCUT = "ACTION_SHORTCUT";
-
-    String ACTION_RESTART_APP = "action_restart_app";
-
-    String ACTION_NOTE_CHANGE_BROADCAST = "action_broadcast_notes_changed";
-    // endregion
-
     String GITHUB_PAGE = "https://github.com/Shouheng88/NotePal";
     String GOOGLE_PLUS_URL = "https://plus.google.com/u/1/communities/102252970668657211916";
     String WEIBO_PAGE = "https://weibo.com/5401152113/profile?rightmod=1&wvr=6&mod=personinfo";
@@ -132,23 +162,6 @@ public interface Constants extends BaseConstants {
     String FEEDBACK_ENGLISH = "http://fnlefu0fqyo8miz7.mikecrm.com/nwGEX3r";
     String DEVELOPER_EMAIL = "shouheng2015@gmail.com";
 
-    // region App Widgets
-    String INTENT_WIDGET = "widget_id";
-    String ACTION_WIDGET_LIST = "action_widget_list";
-    String ACTION_TAKE_PHOTO = "action_widget_take_photo";
-    String ACTION_ADD_SKETCH = "action_widget_add_sketch";
-    String ACTION_ADD_FILES = "action_widget_add_files";
-    String ACTION_ADD_NOTE = "action_widget_add_note";
-    String ACTION_ADD_MIND = "action_widget_add_mind";
-    String ACTION_CONFIG = "action_widget_config";
-    String EXTRA_CONFIG_SWITCH_ENABLE = "extra_widget_switch_enable";
-    String ACTION_WIDGET_LAUNCH_APP = "action_widget_launch_app";
-
-    String PREFS_NAME = BuildConfig.APPLICATION_ID + "_preferences";
-    String PREF_WIDGET_SQL_PREFIX = "widget_sql_";
-    String PREF_WIDGET_TYPE_PREFIX = "widget_type_";
-    String PREF_WIDGET_NOTEBOOK_CODE_PREFIX = "widget_notebook_code";
-    // endregion
 
     String REA_PUBLIC_KEY = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQD0diKVSZ/U/KHuxZFYac3lLq7K\n" +
             "edqc+uOKSJgq26tgy4wmELCw8gJkempBm8NPf+uSOdWPlPLWijSf3W2KfzMMvZQ2\n" +

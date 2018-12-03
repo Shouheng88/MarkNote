@@ -18,6 +18,9 @@ public class RxMessage {
      */
     public final static int CODE_NOTE_DATA_CHANGED = 3;
 
+    /**
+     * Category data change event.
+     */
     public final static int CODE_CATEGORY_DATA_CHANGED = 4;
 
     public final int code;

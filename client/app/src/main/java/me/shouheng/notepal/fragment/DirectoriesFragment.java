@@ -14,16 +14,16 @@ import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
-import me.shouheng.notepal.PalmApp;
-import me.shouheng.notepal.R;
-import me.shouheng.notepal.adapter.DirectoriesAdapter;
-import me.shouheng.notepal.Constants;
-import me.shouheng.notepal.databinding.FragmentDirectoriesBinding;
-import me.shouheng.data.model.Directory;
+import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.commons.utils.ToastUtils;
-import me.shouheng.notepal.viewmodel.DirectoryViewModel;
 import me.shouheng.commons.widget.recycler.CustomItemAnimator;
 import me.shouheng.commons.widget.recycler.DividerItemDecoration;
+import me.shouheng.data.model.Directory;
+import me.shouheng.notepal.Constants;
+import me.shouheng.notepal.R;
+import me.shouheng.notepal.adapter.DirectoriesAdapter;
+import me.shouheng.notepal.databinding.FragmentDirectoriesBinding;
+import me.shouheng.notepal.viewmodel.DirectoryViewModel;
 
 /**
  * Created by shouh on 2018/3/30.*/
@@ -159,7 +159,7 @@ public class DirectoriesFragment extends BaseFragment<FragmentDirectoriesBinding
             switch (directoryResource.status) {
                 case FAILED:
                     ToastUtils.makeToast(String.format(
-                            PalmApp.getStringCompact(R.string.setting_backup_onedrive_error_when_try_to_backup),
+                            PalmUtils.getStringCompact(R.string.setting_backup_onedrive_error_when_try_to_backup),
                             directoryResource.message));
                     break;
                 case SUCCESS:

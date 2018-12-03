@@ -1,7 +1,9 @@
 package me.shouheng.notepal.activity;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.net.Uri;
@@ -13,6 +15,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -36,6 +39,7 @@ import java.util.List;
 import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import me.shouheng.commons.activity.CommonActivity;
 import me.shouheng.commons.activity.ContainerActivity;
@@ -53,12 +57,12 @@ import me.shouheng.commons.widget.recycler.CustomRecyclerScrollViewListener;
 import me.shouheng.data.ModelFactory;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.data.entity.Category;
-import me.shouheng.data.entity.Model;
 import me.shouheng.data.entity.Note;
 import me.shouheng.data.entity.Notebook;
 import me.shouheng.data.entity.QuickNote;
 import me.shouheng.data.model.enums.FabSortItem;
 import me.shouheng.data.model.enums.Status;
+import me.shouheng.data.store.NotebookStore;
 import me.shouheng.data.store.NotesStore;
 import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.PalmApp;
@@ -91,18 +95,15 @@ import static me.shouheng.notepal.Constants.SHORTCUT_ACTION_SEARCH_NOTE;
 import static me.shouheng.notepal.Constants.SHORTCUT_ACTION_VIEW_NOTE;
 import static me.shouheng.notepal.Constants.SHORTCUT_EXTRA_NOTE_CODE;
 
-public class MainActivity extends CommonActivity<ActivityMainBinding> implements
-        NotesFragment.OnNotesInteractListener,
-        CategoriesFragment.CategoriesInteraction {
+public class MainActivity extends CommonActivity<ActivityMainBinding>
+        implements NotesFragment.OnNotesInteractListener, CategoriesFragment.CategoriesInteraction {
 
     private final static int REQUEST_PASSWORD = 0x0006;
-
-    private RecyclerView.OnScrollListener onScrollListener;
 
     private FloatingActionButton[] fabs;
     private long onBackPressed;
     private Drawer drawer;
-
+    private RecyclerView.OnScrollListener onScrollListener;
     private MainViewModel viewModel;
 
     @Override
@@ -131,6 +132,49 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
 
     private void addSubscriptions() {
         addSubscription(RxMessage.class, RxMessage.CODE_SORT_FLOAT_BUTTONS, rxMessage -> configFabSortItems());
+        viewModel.getUpdateNotebookLiveData().observe(this, resources -> {
+            assert resources != null;
+            switch (resources.status) {
+                case SUCCESS:
+                    postEvent(new RxMessage(RxMessage.CODE_NOTE_DATA_CHANGED, null));
+                    ToastUtils.makeToast(R.string.text_save_successfully);
+                    break;
+                case LOADING:
+                    break;
+                case FAILED:
+                    ToastUtils.makeToast(R.string.text_failed);
+                    break;
+            }
+        });
+        viewModel.getSaveNoteLiveData().observe(this, resources -> {
+            assert resources != null;
+            switch (resources.status) {
+                case SUCCESS:
+                    postEvent(new RxMessage(RxMessage.CODE_NOTE_DATA_CHANGED, null));
+                    ToastUtils.makeToast(R.string.text_save_successfully);
+                    break;
+                case FAILED:
+                    ToastUtils.makeToast(R.string.text_failed);
+                    break;
+            }
+        });
+        viewModel.getSaveCategoryLiveData().observe(this, resources -> {
+            assert resources != null;
+            switch (resources.status) {
+                case SUCCESS:
+                    Fragment f = getCurrentFragment();
+                    if (f instanceof CategoriesFragment) {
+                        ((CategoriesFragment) f).addCategory(resources.data);
+                    } else {
+                        postEvent(new RxMessage(RxMessage.CODE_CATEGORY_DATA_CHANGED, null));
+                    }
+                    ToastUtils.makeToast(R.string.text_save_successfully);
+                    break;
+                case FAILED:
+                    ToastUtils.makeToast(R.string.text_failed);
+                    break;
+            }
+        });
     }
 
     private void everything(Bundle savedInstanceState) {
@@ -161,7 +205,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         configFabSortItems();
 
         /* Load the notes fragment. */
-        toNotesFragment(true);
+        toNotesFragment();
     }
 
     private void configDrawer(Bundle savedInstanceState) {
@@ -262,7 +306,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                     switch ((int) drawerItem.getIdentifier()) {
                         case 0:
                             drawer.closeDrawer();
-                            toNotesFragment(true);
+                            toNotesFragment();
                             break;
                         case 1:
                             drawer.closeDrawer();
@@ -326,9 +370,10 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                                 .launch(getContext()), Permission.CAMERA, Permission.STORAGE);
                 break;
             case SHORTCUT_ACTION_CREATE_NOTE:
-                ContainerActivity.open(NoteFragment.class)
-                        .put(NoteFragment.ARGS_KEY_ACTION, SHORTCUT_ACTION_CREATE_NOTE)
-                        .launch(this);
+                PermissionUtils.checkStoragePermission(this, () ->
+                        ContainerActivity.open(NoteFragment.class)
+                                .put(NoteFragment.ARGS_KEY_ACTION, SHORTCUT_ACTION_CREATE_NOTE)
+                                .launch(MainActivity.this));
                 break;
             case SHORTCUT_ACTION_VIEW_NOTE:
                 if (!intent.hasExtra(SHORTCUT_EXTRA_NOTE_CODE)) {
@@ -336,19 +381,22 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                     return;
                 }
                 long code = intent.getLongExtra(SHORTCUT_EXTRA_NOTE_CODE, 0L);
-                Observable.create((ObservableOnSubscribe<Note>) emitter -> {
-                    Note note = NotesStore.getInstance().get(code);
-                    if (note != null) {
-                        emitter.onNext(note);
-                    } else {
-                        emitter.onError(new NoteNotFoundException(code));
-                    }
-                }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(note ->
+                Observable
+                        .create((ObservableOnSubscribe<Note>) emitter -> {
+                            Note note = NotesStore.getInstance().get(code);
+                            if (note != null) {
+                                emitter.onNext(note);
+                            } else {
+                                emitter.onError(new NoteNotFoundException(code));
+                            }
+                        })
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(note -> PermissionUtils.checkStoragePermission(this, () ->
                                         ContainerActivity.open(NoteFragment.class)
                                                 .put(NoteFragment.ARGS_KEY_NOTE, (Serializable) note)
                                                 .put(NoteFragment.ARGS_KEY_ACTION, action)
-                                                .launch(getContext()),
+                                                .launch(getContext())),
                                 throwable -> ToastUtils.makeToast(R.string.text_note_not_found));
                 break;
 
@@ -395,57 +443,83 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                 });
                 break;
 
-            /*TODO App widget actions. handle later. */
-            case Constants.ACTION_ADD_NOTE:
-                editNote(getNewNote());
+            case Constants.APP_WIDGET_ACTION_CREATE_NOTE: {
+                PermissionUtils.checkStoragePermission(this, () ->
+                        handleAppWidget(intent, pair -> {
+                            Note note = ModelFactory.getNote(pair.first, pair.second);
+                            ContainerActivity.open(NoteFragment.class)
+                                    .put(NoteFragment.ARGS_KEY_NOTE, (Serializable) note)
+                                    .launch(getContext());
+                        }));
                 break;
-            case Constants.ACTION_ADD_MIND:
-                editMindSnagging(ModelFactory.getMindSnagging());
-                break;
-            case Constants.ACTION_WIDGET_LIST:
-                Model model;
-                if (intent.hasExtra(Constants.EXTRA_MODEL)
-                        && (model = (Model) intent.getSerializableExtra(Constants.EXTRA_MODEL)) != null) {
-                    if (model instanceof Note) {
-                        ContainerActivity.open(NoteViewFragment.class)
-                                .put(NoteViewFragment.ARGS_KEY_NOTE, model)
-                                .put(NoteViewFragment.ARGS_KEY_IS_PREVIEW, false)
-                                .launch(this);
-                    } else if (model instanceof QuickNote) {
-                        editMindSnagging((QuickNote) model);
-                    }
+            }
+            case Constants.APP_WIDGET_ACTION_LIST_ITEM_CLICLED: {
+                Note note;
+                if (intent.hasExtra(Constants.APP_WIDGET_EXTRA_NOTE)
+                        && (note = intent.getParcelableExtra(Constants.APP_WIDGET_EXTRA_NOTE)) != null) {
+                    ContainerActivity.open(NoteViewFragment.class)
+                            .put(NoteViewFragment.ARGS_KEY_NOTE, (Serializable) note)
+                            .put(NoteViewFragment.ARGS_KEY_IS_PREVIEW, false)
+                            .launch(this);
                 }
                 break;
-            case Constants.ACTION_WIDGET_LAUNCH_APP:
-                // do nothing just open the app.
+            }
+            case Constants.APP_WIDGET_ACTION_LAUNCH_APP:
+                /* DO NOTHING JUST LAUNCH THE APP. */
                 break;
-            case Constants.ACTION_TAKE_PHOTO:
-                startAddPhoto();
+            case Constants.APP_WIDGET_ACTION_CAPTURE:
+                PermissionUtils.checkPermissions(this, () ->
+                        handleAppWidget(intent, pair -> {
+                            Note note = ModelFactory.getNote(pair.first, pair.second);
+                            ContainerActivity.open(NoteFragment.class)
+                                    .put(NoteFragment.ARGS_KEY_ACTION, action)
+                                    .put(NoteFragment.ARGS_KEY_NOTE, (Serializable) note)
+                                    .launch(getContext());
+                        }), Permission.STORAGE, Permission.CAMERA);
                 break;
-            case Constants.ACTION_ADD_SKETCH:
-                startAddSketch();
+            case Constants.APP_WIDGET_ACTION_CREATE_SKETCH:
+                PermissionUtils.checkStoragePermission(this, () ->
+                        handleAppWidget(intent, pair -> {
+                            Note note = ModelFactory.getNote(pair.first, pair.second);
+                            ContainerActivity.open(NoteFragment.class)
+                                    .put(NoteFragment.ARGS_KEY_ACTION, action)
+                                    .put(NoteFragment.ARGS_KEY_NOTE, (Serializable) note)
+                                    .launch(getContext());
+                        }));
                 break;
+
+            /* Notification action handler. */
             case Constants.ACTION_RESTART_APP:
-                // Recreate
                 recreate();
                 break;
         }
     }
 
-    private void startAddPhoto() {
-//        PermissionUtils.checkStoragePermission(this, () ->
-//                ContentActivity.resolveAction(
-//                        MainActivity.this,
-//                        getNewNote(),
-//                        Constants.ACTION_TAKE_PHOTO));
-    }
-
-    private void startAddSketch() {
-//        PermissionUtils.checkStoragePermission(this, () ->
-//                ContentActivity.resolveAction(
-//                        MainActivity.this,
-//                        getNewNote(),
-//                        Constants.ACTION_ADD_SKETCH));
+    private void handleAppWidget(Intent intent, OnGetAppWidgetCondition onGetAppWidgetCondition) {
+        /* Get notebook first. */
+        int widgetId = intent.getIntExtra(Constants.APP_WIDGET_EXTRA_WIDGET_ID, 0);
+        SharedPreferences sharedPreferences = getApplication().getSharedPreferences(
+                Constants.APP_WIDGET_PREFERENCES_NAME, Context.MODE_MULTI_PROCESS);
+        String key = Constants.APP_WIDGET_PREFERENCE_KEY_NOTEBOOK_CODE_PREFIX + String.valueOf(widgetId);
+        long notebookCode = sharedPreferences.getLong(key, 0);
+        if (notebookCode != 0) {
+            Disposable disposable = Observable
+                    .create((ObservableOnSubscribe<Notebook>) emitter -> {
+                        Notebook notebook = NotebookStore.getInstance().get(notebookCode);
+                        emitter.onNext(notebook);
+                    })
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(notebook -> {
+                        if (onGetAppWidgetCondition != null) {
+                            onGetAppWidgetCondition.onGetCondition(new Pair<>(notebook, null));
+                        }
+                    }, throwable -> ToastUtils.makeToast(R.string.text_notebook_not_found));
+        } else {
+            if (onGetAppWidgetCondition != null) {
+                onGetAppWidgetCondition.onGetCondition(new Pair<>(null, null));
+            }
+        }
     }
 
     private void initFloatButtons() {
@@ -524,15 +598,31 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                                 .put(NoteFragment.ARGS_KEY_NOTE, (Serializable) getNewNote())
                                 .launch(getContext()));
                 break;
-            case NOTEBOOK:
-                editNotebook();
+            case NOTEBOOK: {
+                Notebook notebook = ModelFactory.getNotebook();
+                NotebookEditDialog.newInstance(notebook, (notebookName, notebookColor) -> {
+                    notebook.setTitle(notebookName);
+                    notebook.setColor(notebookColor);
+                    notebook.setCount(0);
+                    notebook.setTreePath(String.valueOf(notebook.getCode()));
+                    Notebook parent;
+                    Fragment f = getCurrentFragment();
+                    if (f instanceof NotesFragment && (parent = ((NotesFragment) f).getNotebook()) != null) {
+                        notebook.setParentCode(parent.getCode());
+                        notebook.setTreePath(parent.getTreePath() + "|" + notebook.getCode());
+                    }
+                    viewModel.saveNotebook(notebook);
+                }).show(getSupportFragmentManager(), "NOTEBOOK EDITOR");
                 break;
+            }
             case CATEGORY:
-                CategoryEditDialog.newInstance(ModelFactory.getCategory(), this::saveCategory)
-                        .show(getSupportFragmentManager(), "CATEGORY_EDIT_DIALOG");
+                CategoryEditDialog.newInstance(ModelFactory.getCategory(),
+                        category -> viewModel.saveCategory(category)
+                ).show(getSupportFragmentManager(), "CATEGORY EDITOR");
                 break;
             case QUICK_NOTE:
-                editMindSnagging(ModelFactory.getMindSnagging());
+                PermissionUtils.checkStoragePermission(this, () ->
+                        editQuickNote(ModelFactory.getQuickNote()));
                 break;
             case DRAFT:
                 PermissionUtils.checkStoragePermission(this, () ->
@@ -549,24 +639,20 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
                                 .launch(MainActivity.this));
                 break;
             case CAPTURE:
-                PermissionUtils.checkStoragePermission(this, () ->
+                PermissionUtils.checkPermissions(this, () ->
                         ContainerActivity.open(NoteFragment.class)
                                 .put(NoteFragment.ARGS_KEY_ACTION, FAB_ACTION_CAPTURE)
                                 .put(NoteFragment.ARGS_KEY_NOTE, (Serializable) getNewNote())
-                                .launch(MainActivity.this));
+                                .launch(MainActivity.this), Permission.CAMERA, Permission.STORAGE);
                 break;
         }
     }
 
-    private void editNote(@NonNull final Note note) {
-//        PermissionUtils.checkStoragePermission(this, () ->
-//                ContentActivity.editNote(this, note));
-    }
-
     /**
-     * Get a new note according to current showing fragment.
+     * Get a new note according to current circumstance. This method will get the notebook and
+     * category field from the NotesFragment if exists.
      *
-     * @return the note model
+     * @return the new note model
      */
     private Note getNewNote() {
         Fragment f = getCurrentFragment();
@@ -576,50 +662,8 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
         return ModelFactory.getNote(notebook, category);
     }
 
-    private void editNotebook() {
-        Notebook notebook = ModelFactory.getNotebook();
-        NotebookEditDialog.newInstance(notebook, (notebookName, notebookColor) -> {
-            // notebook fields
-            notebook.setTitle(notebookName);
-            notebook.setColor(notebookColor);
-            notebook.setCount(0);
-            notebook.setTreePath(String.valueOf(notebook.getCode()));
-
-            // notebook parent fields
-            Notebook parent;
-            if (isNotesFragment() && (parent = ((NotesFragment) getCurrentFragment()).getNotebook()) != null) {
-                notebook.setParentCode(parent.getCode());
-                notebook.setTreePath(parent.getTreePath() + "|" + notebook.getCode());
-            }
-
-            // do save
-            saveNotebook(notebook);
-        }).show(getSupportFragmentManager(), "NotebookEditDialog");
-    }
-
-    private void saveNotebook(Notebook notebook) {
-//        notebookViewModel.saveModel(notebook).observe(this, notebookResource -> {
-//            assert notebookResource != null;
-//            switch (notebookResource.status) {
-//                case SUCCESS:
-//                    ToastUtils.makeToast(R.string.text_save_successfully);
-//                    postEvent(new RxMessage(RxMessage.CODE_NOTE_DATA_CHANGED, null));
-//                    break;
-//                case FAILED:
-//                    ToastUtils.makeToast(R.string.text_failed);
-//                    break;
-//            }
-//        });
-    }
-
-    private void editMindSnagging(@NonNull QuickNote param) {
+    private void editQuickNote(@NonNull QuickNote param) {
         QuickNoteDialog.newInstance(param, new QuickNoteDialog.DialogInteraction() {
-            @Override
-            public void onCancel() { }
-
-            @Override
-            public void onDismiss() { }
-
             @Override
             public void onCancel(Dialog dialog) {
                 dialog.dismiss();
@@ -627,58 +671,21 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
 
             @Override
             public void onConfirm(Dialog dialog, QuickNote quickNote, Attachment attachment) {
+                viewModel.saveQuickNote(getNewNote(), quickNote, attachment);
                 dialog.dismiss();
-                saveMindSnagging(quickNote, attachment);
             }
         }).show(getSupportFragmentManager(), "QUICK NOTE");
     }
-
-    private void saveMindSnagging(QuickNote quickNote, Attachment attachment) {
-//        noteViewModel.saveSnagging(getNewNote(), quickNote, attachment).observe(this, noteResource -> {
-//            assert noteResource != null;
-//            switch (noteResource.status) {
-//                case SUCCESS:
-//                    ToastUtils.makeToast(R.string.text_save_successfully);
-//                    postEvent(new RxMessage(RxMessage.CODE_NOTE_DATA_CHANGED, null));
-//                    break;
-//                case FAILED:
-//                    ToastUtils.makeToast(R.string.text_failed_to_modify_data);
-//                    break;
-//                case LOADING:break;
-//            }
-//        });
-    }
-
-    private void saveCategory(Category category) {
-//        categoryViewModel.saveModel(category).observe(this, categoryResource -> {
-//            assert categoryResource != null;
-//            switch (categoryResource.status) {
-//                case SUCCESS:
-//                    ToastUtils.makeToast(R.string.text_save_successfully);
-//                    Fragment fragment = getCurrentFragment();
-//                    if (fragment instanceof CategoriesFragment) {
-//                        ((CategoriesFragment) fragment).addCategory(category);
-//                    }
-//                    break;
-//                case FAILED:
-//                    ToastUtils.makeToast(R.string.text_failed);
-//                    break;
-//            }
-//        });
-    }
-    // endregion
 
     private void setDrawerLayoutLocked(boolean lockDrawer) {
         drawer.getDrawerLayout().setDrawerLockMode(lockDrawer ?
                 DrawerLayout.LOCK_MODE_LOCKED_CLOSED : DrawerLayout.LOCK_MODE_UNLOCKED);
     }
 
-    private void toNotesFragment(boolean checkDuplicate) {
-        Fragment f = getCurrentFragment();
-        if (checkDuplicate && f instanceof NotesFragment) return;
+    private void toNotesFragment() {
+        if (getCurrentFragment() instanceof NotesFragment) return;
         NotesFragment notesFragment = FragmentHelper.open(NotesFragment.class)
-                .put(NotesFragment.ARGS_KEY_STATUS, Status.NORMAL)
-                .get();
+                .put(NotesFragment.ARGS_KEY_STATUS, Status.NORMAL).get();
         notesFragment.setScrollListener(onScrollListener);
         FragmentHelper.replace(this, notesFragment, R.id.fragment_container, false);
     }
@@ -692,16 +699,6 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
 
     private Fragment getCurrentFragment(){
         return getCurrentFragment(R.id.fragment_container);
-    }
-
-    private boolean isNotesFragment(){
-        Fragment f = getCurrentFragment();
-        return f instanceof NotesFragment;
-    }
-
-    private boolean isDashboard() {
-        Fragment f = getCurrentFragment();
-        return (f instanceof NotesFragment || f instanceof CategoriesFragment);
     }
 
     @Override
@@ -745,23 +742,24 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
 
     @Override
     public void onBackPressed() {
-        if (isDashboard()){
-            if (drawer.isDrawerOpen()){
+        Fragment f = getCurrentFragment();
+        if (f instanceof NotesFragment || f instanceof CategoriesFragment) {
+            if (drawer.isDrawerOpen()) {
                 drawer.closeDrawer();
             } else {
                 if (getBinding().menu.isOpened()) {
                     getBinding().menu.close(true);
                     return;
                 }
-                if (isNotesFragment()) {
-                    if (((NotesFragment) getCurrentFragment()).isTopStack()) {
+                if (f instanceof NotesFragment) {
+                    if (((NotesFragment) f).isTopStack()) {
                         againExit();
                     } else {
                         super.onBackPressed();
                     }
                 } else {
                     drawer.setSelection(0);
-                    toNotesFragment(true);
+                    toNotesFragment();
                 }
             }
         } else {
@@ -808,5 +806,16 @@ public class MainActivity extends CommonActivity<ActivityMainBinding> implements
     @Override
     public void onActivityAttached(boolean isTopStack) {
         setDrawerLayoutLocked(!isTopStack);
+    }
+
+    public interface OnGetAppWidgetCondition {
+
+        /**
+         * The callback for app widget condition, used for
+         * {@link #handleAppWidget(Intent, OnGetAppWidgetCondition)}
+         *
+         * @param pair the pair contains app widget notebook and category
+         */
+        void onGetCondition(Pair<Notebook, Category> pair);
     }
 }

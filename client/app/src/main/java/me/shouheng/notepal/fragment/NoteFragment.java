@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.widget.EditText;
 
 import com.kennyc.bottomsheet.BottomSheet;
+import com.kennyc.bottomsheet.BottomSheet.Builder;
 import com.kennyc.bottomsheet.BottomSheetListener;
 
 import org.apache.commons.io.FileUtils;
@@ -35,14 +36,16 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import me.shouheng.commons.activity.ContainerActivity;
+import me.shouheng.commons.activity.PermissionActivity;
 import me.shouheng.commons.activity.interaction.BackEventResolver;
 import me.shouheng.commons.event.RxMessage;
 import me.shouheng.commons.fragment.CommonFragment;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.PalmUtils;
+import me.shouheng.commons.utils.PermissionUtils;
+import me.shouheng.commons.utils.PermissionUtils.Permission;
 import me.shouheng.commons.utils.StringUtils;
 import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.data.ModelFactory;
@@ -54,7 +57,6 @@ import me.shouheng.easymark.EasyMarkEditor;
 import me.shouheng.easymark.editor.Format;
 import me.shouheng.easymark.tools.Utils;
 import me.shouheng.notepal.Constants;
-import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.SettingsActivity;
 import me.shouheng.notepal.databinding.FragmentNoteBinding;
@@ -159,7 +161,7 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding>
         eme.addTextChangedListener(inputWatcher);
         mel.getFastScrollView().getFastScrollDelegate().setThumbSize(16, 40);
         mel.getFastScrollView().getFastScrollDelegate().setThumbDynamicHeight(false);
-        mel.getFastScrollView().getFastScrollDelegate().setThumbDrawable(PalmApp.getDrawableCompact(isDarkTheme() ?
+        mel.getFastScrollView().getFastScrollDelegate().setThumbDrawable(PalmUtils.getDrawableCompact(isDarkTheme() ?
                 R.drawable.fast_scroll_bar_dark : R.drawable.fast_scroll_bar_light));
         mel.setOnCustomFormatClickListener(formatId -> {
             switch (formatId) {
@@ -252,19 +254,22 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding>
                     assert intent != null;
                     Uri uri = intent.getData();
                     String path = FileManager.getPath(getContext(), uri);
-                    Disposable disposable = Observable.create((ObservableOnSubscribe<String>) emitter -> {
-                        try {
-                            if (path == null) {
-                                emitter.onError(new Exception("The file path is null"));
-                                return;
-                            }
-                            File file = new File(path);
-                            String content = FileUtils.readFileToString(file, Constants.NOTE_FILE_ENCODING);
-                            emitter.onNext(content);
-                        } catch (IOException ex) {
-                            emitter.onError(ex);
-                        }
-                    }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                    Disposable disposable = Observable
+                            .create((ObservableOnSubscribe<String>) emitter -> {
+                                try {
+                                    if (path == null) {
+                                        emitter.onError(new Exception("The file path is null"));
+                                        return;
+                                    }
+                                    File file = new File(path);
+                                    String content = FileUtils.readFileToString(file, Constants.NOTE_FILE_ENCODING);
+                                    emitter.onNext(content);
+                                } catch (IOException ex) {
+                                    emitter.onError(ex);
+                                }
+                            })
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(s -> {
                                 note.setContent(s);
                                 viewModel.notifyNoteChanged(note);
@@ -284,19 +289,32 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding>
                     Note note = (Note) arguments.getSerializable(ARGS_KEY_NOTE);
                     assert note != null;
                     viewModel.notifyNoteChanged(note);
-                    new Handler().postDelayed(() -> AttachmentHelper.pickFromCustomAlbum(NoteFragment.this), 800);
+                    AttachmentHelper.pickFromCustomAlbum(NoteFragment.this);
                     break;
                 }
                 case FAB_ACTION_CREATE_SKETCH: {
                     Note note = (Note) arguments.getSerializable(ARGS_KEY_NOTE);
                     assert note != null;
                     viewModel.notifyNoteChanged(note);
-                    new Handler().postDelayed(() -> AttachmentHelper.createSketch(NoteFragment.this), 800);
+                    AttachmentHelper.createSketch(NoteFragment.this);
                     break;
                 }
 
                 /* Handle the AppWidget actions. */
-
+                case Constants.APP_WIDGET_ACTION_CAPTURE: {
+                    Note note = (Note) arguments.getSerializable(ARGS_KEY_NOTE);
+                    assert note != null;
+                    viewModel.notifyNoteChanged(note);
+                    new Handler().postDelayed(() -> AttachmentHelper.takeAPhoto(NoteFragment.this), 800);
+                    break;
+                }
+                case Constants.APP_WIDGET_ACTION_CREATE_SKETCH: {
+                    Note note = (Note) arguments.getSerializable(ARGS_KEY_NOTE);
+                    assert note != null;
+                    viewModel.notifyNoteChanged(note);
+                    AttachmentHelper.createSketch(NoteFragment.this);
+                    break;
+                }
             }
         } else {
             Note note;
@@ -363,7 +381,7 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding>
     }
 
     private void showAttachmentPicker() {
-        new BottomSheet.Builder(Objects.requireNonNull(getContext()))
+        new Builder(Objects.requireNonNull(getContext()))
                 .setTitle(R.string.text_pick)
                 .setStyle(isDarkTheme() ? R.style.BottomSheet_Dark : R.style.BottomSheet)
                 .setMenu(ColorUtils.getThemedBottomSheetMenu(getContext(), R.menu.attachment_picker))
@@ -374,15 +392,31 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding>
                     @Override
                     public void onSheetItemSelected(@NonNull BottomSheet bottomSheet, MenuItem menuItem, @Nullable Object o) {
                         switch (menuItem.getItemId()) {
-                            case R.id.item_pick_from_album:
-                                AttachmentHelper.pickFromCustomAlbum(NoteFragment.this);
+                            case R.id.item_pick_from_album: {
+                                Activity activity = getActivity();
+                                if (activity != null) {
+                                    PermissionUtils.checkStoragePermission((PermissionActivity) activity,
+                                            () -> AttachmentHelper.pickFromCustomAlbum(NoteFragment.this));
+                                }
                                 break;
-                            case R.id.item_pick_take_a_photo:
-                                AttachmentHelper.takeAPhoto(NoteFragment.this);
+                            }
+                            case R.id.item_pick_take_a_photo: {
+                                Activity activity = getActivity();
+                                if (activity != null) {
+                                    PermissionUtils.checkPermissions((PermissionActivity) activity,
+                                            () -> AttachmentHelper.takeAPhoto(NoteFragment.this),
+                                            Permission.STORAGE, Permission.CAMERA);
+                                }
                                 break;
-                            case R.id.item_pick_create_sketch:
-                                AttachmentHelper.createSketch(NoteFragment.this);
+                            }
+                            case R.id.item_pick_create_sketch: {
+                                Activity activity = getActivity();
+                                if (activity != null) {
+                                    PermissionUtils.checkStoragePermission((PermissionActivity) activity,
+                                            () -> AttachmentHelper.createSketch(NoteFragment.this));
+                                }
                                 break;
+                            }
                         }
                     }
 
@@ -393,36 +427,40 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding>
     }
 
     private void showCategoriesPicker() {
-        Disposable disposable = Observable.create((ObservableOnSubscribe<List<Category>>) emitter -> {
-            List<Category> categoryList = CategoryStore.getInstance().get(null, null);
-            emitter.onNext(categoryList);
-        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<List<Category>>() {
-            @Override
-            public void accept(List<Category> categories) {
-                for (Category s : viewModel.getCategories()) {
-                    for (Category a : categories) {
-                        if (s.getCode() == a.getCode()) {
-                            a.setSelected(true);
+        Disposable disposable = Observable
+                .create((ObservableOnSubscribe<List<Category>>) emitter -> {
+                    List<Category> categoryList = CategoryStore.getInstance().get(null, null);
+                    emitter.onNext(categoryList);
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(categories -> {
+                    for (Category s : viewModel.getCategories()) {
+                        for (Category a : categories) {
+                            if (s.getCode() == a.getCode()) {
+                                a.setSelected(true);
+                            }
                         }
                     }
-                }
-                CategoryPickerDialog dialog = CategoryPickerDialog.newInstance(categories);
-                dialog.setOnConfirmClickListener(selections -> {
-                    viewModel.setCategories(selections);
-                    viewModel.getNote().setTags(NoteManager.getCategoriesField(selections));
+                    CategoryPickerDialog dialog = CategoryPickerDialog.newInstance(categories);
+                    dialog.setOnConfirmClickListener(selections -> {
+                        viewModel.setCategories(selections);
+                        viewModel.getNote().setTags(NoteManager.getCategoriesField(selections));
+                    });
+                    dialog.setOnAddClickListener(() -> showCategoryEditor());
+                    dialog.show(getChildFragmentManager(), "CATEGORY_PICKER");
                 });
-                dialog.setOnAddClickListener(() -> showCategoryEditor());
-                dialog.show(getChildFragmentManager(), "CATEGORY_PICKER");
-            }
-        });
     }
 
     private void showCategoryEditor() {
         CategoryEditDialog.newInstance(ModelFactory.getCategory(), category -> {
-            Disposable disposable = Observable.create((ObservableOnSubscribe<Category>) emitter -> {
-                CategoryStore.getInstance().saveModel(category);
-                emitter.onNext(category);
-            }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            Disposable disposable = Observable
+                    .create((ObservableOnSubscribe<Category>) emitter -> {
+                        CategoryStore.getInstance().saveModel(category);
+                        emitter.onNext(category);
+                    })
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(category1 -> showCategoriesPicker());
         }).show(getChildFragmentManager(), "CATEGORY PICKER");
     }
