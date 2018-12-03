@@ -90,10 +90,10 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider {
     }
 
     private PendingIntent createQuickNote(Context context, int widgetId) {
-        Intent intentAddMind = new Intent(context, QuickActivity.class);
-        intentAddMind.setAction(Constants.APP_WIDGET_ACTION_QUICK_NOTE);
-        intentAddMind.putExtra(Constants.APP_WIDGET_EXTRA_WIDGET_ID, widgetId);
-        return PendingIntent.getActivity(context, widgetId, intentAddMind, PendingIntent.FLAG_CANCEL_CURRENT);
+        Intent intentQuickNote = new Intent(context, QuickActivity.class);
+        intentQuickNote.setAction(Constants.APP_WIDGET_ACTION_QUICK_NOTE);
+        intentQuickNote.putExtra(Constants.APP_WIDGET_EXTRA_WIDGET_ID, widgetId);
+        return PendingIntent.getActivity(context, widgetId, intentQuickNote, PendingIntent.FLAG_CANCEL_CURRENT);
     }
 
     private PendingIntent configList(Context context, int widgetId) {

@@ -443,6 +443,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                 });
                 break;
 
+            /* Actions from AppWidget. */
             case Constants.APP_WIDGET_ACTION_CREATE_NOTE: {
                 PermissionUtils.checkStoragePermission(this, () ->
                         handleAppWidget(intent, pair -> {
