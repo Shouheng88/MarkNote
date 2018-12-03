@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
+apply plugin: 'AndResGuard'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -8,7 +9,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 10
-        versionName "1.2.0"
+        versionName "2.0"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -58,6 +59,36 @@ android {
         alpha {}
         beta {}
         prod {}
+    }
+    // AndResGuard
+    andResGuard {
+        mappingFile = null
+        // Do NOT enable 7zip compression(use7zip) when you distribute your APP on Google Play: https://github.com/shwenzhang/AndResGuard/issues/233
+        use7zip = true
+        useSign = true
+        keepRoot = false
+
+        whiteList = [
+                // for fabric
+                "R.string.com.crashlytics.*",
+                // for google-services
+                "R.string.google_app_id",
+                "R.string.gcm_defaultSenderId",
+                "R.string.default_web_client_id",
+                "R.string.ga_trackingId",
+                "R.string.firebase_database_url",
+                "R.string.google_api_key",
+                "R.string.google_crash_reporting_api_key"
+        ]
+        compressFilePattern = [
+                "*.png",
+                "*.jpg",
+                "*.jpeg",
+                "*.gif",
+        ]
+        sevenzip {
+            artifact = 'com.tencent.mm:SevenZip:1.2.13'
+        }
     }
 }
 

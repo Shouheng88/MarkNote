@@ -21,7 +21,7 @@
             android:summary="@string/setting_category_personal_fab_sub"/>
 
         <SwitchPreference android:title="@string/setting_category_personal_navbar"
-            android:key="colored_navigation_bar"
+            android:key="@string/key_setting_theme_color_nav_bar"
             android:defaultValue="true"
             android:summary="@string/setting_category_personal_navbar_sub"/>
 
