@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--透明，绿边btn-->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/roundbtn_tran_pressed" android:state_pressed="true"/>
+    <item android:drawable="@drawable/roundbtn_tran_enabled" android:state_enabled="false"/>
+    <item android:drawable="@drawable/roundbtn_tran_normal"/>
+</selector>

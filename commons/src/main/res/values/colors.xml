@@ -80,4 +80,13 @@
 
     <color name="ic_launcher_background">#FAFCFC</color>
 
+    <color name="green">#4CAF50</color>
+    <color name="green_light">#C8E6C9</color>
+    <color name="common_alipay_bg">#2186f3</color>
+    <color name="common_dark_grey">#616161</color>
+    <color name="common_white">#ffffff</color>
+    <color name="yellow_dark">#FFA000</color>
+    <color name="common_dark">#424242</color>
+    <color name="common_dark_grey_60">#99616161</color>
+
 </resources>

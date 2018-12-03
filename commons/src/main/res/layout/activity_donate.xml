@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:id="@+id/zhi_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/donate_wechat_bg"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingBottom="16dp">
+
+        <LinearLayout
+            android:id="@+id/qa_layout"
+            android:paddingBottom="14dp"
+            android:paddingTop="42dp"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tip"
+                android:gravity="center"
+                android:text="@string/donate_switch_tips"
+                android:textColor="#F5F5F5"
+                android:textSize="12sp"
+                android:layout_gravity="center_horizontal|center"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="4dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/zhi_title"
+                android:text="@string/donate_wechat_title"
+                android:textColor="@android:color/white"
+                android:textSize="32sp"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal|center"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"/>
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/qa_image_view"
+                android:layout_gravity="center_horizontal|center"
+                android:clickable="false"
+                android:focusable="false"
+                android:layout_width="156dp"
+                android:layout_height="156dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_weight="2"
+            android:orientation="vertical"
+            android:layout_marginBottom="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/zhi_summery"
+                android:gravity="center"
+                android:text="@string/donate_wechat_tips"
+                android:textColor="#ffffff"
+                android:textSize="15sp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="26dp"
+                android:layout_gravity="center_horizontal|center"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp" />
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/zhi_btn"
+                style="@style/BottomBtnStyle"
+                android:minWidth="296dp"
+                android:onClick="onClick"
+                android:text="@string/donate_text_to_donate"
+                android:textSize="13sp"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</layout>
