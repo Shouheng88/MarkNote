@@ -9,11 +9,12 @@ import android.widget.RemoteViews;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.notepal.R;
 
-public class SimpleWidgetProvider extends WidgetProvider {
+public class SimpleWidgetProvider extends BaseWidgetProvider {
 
     @Override
-    protected RemoteViews getRemoteViews(Context context, int widgetId, boolean isSmall,
-                                         boolean isSingleLine, SparseArray<PendingIntent> map) {
+    protected RemoteViews getRemoteViews(
+            Context context, int widgetId, boolean isSmall,
+            boolean isSingleLine, SparseArray<PendingIntent> map) {
         if (isSmall) {
             return configSmall(context, map);
         } else {

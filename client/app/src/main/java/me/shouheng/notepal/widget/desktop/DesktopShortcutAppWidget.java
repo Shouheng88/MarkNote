@@ -8,10 +8,12 @@ import android.widget.RemoteViews;
 import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.notepal.R;
 
-public class DesktopShortcutAppWidget extends WidgetProvider {
+public class DesktopShortcutAppWidget extends BaseWidgetProvider {
 
     @Override
-    protected RemoteViews getRemoteViews(Context context, int widgetId, boolean isSmall, boolean isSingleLine, SparseArray<PendingIntent> map) {
+    protected RemoteViews getRemoteViews(
+            Context context, int widgetId, boolean isSmall,
+            boolean isSingleLine, SparseArray<PendingIntent> map) {
         LogUtils.d(isSingleLine + " " + isSmall);
         RemoteViews views;
         views = new RemoteViews(context.getPackageName(), R.layout.widget_layout_small);

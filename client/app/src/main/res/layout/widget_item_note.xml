@@ -7,8 +7,7 @@
     android:paddingStart="10dp"
     android:paddingEnd="10dp"
     android:orientation="horizontal"
-    android:background="@android:color/white"
-    android:foreground="?android:attr/selectableItemBackground">
+    android:background="?android:attr/selectableItemBackground">
 
     <LinearLayout
         android:padding="10dp"
@@ -25,7 +24,7 @@
             tools:text="This the demo title text of current note list widget type view as multiple"
             android:gravity="center_vertical"
             android:maxLines="2"
-            android:textColor="@color/black87"
+            android:textColor="@android:color/white"
             android:ellipsize="end"
             android:textSize="15sp" />
 
@@ -40,6 +39,7 @@
             android:id="@+id/tv_added_time"
             android:maxLines="3"
             android:textSize="12sp"
+            android:textColor="@color/dark_theme_empty_text_color"
             tools:text="This is the preview content of this note item list widget type.This is the preview content of this note item list widget type."
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -50,7 +50,6 @@
         android:id="@+id/iv_icon"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        tools:src="@drawable/slide4_release"
         android:scaleType="centerCrop"
         android:layout_gravity="center_vertical" />
 

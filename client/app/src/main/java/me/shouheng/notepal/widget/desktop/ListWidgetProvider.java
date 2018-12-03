@@ -4,7 +4,6 @@ import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.util.SparseArray;
 import android.view.View;
@@ -12,13 +11,11 @@ import android.widget.RemoteViews;
 
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.LogUtils;
-import me.shouheng.notepal.PalmApp;
+import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.MainActivity;
-import me.shouheng.notepal.activity.QuickActivity;
-import me.shouheng.notepal.Constants;
 
-public class ListWidgetProvider extends WidgetProvider {
+public class ListWidgetProvider extends BaseWidgetProvider {
 
     @Override
     protected RemoteViews getRemoteViews(Context context, int widgetId, boolean isSmall, boolean isSingleLine, SparseArray<PendingIntent> map) {
@@ -63,12 +60,8 @@ public class ListWidgetProvider extends WidgetProvider {
     }
 
     private PendingIntent listClickPendingIntent(Context context, int widgetId) {
-        SharedPreferences sharedPreferences = PalmApp.getContext().getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
-        int id = sharedPreferences.getInt(Constants.PREF_WIDGET_TYPE_PREFIX + String.valueOf(widgetId), ListWidgetType.NOTES_LIST.id);
-        ListWidgetType listWidgetType = ListWidgetType.getListWidgetType(id);
-
-        Intent clickIntent = new Intent(context, listWidgetType == ListWidgetType.MINDS_LIST ? QuickActivity.class : MainActivity.class);
-        clickIntent.setAction(Constants.ACTION_WIDGET_LIST);
+        Intent clickIntent = new Intent(context, MainActivity.class);
+        clickIntent.setAction(Constants.APP_WIDGET_ACTION_LIST_ITEM_CLICLED);
 
         return PendingIntent.getActivity(context, 0, clickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
     }

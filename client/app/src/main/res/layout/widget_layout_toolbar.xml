@@ -1,28 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/toolbar_widget"
     android:orientation="vertical"
-    tools:background="@color/colorPrimary"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/tv_app_name"
-        android:text="@string/app_name"
+        android:text="@string/mark_note"
         android:paddingStart="16dp"
-        android:paddingTop="@dimen/dp_4"
-        android:paddingBottom="@dimen/dp_4"
         android:paddingEnd="16dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
         android:textSize="12sp"
         android:textColor="@color/white"
-        android:background="#50000000"
+        android:background="#a0000000"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <LinearLayout
         android:gravity="center"
         android:orientation="horizontal"
+        android:background="#90000000"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -37,9 +36,10 @@
 
         <ImageView
             android:id="@+id/iv_add_note"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_margin="16dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="8dp"
+            android:layout_margin="8dp"
             android:background="@drawable/icon_selector"
             android:layout_gravity="center_vertical"
             android:tint="@android:color/white"
@@ -47,9 +47,10 @@
 
         <ImageView
             android:id="@+id/iv_add_mind"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_margin="16dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="8dp"
+            android:layout_margin="8dp"
             android:background="@drawable/icon_selector"
             android:layout_gravity="center_vertical"
             android:tint="@android:color/white"
@@ -57,9 +58,10 @@
 
         <ImageView
             android:id="@+id/iv_add_photo"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_margin="16dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="8dp"
+            android:layout_margin="8dp"
             android:background="@drawable/icon_selector"
             android:layout_gravity="center_vertical"
             android:tint="@android:color/white"
@@ -67,9 +69,10 @@
 
         <ImageView
             android:id="@+id/iv_add_sketch"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_margin="16dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="8dp"
+            android:layout_margin="8dp"
             android:background="@drawable/icon_selector"
             android:layout_gravity="center_vertical"
             android:tint="@android:color/white"
@@ -77,9 +80,10 @@
 
         <ImageView
             android:id="@+id/iv_setting"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_margin="16dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="8dp"
+            android:layout_margin="8dp"
             android:background="@drawable/icon_selector"
             android:layout_gravity="center_vertical"
             android:tint="@android:color/white"

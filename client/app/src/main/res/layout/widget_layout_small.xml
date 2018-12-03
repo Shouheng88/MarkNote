@@ -5,3 +5,4 @@
     android:id="@+id/iv_launch_app"
     android:src="@drawable/mark_note"
     android:padding="@dimen/widget_margin"/>
+<!-- TODO change the icon -->
