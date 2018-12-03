@@ -1,3 +1,5 @@
-include ':app', ':commons', ':data'
+include ':app', ':commons', ':data', ':pinlockview', ':fingerprint'
 project(':commons').projectDir = new File('../commons')
 project(':data').projectDir = new File('../data')
+project(':pinlockview').projectDir = new File('../pinlockview')
+project(':fingerprint').projectDir = new File('../fingerprint')

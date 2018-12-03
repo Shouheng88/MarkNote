@@ -113,7 +113,6 @@ dependencies {
     api 'com.just.agentweb:agentweb:4.0.2'
     api 'com.github.oxoooo:pull-back-layout:1.0.1'
     api 'com.github.lecho:hellocharts-android:v1.5.8'
-    api 'com.andrognito.pinlockview:pinlockview:2.1.0'
     // easymark
     api 'me.shouheng.easymark:easymark:0.0.2'
     api 'me.shouheng.easymark:sil:0.0.1'
