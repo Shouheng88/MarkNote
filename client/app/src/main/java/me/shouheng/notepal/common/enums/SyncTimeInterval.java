@@ -1,4 +1,4 @@
-package me.shouheng.notepal.util.enums;
+package me.shouheng.notepal.common.enums;
 
 import android.support.annotation.StringRes;
 import android.text.format.DateUtils;

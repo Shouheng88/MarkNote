@@ -1,4 +1,4 @@
-package me.shouheng.notepal.exception;
+package me.shouheng.notepal.common.exception;
 
 import me.shouheng.data.entity.Note;
 

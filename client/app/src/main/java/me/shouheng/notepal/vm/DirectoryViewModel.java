@@ -16,7 +16,7 @@ import me.shouheng.notepal.onedrive.PrepareBackupDirTask;
 import me.shouheng.notepal.manager.onedrive.OneDriveManager;
 import me.shouheng.data.model.Directory;
 import me.shouheng.commons.model.data.Resource;
-import me.shouheng.notepal.util.preferences.SyncPreferences;
+import me.shouheng.notepal.common.preferences.SyncPreferences;
 
 /**
  * Created by shouh on 2018/3/31.*/

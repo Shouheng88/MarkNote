@@ -20,7 +20,7 @@ import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.ActivityLockBinding;
 import me.shouheng.notepal.util.RSAUtil;
-import me.shouheng.notepal.util.preferences.LockPreferences;
+import me.shouheng.notepal.common.preferences.LockPreferences;
 
 public class LockActivity extends CommonActivity<ActivityLockBinding> {
 

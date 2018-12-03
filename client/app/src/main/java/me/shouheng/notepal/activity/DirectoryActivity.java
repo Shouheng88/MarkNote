@@ -26,7 +26,7 @@ import me.shouheng.notepal.databinding.ActivityDirectoryBinding;
 import me.shouheng.notepal.dialog.SimpleEditDialog;
 import me.shouheng.notepal.fragment.DirectoriesFragment;
 import me.shouheng.notepal.manager.onedrive.OneDriveManager;
-import me.shouheng.notepal.util.preferences.SyncPreferences;
+import me.shouheng.notepal.common.preferences.SyncPreferences;
 
 public class DirectoryActivity extends CommonActivity<ActivityDirectoryBinding> implements
         DirectoriesFragment.OnFragmentInteractionListener {

@@ -1,10 +1,10 @@
-package me.shouheng.notepal.util.preferences;
+package me.shouheng.notepal.common.preferences;
 
 import android.content.Context;
 
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.util.enums.SyncTimeInterval;
+import me.shouheng.notepal.common.enums.SyncTimeInterval;
 
 public class SyncPreferences extends BasePreferences {
 

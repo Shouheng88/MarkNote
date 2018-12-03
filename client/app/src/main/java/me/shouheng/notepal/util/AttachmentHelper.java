@@ -40,8 +40,6 @@ import me.shouheng.notepal.activity.GalleryActivity;
 import me.shouheng.notepal.activity.SketchActivity;
 import me.shouheng.notepal.async.CreateAttachmentTask;
 import me.shouheng.notepal.manager.FileManager;
-import me.shouheng.notepal.util.preferences.NotePreferences;
-import me.shouheng.notepal.util.preferences.PersistPreferences;
 import top.zibin.luban.Luban;
 import top.zibin.luban.OnCompressListener;
 
@@ -536,19 +534,7 @@ public class AttachmentHelper {
     private static void getPhoto(Context context, String mimeType, OnAttachingFileListener onAttachingFileListener) {
         Attachment photo = ModelFactory.getAttachment();
         photo.setMineType(mimeType);
-        if (shouldCompressImage()) {
-            compressImage(context, photo, new File(getPhotoFilePath()), onAttachingFileListener);
-        } else {
-            photo.setPath(getPhotoFilePath());
-            photo.setUri(FileManager.getUriFromFile(context, new File(getPhotoFilePath())));
-            if (onAttachingFileListener != null) {
-                onAttachingFileListener.onAttachingFileFinished(photo);
-            }
-        }
-    }
-
-    private static boolean shouldCompressImage() {
-        return NotePreferences.getInstance().isImageAutoCompress();
+        compressImage(context, photo, new File(getPhotoFilePath()), onAttachingFileListener);
     }
 
     private static void compressImage(Context context,
@@ -706,15 +692,11 @@ public class AttachmentHelper {
     }
 
     private static String getPhotoFilePath() {
-        if (TextUtils.isEmpty(photoFilePath)) {
-            photoFilePath = PersistPreferences.getInstance().getAttachmentFilePath();
-        }
         return photoFilePath;
     }
 
     private static void setPhotoFilePath(String photoFilePath) {
         AttachmentHelper.photoFilePath = photoFilePath;
-        PersistPreferences.getInstance().setAttachmentFilePath(photoFilePath);
     }
 
     /**

@@ -14,7 +14,7 @@ import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.notepal.R;
 import me.shouheng.data.entity.TimeLine;
 import me.shouheng.commons.utils.TimeUtils;
-import me.shouheng.notepal.util.preferences.PrefUtils;
+import me.shouheng.notepal.common.preferences.UserPreferences;
 import me.shouheng.commons.widget.CircleImageView;
 import me.shouheng.commons.widget.Timeline;
 
@@ -68,7 +68,7 @@ public class TimeLinesAdapter extends BaseQuickAdapter<TimeLine, BaseViewHolder>
     }
 
     private int getOperationColor(TimeLine timeLine) {
-        return PrefUtils.getInstance().getTimeLineColor(timeLine.getOperation());
+        return UserPreferences.getInstance().getTimeLineColor(timeLine.getOperation());
     }
 }
 

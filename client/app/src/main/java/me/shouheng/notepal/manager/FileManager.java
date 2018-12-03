@@ -601,7 +601,8 @@ public class FileManager {
      * @param bmp 图片
      * @param isPng 是否是png格式的图片
      * @param onSavedToGalleryListener the callback of saving event
-     * @return 是否成功执行保存操作 */
+     * @return 是否成功执行保存操作
+     */
     public static boolean saveImageToGallery(Context context, Bitmap bmp, boolean isPng, OnSavedToGalleryListener onSavedToGalleryListener) {
         LogUtils.d("saveImageToGallery: " + bmp);
         if (bmp == null) return false;
@@ -611,12 +612,7 @@ public class FileManager {
                 return false;
             }
         }
-        String fileName;
-        if (isPng) {
-            fileName = System.currentTimeMillis() + ".png";
-        } else {
-            fileName = System.currentTimeMillis() + ".jpg";
-        }
+        String fileName = System.currentTimeMillis() + (isPng ? ".png" : ".jpg");
         File file = new File(appDir, fileName);
         try {
             FileOutputStream fos = new FileOutputStream(file);
@@ -645,7 +641,9 @@ public class FileManager {
             return false;
         }
         context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, getUriFromFile(context, appDir)));
-        if (onSavedToGalleryListener != null) onSavedToGalleryListener.OnSavedToGallery(file);
+        if (onSavedToGalleryListener != null) {
+            onSavedToGalleryListener.OnSavedToGallery(file);
+        }
         return true;
     }
 

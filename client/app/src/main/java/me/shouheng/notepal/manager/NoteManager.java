@@ -26,7 +26,6 @@ import me.shouheng.data.entity.Model;
 import me.shouheng.data.entity.Note;
 import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.TextLength;
 
 /**
  * The manger for note witch provided many useful methods to handle the note.
@@ -134,9 +133,10 @@ public class NoteManager {
      * @return the title string
      */
     public static String getTitle(String inputTitle, String noteContent) {
+        int titleLength = PalmUtils.getIntegerCompact(R.integer.note_title_max_length);
         if (!TextUtils.isEmpty(inputTitle)) {
-            if (inputTitle.length() >= TextLength.TITLE_TEXT_LENGTH.length) {
-                return inputTitle.substring(0, TextLength.TITLE_TEXT_LENGTH.length);
+            if (inputTitle.length() >= titleLength) {
+                return inputTitle.substring(0, titleLength);
             }
             return inputTitle;
         }
@@ -164,8 +164,8 @@ public class NoteManager {
             if (i < chars.length) {
                 String title = mdTitle.substring(i);
                 // The length of the matched title must be
-                if (title.length() >= TextLength.TITLE_TEXT_LENGTH.length) {
-                    title = title.substring(0, TextLength.TITLE_TEXT_LENGTH.length);
+                if (title.length() >= titleLength) {
+                    title = title.substring(0, titleLength);
                 }
                 return title;
             }
@@ -185,8 +185,9 @@ public class NoteManager {
             return "";
         }
 
-        if (noteContent.length() > TextLength.NOTE_CONTENT_PREVIEW_LENGTH.length) {
-            return noteContent.substring(0, TextLength.NOTE_CONTENT_PREVIEW_LENGTH.length).trim().replace('\n', ' ');
+        int maxLength = PalmUtils.getIntegerCompact(R.integer.note_content_preview_max_length);
+        if (noteContent.length() > maxLength) {
+            return noteContent.substring(0, maxLength).trim().replace('\n', ' ');
         }
 
         return noteContent.trim().replace('\n', ' ');

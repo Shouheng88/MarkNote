@@ -20,7 +20,7 @@ import me.shouheng.data.model.enums.FabSortItem;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.FabSortAdapter;
 import me.shouheng.notepal.databinding.ActivityFabSortBinding;
-import me.shouheng.notepal.util.preferences.PrefUtils;
+import me.shouheng.notepal.common.preferences.UserPreferences;
 
 public class FabSortActivity extends CommonActivity<ActivityFabSortBinding> {
 
@@ -55,7 +55,7 @@ public class FabSortActivity extends CommonActivity<ActivityFabSortBinding> {
     }
 
     private void configFabList() {
-        mAdapter = new FabSortAdapter(this, PrefUtils.getInstance().getFabSortResult());
+        mAdapter = new FabSortAdapter(this, UserPreferences.getInstance().getFabSortResult());
         getBinding().rvFabs.setAdapter(mAdapter);
 
         DragSortRecycler dragSortRecycler = new DragSortRecycler();
@@ -116,13 +116,13 @@ public class FabSortActivity extends CommonActivity<ActivityFabSortBinding> {
         saved = true;
         everSaved = true;
         List<FabSortItem> fabSortItems = mAdapter.getFabSortItems();
-        PrefUtils.getInstance().setFabSortResult(fabSortItems);
+        UserPreferences.getInstance().setFabSortResult(fabSortItems);
         ToastUtils.makeToast(R.string.text_succeed);
     }
 
     private void resetFabOrders() {
         saved = true;
-        mAdapter.setFabSortItems(PrefUtils.getInstance().getFabSortResult());
+        mAdapter.setFabSortItems(UserPreferences.getInstance().getFabSortResult());
         mAdapter.notifyDataSetChanged();
     }
 

@@ -22,7 +22,7 @@ import me.shouheng.data.store.AttachmentsStore;
 import me.shouheng.data.store.CategoryStore;
 import me.shouheng.data.store.NotesStore;
 import me.shouheng.notepal.Constants;
-import me.shouheng.notepal.exception.NoteFileReadException;
+import me.shouheng.notepal.common.exception.NoteFileReadException;
 
 /**
  * @author WngShhng (shouheng2015@gmail.com)

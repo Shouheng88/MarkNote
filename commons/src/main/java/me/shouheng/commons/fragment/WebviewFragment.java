@@ -24,8 +24,6 @@ import me.shouheng.commons.databinding.FragmentWebviewBinding;
 import me.shouheng.commons.utils.IntentUtils;
 import me.shouheng.commons.utils.PalmUtils;
 
-import static me.shouheng.commons.BaseConstants.MAX_WEB_PAGE_TITLE_LENGTH;
-
 /**
  * @author shouh
  * @version $Id: WebviewFragment, v 0.1 2018/11/17 20:40 shouh Exp$
@@ -83,8 +81,13 @@ public class WebviewFragment extends CommonFragment<FragmentWebviewBinding> impl
         public void onReceivedTitle(WebView view, String title) {
             if (usePageTitle) {
                 if (!TextUtils.isEmpty(title)) {
-                    if (title.length() > MAX_WEB_PAGE_TITLE_LENGTH) {
-                        title = title.substring(0, MAX_WEB_PAGE_TITLE_LENGTH).concat("...");
+                    /*
+                     * The max length used to get the title form the web page.
+                     * If the title is longer than this value, the longer part will be replaced with '...'.
+                     */
+                    int maxWebPageTitleLength = 15;
+                    if (title.length() > maxWebPageTitleLength) {
+                        title = title.substring(0, maxWebPageTitleLength).concat("...");
                     }
                 }
                 if (getActivity() != null) {

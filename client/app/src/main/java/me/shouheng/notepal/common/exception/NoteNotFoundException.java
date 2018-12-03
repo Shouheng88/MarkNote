@@ -1,4 +1,4 @@
-package me.shouheng.notepal.exception;
+package me.shouheng.notepal.common.exception;
 
 /**
  * Created WngShhng on 2018/11/30.

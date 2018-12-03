@@ -1,4 +1,4 @@
-package me.shouheng.notepal.util.preferences;
+package me.shouheng.notepal.common.preferences;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -8,6 +8,7 @@ import java.util.List;
 
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.PalmUtils;
+import me.shouheng.commons.utils.PersistData;
 import me.shouheng.data.model.enums.FabSortItem;
 import me.shouheng.data.model.enums.Operation;
 import me.shouheng.notepal.PalmApp;
@@ -16,13 +17,13 @@ import me.shouheng.notepal.R;
 /**
  * Created by WngShhng (shouheng2015@gmail.com) on 2018/4/9.
  */
-public class PrefUtils extends BasePreferences {
+public class UserPreferences extends BasePreferences {
 
-    private static PrefUtils instance = new PrefUtils(PalmApp.getContext());
+    private static UserPreferences instance = new UserPreferences(PalmApp.getContext());
 
     public static List<FabSortItem> defaultFabOrders;
 
-    public static PrefUtils getInstance() {
+    public static UserPreferences getInstance() {
         return instance;
     }
 
@@ -39,7 +40,7 @@ public class PrefUtils extends BasePreferences {
         defaultFabOrders.add(FabSortItem.DRAFT);
     }
 
-    private PrefUtils(Context context) {
+    private UserPreferences(Context context) {
         super(context);
     }
 
@@ -87,5 +88,9 @@ public class PrefUtils extends BasePreferences {
             case RECOVER: return PalmUtils.getColorCompact(R.color.md_light_blue_600);
         }
         return ColorUtils.accentColor(PalmApp.getContext());
+    }
+
+    public String getNoteFileExtension() {
+        return "." + PersistData.getString(R.string.key_note_file_extension, "md");
     }
 }

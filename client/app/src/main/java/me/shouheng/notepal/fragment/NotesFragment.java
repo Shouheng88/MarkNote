@@ -21,6 +21,7 @@ import me.shouheng.commons.activity.ContainerActivity;
 import me.shouheng.commons.event.RxMessage;
 import me.shouheng.commons.fragment.CommonFragment;
 import me.shouheng.commons.helper.FragmentHelper;
+import me.shouheng.commons.utils.PersistData;
 import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.commons.widget.recycler.CustomItemAnimator;
 import me.shouheng.commons.widget.recycler.DividerItemDecoration;
@@ -35,7 +36,6 @@ import me.shouheng.notepal.databinding.FragmentNotesBinding;
 import me.shouheng.notepal.dialog.NotebookEditDialog;
 import me.shouheng.notepal.dialog.picker.NotebookPickerDialog;
 import me.shouheng.notepal.util.AppWidgetUtils;
-import me.shouheng.notepal.util.preferences.NotePreferences;
 import me.shouheng.notepal.vm.NotesViewModel;
 
 /**
@@ -376,7 +376,8 @@ public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        if (NotePreferences.getInstance().isNoteExpanded()) {
+        boolean isExpanded = PersistData.getBoolean(R.string.key_key_show_note_expanded, true);
+        if (isExpanded) {
             // disable list capture when the note list is expanded
             menu.findItem(R.id.action_capture).setVisible(false);
         } else {

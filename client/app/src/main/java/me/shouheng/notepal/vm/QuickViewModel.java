@@ -27,7 +27,7 @@ import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.notepal.manager.NoteManager;
-import me.shouheng.notepal.util.preferences.NotePreferences;
+import me.shouheng.notepal.common.preferences.UserPreferences;
 
 /**
  * Created by WngShhng (shouheng2015@gmail.com) on 2018/12/3.
@@ -65,7 +65,7 @@ public class QuickViewModel extends ViewModel {
                     note.setPreviewContent(NoteManager.getPreview(quickNote.getContent()));
 
                     /* Save note to the file system. */
-                    String extension = NotePreferences.getInstance().getNoteFileExtension();
+                    String extension = UserPreferences.getInstance().getNoteFileExtension();
                     File noteFile = FileManager.createNewAttachmentFile(PalmApp.getContext(), extension);
                     try {
                         Attachment atFile = ModelFactory.getAttachment();

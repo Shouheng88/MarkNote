@@ -24,7 +24,7 @@ import me.shouheng.notepal.activity.FabSortActivity;
 import me.shouheng.notepal.activity.LockActivity;
 import me.shouheng.notepal.activity.SettingsActivity;
 import me.shouheng.notepal.dialog.ThemePickDialog;
-import me.shouheng.notepal.util.preferences.LockPreferences;
+import me.shouheng.notepal.common.preferences.LockPreferences;
 
 /**
  * Created by WngShhng (shouheng2015@gmail.com) on 2017/12/21.*/

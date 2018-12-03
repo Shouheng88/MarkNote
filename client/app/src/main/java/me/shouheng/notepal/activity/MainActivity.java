@@ -72,7 +72,7 @@ import me.shouheng.notepal.databinding.LayoutActionViewBottomDialogBinding;
 import me.shouheng.notepal.dialog.CategoryEditDialog;
 import me.shouheng.notepal.dialog.NotebookEditDialog;
 import me.shouheng.notepal.dialog.QuickNoteDialog;
-import me.shouheng.notepal.exception.NoteNotFoundException;
+import me.shouheng.notepal.common.exception.NoteNotFoundException;
 import me.shouheng.notepal.fragment.CategoriesFragment;
 import me.shouheng.notepal.fragment.NoteFragment;
 import me.shouheng.notepal.fragment.NoteViewFragment;
@@ -82,7 +82,7 @@ import me.shouheng.notepal.fragment.TimeLineFragment;
 import me.shouheng.notepal.fragment.setting.SettingsFragment;
 import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.notepal.util.SynchronizeUtils;
-import me.shouheng.notepal.util.preferences.PrefUtils;
+import me.shouheng.notepal.common.preferences.UserPreferences;
 import me.shouheng.notepal.vm.MainViewModel;
 
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
@@ -578,20 +578,20 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
 
     private void configFabSortItems() {
         try {
-            List<FabSortItem> fabSortItems = PrefUtils.getInstance().getFabSortResult();
+            List<FabSortItem> fabSortItems = UserPreferences.getInstance().getFabSortResult();
             for (int i=0; i<fabs.length; i++) {
                 fabs[i].setImageDrawable(ColorUtils.tintDrawable(fabSortItems.get(i).iconRes, Color.WHITE));
                 fabs[i].setLabelText(getString(fabSortItems.get(i).nameRes));
             }
         } catch (Exception e) {
             LogUtils.d("configFabSortItems, error occurred : " + e);
-            PrefUtils.getInstance().setFabSortResult(PrefUtils.defaultFabOrders);
+            UserPreferences.getInstance().setFabSortResult(UserPreferences.defaultFabOrders);
         }
     }
 
     private void resolveFabClick(int index) {
         getBinding().menu.close(true);
-        FabSortItem fabSortItem = PrefUtils.getInstance().getFabSortResult().get(index);
+        FabSortItem fabSortItem = UserPreferences.getInstance().getFabSortResult().get(index);
         switch (fabSortItem) {
             case NOTE:
                 PermissionUtils.checkStoragePermission(this, () ->

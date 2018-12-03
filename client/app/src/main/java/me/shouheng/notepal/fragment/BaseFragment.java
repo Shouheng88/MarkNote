@@ -9,6 +9,11 @@ import android.webkit.WebView;
 
 import java.io.File;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import me.shouheng.commons.activity.PermissionActivity;
 import me.shouheng.commons.fragment.CommonFragment;
 import me.shouheng.commons.utils.PermissionUtils;
@@ -16,9 +21,6 @@ import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.notepal.util.ScreenShotHelper;
-import me.shouheng.notepal.util.tools.Callback;
-import me.shouheng.notepal.util.tools.Invoker;
-import me.shouheng.notepal.util.tools.Message;
 
 /**
  * Base fragment, used to handle the shared and common logic.
@@ -61,41 +63,35 @@ public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFrag
      * @param recyclerView the recycler view
      * @param itemHeight item height, will use the fixed height capture method when it's not 0.
      */
-    private void doCapture(RecyclerView recyclerView, int itemHeight) {
+    private Disposable doCapture(RecyclerView recyclerView, int itemHeight) {
         final ProgressDialog pd = new ProgressDialog(getContext());
         pd.setTitle(R.string.text_capturing);
-        new Invoker<>(new Callback<File>() {
-            @Override
-            public void onBefore() {
-                pd.setCancelable(false);
-                pd.show();
-            }
-
-            @Override
-            public Message<File> onRun() {
-                Message<File> message = new Message<>();
-               Bitmap bitmap;
-                if (itemHeight == 0) {
-                    bitmap = ScreenShotHelper.shotRecyclerView(recyclerView);
-                } else {
-                    bitmap = ScreenShotHelper.shotRecyclerView(recyclerView, itemHeight);
-                }
-                boolean succeed = FileManager.saveImageToGallery(getContext(), bitmap, true, message::setObj);
-                message.setSucceed(succeed);
-                return message;
-            }
-
-            @Override
-            public void onAfter(Message<File> message) {
-                pd.dismiss();
-                if (message.isSucceed()) {
-                    ToastUtils.makeToast(String.format(getString(R.string.text_file_saved_to), message.getObj().getPath()));
-                    onGetScreenCaptureFile(message.getObj());
-                } else {
+        pd.setCancelable(false);
+        pd.show();
+        return Observable
+                .create((ObservableOnSubscribe<File>) emitter -> {
+                    Bitmap bitmap;
+                    if (itemHeight == 0) {
+                        bitmap = ScreenShotHelper.shotRecyclerView(recyclerView);
+                    } else {
+                        bitmap = ScreenShotHelper.shotRecyclerView(recyclerView, itemHeight);
+                    }
+                    boolean succeed = FileManager.saveImageToGallery(
+                            getContext(), bitmap, true, emitter::onNext);
+                    if (!succeed) {
+                        emitter.onError(new Exception("Failed to save image to gallery."));
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(file -> {
+                    pd.dismiss();
+                    ToastUtils.makeToast(String.format(getString(R.string.text_file_saved_to), file.getPath()));
+                    onGetScreenCaptureFile(file);
+                }, throwable -> {
+                    pd.dismiss();
                     ToastUtils.makeToast(R.string.text_failed_to_save_file);
-                }
-            }
-        }).start();
+                });
     }
 
     /**

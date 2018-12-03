@@ -3,7 +3,7 @@ package me.shouheng.notepal.onedrive;
 import android.os.AsyncTask;
 
 import me.shouheng.data.store.AttachmentsStore;
-import me.shouheng.notepal.util.preferences.SyncPreferences;
+import me.shouheng.notepal.common.preferences.SyncPreferences;
 
 /**
  * Created by shouh on 2018/4/7.*/

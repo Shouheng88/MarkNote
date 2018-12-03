@@ -14,6 +14,7 @@ import java.util.List;
 
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.PalmUtils;
+import me.shouheng.commons.utils.PersistData;
 import me.shouheng.commons.utils.TimeUtils;
 import me.shouheng.commons.widget.recycler.BubbleTextGetter;
 import me.shouheng.data.entity.Note;
@@ -21,7 +22,6 @@ import me.shouheng.data.entity.Notebook;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.manager.FileManager;
-import me.shouheng.notepal.util.preferences.NotePreferences;
 
 /**
  * Created by wang shouheng on 2017/12/23.
@@ -37,7 +37,7 @@ public class NotesAdapter extends BaseMultiItemQuickAdapter<NotesAdapter.MultiIt
     public NotesAdapter(Context context, List<NotesAdapter.MultiItem> data) {
         super(data);
 
-        this.isExpanded = NotePreferences.getInstance().isNoteExpanded();
+        this.isExpanded = PersistData.getBoolean(R.string.key_key_show_note_expanded, true);
         this.context = context;
         addItemType(MultiItem.ITEM_TYPE_NOTE, isExpanded ? R.layout.item_note_expanded : R.layout.item_note);
         addItemType(MultiItem.ITEM_TYPE_NOTEBOOK, R.layout.item_note);

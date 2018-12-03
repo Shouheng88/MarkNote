@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!--theme-->
     <string name="key_theme_style_id" translatable="false">__theme_style_id</string>
     <string name="key_setting_theme" translatable="false">__key_setting_item_theme</string>
     <string name="key_setting_theme_beautify_date" translatable="false">__key_setting_item_beautify_date</string>
-    <string name="key_setting_theme_color_nav_bar" translatable="false">colored_navigation_bar</string>
+    <string name="key_setting_theme_color_nav_bar" translatable="false">__colored_navigation_bar</string>
 
-    <string name="key_setting_item_security" translatable="false">__key_setting_item_security</string>
     <string name="key_sync_time_interval" translatable="false">key_sync_time_interval</string>
     <string name="key_one_drive_last_sync_time" translatable="false">key_one_drive_last_sync_time</string>
     <string name="key_backup_only_wifi" translatable="false">key_backup_only_wifi</string>
