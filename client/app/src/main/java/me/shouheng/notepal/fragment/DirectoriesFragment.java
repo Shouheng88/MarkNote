@@ -23,7 +23,7 @@ import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.DirectoriesAdapter;
 import me.shouheng.notepal.databinding.FragmentDirectoriesBinding;
-import me.shouheng.notepal.viewmodel.DirectoryViewModel;
+import me.shouheng.notepal.vm.DirectoryViewModel;
 
 /**
  * Created by shouh on 2018/3/30.*/

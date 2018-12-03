@@ -733,10 +733,11 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != RESULT_OK) return;
         switch (requestCode) {
             case REQUEST_PASSWORD:
-                everything(null);
+                if (resultCode == RESULT_OK) {
+                    everything(null);
+                }
                 break;
         }
     }

@@ -1,4 +1,4 @@
-package me.shouheng.notepal.viewmodel;
+package me.shouheng.notepal.vm;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
