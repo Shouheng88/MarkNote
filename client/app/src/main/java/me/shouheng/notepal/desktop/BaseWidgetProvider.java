@@ -1,4 +1,4 @@
-package me.shouheng.notepal.widget.desktop;
+package me.shouheng.notepal.desktop;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -13,7 +13,6 @@ import android.widget.RemoteViews;
 import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.MainActivity;
-import me.shouheng.notepal.activity.ConfigActivity;
 import me.shouheng.notepal.activity.QuickActivity;
 import me.shouheng.notepal.Constants;
 

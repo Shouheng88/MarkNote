@@ -5,7 +5,7 @@
     android:minHeight="110dp"
     android:minWidth="250dp"
     android:previewImage="@drawable/list_widget_preview"
-    android:configure="me.shouheng.notepal.activity.ConfigActivity"
+    android:configure="me.shouheng.notepal.desktop.ConfigActivity"
     android:resizeMode="horizontal|vertical"
     android:updatePeriodMillis="300000"
     android:widgetCategory="keyguard|home_screen"/>

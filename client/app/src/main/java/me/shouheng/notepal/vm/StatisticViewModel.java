@@ -1,6 +1,5 @@
 package me.shouheng.notepal.vm;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.graphics.Color;
@@ -34,10 +33,8 @@ import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.commons.utils.ViewUtils;
 import me.shouheng.data.helper.StatisticsHelper;
 import me.shouheng.data.model.Stats;
-import me.shouheng.data.model.enums.ModelType;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.async.NormalAsyncTask;
 
 /**
  * Created by Employee on 2018/3/15.*/
@@ -117,12 +114,6 @@ public class StatisticViewModel extends ViewModel {
         Axis axis = Axis.generateAxisFromCollection(Arrays.asList(0.0f, 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f), days);
         data.setAxisXBottom(axis);
         return data;
-    }
-
-    public LiveData<Resource<List<Integer>>> getAddedModelData(ModelType modelType) {
-        MutableLiveData<Resource<List<Integer>>> result = new MutableLiveData<>();
-        new NormalAsyncTask<>(result, () -> StatisticsHelper.getAddedStatistics(modelType, DAYS_OF_ADDED_MODEL)).execute();
-        return result;
     }
 
     public ColumnChartData getDefaultModelsData() {

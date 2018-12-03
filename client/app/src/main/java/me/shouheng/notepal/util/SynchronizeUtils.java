@@ -12,7 +12,7 @@ import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.SettingsActivity;
-import me.shouheng.notepal.async.onedrive.OneDriveBackupService;
+import me.shouheng.notepal.onedrive.OneDriveBackupService;
 import me.shouheng.notepal.fragment.setting.SettingsBackup;
 import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.notepal.manager.onedrive.DefaultCallback;

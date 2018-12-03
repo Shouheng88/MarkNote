@@ -139,14 +139,14 @@
         </provider>
 
         <service android:name=".async.DataBackupIntentService" />
-        <service android:name=".async.onedrive.OneDriveBackupService" />
+        <service android:name=".onedrive.OneDriveBackupService" />
 
         <activity
             android:name=".activity.LockActivity"
             android:theme="@android:style/Theme.Holo.Dialog.NoActionBar" />
 
         <!-- region App Widget -->
-        <receiver android:name=".widget.desktop.ListWidgetProvider">
+        <receiver android:name=".desktop.ListWidgetProvider">
 
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -158,7 +158,7 @@
 
         </receiver>
 
-        <receiver android:name=".widget.desktop.SimpleWidgetProvider">
+        <receiver android:name=".desktop.SimpleWidgetProvider">
 
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -170,7 +170,7 @@
 
         </receiver>
 
-        <receiver android:name=".widget.desktop.DesktopShortcutAppWidget">
+        <receiver android:name=".desktop.DesktopShortcutAppWidget">
 
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -183,11 +183,11 @@
         </receiver>
 
         <service
-            android:name=".widget.desktop.NotesListWidgetService"
+            android:name=".desktop.NotesListWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
 
         <activity
-            android:name=".activity.ConfigActivity"
+            android:name=".desktop.ConfigActivity"
             android:theme="@style/TransParentDialog">
 
             <intent-filter>

@@ -1,4 +1,4 @@
-package me.shouheng.notepal.async.onedrive;
+package me.shouheng.notepal.onedrive;
 
 import java.util.List;
 import java.util.concurrent.CountDownLatch;

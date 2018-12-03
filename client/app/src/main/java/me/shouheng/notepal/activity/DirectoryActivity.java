@@ -21,7 +21,7 @@ import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.data.model.Directory;
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.async.onedrive.ClearBackupStateTask;
+import me.shouheng.notepal.onedrive.ClearBackupStateTask;
 import me.shouheng.notepal.databinding.ActivityDirectoryBinding;
 import me.shouheng.notepal.dialog.SimpleEditDialog;
 import me.shouheng.notepal.fragment.DirectoriesFragment;

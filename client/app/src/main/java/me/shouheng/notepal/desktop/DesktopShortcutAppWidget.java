@@ -1,4 +1,4 @@
-package me.shouheng.notepal.widget.desktop;
+package me.shouheng.notepal.desktop;
 
 import android.app.PendingIntent;
 import android.content.Context;

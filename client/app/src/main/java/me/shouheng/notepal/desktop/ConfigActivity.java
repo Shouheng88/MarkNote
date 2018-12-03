@@ -1,4 +1,4 @@
-package me.shouheng.notepal.activity;
+package me.shouheng.notepal.desktop;
 
 import android.appwidget.AppWidgetManager;
 import android.content.Context;

@@ -8,7 +8,7 @@ import java.util.Arrays;
 
 import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.widget.desktop.ListWidgetProvider;
+import me.shouheng.notepal.desktop.ListWidgetProvider;
 
 /**
  * Created by wang shouheng on 2018/1/25.*/
