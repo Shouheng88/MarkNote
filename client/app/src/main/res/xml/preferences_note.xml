@@ -10,13 +10,7 @@
         android:summary="@string/setting_note_file_extension_sub"/>
 
     <SwitchPreference
-        android:key="@string/key_auto_compress_image"
-        android:defaultValue="true"
-        android:title="@string/setting_note_compress"
-        android:summary="@string/setting_note_compress_sub" />
-
-    <SwitchPreference
-        android:key="@string/key_key_show_note_expanded"
+        android:key="@string/key_note_expanded_note"
         android:defaultValue="true"
         android:title="@string/setting_note_list_type"
         android:summary="@string/setting_note_list_type_sub"/>

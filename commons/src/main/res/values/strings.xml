@@ -25,6 +25,7 @@
     <string name="text_give_up">Give up</string>
     <string name="text_created">Created</string>
     <string name="text_updated">Updated</string>
+    <string name="text_retry">Retry</string>
     <string name="text_next">Next</string>
     <string name="text_last">Last</string>
     <string name="text_more">More</string>
@@ -53,6 +54,8 @@
     <string name="text_file_not_exist">File not found.</string>
     <string name="text_save_or_discard">Save or discard modification?</string>
     <string name="text_save_successfully">Saved successfully</string>
+    <string name="offline_your_device_is_offline">Your device is offline</string>
+    <string name="offline_check_wifi_state_hint">Check your Wi-Fi or mobile data\n connection and try again</string>
 
     <!-- app commons -->
     <string name="text_add_shortcut">Add shortcut</string>

@@ -376,7 +376,7 @@ public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        boolean isExpanded = PersistData.getBoolean(R.string.key_key_show_note_expanded, true);
+        boolean isExpanded = PersistData.getBoolean(R.string.key_note_expanded_note, true);
         if (isExpanded) {
             // disable list capture when the note list is expanded
             menu.findItem(R.id.action_capture).setVisible(false);

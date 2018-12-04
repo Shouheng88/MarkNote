@@ -12,16 +12,16 @@
         <SwitchPreference android:title="@string/setting_category_personal_beautify_date"
             android:summary="@string/setting_category_personal_beautify_date_sub"
             android:defaultValue="true"
-            android:key="@string/key_setting_theme_beautify_date"/>
+            android:key="@string/key_setting_date_result"/>
 
         <Preference
-            android:key="@string/key_custom_fab"
+            android:key="@string/key_setting_custom_fab"
             android:persistent="false"
             android:title="@string/setting_category_personal_fab"
             android:summary="@string/setting_category_personal_fab_sub"/>
 
         <SwitchPreference android:title="@string/setting_category_personal_navbar"
-            android:key="@string/key_setting_theme_color_nav_bar"
+            android:key="@string/key_setting_nav_bar_result"
             android:defaultValue="true"
             android:summary="@string/setting_category_personal_navbar_sub"/>
 
@@ -31,18 +31,18 @@
 
         <Preference
             android:title="@string/setting_category_universal_note"
-            android:key="@string/key_key_note_settings"
+            android:key="@string/key_setting_note"
             android:persistent="false"
             android:summary="@string/setting_category_universal_note_sub"/>
 
         <Preference
-            android:key="@string/key_data_security"
+            android:key="@string/key_setting_security"
             android:persistent="false"
             android:title="@string/setting_category_universal_security"
             android:summary="@string/setting_category_universal_security_sub" />
 
         <Preference
-            android:key="@string/key_data_backup"
+            android:key="@string/key_setting_backup"
             android:persistent="false"
             android:icon="@drawable/ic_wb_cloudy_black_24dp"
             android:title="@string/setting_category_universal_backup"
@@ -53,13 +53,13 @@
     <PreferenceCategory android:title="@string/setting_category_help">
 
         <Preference
-            android:key="user_guide"
+            android:key="@string/key_setting_guide"
             android:persistent="false"
             android:title="@string/setting_category_help_user_guide"
             android:summary="@string/setting_category_help_user_guide_sub"/>
 
         <Preference
-            android:key="feedback"
+            android:key="@string/key_setting_feedback"
             android:persistent="false"
             android:title="@string/setting_category_help_feedback"
             android:summary="@string/setting_category_help_feedback_sub"/>
@@ -67,25 +67,25 @@
         <Preference android:title="@string/setting_category_help_translate"
             android:persistent="false"
             android:summary="@string/setting_category_help_translate_sub"
-            android:key="@string/key_setting_item_help_translate"/>
+            android:key="@string/key_setting_translate"/>
 
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/setting_category_others">
 
         <Preference
-            android:key="about"
+            android:key="@string/key_setting_about"
             android:persistent="false"
             android:title="@string/setting_category_others_about_app"
             android:summary="@string/setting_category_others_about_app_sub"/>
 
         <Preference android:title="@string/setting_category_others_about_privacy"
             android:persistent="false"
-            android:key="@string/key_setting_item_about_privacy"/>
+            android:key="@string/key_setting_privacy"/>
 
         <Preference android:title="@string/setting_category_others_about_open_source"
             android:persistent="false"
-            android:key="@string/key_setting_item_about_open_source"/>
+            android:key="@string/key_setting_open_source"/>
 
     </PreferenceCategory>
 

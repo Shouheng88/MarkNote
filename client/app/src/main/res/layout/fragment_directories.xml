@@ -12,6 +12,7 @@
             app:empty_image="@drawable/ic_large_folder"
             app:title="@string/setting_backup_onedrive_no_more_folders"
             app:tint_drawable="true"
+            app:default_state_loading="false"
             android:layout_centerInParent="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

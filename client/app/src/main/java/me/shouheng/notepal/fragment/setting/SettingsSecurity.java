@@ -42,7 +42,7 @@ public class SettingsSecurity extends BPreferenceFragment {
 
         addPreferencesFromResource(R.xml.preferences_data_security);
 
-        findPreference(R.string.key_password_required).setOnPreferenceClickListener(preference -> {
+        findPreference(R.string.key_security_psd_required).setOnPreferenceClickListener(preference -> {
             if (TextUtils.isEmpty(lockPreferences.getPassword()) && ((SwitchPreference) preference).isChecked() ) {
                 toSetPassword();
             } else if (((SwitchPreference) preference).isChecked()){
@@ -51,15 +51,15 @@ public class SettingsSecurity extends BPreferenceFragment {
             }
             return true;
         });
-        findPreference(R.string.key_password).setOnPreferenceClickListener(preference -> {
+        findPreference(R.string.key_security_psd).setOnPreferenceClickListener(preference -> {
             toSetPassword();
             return true;
         });
-        findPreference(R.string.key_password_freeze_time).setOnPreferenceClickListener(preference -> {
+        findPreference(R.string.key_security_freeze_time).setOnPreferenceClickListener(preference -> {
             showInputDialog();
             return true;
         });
-        findPreference(R.string.key_password_question).setOnPreferenceClickListener(preference -> {
+        findPreference(R.string.key_security_psd_question).setOnPreferenceClickListener(preference -> {
             showQuestionEditor();
             return true;
         });
@@ -177,7 +177,7 @@ public class SettingsSecurity extends BPreferenceFragment {
                 if (resultCode != Activity.RESULT_OK && TextUtils.isEmpty(lockPreferences.getPassword())) {
                     /* remove the password requirement if the password is not set */
                     lockPreferences.setPasswordRequired(false);
-                    ((SwitchPreference) findPreference(R.string.key_password_required)).setChecked(false);
+                    ((SwitchPreference) findPreference(R.string.key_security_psd_required)).setChecked(false);
                 } else {
                     showAlertIfNecessary();
                 }

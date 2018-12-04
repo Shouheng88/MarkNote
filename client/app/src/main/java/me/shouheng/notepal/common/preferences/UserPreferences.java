@@ -45,7 +45,7 @@ public class UserPreferences extends BasePreferences {
     }
 
     public List<FabSortItem> getFabSortResult() {
-        String fabStr = getString(getKey(R.string.key_fab_sort_result), null);
+        String fabStr = getString(getKey(R.string.key_setting_custom_fab_result), null);
         if (!TextUtils.isEmpty(fabStr)) {
             String[] fabs = fabStr.split(ITEM_SORT_SPLIT);
             List<FabSortItem> fabSortItems = new LinkedList<>();
@@ -68,7 +68,7 @@ public class UserPreferences extends BasePreferences {
                 fabStr.append(fabSortItems.get(i).name()).append(ITEM_SORT_SPLIT);
             }
         }
-        putString(getKey(R.string.key_fab_sort_result), fabStr.toString());
+        putString(getKey(R.string.key_setting_custom_fab_result), fabStr.toString());
     }
 
     public int getTimeLineColor(Operation operation) {

@@ -55,14 +55,13 @@ public class WebviewFragment extends CommonFragment<FragmentWebviewBinding> impl
         }
         usePageTitle = arguments.getBoolean(ARGUMENT_KEY_USE_PAGE_TITLE);
 
-        // TODO the custom error page.
         mAgentWeb = AgentWeb.with(this)
                 .setAgentWebParent(getBinding().llContainer, -1, new LinearLayout.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
                 .useDefaultIndicator(accentColor(), 3)
                 .setWebChromeClient(mWebChromeClient)
                 .setSecurityType(AgentWeb.SecurityType.STRICT_CHECK)
-                .setMainFrameErrorView(R.layout.agentweb_error_page, -1)
+                .setMainFrameErrorView(R.layout.layout_network_error_page, R.id.btn_retry)
                 .setOpenOtherPageWays(DefaultWebClient.OpenOtherPageWays.DISALLOW)
                 .interceptUnkownUrl()
                 .createAgentWeb()

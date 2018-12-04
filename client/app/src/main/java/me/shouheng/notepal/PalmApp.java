@@ -5,30 +5,6 @@ import com.facebook.stetho.Stetho;
 import me.shouheng.commons.BaseApplication;
 
 /**
- * TODO All the todo items in later version:
- *
- * 1. Add ringtone to {@link me.shouheng.notepal.async.DataBackupIntentService} when included the notification logic;
- * 3. Add Google Drive logic, check if the file has backup time in google drive;
- * 6. Modify import from external logic, since current logic did nothing according to the db version and change,
- *    You may also research the performance when the db version is different.
- * 7. Refine NoteViewFragment performance;
- * 8. Add sortable selections in list fragment.
- * 9. Location logic of foreign country;
- * 10. Weather logic, only add weather data in db;
- * 11. Statistic;
- * 12. Calendar + Timeline;
- * 13. Google map location info;
- * 14. Multiple platform statistics and user trace;
- * 21. Share html and associated resources, note content and resources.
- *
- * 不要让用户做太多的选择！
- * 只要一个主线功能就行！
- *
- * Official account:
- * 1. Contact email: shouheng2015@gmail.com
- * 2. Fabric: shouheng2015@gmail.com
- * 3. One Drive: w_shouheng@163.com
- *
  * 重点：
  * 1.自动刷新到新的笔记历史栈里面，防止数据丢失；
  * 2.笔记编辑界面底部的按钮可以自定义，现在的按钮位置需要调整；
@@ -40,7 +16,8 @@ import me.shouheng.commons.BaseApplication;
  * TODO 指纹解锁
  * TODO Permissions check, storage!!
  *
- * Created by wangshouheng on 2017/2/26.
+ * Created by WngShhng with passion and love on 2017/2/26..
+ * Contact me : shouheng2015@gmail.com.
  */
 public class PalmApp extends BaseApplication {
 

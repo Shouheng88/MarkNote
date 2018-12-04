@@ -34,11 +34,11 @@ public class ThemeUtils {
     }
 
     public ThemeStyle getThemeStyle() {
-        return ThemeStyle.getThemeStyleById(PersistData.getInt(R.string.key_theme_style_id, ThemeStyle.LIGHT_BLUE_THEME.id));
+        return ThemeStyle.getThemeStyleById(PersistData.getInt(R.string.key_setting_theme_result, ThemeStyle.LIGHT_BLUE_THEME.id));
     }
 
     public void setThemeStyle(ThemeStyle themeStyle) {
-        PersistData.putInt(R.string.key_theme_style_id, themeStyle.id);
+        PersistData.putInt(R.string.key_setting_theme_result, themeStyle.id);
     }
 
     public static void customStatusBar(ThemedActivity activity) {

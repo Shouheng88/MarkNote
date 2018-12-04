@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <me.shouheng.commons.widget.recycler.EmptyView
+        android:id="@+id/ev"
+        app:empty_image="@drawable/ic_error_outline"
+        app:title="@string/offline_your_device_is_offline"
+        app:sub_title="@string/offline_check_wifi_state_hint"
+        app:tint_drawable="true"
+        app:default_state_loading="false"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/btn_retry"
+        android:text="@string/text_retry"
+        android:layout_marginTop="20dp"
+        android:background="?colorAccent"
+        android:textColor="@android:color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp" />
+
+</LinearLayout>

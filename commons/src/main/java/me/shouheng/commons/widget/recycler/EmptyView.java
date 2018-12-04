@@ -16,8 +16,6 @@ import me.shouheng.commons.databinding.WidgetEmptyViewBinding;
 import me.shouheng.commons.utils.ColorUtils;
 
 /**
- * Standard empty view for recycler view.
- *
  * Created by WngShhng on 2017/8/9.
  */
 public class EmptyView extends LinearLayout {
@@ -53,7 +51,10 @@ public class EmptyView extends LinearLayout {
         tintDrawable = attr.getBoolean(R.styleable.EmptyView_tint_drawable, false);
         String bottomTitle = attr.getString(R.styleable.EmptyView_title);
         String bottomSubTitle = attr.getString(R.styleable.EmptyView_sub_title);
+        boolean loading = attr.getBoolean(R.styleable.EmptyView_default_state_loading, true);
         attr.recycle();
+
+        setEmptyViewState(loading);
 
         binding.tvBottomTitle.setText(bottomTitle);
         binding.tvBottomSubTitle.setText(bottomSubTitle);
@@ -106,19 +107,20 @@ public class EmptyView extends LinearLayout {
      * Show the empty image instead of progressbar.
      */
     public void showEmptyIcon() {
-        binding.ivImage.setVisibility(VISIBLE);
-        binding.tvBottomTitle.setVisibility(VISIBLE);
-        binding.tvBottomSubTitle.setVisibility(VISIBLE);
-        binding.pb.setVisibility(GONE);
+        setEmptyViewState(false);
     }
 
     /**
      * Show the progressbar instead of empty image.
      */
     public void showProgressBar() {
-        binding.ivImage.setVisibility(GONE);
-        binding.tvBottomTitle.setVisibility(GONE);
-        binding.tvBottomSubTitle.setVisibility(GONE);
-        binding.pb.setVisibility(VISIBLE);
+        setEmptyViewState(true);
+    }
+
+    private void setEmptyViewState(boolean loading) {
+        binding.ivImage.setVisibility(loading ? GONE : VISIBLE);
+        binding.tvBottomTitle.setVisibility(loading ? GONE : VISIBLE);
+        binding.tvBottomSubTitle.setVisibility(loading ? GONE : VISIBLE);
+        binding.pb.setVisibility(loading ? VISIBLE : GONE);
     }
 }

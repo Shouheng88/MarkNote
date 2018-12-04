@@ -34,74 +34,74 @@ public class SyncPreferences extends BasePreferences {
     }
 
     public SyncTimeInterval getSyncTimeInterval() {
-        return SyncTimeInterval.getTypeById(getInt(R.string.key_sync_time_interval, SyncTimeInterval.EVERY_30_MINUTES.id));
+        return SyncTimeInterval.getTypeById(getInt(R.string.key_backup_time_interval, SyncTimeInterval.EVERY_30_MINUTES.id));
     }
 
     public void setSyncTimeInterval(SyncTimeInterval syncTimeInterval) {
-        putInt(R.string.key_sync_time_interval, syncTimeInterval.id);
+        putInt(R.string.key_backup_time_interval, syncTimeInterval.id);
     }
 
     public long getOneDriveLastSyncTime() {
-        return getLong(R.string.key_one_drive_last_sync_time, 0);
+        return getLong(R.string.key_onedrive_last_sync_time, 0);
     }
 
     public void setOneDriveLastSyncTime(long lastSyncTime) {
-        putLong(R.string.key_one_drive_last_sync_time, lastSyncTime);
+        putLong(R.string.key_onedrive_last_sync_time, lastSyncTime);
     }
 
     public String getOneDriveBackupItemId() {
-        return getString(R.string.key_one_drive_backup_dir_item_id, null);
+        return getString(R.string.key_onedrive_backup_dir_item_id, null);
     }
 
     public void setOneDriveBackupItemId(String itemId) {
-        putString(R.string.key_one_drive_backup_dir_item_id, itemId);
+        putString(R.string.key_onedrive_backup_dir_item_id, itemId);
     }
 
     public String getOneDriveLastBackupItemId() {
-        return getString(R.string.key_one_drive_last_backup_dir_item_id, null);
+        return getString(R.string.key_onedrive_last_backup_dir_item_id, null);
     }
 
     public void setOneDriveLastBackupItemId(String itemId) {
-        putString(R.string.key_one_drive_last_backup_dir_item_id, itemId);
+        putString(R.string.key_onedrive_last_backup_dir_item_id, itemId);
     }
 
     public void setOneDriveFilesBackupItemId(String itemId) {
-        putString(R.string.key_one_drive_files_backup_dir_item_id, itemId);
+        putString(R.string.key_onedrive_files_backup_dir_item_id, itemId);
     }
 
     public String getOneDriveFilesBackupItemId() {
-        return getString(R.string.key_one_drive_files_backup_dir_item_id, null);
+        return getString(R.string.key_onedrive_files_backup_dir_item_id, null);
     }
 
     public long getOneDriveDatabaseLastSyncTime() {
-        return getLong(R.string.key_one_drive_database_last_sync_time, 0);
+        return getLong(R.string.key_onedrive_database_last_sync_time, 0);
     }
 
     public void setOneDriveDatabaseLastSyncTime(long lastSyncTime) {
-        putLong(R.string.key_one_drive_database_last_sync_time, lastSyncTime);
+        putLong(R.string.key_onedrive_database_last_sync_time, lastSyncTime);
     }
 
     public long getOneDrivePreferenceLastSyncTime() {
-        return getLong(R.string.key_one_drive_preferences_last_sync_time, 0);
+        return getLong(R.string.key_onedrive_preferences_last_sync_time, 0);
     }
 
     public void setOneDrivePreferenceLastSyncTime(long lastSyncTime) {
-        putLong(R.string.key_one_drive_preferences_last_sync_time, lastSyncTime);
+        putLong(R.string.key_onedrive_preferences_last_sync_time, lastSyncTime);
     }
 
     public String getOneDriveDatabaseItemId() {
-        return getString(R.string.key_one_drive_database_item_id, null);
+        return getString(R.string.key_onedrive_database_item_id, null);
     }
 
     public void setOneDriveDatabaseItemId(String itemId) {
-        putString(R.string.key_one_drive_database_item_id, itemId);
+        putString(R.string.key_onedrive_database_item_id, itemId);
     }
 
     public String getOneDrivePreferencesItemId() {
-        return getString(R.string.key_one_drive_preferences_item_id, null);
+        return getString(R.string.key_onedrive_preferences_item_id, null);
     }
 
     public void setOneDrivePreferencesItemId(String itemId) {
-        putString(R.string.key_one_drive_preferences_item_id, itemId);
+        putString(R.string.key_onedrive_preferences_item_id, itemId);
     }
 }

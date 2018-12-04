@@ -132,10 +132,6 @@ public interface Constants extends BaseConstants {
      */
     String NOTE_FILE_ENCODING = "utf-8";
 
-
-    /**
-     * Schemas for Http and Https, used to detect the url type.
-     */
     String URI_SCHEME_HTTPS = "https";
     String URI_SCHEME_HTTP = "http";
 
@@ -150,17 +146,27 @@ public interface Constants extends BaseConstants {
     String EXTENSION_MP4 = ".mp4";
     String EXTENSION_PDF = ".pdf";
 
-    String GITHUB_PAGE = "https://github.com/Shouheng88/NotePal";
-    String GOOGLE_PLUS_URL = "https://plus.google.com/u/1/communities/102252970668657211916";
-    String WEIBO_PAGE = "https://weibo.com/5401152113/profile?rightmod=1&wvr=6&mod=personinfo";
-    String TWITTER_PAGE = "https://twitter.com/ShouhengWang";
-    String AVATAR_WNGSHHNG = "https://github.com/Shouheng88/MarkNote/blob/master/resources/images/avatar_wngshhng.jpg?raw=true";
-    String USER_WNGSHHNG = "https://github.com/Shouheng88";
-    String GUIDE_PAGE = "https://github.com/Shouheng88/MarkNote/blob/master/resources/%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C.md";
-    String PRIVACY_PAGE = "https://github.com/Shouheng88/MarkNote/blob/master/resources/%E9%9A%90%E7%A7%81%E6%94%BF%E7%AD%96.md";
-    String FEEDBACK_CHINESE = "http://fnlefu0fqyo8miz7.mikecrm.com/IR50hog";
-    String FEEDBACK_ENGLISH = "http://fnlefu0fqyo8miz7.mikecrm.com/nwGEX3r";
-    String DEVELOPER_EMAIL = "shouheng2015@gmail.com";
+
+    String PAGE_GOOGLE_PLUS = "https://plus.google.com/u/1/communities/102252970668657211916";
+    String PAGE_WEIBO = "https://weibo.com/5401152113/profile?rightmod=1&wvr=6&mod=personinfo";
+    String PAGE_TWITTER = "https://twitter.com/ShouhengWang";
+
+    String IMAGE_AVATAR_DEVELOPER = "https://github.com/Shouheng88/MarkNote/blob/master/resources/images/avatar_wngshhng.jpg?raw=true";
+
+    String PAGE_GITHUB_REPOSITORY = "https://github.com/Shouheng88/NotePal";
+    String PAGE_GITHUB_DEVELOPER = "https://github.com/Shouheng88";
+
+    String PAGE_GUIDE = "https://github.com/Shouheng88/MarkNote/blob/master/resources/%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C.md";
+    String PAGE_PRIVACY = "https://github.com/Shouheng88/MarkNote/blob/master/resources/%E9%9A%90%E7%A7%81%E6%94%BF%E7%AD%96.md";
+    String PAGE_CHANGE_LOGS = "https://github.com/Shouheng88/MarkNote/blob/master/resources/%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97.md";
+    String PAGE_UPDATE_PLAN = "https://github.com/Shouheng88/MarkNote/blob/master/resources/%E6%9B%B4%E6%96%B0%E8%AE%A1%E5%88%92.md";
+    String PAGE_TRANSLATE = "https://github.com/Shouheng88/MarkNote/blob/master/resources/%E5%8D%8F%E5%8A%A9%E7%BF%BB%E8%AF%91.md";
+    String PAGE_ABOUNT = "https://github.com/Shouheng88/MarkNote/blob/master/resources/%E5%85%B3%E4%BA%8E%E5%BA%94%E7%94%A8.md";
+
+    String PAGE_FEEDBACK_CHINESE = "http://fnlefu0fqyo8miz7.mikecrm.com/IR50hog";
+    String PAGE_FEEDBACK_ENGLISH = "http://fnlefu0fqyo8miz7.mikecrm.com/nwGEX3r";
+
+    String EMAIL_DEVELOPER = "shouheng2015@gmail.com";
 
 
     String REA_PUBLIC_KEY = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQD0diKVSZ/U/KHuxZFYac3lLq7K\n" +
@@ -180,10 +186,6 @@ public interface Constants extends BaseConstants {
      */
     String REGEX_NOTE_PREVIEW_IMAGE = "!\\[.*]\\(.+.\\)";
 
-    // endregion regex expression
-
-    long AGAIN_EXIT_TIME_INTERVAL = 2000;
-
 
     String HTML_EXPORT_DIR_NAME = "ExportedHtml";
     String TEXT_EXPORT_DIR_NAME = "ExportedText";
@@ -192,4 +194,7 @@ public interface Constants extends BaseConstants {
 
     String BACKUP_DIR_NAME = "NotePal";
     String FILES_BACKUP_DIR_NAME = "files";
+
+
+    long AGAIN_EXIT_TIME_INTERVAL = 2000;
 }

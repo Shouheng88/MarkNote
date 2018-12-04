@@ -62,8 +62,8 @@ public class QuickActivity extends PermissionActivity {
     }
 
     private void checkPsdIfNecessary(Bundle savedInstanceState) {
-        boolean psdRequired = PersistData.getBoolean(R.string.key_password_required, false);
-        String psd = PersistData.getString(R.string.key_password, null);
+        boolean psdRequired = PersistData.getBoolean(R.string.key_security_psd_required, false);
+        String psd = PersistData.getString(R.string.key_security_psd, null);
         if (psdRequired && !PalmApp.isPasswordChecked() && !TextUtils.isEmpty(psd)) {
             LockActivity.requireLaunch(this, REQUEST_PASSWORD);
         } else {

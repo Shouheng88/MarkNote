@@ -13,7 +13,8 @@ import me.shouheng.notepal.R;
 import static me.shouheng.commons.event.RxMessage.CODE_NOTE_LIST_STYLE_CHANGED;
 
 /**
- * Created by shouh on 2018/3/21.*/
+ * Created by shouh on 2018/3/21.
+ */
 public class SettingsNote extends BPreferenceFragment {
 
     @Override
@@ -25,7 +26,7 @@ public class SettingsNote extends BPreferenceFragment {
 
         addPreferencesFromResource(R.xml.preferences_note);
 
-        findPreference(R.string.key_key_show_note_expanded).setOnPreferenceClickListener(preference -> {
+        findPreference(R.string.key_note_expanded_note).setOnPreferenceClickListener(preference -> {
             RxBus.getRxBus().post(new RxMessage(CODE_NOTE_LIST_STYLE_CHANGED, null));
             return true;
         });

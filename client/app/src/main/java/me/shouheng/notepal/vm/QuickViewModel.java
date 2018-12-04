@@ -62,7 +62,7 @@ public class QuickViewModel extends ViewModel {
                     note.setContent(content);
                     note.setTitle(NoteManager.getTitle(quickNote.getContent(), quickNote.getContent()));
                     note.setPreviewImage(quickNote.getPicture());
-                    note.setPreviewContent(NoteManager.getPreview(quickNote.getContent()));
+                    note.setPreviewContent(NoteManager.getPreview(note.getContent()));
 
                     /* Save note to the file system. */
                     String extension = UserPreferences.getInstance().getNoteFileExtension();

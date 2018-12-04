@@ -26,7 +26,7 @@ import java.util.ArrayList;
 
 import me.shouheng.commons.theme.SystemUiVisibilityUtil;
 import me.shouheng.commons.theme.ThemeUtils;
-import me.shouheng.commons.utils.ColorUtils;
+import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.commons.utils.ViewUtils;
 import me.shouheng.commons.widget.DepthPageTransformer;
@@ -39,20 +39,18 @@ import ooo.oxo.library.widget.PullBackLayout;
 
 public class GalleryActivity extends AppCompatActivity implements PullBackLayout.Callback {
 
-    private boolean fullScreenMode;
-    private ColorDrawable mBackground;
+    public final static String EXTRA_GALLERY_IMAGES = "__extra_gallery_images";
+    public final static String EXTRA_GALLERY_TITLE = "__extra_gallery_title";
+    public final static String EXTRA_GALLERY_CLICKED_IMAGE = "__extra_gallery_clicked_image";
 
+    private ColorDrawable mBackground;
     private HackyViewPager mViewPager;
     private Toolbar toolbar;
 
-    public final static String EXTRA_GALLERY_IMAGES = "extra_gallery_images";
-    public final static String EXTRA_GALLERY_CLICKED_IMAGE = "extra_gallery_clicked_image";
-    public final static String EXTRA_GALLERY_TITLE = "extra_gallery_title";
-
     private ArrayList<Attachment> attachments;
-
     private int clickedImage;
     private String title = "";
+    private boolean fullScreenMode;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,22 +67,22 @@ public class GalleryActivity extends AppCompatActivity implements PullBackLayout
     private void handleIntent(Bundle savedInstanceState) {
         attachments = new ArrayList<>();
         clickedImage = 0;
-        if (getIntent() != null){
-            attachments = getIntent().getParcelableArrayListExtra(EXTRA_GALLERY_IMAGES);
-            title = getIntent().getStringExtra(EXTRA_GALLERY_TITLE);
-            clickedImage = getIntent().getIntExtra(EXTRA_GALLERY_CLICKED_IMAGE, 0);
-        }
-
-        if (savedInstanceState != null){
+        if (savedInstanceState == null) {
+            Intent intent = getIntent();
+            attachments = intent.getParcelableArrayListExtra(EXTRA_GALLERY_IMAGES);
+            title = intent.getStringExtra(EXTRA_GALLERY_TITLE);
+            clickedImage = intent.getIntExtra(EXTRA_GALLERY_CLICKED_IMAGE, 0);
+        } else {
             attachments = savedInstanceState.getParcelableArrayList(EXTRA_GALLERY_IMAGES);
             title = savedInstanceState.getString(EXTRA_GALLERY_TITLE);
             clickedImage = savedInstanceState.getInt(EXTRA_GALLERY_CLICKED_IMAGE, 0);
         }
+        LogUtils.d(attachments);
+        LogUtils.d(clickedImage);
     }
 
     private void configToolbar() {
         toolbar = findViewById(R.id.toolbar);
-        
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -102,7 +100,7 @@ public class GalleryActivity extends AppCompatActivity implements PullBackLayout
         setupSystemUI();
 
         getWindow().getDecorView().setOnSystemUiVisibilityChangeListener(visibility -> {
-            if ((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0){
+            if ((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0) {
                 showSystemUI();
             } else {
                 hideSystemUI();
@@ -118,7 +116,7 @@ public class GalleryActivity extends AppCompatActivity implements PullBackLayout
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { }
 
             @Override
             public void onPageSelected(int position) {
@@ -127,7 +125,7 @@ public class GalleryActivity extends AppCompatActivity implements PullBackLayout
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {}
+            public void onPageScrollStateChanged(int state) { }
         });
 
         Display aa = ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay();
@@ -188,7 +186,7 @@ public class GalleryActivity extends AppCompatActivity implements PullBackLayout
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        ThemeUtils.themeMenu(menu, ColorUtils.isDarkTheme());
+        ThemeUtils.themeMenu(menu, true);
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -210,9 +208,9 @@ public class GalleryActivity extends AppCompatActivity implements PullBackLayout
                 intent.setType(FileManager.getMimeType(this, attachment.getUri()));
                 intent.putExtra(Intent.EXTRA_STREAM, attachment.getUri());
                 startActivity(intent);
+                break;
             }
-            break;
-            case R.id.action_open:{
+            case R.id.action_open: {
                 try {
                     Attachment attachment = attachments.get(mViewPager.getCurrentItem());
                     Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -222,8 +220,8 @@ public class GalleryActivity extends AppCompatActivity implements PullBackLayout
                 } catch (ActivityNotFoundException e) {
                     ToastUtils.makeToast(R.string.text_failed_to_resolve_intent);
                 }
+                break;
             }
-            break;
             case R.id.action_info:
                 break;
         }
@@ -267,9 +265,9 @@ public class GalleryActivity extends AppCompatActivity implements PullBackLayout
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
         outState.putParcelableArrayList(EXTRA_GALLERY_IMAGES, attachments);
         outState.putString(EXTRA_GALLERY_TITLE, title);
         outState.putInt(EXTRA_GALLERY_CLICKED_IMAGE, clickedImage);
-        super.onSaveInstanceState(outState);
     }
 }

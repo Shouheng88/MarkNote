@@ -2,6 +2,7 @@ package me.shouheng.notepal.fragment;
 
 import android.app.Activity;
 import android.arch.lifecycle.Observer;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -43,6 +45,7 @@ import me.shouheng.commons.helper.FragmentHelper;
 import me.shouheng.commons.model.data.Resource;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.IntentUtils;
+import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.commons.utils.ViewUtils;
@@ -129,6 +132,12 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
 
     /**
      * Config basic behaviors of views, that is, values not associated with note information.
+     *
+     * In this method we used a base code of current system millis and then add the attachment index
+     * to it to get the final code. Since we use the code to judge if two attachment are a same:
+     * 1. {@link Attachment#equals(Object)} method has been override;
+     * 2. {@link AttachmentHelper#resolveImages(Context, Attachment, List, String)} use the equal method
+     * to judge attachment.
      */
     private void prepareViews() {
         /* Config Toolbar. */
@@ -147,11 +156,16 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
         getBinding().emv.getFastScrollDelegate().setThumbDynamicHeight(false);
         getBinding().emv.useStyleCss(isDarkTheme() ? EasyMarkViewer.DARK_STYLE_CSS : EasyMarkViewer.LIGHT_STYLE_CSS);
         getBinding().emv.setOnImageClickListener((url, urls) -> {
-            // TODO the clicked image position
+            LogUtils.d(url);
+            LogUtils.d(Arrays.toString(urls));
             List<Attachment> attachments = new ArrayList<>();
             Attachment clickedAttachment = null, attachment;
+            int index = 0;
+            long codeBase = System.currentTimeMillis();
             for (String u : urls) {
                 attachment = ModelFactory.getAttachment();
+                /* Replace the code of default attachment, since we use the code to judge is two attachment the same. */
+                attachment.setCode(codeBase + index++);
                 attachment.setUri(Uri.parse(u));
                 attachment.setMineType(Constants.MIME_TYPE_IMAGE);
                 attachments.add(attachment);

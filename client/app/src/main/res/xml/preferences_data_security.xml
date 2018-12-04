@@ -2,25 +2,25 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <SwitchPreference
-        android:key="@string/key_password_required"
+        android:key="@string/key_security_psd_required"
         android:defaultValue="false"
         android:title="@string/setting_security_psd_enable"
         android:summary="@string/setting_security_psd_enable_sub"/>
 
     <Preference
-        android:key="@string/key_password"
+        android:key="@string/key_security_psd"
         android:persistent="false"
         android:title="@string/setting_security_psd"
         android:summary="@string/setting_security_psd_sub"/>
 
     <Preference
-        android:key="@string/key_password_freeze_time"
+        android:key="@string/key_security_freeze_time"
         android:persistent="false"
         android:title="@string/setting_security_psd_freeze"
         android:summary="@string/setting_security_psd_freeze_sub" />
 
     <Preference
-        android:key="@string/key_password_question"
+        android:key="@string/key_security_psd_question"
         android:persistent="false"
         android:title="@string/setting_security_question"
         android:summary="@string/setting_security_question_sub"/>

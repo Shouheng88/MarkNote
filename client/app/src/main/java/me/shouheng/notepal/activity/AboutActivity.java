@@ -75,7 +75,7 @@ public class AboutActivity extends CommonActivity<ActivityAboutBinding> {
             aboutEntities.add(AboutEntity.getNormalText(
                     Html.fromHtml(String.format(PalmUtils.getStringCompact(R.string.about_section_description_details), appName, appName))));
             aboutEntities.add(AboutEntity.getSectionTitle(PalmUtils.getStringCompact(R.string.about_section_developer)));
-            aboutEntities.add(AboutEntity.getUser("WngShhng", Constants.AVATAR_WNGSHHNG, PalmUtils.getStringCompact(R.string.about_section_developer_desc)));
+            aboutEntities.add(AboutEntity.getUser("WngShhng", Constants.IMAGE_AVATAR_DEVELOPER, PalmUtils.getStringCompact(R.string.about_section_developer_desc)));
         }
         aboutEntities.add(AboutEntity.getSectionTitle(PalmUtils.getStringCompact(R.string.about_section_open_sources)));
         aboutEntities.add(AboutEntity.getLicense("PhotoView", "Chris Banes", AboutEntity.License.APACHE_2, "https://github.com/chrisbanes/PhotoView"));
@@ -98,7 +98,7 @@ public class AboutActivity extends CommonActivity<ActivityAboutBinding> {
             assert aboutEntity != null;
             switch (aboutEntity.type) {
                 case AboutEntity.typeUser:
-                    IntentUtils.openWebPage(getContext(), Constants.USER_WNGSHHNG);
+                    IntentUtils.openWebPage(getContext(), Constants.PAGE_GITHUB_DEVELOPER);
                     break;
                 case AboutEntity.typeLicense:
                     IntentUtils.openWebPage(getContext(), aboutEntity.license.url);

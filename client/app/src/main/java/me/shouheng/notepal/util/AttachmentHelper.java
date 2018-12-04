@@ -17,6 +17,7 @@ import com.zhihu.matisse.filter.Filter;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -26,6 +27,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import me.shouheng.commons.image.GifSizeFilter;
 import me.shouheng.commons.utils.IntentUtils;
+import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.data.ModelFactory;
@@ -468,22 +470,26 @@ public class AttachmentHelper {
                                       Attachment attachment,
                                       List<Attachment> attachments,
                                       String galleryTitle) {
-        int clickedImage = 0;
+        LogUtils.d(attachment);
+        LogUtils.d(Arrays.toString(attachments.toArray(new Attachment[0])));
+        int clickedPosition = 0;
         ArrayList<Attachment> images = new ArrayList<>();
-        for (Attachment mAttachment : attachments) {
-            if (Constants.MIME_TYPE_IMAGE.equals(mAttachment.getMineType())
-                    || Constants.MIME_TYPE_SKETCH.equals(mAttachment.getMineType())
-                    || Constants.MIME_TYPE_VIDEO.equals(mAttachment.getMineType())) {
-                images.add(mAttachment);
-                if (mAttachment.equals(attachment)) {
-                    clickedImage = images.size() - 1;
+        for (Attachment a : attachments) {
+            if (Constants.MIME_TYPE_IMAGE.equals(a.getMineType())
+                    || Constants.MIME_TYPE_SKETCH.equals(a.getMineType())
+                    || Constants.MIME_TYPE_VIDEO.equals(a.getMineType())) {
+                images.add(a);
+                /* Attention: the default equal method of Attachment has been override. */
+                if (a.equals(attachment)) {
+                    clickedPosition = images.size() - 1;
                 }
             }
         }
+        LogUtils.d(clickedPosition);
         Intent intent = new Intent(context, GalleryActivity.class);
         intent.putExtra(GalleryActivity.EXTRA_GALLERY_TITLE, galleryTitle);
         intent.putParcelableArrayListExtra(GalleryActivity.EXTRA_GALLERY_IMAGES, images);
-        intent.putExtra(GalleryActivity.EXTRA_GALLERY_CLICKED_IMAGE, clickedImage);
+        intent.putExtra(GalleryActivity.EXTRA_GALLERY_CLICKED_IMAGE, clickedPosition);
         context.startActivity(intent);
     }
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:paddingBottom="4dp"
     android:paddingTop="16dp"
@@ -12,6 +13,7 @@
 
         <me.shouheng.commons.widget.recycler.EmptyView
             android:id="@+id/iv_empty"
+            app:default_state_loading="false"
             android:layout_gravity="center"
             android:layout_centerInParent="true"
             android:layout_width="wrap_content"

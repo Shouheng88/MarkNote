@@ -66,33 +66,33 @@ public class SettingsBackup extends BPreferenceFragment {
     }
 
     private void setPreferenceClickListeners() {
-        findPreference(R.string.key_backup_to_external_storage).setOnPreferenceClickListener(preference -> {
+        findPreference(R.string.key_backup_external).setOnPreferenceClickListener(preference -> {
             PermissionUtils.checkStoragePermission((CommonActivity) getActivity(), this::showBackupNameEditor);
             return true;
         });
-        findPreference(R.string.import_from_external_storage).setOnPreferenceClickListener(preference -> {
+        findPreference(R.string.key_backup_import).setOnPreferenceClickListener(preference -> {
             PermissionUtils.checkStoragePermission((CommonActivity) getActivity(), this::showExternalBackupImport);
             return true;
         });
-        findPreference(R.string.delete_external_storage_backup).setOnPreferenceClickListener(preference -> {
+        findPreference(R.string.key_backup_delete).setOnPreferenceClickListener(preference -> {
             PermissionUtils.checkStoragePermission((CommonActivity) getActivity(), this::showExternalBackupDelete);
             return true;
         });
 
-        prefTimeInterval = findPreference(R.string.key_sync_time_interval);
+        prefTimeInterval = findPreference(R.string.key_backup_time_interval);
         prefTimeInterval.setOnPreferenceClickListener(preference -> {
             timeIntervalPicker();
             return true;
         });
         refreshTimeInterval();
 
-        prefOneDrive = findPreference(R.string.key_one_drive_backup);
+        prefOneDrive = findPreference(R.string.key_backup_onedrive_singin);
         prefOneDrive.setOnPreferenceClickListener(preference -> {
             PermissionUtils.checkStoragePermission((CommonActivity) getActivity(), this::connectOneDrive);
             return true;
         });
 
-        prefOneDriveSignOut = findPreference(R.string.key_one_drive_sign_out);
+        prefOneDriveSignOut = findPreference(R.string.key_backup_onedrvie_signout);
         prefOneDriveSignOut.setOnPreferenceClickListener(preference -> {
             OneDriveManager oneDriveManager = OneDriveManager.getInstance();
             oneDriveManager.signOut();

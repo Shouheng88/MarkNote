@@ -1,88 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="key_theme_style_id" translatable="false">__theme_style_id</string>
-    <string name="key_setting_theme" translatable="false">__key_setting_item_theme</string>
-    <string name="key_setting_theme_beautify_date" translatable="false">__key_setting_item_beautify_date</string>
-    <string name="key_setting_theme_color_nav_bar" translatable="false">__colored_navigation_bar</string>
+    <!-- This file is used to define the keys for preference files. The value with prefix '____'
+    is used in xml and preference keys. The value without it is only used as xml keys.-->
 
-    <string name="key_sync_time_interval" translatable="false">key_sync_time_interval</string>
-    <string name="key_one_drive_last_sync_time" translatable="false">key_one_drive_last_sync_time</string>
-    <string name="key_backup_only_wifi" translatable="false">key_backup_only_wifi</string>
-    <string name="key_one_drive_backup_dir_item_id" translatable="false">key_one_drive_backup_dir_item_id</string>
-    <string name="key_one_drive_last_backup_dir_item_id" translatable="false">key_one_drive_last_backup_dir_item_id</string>
-    <string name="key_one_drive_files_backup_dir_item_id" translatable="false">key_one_drive_files_backup_dir_item_id</string>
-    <string name="key_one_drive_database_last_sync_time" translatable="false">key_one_drive_database_last_sync_time</string>
-    <string name="key_one_drive_preferences_last_sync_time" translatable="false">key_one_drive_preferences_last_sync_time</string>
-    <string name="key_one_drive_database_item_id" translatable="false">key_one_drive_database_item_id</string>
-    <string name="key_one_drive_preferences_item_id" translatable="false">key_one_drive_preferences_item_id</string>
-    <string name="key_one_drive_sign_out" translatable="false">key_one_drive_sign_out</string>
-    <string name="key_one_drive_backup" translatable="false">key_one_drive_backup</string>
-    <string name="delete_external_storage_backup" translatable="false">delete_external_storage_backup</string>
-    <string name="import_from_external_storage" translatable="false">import_from_external_storage</string>
-    <string name="key_backup_to_external_storage" translatable="false">backup_to_external_storage</string>
+    <!-- setting -->
+    <string name="key_setting_theme" translatable="false">theme</string>
+    <string name="key_setting_theme_result" translatable="false">____theme_style_id</string>
+    <string name="key_setting_date_result" translatable="false">____is_beautify_date</string>
+    <string name="key_setting_custom_fab" translatable="false">fab</string>
+    <string name="key_setting_custom_fab_result" translatable="false">____fab_sort_result</string>
+    <string name="key_setting_nav_bar_result" translatable="false">____colored_navigation_bar</string>
+    <string name="key_setting_note" translatable="false">note</string>
+    <string name="key_setting_security" translatable="false">data_security</string>
+    <string name="key_setting_backup" translatable="false">data_backup</string>
+    <string name="key_setting_guide" translatable="false">user_guide</string>
+    <string name="key_setting_feedback" translatable="false">feedback</string>
+    <string name="key_setting_translate" translatable="false">translate</string>
+    <string name="key_setting_about" translatable="false">about</string>
+    <string name="key_setting_privacy" translatable="false">privacy</string>
+    <string name="key_setting_open_source" translatable="false">open_source</string>
 
-    <!--region note-->
-    <string name="key_auto_compress_image" translatable="false">key_auto_compress_image</string>
-    <string name="key_note_file_extension" translatable="false">note_file_extension</string>
-    <string name="key_key_show_note_expanded" translatable="false">key_show_note_expanded</string>
-    <!--endregion-->
+    <!-- setting->note -->
+    <string name="key_note_file_extension" translatable="false">____note_file_extension</string>
+    <string name="key_note_expanded_note" translatable="false">____is_note_expanded</string>
 
-    <!--region theme-->
-    <string name="key_is_dark_theme" translatable="false">is_dark_theme</string>
-    <string name="key_primary_color" translatable="false">primary_color</string>
-    <string name="key_accent_color" translatable="false">accent_color</string>
-    <!--endregion-->
+    <!-- setting->security -->
+    <string name="key_security_psd_required" translatable="false">____password_required</string>
+    <string name="key_security_psd" translatable="false">____password</string>
+    <string name="key_security_freeze_time" translatable="false">____password_freeze_time</string>
+    <string name="key_security_psd_question" translatable="false">____password_question</string>
+    <string name="key_security_psd_answer" translatable="false">____password_answer</string>
+    <string name="key_security_error_time" translatable="false">____last_error_time</string>
 
-    <!--region SECURITY-->
-    <string name="key_data_security" translatable="false">__data_security</string>
-    <!--preferences keys:-->
-    <string name="key_password_required" translatable="false">__is_password_required</string>
-    <string name="key_password" translatable="false">__password</string>
-    <string name="key_password_freeze_time" translatable="false">__password_input_freeze_time</string>
-    <string name="key_password_question" translatable="false">__password_question</string>
-    <string name="key_password_answer" translatable="false">__password_answer</string>
-    <string name="key_last_input_error_time" translatable="false">__last_input_error_time</string>
-    <!--endregion SECURITY-->
+    <!-- setting->backup -->
+    <string name="key_backup_external" translatable="false">backup_external</string>
+    <string name="key_backup_import" translatable="false">backup_import</string>
+    <string name="key_backup_delete" translatable="false">backup_delete</string>
+    <string name="key_backup_onedrive_singin" translatable="false">onedrive_sign_in</string>
+    <string name="key_backup_onedrvie_signout" translatable="false">onedrive_sign_out</string>
+    <string name="key_backup_time_interval" translatable="false">____sync_time_interval</string>
+    <string name="key_backup_only_wifi" translatable="false">____sync_only_wifi</string>
+    <string name="key_onedrive_last_sync_time" translatable="false">____onedrive_last_sync_time</string>
+    <string name="key_onedrive_backup_dir_item_id" translatable="false">____onedrive_backup_dir_item_id</string>
+    <string name="key_onedrive_last_backup_dir_item_id" translatable="false">____onedrive_last_backup_dir_item_id</string>
+    <string name="key_onedrive_files_backup_dir_item_id" translatable="false">____onedrive_files_backup_dir_item_id</string>
+    <string name="key_onedrive_database_last_sync_time" translatable="false">____onedrive_database_last_sync_time</string>
+    <string name="key_onedrive_preferences_last_sync_time" translatable="false">____onedrive_preferences_last_sync_time</string>
+    <string name="key_onedrive_database_item_id" translatable="false">____onedrive_database_item_id</string>
+    <string name="key_onedrive_preferences_item_id" translatable="false">____onedrive_preferences_item_id</string>
 
-    <string name="key_fab_sort_result" translatable="false">__fab_sort_result</string>
-    <string name="key_operation_color_prefix" translatable="false">__operation_color_</string>
-
-    <!--region dashboard-->
-    <string name="key_user_info_bg_visible" translatable="false">key_user_info_bg_visible</string>
-    <string name="key_user_info_bg" translatable="false">key_user_info_bg</string>
-    <string name="key_user_info_motto" translatable="false">key_user_info_motto</string>
-    <!--endregion-->
-
-    <!--region selections-->
-    <string name="key_feedback" translatable="false">feedback</string>
-    <string name="key_user_guide" translatable="false">user_guide</string>
-    <string name="key_user_intro" translatable="false">user_intro</string>
-    <string name="key_support_develop" translatable="false">support_develop</string>
-    <string name="key_key_note_settings" translatable="false">key_note_settings</string>
-    <string name="key_setup_dashboard" translatable="false">setup_dashboard</string>
-    <string name="key_about" translatable="false">about</string>
-    <string name="key_data_backup" translatable="false">data_backup</string>
-    <!--endregion-->
-
-    <string name="key_is_tour_activity_showed" translatable="false">tour_activity_showed</string>
-    <string name="key_attachment_uri" translatable="false">key_attachment_uri</string>
-    <string name="key_attachment_file_path" translatable="false">key_attachment_file_path</string>
-
-    <!--region preferences-->
-    <string name="key_preferences" translatable="false">key_preferences</string>
-    <string name="key_custom_fab" translatable="false">custom_fab</string>
-    <!--endregion-->
-
-    <string name="key_setting_item_about_privacy" translatable="false">__key_setting_item_about_privacy</string>
-    <string name="key_setting_item_about_open_source" translatable="false">__key_setting_item_about_open_source</string>
-    <string name="key_setting_item_help_translate" translatable="false">__key_setting_item_help_translate</string>
-
-    <!--  region data persistence  -->
-
-    <!-- Code of last time working note, used to open as default if necessary  -->
-    <string name="key_persistence_last_working_note" translatable="false">__key_last_working_note_code</string>
-
-    <!--  endregion data persistence -->
+    <!-- others -->
+    <string name="key_operation_color_prefix" translatable="false">____operation_color_</string>
 
 </resources>

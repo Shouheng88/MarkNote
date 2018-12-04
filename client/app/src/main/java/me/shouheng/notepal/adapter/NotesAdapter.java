@@ -40,7 +40,7 @@ public class NotesAdapter extends BaseMultiItemQuickAdapter<NotesAdapter.MultiIt
     public NotesAdapter(Context context, List<NotesAdapter.MultiItem> data) {
         super(data);
 
-        this.isExpanded = PersistData.getBoolean(R.string.key_key_show_note_expanded, true);
+        this.isExpanded = PersistData.getBoolean(R.string.key_note_expanded_note, true);
         this.context = context;
         addItemType(MultiItem.ITEM_TYPE_NOTE, isExpanded ? R.layout.item_note_expanded : R.layout.item_note);
         addItemType(MultiItem.ITEM_TYPE_NOTEBOOK, R.layout.item_note);
