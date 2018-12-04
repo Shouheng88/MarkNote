@@ -255,6 +255,15 @@ public class NotesViewModel extends ViewModel {
     }
 
     /**
+     * Get the title of toolbar in notes list fragment
+     *
+     * @return toolbar title
+     */
+    public int getTitle() {
+        return category == null ? R.string.notes_list_notebook_toolbar_title : R.string.notes_list_category_toolbar_title;
+    }
+
+    /**
      * Get the sub title for the action bar.
      *
      * @return the sub title

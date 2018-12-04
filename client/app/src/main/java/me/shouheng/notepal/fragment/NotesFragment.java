@@ -23,7 +23,6 @@ import me.shouheng.commons.fragment.CommonFragment;
 import me.shouheng.commons.helper.FragmentHelper;
 import me.shouheng.commons.utils.PersistData;
 import me.shouheng.commons.utils.ToastUtils;
-import me.shouheng.commons.widget.recycler.CustomItemAnimator;
 import me.shouheng.commons.widget.recycler.DividerItemDecoration;
 import me.shouheng.data.entity.Category;
 import me.shouheng.data.entity.Note;
@@ -120,7 +119,6 @@ public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
         });
         getBinding().rvNotes.addItemDecoration(new DividerItemDecoration(getContext(),
                 DividerItemDecoration.VERTICAL_LIST, isDarkTheme()));
-        getBinding().rvNotes.setItemAnimator(new CustomItemAnimator());
         getBinding().rvNotes.setLayoutManager(new LinearLayoutManager(getContext()));
         if (scrollListener != null) getBinding().rvNotes.addOnScrollListener(scrollListener);
         getBinding().ivEmpty.setSubTitle(viewModel.getEmptySubTitle());
@@ -158,7 +156,7 @@ public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
         if (activity == null) return;
         ActionBar ab = ((AppCompatActivity) activity).getSupportActionBar();
         if (ab != null) {
-            ab.setTitle(R.string.drawer_menu_notebooks);
+            ab.setTitle(viewModel.getTitle());
             ab.setDisplayHomeAsUpEnabled(true);
             ab.setSubtitle(viewModel.getSubTitle());
             ab.setHomeAsUpIndicator(viewModel.getHomeAsUpIndicator());
@@ -292,7 +290,6 @@ public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
         popupM.show();
     }
 
-    // TODO What if a notebook was moved to his child ?
     private void moveNotebook(final Notebook nb) {
         NotebookPickerDialog.newInstance().setOnItemSelectedListener((dialog, toBook, position) -> {
             /* Need to ignore:

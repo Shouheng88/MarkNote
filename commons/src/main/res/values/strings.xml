@@ -182,6 +182,8 @@
     <string name="notebook_delete_warning">WARN: Will delete its child notebooks and notes as well!</string>
     <string name="notebook_picker_title">Pick Notebook</string>
     <string name="notebook_picker_empty_message">Make sure you have available notebooks and try again.</string>
+    <string name="notes_list_category_toolbar_title">Category</string>
+    <string name="notes_list_notebook_toolbar_title">Notebook</string>
     <string name="notes_list_empty">Empty notes list</string>
     <string name="notes_list_empty_sub_normal">Create new note by clicking + in dashboard</string>
     <string name="notes_list_empty_sub_archived">No archived notes found</string>

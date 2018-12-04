@@ -143,6 +143,8 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
         });
         addSubscription(RxMessage.class, RxMessage.CODE_CATEGORY_DATA_CHANGED,
                 rxMessage -> viewModel.fetchCategories());
+        addSubscription(RxMessage.class, RxMessage.CODE_NOTE_DATA_CHANGED,
+                rxMessage -> viewModel.fetchCategories());
     }
 
     public void addCategory(Category category) {

@@ -3,6 +3,8 @@ package me.shouheng.notepal.adapter;
 import android.content.Context;
 import android.net.Uri;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -33,6 +35,7 @@ public class NotesAdapter extends BaseMultiItemQuickAdapter<NotesAdapter.MultiIt
     private int accentColor;
     private boolean isDarkTheme;
     private boolean isExpanded;
+    private int lastPosition = -1;
 
     public NotesAdapter(Context context, List<NotesAdapter.MultiItem> data) {
         super(data);
@@ -62,6 +65,23 @@ public class NotesAdapter extends BaseMultiItemQuickAdapter<NotesAdapter.MultiIt
                 break;
         }
         helper.addOnClickListener(R.id.iv_more);
+        /* Animations */
+        if (PalmUtils.isLollipop()) {
+            setAnimation(helper.itemView, helper.getAdapterPosition());
+        } else {
+            if (helper.getAdapterPosition() > 10) {
+                setAnimation(helper.itemView, helper.getAdapterPosition());
+            }
+        }
+    }
+
+    private void setAnimation(View viewToAnimate, int position) {
+        // If the bound view wasn't previously displayed on screen, it's animated
+        if (position > lastPosition) {
+            Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.anim_slide_in_bottom);
+            viewToAnimate.startAnimation(animation);
+            lastPosition = position;
+        }
     }
 
     private void convertNote(BaseViewHolder helper, Note note) {
