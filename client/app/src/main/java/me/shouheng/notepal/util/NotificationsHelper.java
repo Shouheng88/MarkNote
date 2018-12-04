@@ -1,6 +1,7 @@
 package me.shouheng.notepal.util;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -9,10 +10,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationCompat.Builder;
 
+import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.notepal.R;
 
 public class NotificationsHelper {
@@ -26,14 +27,23 @@ public class NotificationsHelper {
     }
 
     public NotificationsHelper createNotification(int smallIcon, String title, PendingIntent notifyIntent) {
-        mBuilder = new NotificationCompat.Builder(mContext).setSmallIcon(smallIcon).setContentTitle(title)
-                .setAutoCancel(true).setColor(mContext.getResources().getColor(R.color.colorAccent));
-        mBuilder.setContentIntent(notifyIntent);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            setLargeIcon(R.mipmap.ic_launcher);
-        } else {
-            setLargeIcon(R.mipmap.ic_launcher);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            CharSequence name = "Notification";
+            String description = "";
+            NotificationChannel channel;
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            channel = new NotificationChannel("Notification", name, importance);
+            channel.setDescription(description);
+            mNotificationManager.createNotificationChannel(channel);
         }
+
+        mBuilder = new NotificationCompat.Builder(mContext, "Notification")
+                .setSmallIcon(smallIcon)
+                .setContentTitle(title)
+                .setAutoCancel(true)
+                .setColor(ColorUtils.accentColor());
+        mBuilder.setContentIntent(notifyIntent);
+        setLargeIcon(R.mipmap.ic_launcher);
         return this;
     }
 

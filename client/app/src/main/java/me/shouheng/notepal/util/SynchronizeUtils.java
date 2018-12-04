@@ -15,8 +15,8 @@ import me.shouheng.notepal.activity.SettingsActivity;
 import me.shouheng.notepal.onedrive.OneDriveBackupService;
 import me.shouheng.notepal.fragment.setting.SettingsBackup;
 import me.shouheng.notepal.manager.FileManager;
-import me.shouheng.notepal.manager.onedrive.DefaultCallback;
-import me.shouheng.notepal.manager.onedrive.OneDriveManager;
+import me.shouheng.notepal.onedrive.DefaultCallback;
+import me.shouheng.notepal.onedrive.OneDriveManager;
 import me.shouheng.notepal.common.preferences.SyncPreferences;
 
 /**

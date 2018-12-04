@@ -16,7 +16,8 @@ import me.shouheng.commons.R;
 import me.shouheng.commons.utils.PalmUtils;
 
 /**
- * Created by wangshouheng on 2017/4/1.*/
+ * Created by WngShhng on 2017/4/1.
+ */
 public class CustomItemAnimator extends DefaultItemAnimator {
 
     private static final OvershootInterpolator OVERSHOOT_INTERPOLATOR = new OvershootInterpolator(4);
@@ -33,8 +34,10 @@ public class CustomItemAnimator extends DefaultItemAnimator {
     @NonNull
     @Override
     public ItemHolderInfo recordPreLayoutInformation(
-            @NonNull RecyclerView.State state, @NonNull RecyclerView.ViewHolder viewHolder,
-            int changeFlags, @NonNull List<Object> payloads) {
+            @NonNull RecyclerView.State state,
+            @NonNull RecyclerView.ViewHolder viewHolder,
+            int changeFlags,
+            @NonNull List<Object> payloads) {
         if (changeFlags == FLAG_CHANGED) {
             for (Object payload : payloads) {
                 if (payload instanceof String) {
@@ -56,11 +59,11 @@ public class CustomItemAnimator extends DefaultItemAnimator {
         return false;
     }
 
-    private void runEnterAnimation(RecyclerView.ViewHolder holder){
-        if (PalmUtils.isLollipop()){
+    private void runEnterAnimation(RecyclerView.ViewHolder holder) {
+        if (PalmUtils.isLollipop()) {
             setAnimation(holder.itemView, holder.getAdapterPosition());
         } else {
-            if (holder.getAdapterPosition() > 10){
+            if (holder.getAdapterPosition() > 10) {
                 setAnimation(holder.itemView, holder.getAdapterPosition());
             }
         }
@@ -108,8 +111,10 @@ public class CustomItemAnimator extends DefaultItemAnimator {
     }
 
     public static class CustomItemHolderInfo extends ItemHolderInfo {
-        public String updateAction;
-        public CustomItemHolderInfo(String updateAction) {
+
+        String updateAction;
+
+        CustomItemHolderInfo(String updateAction) {
             this.updateAction = updateAction;
         }
     }

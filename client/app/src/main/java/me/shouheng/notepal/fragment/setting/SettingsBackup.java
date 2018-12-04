@@ -30,13 +30,14 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.DirectoryActivity;
 import me.shouheng.notepal.async.DataBackupIntentService;
 import me.shouheng.notepal.manager.FileManager;
-import me.shouheng.notepal.manager.onedrive.DefaultCallback;
-import me.shouheng.notepal.manager.onedrive.OneDriveManager;
+import me.shouheng.notepal.onedrive.DefaultCallback;
+import me.shouheng.notepal.onedrive.OneDriveManager;
 import me.shouheng.notepal.common.enums.SyncTimeInterval;
 import me.shouheng.notepal.common.preferences.SyncPreferences;
 
 /**
- * Created by wang shouheng on 2018/1/5.*/
+ * Created by WngShhng on 2018/1/5.
+ */
 public class SettingsBackup extends BPreferenceFragment {
 
     private final int REQUEST_PICK_FOLDER = 0x000F;

@@ -27,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <me.shouheng.commons.widget.theme.DroidSerifTextView
+        <android.support.v7.widget.AppCompatTextView
             android:id="@+id/tv_note_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -44,13 +44,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <TextView
+        <android.support.v7.widget.AppCompatTextView
             android:id="@+id/tv_content"
             android:textSize="12sp"
             tools:text="This is the demo text which is used to show the preview content of this note in multiple lines."
             android:maxLines="3"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/font"/>
 
     </LinearLayout>
 

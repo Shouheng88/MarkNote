@@ -38,7 +38,6 @@ import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.GalleryActivity;
 import me.shouheng.notepal.activity.SketchActivity;
-import me.shouheng.notepal.async.CreateAttachmentTask;
 import me.shouheng.notepal.manager.FileManager;
 import top.zibin.luban.Luban;
 import top.zibin.luban.OnCompressListener;
@@ -46,8 +45,11 @@ import top.zibin.luban.OnCompressListener;
 import static android.app.Activity.RESULT_OK;
 
 /**
+ * Helper to handle the attachment request, result and click event.
+ *
  * Created by WngShhng (shouheng2015@gmail.com) on 2017/12/30.
- * Refactored by WngShhng (shouheng2015@gmail.com) on 2018/12/2. */
+ * Refactored by WngShhng (shouheng2015@gmail.com) on 2018/12/2.
+ */
 public class AttachmentHelper {
 
     /**
@@ -84,13 +86,6 @@ public class AttachmentHelper {
      * Won't compress the image when hit the size (KB).
      */
     private final static int COMPRESS_IGNORE_SIZE_KB = 100; // KB
-
-    // TODO OLD request codes, remove later
-    private final static int REQUEST_TAKE_PHOTO = 0x1001;
-    private final static int REQUEST_SELECT_IMAGE = 0x1002;
-    private final static int REQUEST_TAKE_VIDEO = 0x1003;
-    private final static int REQUEST_FILES = 0x1004;
-    private final static int REQUEST_SKETCH = 0x1005;
 
     /**
      * The photo file path
@@ -494,142 +489,38 @@ public class AttachmentHelper {
 
     // endregion
 
-    // region Resolve attachment picking result.
-    public static<T extends Activity & OnAttachingFileListener> void resolveResult(T activity, int requestCode, Intent data) {
-        switch (requestCode){
-            case REQUEST_TAKE_PHOTO:
-                getPhoto(activity, Constants.MIME_TYPE_IMAGE, new OnAttachingFileListener() {
-                    @Override
-                    public void onAttachingFileErrorOccurred(Attachment attachment) {
-                        activity.onAttachingFileErrorOccurred(attachment);
-                    }
-
-                    @Override
-                    public void onAttachingFileFinished(Attachment attachment) {
-                        if (PalmUtils.isAlive(activity)) {
-                            activity.onAttachingFileFinished(attachment);
-                        }
-                    }
-                });
-                break;
-            case REQUEST_SELECT_IMAGE:
-                startTask(activity, data);
-                break;
-            case REQUEST_TAKE_VIDEO:
-                if (PalmUtils.isAlive(activity)) {
-                    activity.onAttachingFileFinished(getVideo(data));
-                }
-                break;
-            case REQUEST_FILES:
-                startTask(activity, data);
-                break;
-            case REQUEST_SKETCH:
-                if (PalmUtils.isAlive(activity)) {
-                    activity.onAttachingFileFinished(getSketch(Constants.MIME_TYPE_SKETCH));
-                }
-                break;
-        }
-    }
-
-    private static void getPhoto(Context context, String mimeType, OnAttachingFileListener onAttachingFileListener) {
-        Attachment photo = ModelFactory.getAttachment();
-        photo.setMineType(mimeType);
-        compressImage(context, photo, new File(getPhotoFilePath()), onAttachingFileListener);
-    }
-
-    private static void compressImage(Context context,
-                                      Attachment attachment,
-                                      File var,
-                                      OnAttachingFileListener onAttachingFileListener) {
-//        Luban.with(context)
-//                .load(var)
-//                .ignoreBy(100)
-//                .setTargetDir(var.getParent())
-//                .setCompressListener(new DefaultCompressListener() {
-//                    @Override
-//                    public void onSuccess(File file) {
-//                        FileManager.delete(PalmApp.getContext(), var.getPath());
-//                        attachment.setPath(file.getPath());
-//                        attachment.setUri(FileManager.getUriFromFile(PalmApp.getContext(), file));
-//                        if (onAttachingFileListener != null) {
-//                            onAttachingFileListener.onAttachingFileFinished(attachment);
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        if (onAttachingFileListener != null) {
-//                            onAttachingFileListener.onAttachingFileErrorOccurred(null);
-//                        }
-//                    }
-//                })
-//                .launch();
-    }
-
-    private static Attachment getSketch(String mimeType) {
-        Attachment photo = ModelFactory.getAttachment();
-        photo.setUri(FileManager.getUriFromFile(PalmApp.getContext(), new File(getPhotoFilePath())));
-        photo.setMineType(mimeType);
-        photo.setPath(getPhotoFilePath());
-        return photo;
-    }
-
-    private static Attachment getVideo(Intent data) {
-        Attachment attachment = ModelFactory.getAttachment();
-        attachment.setUri(data.getData());
-        attachment.setMineType(Constants.MIME_TYPE_VIDEO);
-        attachment.setPath(getPhotoFilePath());
-        return attachment;
-    }
-
-    private static <T extends Activity & OnAttachingFileListener> void startTask(T activity, Intent data) {
-        for (Uri uri : getUrisFromIntent(data)) {
-            new CreateAttachmentTask(activity, uri, activity).execute();
-        }
-    }
-
-    private static List<Uri> getUrisFromIntent(Intent data) {
-        List<Uri> uris = new ArrayList<>();
-        if (PalmUtils.isJellyBean() && data.getClipData() != null) {
-            for (int i = 0; i < data.getClipData().getItemCount(); i++) {
-                uris.add(data.getClipData().getItemAt(i).getUri());
-            }
-        } else {
-            uris.add(data.getData());
-        }
-        return uris;
-    }
-    // endregion
-
-    // region Start picking action.
-
     public static void pickFiles(Activity activity) {
-        activity.startActivityForResult(pickFiles(), REQUEST_FILES);
-    }
-
-    public static void pickFiles(Fragment fragment) {
-        fragment.startActivityForResult(pickFiles(), REQUEST_FILES);
-    }
-
-    private static Intent pickFiles() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        if (PalmUtils.isJellyBeanMR2()) intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        if (PalmUtils.isJellyBeanMR2()) {
+            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        }
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
         intent.setType("*/*");
-        return intent;
+        activity.startActivityForResult(intent, REQUEST_CODE_PICK_FILES);
+    }
+
+    public static void pickFiles(Fragment fragment) {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        if (PalmUtils.isJellyBeanMR2()) {
+            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        }
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+        intent.setType("*/*");
+        fragment.startActivityForResult(intent, REQUEST_CODE_PICK_FILES);
     }
 
     public static void capture(Activity activity) {
         Intent intent = captureIntent(activity);
         if (intent == null) return;
-        activity.startActivityForResult(intent, REQUEST_TAKE_PHOTO);
+        activity.startActivityForResult(intent, REQUEST_CODE_TAKE_A_PHOTO);
     }
 
     public static void capture(Fragment fragment) {
         Intent intent = captureIntent(fragment.getContext());
         if (intent == null) return;
-        fragment.startActivityForResult(intent, REQUEST_TAKE_PHOTO);
+        fragment.startActivityForResult(intent, REQUEST_CODE_TAKE_A_PHOTO);
     }
 
     @Nullable
@@ -640,7 +531,7 @@ public class AttachmentHelper {
             return null;
         }
         String filePath = file.getPath();
-        setPhotoFilePath(file.getPath());
+        photoFilePath = filePath;
         Uri attachmentUri = FileManager.getUriFromFile(PalmApp.getContext(), new File(filePath));
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, attachmentUri);
@@ -655,13 +546,13 @@ public class AttachmentHelper {
     public static void sketch(Activity activity) {
         Intent intent = sketchIntent(activity);
         if (intent == null) return;
-        activity.startActivityForResult(intent, REQUEST_SKETCH);
+        activity.startActivityForResult(intent, REQUEST_CODE_CREATE_SKETCH);
     }
 
     public static void sketch(Fragment fragment) {
         Intent intent = sketchIntent(fragment.getContext());
         if (intent == null) return;
-        fragment.startActivityForResult(intent, REQUEST_SKETCH);
+        fragment.startActivityForResult(intent, REQUEST_CODE_CREATE_SKETCH);
     }
 
     @Nullable
@@ -672,7 +563,7 @@ public class AttachmentHelper {
             return null;
         }
         String filePath = file.getPath();
-        setPhotoFilePath(filePath);
+        photoFilePath = filePath;
         Intent intent = new Intent(context, SketchActivity.class);
         intent.putExtra(SketchActivity.EXTRA_KEY_OUTPUT_FILE_PATH, filePath);
         return intent;
@@ -689,14 +580,6 @@ public class AttachmentHelper {
         return attachment != null
                 && attachment.getUri() != null
                 && !TextUtils.isEmpty(attachment.getUri().toString());
-    }
-
-    private static String getPhotoFilePath() {
-        return photoFilePath;
-    }
-
-    private static void setPhotoFilePath(String photoFilePath) {
-        AttachmentHelper.photoFilePath = photoFilePath;
     }
 
     /**

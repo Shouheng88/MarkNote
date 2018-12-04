@@ -1,4 +1,4 @@
-package me.shouheng.notepal.manager.onedrive;
+package me.shouheng.notepal.onedrive;
 
 import android.app.AlertDialog;
 import android.content.Context;

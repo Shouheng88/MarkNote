@@ -22,16 +22,13 @@ import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.commons.widget.recycler.CustomItemAnimator;
 import me.shouheng.commons.widget.recycler.DividerItemDecoration;
 import me.shouheng.commons.widget.recycler.EmptyView;
-import me.shouheng.data.entity.Note;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.NotesAdapter;
-import me.shouheng.notepal.adapter.SearchItemsAdapter.OnItemSelectedListener;
 import me.shouheng.notepal.databinding.ActivitySearchBinding;
 import me.shouheng.notepal.fragment.NoteViewFragment;
 import me.shouheng.notepal.vm.SearchViewModel;
 
-public class SearchActivity extends CommonActivity<ActivitySearchBinding>
-        implements OnItemSelectedListener, SearchView.OnQueryTextListener {
+public class SearchActivity extends CommonActivity<ActivitySearchBinding> implements SearchView.OnQueryTextListener {
 
     private NotesAdapter adapter;
     private SearchViewModel viewModel;
@@ -164,13 +161,5 @@ public class SearchActivity extends CommonActivity<ActivitySearchBinding>
             viewModel.notifyEmptyResult();
         }
         return true;
-    }
-
-    @Override
-    public void onNoteSelected(Note note, int position) {
-        ContainerActivity.open(NoteViewFragment.class)
-                .put(NoteViewFragment.ARGS_KEY_NOTE, (Serializable) note)
-                .put(NoteViewFragment.ARGS_KEY_IS_PREVIEW, false)
-                .launch(this);
     }
 }

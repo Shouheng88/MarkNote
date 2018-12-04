@@ -7,9 +7,9 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${project.kotlinVersion}"
-        classpath 'io.fabric.tools:gradle:1.25.4'
+        classpath 'io.fabric.tools:gradle:1.26.1'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
-`        classpath 'com.tencent.mm:AndResGuard-gradle-plugin:1.2.13'
+        classpath 'com.tencent.mm:AndResGuard-gradle-plugin:1.2.15'
     }
 }
 

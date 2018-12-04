@@ -13,7 +13,7 @@ import java.util.List;
 
 import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.notepal.onedrive.PrepareBackupDirTask;
-import me.shouheng.notepal.manager.onedrive.OneDriveManager;
+import me.shouheng.notepal.onedrive.OneDriveManager;
 import me.shouheng.data.model.Directory;
 import me.shouheng.commons.model.data.Resource;
 import me.shouheng.notepal.common.preferences.SyncPreferences;

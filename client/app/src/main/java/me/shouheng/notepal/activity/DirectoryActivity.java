@@ -25,7 +25,7 @@ import me.shouheng.notepal.onedrive.ClearBackupStateTask;
 import me.shouheng.notepal.databinding.ActivityDirectoryBinding;
 import me.shouheng.notepal.dialog.SimpleEditDialog;
 import me.shouheng.notepal.fragment.DirectoriesFragment;
-import me.shouheng.notepal.manager.onedrive.OneDriveManager;
+import me.shouheng.notepal.onedrive.OneDriveManager;
 import me.shouheng.notepal.common.preferences.SyncPreferences;
 
 public class DirectoryActivity extends CommonActivity<ActivityDirectoryBinding> implements

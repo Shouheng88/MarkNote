@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="note_content_preview_max_length">255</integer>
+    <integer name="note_title_max_length">120</integer>
+    <integer name="title_length">125</integer>
+    <integer name="mind_snagging_content_length">450</integer>
+    <integer name="question_length">125</integer>
+    <integer name="answer_length">50</integer>
+    <integer name="labels_length">50</integer>
+    <integer name="sub_content_length">250</integer>
+    <integer name="label_length">20</integer>
+</resources>

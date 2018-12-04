@@ -13,7 +13,6 @@ import java.io.File;
 import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.commons.utils.NetworkUtils;
 import me.shouheng.data.DBConfig;
-import me.shouheng.notepal.manager.onedrive.OneDriveManager;
 import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.notepal.util.SynchronizeUtils;
 import me.shouheng.notepal.common.preferences.SyncPreferences;

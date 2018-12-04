@@ -13,7 +13,6 @@ import me.shouheng.data.DBConfig;
 import me.shouheng.data.model.Directory;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.Constants;
-import me.shouheng.notepal.manager.onedrive.OneDriveManager;
 import me.shouheng.notepal.manager.FileManager;
 
 import static me.shouheng.notepal.Constants.BACKUP_DIR_NAME;

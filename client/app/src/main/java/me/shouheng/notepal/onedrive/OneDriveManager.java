@@ -1,4 +1,4 @@
-package me.shouheng.notepal.manager.onedrive;
+package me.shouheng.notepal.onedrive;
 
 import android.app.Activity;
 import android.support.annotation.Nullable;
@@ -24,7 +24,6 @@ import java.util.Collections;
 import java.util.concurrent.atomic.AtomicReference;
 
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.onedrive.ConflictBehavior;
 import me.shouheng.data.model.Directory;
 import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.commons.utils.ToastUtils;
@@ -90,7 +89,8 @@ public class OneDriveManager {
     /**
      * Init one drive account, that is put the IOneDriveClient to mClient.
      *
-     * @param activity activity */
+     * @param activity activity
+     */
     public void connectOneDrive(Activity activity, ICallback<Void> callback) {
         try {
             getOneDriveClient();
