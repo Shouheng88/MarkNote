@@ -51,7 +51,8 @@ import static java.lang.Long.parseLong;
 
 /**
  * Created by WngShhng (shouheng2015@gmail.com) on 2017/4/7.
- * Refactored by WngShhng (shouheng2015@gmail.com) on2018/12/2. */
+ * Refactored by WngShhng (shouheng2015@gmail.com) on2018/12/2.
+ */
 public class FileManager {
 
     private static final String EXTERNAL_STORAGE_FOLDER = "NotePal";
@@ -154,7 +155,7 @@ public class FileManager {
                 final String docId = DocumentsContract.getDocumentId(uri);
                 final String[] split = docId.split(":");
                 final String type = split[0];
-                Uri contentUri = MediaStoreFactory.getInstance().createURI(type);
+                Uri contentUri = FileManager.createURI(type);
 
                 final String selection = "_id=?";
                 final String[] selectionArgs = new String[]{split[1]};
@@ -329,6 +330,18 @@ public class FileManager {
             }
         }
         return mimeType;
+    }
+
+    public static Uri createURI(String type){
+        switch (type) {
+            case "image":
+                return MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+            case "video":
+                return  MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+            case "audio":
+                return  MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+        }
+        return null;
     }
     // endregion
 

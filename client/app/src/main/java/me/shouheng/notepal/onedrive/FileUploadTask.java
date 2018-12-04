@@ -14,12 +14,12 @@ public class FileUploadTask extends AsyncTask<File, Integer, String> {
 
     private String itemId;
 
-    private ConflictBehavior conflictBehavior;
+    private String conflictBehavior;
 
     private OneDriveManager.UploadProgressCallback<Item> uploadProgressCallback;
 
     FileUploadTask(String itemId,
-                   ConflictBehavior conflictBehavior,
+                   String conflictBehavior,
                    OneDriveManager.UploadProgressCallback<Item> uploadProgressCallback) {
         this.itemId = itemId;
         this.conflictBehavior = conflictBehavior;

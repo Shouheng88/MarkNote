@@ -30,9 +30,4 @@ public class SettingsNote extends BPreferenceFragment {
             return true;
         });
     }
-
-    @Override
-    protected String umengPageName() {
-        return "Note preferences";
-    }
 }

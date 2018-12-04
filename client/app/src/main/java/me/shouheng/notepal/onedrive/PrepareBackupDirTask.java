@@ -19,17 +19,20 @@ import static me.shouheng.notepal.Constants.BACKUP_DIR_NAME;
 import static me.shouheng.notepal.Constants.FILES_BACKUP_DIR_NAME;
 
 /**
- * Created by shouh on 2018/4/5.*/
+ * Created by shouh on 2018/4/5.
+ */
 public class PrepareBackupDirTask extends AsyncTask<Void, Integer, String> {
 
     private OnGetResultListener onGetResultListener;
 
     /**
-     * Current directory. */
+     * Current directory.
+     */
     private Directory directory;
 
     /**
-     * The child directory of current directory */
+     * The child directory of current directory
+     */
     private List<Directory> children;
 
     public PrepareBackupDirTask(Directory directory, List<Directory> children, OnGetResultListener onGetResultListener) {
@@ -47,12 +50,14 @@ public class PrepareBackupDirTask extends AsyncTask<Void, Integer, String> {
     /**
      * Get the backup folder children and then to check NotePal folder exist.
      *
-     * @param itemId item id of folder to create */
+     * @param itemId item id of folder to create
+     */
     private void checkBackupFolder(String itemId) {
         try {
             OneDriveManager.getInstance().getItems(itemId, new ICallback<Item>() {
                 /**
-                 * @param item parent of "NotePal" folder. */
+                 * @param item parent of "NotePal" folder.
+                 */
                 @Override
                 public void success(Item item) {
                     if (checkFolderExist(item, BACKUP_DIR_NAME)) {
@@ -83,7 +88,8 @@ public class PrepareBackupDirTask extends AsyncTask<Void, Integer, String> {
     }
 
     /**
-     * Check NotePal folder use the children folders of this directory. */
+     * Check NotePal folder use the children folders of this directory.
+     */
     private void checkBackupFolder() {
         for (Directory dir : children) {
             if (Constants.BACKUP_DIR_NAME.equals(dir.getName())) {
@@ -100,7 +106,8 @@ public class PrepareBackupDirTask extends AsyncTask<Void, Integer, String> {
     /**
      * Check "files" folder under "NotePal"
      *
-     * @param toItemId "NotePal" folder */
+     * @param toItemId "NotePal" folder
+     */
     private void checkUnderBackDir(String toItemId) {
         try {
             OneDriveManager.getInstance().getItems(toItemId, new ICallback<Item>() {
@@ -157,7 +164,8 @@ public class PrepareBackupDirTask extends AsyncTask<Void, Integer, String> {
         newItem.folder = new Folder();
         OneDriveManager.getInstance().create(toItemId, newItem, new ICallback<Item>() {
             /**
-             * @param item "NotePal" folder item. */
+             * @param item "NotePal" folder item.
+             */
             @Override
             public void success(Item item)   {
                 createFilesFolder(item.id);

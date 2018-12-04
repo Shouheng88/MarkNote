@@ -6,7 +6,8 @@ import me.shouheng.data.store.AttachmentsStore;
 import me.shouheng.notepal.common.preferences.SyncPreferences;
 
 /**
- * Created by shouh on 2018/4/7.*/
+ * Created by shouh on 2018/4/7.
+ */
 public class ClearBackupStateTask extends AsyncTask<Void, Void, Void>{
 
     @Override

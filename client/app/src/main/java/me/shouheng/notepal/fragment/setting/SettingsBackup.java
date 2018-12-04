@@ -301,9 +301,4 @@ public class SettingsBackup extends BPreferenceFragment {
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
-
-    @Override
-    protected String umengPageName() {
-        return "Backup preferences";
-    }
 }

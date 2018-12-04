@@ -198,9 +198,4 @@ public class SettingsSecurity extends BPreferenceFragment {
                 .build()
                 .show();
     }
-
-    @Override
-    protected String umengPageName() {
-        return "Security preferences";
-    }
 }

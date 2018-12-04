@@ -29,15 +29,18 @@ import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.commons.utils.ToastUtils;
 
 /**
- * Created by shouh on 2018/3/29.*/
+ * Created by shouh on 2018/3/29.
+ */
 public class OneDriveManager {
 
     /**
-     * Expansion options to get all children, thumbnails of children, and thumbnails */
+     * Expansion options to get all children, thumbnails of children, and thumbnails
+     */
     private static final String EXPAND_OPTIONS_FOR_CHILDREN_AND_THUMBNAILS = "children(expand=thumbnails),thumbnails";
 
     /**
-     * Expansion options to get all children, thumbnails of children, and thumbnails when limited */
+     * Expansion options to get all children, thumbnails of children, and thumbnails when limited
+     */
     private static final String EXPAND_OPTIONS_FOR_CHILDREN_AND_THUMBNAILS_LIMITED = "children,thumbnails";
 
     private static OneDriveManager instance;
@@ -139,7 +142,8 @@ public class OneDriveManager {
      * Get directories of given directory
      *
      * @param itemId the directory id
-     * @param callback the callback to resolve calling result */
+     * @param callback the callback to resolve calling result
+     */
     public void getItems(String itemId, ICallback<Item> callback) {
         IOneDriveClient oneDriveClient;
         try {
@@ -208,8 +212,8 @@ public class OneDriveManager {
         }
     }
 
-    public void upload(String toItemId, File file, ConflictBehavior conflictBehavior, UploadProgressCallback<Item> callback) {
-        final Option option = new QueryOption("@name.conflictBehavior", conflictBehavior.value);
+    public void upload(String toItemId, File file, String conflictBehavior, UploadProgressCallback<Item> callback) {
+        final Option option = new QueryOption("@name.conflictBehavior", conflictBehavior);
         final String filename = FileManager.getFileName(file);
         final byte[] fileInMemory;
         try {
@@ -277,7 +281,8 @@ public class OneDriveManager {
          * Use default method, don't force user to implement this method.
          *
          * @param current current progress.
-         * @param max max progress. */
+         * @param max max progress.
+         */
         default void progress(final long current, final long max){}
         void success(final Result result);
         void failure(final Exception e);

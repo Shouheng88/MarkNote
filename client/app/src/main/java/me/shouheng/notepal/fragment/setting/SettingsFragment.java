@@ -150,9 +150,4 @@ public class SettingsFragment extends BPreferenceFragment {
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
-
-    @Override
-    protected String umengPageName() {
-        return "Settings preferences";
-    }
 }

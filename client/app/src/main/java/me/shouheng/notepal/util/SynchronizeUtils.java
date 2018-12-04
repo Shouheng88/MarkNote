@@ -20,13 +20,15 @@ import me.shouheng.notepal.onedrive.OneDriveManager;
 import me.shouheng.notepal.common.preferences.SyncPreferences;
 
 /**
- * Created by shouh on 2018/4/5.*/
+ * Created by shouh on 2018/4/5.
+ */
 public class SynchronizeUtils {
 
     /**
      * Sync to One Drive.
      *
-     * @param activity current activity */
+     * @param activity current activity
+     */
     public static void syncOneDrive(Activity activity) {
         syncOneDrive(activity, false);
     }
@@ -35,7 +37,8 @@ public class SynchronizeUtils {
      * Sync to One Drive
      *
      * @param activity current activity
-     * @param force true to force to synchronize */
+     * @param force true to force to synchronize
+     */
     public static void syncOneDrive(Activity activity, boolean force) {
         // If forced to synchronize and the information is not set, go to the setting page.
         if (!SynchronizeUtils.checkOneDriveSettings()) {
@@ -66,7 +69,8 @@ public class SynchronizeUtils {
     /**
      * Check if the OneDrive synchronization information is set.
      *
-     * @return true if set, otherwise false */
+     * @return true if set, otherwise false
+     */
     private static boolean checkOneDriveSettings() {
         String itemId = SyncPreferences.getInstance().getOneDriveBackupItemId();
         String filesItemId = SyncPreferences.getInstance().getOneDriveFilesBackupItemId();
@@ -76,7 +80,8 @@ public class SynchronizeUtils {
     /**
      * Should synchronize to OneDrive according to time interval in settings.
      *
-     * @return true if should synchronize. */
+     * @return true if should synchronize.
+     */
     private static boolean shouldOneDriveSync() {
 
         boolean isNetworkAvailable = NetworkUtils.isNetworkAvailable(PalmApp.getContext());
@@ -92,7 +97,8 @@ public class SynchronizeUtils {
     /**
      * Should sync database to OneDrive
      *
-     * @return true if should sync. */
+     * @return true if should sync.
+     */
     public static boolean shouldOneDriveDatabaseSync() {
         long lastSyncTime = SyncPreferences.getInstance().getOneDriveDatabaseLastSyncTime();
         File database = FileManager.getDatabaseFile(PalmApp.getContext());

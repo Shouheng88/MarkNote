@@ -18,7 +18,8 @@ import me.shouheng.notepal.util.SynchronizeUtils;
 import me.shouheng.notepal.common.preferences.SyncPreferences;
 
 /**
- * Created by shouh on 2018/3/30.*/
+ * Created by shouh on 2018/3/30.
+ */
 public class OneDriveBackupService extends IntentService {
 
     private SyncPreferences syncPreferences;
@@ -72,7 +73,7 @@ public class OneDriveBackupService extends IntentService {
 
     private void uploadDatabase(String itemId) {
         File database = getDatabasePath(DBConfig.DATABASE_NAME);
-        new FileUploadTask(itemId, ConflictBehavior.REPLACE, new OneDriveManager.UploadProgressCallback<Item>() {
+        new FileUploadTask(itemId, OneDriveConstants.CONFLICT_BEHAVIOR_REPLACE, new OneDriveManager.UploadProgressCallback<Item>() {
             @Override
             public void success(Item item) {
                 syncPreferences.setOneDriveDatabaseItemId(item.id);
@@ -89,7 +90,7 @@ public class OneDriveBackupService extends IntentService {
 
     private void uploadPreferences(String itemId) {
         File preferences = FileManager.getPreferencesFile(this);
-        new FileUploadTask(itemId, ConflictBehavior.REPLACE, new OneDriveManager.UploadProgressCallback<Item>() {
+        new FileUploadTask(itemId, OneDriveConstants.CONFLICT_BEHAVIOR_REPLACE, new OneDriveManager.UploadProgressCallback<Item>() {
 
             @Override
             public void success(Item item) {

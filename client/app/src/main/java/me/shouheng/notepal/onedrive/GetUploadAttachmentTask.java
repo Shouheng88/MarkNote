@@ -8,7 +8,8 @@ import me.shouheng.data.entity.Attachment;
 import me.shouheng.data.store.AttachmentsStore;
 
 /**
- * Created by shouh on 2018/4/3.*/
+ * Created by shouh on 2018/4/3.
+ */
 public class GetUploadAttachmentTask extends AsyncTask<Integer, String, List<Attachment>>{
 
     private GetUploadAttachmentListener getUploadAttachmentListener;

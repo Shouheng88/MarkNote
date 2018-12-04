@@ -31,7 +31,7 @@ public class FileUploadRunnable implements Runnable {
             LogUtils.d(Thread.currentThread() + " ran ");
             OneDriveManager.getInstance().upload(toItemId,
                     new File(attachment.getPath()),
-                    ConflictBehavior.REPLACE,
+                    OneDriveConstants.CONFLICT_BEHAVIOR_REPLACE,
                     new OneDriveManager.UploadProgressCallback<Item>() {
 
                         @Override

@@ -4,7 +4,8 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by shouh on 2018/4/2.*/
+ * Created by shouh on 2018/4/2.
+ */
 public class FileUploadWatcher implements Runnable {
     private CountDownLatch downLatch;
     private OnWatchListener onWatchListener;

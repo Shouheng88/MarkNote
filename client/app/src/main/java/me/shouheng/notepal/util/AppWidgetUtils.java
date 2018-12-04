@@ -11,7 +11,8 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.desktop.ListWidgetProvider;
 
 /**
- * Created by wang shouheng on 2018/1/25.*/
+ * Created by wang shouheng on 2018/1/25.
+ */
 public class AppWidgetUtils {
 
     public static void notifyAppWidgets(Context context) {

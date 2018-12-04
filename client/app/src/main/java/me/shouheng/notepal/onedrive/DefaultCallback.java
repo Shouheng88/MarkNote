@@ -12,7 +12,8 @@ import me.shouheng.notepal.R;
 /**
  * A default callback that logs errors
  *
- * @param <T> The type returned by this callback */
+ * @param <T> The type returned by this callback
+ */
 public class DefaultCallback<T> implements ICallback<T> {
 
     /**
