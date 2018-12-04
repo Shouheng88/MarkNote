@@ -117,11 +117,14 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
             switch (resources.status) {
                 case SUCCESS:
                     mAdapter.setNewData(resources.data);
+                    getBinding().ivEmpty.showEmptyIcon();
                     break;
                 case FAILED:
                     ToastUtils.makeToast(R.string.text_failed);
+                    getBinding().ivEmpty.showEmptyIcon();
                     break;
                 case LOADING:
+                    getBinding().ivEmpty.showProgressBar();
                     break;
             }
         });

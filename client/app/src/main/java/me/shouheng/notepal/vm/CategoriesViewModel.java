@@ -70,6 +70,9 @@ public class CategoriesViewModel extends ViewModel {
      * Fetch the categories
      */
     public Disposable fetchCategories() {
+        if (categoriesLiveData != null) {
+            categoriesLiveData.setValue(Resource.loading(null));
+        }
         return Observable.create((ObservableOnSubscribe<List<Category>>) emitter -> {
             List<Category> categories;
             if (status == Status.ARCHIVED) {

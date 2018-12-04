@@ -16,9 +16,15 @@ import me.shouheng.commons.databinding.WidgetEmptyViewBinding;
 import me.shouheng.commons.utils.ColorUtils;
 
 /**
- * Created by wangshouheng on 2017/8/9. */
+ * Standard empty view for recycler view.
+ *
+ * Created by WngShhng on 2017/8/9.
+ */
 public class EmptyView extends LinearLayout {
 
+    /**
+     * Should the image view be tinted with the empty color.
+     */
     private boolean tintDrawable;
 
     private WidgetEmptyViewBinding binding;
@@ -67,7 +73,7 @@ public class EmptyView extends LinearLayout {
         }
 
         if (tintDrawable) {
-            binding.ivImage.setImageDrawable(ColorUtils.tintDrawable(getResources().getDrawable(mIcon), getResources().getColor(
+            binding.ivImage.setImageDrawable(ColorUtils.tintDrawable(mIcon, getResources().getColor(
                     isDarkTheme ? R.color.dark_theme_empty_icon_tint_color : R.color.light_theme_empty_icon_tint_color)));
         }
     }
@@ -83,9 +89,10 @@ public class EmptyView extends LinearLayout {
     }
 
     public void setIcon(@DrawableRes int mIcon) {
-        if (!tintDrawable) binding.ivImage.setImageResource(mIcon);
-        else {
-            binding.ivImage.setImageDrawable(ColorUtils.tintDrawable(getResources().getDrawable(mIcon), getResources().getColor(
+        if (!tintDrawable) {
+            binding.ivImage.setImageResource(mIcon);
+        } else {
+            binding.ivImage.setImageDrawable(ColorUtils.tintDrawable(mIcon, getResources().getColor(
                     ColorUtils.isDarkTheme(getContext()) ? R.color.dark_theme_empty_icon_tint_color : R.color.light_theme_empty_icon_tint_color)));
         }
     }
@@ -93,5 +100,25 @@ public class EmptyView extends LinearLayout {
     public void setIcon(Drawable drawable) {
         binding.ivImage.setImageDrawable(tintDrawable ? ColorUtils.tintDrawable(drawable, getResources().getColor(
                 ColorUtils.isDarkTheme(getContext()) ? R.color.dark_theme_empty_icon_tint_color : R.color.light_theme_empty_icon_tint_color)) : drawable);
+    }
+
+    /**
+     * Show the empty image instead of progressbar.
+     */
+    public void showEmptyIcon() {
+        binding.ivImage.setVisibility(VISIBLE);
+        binding.tvBottomTitle.setVisibility(VISIBLE);
+        binding.tvBottomSubTitle.setVisibility(VISIBLE);
+        binding.pb.setVisibility(GONE);
+    }
+
+    /**
+     * Show the progressbar instead of empty image.
+     */
+    public void showProgressBar() {
+        binding.ivImage.setVisibility(GONE);
+        binding.tvBottomTitle.setVisibility(GONE);
+        binding.tvBottomSubTitle.setVisibility(GONE);
+        binding.pb.setVisibility(VISIBLE);
     }
 }

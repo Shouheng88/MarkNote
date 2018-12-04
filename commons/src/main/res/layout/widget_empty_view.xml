@@ -7,11 +7,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/iv_image"
+        <FrameLayout
             android:layout_gravity="center_horizontal"
             android:layout_width="@dimen/empty_view_size"
-            android:layout_height="@dimen/empty_view_size" />
+            android:layout_height="@dimen/empty_view_size">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/iv_image"
+                tools:src="@color/accent"
+                android:visibility="gone"
+                tools:visibility="visible"
+                android:layout_width="@dimen/empty_view_size"
+                android:layout_height="@dimen/empty_view_size" />
+
+            <ProgressBar
+                android:id="@+id/pb"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </FrameLayout>
 
         <TextView
             android:id="@+id/tv_bottom_title"

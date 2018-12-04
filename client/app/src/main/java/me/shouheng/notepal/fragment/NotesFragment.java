@@ -171,11 +171,14 @@ public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
             switch (resources.status) {
                 case SUCCESS:
                     adapter.setNewData(resources.data);
+                    getBinding().ivEmpty.showEmptyIcon();
                     break;
                 case LOADING:
+                    getBinding().ivEmpty.showProgressBar();
                     break;
                 case FAILED:
                     ToastUtils.makeToast(R.string.text_failed);
+                    getBinding().ivEmpty.showEmptyIcon();
                     break;
             }
         });

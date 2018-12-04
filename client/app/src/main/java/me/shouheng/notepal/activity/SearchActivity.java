@@ -88,11 +88,14 @@ public class SearchActivity extends CommonActivity<ActivitySearchBinding> implem
                     Observable.fromIterable(resources.data)
                             .forEach(note -> multiItems.add(new NotesAdapter.MultiItem(note)));
                     adapter.setNewData(multiItems);
+                    getBinding().ivEmpty.showEmptyIcon();
                     break;
                 case FAILED:
+                    getBinding().ivEmpty.showEmptyIcon();
                     ToastUtils.makeToast(R.string.text_failed);
                     break;
                 case LOADING:
+                    getBinding().ivEmpty.showProgressBar();
                     break;
             }
         });

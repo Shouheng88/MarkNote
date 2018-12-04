@@ -95,6 +95,9 @@ public class NotesViewModel extends ViewModel {
      * Fetch the multi items.
      */
     public Disposable fetchMultiItems() {
+        if (mutableLiveData != null) {
+            mutableLiveData.setValue(Resource.loading(null));
+        }
         return Observable.create((ObservableOnSubscribe<List<NotesAdapter.MultiItem>>) emitter -> {
             List<NotesAdapter.MultiItem> multiItems = new LinkedList<>();
             List list;

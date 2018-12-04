@@ -34,6 +34,9 @@ public class SearchViewModel extends ViewModel {
     }
 
     public Disposable fetchSearchResults() {
+        if (notesLiveData != null) {
+            notesLiveData.setValue(Resource.loading(null));
+        }
         return Observable
                 .create((ObservableOnSubscribe<List<Note>>) emitter -> {
                     String conditions = NoteSchema.TITLE + " LIKE '%'||'" + queryText + "'||'%'"
