@@ -23,6 +23,23 @@ public class RxMessage {
      */
     public final static int CODE_CATEGORY_DATA_CHANGED = 4;
 
+    /**
+     * Code identify that the password check has been passed.
+     */
+    public final static int CODE_PASSWORD_CHECK_PASSED = 5;
+
+    /**
+     * Code identify that the password check has been failed.
+     */
+    public final static int CODE_PASSWORD_CHECK_FAILED = 6;
+
+    /**
+     * The new password has benn set.
+     */
+    public final static int CODE_PASSWORD_SET_SUCCEED = 7;
+
+    public final static int CODE_PASSWORD_SET_FAILED = 8;
+
     public final int code;
 
     public final Object object;

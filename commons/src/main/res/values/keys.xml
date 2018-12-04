@@ -32,6 +32,7 @@
     <string name="key_security_psd_question" translatable="false">____password_question</string>
     <string name="key_security_psd_answer" translatable="false">____password_answer</string>
     <string name="key_security_error_time" translatable="false">____last_error_time</string>
+    <string name="key_security_finger_print_enable" translatable="false">____finger_print_enabled</string>
 
     <!-- setting->backup -->
     <string name="key_backup_external" translatable="false">backup_external</string>

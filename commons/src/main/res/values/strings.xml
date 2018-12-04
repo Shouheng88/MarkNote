@@ -312,9 +312,10 @@
     <string name="setting_security_question_sub">The security question used when forget password</string>
     <!-- setting->security->lock -->
     <string name="setting_lock_psd_hint">Input again</string>
-    <string name="setting_lock_psd_changes_left">Wrong password, %d chances left</string>
+    <string name="setting_lock_psd_changes_left">Wrong password!</string>
     <string name="setting_lock_new_psd">New password</string>
     <string name="setting_lock_psd_frozen">Password frozen. Try %d minutes later</string>
+    <string name="setting_lock_psd_set_differ">Failed with wrong confirm password. Please input again!</string>
     <string name="setting_lock_psd_frozen_tips">Password frozen. Disable password by answering security question.</string>
     <string name="setting_lock_security_question_wrong">Wrong answer</string>
     <string name="setting_lock_security_question_removed">You passed the question. And the password check is disabled. Now you are able to change the password in setting.</string>
@@ -328,6 +329,11 @@
     <string name="setting_security_question_answer_required">Answer is required</string>
     <string name="setting_security_question_confirm_answer_required">Confirm answer is required</string>
     <string name="wrong_numeric_string">The string contains illegal chars</string>
+    <string name="setting_security_password_finger_print">启用指纹密码</string>
+    <string name="setting_security_password_finger_print_sub">启用之后可以使用指纹进行身份校验</string>
+    <string name="security_finger_locked">指纹密码已锁定</string>
+    <string name="security_finger_failed">指纹识别失败</string>
+    <string name="security_finger_not_match">纹识不匹配，还剩%d次机会</string>
     <!-- setting->security->frozen time -->
     <string name="setting_frozen_time_message">frozen time (0 &#8211; 30 minutes)</string>
     <string name="setting_frozen_time_long">The time is too long</string>

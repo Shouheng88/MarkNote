@@ -67,12 +67,13 @@ import me.shouheng.data.store.NotesStore;
 import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
+import me.shouheng.notepal.common.exception.NoteNotFoundException;
+import me.shouheng.notepal.common.preferences.UserPreferences;
 import me.shouheng.notepal.databinding.ActivityMainBinding;
 import me.shouheng.notepal.databinding.LayoutActionViewBottomDialogBinding;
 import me.shouheng.notepal.dialog.CategoryEditDialog;
 import me.shouheng.notepal.dialog.NotebookEditDialog;
 import me.shouheng.notepal.dialog.QuickNoteDialog;
-import me.shouheng.notepal.common.exception.NoteNotFoundException;
 import me.shouheng.notepal.fragment.CategoriesFragment;
 import me.shouheng.notepal.fragment.NoteFragment;
 import me.shouheng.notepal.fragment.NoteViewFragment;
@@ -82,7 +83,6 @@ import me.shouheng.notepal.fragment.TimeLineFragment;
 import me.shouheng.notepal.fragment.setting.SettingsFragment;
 import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.notepal.util.SynchronizeUtils;
-import me.shouheng.notepal.common.preferences.UserPreferences;
 import me.shouheng.notepal.vm.MainViewModel;
 
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
@@ -97,8 +97,6 @@ import static me.shouheng.notepal.Constants.SHORTCUT_EXTRA_NOTE_CODE;
 
 public class MainActivity extends CommonActivity<ActivityMainBinding>
         implements NotesFragment.OnNotesInteractListener, CategoriesFragment.CategoriesInteraction {
-
-    private final static int REQUEST_PASSWORD = 0x0006;
 
     private FloatingActionButton[] fabs;
     private long onBackPressed;
@@ -124,7 +122,10 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
         boolean psdRequired = PersistData.getBoolean(R.string.key_security_psd_required, false);
         String psd = PersistData.getString(R.string.key_security_psd, null);
         if (psdRequired && !PalmApp.isPasswordChecked() && !TextUtils.isEmpty(psd)) {
-            LockActivity.requireLaunch(this, REQUEST_PASSWORD);
+            ActivityHelper.open(LockActivity.class)
+                    .setAction(LockActivity.ACTION_REQUIRE_PASSWORD)
+                    .setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                    .launch(getContext());
         } else {
             everything(savedInstanceState);
         }
@@ -132,6 +133,8 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
 
     private void addSubscriptions() {
         addSubscription(RxMessage.class, RxMessage.CODE_SORT_FLOAT_BUTTONS, rxMessage -> configFabSortItems());
+        addSubscription(RxMessage.class, RxMessage.CODE_PASSWORD_CHECK_PASSED, rxMessage -> everything(null));
+        addSubscription(RxMessage.class, RxMessage.CODE_PASSWORD_CHECK_FAILED, rxMessage -> finish());
         viewModel.getUpdateNotebookLiveData().observe(this, resources -> {
             assert resources != null;
             switch (resources.status) {
@@ -728,18 +731,6 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                 break;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case REQUEST_PASSWORD:
-                if (resultCode == RESULT_OK) {
-                    everything(null);
-                }
-                break;
-        }
     }
 
     @Override

@@ -4,8 +4,13 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.support.annotation.StringRes;
 
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import me.shouheng.commons.event.RxBus;
+import me.shouheng.commons.event.RxMessage;
 import me.shouheng.commons.theme.ThemeStyle;
 import me.shouheng.commons.theme.ThemeUtils;
+import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.commons.utils.PalmUtils;
 
 /**
@@ -25,5 +30,16 @@ public abstract class BPreferenceFragment extends PreferenceFragment {
 
     public ThemeStyle getThemeStyle() {
         return ThemeUtils.getInstance().getThemeStyle();
+    }
+
+    protected <M extends RxMessage> void addSubscription(Class<M> eventType, int code, Consumer<M> action) {
+        Disposable disposable = RxBus.getRxBus().doSubscribe(eventType, code, action, LogUtils::d);
+        RxBus.getRxBus().addSubscription(this, disposable);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        RxBus.getRxBus().unSubscribe(this);
     }
 }

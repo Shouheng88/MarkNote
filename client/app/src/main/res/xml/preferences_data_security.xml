@@ -14,15 +14,16 @@
         android:summary="@string/setting_security_psd_sub"/>
 
     <Preference
-        android:key="@string/key_security_freeze_time"
-        android:persistent="false"
-        android:title="@string/setting_security_psd_freeze"
-        android:summary="@string/setting_security_psd_freeze_sub" />
-
-    <Preference
         android:key="@string/key_security_psd_question"
         android:persistent="false"
         android:title="@string/setting_security_question"
         android:summary="@string/setting_security_question_sub"/>
+
+    <SwitchPreference
+        android:key="@string/key_security_finger_print_enable"
+        android:defaultValue="false"
+        android:icon="@drawable/ic_fingerprint_black_24dp"
+        android:title="@string/setting_security_password_finger_print"
+        android:summary="@string/setting_security_password_finger_print_sub"/>
 
 </PreferenceScreen>

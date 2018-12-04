@@ -14,10 +14,13 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import me.shouheng.commons.activity.PermissionActivity;
 import me.shouheng.commons.event.RxBus;
 import me.shouheng.commons.event.RxMessage;
+import me.shouheng.commons.helper.ActivityHelper;
+import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.commons.utils.PermissionUtils;
 import me.shouheng.commons.utils.PersistData;
 import me.shouheng.commons.utils.ToastUtils;
@@ -37,8 +40,6 @@ import me.shouheng.notepal.vm.QuickViewModel;
 
 public class QuickActivity extends PermissionActivity {
 
-    private final static int REQUEST_PASSWORD = 0x0016;
-
     private QuickViewModel viewModel;
 
     @Override
@@ -46,6 +47,25 @@ public class QuickActivity extends PermissionActivity {
         super.onCreate(savedInstanceState);
         viewModel = ViewModelProviders.of(this).get(QuickViewModel.class);
         checkPsdIfNecessary(savedInstanceState);
+        addSubscriptions();
+    }
+
+    private void checkPsdIfNecessary(Bundle savedInstanceState) {
+        boolean psdRequired = PersistData.getBoolean(R.string.key_security_psd_required, false);
+        String psd = PersistData.getString(R.string.key_security_psd, null);
+        if (psdRequired && !PalmApp.isPasswordChecked() && !TextUtils.isEmpty(psd)) {
+            ActivityHelper.open(LockActivity.class)
+                    .setAction(LockActivity.ACTION_REQUIRE_PASSWORD)
+                    .setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                    .launch(this);
+        } else {
+            handleIntent(savedInstanceState);
+        }
+    }
+
+    private void addSubscriptions() {
+        addSubscription(RxMessage.class, RxMessage.CODE_PASSWORD_CHECK_PASSED, rxMessage -> handleIntent(null));
+        addSubscription(RxMessage.class, RxMessage.CODE_PASSWORD_CHECK_FAILED, rxMessage -> finish());
         viewModel.getSaveNoteLiveData().observe(this, resources -> {
             assert resources != null;
             switch (resources.status) {
@@ -59,16 +79,6 @@ public class QuickActivity extends PermissionActivity {
                     break;
             }
         });
-    }
-
-    private void checkPsdIfNecessary(Bundle savedInstanceState) {
-        boolean psdRequired = PersistData.getBoolean(R.string.key_security_psd_required, false);
-        String psd = PersistData.getString(R.string.key_security_psd, null);
-        if (psdRequired && !PalmApp.isPasswordChecked() && !TextUtils.isEmpty(psd)) {
-            LockActivity.requireLaunch(this, REQUEST_PASSWORD);
-        } else {
-            handleIntent(savedInstanceState);
-        }
     }
 
     private void handleIntent(Bundle savedInstanceState) {
@@ -116,20 +126,6 @@ public class QuickActivity extends PermissionActivity {
         }).show(getSupportFragmentManager(), "QUICK NOTE");
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case REQUEST_PASSWORD:
-                if (resultCode == RESULT_OK) {
-                    handleIntent(null);
-                } else {
-                    finish();
-                }
-                break;
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
     private void handleAppWidget(Intent intent, OnGetAppWidgetCondition onGetAppWidgetCondition) {
         /* Get notebook first. */
         int widgetId = intent.getIntExtra(Constants.APP_WIDGET_EXTRA_WIDGET_ID, 0);
@@ -155,6 +151,17 @@ public class QuickActivity extends PermissionActivity {
                 onGetAppWidgetCondition.onGetCondition(new Pair<>(null, null));
             }
         }
+    }
+
+    private  <M extends RxMessage> void addSubscription(Class<M> eventType, int code, Consumer<M> action) {
+        Disposable disposable = RxBus.getRxBus().doSubscribe(eventType, code, action, LogUtils::d);
+        RxBus.getRxBus().addSubscription(this, disposable);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        RxBus.getRxBus().unSubscribe(this);
     }
 
     public interface OnGetAppWidgetCondition {

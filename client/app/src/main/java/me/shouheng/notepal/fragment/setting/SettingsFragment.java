@@ -1,12 +1,10 @@
 package me.shouheng.notepal.fragment.setting;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 
 import me.shouheng.commons.activity.ContainerActivity;
 import me.shouheng.commons.activity.ThemedActivity;
@@ -20,17 +18,13 @@ import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.AboutActivity;
 import me.shouheng.notepal.activity.FabSortActivity;
-import me.shouheng.notepal.activity.LockActivity;
 import me.shouheng.notepal.activity.SettingsActivity;
-import me.shouheng.notepal.common.preferences.LockPreferences;
 import me.shouheng.notepal.dialog.ThemePickDialog;
 
 /**
  * Created by WngShhng (shouheng2015@gmail.com) on 2017/12/21.
  */
 public class SettingsFragment extends BPreferenceFragment {
-
-    private final int REQUEST_LOCK = 1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -72,12 +66,7 @@ public class SettingsFragment extends BPreferenceFragment {
         });
 
         findPreference(R.string.key_setting_security).setOnPreferenceClickListener(preference -> {
-            if (LockPreferences.getInstance().isPasswordRequired()
-                    && !TextUtils.isEmpty(LockPreferences.getInstance().getPassword())) {
-                LockActivity.requirePassword(SettingsFragment.this, REQUEST_LOCK);
-            } else {
-                SettingsActivity.open(SettingsSecurity.class).launch(getActivity());
-            }
+            SettingsActivity.open(SettingsSecurity.class).launch(getActivity());
             return true;
         });
 
@@ -134,17 +123,5 @@ public class SettingsFragment extends BPreferenceFragment {
                     .launch(getActivity());
             return true;
         });
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case REQUEST_LOCK:
-                if (resultCode == Activity.RESULT_OK) {
-                    SettingsActivity.open(SettingsSecurity.class).launch(getActivity());
-                }
-                break;
-        }
-        super.onActivityResult(requestCode, resultCode, data);
     }
 }

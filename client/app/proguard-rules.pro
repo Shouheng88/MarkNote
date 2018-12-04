@@ -86,3 +86,10 @@
 
 #:Matisse
 -dontwarn com.squareup.picasso.**
+
+# FingerPrint
+-ignorewarnings
+# MeiZuFingerprint
+-keep class com.fingerprints.service.** { *; }
+# SmsungFingerprint
+-keep class com.samsung.android.sdk.** { *; }
