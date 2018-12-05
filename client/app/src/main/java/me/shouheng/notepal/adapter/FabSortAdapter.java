@@ -31,8 +31,8 @@ public class FabSortAdapter extends RecyclerView.Adapter<FabSortAdapter.ViewHold
 
     public FabSortAdapter(Context context, List<FabSortItem> fabSortItems) {
         this.fabSortItems = fabSortItems;
-        accentColor = ColorUtils.accentColor(context);
-        isDarkTheme = ColorUtils.isDarkTheme(context);
+        accentColor = ColorUtils.accentColor();
+        isDarkTheme = ColorUtils.isDarkTheme();
     }
 
     @NonNull

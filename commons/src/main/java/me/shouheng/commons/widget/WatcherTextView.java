@@ -40,7 +40,7 @@ public class WatcherTextView extends android.support.v7.widget.AppCompatTextView
     private void init(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         TypedArray attr = context.obtainStyledAttributes(attrs, R.styleable.WatcherTextView, 0, 0);
 
-        setTextColor(ColorUtils.accentColor(context));
+        setTextColor(ColorUtils.accentColor());
 
         int maxLength = attr.getInt(R.styleable.WatcherTextView_max_length, Integer.MAX_VALUE);
         this.maxLength = maxLength == Integer.MAX_VALUE ? null : maxLength;

@@ -39,7 +39,7 @@ public class SupportTextView extends AppCompatTextView {
                 getContext().getResources().getColor(R.color.md_grey_300));
         attr.recycle();
 
-        int textColor = ColorUtils.isDarkTheme(getContext()) ? darkThemeTextColor : lightThemeTextColor;
+        int textColor = ColorUtils.isDarkTheme() ? darkThemeTextColor : lightThemeTextColor;
         setTextColor(textColor);
     }
 

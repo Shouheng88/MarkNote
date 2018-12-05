@@ -10,11 +10,10 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import java.util.List;
 
 import me.shouheng.commons.utils.ColorUtils;
-import me.shouheng.notepal.PalmApp;
-import me.shouheng.notepal.R;
-import me.shouheng.notepal.adapter.picker.ModelsPickerStrategy;
 import me.shouheng.data.entity.Model;
 import me.shouheng.data.utils.Selectable;
+import me.shouheng.notepal.R;
+import me.shouheng.notepal.adapter.picker.ModelsPickerStrategy;
 
 /**
  * Created by wangshouheng on 2017/10/5.
@@ -46,7 +45,7 @@ public class ModelsPickerAdapter<T extends Model & Selectable> extends BaseQuick
 
     private int getSelectedColor() {
         if (selectedColor == -1) {
-            selectedColor = ColorUtils.accentColor(PalmApp.getContext()) + 536_870_912;
+            selectedColor = ColorUtils.accentColor() + 536_870_912;
         }
         return selectedColor;
     }

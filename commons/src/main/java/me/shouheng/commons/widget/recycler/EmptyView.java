@@ -68,7 +68,7 @@ public class EmptyView extends LinearLayout {
         if (mIcon != -1) binding.ivImage.setImageResource(mIcon);
 
         boolean isDarkTheme;
-        if (isDarkTheme = ColorUtils.isDarkTheme(context)) {
+        if (isDarkTheme = ColorUtils.isDarkTheme()) {
             binding.tvBottomTitle.setTextColor(getResources().getColor(R.color.dark_theme_empty_text_color));
             binding.tvBottomSubTitle.setTextColor(getResources().getColor(R.color.dark_theme_empty_sub_text_color));
         }
@@ -94,13 +94,13 @@ public class EmptyView extends LinearLayout {
             binding.ivImage.setImageResource(mIcon);
         } else {
             binding.ivImage.setImageDrawable(ColorUtils.tintDrawable(mIcon, getResources().getColor(
-                    ColorUtils.isDarkTheme(getContext()) ? R.color.dark_theme_empty_icon_tint_color : R.color.light_theme_empty_icon_tint_color)));
+                    ColorUtils.isDarkTheme() ? R.color.dark_theme_empty_icon_tint_color : R.color.light_theme_empty_icon_tint_color)));
         }
     }
 
     public void setIcon(Drawable drawable) {
         binding.ivImage.setImageDrawable(tintDrawable ? ColorUtils.tintDrawable(drawable, getResources().getColor(
-                ColorUtils.isDarkTheme(getContext()) ? R.color.dark_theme_empty_icon_tint_color : R.color.light_theme_empty_icon_tint_color)) : drawable);
+                ColorUtils.isDarkTheme() ? R.color.dark_theme_empty_icon_tint_color : R.color.light_theme_empty_icon_tint_color)) : drawable);
     }
 
     /**

@@ -40,7 +40,7 @@ public class TableInputDialog extends DialogFragment {
                 null,
                 false);
 
-        int buttonColor = ColorUtils.accentColor(getContext());
+        int buttonColor = ColorUtils.accentColor();
         binding.tvMdCancel.setTextColor(buttonColor);
         binding.tvMdConfirm.setTextColor(buttonColor);
 

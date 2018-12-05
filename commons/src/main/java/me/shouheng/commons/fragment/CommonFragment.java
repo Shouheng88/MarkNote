@@ -95,15 +95,15 @@ public abstract class CommonFragment<T extends ViewDataBinding> extends Fragment
     }
 
     protected boolean isDarkTheme(){
-        return ColorUtils.isDarkTheme(getContext());
+        return ColorUtils.isDarkTheme();
     }
 
     protected int primaryColor(){
-        return ColorUtils.primaryColor(getContext());
+        return ColorUtils.primaryColor();
     }
 
     protected int accentColor(){
-        return ColorUtils.accentColor(getContext());
+        return ColorUtils.accentColor();
     }
 
     protected void postEvent(Object object) {

@@ -89,7 +89,7 @@ public class NotesListWidgetService extends RemoteViewsService {
             row.setTextViewText(R.id.tv_note_title, note.getTitle());
             row.setTextViewText(R.id.tv_added_time, note.getPreviewContent());
             row.setTextViewText(R.id.tv_sub_title, TimeUtils.getLongDateTime(app.getApplicationContext(), note.getAddedTime()));
-            row.setTextColor(R.id.tv_sub_title, ColorUtils.accentColor(app));
+            row.setTextColor(R.id.tv_sub_title, ColorUtils.accentColor());
 //        row.setInt(R.id.root, "setBackgroundColor", app.getResources().getColor(R.color.white_translucent));
             row.setViewVisibility(R.id.iv_icon, View.GONE);
 

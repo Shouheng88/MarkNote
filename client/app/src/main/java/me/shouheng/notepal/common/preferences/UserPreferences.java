@@ -10,7 +10,6 @@ import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.commons.utils.PersistData;
 import me.shouheng.data.model.enums.FabSortItem;
 import me.shouheng.data.model.enums.Operation;
-import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 
 /**
@@ -86,7 +85,7 @@ public class UserPreferences {
             case INCOMPLETE: return PalmUtils.getColorCompact(R.color.md_blue_500);
             case RECOVER: return PalmUtils.getColorCompact(R.color.md_light_blue_600);
         }
-        return ColorUtils.accentColor(PalmApp.getContext());
+        return ColorUtils.accentColor();
     }
 
     public String getNoteFileExtension() {

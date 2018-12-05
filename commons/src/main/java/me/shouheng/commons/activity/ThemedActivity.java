@@ -73,7 +73,7 @@ public abstract class ThemedActivity extends UMengActivity {
     public void updateNavigationBar() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if (PersistData.getBoolean(R.string.key_setting_nav_bar_result, false)) {
-                getWindow().setNavigationBarColor(ColorUtils.primaryColor(this));
+                getWindow().setNavigationBarColor(ColorUtils.primaryColor());
             } else {
                 getWindow().setNavigationBarColor(Color.BLACK);
             }

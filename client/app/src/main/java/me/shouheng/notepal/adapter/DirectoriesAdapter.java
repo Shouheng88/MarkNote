@@ -25,8 +25,8 @@ public class DirectoriesAdapter extends BaseQuickAdapter<Directory, BaseViewHold
 
     public DirectoriesAdapter(Context context) {
         super(R.layout.item_directory, new LinkedList<>());
-        primaryColor = ColorUtils.primaryColor(context);
-        isDarkTheme = ColorUtils.isDarkTheme(context);
+        primaryColor = ColorUtils.primaryColor();
+        isDarkTheme = ColorUtils.isDarkTheme();
     }
 
     @Override

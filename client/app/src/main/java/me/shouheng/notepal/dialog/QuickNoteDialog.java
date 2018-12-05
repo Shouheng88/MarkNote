@@ -115,11 +115,11 @@ public class QuickNoteDialog extends DialogFragment implements AttachmentHelper.
             btnNeu = dialog.getButton(AlertDialog.BUTTON_NEUTRAL);
             dialog.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(v -> showAttachmentPicker());
 
-            btnNeg.setTextColor(ColorUtils.accentColor(getContext()));
+            btnNeg.setTextColor(ColorUtils.accentColor());
             btnPos.setTextColor(Color.GRAY);
             btnPos.setEnabled(false);
             if (attachment == null) {
-                btnNeu.setTextColor(ColorUtils.accentColor(getContext()));
+                btnNeu.setTextColor(ColorUtils.accentColor());
             } else {
                 btnNeu.setEnabled(false);
                 btnNeu.setTextColor(Color.GRAY);
@@ -160,7 +160,7 @@ public class QuickNoteDialog extends DialogFragment implements AttachmentHelper.
             } else {
                 if (!btnPos.isEnabled()) {
                     btnPos.setEnabled(true);
-                    btnPos.setTextColor(ColorUtils.accentColor(getContext()));
+                    btnPos.setTextColor(ColorUtils.accentColor());
                 }
             }
         }
@@ -229,7 +229,7 @@ public class QuickNoteDialog extends DialogFragment implements AttachmentHelper.
         btnNeu.setEnabled(false);
         btnNeu.setTextColor(Color.GRAY);
         btnPos.setEnabled(true);
-        btnPos.setTextColor(ColorUtils.accentColor(getContext()));
+        btnPos.setTextColor(ColorUtils.accentColor());
 
         // display attachment in dialog
         binding.siv.setVisibility(View.VISIBLE);

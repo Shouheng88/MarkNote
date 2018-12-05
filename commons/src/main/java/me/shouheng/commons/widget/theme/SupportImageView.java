@@ -40,20 +40,20 @@ public class SupportImageView extends android.support.v7.widget.AppCompatImageVi
                 getContext().getResources().getColor(R.color.dark_theme_image_tint_color));
         attr.recycle();
 
-        int tintColor = ColorUtils.isDarkTheme(getContext()) ? darkThemeTintColor : lightThemeTintColor;
+        int tintColor = ColorUtils.isDarkTheme() ? darkThemeTintColor : lightThemeTintColor;
         if (getDrawable() != null) setImageDrawable(ColorUtils.tintDrawable(getDrawable(), tintColor));
     }
 
     @Override
     public void setImageResource(int resId) {
-        int tintColor = ColorUtils.isDarkTheme(getContext()) ? darkThemeTintColor : lightThemeTintColor;
+        int tintColor = ColorUtils.isDarkTheme() ? darkThemeTintColor : lightThemeTintColor;
         setImageDrawable(ColorUtils.tintDrawable(getResources().getDrawable(resId), tintColor));
     }
 
     @Override
     public void setImageDrawable(@Nullable Drawable drawable) {
         if (drawable == null) return;
-        int tintColor = ColorUtils.isDarkTheme(getContext()) ? darkThemeTintColor : lightThemeTintColor;
+        int tintColor = ColorUtils.isDarkTheme() ? darkThemeTintColor : lightThemeTintColor;
         super.setImageDrawable(ColorUtils.tintDrawable(drawable, tintColor));
     }
 

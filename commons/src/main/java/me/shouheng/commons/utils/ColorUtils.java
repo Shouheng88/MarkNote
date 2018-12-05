@@ -9,12 +9,14 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.FloatRange;
 import android.support.annotation.MenuRes;
+import android.support.annotation.StringRes;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.kennyc.bottomsheet.menu.BottomSheetMenu;
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -28,9 +30,7 @@ import me.shouheng.commons.theme.ThemeUtils;
  * @version $Id: ColorUtils, v 0.1 2018/6/6 22:14 shouh Exp$
  */
 public class ColorUtils {
-    private static Boolean isDarkTheme;
-    private static Integer primaryColor;
-    private static Integer accentColor;
+    private static ThemeStyle themeStyle;
 
     private static final int DEFAULT_COLOR_ALPHA = 50;
 
@@ -45,50 +45,33 @@ public class ColorUtils {
         } else return Color.BLACK;
     }
 
-    public static boolean isDarkTheme(Context context) {
-        if (isDarkTheme == null) {
-            isDarkTheme = ThemeUtils.getInstance().getThemeStyle().isDarkTheme;
-        }
-        return isDarkTheme;
-    }
-
-    public static int primaryColor(Context context) {
-        if (primaryColor == null) {
-            ThemeStyle themeStyle = ThemeUtils.getInstance().getThemeStyle();
-            primaryColor = PalmUtils.getColorCompact(themeStyle.primaryColor);
-        }
-        return primaryColor;
-    }
-
-    public static int accentColor(Context context) {
-        if (accentColor == null) {
-            ThemeStyle themeStyle = ThemeUtils.getInstance().getThemeStyle();
-            accentColor = PalmUtils.getColorCompact(themeStyle.accentColor);
-        }
-        return accentColor;
-    }
-
     public static boolean isDarkTheme() {
-        if (isDarkTheme == null) {
-            isDarkTheme = ThemeUtils.getInstance().getThemeStyle().isDarkTheme;
+        if (themeStyle == null) {
+            themeStyle = ThemeUtils.getInstance().getThemeStyle();
         }
-        return isDarkTheme;
+        return themeStyle.isDarkTheme;
     }
 
     public static int primaryColor() {
-        if (primaryColor == null) {
-            ThemeStyle themeStyle = ThemeUtils.getInstance().getThemeStyle();
-            primaryColor = PalmUtils.getColorCompact(themeStyle.primaryColor);
+        if (themeStyle == null) {
+            themeStyle = ThemeUtils.getInstance().getThemeStyle();
         }
-        return primaryColor;
+        return PalmUtils.getColorCompact(themeStyle.primaryColor);
     }
 
     public static int accentColor() {
-        if (accentColor == null) {
-            ThemeStyle themeStyle = ThemeUtils.getInstance().getThemeStyle();
-            accentColor = PalmUtils.getColorCompact(themeStyle.accentColor);
+        if (themeStyle == null) {
+            themeStyle = ThemeUtils.getInstance().getThemeStyle();
         }
-        return accentColor;
+        return  PalmUtils.getColorCompact(themeStyle.accentColor);
+    }
+
+    /**
+     * Update the {@link #themeStyle} filed to force update the theme values persisted.
+     * For if the field is singleton and won't change when we changed the theme.
+     */
+    public static void updateTheme() {
+        themeStyle = ThemeUtils.getInstance().getThemeStyle();
     }
 
     public static Drawable tintDrawable(Drawable drawable, int color) {
@@ -139,8 +122,35 @@ public class ColorUtils {
         }
     }
 
+    /**
+     * Get the them styled drawer menu item for main activity.
+     *
+     * @param nameRes menu item name res id
+     * @param iconRes menu item icon res id
+     * @param id the menu item id
+     * @param selectable is menu item selectable
+     * @return the final drawer menu item
+     */
+    public static PrimaryDrawerItem getColoredDrawerMenuItem(@StringRes int nameRes,
+                                                             @DrawableRes int iconRes,
+                                                             long id,
+                                                             boolean selectable) {
+        int colorTint = PalmUtils.getColorCompact(isDarkTheme() ? R.color.white54 : R.color.black54);
+        return new PrimaryDrawerItem()
+                .withName(nameRes)
+                .withIcon(ColorUtils.tintDrawable(iconRes, colorTint))
+                .withIdentifier(id)
+                .withIconColor(colorTint)
+                .withTextColorRes(isDarkTheme() ? R.color.white87 : R.color.black87)
+                .withSelectable(selectable)
+                .withSelectedColor(ColorUtils.fadeColor(isDarkTheme() ? Color.WHITE : Color.BLACK, 0.9f))
+                .withIconTintingEnabled(true)
+                .withSelectedTextColor(ColorUtils.accentColor())
+                .withSelectedIconColor(ColorUtils.accentColor());
+    }
+
     public static BottomSheetMenu getThemedBottomSheetMenu(Context context, @MenuRes int menuRes) {
-        int tintColor = PalmUtils.getColorCompact(isDarkTheme(context) ?
+        int tintColor = PalmUtils.getColorCompact(isDarkTheme() ?
                 R.color.dark_theme_image_tint_color : R.color.light_theme_image_tint_color);
         BottomSheetMenu menu = new BottomSheetMenu(context);
         new MenuInflater(context).inflate(menuRes, menu);

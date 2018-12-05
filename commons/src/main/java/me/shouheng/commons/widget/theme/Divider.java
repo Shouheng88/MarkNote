@@ -28,7 +28,7 @@ public class Divider extends View {
     }
 
     private void initTheme(Context context) {
-        setBackgroundResource(ColorUtils.isDarkTheme(context) ? R.color.white_divider_color : R.color.black_divider_color);
+        setBackgroundResource(ColorUtils.isDarkTheme() ? R.color.white_divider_color : R.color.black_divider_color);
     }
 
     public void setTheme(boolean isDarkTheme) {

@@ -13,6 +13,7 @@ import java.util.Objects;
 
 import me.shouheng.commons.theme.ThemeUtils;
 import me.shouheng.commons.theme.ThemeStyle;
+import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.DialogThemePickBinding;
 
@@ -70,6 +71,7 @@ public class ThemePickDialog extends DialogFragment {
 
     private void switchToTheme(ThemeStyle themeStyle) {
         ThemeUtils.getInstance().setThemeStyle(themeStyle);
+        ColorUtils.updateTheme();
         if (getActivity() != null) {
             getActivity().recreate();
         }

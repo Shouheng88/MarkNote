@@ -42,7 +42,7 @@ public class SimpleWidgetProvider extends BaseWidgetProvider {
         views.setOnClickPendingIntent(R.id.iv_add_photo, pendingIntentsMap.get(R.id.iv_add_photo));
         views.setOnClickPendingIntent(R.id.iv_add_sketch, pendingIntentsMap.get(R.id.iv_add_sketch));
         views.setOnClickPendingIntent(R.id.iv_setting, pendingIntentsMap.get(R.id.iv_setting));
-        views.setInt(R.id.toolbar, "setBackgroundColor", ColorUtils.primaryColor(context) - 1342177280);
+        views.setInt(R.id.toolbar, "setBackgroundColor", ColorUtils.primaryColor() - 1342177280);
     }
 }
 

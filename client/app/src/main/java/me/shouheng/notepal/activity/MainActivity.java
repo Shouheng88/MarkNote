@@ -218,85 +218,24 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                 .build();
 
         DividerDrawerItem divider = new DividerDrawerItem();
-
-        PrimaryDrawerItem itemNotes = new PrimaryDrawerItem()
-                .withName(R.string.drawer_menu_notebooks)
-                .withIcon(ColorUtils.tintDrawable(R.drawable.ic_book, isDarkTheme() ? Color.WHITE : Color.BLACK))
-                .withIdentifier(0)
-                .withIconTintingEnabled(true)
-                .withSelectedTextColor(ColorUtils.accentColor())
-                .withSelectedIconColor(ColorUtils.accentColor());
-
-        PrimaryDrawerItem itemTags = new PrimaryDrawerItem()
-                .withName(R.string.drawer_menu_categories)
-                .withIcon(ColorUtils.tintDrawable(R.drawable.ic_view_module_white_24dp, isDarkTheme() ? Color.WHITE : Color.BLACK))
-                .withIdentifier(1)
-                .withIconTintingEnabled(true)
-                .withSelectedTextColor(ColorUtils.accentColor())
-                .withSelectedIconColor(ColorUtils.accentColor());
-
-        PrimaryDrawerItem itemArchive = new PrimaryDrawerItem()
-                .withName(R.string.drawer_menu_archive)
-                .withIcon(ColorUtils.tintDrawable(R.drawable.ic_archive_grey, isDarkTheme() ? Color.WHITE : Color.BLACK))
-                .withIdentifier(2)
-                .withSelectable(false)
-                .withIconTintingEnabled(true)
-                .withSelectedTextColor(ColorUtils.accentColor())
-                .withSelectedIconColor(ColorUtils.accentColor());
-
-        PrimaryDrawerItem itemTrash = new PrimaryDrawerItem()
-                .withName(R.string.drawer_menu_trash)
-                .withIcon(ColorUtils.tintDrawable(R.drawable.ic_trash_black, isDarkTheme() ? Color.WHITE : Color.BLACK))
-                .withIdentifier(3)
-                .withSelectable(false)
-                .withIconTintingEnabled(true)
-                .withSelectedTextColor(ColorUtils.accentColor())
-                .withSelectedIconColor(ColorUtils.accentColor());
-
-        PrimaryDrawerItem itemSetting = new PrimaryDrawerItem()
-                .withName(R.string.drawer_menu_setting)
-                .withIcon(ColorUtils.tintDrawable(R.drawable.ic_settings_black, isDarkTheme() ? Color.WHITE : Color.BLACK))
-                .withIdentifier(4)
-                .withSelectable(false)
-                .withIconTintingEnabled(true)
-                .withSelectedTextColor(ColorUtils.accentColor())
-                .withSelectedIconColor(ColorUtils.accentColor());
-
-        PrimaryDrawerItem itemDonate = new PrimaryDrawerItem()
-                .withName(R.string.drawer_menu_donate)
-                .withIcon(ColorUtils.tintDrawable(R.drawable.ic_monetization_on_black_24dp, isDarkTheme() ? Color.WHITE : Color.BLACK))
-                .withIdentifier(5)
-                .withSelectable(false)
-                .withIconTintingEnabled(true)
-                .withSelectedTextColor(ColorUtils.accentColor())
-                .withSelectedIconColor(ColorUtils.accentColor());
-
-        PrimaryDrawerItem itemStatistic = new PrimaryDrawerItem()
-                .withName(R.string.drawer_menu_statistics)
-                .withIcon(ColorUtils.tintDrawable(R.drawable.ic_equalizer_grey_24dp, isDarkTheme() ? Color.WHITE : Color.BLACK))
-                .withIdentifier(6)
-                .withSelectable(false)
-                .withIconTintingEnabled(true)
-                .withSelectedTextColor(ColorUtils.accentColor())
-                .withSelectedIconColor(ColorUtils.accentColor());
-
-        PrimaryDrawerItem itemTimeLine = new PrimaryDrawerItem()
-                .withName(R.string.drawer_menu_time_line)
-                .withIcon(ColorUtils.tintDrawable(R.drawable.ic_timeline_black_24dp, isDarkTheme() ? Color.WHITE : Color.BLACK))
-                .withIdentifier(7)
-                .withSelectable(false)
-                .withIconTintingEnabled(true)
-                .withSelectedTextColor(ColorUtils.accentColor())
-                .withSelectedIconColor(ColorUtils.accentColor());
-
-        PrimaryDrawerItem itemShare = new PrimaryDrawerItem()
-                .withName(R.string.drawer_menu_share)
-                .withIcon(ColorUtils.tintDrawable(R.drawable.ic_share_white, isDarkTheme() ? Color.WHITE : Color.BLACK))
-                .withIdentifier(8)
-                .withSelectable(false)
-                .withIconTintingEnabled(true)
-                .withSelectedTextColor(ColorUtils.accentColor())
-                .withSelectedIconColor(ColorUtils.accentColor());
+        PrimaryDrawerItem itemNotes = ColorUtils.getColoredDrawerMenuItem(
+                R.string.drawer_menu_notebooks, R.drawable.ic_book, 0, true);
+        PrimaryDrawerItem itemTags = ColorUtils.getColoredDrawerMenuItem(
+                R.string.drawer_menu_categories, R.drawable.ic_view_module_white_24dp, 1, true);
+        PrimaryDrawerItem itemArchive = ColorUtils.getColoredDrawerMenuItem(
+                R.string.drawer_menu_archive, R.drawable.ic_archive_grey, 2, false);
+        PrimaryDrawerItem itemTrash = ColorUtils.getColoredDrawerMenuItem(
+                R.string.drawer_menu_trash, R.drawable.ic_trash_black, 3, false);
+        PrimaryDrawerItem itemSetting = ColorUtils.getColoredDrawerMenuItem(
+                R.string.drawer_menu_setting, R.drawable.ic_settings_black, 4, false);
+        PrimaryDrawerItem itemDonate = ColorUtils.getColoredDrawerMenuItem(
+                R.string.drawer_menu_donate, R.drawable.ic_monetization_on_black_24dp, 5, false);
+        PrimaryDrawerItem itemStatistic = ColorUtils.getColoredDrawerMenuItem(
+                R.string.drawer_menu_statistics, R.drawable.ic_equalizer_grey_24dp, 6, false);
+        PrimaryDrawerItem itemTimeLine = ColorUtils.getColoredDrawerMenuItem(
+                R.string.drawer_menu_time_line, R.drawable.ic_timeline_black_24dp, 7, false);
+        PrimaryDrawerItem itemShare = ColorUtils.getColoredDrawerMenuItem(
+                R.string.drawer_menu_share, R.drawable.ic_share_white, 8, false);
 
         drawer = new DrawerBuilder().withActivity(this)
                 .withHasStableIds(true)
@@ -304,6 +243,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                         itemTrash, divider, itemSetting, itemShare, itemDonate)
                 .withMultiSelect(false)
                 .withSelectedItem(0)
+                .withSliderBackgroundColorRes(isDarkTheme() ? R.color.dark_theme_background : R.color.light_theme_background)
                 .withOnDrawerItemClickListener((view, position, drawerItem) -> {
                     if (drawerItem == null) return false;
                     switch ((int) drawerItem.getIdentifier()) {

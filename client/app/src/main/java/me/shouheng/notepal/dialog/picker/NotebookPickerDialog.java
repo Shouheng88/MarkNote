@@ -40,7 +40,7 @@ public class NotebookPickerDialog extends BasePickerDialog<Notebook> {
     }
 
     private int getImageTintColor() {
-        return getContext().getResources().getColor(ColorUtils.isDarkTheme(getContext())
+        return getContext().getResources().getColor(ColorUtils.isDarkTheme()
                 ? R.color.dark_theme_empty_icon_tint_color : R.color.light_theme_empty_icon_tint_color);
     }
 }

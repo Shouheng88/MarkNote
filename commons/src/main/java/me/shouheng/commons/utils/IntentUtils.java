@@ -134,7 +134,7 @@ public class IntentUtils {
     }
 
     private static void launchUrl(Context context, String url) {
-        int primaryColor = ColorUtils.primaryColor(context);
+        int primaryColor = ColorUtils.primaryColor();
 
         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
         CustomTabsIntent customTabsIntent = builder

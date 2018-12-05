@@ -40,7 +40,7 @@ public class TimeLinesAdapter extends BaseQuickAdapter<TimeLine, BaseViewHolder>
         helper.setText(R.id.tv_date, TimeUtils.getShortDate(context, timeLine.getAddedTime()));
         helper.setText(R.id.tv_time, TimeUtils.getShortTime(context, timeLine.getAddedTime()));
         helper.setText(R.id.tv_sub, timeLine.getModelName());
-        helper.setTextColor(R.id.tv_sub, ColorUtils.accentColor(context));
+        helper.setTextColor(R.id.tv_sub, ColorUtils.accentColor());
         ((Timeline) helper.getView(R.id.timeLine)).setAtomDrawable(atomDrawable());
     }
 

@@ -45,8 +45,8 @@ public class NotesAdapter extends BaseMultiItemQuickAdapter<NotesAdapter.MultiIt
         addItemType(MultiItem.ITEM_TYPE_NOTE, isExpanded ? R.layout.item_note_expanded : R.layout.item_note);
         addItemType(MultiItem.ITEM_TYPE_NOTEBOOK, R.layout.item_note);
 
-        accentColor = ColorUtils.accentColor(context);
-        isDarkTheme = ColorUtils.isDarkTheme(context);
+        accentColor = ColorUtils.accentColor();
+        isDarkTheme = ColorUtils.isDarkTheme();
     }
 
     @Override

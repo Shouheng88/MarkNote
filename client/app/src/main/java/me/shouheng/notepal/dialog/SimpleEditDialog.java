@@ -54,7 +54,7 @@ public class SimpleEditDialog extends DialogFragment {
         View dlgRootView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_simple_edit_layout, null);
 
         tv = dlgRootView.findViewById(R.id.tv);
-        tv.setTextColor(ColorUtils.accentColor(getContext()));
+        tv.setTextColor(ColorUtils.accentColor());
         int len = (content == null ? 0 : content.length());
         if (maxLength != null) {
             String s = len + "/" + maxLength;

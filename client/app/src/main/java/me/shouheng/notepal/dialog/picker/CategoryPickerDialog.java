@@ -58,7 +58,7 @@ public class CategoryPickerDialog extends BasePickerDialog<Category> {
     }
 
     private int getImageTintColor() {
-        return PalmUtils.getColorCompact(ColorUtils.isDarkTheme(getContext())
+        return PalmUtils.getColorCompact(ColorUtils.isDarkTheme()
                 ? R.color.dark_theme_empty_icon_tint_color : R.color.light_theme_empty_icon_tint_color);
     }
 

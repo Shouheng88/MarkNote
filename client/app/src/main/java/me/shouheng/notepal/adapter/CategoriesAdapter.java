@@ -29,7 +29,7 @@ public class CategoriesAdapter extends BaseQuickAdapter<Category, BaseViewHolder
     public CategoriesAdapter(Context context, @Nullable List<Category> data) {
         super(R.layout.item_category, data);
         this.context = context;
-        this.isDarkTheme = ColorUtils.isDarkTheme(context);
+        this.isDarkTheme = ColorUtils.isDarkTheme();
     }
 
     @Override

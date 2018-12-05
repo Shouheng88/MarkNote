@@ -49,7 +49,7 @@ public abstract class BasePickerDialog<T extends Model & Selectable> extends Dia
         mRecyclerView.setEmptyView(emptyView);
         mRecyclerView.setItemAnimator(new CustomItemAnimator());
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
-                DividerItemDecoration.VERTICAL_LIST, ColorUtils.isDarkTheme(getContext())));
+                DividerItemDecoration.VERTICAL_LIST, ColorUtils.isDarkTheme()));
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         mRecyclerView.setAdapter(getAdapter());
