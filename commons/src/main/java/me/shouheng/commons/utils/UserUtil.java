@@ -5,7 +5,8 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 /**
- * Created by wangshouheng on 2017/3/13. */
+ * Created by WngShhng on 2017/3/13.
+ */
 public final class UserUtil {
 
     private static UserUtil sInstance;
@@ -13,8 +14,6 @@ public final class UserUtil {
     private static SharedPreferences mPreferences;
 
     private static final String USER_ID_KEPT = "User_Id_Kept";
-    private static final String LOGINED_USER = "Logined_User";
-
 
     private UserUtil(final Context context) {
         mPreferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -23,18 +22,13 @@ public final class UserUtil {
     public static UserUtil getInstance(final Context context) {
         if (sInstance == null) {
             synchronized (UserUtil.class) {
-                if (sInstance == null){
+                if (sInstance == null) {
                     sInstance = new UserUtil(context.getApplicationContext());
                 }
             }
         }
         return sInstance;
     }
-
-    public void setOnAccountKeeperChangeListener(SharedPreferences.OnSharedPreferenceChangeListener listener) {
-        mPreferences.registerOnSharedPreferenceChangeListener(listener);
-    }
-
 
     public long getUserIdKept() {
         return mPreferences.getLong(USER_ID_KEPT, 0L);

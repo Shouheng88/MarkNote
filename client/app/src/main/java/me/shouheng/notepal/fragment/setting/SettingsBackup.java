@@ -28,7 +28,7 @@ import me.shouheng.commons.utils.PermissionUtils;
 import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.DirectoryActivity;
-import me.shouheng.notepal.async.DataBackupIntentService;
+import me.shouheng.notepal.service.DataBackupService;
 import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.notepal.onedrive.DefaultCallback;
 import me.shouheng.notepal.onedrive.OneDriveManager;
@@ -166,10 +166,10 @@ public class SettingsBackup extends BPreferenceFragment {
                     if (TextUtils.isEmpty(backupName = tvFileName.getText().toString())) {
                         backupName = defName;
                     }
-                    Intent service = new Intent(getActivity(), DataBackupIntentService.class);
-                    service.setAction(DataBackupIntentService.ACTION_DATA_EXPORT);
-                    service.putExtra(DataBackupIntentService.INTENT_BACKUP_INCLUDE_SETTINGS, cb.isChecked());
-                    service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME, backupName);
+                    Intent service = new Intent(getActivity(), DataBackupService.class);
+                    service.setAction(DataBackupService.ACTION_DATA_EXPORT);
+                    service.putExtra(DataBackupService.INTENT_BACKUP_INCLUDE_SETTINGS, cb.isChecked());
+                    service.putExtra(DataBackupService.INTENT_BACKUP_NAME, backupName);
                     getActivity().startService(service);
                 }).build().show();
     }
@@ -213,9 +213,9 @@ public class SettingsBackup extends BPreferenceFragment {
                 .content(message)
                 .positiveText(R.string.text_confirm)
                 .onPositive((dialog, which) -> {
-                    Intent service = new Intent(getActivity(), DataBackupIntentService.class);
-                    service.setAction(DataBackupIntentService.ACTION_DATA_IMPORT);
-                    service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME, backup);
+                    Intent service = new Intent(getActivity(), DataBackupService.class);
+                    service.setAction(DataBackupService.ACTION_DATA_IMPORT);
+                    service.putExtra(DataBackupService.INTENT_BACKUP_NAME, backup);
                     getActivity().startService(service);
                 }).build().show();
     }
@@ -260,9 +260,9 @@ public class SettingsBackup extends BPreferenceFragment {
                 .content(R.string.setting_backup_external_delete_confirm)
                 .positiveText(R.string.text_confirm)
                 .onPositive((dialog, which) -> {
-                    Intent service = new Intent(getActivity(), DataBackupIntentService.class);
-                    service.setAction(DataBackupIntentService.ACTION_DATA_DELETE);
-                    service.putStringArrayListExtra(DataBackupIntentService.INTENT_BACKUP_NAME, selected);
+                    Intent service = new Intent(getActivity(), DataBackupService.class);
+                    service.setAction(DataBackupService.ACTION_DATA_DELETE);
+                    service.putStringArrayListExtra(DataBackupService.INTENT_BACKUP_NAME, selected);
                     getActivity().startService(service);
                 }).build().show();
     }

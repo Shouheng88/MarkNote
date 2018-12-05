@@ -20,9 +20,7 @@ import me.shouheng.data.entity.Category;
 import me.shouheng.commons.utils.ToastUtils;
 
 /**
- * TODO 分类添加之后时间线统计错误
- *
- * Created by wangshouheng on 2017/4/2.
+ * Created by WngShhng on 2017/4/2.
  */
 public class CategoryEditDialog extends DialogFragment implements ColorChooserDialog.ColorCallback {
 

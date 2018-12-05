@@ -7,7 +7,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.support.customtabs.CustomTabsIntent;
+import android.support.v4.content.FileProvider;
 
 import java.io.File;
 import java.util.List;
@@ -31,8 +33,24 @@ public class IntentUtils {
         Intent i = new Intent();
         i.setAction(Intent.ACTION_SEND);
         i.setType(mimeType);
-        i.putExtra(Intent.EXTRA_STREAM, FileUtils.getUriFromFile(context, file, authority));
+        i.putExtra(Intent.EXTRA_STREAM, getUriFromFile(context, file, authority));
         context.startActivity(Intent.createChooser(i, title));
+    }
+
+    /**
+     * Get uri from the file.
+     *
+     * @param context the context
+     * @param file the file
+     * @param authority the authority. see {@link android.support.v4.content.FileProvider#getUriForFile}
+     * @return the uri of a file
+     */
+    private static Uri getUriFromFile(Context context, File file, String authority) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
+            return FileProvider.getUriForFile(context, authority, file);
+        } else {
+            return Uri.fromFile(file);
+        }
     }
 
     /**

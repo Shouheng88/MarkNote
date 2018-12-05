@@ -1,4 +1,4 @@
-package me.shouheng.notepal.async;
+package me.shouheng.notepal.service;
 
 import android.app.IntentService;
 import android.app.PendingIntent;
@@ -26,8 +26,9 @@ import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.notepal.util.NotificationsHelper;
 
 /**
- * Created by wang shouheng on 2018/1/5.*/
-public class DataBackupIntentService extends IntentService {
+ * Created by WngShhng on 2018/1/5.
+ */
+public class DataBackupService extends IntentService {
 
     public final static String INTENT_BACKUP_NAME = "backup_name";
     public final static String ACTION_DATA_EXPORT = "action_data_export";
@@ -40,8 +41,8 @@ public class DataBackupIntentService extends IntentService {
 
     private NotificationsHelper mNotificationsHelper;
 
-    public DataBackupIntentService() {
-        super("DataBackupIntentService");
+    public DataBackupService() {
+        super("DataBackupService");
     }
 
     @Override
@@ -64,8 +65,8 @@ public class DataBackupIntentService extends IntentService {
     private void createNotification(Intent intent, Context mContext, String title, String message, File backupDir) {
 
         Intent intentLaunch;
-        if (DataBackupIntentService.ACTION_DATA_IMPORT.equals(intent.getAction())
-                || DataBackupIntentService.ACTION_DATA_IMPORT_SPRINGPAD.equals(intent.getAction())) {
+        if (DataBackupService.ACTION_DATA_IMPORT.equals(intent.getAction())
+                || DataBackupService.ACTION_DATA_IMPORT_SPRINGPAD.equals(intent.getAction())) {
             intentLaunch = new Intent(mContext, MainActivity.class);
             intentLaunch.setAction(Constants.ACTION_RESTART_APP);
         } else {

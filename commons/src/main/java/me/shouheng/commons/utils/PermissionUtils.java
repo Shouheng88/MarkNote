@@ -16,7 +16,8 @@ import me.shouheng.commons.activity.PermissionActivity;
  * The wrapped utils class to request for permission in runtime.
  * NOTE: The weakness is that the activity used to check permission must extends {@link PermissionActivity}
  *
- * Created by wang shouheng on 2017/12/5.*/
+ * Created by WngShhng on 2017/12/5.
+ */
 public class PermissionUtils {
 
     private final static int REQUEST_PERMISSIONS = 0xFF00;

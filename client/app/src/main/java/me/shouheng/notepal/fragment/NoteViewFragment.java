@@ -230,8 +230,11 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
             ToastUtils.makeToast(R.string.note_copied_success);
         });
         getBinding().drawer.llShortcut.setOnClickListener(v -> {
-            ShortcutHelper.addShortcut(getActivity().getApplicationContext(), viewModel.getNote());
-            ToastUtils.makeToast(R.string.text_succeed);
+            if (viewModel.getNote().getContentCode() == 0L || TextUtils.isEmpty(viewModel.getNote().getTitle())) {
+                ToastUtils.makeToast(R.string.note_shortcut_error_tips);
+            } else {
+                ShortcutHelper.createShortcut(getActivity().getApplicationContext(), viewModel.getNote());
+            }
         });
         getBinding().drawer.llExport.setOnClickListener(v -> showExportDialog());
         getBinding().drawer.llShare.setOnClickListener(v -> showSendDialog());

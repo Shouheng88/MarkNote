@@ -22,7 +22,8 @@ import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.manager.FileManager;
 
 /**
- * Created by wangshouheng on 2017/11/17. */
+ * Created by WngShhng on 2017/11/17.
+ */
 public class ScreenShotHelper {
 
     // region shot recycler view

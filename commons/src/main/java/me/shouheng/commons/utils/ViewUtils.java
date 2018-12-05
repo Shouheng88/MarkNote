@@ -4,14 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Point;
-import android.net.Uri;
-import android.support.customtabs.CustomTabsIntent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
 /**
- * Created by Wang Shouheng on 2017/12/5. */
+ * Created by WngShhng on 2017/12/5.
+ */
 public class ViewUtils {
 
     public static int getStatusBarHeight(Context context) {

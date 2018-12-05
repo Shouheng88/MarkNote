@@ -12,24 +12,17 @@ import android.support.v4.app.Fragment;
 import android.text.ClipboardManager;
 
 import me.shouheng.commons.BaseApplication;
-import me.shouheng.commons.R;
 
 /**
- * Created by wang shouheng on 2017/12/23.*/
+ * Created by WngShhng on 2017/12/23.
+ */
 public class PalmUtils {
-
-    /**
-     * API 16
-     *
-     * @return true->above API 16 */
-    public static boolean isJellyBean() {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN;
-    }
 
     /**
      * API 17
      *
-     * @return true->above API 17 */
+     * @return true->above API 17
+     */
     public static boolean isJellyBeanMR1() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1;
     }
@@ -37,7 +30,8 @@ public class PalmUtils {
     /**
      * API 18
      *
-     * @return true->above API 18 */
+     * @return true->above API 18
+     */
     public static boolean isJellyBeanMR2() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2;
     }
@@ -49,7 +43,8 @@ public class PalmUtils {
     /**
      * API 21
      *
-     * @return true->above API 21 */
+     * @return true->above API 21
+     */
     public static boolean isLollipop() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
     }
@@ -57,7 +52,8 @@ public class PalmUtils {
     /**
      * API 23
      *
-     * @return true->above API 23 */
+     * @return true->above API 23
+     */
     public static boolean isMarshmallow() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
     }

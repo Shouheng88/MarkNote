@@ -11,12 +11,12 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import java.util.List;
 
 import me.shouheng.commons.utils.ColorUtils;
-import me.shouheng.notepal.R;
-import me.shouheng.data.entity.TimeLine;
 import me.shouheng.commons.utils.TimeUtils;
-import me.shouheng.notepal.common.preferences.UserPreferences;
 import me.shouheng.commons.widget.CircleImageView;
 import me.shouheng.commons.widget.Timeline;
+import me.shouheng.data.entity.TimeLine;
+import me.shouheng.notepal.R;
+import me.shouheng.notepal.common.preferences.UserPreferences;
 
 /**
  * Created by WngShhng on 2017/8/19.
@@ -56,13 +56,15 @@ public class TimeLinesAdapter extends BaseQuickAdapter<TimeLine, BaseViewHolder>
                 + " " + context.getString(timeLine.getModelType().typeName) + " : ";
     }
 
-    private @DrawableRes int getOperationRes(TimeLine timeLine) {
+    @DrawableRes
+    private int getOperationRes(TimeLine timeLine) {
         switch (timeLine.getModelType()) {
             case NOTE: return R.drawable.ic_description_black_24dp;
             case NOTEBOOK: return R.drawable.ic_book;
             case ALARM: return R.drawable.ic_access_alarm_grey;
             case MIND_SNAGGING: return R.drawable.ic_lightbulb_outline_black_24dp;
             case ATTACHMENT: return R.drawable.ic_attach_file_black;
+            case CATEGORY:return R.drawable.ic_view_module_white_24dp;
         }
         return R.drawable.ic_insert_drive_file_grey_24dp;
     }

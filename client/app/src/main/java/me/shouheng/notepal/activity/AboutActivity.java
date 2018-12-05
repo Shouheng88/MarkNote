@@ -7,9 +7,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
@@ -20,15 +22,19 @@ import java.util.LinkedList;
 import java.util.List;
 
 import me.shouheng.commons.activity.CommonActivity;
+import me.shouheng.commons.activity.ContainerActivity;
+import me.shouheng.commons.fragment.WebviewFragment;
+import me.shouheng.commons.theme.ThemeStyle;
 import me.shouheng.commons.theme.ThemeUtils;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.IntentUtils;
 import me.shouheng.commons.utils.PalmUtils;
-import me.shouheng.commons.theme.ThemeStyle;
 import me.shouheng.notepal.BuildConfig;
-import me.shouheng.notepal.R;
 import me.shouheng.notepal.Constants;
+import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.ActivityAboutBinding;
+
+import static me.shouheng.notepal.Constants.EMAIL_DEVELOPER;
 
 /**
  * @author shouh
@@ -36,7 +42,7 @@ import me.shouheng.notepal.databinding.ActivityAboutBinding;
  */
 public class AboutActivity extends CommonActivity<ActivityAboutBinding> {
 
-    public final static String APP_ABOUT_ARG_OPEN_SOURCE_ONLY = "app_about_open_source_only";
+    public final static String APP_ABOUT_ARG_OPEN_SOURCE_ONLY = "__extra_app_about_open_source_only";
 
     @Override
     protected int getLayoutResId() {
@@ -45,18 +51,21 @@ public class AboutActivity extends CommonActivity<ActivityAboutBinding> {
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {
+        /* Config base theme. */
         ThemeStyle themeStyle = ThemeUtils.getInstance().getThemeStyle();
         getBinding().setIsDarkTheme(themeStyle.isDarkTheme);
         getBinding().setVersionName(BuildConfig.VERSION_NAME);
         ThemeUtils.setStatusBarColor(this, themeStyle.isDarkTheme ? Color.BLACK :
                 PalmUtils.isMarshmallow() ? Color.WHITE : PalmUtils.getColorCompact(R.color.light_theme_background_dark));
 
+        /* Handle intent. */
         boolean openSourceOnly = false;
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra(APP_ABOUT_ARG_OPEN_SOURCE_ONLY)) {
             openSourceOnly = intent.getBooleanExtra(APP_ABOUT_ARG_OPEN_SOURCE_ONLY, false);
         }
 
+        /* Config toolbar. */
         setSupportActionBar(getBinding().toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -68,40 +77,72 @@ public class AboutActivity extends CommonActivity<ActivityAboutBinding> {
         }
         getBinding().toolbar.setTitleTextColor(isDarkTheme() ? Color.WHITE : Color.BLACK);
 
-        String appName = PalmUtils.getStringCompact(R.string.app_name);
+        /* About entities. */
+        String appName = PalmUtils.getStringCompact(R.string.mark_note);
         List<AboutEntity> aboutEntities = new LinkedList<>();
         if (!openSourceOnly) {
             aboutEntities.add(AboutEntity.getSectionTitle(PalmUtils.getStringCompact(R.string.about_section_description)));
-            aboutEntities.add(AboutEntity.getNormalText(
-                    Html.fromHtml(String.format(PalmUtils.getStringCompact(R.string.about_section_description_details), appName, appName))));
+            aboutEntities.add(AboutEntity.getNormalText(Html.fromHtml(
+                    String.format(PalmUtils.getStringCompact(R.string.about_section_description_details), appName, appName))));
             aboutEntities.add(AboutEntity.getSectionTitle(PalmUtils.getStringCompact(R.string.about_section_developer)));
-            aboutEntities.add(AboutEntity.getUser("WngShhng", Constants.IMAGE_AVATAR_DEVELOPER, PalmUtils.getStringCompact(R.string.about_section_developer_desc)));
+            aboutEntities.add(AboutEntity.getUser("WngShhng (" + EMAIL_DEVELOPER + ")", Constants.IMAGE_AVATAR_DEVELOPER,
+                    PalmUtils.getStringCompact(R.string.about_section_developer_desc), Constants.PAGE_GITHUB_DEVELOPER));
+            aboutEntities.add(AboutEntity.getSectionTitle(PalmUtils.getStringCompact(R.string.about_section_open_links)));
+            String html = String.format(PalmUtils.getStringCompact(R.string.about_section_open_links_details),
+                    Constants.PAGE_GITHUB_REPOSITORY, Constants.PAGE_CHANGE_LOGS, Constants.PAGE_UPDATE_PLAN, Constants.PAGE_ABOUNT);
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                aboutEntities.add(AboutEntity.getNormalText(Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY)));
+            } else {
+                aboutEntities.add(AboutEntity.getNormalText(Html.fromHtml(html)));
+            }
         }
         aboutEntities.add(AboutEntity.getSectionTitle(PalmUtils.getStringCompact(R.string.about_section_open_sources)));
-        aboutEntities.add(AboutEntity.getLicense("PhotoView", "Chris Banes", AboutEntity.License.APACHE_2, "https://github.com/chrisbanes/PhotoView"));
-        aboutEntities.add(AboutEntity.getLicense("Material Dialog", "Aidan Michael Follestad", AboutEntity.License.MIT, "https://github.com/afollestad/material-dialogs"));
-        aboutEntities.add(AboutEntity.getLicense("Glide", "Square", AboutEntity.License.APACHE_2, "https://github.com/bumptech/glide"));
-        aboutEntities.add(AboutEntity.getLicense("Stetho", "Facebook", AboutEntity.License.BSD_3, "https://github.com/facebook/stetho"));
-        aboutEntities.add(AboutEntity.getLicense("RxAndroid", "The RxAndroid authors", AboutEntity.License.APACHE_2, "https://github.com/ReactiveX/RxAndroid"));
-        aboutEntities.add(AboutEntity.getLicense("RxJava", "RxJava Contributors", AboutEntity.License.APACHE_2, "https://github.com/ReactiveX/RxJava"));
-        aboutEntities.add(AboutEntity.getLicense("RxBinding", "Jake Wharton", AboutEntity.License.APACHE_2, "https://github.com/JakeWharton/RxBinding"));
-        aboutEntities.add(AboutEntity.getLicense("Joda-time", "January 2004", AboutEntity.License.APACHE_2, "https://github.com/JodaOrg/joda-time"));
-        aboutEntities.add(AboutEntity.getLicense("Hello Charts", "Leszek Wach", AboutEntity.License.APACHE_2, "https://github.com/lecho/hellocharts-android"));
-        aboutEntities.add(AboutEntity.getLicense("Floating Action Button", "Dmytro Tarianyk", AboutEntity.License.APACHE_2, "https://github.com/Clans/FloatingActionButton"));
-        aboutEntities.add(AboutEntity.getLicense("BaseRecyclerViewAdapterHelper", "CymChad", AboutEntity.License.APACHE_2, "https://github.com/CymChad/BaseRecyclerViewAdapterHelper"));
-        aboutEntities.add(AboutEntity.getLicense("CircleImageView", "Henning Dodenhof", AboutEntity.License.APACHE_2, "https://github.com/hdodenhof/CircleImageView"));
-        aboutEntities.add(AboutEntity.getLicense("PinLockView", "aritraroy", AboutEntity.License.APACHE_2, "https://github.com/aritraroy/PinLockView"));
+        aboutEntities.add(AboutEntity.getLicense("EasyMark", "WngShhng",
+                AboutEntity.License.APACHE_2, "https://github.com/Shouheng88/EasyMark"));
+        aboutEntities.add(AboutEntity.getLicense("PhotoView", "Chris Banes",
+                AboutEntity.License.APACHE_2, "https://github.com/chrisbanes/PhotoView"));
+        aboutEntities.add(AboutEntity.getLicense("Material Dialog", "Aidan Michael Follestad",
+                AboutEntity.License.MIT, "https://github.com/afollestad/material-dialogs"));
+        aboutEntities.add(AboutEntity.getLicense("Glide", "Square",
+                AboutEntity.License.APACHE_2, "https://github.com/bumptech/glide"));
+        aboutEntities.add(AboutEntity.getLicense("Stetho", "Facebook",
+                AboutEntity.License.BSD_3, "https://github.com/facebook/stetho"));
+        aboutEntities.add(AboutEntity.getLicense("RxAndroid", "The RxAndroid authors",
+                AboutEntity.License.APACHE_2, "https://github.com/ReactiveX/RxAndroid"));
+        aboutEntities.add(AboutEntity.getLicense("RxJava", "RxJava Contributors",
+                AboutEntity.License.APACHE_2, "https://github.com/ReactiveX/RxJava"));
+        aboutEntities.add(AboutEntity.getLicense("RxBinding", "Jake Wharton",
+                AboutEntity.License.APACHE_2, "https://github.com/JakeWharton/RxBinding"));
+        aboutEntities.add(AboutEntity.getLicense("Joda-time", "January 2004",
+                AboutEntity.License.APACHE_2, "https://github.com/JodaOrg/joda-time"));
+        aboutEntities.add(AboutEntity.getLicense("Hello Charts", "Leszek Wach",
+                AboutEntity.License.APACHE_2, "https://github.com/lecho/hellocharts-android"));
+        aboutEntities.add(AboutEntity.getLicense("Floating Action Button", "Dmytro Tarianyk",
+                AboutEntity.License.APACHE_2, "https://github.com/Clans/FloatingActionButton"));
+        aboutEntities.add(AboutEntity.getLicense("BaseRecyclerViewAdapterHelper", "CymChad",
+                AboutEntity.License.APACHE_2, "https://github.com/CymChad/BaseRecyclerViewAdapterHelper"));
+        aboutEntities.add(AboutEntity.getLicense("CircleImageView", "Henning Dodenhof",
+                AboutEntity.License.APACHE_2, "https://github.com/hdodenhof/CircleImageView"));
+        aboutEntities.add(AboutEntity.getLicense("PinLockView", "aritraroy",
+                AboutEntity.License.APACHE_2, "https://github.com/aritraroy/PinLockView"));
 
+        /* Config adapter event. */
         AboutAdapter aboutAdapter = new AboutAdapter(getContext(), aboutEntities);
         aboutAdapter.setOnItemClickListener((adapter, view, position) -> {
             AboutEntity aboutEntity = aboutAdapter.getItem(position);
             assert aboutEntity != null;
             switch (aboutEntity.type) {
                 case AboutEntity.typeUser:
-                    IntentUtils.openWebPage(getContext(), Constants.PAGE_GITHUB_DEVELOPER);
+                    ContainerActivity.open(WebviewFragment.class)
+                            .put(WebviewFragment.ARGUMENT_KEY_URL, aboutEntity.user.website)
+                            .put(WebviewFragment.ARGUMENT_KEY_USE_PAGE_TITLE, true)
+                            .launch(this);
                     break;
                 case AboutEntity.typeLicense:
-                    IntentUtils.openWebPage(getContext(), aboutEntity.license.url);
+                    ContainerActivity.open(WebviewFragment.class)
+                            .put(WebviewFragment.ARGUMENT_KEY_URL, aboutEntity.license.url)
+                            .put(WebviewFragment.ARGUMENT_KEY_USE_PAGE_TITLE, true)
+                            .launch(this);
                     break;
             }
         });
@@ -167,6 +208,7 @@ public class AboutActivity extends CommonActivity<ActivityAboutBinding> {
 
         private void convertContent(BaseViewHolder helper, AboutEntity item) {
             helper.setText(R.id.content, item.text);
+            ((TextView) helper.getView(R.id.content)).setMovementMethod(LinkMovementMethod.getInstance());
             if (themeStyle.isDarkTheme) {
                 helper.getView(R.id.bg).setBackgroundResource(R.color.colorDarkPrimary);
             }
@@ -219,16 +261,22 @@ public class AboutActivity extends CommonActivity<ActivityAboutBinding> {
             return aboutEntity;
         }
 
-        static AboutEntity getLicense(@NonNull String name, @NonNull String author, @NonNull String type, @NonNull String url) {
+        static AboutEntity getLicense(@NonNull String name,
+                                      @NonNull String author,
+                                      @NonNull String type,
+                                      @NonNull String url) {
             License license = new License(name, author, type, url);
             AboutEntity aboutEntity = new AboutEntity(typeLicense);
             aboutEntity.license = license;
             return aboutEntity;
         }
 
-        static AboutEntity getUser(@NonNull String name, @NonNull String avatarUrl, @NonNull String description) {
+        static AboutEntity getUser(@NonNull String name,
+                                   @NonNull String avatarUrl,
+                                   @NonNull String description,
+                                   @NonNull String website) {
             AboutEntity aboutEntity = new AboutEntity(typeUser);
-            aboutEntity.user = new User(name, avatarUrl, description);
+            aboutEntity.user = new User(name, avatarUrl, description, website);
             return aboutEntity;
         }
 
@@ -264,11 +312,13 @@ public class AboutActivity extends CommonActivity<ActivityAboutBinding> {
             public final String name;
             public final String avatarUrl;
             public final String description;
+            public final String website;
 
-            User(@NonNull String name, @NonNull String avatarUrl, @NonNull String description) {
+            User(@NonNull String name, @NonNull String avatarUrl, @NonNull String description, @NonNull String website) {
                 this.name = name;
                 this.avatarUrl = avatarUrl;
                 this.description = description;
+                this.website =website;
             }
         }
     }

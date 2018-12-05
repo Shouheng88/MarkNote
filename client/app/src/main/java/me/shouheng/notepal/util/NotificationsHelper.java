@@ -24,6 +24,9 @@ public class NotificationsHelper {
 
     public NotificationsHelper(Context mContext) {
         this.mContext = mContext.getApplicationContext();
+        if (mNotificationManager == null) {
+            mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+        }
     }
 
     public NotificationsHelper createNotification(int smallIcon, String title, PendingIntent notifyIntent) {
@@ -112,9 +115,6 @@ public class NotificationsHelper {
     }
 
     public NotificationsHelper show(long id) {
-        if (mNotificationManager == null) {
-            mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-        }
         Notification mNotification = mBuilder.build();
         if (mNotification.contentIntent == null) {
             // Creates a dummy PendingIntent

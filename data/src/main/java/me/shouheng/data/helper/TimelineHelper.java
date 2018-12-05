@@ -2,6 +2,7 @@ package me.shouheng.data.helper;
 
 import me.shouheng.data.ModelFactory;
 import me.shouheng.data.entity.Attachment;
+import me.shouheng.data.entity.Category;
 import me.shouheng.data.entity.Location;
 import me.shouheng.data.entity.QuickNote;
 import me.shouheng.data.entity.Model;
@@ -13,7 +14,8 @@ import me.shouheng.data.model.enums.Operation;
 import me.shouheng.data.store.TimelineStore;
 
 /**
- * Created by wangshouheng on 2017/11/3.*/
+ * Created by WngShhng on 2017/11/3.
+ */
 public class TimelineHelper {
 
     public static <T extends Model> void addTimeLine(T model, Operation operation) {
@@ -30,6 +32,7 @@ public class TimelineHelper {
         return model != null && (model instanceof Note
                 || model instanceof Notebook
                 || model instanceof QuickNote
+                || model instanceof Category
                 || (model instanceof Weather && Operation.ADD == operation)
                 || (model instanceof Location && Operation.ADD == operation)
                 || (model instanceof Attachment && Operation.ADD == operation));

@@ -11,10 +11,7 @@ import me.shouheng.commons.BaseApplication;
  * 3.打开笔记的时候先从OneDrive上面检查备份信息；
  * 4.备份的文件的名称需要改；
  *
- * TODO 更新日志和开发计划添加到关于界面
  * TODO 分享和捐赠集成
- * TODO 指纹解锁
- * TODO Permissions check, storage!!
  *
  * Created by WngShhng with passion and love on 2017/2/26..
  * Contact me : shouheng2015@gmail.com.

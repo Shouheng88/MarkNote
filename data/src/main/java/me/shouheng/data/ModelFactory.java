@@ -183,17 +183,23 @@ public class ModelFactory {
 
     private static <M extends Model> String getModelName(M model) {
         String modelName = null;
-        if (model instanceof Attachment) return ((Attachment) model).getUri().toString();
-        else if (model instanceof QuickNote) modelName = ((QuickNote) model).getContent();
-        else if (model instanceof Note) modelName = ((Note) model).getTitle();
-        else if (model instanceof Notebook) modelName = ((Notebook) model).getTitle();
-        else if (model instanceof Location) {
+        if (model instanceof Attachment) {
+            return ((Attachment) model).getUri().toString();
+        } else if (model instanceof QuickNote) {
+            modelName = ((QuickNote) model).getContent();
+        } else if (model instanceof Note) {
+            modelName = ((Note) model).getTitle();
+        } else if (model instanceof Notebook) {
+            modelName = ((Notebook) model).getTitle();
+        } else if (model instanceof Location) {
             Location location = ((Location) model);
             modelName = location.getCountry() + "|" + location.getCity() + "|" + location.getDistrict();
-        }
-        else if (model instanceof Weather) {
+        } else if (model instanceof Weather) {
             Weather weather = ((Weather) model);
             modelName = PalmUtils.getStringCompact(weather.getType().nameRes) + "|" + weather.getTemperature();
+        } else if (model instanceof Category) {
+            Category category = (Category) model;
+            modelName = category.getName();
         }
         if (modelName != null && modelName.length() > TIMELINE_CONTENT_LENGTH) {
             return modelName.substring(0, TIMELINE_CONTENT_LENGTH);

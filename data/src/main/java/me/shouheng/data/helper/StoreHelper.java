@@ -20,7 +20,8 @@ import me.shouheng.data.schema.LocationSchema;
 import me.shouheng.data.schema.TimelineSchema;
 
 /**
- * Created by WngShhng on 2017/12/10.*/
+ * Created by WngShhng on 2017/12/10.
+ */
 public class StoreHelper {
 
     /**

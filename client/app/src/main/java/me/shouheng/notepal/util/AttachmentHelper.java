@@ -545,8 +545,6 @@ public class AttachmentHelper {
     }
 
     /**
-     * TODO add the background bitmap logic, and refactor the result handler logic.
-     *
      * @param activity the activity caller
      */
     public static void sketch(Activity activity) {

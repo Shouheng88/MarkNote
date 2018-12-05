@@ -142,7 +142,7 @@
 
         </provider>
 
-        <service android:name=".async.DataBackupIntentService" />
+        <service android:name=".service.DataBackupService" />
         <service android:name=".onedrive.OneDriveBackupService" />
 
         <activity

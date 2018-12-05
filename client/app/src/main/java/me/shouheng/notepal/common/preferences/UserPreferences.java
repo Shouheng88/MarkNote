@@ -1,6 +1,5 @@
 package me.shouheng.notepal.common.preferences;
 
-import android.content.Context;
 import android.text.TextUtils;
 
 import java.util.LinkedList;
@@ -17,9 +16,9 @@ import me.shouheng.notepal.R;
 /**
  * Created by WngShhng (shouheng2015@gmail.com) on 2018/4/9.
  */
-public class UserPreferences extends BasePreferences {
+public class UserPreferences {
 
-    private static UserPreferences instance = new UserPreferences(PalmApp.getContext());
+    private static UserPreferences instance = new UserPreferences();
 
     public static List<FabSortItem> defaultFabOrders;
 
@@ -40,12 +39,10 @@ public class UserPreferences extends BasePreferences {
         defaultFabOrders.add(FabSortItem.DRAFT);
     }
 
-    private UserPreferences(Context context) {
-        super(context);
-    }
+    private UserPreferences() { }
 
     public List<FabSortItem> getFabSortResult() {
-        String fabStr = getString(getKey(R.string.key_setting_custom_fab_result), null);
+        String fabStr = PersistData.getString(R.string.key_setting_custom_fab_result, null);
         if (!TextUtils.isEmpty(fabStr)) {
             String[] fabs = fabStr.split(ITEM_SORT_SPLIT);
             List<FabSortItem> fabSortItems = new LinkedList<>();
@@ -68,11 +65,13 @@ public class UserPreferences extends BasePreferences {
                 fabStr.append(fabSortItems.get(i).name()).append(ITEM_SORT_SPLIT);
             }
         }
-        putString(getKey(R.string.key_setting_custom_fab_result), fabStr.toString());
+        PersistData.putString(R.string.key_setting_custom_fab_result, fabStr.toString());
     }
 
     public int getTimeLineColor(Operation operation) {
-        return getInt(getKey(R.string.key_operation_color_prefix) + operation.name(), defaultTimeLineColor(operation));
+        return PersistData.getInt(
+                PalmUtils.getStringCompact(R.string.key_operation_color_prefix) + operation.name(),
+                defaultTimeLineColor(operation));
     }
 
     private int defaultTimeLineColor(Operation operation) {

@@ -5,11 +5,12 @@ import android.support.annotation.StringRes;
 import me.shouheng.data.R;
 import me.shouheng.data.entity.Alarm;
 import me.shouheng.data.entity.Attachment;
+import me.shouheng.data.entity.Category;
 import me.shouheng.data.entity.Location;
-import me.shouheng.data.entity.QuickNote;
 import me.shouheng.data.entity.Model;
 import me.shouheng.data.entity.Note;
 import me.shouheng.data.entity.Notebook;
+import me.shouheng.data.entity.QuickNote;
 import me.shouheng.data.entity.TimeLine;
 import me.shouheng.data.entity.Weather;
 
@@ -25,7 +26,8 @@ public enum ModelType {
     LOCATION(13, Location.class, R.string.model_name_location),
     MIND_SNAGGING(14, QuickNote.class, R.string.model_name_quick_note),
     TIME_LINE(15, TimeLine.class, R.string.model_name_timeline),
-    WEATHER(16, Weather.class, R.string.model_name_weather);
+    WEATHER(16, Weather.class, R.string.model_name_weather),
+    CATEGORY(17, Category.class, R.string.model_name_category);
 
     public final int id;
 

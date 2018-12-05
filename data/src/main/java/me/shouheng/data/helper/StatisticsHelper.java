@@ -26,14 +26,16 @@ import me.shouheng.data.store.NotesStore;
 import me.shouheng.data.store.TimelineStore;
 
 /**
- * Created by wang shouheng on 2018/1/19.*/
+ * Created by wang shouheng on 2018/1/19.
+ */
 public class StatisticsHelper {
 
     /**
      * Get all the stats prepared to show.
      *
      * @param context the context
-     * @return the Stats object contains the actions result. */
+     * @return the Stats object contains the actions result.
+     */
     @MainThread
     public static Stats getStats(Context context) {
         Stats stats = new Stats();
@@ -44,9 +46,7 @@ public class StatisticsHelper {
         stats.setTrashedNotes(notesStore.getCount(null, Status.TRASHED, false));
 
         CategoryStore categoryStore = CategoryStore.getInstance();
-        stats.setTotalMinds(categoryStore.getCount(null, Status.DELETED, true));
-        stats.setArchivedMinds(categoryStore.getCount(null, Status.ARCHIVED, false));
-        stats.setTrashedMinds(categoryStore.getCount(null, Status.TRASHED, false));
+        stats.setTotalCategories(categoryStore.getCount(null, Status.DELETED, true));
 
         LocationsStore locationsStore = LocationsStore.getInstance();
         List<Location> locations = locationsStore.getDistinct(null, null);
@@ -55,7 +55,7 @@ public class StatisticsHelper {
         stats.setTotalLocations(locationsStore.getCount(null, Status.DELETED, true));
 
         NotebookStore notebookStore = NotebookStore.getInstance();
-        stats.setTotalNotebooks(notebookStore.getCount(null, Status.TRASHED, false));
+        stats.setTotalNotebooks(notebookStore.getCount(null, Status.DELETED, true));
 
         AttachmentsStore attachmentsStore = AttachmentsStore.getInstance();
         List<Attachment> attachments = attachmentsStore.get(null, null);
@@ -91,7 +91,8 @@ public class StatisticsHelper {
      *
      * @param modelType model type
      * @param days days of model statistic
-     * @return the added count of every day */
+     * @return the added count of every day
+     */
     public static List<Integer> getAddedStatistics(ModelType modelType, int days) {
         Calendar sevenDaysAgo = TimeUtils.sevenDaysAgo();
         List<Integer> states = new LinkedList<>();

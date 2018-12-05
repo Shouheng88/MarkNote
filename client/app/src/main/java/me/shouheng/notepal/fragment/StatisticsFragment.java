@@ -72,7 +72,7 @@ public class StatisticsFragment extends BaseFragment<FragmentStatisticsBinding> 
         outputModelsStats(Arrays.asList(
                 stats.getTotalNotes(),
                 stats.getTotalNotebooks(),
-                stats.getTotalMinds(),
+                stats.getTotalCategories(),
                 stats.getTotalAttachments(),
                 stats.getTotalLocations()));
 

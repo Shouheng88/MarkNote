@@ -13,7 +13,8 @@ import java.util.Locale;
 import me.shouheng.commons.BaseApplication;
 
 /**
- * Created by wangshouheng on 2017/3/13. */
+ * Created by WngShhng on 2017/3/13.
+ */
 public class TimeUtils {
 
     private static int daysOfMonth[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
@@ -89,7 +90,8 @@ public class TimeUtils {
      *
      * @param context 上下文
      * @param calendar 日期
-     * @return 日期字符串 */
+     * @return 日期字符串
+     */
     public static String getShortDate(Context context, Calendar calendar){
         if (calendar == null) return "";
         Calendar now = Calendar.getInstance();
@@ -127,7 +129,8 @@ public class TimeUtils {
      *
      * @param mContext 上下文
      * @param date 日期
-     * @return 日期字符串 */
+     * @return 日期字符串
+     */
     public static String getDateTimeShort(Context mContext, Date date) {
         if (date == null) return "";
         Calendar now = Calendar.getInstance();
@@ -147,7 +150,8 @@ public class TimeUtils {
      *
      * @param context 上下文
      * @param time 时间
-     * @return 时间字符串 */
+     * @return 时间字符串
+     */
     public static String getShortTime(Context context, int time){
         Calendar date = getTodayDate();
         date.add(Calendar.MILLISECOND, time);
@@ -170,7 +174,8 @@ public class TimeUtils {
      * 获取相对于上次时间的距离的时间，比如2分钟之前
      *
      * @param date 日期
-     * @return 时间字符串 */
+     * @return 时间字符串
+     */
     public static String getPrettyTime(Date date) {
         if (date == null) {
             return "";
@@ -199,7 +204,8 @@ public class TimeUtils {
      *
      * @param year 年
      * @param month 1代表1月
-     * @return 天数 */
+     * @return 天数
+     */
     public static int getDaysOfMonth(int year, int month){
         final int MONTHS_YEAR = 12;
         if ((month<1) || (month>MONTHS_YEAR)){
@@ -218,7 +224,8 @@ public class TimeUtils {
      *
      * @param year 年
      * @param month 1代表1月
-     * @return 开始和截止的毫秒数 */
+     * @return 开始和截止的毫秒数
+     */
     public static long[] getStartAndEndMillisOfMonth(int year, int month){
         Calendar startTime = Calendar.getInstance();
         startTime.set(Calendar.YEAR, year);
@@ -245,7 +252,8 @@ public class TimeUtils {
      *
      * @param newFirstVisibleDay 当前周历上的第一个可见的日期
      * @param mNumberOfVisibleDays 日历上可见的日期
-     * @return 子标题字符串 */
+     * @return 子标题字符串
+     */
     public static String getWeekCalendarSubTitle(
             Context context, Calendar newFirstVisibleDay, int mNumberOfVisibleDays){
         if (mNumberOfVisibleDays == 1) {
@@ -276,7 +284,8 @@ public class TimeUtils {
     /**
      * 获取今天0时0分0秒0毫秒时的标准时间的毫秒数
      *
-     * @return 毫秒数 */
+     * @return 毫秒数
+     */
     public static long getMillisTodayStart(){
         Calendar c = Calendar.getInstance();
         c.set(Calendar.HOUR_OF_DAY, 0);
@@ -289,7 +298,8 @@ public class TimeUtils {
     /**
      * 获取今天的23:59 59'999''的毫秒数
      *
-     * @return 毫秒数 */
+     * @return 毫秒数
+     */
     public static long getMillisTodayEnd() {
         Calendar c = Calendar.getInstance();
         c.set(Calendar.HOUR_OF_DAY, 23);
@@ -302,7 +312,8 @@ public class TimeUtils {
     /**
      * 获取明天0时0分0秒0毫秒时的毫秒数
      *
-     * @return 毫秒数 */
+     * @return 毫秒数
+     */
     public static long getStandardMillisTomorrow(){
         Calendar c = Calendar.getInstance();
         c.set(Calendar.HOUR_OF_DAY, 0);
@@ -317,7 +328,8 @@ public class TimeUtils {
      * 获取指定日期的周次，周日(1)，周一(2)，周二(3)
      *
      * @param month 月，0为一月
-     * @return 周次 */
+     * @return 周次
+     */
     public static int getDayOfWeek(int year, int month, int day){
         Calendar date = Calendar.getInstance();
         date.set(Calendar.YEAR, year);
@@ -329,7 +341,8 @@ public class TimeUtils {
     /**
      * 获取指定日期的标准开始时间，指定日期的0时0分0秒的时间
      *
-     * @return 日期 */
+     * @return 日期
+     */
     public static Date getStartDate(int year, int month, int day){
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, year);
@@ -345,7 +358,8 @@ public class TimeUtils {
     /**
      * 获取指定日期的标准结束时间，23时59分59秒999毫秒
      *
-     * @return 结束时间 */
+     * @return 结束时间
+     */
     public static Date getEndDate(int year, int month, int day){
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, year);
@@ -366,7 +380,8 @@ public class TimeUtils {
     /**
      * 获取今天的标准日期，小时5以后的单位的数值都是0
      *
-     * @return  今天的Calendar对象，其中“天”之后的时间全部置为0 */
+     * @return  今天的Calendar对象，其中“天”之后的时间全部置为0
+     */
     public static Calendar getTodayDate(){
         final Calendar now = Calendar.getInstance();
         now.set(Calendar.HOUR_OF_DAY, 0);
@@ -391,7 +406,8 @@ public class TimeUtils {
      *
      * @param start 开始日期
      * @param end 结束日期
-     * @return 相距的天数 */
+     * @return 相距的天数
+     */
     public static int daysSpan(Date start, Date end) {
         return (int) ((end.getTime() - start.getTime()) / DateUtils.DAY_IN_MILLIS);
     }
@@ -400,7 +416,8 @@ public class TimeUtils {
      * 录音时间的格式化
      *
      * @param recordMillis 录音时间（毫秒）
-     * @return 时间字符串 */
+     * @return 时间字符串
+     */
     public static String getRecordTime(long recordMillis) {
         int minute = (int) (recordMillis / DateUtils.MINUTE_IN_MILLIS);
         int seconds = (int) ((recordMillis % DateUtils.MINUTE_IN_MILLIS ) / 1000);
@@ -424,7 +441,8 @@ public class TimeUtils {
      *
      * @param startMillis 开始的毫秒
      * @param endMillis 结束的毫秒
-     * @return 真实进度 */
+     * @return 真实进度
+     */
     public static String getRealProgress(long startMillis, long endMillis){
         long current = System.currentTimeMillis();
         if (current > endMillis) return "100%";
@@ -469,7 +487,8 @@ public class TimeUtils {
     /**
      * 计算周历中需要滚动到的时间
      *
-     * @return 要滚动到的时间 */
+     * @return 要滚动到的时间
+     */
     public static int calTimeToGo() {
         Calendar calendar = Calendar.getInstance();
         int current = calendar.get(Calendar.HOUR_OF_DAY);
@@ -486,7 +505,8 @@ public class TimeUtils {
      * 获取指定年的属相
      *
      * @param year 年
-     * @return 属相字符串 */
+     * @return 属相字符串
+     */
     public static String getShuXiang(int year){
         final String shuStrs[] = new String[]{"鼠年", "牛年", "虎年", "兔年",
                 "龙年", "蛇年", "马年", "羊年", "猴年", "鸡年", "狗年", "猪年"};
@@ -509,7 +529,8 @@ public class TimeUtils {
     /**
      * 计算指定年份的干支
      *
-     * @param year 年 */
+     * @param year 年
+     */
     public static String getGanZhi(int year){
         final String[] ganStrs = new String[]{"甲", "乙", "丙", "丁", "戊", "己","庚", "辛", "壬", "癸"};
         final String[] zhiStrs = new String[]{"子", "丑", "寅", "卯", "辰", "巳","午", "未", "申", "酉", "戌", "亥"};

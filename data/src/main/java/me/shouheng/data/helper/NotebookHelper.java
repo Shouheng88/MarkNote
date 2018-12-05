@@ -14,7 +14,8 @@ import me.shouheng.data.store.NotebookStore;
 import me.shouheng.data.store.NotesStore;
 
 /**
- * Created by WngShhng on 2017/12/12.*/
+ * Created by WngShhng on 2017/12/12.
+ */
 public class NotebookHelper {
 
     /**

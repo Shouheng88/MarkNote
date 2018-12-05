@@ -8,42 +8,31 @@ import me.shouheng.data.entity.Location;
  * Created by wang shouheng on 2018/1/19.*/
 public class Stats {
 
-    // region notes stats
     private int totalNotes;
 
     private int archivedNotes;
 
     private int trashedNotes;
-    // endregion
 
-    // region minds stats
-    private int totalMinds;
-
-    private int archivedMinds;
-
-    private int trashedMinds;
-    // endregion
-
-    // region locations stats
+    private int totalCategories;
 
     /**
-     * Distinct locations */
+     * Distinct locations
+     */
     private List<Location> locations;
 
     /**
-     * Distinct locations */
+     * Distinct locations
+     */
     private int locCnt;
 
     /**
-     * Total locations */
+     * Total locations
+     */
     private int totalLocations;
-    // endregion
 
-    // region notebooks stats
     private int totalNotebooks;
-    // endregion
 
-    // region attachments stats
     private int totalAttachments;
 
     private int images;
@@ -55,12 +44,12 @@ public class Stats {
     private int sketches;
 
     private int files;
-    // endregion
 
     private int totalAlarms;
 
     /**
-     * Added notes last seven days */
+     * Added notes last seven days
+     */
     private List<Integer> notesStats;
 
     public int getTotalNotes() {
@@ -87,28 +76,12 @@ public class Stats {
         this.trashedNotes = trashedNotes;
     }
 
-    public int getTotalMinds() {
-        return totalMinds;
+    public int getTotalCategories() {
+        return totalCategories;
     }
 
-    public void setTotalMinds(int totalMinds) {
-        this.totalMinds = totalMinds;
-    }
-
-    public int getArchivedMinds() {
-        return archivedMinds;
-    }
-
-    public void setArchivedMinds(int archivedMinds) {
-        this.archivedMinds = archivedMinds;
-    }
-
-    public int getTrashedMinds() {
-        return trashedMinds;
-    }
-
-    public void setTrashedMinds(int trashedMinds) {
-        this.trashedMinds = trashedMinds;
+    public void setTotalCategories(int totalCategories) {
+        this.totalCategories = totalCategories;
     }
 
     public List<Location> getLocations() {
@@ -213,9 +186,7 @@ public class Stats {
                 "totalNotes=" + totalNotes +
                 ", archivedNotes=" + archivedNotes +
                 ", trashedNotes=" + trashedNotes +
-                ", totalMinds=" + totalMinds +
-                ", archivedMinds=" + archivedMinds +
-                ", trashedMinds=" + trashedMinds +
+                ", totalCategories=" + totalCategories +
                 ", locations=" + locations +
                 ", locCnt=" + locCnt +
                 ", totalLocations=" + totalLocations +
