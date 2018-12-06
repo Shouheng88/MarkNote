@@ -359,8 +359,8 @@
     <string name="setting_backup_onedrive_sign_out">Sign out OneDrive</string>
     <string name="setting_backup_onedrive_sign_out_sub">Sign out OneDrive to stop synchronize</string>
     <string name="setting_backup_settings">Synchronization settings</string>
-    <string name="setting_backup_settings_wifi">Only in WiFi environment</string>
-    <string name="setting_backup_settings_wifi_sub">Backup only in WiFi environment</string>
+    <string name="setting_backup_settings_wifi">Only in Wi-Fi environment</string>
+    <string name="setting_backup_settings_wifi_sub">Backup only in Wi-Fi environment</string>
     <string name="setting_backup_settings_interval">Synchronization time interval</string>
     <!-- setting->backup->external -->
     <string name="setting_backup_text_setting_included">Settings included</string>

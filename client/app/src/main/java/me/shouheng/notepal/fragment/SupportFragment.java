@@ -32,10 +32,12 @@ public class SupportFragment extends CommonFragment<FragmentSupportBinding> {
             if (ab != null) ab.setTitle(R.string.drawer_menu_donate);
         }
 
-        getBinding().btnAlipay.setOnClickListener(v -> {
-            MiniPayUtils.setupPay(Objects.requireNonNull(getContext()),
-                    new Config.Builder("a6x09668hybrp0jdxhp732f", R.mipmap.ali_pay, R.mipmap.mm_pay).build());
-        });
+        getBinding().btnAlipay.setOnClickListener(v -> MiniPayUtils.setupPay(Objects.requireNonNull(getContext()),
+                new Config.Builder("a6x09668hybrp0jdxhp732f", R.mipmap.ali_pay, R.mipmap.mm_pay)
+                        .setChannel(Config.PAY_CHANNEL_ALIPAY).build()));
+        getBinding().btnWechat.setOnClickListener(v -> MiniPayUtils.setupPay(Objects.requireNonNull(getContext()),
+                new Config.Builder("a6x09668hybrp0jdxhp732f", R.mipmap.ali_pay, R.mipmap.mm_pay)
+                        .setChannel(Config.PAY_CHANNEL_WECHAT).build()));
         getBinding().sivQq.setOnClickListener(v -> joinQQGroup("0HQ8P6rzoNTwpHWHtkYPolgPAvQltMdt"));
     }
 

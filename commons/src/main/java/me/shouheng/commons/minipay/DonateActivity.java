@@ -31,7 +31,8 @@ public class DonateActivity extends CommonActivity<ActivityDonateBinding> {
     protected void doCreateView(Bundle savedInstanceState) {
         config = (Config) getIntent().getSerializableExtra(MiniPayUtils.EXTRA_KEY_PAY_CONFIG);
         if (!checkLegal()) throw new IllegalStateException("MiniPay Config illegal!!!");
-        switchTo(false);
+        isAliPay = config.getChannel() == Config.PAY_CHANNEL_ALIPAY;
+        switchTo(isAliPay);
         initEvents();
         initAnimator();
     }
