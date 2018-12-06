@@ -79,6 +79,7 @@ import me.shouheng.notepal.fragment.NoteFragment;
 import me.shouheng.notepal.fragment.NoteViewFragment;
 import me.shouheng.notepal.fragment.NotesFragment;
 import me.shouheng.notepal.fragment.StatisticsFragment;
+import me.shouheng.notepal.fragment.SupportFragment;
 import me.shouheng.notepal.fragment.TimeLineFragment;
 import me.shouheng.notepal.fragment.setting.SettingsFragment;
 import me.shouheng.notepal.manager.FileManager;
@@ -269,7 +270,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                             SettingsActivity.open(SettingsFragment.class).launch(this);
                             break;
                         case 5:
-                            // Donate
+                            ContainerActivity.open(SupportFragment.class).launch(this);
                             break;
                         case 6:
                             ContainerActivity.open(StatisticsFragment.class).launch(this);

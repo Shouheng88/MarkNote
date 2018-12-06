@@ -11,7 +11,8 @@ import me.shouheng.commons.activity.CommonActivity;
 import me.shouheng.commons.databinding.ActivityDonateBinding;
 
 /**
- * Created by changxing on 2017/9/8.*/
+ * Created by WngShhng on 2017/9/8.
+ */
 public class DonateActivity extends CommonActivity<ActivityDonateBinding> {
     private Config config;
     private boolean isAliPay = false;

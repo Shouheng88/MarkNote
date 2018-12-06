@@ -1,6 +1,7 @@
 package me.shouheng.notepal.fragment.setting;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.support.v7.app.ActionBar;
@@ -12,6 +13,7 @@ import me.shouheng.commons.fragment.BPreferenceFragment;
 import me.shouheng.commons.fragment.WebviewFragment;
 import me.shouheng.commons.helper.ActivityHelper;
 import me.shouheng.commons.helper.DialogHelper;
+import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.commons.utils.PersistData;
 import me.shouheng.notepal.Constants;
@@ -44,6 +46,8 @@ public class SettingsFragment extends BPreferenceFragment {
             }
             return true;
         });
+        theme.setIcon(PalmUtils.getDrawableCompact(getThemeStyle().isDarkTheme ?
+                R.drawable.ic_color_lens_white_24dp : R.drawable.ic_color_lens_black_24dp));
 
         findPreference(R.string.key_setting_custom_fab).setOnPreferenceClickListener(preference -> {
             ActivityHelper.start(getActivity(), FabSortActivity.class);
@@ -70,11 +74,13 @@ public class SettingsFragment extends BPreferenceFragment {
             return true;
         });
 
-        findPreference(R.string.key_setting_backup).setOnPreferenceClickListener(preference -> {
+        Preference backup = findPreference(R.string.key_setting_backup);
+        backup.setOnPreferenceClickListener(preference -> {
             SettingsActivity.open(SettingsBackup.class).launch(getActivity());
             return true;
         });
-
+        backup.setIcon(ColorUtils.tintDrawable(R.drawable.ic_wb_cloudy_black_24dp,
+                getThemeStyle().isDarkTheme ? Color.WHITE : Color.BLACK));
 
         findPreference(R.string.key_setting_guide).setOnPreferenceClickListener(preference -> {
             ContainerActivity.open(WebviewFragment.class)

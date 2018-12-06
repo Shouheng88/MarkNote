@@ -152,6 +152,15 @@
     <string name="fab_sort_custom_fab_tip">Drag the rear icon to sort, the top 5 ones will be showed in dashboard.</string>
     <string name="fab_sort_save">Save</string>
 
+    <!-- support -->
+    <string name="dialog_notice_content_part1">Hello, user!<![CDATA[<br/><br/>]]>Due to the limit of time, Omni List still has few weakness. Here we invite you to improve it with us:</string>
+    <string name="dialog_notice_content_part2">1.If you like Omni List you may associate developer by translating it in to other languages(Find in <![CDATA[<b>\"Settings->About->Translation\"</b>]]>), or give rating and feedback in application market.</string>
+    <string name="dialog_notice_content_part3">2.If you have special requirements, or if you are unsatisfied about current functions, feed back to developer by any of below ways: <![CDATA[<b>Google+ community, Twitter, Weibo or directly sending an email</b>]]>.</string>
+    <string name="dialog_notice_content_part4">3.If you find bugs or crashes in Omni List, you can feed back in <![CDATA[<b>"Settings->Feedback"</b>]]> or <![CDATA[<b>directly sending an email to developer</b>]]>.</string>
+    <string name="dialog_notice_content_part5">4.Omni List will continue to push out many new functions and features, if you like this application, you may support developing in <![CDATA[<b>"Settings->Support developing"</b>]]>.</string>
+    <string name="dialog_notice_content_part6">5.Furthermore, you can also get latest developing messages by subscribe our <![CDATA[<b>Google+ community, Twitter or Weibo</b>]]>. You may even join the beta test.</string>
+    <string name="dialog_notice_content_part7">Please give more patience to Omni List, we will work better.<![CDATA[<br/><br/>]]>Last, wish you have a happy journey with Omni List!</string>
+
     <!-- statistic -->
     <string name="statistic_activities">Notes</string>
     <string name="statistic_title_activities">Notes added during recent 7 days</string>
@@ -407,4 +416,6 @@
     <string name="donate_text_donate">捐赠</string>
     <string name="donate_text_to_donate">去捐赠</string>
     <string name="donate_qa_code">捐赠二维码</string>
+    <string name="donate_by_alipay">通过支付宝捐赠</string>
+    <string name="donate_by_wechat">通过微信支付捐赠</string>
 </resources>
