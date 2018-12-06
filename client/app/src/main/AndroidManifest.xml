@@ -134,9 +134,9 @@
         <!-- fabric -->
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="aa14224ea2102fef301d211dac552635f37b1f9e" />
+            android:value="${FABRIC_APPKEY}" />
 
-        <!-- uemng todo -->
+        <!-- uemng -->
         <meta-data android:value="${UMENG_APPKEY}" android:name="UMENG_APPKEY"/>
         <meta-data android:value="${UMENG_CHANNEL_VALUE}" android:name="UMENG_CHANNEL"/>
 

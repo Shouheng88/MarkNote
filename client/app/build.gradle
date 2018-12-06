@@ -12,9 +12,10 @@ android {
         versionName "2.0"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        // umeng place holder
+        // place holder
         manifestPlaceholders = [UMENG_CHANNEL_VALUE: "umeng"]
         manifestPlaceholders = [UMENG_APPKEY: "${umengAppKey}"]
+        manifestPlaceholders = [FABRIC_APPKEY: "${fabricAppKey}"]
     }
     signingConfigs {
         release {}

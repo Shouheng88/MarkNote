@@ -1,6 +1,7 @@
 package me.shouheng.notepal;
 
 import com.facebook.stetho.Stetho;
+import com.umeng.commonsdk.UMConfigure;
 
 import me.shouheng.commons.BaseApplication;
 
@@ -35,7 +36,10 @@ public class PalmApp extends BaseApplication {
         /* Enable stetho only in debug mode. */
         if (BuildConfig.DEBUG) {
             Stetho.initializeWithDefaults(this);
+            UMConfigure.setLogEnabled(true);
         }
+
+        UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, "");
     }
 
     public static boolean isPasswordChecked() {
