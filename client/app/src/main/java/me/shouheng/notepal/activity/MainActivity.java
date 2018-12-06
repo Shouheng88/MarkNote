@@ -236,7 +236,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
 
         LayoutHeaderBinding binding = DataBindingUtil.inflate(LayoutInflater.from(this),
                 R.layout.layout_header, null, false);
-        Glide.with(getContext()).load(isDarkTheme() ? R.drawable.bg2 : R.drawable.bg1).into(binding.iv);
+        Glide.with(getContext()).load(isDarkTheme() ? Constants.IMAGE_HEADER_DARK : Constants.IMAGE_HEADER_LIGHT).into(binding.iv);
 
         drawer = new DrawerBuilder().withActivity(this)
                 .withHasStableIds(true)

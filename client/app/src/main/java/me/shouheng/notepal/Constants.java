@@ -147,34 +147,39 @@ public interface Constants extends BaseConstants {
     String EXTENSION_PDF = ".pdf";
 
 
-    String PAGE_GOOGLE_PLUS = "https://plus.google.com/u/1/communities/102252970668657211916";
+    /* Web: Weibo */
     String PAGE_WEIBO = "https://weibo.com/5401152113/profile?rightmod=1&wvr=6&mod=personinfo";
+    /* Web: Twitter */
     String PAGE_TWITTER = "https://twitter.com/ShouhengWang";
-
-    String IMAGE_AVATAR_DEVELOPER = "https://github.com/Shouheng88/MarkNote/blob/master/resources/images/avatar_wngshhng.jpg?raw=true";
-
+    /* Web: Github repository page */
     String PAGE_GITHUB_REPOSITORY = "https://github.com/Shouheng88/NotePal";
+    /* Web: Github developer page  */
     String PAGE_GITHUB_DEVELOPER = "https://github.com/Shouheng88";
-
+    /* Web: User Guide */
     String PAGE_GUIDE = "https://github.com/Shouheng88/MarkNote/blob/master/resources/%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C.md";
+    /* Web: Privacy */
     String PAGE_PRIVACY = "https://github.com/Shouheng88/MarkNote/blob/master/resources/%E9%9A%90%E7%A7%81%E6%94%BF%E7%AD%96.md";
+    /* Web: Change logs */
     String PAGE_CHANGE_LOGS = "https://github.com/Shouheng88/MarkNote/blob/master/resources/%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97.md";
+    /* Web: Update plan */
     String PAGE_UPDATE_PLAN = "https://github.com/Shouheng88/MarkNote/blob/master/resources/%E6%9B%B4%E6%96%B0%E8%AE%A1%E5%88%92.md";
+    /* Web: Translate */
     String PAGE_TRANSLATE = "https://github.com/Shouheng88/MarkNote/blob/master/resources/%E5%8D%8F%E5%8A%A9%E7%BF%BB%E8%AF%91.md";
-    String PAGE_ABOUNT = "https://github.com/Shouheng88/MarkNote/blob/master/resources/%E5%85%B3%E4%BA%8E%E5%BA%94%E7%94%A8.md";
-
+    /* Web: Online about */
+    String PAGE_ABOUT = "https://github.com/Shouheng88/MarkNote/blob/master/resources/%E5%85%B3%E4%BA%8E%E5%BA%94%E7%94%A8.md";
+    /* Web: Feedback Chinese */
     String PAGE_FEEDBACK_CHINESE = "http://fnlefu0fqyo8miz7.mikecrm.com/IR50hog";
+    /* Web: Feedback English */
     String PAGE_FEEDBACK_ENGLISH = "http://fnlefu0fqyo8miz7.mikecrm.com/nwGEX3r";
-
+    /* Email: developer */
     String EMAIL_DEVELOPER = "shouheng2015@gmail.com";
+    /* Image: developer avatar */
+    String IMAGE_AVATAR_DEVELOPER = "https://github.com/Shouheng88/MarkNote/blob/master/resources/images/avatar_wngshhng.jpg?raw=true";
+    /* Image: light theme header */
+    String IMAGE_HEADER_LIGHT = "https://github.com/Shouheng88/MarkNote/blob/master/resources/images/bg1.jpg?raw=true";
+    /* Image: dark theme header */
+    String IMAGE_HEADER_DARK = "https://github.com/Shouheng88/MarkNote/blob/master/resources/images/bg2.jpg?raw=true";
 
-
-    String REA_PUBLIC_KEY = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQD0diKVSZ/U/KHuxZFYac3lLq7K\n" +
-            "edqc+uOKSJgq26tgy4wmELCw8gJkempBm8NPf+uSOdWPlPLWijSf3W2KfzMMvZQ2\n" +
-            "tfNQPQu+gXgdXuZC+fhqVqNgYtWVRMIspveSm3AK+52AxxzTlfAU1fpCEFOf4AHc\n" +
-            "/E33toB493pf9gS2xwIDAQAB";
-
-    // region regex expression
 
     /**
      * The note title regex expression, used to get the note title from the note content.
