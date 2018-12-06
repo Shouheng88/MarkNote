@@ -113,6 +113,7 @@
     <string name="drawer_menu_setting">Settings</string>
     <string name="drawer_menu_share">Share App</string>
     <string name="drawer_menu_donate">Support Development</string>
+    <string name="drawer_header_sub_title">记录美好生活</string>
 
     <!-- shortcuts -->
     <string name="shortcut_add_long_name">Create new notes</string>

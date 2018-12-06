@@ -17,7 +17,6 @@ import java.io.Serializable;
 import me.shouheng.commons.activity.CommonActivity;
 import me.shouheng.commons.helper.FragmentHelper;
 import me.shouheng.commons.utils.ColorUtils;
-import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.ActivitySettingsBinding;
 
@@ -65,13 +64,12 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> {
             ActionBar actionBar = getSupportActionBar();
             if (actionBar != null) {
                 actionBar.setDisplayHomeAsUpEnabled(true);
-                actionBar.setHomeAsUpIndicator(ColorUtils.tintDrawable(
-                        PalmUtils.getDrawableCompact(me.shouheng.commons.R.drawable.ic_arrow_back_black_24dp),
+                actionBar.setHomeAsUpIndicator(ColorUtils.tintDrawable(R.drawable.ic_arrow_back_black_24dp,
                         getThemeStyle().isDarkTheme ? Color.WHITE : Color.BLACK));
             }
             getBinding().toolbar.setTitleTextColor(getThemeStyle().isDarkTheme ? Color.WHITE : Color.BLACK);
             if (getThemeStyle().isDarkTheme) {
-                getBinding().toolbar.setPopupTheme(me.shouheng.commons.R.style.AppTheme_PopupOverlayDark);
+                getBinding().toolbar.setPopupTheme(R.style.AppTheme_PopupOverlayDark);
             }
         } else {
             getBinding().barLayout.setVisibility(View.GONE);
@@ -80,7 +78,7 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
                 break;

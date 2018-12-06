@@ -30,13 +30,13 @@ public abstract class ThemedActivity extends UMengActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         themeStyle = ThemeUtils.getInstance().getThemeStyle();
         if (useColorfulTheme()) {
             setTheme(themeStyle.style);
             ThemeUtils.customStatusBar(this);
         }
         updateNavigationBar();
+        super.onCreate(savedInstanceState);
     }
 
     @Override

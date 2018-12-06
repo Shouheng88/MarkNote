@@ -8,6 +8,7 @@
     <me.shouheng.commons.widget.theme.SupportTextView
         style="@style/AboutPage.CardContent"
         android:id="@+id/content"
+        android:textColorLink="?colorAccent"
         tools:text="content"/>
 
 </RelativeLayout>

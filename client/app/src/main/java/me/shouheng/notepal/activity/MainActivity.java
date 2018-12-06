@@ -24,12 +24,12 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.RelativeLayout;
 
+import com.bumptech.glide.Glide;
 import com.github.clans.fab.FloatingActionButton;
 import com.kennyc.bottomsheet.BottomSheet;
-import com.mikepenz.materialdrawer.AccountHeader;
-import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.holder.DimenHolder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 
@@ -71,6 +71,7 @@ import me.shouheng.notepal.common.exception.NoteNotFoundException;
 import me.shouheng.notepal.common.preferences.UserPreferences;
 import me.shouheng.notepal.databinding.ActivityMainBinding;
 import me.shouheng.notepal.databinding.LayoutActionViewBottomDialogBinding;
+import me.shouheng.notepal.databinding.LayoutHeaderBinding;
 import me.shouheng.notepal.dialog.CategoryEditDialog;
 import me.shouheng.notepal.dialog.NotebookEditDialog;
 import me.shouheng.notepal.dialog.QuickNoteDialog;
@@ -213,11 +214,6 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
     }
 
     private void configDrawer(Bundle savedInstanceState) {
-        AccountHeader header = new AccountHeaderBuilder()
-                .withActivity(this)
-                .withHeaderBackground(R.drawable.header)
-                .build();
-
         DividerDrawerItem divider = new DividerDrawerItem();
         PrimaryDrawerItem itemNotes = ColorUtils.getColoredDrawerMenuItem(
                 R.string.drawer_menu_notebooks, R.drawable.ic_book, 0, true);
@@ -237,6 +233,10 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                 R.string.drawer_menu_time_line, R.drawable.ic_timeline_black_24dp, 7, false);
         PrimaryDrawerItem itemShare = ColorUtils.getColoredDrawerMenuItem(
                 R.string.drawer_menu_share, R.drawable.ic_share_white, 8, false);
+
+        LayoutHeaderBinding binding = DataBindingUtil.inflate(LayoutInflater.from(this),
+                R.layout.layout_header, null, false);
+        Glide.with(getContext()).load(isDarkTheme() ? R.drawable.bg2 : R.drawable.bg1).into(binding.iv);
 
         drawer = new DrawerBuilder().withActivity(this)
                 .withHasStableIds(true)
@@ -284,9 +284,10 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                     }
                     return true;
                 })
-                .withAccountHeader(header)
                 .withSavedInstance(savedInstanceState)
                 .withShowDrawerOnFirstLaunch(true)
+                .withHeader(binding.getRoot())
+                .withHeaderHeight(DimenHolder.fromDp(180))
                 .build();
     }
 
