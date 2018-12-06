@@ -35,8 +35,7 @@ public class NotebookPickerDialog extends BasePickerDialog<Notebook> {
         builder.setTitle(getString(R.string.notebook_picker_title));
         builder.setPositiveButton(R.string.text_cancel, null);
         emptyView.setTitle(getString(R.string.notebook_picker_empty_message));
-        emptyView.setIcon(ColorUtils.tintDrawable(
-                getContext().getResources().getDrawable(R.drawable.ic_folder_black_24dp), getImageTintColor()));
+        emptyView.setIcon(ColorUtils.tintDrawable(R.drawable.ic_book, getImageTintColor()));
     }
 
     private int getImageTintColor() {

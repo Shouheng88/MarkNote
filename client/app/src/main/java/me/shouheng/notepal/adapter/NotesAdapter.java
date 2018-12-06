@@ -88,7 +88,7 @@ public class NotesAdapter extends BaseMultiItemQuickAdapter<NotesAdapter.MultiIt
         helper.setText(R.id.tv_note_title, note.getTitle());
         helper.setText(R.id.tv_added_time, TimeUtils.getLongDateTime(context, note.getAddedTime()));
         helper.setImageDrawable(R.id.iv_icon, ColorUtils.tintDrawable(
-                context.getResources().getDrawable(R.drawable.ic_doc_text_alpha), accentColor));
+                context.getResources().getDrawable(R.drawable.ic_description_black_24dp), accentColor));
     }
 
     private void convertNoteExpanded(BaseViewHolder holder, Note note) {

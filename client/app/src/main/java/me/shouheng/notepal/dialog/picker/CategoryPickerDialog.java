@@ -53,8 +53,7 @@ public class CategoryPickerDialog extends BasePickerDialog<Category> {
             }
         });
         emptyView.setTitle(getString(R.string.category_picker_empty_message));
-        emptyView.setIcon(ColorUtils.tintDrawable(
-                PalmUtils.getDrawableCompact(R.drawable.ic_labels_grey_24dp), getImageTintColor()));
+        emptyView.setIcon(ColorUtils.tintDrawable(R.drawable.ic_view_module_white_24dp, getImageTintColor()));
     }
 
     private int getImageTintColor() {
