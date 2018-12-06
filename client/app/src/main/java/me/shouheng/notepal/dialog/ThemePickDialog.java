@@ -9,11 +9,14 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.bumptech.glide.Glide;
+
 import java.util.Objects;
 
 import me.shouheng.commons.theme.ThemeUtils;
 import me.shouheng.commons.theme.ThemeStyle;
 import me.shouheng.commons.utils.ColorUtils;
+import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.DialogThemePickBinding;
 
@@ -67,6 +70,9 @@ public class ThemePickDialog extends DialogFragment {
         binding.ivLightBlue.setVisibility(themeStyle == ThemeStyle.LIGHT_BLUE_THEME ? View.VISIBLE : View.GONE);
         binding.ivLightRed.setVisibility(themeStyle == ThemeStyle.LIGHT_RED_THEME ? View.VISIBLE : View.GONE);
         binding.ivDarkBlue.setVisibility(themeStyle == ThemeStyle.DARK_THEME ? View.VISIBLE : View.GONE);
+        Glide.with(getActivity())
+                .load(themeStyle.isDarkTheme ? Constants.IMAGE_HEADER_DARK : Constants.IMAGE_HEADER_LIGHT)
+                .into(binding.ivBg);
     }
 
     private void switchToTheme(ThemeStyle themeStyle) {
