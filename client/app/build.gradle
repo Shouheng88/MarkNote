@@ -12,6 +12,9 @@ android {
         versionName "2.0"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        // umeng place holder
+        manifestPlaceholders = [UMENG_CHANNEL_VALUE: "umeng"]
+        manifestPlaceholders = [UMENG_APPKEY: "${umengAppKey}"]
     }
     signingConfigs {
         release {}
@@ -55,10 +58,27 @@ android {
     }
     flavorDimensions "default"
     productFlavors {
-        dev {}
-        alpha {}
-        beta {}
-        prod {}
+        dev {
+            dimension "default"
+        }
+        alpha {
+            dimension "default"
+        }
+        beta {
+            dimension "default"
+        }
+        prod {
+            dimension "default"
+        }
+        google {
+            dimension "default"
+        }
+        coolapk {
+            dimension "default"
+        }
+    }
+    productFlavors.all {
+        flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
     }
     // AndResGuard
     andResGuard {

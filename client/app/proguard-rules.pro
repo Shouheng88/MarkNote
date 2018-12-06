@@ -93,3 +93,14 @@
 -keep class com.fingerprints.service.** { *; }
 # SmsungFingerprint
 -keep class com.samsung.android.sdk.** { *; }
+
+# UMeng
+-keep class com.umeng.** {*;}
+-keepclassmembers class * {
+   public <init> (org.json.JSONObject);
+}
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+

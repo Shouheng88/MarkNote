@@ -3,14 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="me.shouheng.notepal">
 
+    <!-- umeng and business -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- camera -->
     <uses-permission android:name="android.permission.CAMERA" />
+    <!-- shortcut -->
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
     <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT" />
+    <!-- finger print -->
     <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
     <uses-permission android:name="com.fingerprints.service.ACCESS_FINGERPRINT_MANAGER"/>
     <uses-permission android:name="com.samsung.android.providers.context.permission.WRITE_USE_APP_FEATURE_SURVEY"/>
@@ -110,6 +114,7 @@
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data android:host="*" android:mimeType="*/*" android:pathPrefix="/external/file" android:scheme="content"/>
             </intent-filter>
+
         </activity>
 
         <activity android:name=".activity.SettingsActivity" />
@@ -126,9 +131,14 @@
 
         <activity android:name=".activity.ListActivity" />
 
+        <!-- fabric -->
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="aa14224ea2102fef301d211dac552635f37b1f9e" />
+
+        <!-- uemng todo -->
+        <meta-data android:value="${UMENG_APPKEY}" android:name="UMENG_APPKEY"/>
+        <meta-data android:value="${UMENG_CHANNEL_VALUE}" android:name="UMENG_CHANNEL"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"

@@ -104,7 +104,8 @@ dependencies {
     api "io.reactivex.rxjava2:rxjava:$rxJava"
     api "io.reactivex.rxjava2:rxandroid:$rxAndroid"
     // umeng
-    api 'com.umeng.analytics:analytics:6.1.4'
+    api  'com.umeng.umsdk:analytics:7.5.4'
+    api  'com.umeng.umsdk:common:1.5.4'
     // others
     api ('com.mikepenz:materialdrawer:6.0.7@aar') {
         transitive = true

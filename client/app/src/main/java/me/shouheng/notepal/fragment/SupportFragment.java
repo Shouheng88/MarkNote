@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 
+import com.umeng.analytics.MobclickAgent;
+
 import java.util.Objects;
 
 import me.shouheng.commons.fragment.CommonFragment;
@@ -13,6 +15,8 @@ import me.shouheng.commons.minipay.Config;
 import me.shouheng.commons.minipay.MiniPayUtils;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.FragmentSupportBinding;
+
+import static me.shouheng.commons.event.UMEvent.*;
 
 /**
  * @author WngShhng (shouheng2015@gmail.com)
@@ -32,12 +36,18 @@ public class SupportFragment extends CommonFragment<FragmentSupportBinding> {
             if (ab != null) ab.setTitle(R.string.drawer_menu_donate);
         }
 
-        getBinding().btnAlipay.setOnClickListener(v -> MiniPayUtils.setupPay(Objects.requireNonNull(getContext()),
-                new Config.Builder("a6x09668hybrp0jdxhp732f", R.mipmap.ali_pay, R.mipmap.mm_pay)
-                        .setChannel(Config.PAY_CHANNEL_ALIPAY).build()));
-        getBinding().btnWechat.setOnClickListener(v -> MiniPayUtils.setupPay(Objects.requireNonNull(getContext()),
-                new Config.Builder("a6x09668hybrp0jdxhp732f", R.mipmap.ali_pay, R.mipmap.mm_pay)
-                        .setChannel(Config.PAY_CHANNEL_WECHAT).build()));
+        getBinding().btnAlipay.setOnClickListener(v -> {
+            MiniPayUtils.setupPay(Objects.requireNonNull(getContext()),
+                    new Config.Builder("a6x09668hybrp0jdxhp732f", R.mipmap.ali_pay, R.mipmap.mm_pay)
+                            .setChannel(Config.PAY_CHANNEL_ALIPAY).build());
+            MobclickAgent.onEvent(getContext(), SUPPORT_DONATE_ALIPAY);
+        });
+        getBinding().btnWechat.setOnClickListener(v -> {
+            MiniPayUtils.setupPay(Objects.requireNonNull(getContext()),
+                    new Config.Builder("a6x09668hybrp0jdxhp732f", R.mipmap.ali_pay, R.mipmap.mm_pay)
+                            .setChannel(Config.PAY_CHANNEL_WECHAT).build());
+            MobclickAgent.onEvent(getContext(), SUPPORT_DONATE_WECHAT);
+        });
         getBinding().sivQq.setOnClickListener(v -> joinQQGroup("0HQ8P6rzoNTwpHWHtkYPolgPAvQltMdt"));
     }
 

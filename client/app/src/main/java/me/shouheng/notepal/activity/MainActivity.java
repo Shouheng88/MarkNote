@@ -32,6 +32,7 @@ import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.holder.DimenHolder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.umeng.analytics.MobclickAgent;
 
 import java.io.Serializable;
 import java.util.List;
@@ -88,6 +89,7 @@ import me.shouheng.notepal.util.SynchronizeUtils;
 import me.shouheng.notepal.vm.MainViewModel;
 
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
+import static me.shouheng.commons.event.UMEvent.*;
 import static me.shouheng.notepal.Constants.FAB_ACTION_CAPTURE;
 import static me.shouheng.notepal.Constants.FAB_ACTION_CREATE_SKETCH;
 import static me.shouheng.notepal.Constants.FAB_ACTION_PICK_IMAGE;
@@ -251,35 +253,44 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                         case 0:
                             drawer.closeDrawer();
                             toNotesFragment();
+                            MobclickAgent.onEvent(this, MAIN_MENU_ITEM_NOTEBOOKS);
                             break;
                         case 1:
                             drawer.closeDrawer();
                             toCategoriesFragment();
+                            MobclickAgent.onEvent(this, MAIN_MENU_ITEM_CATEGORIES);
                             break;
                         case 2:
                             ActivityHelper.open(ListActivity.class)
                                     .put(ListActivity.ARGS_KEY_LIST_TYPE, Status.ARCHIVED)
                                     .launch(getContext());
+                            MobclickAgent.onEvent(this, MAIN_MENU_ITEM_ARCHIVED);
                             break;
                         case 3:
                             ActivityHelper.open(ListActivity.class)
                                     .put(ListActivity.ARGS_KEY_LIST_TYPE, Status.TRASHED)
                                     .launch(getContext());
+                            MobclickAgent.onEvent(this, MAIN_MENU_ITEM_TRASHED);
                             break;
                         case 4:
                             SettingsActivity.open(SettingsFragment.class).launch(this);
+                            MobclickAgent.onEvent(this, MAIN_MENU_ITEM_SETTINGS);
                             break;
                         case 5:
                             ContainerActivity.open(SupportFragment.class).launch(this);
+                            MobclickAgent.onEvent(this, MAIN_MENU_ITEM_SUPPORT);
                             break;
                         case 6:
                             ContainerActivity.open(StatisticsFragment.class).launch(this);
+                            MobclickAgent.onEvent(this, MAIN_MENU_ITEM_STATISTIC);
                             break;
                         case 7:
                             ContainerActivity.open(TimeLineFragment.class).launch(this);
+                            MobclickAgent.onEvent(this, MAIN_MENU_ITEM_TIMELINE);
                             break;
                         case 8:
                             // Share
+                            MobclickAgent.onEvent(this, MAIN_MENU_ITEM_SHARE_APP);
                             break;
                     }
                     return true;
