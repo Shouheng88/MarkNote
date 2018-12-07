@@ -3,6 +3,5 @@
     android:layout_width="56dp"
     android:layout_height="56dp"
     android:id="@+id/iv_launch_app"
-    android:src="@drawable/mark_note"
+    android:src="@drawable/ic_launcher_round"
     android:padding="@dimen/widget_margin"/>
-<!-- TODO change the icon -->

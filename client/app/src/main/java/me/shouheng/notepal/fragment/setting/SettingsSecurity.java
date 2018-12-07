@@ -1,7 +1,9 @@
 package me.shouheng.notepal.fragment.setting;
 
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.preference.SwitchPreference;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -16,6 +18,7 @@ import me.shouheng.commons.event.RxMessage;
 import me.shouheng.commons.event.*;
 import me.shouheng.commons.fragment.BPreferenceFragment;
 import me.shouheng.commons.helper.ActivityHelper;
+import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.Md5Utils;
 import me.shouheng.commons.utils.PersistData;
 import me.shouheng.commons.utils.ToastUtils;
@@ -60,6 +63,10 @@ public class SettingsSecurity extends BPreferenceFragment {
             showQuestionEditor();
             return true;
         });
+
+        Preference finger = findPreference(R.string.key_security_finger_print_enable);
+        finger.setIcon(ColorUtils.tintDrawable(R.drawable.ic_fingerprint_black_24dp,
+                getThemeStyle().isDarkTheme ? Color.WHITE : Color.BLACK));
 
         showAlertIfNecessary();
 

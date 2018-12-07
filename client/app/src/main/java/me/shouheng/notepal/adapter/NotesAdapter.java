@@ -117,7 +117,7 @@ public class NotesAdapter extends BaseMultiItemQuickAdapter<NotesAdapter.MultiIt
         String str = context.getResources().getQuantityString(R.plurals.text_notes_number, notebook.getCount(), notebook.getCount());
         helper.setText(R.id.tv_added_time, str);
         helper.setImageDrawable(R.id.iv_icon, ColorUtils.tintDrawable(
-                context.getResources().getDrawable(R.drawable.ic_folder_black_24dp), nbColor));
+                context.getResources().getDrawable(R.drawable.ic_book), nbColor));
     }
 
     @Override

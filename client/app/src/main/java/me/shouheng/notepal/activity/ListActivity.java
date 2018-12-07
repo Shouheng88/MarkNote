@@ -86,50 +86,23 @@ public class ListActivity extends CommonActivity<ActivityBaseListBinding>
     }
 
     private void configDrawer(Bundle savedInstanceState) {
-        PrimaryDrawerItem itemMenu = new PrimaryDrawerItem()
-                .withName(status == Status.ARCHIVED ?
-                        R.string.drawer_menu_archive : R.string.drawer_menu_trash)
-                .withIconTintingEnabled(true)
-                .withSelectable(false)
-                .withSetSelected(false)
-                .withIdentifier(-1)
-                .withSelectedTextColor(ColorUtils.accentColor())
-                .withSelectedIconColor(ColorUtils.accentColor());
-
+        PrimaryDrawerItem itemMenu = ColorUtils.getColoredDrawerMenuItem(
+                status == Status.ARCHIVED ? R.string.drawer_menu_archive : R.string.drawer_menu_trash,
+                R.drawable.ic_book, -1, false);
         DividerDrawerItem divider = new DividerDrawerItem();
-
-        PrimaryDrawerItem itemNotes = new PrimaryDrawerItem()
-                .withName(R.string.drawer_menu_notebooks)
-                .withIcon(ColorUtils.tintDrawable(R.drawable.ic_book,
-                        isDarkTheme() ? Color.WHITE : Color.BLACK))
-                .withIdentifier(0)
-                .withIconTintingEnabled(true)
-                .withSetSelected(true)
-                .withSelectedTextColor(ColorUtils.accentColor())
-                .withSelectedIconColor(ColorUtils.accentColor());
-
-        PrimaryDrawerItem itemTags = new PrimaryDrawerItem()
-                .withName(R.string.drawer_menu_categories)
-                .withIcon(ColorUtils.tintDrawable(R.drawable.ic_view_module_white_24dp,
-                        isDarkTheme() ? Color.WHITE : Color.BLACK))
-                .withIdentifier(1)
-                .withIconTintingEnabled(true)
-                .withSelectedTextColor(ColorUtils.accentColor())
-                .withSelectedIconColor(ColorUtils.accentColor());
-
-        PrimaryDrawerItem itemBack = new PrimaryDrawerItem()
-                .withName(R.string.text_back)
-                .withIcon(ColorUtils.tintDrawable(R.drawable.ic_subdirectory_arrow_left_black_24dp,
-                        isDarkTheme() ? Color.WHITE : Color.BLACK))
-                .withIdentifier(2)
-                .withSelectedTextColor(ColorUtils.accentColor())
-                .withSelectedIconColor(ColorUtils.accentColor());
+        PrimaryDrawerItem itemNotes = ColorUtils.getColoredDrawerMenuItem(
+                R.string.drawer_menu_notebooks, R.drawable.ic_book, 0, true);
+        PrimaryDrawerItem itemTags = ColorUtils.getColoredDrawerMenuItem(
+                R.string.drawer_menu_categories, R.drawable.ic_view_module_white_24dp, 1, true);
+        PrimaryDrawerItem itemBack = ColorUtils.getColoredDrawerMenuItem(
+                R.string.text_back, R.drawable.ic_subdirectory_arrow_left_black_24dp, 2, true);
 
         drawer = new DrawerBuilder().withActivity(this)
                 .withHasStableIds(true)
                 .addDrawerItems(itemMenu, divider, itemNotes, itemTags, divider, itemBack)
                 .withMultiSelect(false)
                 .withSelectedItem(0)
+                .withSliderBackgroundColorRes(isDarkTheme() ? R.color.dark_theme_background : R.color.light_theme_background)
                 .withOnDrawerItemClickListener((view, position, drawerItem) -> {
                     if (drawerItem == null) return false;
                     switch ((int) drawerItem.getIdentifier()) {

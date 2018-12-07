@@ -40,7 +40,7 @@ public class ShortcutHelper {
                             .setShortLabel(note.getTitle())
                             .setLongLabel(note.getTitle())
                             .setIntent(shortcutIntent)
-                            .setIcon(Icon.createWithResource(context, R.drawable.note_shortcut))
+                            .setIcon(Icon.createWithResource(context, R.drawable.ic_launcher_round))
                             .build();
 
                     Intent pinnedShortcutCallbackIntent = mShortcutManager.createShortcutResultIntent(pinShortcutInfo);
@@ -70,7 +70,7 @@ public class ShortcutHelper {
         addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
         addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, note.getTitle());
         addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
-                Intent.ShortcutIconResource.fromContext(context, R.drawable.note_shortcut));
+                Intent.ShortcutIconResource.fromContext(context, R.drawable.ic_launcher_round));
         addIntent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
         context.sendBroadcast(addIntent);
     }

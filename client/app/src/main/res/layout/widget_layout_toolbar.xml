@@ -32,7 +32,7 @@
             android:layout_height="match_parent"
             android:background="@drawable/icon_selector"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/mark_note" />
+            android:src="@drawable/ic_launcher_round" />
 
         <ImageView
             android:id="@+id/iv_add_note"

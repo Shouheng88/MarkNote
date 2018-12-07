@@ -19,7 +19,7 @@
                 android:id="@+id/profile_image"
                 android:layout_width="match_parent"
                 android:layout_height="84dp"
-                android:src="@drawable/mark_note" />
+                android:src="@drawable/ic_launcher_round" />
 
             <TextView
                 android:id="@+id/profile_name"
