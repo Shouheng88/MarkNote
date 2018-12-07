@@ -81,12 +81,10 @@ public class AboutActivity extends CommonActivity<ActivityAboutBinding> {
         getBinding().toolbar.setTitleTextColor(isDarkTheme() ? Color.WHITE : Color.BLACK);
 
         /* About entities. */
-        String appName = PalmUtils.getStringCompact(R.string.mark_note);
         List<AboutEntity> aboutEntities = new LinkedList<>();
         if (!openSourceOnly) {
             aboutEntities.add(AboutEntity.getSectionTitle(PalmUtils.getStringCompact(R.string.about_section_description)));
-            aboutEntities.add(AboutEntity.getNormalText(Html.fromHtml(
-                    String.format(PalmUtils.getStringCompact(R.string.about_section_description_details), appName, appName))));
+            aboutEntities.add(AboutEntity.getNormalText(Html.fromHtml(PalmUtils.getStringCompact(R.string.about_section_description_details))));
             aboutEntities.add(AboutEntity.getSectionTitle(PalmUtils.getStringCompact(R.string.about_section_developer)));
             aboutEntities.add(AboutEntity.getUser("WngShhng (" + EMAIL_DEVELOPER + ")", Constants.IMAGE_AVATAR_DEVELOPER,
                     PalmUtils.getStringCompact(R.string.about_section_developer_desc), Constants.PAGE_GITHUB_DEVELOPER));

@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 
 import com.umeng.analytics.MobclickAgent;
 
@@ -15,6 +16,7 @@ import me.shouheng.commons.event.*;
 import me.shouheng.commons.fragment.CommonFragment;
 import me.shouheng.commons.minipay.Config;
 import me.shouheng.commons.minipay.MiniPayUtils;
+import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.FragmentSupportBinding;
 
@@ -39,6 +41,13 @@ public class SupportFragment extends CommonFragment<FragmentSupportBinding> {
             ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
             if (ab != null) ab.setTitle(R.string.drawer_menu_donate);
         }
+
+        getBinding().tv1.setText(Html.fromHtml(PalmUtils.getStringCompact(R.string.dialog_notice_content_part1)));
+        getBinding().tv2.setText(Html.fromHtml(PalmUtils.getStringCompact(R.string.dialog_notice_content_part2)));
+        getBinding().tv3.setText(Html.fromHtml(PalmUtils.getStringCompact(R.string.dialog_notice_content_part3)));
+        getBinding().tv4.setText(Html.fromHtml(PalmUtils.getStringCompact(R.string.dialog_notice_content_part4)));
+        getBinding().tv5.setText(Html.fromHtml(PalmUtils.getStringCompact(R.string.dialog_notice_content_part5)));
+        getBinding().tv6.setText(Html.fromHtml(PalmUtils.getStringCompact(R.string.dialog_notice_content_part6)));
 
         getBinding().btnAlipay.setOnClickListener(v -> {
             MiniPayUtils.setupPay(Objects.requireNonNull(getContext()),

@@ -111,9 +111,9 @@
     <string name="drawer_menu_statistics">Statistics</string>
     <string name="drawer_menu_time_line">TimeLine</string>
     <string name="drawer_menu_setting">Settings</string>
-    <string name="drawer_menu_share">Share</string>
+    <string name="drawer_menu_share">Share App</string>
     <string name="drawer_menu_donate">Support Development</string>
-    <string name="drawer_header_sub_title">Attentively records the good life</string>
+    <string name="drawer_header_sub_title">记录美好生活</string>
 
     <!-- shortcuts -->
     <string name="shortcut_add_long_name">Create new notes</string>
@@ -126,19 +126,19 @@
     <string name="shortcut_capture_short_name">Capture</string>
 
     <!-- permissions -->
-    <string name="permission_storage_permission">Storage</string>
-    <string name="permission_location_permission">Location</string>
-    <string name="permission_microphone_permission">Microphone</string>
-    <string name="permission_phone_permission">Phone</string>
-    <string name="permission_sms_permission">Sms</string>
-    <string name="permission_sensor_permission">Sensor</string>
-    <string name="permission_contacts_permission">Contacts</string>
-    <string name="permission_camera_permission">Camera</string>
-    <string name="permission_calendar_permission">Calendar</string>
-    <string name="permission_set_permission">Permission settings</string>
-    <string name="permission_denied_message">Permission denied. Please try again after grant the permission.</string>
-    <string name="permission_set_in_settings_message">Permission is required.\n\nGrant the permission to this application and try again:\n\n Open app info page in settings, tap \'Permissions\', enable \'%s\'.</string>
-    <string name="permission_to_set">to set</string>
+    <string name="permission_storage_permission">存储空间</string>
+    <string name="permission_location_permission">位置信息</string>
+    <string name="permission_microphone_permission">麦克风</string>
+    <string name="permission_phone_permission">电话</string>
+    <string name="permission_sms_permission">短信</string>
+    <string name="permission_sensor_permission">传感器</string>
+    <string name="permission_contacts_permission">通讯录</string>
+    <string name="permission_camera_permission">相机</string>
+    <string name="permission_calendar_permission">日历</string>
+    <string name="permission_set_permission">设置权限</string>
+    <string name="permission_denied_message">没有权限，请授予 %s 权限之后再次尝试。</string>
+    <string name="permission_set_in_settings_message">打开设置的程序信息页面，轻触\"权限\"，将 %s 设置为打开，并再次尝试.</string>
+    <string name="permission_to_set">去设置</string>
 
     <!-- fabs -->
     <string name="fab_opt_note">Note</string>
@@ -154,12 +154,13 @@
     <string name="fab_sort_save">Save</string>
 
     <!-- support -->
-    <string name="dialog_notice_content_part1">Nice to meet your!<![CDATA[<br/>]]>Here we invite you to improve it with us:</string>
-    <string name="dialog_notice_content_part2">1.If you like MarkNote you may help developer by <![CDATA[<b>translating</b>]]> it in to other languages or give <![CDATA[<b>rating</b>]]> and feedback in app store.</string>
-    <string name="dialog_notice_content_part3">2.If you have special requirements, unsatisfied about current functions, feed back in <![CDATA[<b>Settings->Feedback</b>]]> page.</string>
-    <string name="dialog_notice_content_part4">3.MarkNote is an open source application, you can get the source code in <![CDATA[<b>Github</b>]]>. I would be appreciated if you can contribute to and star it.</string>
-    <string name="dialog_notice_content_part5">4.Furthermore, subscribe our <![CDATA[<b>Twitter and Weibo</b>]]> or join our <![CDATA[<b>QQ Group</b>]]> to get the latest release message.</string>
-    <string name="dialog_notice_content_part6">At last, donate the developer by one of the following ways to pass the winter:</string>
+    <string name="dialog_notice_content_part1">Hello, user!<![CDATA[<br/><br/>]]>Due to the limit of time, Omni List still has few weakness. Here we invite you to improve it with us:</string>
+    <string name="dialog_notice_content_part2">1.If you like Omni List you may associate developer by translating it in to other languages(Find in <![CDATA[<b>\"Settings->About->Translation\"</b>]]>), or give rating and feedback in application market.</string>
+    <string name="dialog_notice_content_part3">2.If you have special requirements, or if you are unsatisfied about current functions, feed back to developer by any of below ways: <![CDATA[<b>Google+ community, Twitter, Weibo or directly sending an email</b>]]>.</string>
+    <string name="dialog_notice_content_part4">3.If you find bugs or crashes in Omni List, you can feed back in <![CDATA[<b>"Settings->Feedback"</b>]]> or <![CDATA[<b>directly sending an email to developer</b>]]>.</string>
+    <string name="dialog_notice_content_part5">4.Omni List will continue to push out many new functions and features, if you like this application, you may support developing in <![CDATA[<b>"Settings->Support developing"</b>]]>.</string>
+    <string name="dialog_notice_content_part6">5.Furthermore, you can also get latest developing messages by subscribe our <![CDATA[<b>Google+ community, Twitter or Weibo</b>]]>. You may even join the beta test.</string>
+    <string name="dialog_notice_content_part7">Please give more patience to Omni List, we will work better.<![CDATA[<br/><br/>]]>Last, wish you have a happy journey with Omni List!</string>
 
     <!-- statistic -->
     <string name="statistic_activities">Notes</string>
@@ -270,21 +271,21 @@
     <string name="operation_uncompleted">Uncompleted</string>
 
     <!-- setting -->
-    <string name="setting_title">Settings</string>
-    <string name="setting_category_personal">Personalization</string>
-    <string name="setting_category_personal_theme">Theme</string>
-    <string name="setting_category_personal_theme_sub">Change the main theme</string>
-    <string name="setting_category_personal_beautify_date">Beautified date</string>
-    <string name="setting_category_personal_beautify_date_sub">Enable to use beautified date</string>
+    <string name="setting_title">设置</string>
+    <string name="setting_category_personal">个性化</string>
+    <string name="setting_category_personal_theme">主题</string>
+    <string name="setting_category_personal_theme_sub">更改应用的主题颜色</string>
+    <string name="setting_category_personal_beautify_date">美化日期</string>
+    <string name="setting_category_personal_beautify_date_sub">使用简化的日期</string>
     <string name="setting_category_personal_fab">Custom float buttons</string>
     <string name="setting_category_personal_fab_sub">Custom float action buttons behaviors of dashboard</string>
-    <string name="setting_category_personal_navbar">Navigation bar</string>
+    <string name="setting_category_personal_navbar">Colored navigation bar</string>
     <string name="setting_category_personal_navbar_sub">Use colored navigation bar</string>
     <string name="setting_category_universal">Universal</string>
     <string name="setting_category_universal_note">Note</string>
-    <string name="setting_category_universal_note_sub">Setup performance of note</string>
+    <string name="setting_category_universal_note_sub">Set note performance</string>
     <string name="setting_category_universal_backup">Backup</string>
-    <string name="setting_category_universal_backup_sub">Import, export and sync your app data</string>
+    <string name="setting_category_universal_backup_sub">Import and export data</string>
     <string name="setting_category_universal_security">Security</string>
     <string name="setting_category_universal_security_sub">Add independent lock</string>
     <string name="setting_category_help">Help</string>
@@ -295,15 +296,15 @@
     <string name="setting_category_help_translate">Translate</string>
     <string name="setting_category_help_translate_sub">If you want to translate or improve your language, please contact me: shouheng2015@gmail.com</string>
     <string name="setting_category_others">Others</string>
-    <string name="setting_category_others_about_app">About</string>
-    <string name="setting_category_others_about_app_sub">Know more about the original ideas and concepts we designed for this application</string>
-    <string name="setting_category_others_about_privacy">Privacy policy</string>
-    <string name="setting_category_others_about_open_source">Open Source Licenses</string>
+    <string name="setting_category_others_about_app">关于应用</string>
+    <string name="setting_category_others_about_app_sub">了解我们开发这款应用的初衷和应用的详细信息</string>
+    <string name="setting_category_others_about_privacy">隐私政策</string>
+    <string name="setting_category_others_about_open_source">开源许可</string>
     <!-- setting->theme -->
     <string name="setting_theme_picker_title">Pick a theme</string>
     <string name="setting_theme_light_blue">Blue Sky</string>
     <string name="setting_theme_light_red">Sakura</string>
-    <string name="setting_theme_dark_blue">The Dawn</string>
+    <string name="setting_theme_dark_blue">Dawn</string>
     <!-- setting->note -->
     <string name="setting_note_file_extension">Default note file extension</string>
     <string name="setting_note_file_extension_sub">The extension when create note file</string>
@@ -313,11 +314,13 @@
     <string name="setting_note_compress_sub">The compressed image will save a lot of storage and data usage</string>
     <!-- setting->security -->
     <string name="setting_security_psd_enable">Enable password</string>
-    <string name="setting_security_psd_enable_sub">The password will be required when enabled</string>
-    <string name="setting_security_psd">Password</string>
-    <string name="setting_security_psd_sub">Setup the password</string>
+    <string name="setting_security_psd_enable_sub">The password will be required when enabled.</string>
+    <string name="setting_security_psd">Set password</string>
+    <string name="setting_security_psd_sub">Set a password required when access to this application</string>
+    <string name="setting_security_psd_freeze">Password frozen time</string>
+    <string name="setting_security_psd_freeze_sub">The frozen when hit the limit time</string>
     <string name="setting_security_question">Security question</string>
-    <string name="setting_security_question_sub">The security question was used when you forget password</string>
+    <string name="setting_security_question_sub">The security question used when forget password</string>
     <!-- setting->security->lock -->
     <string name="setting_lock_psd_hint">Input again</string>
     <string name="setting_lock_psd_changes_left">Wrong password!</string>
@@ -337,11 +340,11 @@
     <string name="setting_security_question_answer_required">Answer is required</string>
     <string name="setting_security_question_confirm_answer_required">Confirm answer is required</string>
     <string name="wrong_numeric_string">The string contains illegal chars</string>
-    <string name="setting_security_password_finger_print">Enable finger print lock</string>
-    <string name="setting_security_password_finger_print_sub">Use finger print to unlock the application</string>
-    <string name="security_finger_locked">Finger print function locked</string>
-    <string name="security_finger_failed">Failed</string>
-    <string name="security_finger_not_match">Failed, %d chances left</string>
+    <string name="setting_security_password_finger_print">启用指纹密码</string>
+    <string name="setting_security_password_finger_print_sub">启用之后可以使用指纹进行身份校验</string>
+    <string name="security_finger_locked">指纹密码已锁定</string>
+    <string name="security_finger_failed">指纹识别失败</string>
+    <string name="security_finger_not_match">纹识不匹配，还剩%d次机会</string>
     <!-- setting->backup -->
     <string name="setting_backup_external">External Storage</string>
     <string name="setting_backup_backup">Backup to external storage</string>
@@ -391,36 +394,29 @@
     <string name="setting_backup_interval_sync_every_12_hours">Every 12 hours</string>
     <string name="setting_backup_interval_sync_every_day">Daily</string>
     <!-- setting->about -->
-    <string name="about_slogan">Fast | Material | Multifunctional</string>
-    <string name="about_section_description">Mark Note</string>
-    <string name="about_section_description_details"><![CDATA[Nice to meet you!<br/><br/>MarkNote is a fast, material and multifunctional
-    markdown note-taking application, which will give you a fantastic experience in writing.<br/><br/>
-    Aim at building a markdown application which can help everyone record their daily life, I made this application open sourced.
-    If you are interested in this app, you can find the repository in Github. I would be very appreciated if you could contribute
-    to it and give a star.  <br/><br/>
-    Furthermore, if you have any good idea about this application, or you want to improve the performance,
-    you can contact me at shouheng2015@gmail.com. <br/><br/>
-    Please enjoy the journal with MarkNote.]]></string>
-    <string name="about_section_developer">Developer</string>
-    <string name="about_section_developer_desc">Design &amp; develop</string>
-    <string name="about_section_open_sources">Open source licenses</string>
+    <string name="about_slogan">爱记账、爱生活</string>
+    <string name="about_section_description">记·账</string>
+    <string name="about_section_description_details"><![CDATA[欢迎您使用%s！<br/><br/>%s是一款运行于Android设备上的优雅的记账软件。它的设计是基于Material Design的，这能够带给你非常轻快、愉悦的用户体验。<br/><br/>我们致力于打造一款功能丰富和健全的记账软件，如果您对该软件感兴趣，可以联系开发者进行反馈。<br/><br/>请享用。]]></string>
+    <string name="about_section_developer">开发者</string>
+    <string name="about_section_developer_desc">设计 &amp; 开发</string>
+    <string name="about_section_open_sources">开源协议</string>
     <string name="about_section_open_links">Links</string>
     <string name="about_section_open_links_details"><![CDATA[
-1. SOURCE REPOSITORY:<br/><a href=\"%s\">Shouheng88/MarkNote: An open sourced makrdown note-taking application for Android</a>;<br/><br/>
-2. CHANGE LOGS: <a href=\"%s\">check the release notes about Mark Note</a>;<br/><br/>
-3. UPDATE PLANS: <a href=\"%s\">features we are about to add in the next versions</a>;<br/><br/>
-4. ABOUT PAGE: <a href=\"%s\">the story behind</a>.]]></string>
+1. Open source repository in Github:<br/><a href=\"%s\">Shouheng88/MarkNote: An open sourced makrdown note-taking application for Android</a>;<br/><br/>
+2. Change logs: <a href=\"%s\">check the release notes about Mark Note</a>;<br/><br/>
+3. Update plans: <a href=\"%s\">features we are about to add in the next versions</a>;<br/><br/>
+4. The online about page: <a href=\"%s\">the story behind</a>.]]></string>
 
     <!--donate -->
-    <string name="donate_wechat_title">Donate·WeChat</string>
-    <string name="donate_wechat_tips">Use your WeChat scan the QR code, or tab the \"Donate\"  and then select \"Choose QR Code from Album\" in your WeChat scan page</string>
-    <string name="donate_alipay_title">Donate·AliPay</string>
-    <string name="donate_alipay_tips">Use your AliPay scan the QR code, or tab the \"Donate\"\n Your support keep us momentum</string>
-    <string name="donate_wechat_loading">Launching&#8230;</string>
-    <string name="donate_switch_tips">Click to switch donate channel</string>
-    <string name="donate_text_donate">Donate</string>
-    <string name="donate_text_to_donate">Donate</string>
-    <string name="donate_qa_code">QR Code</string>
-    <string name="donate_by_alipay">Donate by AliPay</string>
-    <string name="donate_by_wechat">Donate by WeChat</string>
+    <string name="donate_wechat_title">捐赠·微信</string>
+    <string name="donate_wechat_tips">微信扫一扫，或者点击\"去捐赠\"，在微信页面右上角菜单中 \"从相册中选取二维码\"。</string>
+    <string name="donate_alipay_title">捐赠·支付宝</string>
+    <string name="donate_alipay_tips">支付宝扫一扫，或者点击\"去捐赠\"\n您点滴支持，是我们最大动力</string>
+    <string name="donate_wechat_loading">启动中&#8230;</string>
+    <string name="donate_switch_tips">点击任何地方切换捐赠方式</string>
+    <string name="donate_text_donate">捐赠</string>
+    <string name="donate_text_to_donate">去捐赠</string>
+    <string name="donate_qa_code">捐赠二维码</string>
+    <string name="donate_by_alipay">通过支付宝捐赠</string>
+    <string name="donate_by_wechat">通过微信支付捐赠</string>
 </resources>

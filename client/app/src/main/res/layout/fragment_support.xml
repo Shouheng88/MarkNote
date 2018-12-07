@@ -92,16 +92,6 @@
                 android:paddingTop="8dp"
                 android:text="@string/dialog_notice_content_part5" />
 
-            <me.shouheng.commons.widget.theme.SupportTextView
-                android:id="@+id/tv6"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="8dp"
-                android:paddingEnd="16dp"
-                android:paddingStart="16dp"
-                android:paddingTop="8dp"
-                android:text="@string/dialog_notice_content_part6" />
-
             <LinearLayout
                 android:padding="16dp"
                 android:layout_width="match_parent"
@@ -134,14 +124,14 @@
             </LinearLayout>
 
             <me.shouheng.commons.widget.theme.SupportTextView
-                android:id="@+id/tv7"
+                android:id="@+id/tv6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="8dp"
                 android:paddingEnd="16dp"
                 android:paddingStart="16dp"
                 android:paddingTop="8dp"
-                android:text="@string/dialog_notice_content_part7" />
+                android:text="@string/dialog_notice_content_part6" />
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/btn_alipay"
