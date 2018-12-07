@@ -18,7 +18,9 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.Collections;
 
+import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.event.RxMessage;
+import me.shouheng.commons.event.*;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.commons.utils.ViewUtils;
@@ -38,6 +40,7 @@ import me.shouheng.notepal.vm.CategoriesViewModel;
  *
  * Created by WngShhng (shouheng2015@gmail.com) on 2017/3/29.
  */
+@PageName(name = UMEvent.PAGE_CATEGORIES)
 public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> implements BaseQuickAdapter.OnItemClickListener {
 
     /**

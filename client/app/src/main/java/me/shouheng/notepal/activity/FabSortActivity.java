@@ -12,6 +12,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import java.util.List;
 
 import me.shouheng.commons.activity.CommonActivity;
+import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.event.RxMessage;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.ToastUtils;
@@ -19,9 +20,12 @@ import me.shouheng.commons.widget.recycler.DragSortRecycler;
 import me.shouheng.data.model.enums.FabSortItem;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.FabSortAdapter;
-import me.shouheng.notepal.databinding.ActivityFabSortBinding;
 import me.shouheng.notepal.common.preferences.UserPreferences;
+import me.shouheng.notepal.databinding.ActivityFabSortBinding;
 
+import static me.shouheng.commons.event.UMEvent.*;
+
+@PageName(name = PAGE_FAB_SORT)
 public class FabSortActivity extends CommonActivity<ActivityFabSortBinding> {
 
     private FabSortAdapter mAdapter;

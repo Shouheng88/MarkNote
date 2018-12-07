@@ -10,13 +10,17 @@ import android.view.MenuItem;
 import android.view.View;
 
 import me.shouheng.commons.R;
-import me.shouheng.commons.databinding.ActivityContainerBinding;
-import me.shouheng.commons.helper.FragmentHelper;
 import me.shouheng.commons.activity.interaction.BackEventResolver;
-import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.activity.interaction.FragmentKeyDown;
+import me.shouheng.commons.databinding.ActivityContainerBinding;
+import me.shouheng.commons.event.PageName;
+import me.shouheng.commons.helper.FragmentHelper;
+import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.PalmUtils;
 
+import static me.shouheng.commons.event.UMEvent.*;
+
+@PageName(name = PAGE_CONTAINER)
 public class ContainerActivity extends CommonActivity<ActivityContainerBinding> {
 
     public final static String ACTION_OPEN_FRAGMENT = "__action_open_fragment";

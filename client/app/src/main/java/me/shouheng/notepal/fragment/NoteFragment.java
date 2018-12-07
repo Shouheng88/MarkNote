@@ -40,7 +40,9 @@ import io.reactivex.schedulers.Schedulers;
 import me.shouheng.commons.activity.ContainerActivity;
 import me.shouheng.commons.activity.PermissionActivity;
 import me.shouheng.commons.activity.interaction.BackEventResolver;
+import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.event.RxMessage;
+import me.shouheng.commons.event.*;
 import me.shouheng.commons.fragment.CommonFragment;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.PalmUtils;
@@ -86,6 +88,7 @@ import static me.shouheng.notepal.Constants.SHORTCUT_ACTION_VIEW_NOTE;
  * Created by WngShhng (shouehng2015@gmail.com) on 2017/5/12.
  * Refactored by WngShhng (shouheng2015@gmail.com) on 2017/12/2.
  */
+@PageName(name = UMEvent.PAGE_NOTE)
 public class NoteFragment extends CommonFragment<FragmentNoteBinding>
         implements BackEventResolver, AttachmentHelper.OnAttachingFileListener {
 

@@ -42,8 +42,8 @@ public class PalmApp extends BaseApplication {
         UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, "");
     }
 
-    public static boolean isPasswordChecked() {
-        return passwordChecked;
+    public static boolean passwordNotChecked() {
+        return !passwordChecked;
     }
 
     public static void setPasswordChecked() {

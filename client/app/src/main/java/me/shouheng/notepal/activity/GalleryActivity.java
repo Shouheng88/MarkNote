@@ -24,6 +24,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
+import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.theme.SystemUiVisibilityUtil;
 import me.shouheng.commons.theme.ThemeUtils;
 import me.shouheng.commons.utils.LogUtils;
@@ -37,6 +38,9 @@ import me.shouheng.notepal.adapter.AttachmentPagerAdapter;
 import me.shouheng.notepal.manager.FileManager;
 import ooo.oxo.library.widget.PullBackLayout;
 
+import static me.shouheng.commons.event.UMEvent.*;
+
+@PageName(name = PAGE_GALLERY)
 public class GalleryActivity extends AppCompatActivity implements PullBackLayout.Callback {
 
     public final static String EXTRA_GALLERY_IMAGES = "__extra_gallery_images";

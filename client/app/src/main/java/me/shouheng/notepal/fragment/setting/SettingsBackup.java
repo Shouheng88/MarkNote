@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import me.shouheng.commons.activity.CommonActivity;
+import me.shouheng.commons.event.PageName;
+import me.shouheng.commons.event.*;
 import me.shouheng.commons.fragment.BPreferenceFragment;
 import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.commons.utils.PalmUtils;
@@ -38,6 +40,7 @@ import me.shouheng.notepal.common.preferences.SyncPreferences;
 /**
  * Created by WngShhng on 2018/1/5.
  */
+@PageName(name = UMEvent.PAGE_SETTING_BACKUP)
 public class SettingsBackup extends BPreferenceFragment {
 
     private final int REQUEST_PICK_FOLDER = 0x000F;

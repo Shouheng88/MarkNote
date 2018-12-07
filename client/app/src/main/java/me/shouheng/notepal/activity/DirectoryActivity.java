@@ -16,18 +16,22 @@ import com.onedrive.sdk.extensions.Folder;
 import com.onedrive.sdk.extensions.Item;
 
 import me.shouheng.commons.activity.CommonActivity;
+import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.helper.FragmentHelper;
 import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.data.model.Directory;
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.onedrive.ClearBackupStateTask;
+import me.shouheng.notepal.common.preferences.SyncPreferences;
 import me.shouheng.notepal.databinding.ActivityDirectoryBinding;
 import me.shouheng.notepal.dialog.SimpleEditDialog;
 import me.shouheng.notepal.fragment.DirectoriesFragment;
+import me.shouheng.notepal.onedrive.ClearBackupStateTask;
 import me.shouheng.notepal.onedrive.OneDriveManager;
-import me.shouheng.notepal.common.preferences.SyncPreferences;
 
+import static me.shouheng.commons.event.UMEvent.*;
+
+@PageName(name = PAGE_DIRECTORY)
 public class DirectoryActivity extends CommonActivity<ActivityDirectoryBinding> implements
         DirectoriesFragment.OnFragmentInteractionListener {
 

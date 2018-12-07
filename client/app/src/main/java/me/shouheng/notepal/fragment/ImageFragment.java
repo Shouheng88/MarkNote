@@ -15,14 +15,16 @@ import android.widget.RelativeLayout;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import me.shouheng.commons.event.PageName;
+import me.shouheng.commons.event.*;
+import me.shouheng.commons.image.RotateTransformation;
 import me.shouheng.commons.utils.ViewUtils;
+import me.shouheng.data.entity.Attachment;
+import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.GalleryActivity;
-import me.shouheng.notepal.Constants;
-import me.shouheng.data.entity.Attachment;
 import me.shouheng.notepal.manager.FileManager;
-import me.shouheng.commons.image.RotateTransformation;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -31,6 +33,7 @@ import uk.co.senab.photoview.PhotoViewAttacher;
  *
  * Created by WngShhng (shouheng2015@gmail.com) on 2017/4/9.
  */
+@PageName(name = UMEvent.PAGE_IMAGE)
 public class ImageFragment extends Fragment {
 
     public final static String ARG_ATTACHMENT = "__args_key_attachment";

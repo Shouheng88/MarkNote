@@ -16,6 +16,7 @@ import java.util.List;
 import io.reactivex.Observable;
 import me.shouheng.commons.activity.CommonActivity;
 import me.shouheng.commons.activity.ContainerActivity;
+import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.event.RxMessage;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.ToastUtils;
@@ -28,6 +29,9 @@ import me.shouheng.notepal.databinding.ActivitySearchBinding;
 import me.shouheng.notepal.fragment.NoteViewFragment;
 import me.shouheng.notepal.vm.SearchViewModel;
 
+import static me.shouheng.commons.event.UMEvent.*;
+
+@PageName(name = PAGE_SEARCH)
 public class SearchActivity extends CommonActivity<ActivitySearchBinding> implements SearchView.OnQueryTextListener {
 
     private NotesAdapter adapter;

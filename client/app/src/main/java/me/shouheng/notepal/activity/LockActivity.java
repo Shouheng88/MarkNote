@@ -15,6 +15,7 @@ import com.wei.android.lib.fingerprintidentify.FingerprintIdentify;
 import com.wei.android.lib.fingerprintidentify.base.BaseFingerprint;
 
 import me.shouheng.commons.activity.CommonActivity;
+import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.event.RxMessage;
 import me.shouheng.commons.theme.SystemUiVisibilityUtil;
 import me.shouheng.commons.utils.ColorUtils;
@@ -29,11 +30,14 @@ import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.ActivityLockBinding;
 
+import static me.shouheng.commons.event.UMEvent.*;
+
 /**
  * Lock Activity, used to set password, check password.
  *
  * Created by WngShhng.
  */
+@PageName(name = PAGE_LOCK)
 public class LockActivity extends CommonActivity<ActivityLockBinding> {
 
     public final static String ACTION_SET_PASSWORD = "__action_set_password";

@@ -17,6 +17,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import me.shouheng.commons.activity.PermissionActivity;
+import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.event.RxBus;
 import me.shouheng.commons.event.RxMessage;
 import me.shouheng.commons.helper.ActivityHelper;
@@ -38,6 +39,9 @@ import me.shouheng.notepal.dialog.QuickNoteDialog;
 import me.shouheng.notepal.util.AppWidgetUtils;
 import me.shouheng.notepal.vm.QuickViewModel;
 
+import static me.shouheng.commons.event.UMEvent.*;
+
+@PageName(name = PAGE_QUICK)
 public class QuickActivity extends PermissionActivity {
 
     private QuickViewModel viewModel;
@@ -53,7 +57,7 @@ public class QuickActivity extends PermissionActivity {
     private void checkPsdIfNecessary(Bundle savedInstanceState) {
         boolean psdRequired = PersistData.getBoolean(R.string.key_security_psd_required, false);
         String psd = PersistData.getString(R.string.key_security_psd, null);
-        if (psdRequired && !PalmApp.isPasswordChecked() && !TextUtils.isEmpty(psd)) {
+        if (psdRequired && PalmApp.passwordNotChecked() && !TextUtils.isEmpty(psd)) {
             ActivityHelper.open(LockActivity.class)
                     .setAction(LockActivity.ACTION_REQUIRE_PASSWORD)
                     .setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)

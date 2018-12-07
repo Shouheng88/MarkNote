@@ -44,6 +44,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import me.shouheng.commons.activity.CommonActivity;
 import me.shouheng.commons.activity.ContainerActivity;
+import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.event.RxMessage;
 import me.shouheng.commons.helper.ActivityHelper;
 import me.shouheng.commons.helper.FragmentHelper;
@@ -99,6 +100,7 @@ import static me.shouheng.notepal.Constants.SHORTCUT_ACTION_SEARCH_NOTE;
 import static me.shouheng.notepal.Constants.SHORTCUT_ACTION_VIEW_NOTE;
 import static me.shouheng.notepal.Constants.SHORTCUT_EXTRA_NOTE_CODE;
 
+@PageName(name = PAGE_MAIN)
 public class MainActivity extends CommonActivity<ActivityMainBinding>
         implements NotesFragment.OnNotesInteractListener, CategoriesFragment.CategoriesInteraction {
 
@@ -125,7 +127,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
     private void checkPsdIfNecessary(Bundle savedInstanceState) {
         boolean psdRequired = PersistData.getBoolean(R.string.key_security_psd_required, false);
         String psd = PersistData.getString(R.string.key_security_psd, null);
-        if (psdRequired && !PalmApp.isPasswordChecked() && !TextUtils.isEmpty(psd)) {
+        if (psdRequired && PalmApp.passwordNotChecked() && !TextUtils.isEmpty(psd)) {
             ActivityHelper.open(LockActivity.class)
                     .setAction(LockActivity.ACTION_REQUIRE_PASSWORD)
                     .setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)

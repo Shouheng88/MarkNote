@@ -10,18 +10,22 @@ import com.umeng.analytics.MobclickAgent;
 
 import java.util.Objects;
 
+import me.shouheng.commons.event.PageName;
+import me.shouheng.commons.event.*;
 import me.shouheng.commons.fragment.CommonFragment;
 import me.shouheng.commons.minipay.Config;
 import me.shouheng.commons.minipay.MiniPayUtils;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.FragmentSupportBinding;
 
-import static me.shouheng.commons.event.UMEvent.*;
+import static me.shouheng.commons.event.UMEvent.SUPPORT_DONATE_ALIPAY;
+import static me.shouheng.commons.event.UMEvent.SUPPORT_DONATE_WECHAT;
 
 /**
  * @author WngShhng (shouheng2015@gmail.com)
  * @version $Id: SupportFragment, v 0.1 2018/12/6 11:37 shouh Exp$
  */
+@PageName(name = UMEvent.PAGE_SUPPORT)
 public class SupportFragment extends CommonFragment<FragmentSupportBinding> {
 
     @Override

@@ -15,11 +15,15 @@ import android.view.View;
 import java.io.Serializable;
 
 import me.shouheng.commons.activity.CommonActivity;
+import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.helper.FragmentHelper;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.ActivitySettingsBinding;
 
+import static me.shouheng.commons.event.UMEvent.*;
+
+@PageName(name = PAGE_SETTINGS)
 public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> {
 
     public final static String ACTION_OPEN_FRAGMENT = "__action_open_fragment";

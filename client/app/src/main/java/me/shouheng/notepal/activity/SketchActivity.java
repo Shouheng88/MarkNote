@@ -26,6 +26,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
 import me.shouheng.commons.activity.CommonActivity;
+import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.commons.utils.ViewUtils;
@@ -34,12 +35,15 @@ import me.shouheng.commons.widget.sketch.SketchView;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.ActivitySketchBinding;
 
+import static me.shouheng.commons.event.UMEvent.*;
+
 /**
  * The activity used to sketch
  *
  * refactored at 2018-11-28, 23:12,
  * by WngShhng (shouheng2015@gmail.com)
  */
+@PageName(name = PAGE_SKETCH)
 public class SketchActivity extends CommonActivity<ActivitySketchBinding>
         implements OnDrawChangedListener, View.OnClickListener {
 

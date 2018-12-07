@@ -23,6 +23,7 @@ import java.util.List;
 
 import me.shouheng.commons.activity.CommonActivity;
 import me.shouheng.commons.activity.ContainerActivity;
+import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.fragment.WebviewFragment;
 import me.shouheng.commons.theme.ThemeStyle;
 import me.shouheng.commons.theme.ThemeUtils;
@@ -34,12 +35,14 @@ import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.ActivityAboutBinding;
 
+import static me.shouheng.commons.event.UMEvent.*;
 import static me.shouheng.notepal.Constants.EMAIL_DEVELOPER;
 
 /**
  * @author shouh
  * @version $Id: AboutActivity, v 0.1 2018/9/24 18:16 shouh Exp$
  */
+@PageName(name = PAGE_ABOUT)
 public class AboutActivity extends CommonActivity<ActivityAboutBinding> {
 
     public final static String APP_ABOUT_ARG_OPEN_SOURCE_ONLY = "__extra_app_about_open_source_only";

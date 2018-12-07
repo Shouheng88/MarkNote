@@ -4,6 +4,38 @@ package me.shouheng.commons.event;
  * Created Wngshhng (shouheng2015@gmail.com) on 2018/12/6.
  */
 public interface UMEvent {
+    /* page : activity */
+    String PAGE_ABOUT = "about_activity";
+    String PAGE_CONTAINER = "container_activity";
+    String PAGE_DIRECTORY = "directory_activity";
+    String PAGE_FAB_SORT = "fab_activity";
+    String PAGE_GALLERY = "gallery_activity";
+    String PAGE_LIST = "list_activity";
+    String PAGE_LOCK = "lock_activity";
+    String PAGE_MAIN = "main_activity";
+    String PAGE_QUICK= "quick_activity";
+    String PAGE_SEARCH= "search_activity";
+    String PAGE_SETTINGS= "setting_activity";
+    String PAGE_SKETCH = "sketch_activity";
+
+    /* page  fragment */
+    String PAGE_CATEGORIES = "categories_fragment";
+    String PAGE_DIRECTORIES = "directories_fragment";
+    String PAGE_IMAGE = "image_fragment";
+    String PAGE_NOTE = "note_fragment";
+    String PAGE_NOTES = "notes_fragment";
+    String PAGE_NOTE_VIEW = "note_view_fragment";
+    String PAGE_STATISTICS = "statistics_fragment";
+    String PAGE_SUPPORT = "support_fragment";
+    String PAGE_TIMELINE = "timeline_fragment";
+    String PAGE_WEBVIEW = "webview_fragment";
+
+    /* page : setting fragment */
+    String PAGE_SETTING = "setting_fragment";
+    String PAGE_SETTING_BACKUP = "setting_backup_fragment";
+    String PAGE_SETTING_NOTE = "setting_note_fragment";
+    String PAGE_SETTING_SECURITY = "setting_security_fragment";
+
     /* click : main menu drawer */
     String MAIN_MENU_ITEM_NOTEBOOKS = "main_menu_item_notebooks";
     String MAIN_MENU_ITEM_CATEGORIES = "main_menu_item_categories";

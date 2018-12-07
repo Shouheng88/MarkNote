@@ -21,6 +21,8 @@ import com.just.agentweb.DefaultWebClient;
 import me.shouheng.commons.R;
 import me.shouheng.commons.activity.interaction.FragmentKeyDown;
 import me.shouheng.commons.databinding.FragmentWebviewBinding;
+import me.shouheng.commons.event.PageName;
+import me.shouheng.commons.event.*;
 import me.shouheng.commons.utils.IntentUtils;
 import me.shouheng.commons.utils.PalmUtils;
 
@@ -28,6 +30,7 @@ import me.shouheng.commons.utils.PalmUtils;
  * @author shouh
  * @version $Id: WebviewFragment, v 0.1 2018/11/17 20:40 shouh Exp$
  */
+@PageName(name = UMEvent.PAGE_WEBVIEW)
 public class WebviewFragment extends CommonFragment<FragmentWebviewBinding> implements FragmentKeyDown {
 
     public final static String ARGUMENT_KEY_URL = "__extra_key_url";

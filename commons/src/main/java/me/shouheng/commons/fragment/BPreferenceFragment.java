@@ -4,8 +4,11 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.support.annotation.StringRes;
 
+import com.umeng.analytics.MobclickAgent;
+
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
+import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.event.RxBus;
 import me.shouheng.commons.event.RxMessage;
 import me.shouheng.commons.theme.ThemeStyle;
@@ -18,6 +21,27 @@ import me.shouheng.commons.utils.PalmUtils;
  * @version $Id: BPreferenceFragment, v 0.1 2018/9/18 21:19 shouh Exp$
  */
 public abstract class BPreferenceFragment extends PreferenceFragment {
+
+    private String pageName;
+
+    {
+        Class<?> clazz = getClass();
+        if (clazz.isAnnotationPresent(PageName.class)) {
+            pageName = clazz.getAnnotation(PageName.class).name();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart(pageName);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd(pageName);
+    }
 
     @Override
     public Preference findPreference(CharSequence key) {

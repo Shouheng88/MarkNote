@@ -10,6 +10,8 @@ import android.view.View;
 
 import java.util.List;
 
+import me.shouheng.commons.event.PageName;
+import me.shouheng.commons.event.*;
 import me.shouheng.commons.fragment.CommonFragment;
 import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.commons.utils.ToastUtils;
@@ -24,6 +26,7 @@ import me.shouheng.notepal.databinding.FragmentTimeLineBinding;
 /**
  * Created by WngShhng (shouheng2015@gmail.com) on 2017/8/19.
  * */
+@PageName(name = UMEvent.PAGE_TIMELINE)
 public class TimeLineFragment extends CommonFragment<FragmentTimeLineBinding> {
 
     private TimeLinesAdapter adapter;

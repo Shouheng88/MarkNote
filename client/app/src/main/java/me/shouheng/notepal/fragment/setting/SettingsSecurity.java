@@ -11,7 +11,9 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 
+import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.event.RxMessage;
+import me.shouheng.commons.event.*;
 import me.shouheng.commons.fragment.BPreferenceFragment;
 import me.shouheng.commons.helper.ActivityHelper;
 import me.shouheng.commons.utils.Md5Utils;
@@ -24,6 +26,7 @@ import me.shouheng.notepal.databinding.DialogSecurityQuestionLayoutBinding;
 /**
  * Created by WngShhng on 2018/1/12.
  */
+@PageName(name = UMEvent.PAGE_SETTING_SECURITY)
 public class SettingsSecurity extends BPreferenceFragment {
 
     @Override
