@@ -315,23 +315,27 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
         switch (action) {
             /* Actions shortcuts, check at first and then send the note fragment. */
             case SHORTCUT_ACTION_SEARCH_NOTE:
+                MobclickAgent.onEvent(this, INTENT_SHORTCUT_ACTION_SEARCH_NOTE);
                 ActivityHelper.open(SearchActivity.class)
                         .setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                         .launch(getContext());
                 break;
             case SHORTCUT_ACTION_CAPTURE:
+                MobclickAgent.onEvent(this, INTENT_SHORTCUT_ACTION_CAPTURE);
                 PermissionUtils.checkPermissions(this, () ->
                         ContainerActivity.open(NoteFragment.class)
                                 .put(NoteFragment.ARGS_KEY_ACTION, SHORTCUT_ACTION_CAPTURE)
                                 .launch(getContext()), Permission.CAMERA, Permission.STORAGE);
                 break;
             case SHORTCUT_ACTION_CREATE_NOTE:
+                MobclickAgent.onEvent(this, INTENT_SHORTCUT_ACTION_CREATE_NOTE);
                 PermissionUtils.checkStoragePermission(this, () ->
                         ContainerActivity.open(NoteFragment.class)
                                 .put(NoteFragment.ARGS_KEY_ACTION, SHORTCUT_ACTION_CREATE_NOTE)
                                 .launch(MainActivity.this));
                 break;
             case SHORTCUT_ACTION_VIEW_NOTE:
+                MobclickAgent.onEvent(this, INTENT_SHORTCUT_ACTION_VIEW_NOTE);
                 if (!intent.hasExtra(SHORTCUT_EXTRA_NOTE_CODE)) {
                     ToastUtils.makeToast(R.string.text_note_not_found);
                     return;
@@ -359,6 +363,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
             /* Actions registered in Manifest, check at first and then send to the note fragment. */
             case Intent.ACTION_SEND:
             case Intent.ACTION_SEND_MULTIPLE:
+                MobclickAgent.onEvent(this, INTENT_ACTION_SEND);
                 PermissionUtils.checkStoragePermission(this, () -> {
                     if (IntentUtils.checkAction(intent, Intent.ACTION_SEND, Intent.ACTION_SEND_MULTIPLE)
                             && intent.getType() != null) {
@@ -371,6 +376,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                 break;
             case Intent.ACTION_VIEW:
             case Intent.ACTION_EDIT:
+                MobclickAgent.onEvent(this, INTENT_ACTION_VIEW);
                 PermissionUtils.checkStoragePermission(this, () -> {
                     if (IntentUtils.checkAction(intent, Intent.ACTION_EDIT, Intent.ACTION_VIEW)
                             && intent.getType() != null) {
@@ -401,6 +407,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
 
             /* Actions from AppWidget. */
             case Constants.APP_WIDGET_ACTION_CREATE_NOTE: {
+                MobclickAgent.onEvent(this, INTENT_APP_WIDGET_ACTION_CREATE_NOTE);
                 PermissionUtils.checkStoragePermission(this, () ->
                         handleAppWidget(intent, pair -> {
                             Note note = ModelFactory.getNote(pair.first, pair.second);
@@ -411,6 +418,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                 break;
             }
             case Constants.APP_WIDGET_ACTION_LIST_ITEM_CLICLED: {
+                MobclickAgent.onEvent(this, INTENT_APP_WIDGET_ACTION_LIST_ITEM_CLICKED);
                 Note note;
                 if (intent.hasExtra(Constants.APP_WIDGET_EXTRA_NOTE)
                         && (note = intent.getParcelableExtra(Constants.APP_WIDGET_EXTRA_NOTE)) != null) {
@@ -422,9 +430,11 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                 break;
             }
             case Constants.APP_WIDGET_ACTION_LAUNCH_APP:
+                MobclickAgent.onEvent(this, INTENT_APP_WIDGET_ACTION_LAUNCH_APP);
                 /* DO NOTHING JUST LAUNCH THE APP. */
                 break;
             case Constants.APP_WIDGET_ACTION_CAPTURE:
+                MobclickAgent.onEvent(this, INTENT_APP_WIDGET_ACTION_CAPTURE);
                 PermissionUtils.checkPermissions(this, () ->
                         handleAppWidget(intent, pair -> {
                             Note note = ModelFactory.getNote(pair.first, pair.second);
@@ -435,6 +445,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                         }), Permission.STORAGE, Permission.CAMERA);
                 break;
             case Constants.APP_WIDGET_ACTION_CREATE_SKETCH:
+                MobclickAgent.onEvent(this, INTENT_APP_WIDGET_ACTION_CREATE_SKETCH);
                 PermissionUtils.checkStoragePermission(this, () ->
                         handleAppWidget(intent, pair -> {
                             Note note = ModelFactory.getNote(pair.first, pair.second);
@@ -447,6 +458,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
 
             /* Notification action handler. */
             case Constants.ACTION_RESTART_APP:
+                MobclickAgent.onEvent(this, INTENT_ACTION_RESTART_APP);
                 recreate();
                 break;
         }
@@ -550,12 +562,14 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
         FabSortItem fabSortItem = UserPreferences.getInstance().getFabSortResult().get(index);
         switch (fabSortItem) {
             case NOTE:
+                MobclickAgent.onEvent(this, FAB_SORT_ITEM_NOTE);
                 PermissionUtils.checkStoragePermission(this, () ->
                         ContainerActivity.open(NoteFragment.class)
                                 .put(NoteFragment.ARGS_KEY_NOTE, (Serializable) getNewNote())
                                 .launch(getContext()));
                 break;
             case NOTEBOOK: {
+                MobclickAgent.onEvent(this, FAB_SORT_ITEM_NOTEBOOK);
                 Notebook notebook = ModelFactory.getNotebook();
                 NotebookEditDialog.newInstance(notebook, (notebookName, notebookColor) -> {
                     notebook.setTitle(notebookName);
@@ -573,15 +587,18 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                 break;
             }
             case CATEGORY:
+                MobclickAgent.onEvent(this, FAB_SORT_ITEM_CATEGORY);
                 CategoryEditDialog.newInstance(ModelFactory.getCategory(),
                         category -> viewModel.saveCategory(category)
                 ).show(getSupportFragmentManager(), "CATEGORY EDITOR");
                 break;
             case QUICK_NOTE:
+                MobclickAgent.onEvent(this, FAB_SORT_ITEM_QUICK_NOTE);
                 PermissionUtils.checkStoragePermission(this, () ->
                         editQuickNote(ModelFactory.getQuickNote()));
                 break;
             case DRAFT:
+                MobclickAgent.onEvent(this, FAB_SORT_ITEM_DRAFT);
                 PermissionUtils.checkStoragePermission(this, () ->
                         ContainerActivity.open(NoteFragment.class)
                                 .put(NoteFragment.ARGS_KEY_ACTION, FAB_ACTION_CREATE_SKETCH)
@@ -589,6 +606,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                                 .launch(MainActivity.this));
                 break;
             case IMAGE:
+                MobclickAgent.onEvent(this, FAB_SORT_ITEM_IMAGE);
                 PermissionUtils.checkStoragePermission(this, () ->
                         ContainerActivity.open(NoteFragment.class)
                                 .put(NoteFragment.ARGS_KEY_ACTION, FAB_ACTION_PICK_IMAGE)
@@ -596,6 +614,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                                 .launch(MainActivity.this));
                 break;
             case CAPTURE:
+                MobclickAgent.onEvent(this, FAB_SORT_ITEM_CAPTURE);
                 PermissionUtils.checkPermissions(this, () ->
                         ContainerActivity.open(NoteFragment.class)
                                 .put(NoteFragment.ARGS_KEY_ACTION, FAB_ACTION_CAPTURE)
