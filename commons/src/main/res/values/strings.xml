@@ -39,8 +39,8 @@
     <string name="text_tab_again_exit">Again to exit</string>
     <string name="text_attachment">Attachment</string>
     <string name="working">Working&#8230;</string>
-    <string name="text_search_with">Searching&#8230;</string>
-    <string name="text_rate_app">评价 APP</string>
+    <string name="text_search_with">Search&#8230;</string>
+    <string name="text_rate_app">Rate APP</string>
     <string name="text_menu">Menu</string>
     <string name="text_backup">Backup</string>
     <string name="text_redo">Redo</string>
@@ -208,8 +208,8 @@
     <string name="category_color_picker_title">Category color</string>
     <string name="category_list_empty_message">You haven\'t added any categories.</string>
     <string name="category_list_empty_subtitle">Create category by licking + in dashboard</string>
-    <string name="category_list_empty_for_archived">no archived tag found</string>
-    <string name="category_list_empty_for_trashed">no trashed tag found</string>
+    <string name="category_list_empty_for_archived">no archived notes found</string>
+    <string name="category_list_empty_for_trashed">no trashed notes found</string>
     <string name="category_edit_step_1">1.Pick a icon</string>
     <string name="category_edit_step_2">2.Edit category name and color</string>
     <string name="note_table_insert">Insert table</string>
@@ -309,8 +309,6 @@
     <string name="setting_note_file_extension_sub">The extension when create note file</string>
     <string name="setting_note_list_type">Use expanded note list view</string>
     <string name="setting_note_list_type_sub">Checked to use expanded list widget, otherwise use the shrunk widget</string>
-    <string name="setting_note_compress">Auto compress image</string>
-    <string name="setting_note_compress_sub">The compressed image will save a lot of storage and data usage</string>
     <!-- setting->security -->
     <string name="setting_security_psd_enable">Enable password</string>
     <string name="setting_security_psd_enable_sub">The password will be required when enabled</string>
@@ -324,7 +322,6 @@
     <string name="setting_lock_new_psd">New password</string>
     <string name="setting_lock_psd_frozen">Password frozen. Try %d minutes later</string>
     <string name="setting_lock_psd_set_differ">Failed with wrong confirm password. Please input again!</string>
-    <string name="setting_lock_psd_frozen_tips">Password frozen. Disable password by answering security question.</string>
     <string name="setting_lock_security_question_wrong">Wrong answer</string>
     <string name="setting_lock_security_question_removed">You passed the question. And the password check is disabled. Now you are able to change the password in setting.</string>
     <!-- setting->security->security question -->
@@ -336,7 +333,6 @@
     <string name="setting_security_question_required">Security question is required</string>
     <string name="setting_security_question_answer_required">Answer is required</string>
     <string name="setting_security_question_confirm_answer_required">Confirm answer is required</string>
-    <string name="wrong_numeric_string">The string contains illegal chars</string>
     <string name="setting_security_password_finger_print">Enable finger print lock</string>
     <string name="setting_security_password_finger_print_sub">Use finger print to unlock the application</string>
     <string name="security_finger_locked">Finger print function locked</string>
@@ -347,7 +343,7 @@
     <string name="setting_backup_backup">Backup to external storage</string>
     <string name="setting_backup_backup_sub">The data backup on external storage won\'t be delete when the application is uninstalled</string>
     <string name="setting_backup_import">Import from external storage</string>
-    <string name="setting_backup_import_sub">Import data backup on external storage</string>
+    <string name="setting_backup_import_sub">Import data backup from external storage</string>
     <string name="setting_backup_delete">Delete external backup</string>
     <string name="setting_backup_delete_sub">Delete the backup on external storage</string>
     <string name="setting_backup_onedrive">OneDrive</string>
