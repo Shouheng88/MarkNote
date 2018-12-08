@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -42,6 +43,7 @@ import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import me.shouheng.commons.BaseConstants;
 import me.shouheng.commons.activity.CommonActivity;
 import me.shouheng.commons.activity.ContainerActivity;
 import me.shouheng.commons.event.PageName;
@@ -51,9 +53,11 @@ import me.shouheng.commons.helper.FragmentHelper;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.IntentUtils;
 import me.shouheng.commons.utils.LogUtils;
+import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.commons.utils.PermissionUtils;
 import me.shouheng.commons.utils.PermissionUtils.Permission;
 import me.shouheng.commons.utils.PersistData;
+import me.shouheng.commons.utils.StringUtils;
 import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.commons.widget.recycler.CustomRecyclerScrollViewListener;
 import me.shouheng.data.ModelFactory;
@@ -94,6 +98,8 @@ import static me.shouheng.commons.event.UMEvent.*;
 import static me.shouheng.notepal.Constants.FAB_ACTION_CAPTURE;
 import static me.shouheng.notepal.Constants.FAB_ACTION_CREATE_SKETCH;
 import static me.shouheng.notepal.Constants.FAB_ACTION_PICK_IMAGE;
+import static me.shouheng.notepal.Constants.SHARE_IMAGE_ASSETS_NAME_1;
+import static me.shouheng.notepal.Constants.SHARE_IMAGE_NAME_1;
 import static me.shouheng.notepal.Constants.SHORTCUT_ACTION_CAPTURE;
 import static me.shouheng.notepal.Constants.SHORTCUT_ACTION_CREATE_NOTE;
 import static me.shouheng.notepal.Constants.SHORTCUT_ACTION_SEARCH_NOTE;
@@ -290,10 +296,24 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                             ContainerActivity.open(TimeLineFragment.class).launch(this);
                             MobclickAgent.onEvent(this, MAIN_MENU_ITEM_TIMELINE);
                             break;
-                        case 8:
+                        case 8: {
                             // Share
                             MobclickAgent.onEvent(this, MAIN_MENU_ITEM_SHARE_APP);
+                            PermissionUtils.checkStoragePermission(this, () -> {
+                                boolean isEn = "en".equalsIgnoreCase(PalmUtils.getStringCompact(R.string.language_code));
+                                String download = isEn ? Constants.GOOGLE_PLAY_WEB_PAGE : Constants.COOL_APK_DOWNLOAD_PAGE;
+                                Bitmap share = FileManager.getImageFromAssetsFile(getContext(), SHARE_IMAGE_ASSETS_NAME_1);
+                                Uri uri = FileManager.getShareImageUri(share, SHARE_IMAGE_NAME_1);
+                                Intent shareIntent = new Intent();
+                                shareIntent.setAction(Intent.ACTION_SEND);
+                                shareIntent.setType(BaseConstants.MIME_TYPE_IMAGE);
+                                if (uri != null) shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+                                shareIntent.putExtra(Intent.EXTRA_SUBJECT, PalmUtils.getStringCompact(R.string.share_title));
+                                shareIntent.putExtra(Intent.EXTRA_TEXT, StringUtils.formatString(R.string.share_content,download ));
+                                startActivity(Intent.createChooser(shareIntent, PalmUtils.getStringCompact(me.shouheng.commons.R.string.text_send_to)));
+                            });
                             break;
+                        }
                     }
                     return true;
                 })

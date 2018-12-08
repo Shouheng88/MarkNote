@@ -5,9 +5,11 @@ import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -18,6 +20,7 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 import android.webkit.MimeTypeMap;
@@ -43,11 +46,12 @@ import me.shouheng.data.DBConfig;
 import me.shouheng.data.ModelFactory;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.notepal.BuildConfig;
+import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
-import me.shouheng.notepal.Constants;
 
 import static java.lang.Long.parseLong;
+import static me.shouheng.notepal.Constants.SHARE_IMAGE_FILE_PATH;
 
 /**
  * Created by WngShhng (shouheng2015@gmail.com) on 2017/4/7.
@@ -604,6 +608,47 @@ public class FileManager {
         } else {
             return Uri.fromFile(file);
         }
+    }
+
+    @Nullable
+    public static Bitmap getImageFromAssetsFile(Context context, String fileName){
+        Bitmap image = null;
+        AssetManager am = context.getResources().getAssets();
+        try {
+            InputStream is = am.open(fileName);
+            image = BitmapFactory.decodeStream(is);
+            is.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return image;
+    }
+
+    @Nullable
+    public static Uri getShareImageUri(Bitmap bm, String picName) {
+        if (!isStorageWritable()) {
+            return null;
+        }
+
+        try {
+            String dir = PalmApp.getContext().getExternalFilesDir(null)
+                    + File.separator + SHARE_IMAGE_FILE_PATH  + File.separator + picName + ".jpg";
+            File f = new File(dir);
+            if (!f.exists()) {
+                f.getParentFile().mkdirs();
+                f.createNewFile();
+                FileOutputStream out = new FileOutputStream(f);
+                bm.compress(Bitmap.CompressFormat.PNG, 90, out);
+                out.flush();
+                out.close();
+            }
+            return getUriFromFile(PalmApp.getContext(), f);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     // region save image external

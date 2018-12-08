@@ -408,4 +408,8 @@
     <string name="donate_qa_code">捐贈二維碼</string>
     <string name="donate_by_alipay">通過支付寶捐贈</string>
     <string name="donate_by_wechat">通過微信支付捐贈</string>
+
+    <!-- share -->
+    <string name="share_title">應用分享</string>
+    <string name="share_content">嗨！我發現了一個非常好用的Markdown筆記應用，推薦你也使用一下 %s</string>
 </resources>

@@ -320,7 +320,6 @@
     <string name="setting_lock_psd_hint">Input again</string>
     <string name="setting_lock_psd_changes_left">Wrong password!</string>
     <string name="setting_lock_new_psd">New password</string>
-    <string name="setting_lock_psd_frozen">Password frozen. Try %d minutes later</string>
     <string name="setting_lock_psd_set_differ">Failed with wrong confirm password. Please input again!</string>
     <string name="setting_lock_security_question_wrong">Wrong answer</string>
     <string name="setting_lock_security_question_removed">You passed the question. And the password check is disabled. Now you are able to change the password in setting.</string>
@@ -419,4 +418,8 @@
     <string name="donate_qa_code">QR Code</string>
     <string name="donate_by_alipay">Donate by AliPay</string>
     <string name="donate_by_wechat">Donate by WeChat</string>
+
+    <!-- share -->
+    <string name="share_title">Share App</string>
+    <string name="share_content">Hey! I found a very fast, material and multifunctional markdown note-taking application MarkNote at Google Play Store : %s</string>
 </resources>

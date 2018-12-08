@@ -179,7 +179,10 @@ public interface Constants extends BaseConstants {
     String IMAGE_HEADER_LIGHT = "https://github.com/Shouheng88/MarkNote/blob/master/resources/images/bg1.jpg?raw=true";
     /* Image: dark theme header */
     String IMAGE_HEADER_DARK = "https://github.com/Shouheng88/MarkNote/blob/master/resources/images/bg2.jpg?raw=true";
-
+    /* Web: Google play download page */
+    String GOOGLE_PLAY_WEB_PAGE = "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID;
+    /* Web: CoolApk download page */
+    String COOL_APK_DOWNLOAD_PAGE = "https://www.coolapk.com/apk/178276";
 
     /**
      * The note title regex expression, used to get the note title from the note content.
@@ -200,6 +203,9 @@ public interface Constants extends BaseConstants {
     String BACKUP_DIR_NAME = "NotePal";
     String FILES_BACKUP_DIR_NAME = "files";
 
+    String SHARE_IMAGE_FILE_PATH = "Share";
+    String SHARE_IMAGE_NAME_1 = "MN2";
+    String SHARE_IMAGE_ASSETS_NAME_1 = "share.jpg";
 
     long AGAIN_EXIT_TIME_INTERVAL = 2000;
 }

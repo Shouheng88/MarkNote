@@ -414,4 +414,8 @@
     <string name="donate_qa_code">捐赠二维码</string>
     <string name="donate_by_alipay">通过支付宝捐赠</string>
     <string name="donate_by_wechat">通过微信支付捐赠</string>
+
+    <!-- share -->
+    <string name="share_title">应用分享</string>
+    <string name="share_content">嗨！我发现了一个非常好用的 Markdown 笔记应用，推荐你也使用一下 %s</string>
 </resources>
