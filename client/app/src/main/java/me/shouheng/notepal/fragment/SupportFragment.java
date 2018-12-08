@@ -11,12 +11,17 @@ import com.umeng.analytics.MobclickAgent;
 
 import java.util.Objects;
 
+import me.shouheng.commons.activity.ContainerActivity;
 import me.shouheng.commons.event.PageName;
-import me.shouheng.commons.event.*;
+import me.shouheng.commons.event.UMEvent;
 import me.shouheng.commons.fragment.CommonFragment;
+import me.shouheng.commons.fragment.WebviewFragment;
 import me.shouheng.commons.minipay.Config;
 import me.shouheng.commons.minipay.MiniPayUtils;
+import me.shouheng.commons.utils.IntentUtils;
 import me.shouheng.commons.utils.PalmUtils;
+import me.shouheng.notepal.BuildConfig;
+import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.FragmentSupportBinding;
 
@@ -49,6 +54,27 @@ public class SupportFragment extends CommonFragment<FragmentSupportBinding> {
         getBinding().tv5.setText(Html.fromHtml(PalmUtils.getStringCompact(R.string.dialog_notice_content_part5)));
         getBinding().tv6.setText(Html.fromHtml(PalmUtils.getStringCompact(R.string.dialog_notice_content_part6)));
 
+        getBinding().sivGooglePlay.setOnClickListener(v -> IntentUtils.openInMarket(getContext(), BuildConfig.APPLICATION_ID));
+        getBinding().sivGithub.setOnClickListener(v ->
+                ContainerActivity.open(WebviewFragment.class)
+                        .put(WebviewFragment.ARGUMENT_KEY_URL, Constants.PAGE_GITHUB_REPOSITORY)
+                        .put(WebviewFragment.ARGUMENT_KEY_USE_PAGE_TITLE, true)
+                        .launch(getContext()));
+        getBinding().sivGmail.setOnClickListener(v ->
+                IntentUtils.sendEmail(getActivity(), Constants.EMAIL_DEVELOPER, "", ""));
+
+        getBinding().sivQq.setOnClickListener(v -> joinQQGroup("0HQ8P6rzoNTwpHWHtkYPolgPAvQltMdt"));
+        getBinding().sivTwitter.setOnClickListener(v ->
+                ContainerActivity.open(WebviewFragment.class)
+                        .put(WebviewFragment.ARGUMENT_KEY_URL, Constants.PAGE_TWITTER)
+                        .put(WebviewFragment.ARGUMENT_KEY_USE_PAGE_TITLE, true)
+                        .launch(getContext()));
+        getBinding().sivWeibo.setOnClickListener(v ->
+                ContainerActivity.open(WebviewFragment.class)
+                        .put(WebviewFragment.ARGUMENT_KEY_URL, Constants.PAGE_WEIBO)
+                        .put(WebviewFragment.ARGUMENT_KEY_USE_PAGE_TITLE, true)
+                        .launch(getContext()));
+
         getBinding().btnAlipay.setOnClickListener(v -> {
             MiniPayUtils.setupPay(Objects.requireNonNull(getContext()),
                     new Config.Builder("a6x09668hybrp0jdxhp732f", R.mipmap.ali_pay, R.mipmap.mm_pay)
@@ -61,7 +87,6 @@ public class SupportFragment extends CommonFragment<FragmentSupportBinding> {
                             .setChannel(Config.PAY_CHANNEL_WECHAT).build());
             MobclickAgent.onEvent(getContext(), SUPPORT_DONATE_WECHAT);
         });
-        getBinding().sivQq.setOnClickListener(v -> joinQQGroup("0HQ8P6rzoNTwpHWHtkYPolgPAvQltMdt"));
     }
 
     /****************

@@ -48,6 +48,8 @@ public class WebviewFragment extends CommonFragment<FragmentWebviewBinding> impl
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {
+        getBinding().setIsDarkTheme(isDarkTheme());
+
         Bundle arguments = getArguments();
         assert arguments != null;
         url = arguments.getString(ARGUMENT_KEY_URL);
@@ -83,10 +85,8 @@ public class WebviewFragment extends CommonFragment<FragmentWebviewBinding> impl
         public void onReceivedTitle(WebView view, String title) {
             if (usePageTitle) {
                 if (!TextUtils.isEmpty(title)) {
-                    /*
-                     * The max length used to get the title form the web page.
-                     * If the title is longer than this value, the longer part will be replaced with '...'.
-                     */
+                    /* The max length used to get the title form the web page.
+                     * If the title is longer than this value, the longer part will be replaced with '...' */
                     int maxWebPageTitleLength = 15;
                     if (title.length() > maxWebPageTitleLength) {
                         title = title.substring(0, maxWebPageTitleLength).concat("...");
