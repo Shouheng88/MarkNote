@@ -10,6 +10,7 @@
     </style>
 
     <style name="AppTheme.Branded" parent="LightThemeBlue">
+        <item name="colorPrimaryDark">#00a0e9</item>
         <item name="android:windowBackground">@drawable/branded_background</item>
     </style>
 
