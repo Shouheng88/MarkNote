@@ -16,7 +16,12 @@ android {
         manifestPlaceholders = [UMENG_CHANNEL_VALUE: "umeng", UMENG_APPKEY: "${umengAppKey}", FABRIC_APPKEY: "${fabricAppKey}"]
     }
     signingConfigs {
-        release {}
+        release {
+            keyAlias "${_keyAlias}"
+            storeFile file("${_storeFile}")
+            storePassword "${_storePassword}"
+            keyPassword "${_keyPassword}"
+        }
     }
     buildTypes {
         release {

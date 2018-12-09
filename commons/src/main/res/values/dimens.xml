@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="empty_view_size">120dp</dimen>
+    <dimen name="empty_view_size">80dp</dimen>
 
     <dimen name="big_spacing">24dp</dimen>
     <dimen name="sub_big_spacing">20dp</dimen>
