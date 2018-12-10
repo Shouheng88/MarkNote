@@ -94,7 +94,35 @@ import me.shouheng.notepal.util.SynchronizeUtils;
 import me.shouheng.notepal.vm.MainViewModel;
 
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
-import static me.shouheng.commons.event.UMEvent.*;
+import static me.shouheng.commons.event.UMEvent.FAB_SORT_ITEM_CAPTURE;
+import static me.shouheng.commons.event.UMEvent.FAB_SORT_ITEM_CATEGORY;
+import static me.shouheng.commons.event.UMEvent.FAB_SORT_ITEM_DRAFT;
+import static me.shouheng.commons.event.UMEvent.FAB_SORT_ITEM_IMAGE;
+import static me.shouheng.commons.event.UMEvent.FAB_SORT_ITEM_NOTE;
+import static me.shouheng.commons.event.UMEvent.FAB_SORT_ITEM_NOTEBOOK;
+import static me.shouheng.commons.event.UMEvent.FAB_SORT_ITEM_QUICK_NOTE;
+import static me.shouheng.commons.event.UMEvent.INTENT_ACTION_RESTART_APP;
+import static me.shouheng.commons.event.UMEvent.INTENT_ACTION_SEND;
+import static me.shouheng.commons.event.UMEvent.INTENT_ACTION_VIEW;
+import static me.shouheng.commons.event.UMEvent.INTENT_APP_WIDGET_ACTION_CAPTURE;
+import static me.shouheng.commons.event.UMEvent.INTENT_APP_WIDGET_ACTION_CREATE_NOTE;
+import static me.shouheng.commons.event.UMEvent.INTENT_APP_WIDGET_ACTION_CREATE_SKETCH;
+import static me.shouheng.commons.event.UMEvent.INTENT_APP_WIDGET_ACTION_LAUNCH_APP;
+import static me.shouheng.commons.event.UMEvent.INTENT_APP_WIDGET_ACTION_LIST_ITEM_CLICKED;
+import static me.shouheng.commons.event.UMEvent.INTENT_SHORTCUT_ACTION_CAPTURE;
+import static me.shouheng.commons.event.UMEvent.INTENT_SHORTCUT_ACTION_CREATE_NOTE;
+import static me.shouheng.commons.event.UMEvent.INTENT_SHORTCUT_ACTION_SEARCH_NOTE;
+import static me.shouheng.commons.event.UMEvent.INTENT_SHORTCUT_ACTION_VIEW_NOTE;
+import static me.shouheng.commons.event.UMEvent.MAIN_MENU_ITEM_ARCHIVED;
+import static me.shouheng.commons.event.UMEvent.MAIN_MENU_ITEM_CATEGORIES;
+import static me.shouheng.commons.event.UMEvent.MAIN_MENU_ITEM_NOTEBOOKS;
+import static me.shouheng.commons.event.UMEvent.MAIN_MENU_ITEM_SETTINGS;
+import static me.shouheng.commons.event.UMEvent.MAIN_MENU_ITEM_SHARE_APP;
+import static me.shouheng.commons.event.UMEvent.MAIN_MENU_ITEM_STATISTIC;
+import static me.shouheng.commons.event.UMEvent.MAIN_MENU_ITEM_SUPPORT;
+import static me.shouheng.commons.event.UMEvent.MAIN_MENU_ITEM_TIMELINE;
+import static me.shouheng.commons.event.UMEvent.MAIN_MENU_ITEM_TRASHED;
+import static me.shouheng.commons.event.UMEvent.PAGE_MAIN;
 import static me.shouheng.notepal.Constants.FAB_ACTION_CAPTURE;
 import static me.shouheng.notepal.Constants.FAB_ACTION_CREATE_SKETCH;
 import static me.shouheng.notepal.Constants.FAB_ACTION_PICK_IMAGE;
@@ -299,19 +327,30 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                         case 8: {
                             // Share
                             MobclickAgent.onEvent(this, MAIN_MENU_ITEM_SHARE_APP);
-                            PermissionUtils.checkStoragePermission(this, () -> {
-                                boolean isEn = "en".equalsIgnoreCase(PalmUtils.getStringCompact(R.string.language_code));
-                                String download = isEn ? Constants.GOOGLE_PLAY_WEB_PAGE : Constants.COOL_APK_DOWNLOAD_PAGE;
-                                Bitmap share = FileManager.getImageFromAssetsFile(getContext(), SHARE_IMAGE_ASSETS_NAME_1);
-                                Uri uri = FileManager.getShareImageUri(share, SHARE_IMAGE_NAME_1);
-                                Intent shareIntent = new Intent();
-                                shareIntent.setAction(Intent.ACTION_SEND);
-                                shareIntent.setType(BaseConstants.MIME_TYPE_IMAGE);
-                                if (uri != null) shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
-                                shareIntent.putExtra(Intent.EXTRA_SUBJECT, PalmUtils.getStringCompact(R.string.share_title));
-                                shareIntent.putExtra(Intent.EXTRA_TEXT, StringUtils.formatString(R.string.share_content,download ));
-                                startActivity(Intent.createChooser(shareIntent, PalmUtils.getStringCompact(me.shouheng.commons.R.string.text_send_to)));
-                            });
+                            PermissionUtils.checkStoragePermission(this, () ->
+                                    Observable
+                                            .create((ObservableOnSubscribe<Uri>) emitter -> {
+                                                Bitmap share = FileManager.getImageFromAssetsFile(getContext(), SHARE_IMAGE_ASSETS_NAME_1);
+                                                Uri uri = FileManager.getShareImageUri(share, SHARE_IMAGE_NAME_1);
+                                                if (uri != null) {
+                                                    emitter.onNext(uri);
+                                                } else {
+                                                    emitter.onError(new NullPointerException());
+                                                }
+                                            })
+                                            .subscribeOn(Schedulers.io())
+                                            .observeOn(AndroidSchedulers.mainThread())
+                                            .subscribe(uri -> {
+                                                boolean isEn = "en".equalsIgnoreCase(PalmUtils.getStringCompact(R.string.language_code));
+                                                String download = isEn ? Constants.GOOGLE_PLAY_WEB_PAGE : Constants.COOL_APK_DOWNLOAD_PAGE;
+                                                Intent shareIntent = new Intent();
+                                                shareIntent.setAction(Intent.ACTION_SEND);
+                                                shareIntent.setType(BaseConstants.MIME_TYPE_IMAGE);
+                                                if (uri != null) shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+                                                shareIntent.putExtra(Intent.EXTRA_SUBJECT, PalmUtils.getStringCompact(R.string.share_title));
+                                                shareIntent.putExtra(Intent.EXTRA_TEXT, StringUtils.formatString(R.string.share_content, download));
+                                                startActivity(Intent.createChooser(shareIntent, PalmUtils.getStringCompact(R.string.text_send_to)));
+                                            }, throwable -> ToastUtils.makeToast(throwable.getMessage())));
                             break;
                         }
                     }
