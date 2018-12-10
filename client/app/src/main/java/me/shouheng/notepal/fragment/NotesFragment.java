@@ -78,9 +78,7 @@ public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
     protected void doCreateView(Bundle savedInstanceState) {
         /* Get the view model */
         viewModel = getViewModel(NotesViewModel.class);
-        if (savedInstanceState == null) {
-            handleArguments();
-        }
+        handleArguments();
 
         customToolbar();
 

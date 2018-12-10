@@ -150,7 +150,7 @@ public interface Constants extends BaseConstants {
     /* Web: Weibo */
     String PAGE_WEIBO = "https://weibo.com/5401152113/profile?rightmod=1&wvr=6&mod=personinfo";
     /* Web: Twitter */
-    String PAGE_TWITTER = "https://twitter.com/ShouhengWang";
+    String PAGE_TWITTER = "https://twitter.com/shouheng_wang";
     /* Web: Github repository page */
     String PAGE_GITHUB_REPOSITORY = "https://github.com/Shouheng88/NotePal";
     /* Web: Github developer page  */
