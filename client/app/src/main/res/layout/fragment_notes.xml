@@ -7,7 +7,7 @@
 
         <me.shouheng.commons.widget.recycler.EmptyView
             android:id="@+id/iv_empty"
-            app:empty_image="@drawable/ic_book"
+            app:empty_image="@drawable/ic_book_large"
             app:tint_drawable="true"
             app:title="@string/notes_list_empty"
             android:layout_gravity="center"

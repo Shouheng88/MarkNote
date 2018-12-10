@@ -11,7 +11,7 @@
         android:layout_height="wrap_content">
 
         <android.support.v7.widget.AppCompatImageView
-            android:src="@drawable/ic_error_outline"
+            android:src="@drawable/ic_error_outline_black_48dp"
             android:layout_gravity="center"
             android:tint="@color/light_theme_empty_icon_tint_color"
             android:layout_width="@dimen/empty_view_size"

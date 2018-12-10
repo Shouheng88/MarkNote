@@ -13,7 +13,7 @@
             <me.shouheng.commons.widget.recycler.EmptyView
                 android:id="@+id/iv_empty"
                 android:layout_centerInParent="true"
-                app:empty_image="@drawable/ic_timeline_large"
+                app:empty_image="@drawable/ic_bubble_chart_black_48dp"
                 app:tint_drawable="true"
                 app:title="@string/timeline_list_empty_title"
                 app:sub_title="@string/timeline_list_empty_subtitle"

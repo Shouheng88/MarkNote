@@ -30,7 +30,7 @@
 
             <me.shouheng.commons.widget.recycler.EmptyView
                 android:id="@+id/iv_empty"
-                app:empty_image="@drawable/ic_search_black_24dp"
+                app:empty_image="@drawable/ic_search_black_48dp"
                 app:title="@string/note_search_no_result"
                 app:sub_title="@string/note_search_sub_title"
                 app:tint_drawable="true"
