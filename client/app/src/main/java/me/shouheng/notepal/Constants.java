@@ -174,11 +174,11 @@ public interface Constants extends BaseConstants {
     /* Email: developer */
     String EMAIL_DEVELOPER = "shouheng2015@gmail.com";
     /* Image: developer avatar */
-    String IMAGE_AVATAR_DEVELOPER = "https://github.com/Shouheng88/MarkNote/blob/master/resources/images/avatar_wngshhng.jpg?raw=true";
+    String IMAGE_AVATAR_DEVELOPER = "https://raw.githubusercontent.com/Shouheng88/MarkNote/master/resources/images/avatar_wngshhng.jpg";
     /* Image: light theme header */
-    String IMAGE_HEADER_LIGHT = "https://github.com/Shouheng88/MarkNote/blob/master/resources/images/bg1.jpg?raw=true";
+    String IMAGE_HEADER_LIGHT = "https://raw.githubusercontent.com/Shouheng88/MarkNote/master/resources/images/bg1.jpg";
     /* Image: dark theme header */
-    String IMAGE_HEADER_DARK = "https://github.com/Shouheng88/MarkNote/blob/master/resources/images/bg2.jpg?raw=true";
+    String IMAGE_HEADER_DARK = "https://raw.githubusercontent.com/Shouheng88/MarkNote/master/resources/images/bg2.jpg";
     /* Web: Google play download page */
     String GOOGLE_PLAY_WEB_PAGE = "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID;
     /* Web: CoolApk download page */
