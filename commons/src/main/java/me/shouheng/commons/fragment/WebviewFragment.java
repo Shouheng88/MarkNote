@@ -1,5 +1,6 @@
 package me.shouheng.commons.fragment;
 
+import android.net.http.SslError;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
@@ -10,8 +11,15 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.webkit.ClientCertRequest;
+import android.webkit.HttpAuthHandler;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 
 import com.facebook.stetho.common.LogUtil;
@@ -65,6 +73,37 @@ public class WebviewFragment extends CommonFragment<FragmentWebviewBinding> impl
                         ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
                 .useDefaultIndicator(accentColor(), 3)
                 .setWebChromeClient(mWebChromeClient)
+                .setWebViewClient(new WebViewClient(){
+                    @Override
+                    public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                        super.onReceivedError(view, errorCode, description, failingUrl);
+                    }
+
+                    @Override
+                    public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                        super.onReceivedError(view, request, error);
+                    }
+
+                    @Override
+                    public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
+                        super.onReceivedHttpError(view, request, errorResponse);
+                    }
+
+                    @Override
+                    public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                        super.onReceivedSslError(view, handler, error);
+                    }
+
+                    @Override
+                    public void onReceivedClientCertRequest(WebView view, ClientCertRequest request) {
+                        super.onReceivedClientCertRequest(view, request);
+                    }
+
+                    @Override
+                    public void onReceivedHttpAuthRequest(WebView view, HttpAuthHandler handler, String host, String realm) {
+                        super.onReceivedHttpAuthRequest(view, handler, host, realm);
+                    }
+                })
                 .setSecurityType(AgentWeb.SecurityType.STRICT_CHECK)
                 .setMainFrameErrorView(R.layout.layout_network_error_page, R.id.btn_retry)
                 .setOpenOtherPageWays(DefaultWebClient.OpenOtherPageWays.DISALLOW)
