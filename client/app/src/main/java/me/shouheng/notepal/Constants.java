@@ -130,7 +130,7 @@ public interface Constants extends BaseConstants {
     /**
      * Default note file encoding.
      */
-    String NOTE_FILE_ENCODING = "utf-8";
+    String NOTE_FILE_ENCODING = "UTF-8";
 
     String URI_SCHEME_HTTPS = "https";
     String URI_SCHEME_HTTP = "http";

@@ -64,8 +64,8 @@ dependencies {
     api "android.arch.lifecycle:runtime:$archVersion"
     api "android.arch.lifecycle:extensions:$archVersion"
     kapt "android.arch.lifecycle:compiler:$archVersion"
-    // io
-    api 'commons-io:commons-io:2.6'
+    // io: don't upgrade to 2.6 for https://stackoverflow.com/questions/38183027/java-lang-noclassdeffounderror-java-nio-charset-standardcharsets
+    api 'commons-io:commons-io:2.5'
     // time
     api 'org.ocpsoft.prettytime:prettytime:4.0.1.Final'
     api 'joda-time:joda-time:2.9.9'
