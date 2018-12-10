@@ -12,7 +12,6 @@ import android.text.TextUtils;
 import com.facebook.stetho.common.LogUtil;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
-import com.zhihu.matisse.engine.impl.GlideEngine;
 import com.zhihu.matisse.filter.Filter;
 
 import java.io.File;
@@ -26,6 +25,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import me.shouheng.commons.image.GifSizeFilter;
+import me.shouheng.commons.image.Glide4Engine;
 import me.shouheng.commons.utils.IntentUtils;
 import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.commons.utils.PalmUtils;
@@ -127,7 +127,7 @@ public class AttachmentHelper {
                 .maxSelectable(9)
                 .originalEnable(true)
                 .maxOriginalSize(5)
-                .imageEngine(new GlideEngine())
+                .imageEngine(new Glide4Engine())
                 .forResult(REQUEST_CODE_SELECT_IMAGES_CUSTOM);
     }
 
@@ -140,7 +140,7 @@ public class AttachmentHelper {
                 .maxSelectable(9)
                 .originalEnable(true)
                 .maxOriginalSize(5)
-                .imageEngine(new GlideEngine())
+                .imageEngine(new Glide4Engine())
                 .forResult(REQUEST_CODE_SELECT_IMAGES_CUSTOM);
     }
 
@@ -153,7 +153,7 @@ public class AttachmentHelper {
                 .maxSelectable(1)
                 .originalEnable(true)
                 .maxOriginalSize(5)
-                .imageEngine(new GlideEngine())
+                .imageEngine(new Glide4Engine())
                 .forResult(REQUEST_CODE_SELECT_IMAGES_CUSTOM);
     }
 

@@ -25,6 +25,8 @@ import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.manager.FileManager;
 
+import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
+
 /**
  * Created by wang shouheng on 2017/12/23.
  */
@@ -103,8 +105,7 @@ public class NotesAdapter extends BaseMultiItemQuickAdapter<NotesAdapter.MultiIt
             Uri thumbnailUri = FileManager.getThumbnailUri(context, note.getPreviewImage());
             Glide.with(PalmApp.getContext())
                     .load(thumbnailUri)
-                    .centerCrop()
-                    .crossFade()
+                    .transition(withCrossFade())
                     .into((ImageView) holder.getView(R.id.iv_image));
         } else {
             holder.getView(R.id.iv_image).setVisibility(View.GONE);

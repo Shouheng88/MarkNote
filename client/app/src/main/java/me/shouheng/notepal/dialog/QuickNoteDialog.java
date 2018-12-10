@@ -45,6 +45,8 @@ import me.shouheng.notepal.databinding.DialogQuickNoteBinding;
 import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.notepal.util.AttachmentHelper;
 
+import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
+
 /**
  * Created by wangshouheng on 2017/8/19.
  */
@@ -237,7 +239,10 @@ public class QuickNoteDialog extends DialogFragment implements AttachmentHelper.
             binding.siv.setImageResource(attachment.isAudioPlaying() ? R.drawable.stop : R.drawable.play);
         } else {
             Uri thumbnailUri = FileManager.getThumbnailUri(getContext(), attachment.getUri());
-            Glide.with(PalmApp.getContext()).load(thumbnailUri).centerCrop().crossFade().into(binding.siv);
+            Glide.with(PalmApp.getContext())
+                    .load(thumbnailUri)
+                    .transition(withCrossFade())
+                    .into(binding.siv);
         }
 
         // setup attachment click event

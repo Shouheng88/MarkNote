@@ -13,11 +13,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import me.shouheng.commons.event.PageName;
-import me.shouheng.commons.event.*;
-import me.shouheng.commons.image.RotateTransformation;
+import me.shouheng.commons.event.UMEvent;
 import me.shouheng.commons.utils.ViewUtils;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.notepal.Constants;
@@ -27,6 +25,8 @@ import me.shouheng.notepal.activity.GalleryActivity;
 import me.shouheng.notepal.manager.FileManager;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
+
+import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
 /**
  * The image fragment to display the image, video preview image etc.
@@ -105,11 +105,8 @@ public class ImageFragment extends Fragment {
     private void displayMedia(PhotoView photoView) {
         Glide.with(getContext())
                 .load(FileManager.getThumbnailUri(getContext(), attachment.getUri()))
-                .asBitmap()
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .thumbnail(0.5f)
-                .transform(new RotateTransformation(getContext(), 0, false))
-                .animate(R.anim.fade_in_support)
+                .transition(withCrossFade())
                 .into(photoView);
         photoView.setOnClickListener(v -> {
             if (attachment != null && Constants.MIME_TYPE_VIDEO.equals(attachment.getMineType())){
@@ -129,8 +126,7 @@ public class ImageFragment extends Fragment {
     private void displayMedia(ImageView imageView){
         Glide.with(getContext())
                 .load(FileManager.getThumbnailUri(getContext(), attachment.getUri()))
-                .asBitmap()
-                .animate(R.anim.fade_in_support)
+                .transition(withCrossFade())
                 .into(imageView);
         imageView.setOnClickListener(v -> {
             if (attachment != null && Constants.MIME_TYPE_VIDEO.equals(attachment.getMineType())){
