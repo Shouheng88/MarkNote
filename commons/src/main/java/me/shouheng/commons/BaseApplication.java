@@ -1,6 +1,7 @@
 package me.shouheng.commons;
 
 import android.app.Application;
+import android.content.Context;
 import android.support.multidex.MultiDex;
 
 import com.crashlytics.android.Crashlytics;
@@ -26,10 +27,14 @@ public abstract class BaseApplication extends Application {
 
         instance = this;
 
-        MultiDex.install(this);
-
         LeakCanary.install(this);
 
         Fabric.with(this, new Crashlytics());
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 }
