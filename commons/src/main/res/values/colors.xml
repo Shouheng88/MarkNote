@@ -90,4 +90,6 @@
     <!-- timeline -->
     <color name="md_red_500">#F44336</color>
 
+    <color name="status_bar_for_lollipop">#E0E0E0</color>
+
 </resources>

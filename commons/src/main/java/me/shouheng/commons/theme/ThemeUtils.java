@@ -42,9 +42,12 @@ public class ThemeUtils {
     }
 
     public static void customStatusBar(ThemedActivity activity) {
-        // 6.0 and above
+        // >=23: 6.0 and above
         if (PalmUtils.isMarshmallow()) {
             setStatusBarLightMode(activity.getWindow(), !activity.getThemeStyle().isDarkTheme);
+        } else if (PalmUtils.isLollipop() && !activity.getThemeStyle().isDarkTheme) {
+            // 21-23: 5.0-6.0, need to change the status bar color only for the light theme
+            setStatusBarColor(activity, PalmUtils.getColorCompact(R.color.status_bar_for_lollipop));
         }
     }
 
@@ -52,16 +55,14 @@ public class ThemeUtils {
     private static void setStatusBarLightMode(@NonNull Window window, boolean isLightMode) {
         if (!PalmUtils.isMarshmallow()) return;
         View decorView = window.getDecorView();
-        if (decorView != null) {
-            int vis = decorView.getSystemUiVisibility();
-            if (isLightMode) {
-                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                vis |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-            } else {
-                vis &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-            }
-            decorView.setSystemUiVisibility(vis);
+        int vis = decorView.getSystemUiVisibility();
+        if (isLightMode) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            vis |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+        } else {
+            vis &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
         }
+        decorView.setSystemUiVisibility(vis);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
