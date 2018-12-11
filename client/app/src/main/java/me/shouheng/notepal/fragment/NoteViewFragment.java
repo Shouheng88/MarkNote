@@ -219,6 +219,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
                 viewModel.setHtml(document);
             }
         });
+        getBinding().emv.setUseMathJax(true);
 
         /* Config FAB. */
         getBinding().fab.setVisibility(viewModel.isPreview() ? View.GONE : View.VISIBLE);
