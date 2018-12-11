@@ -35,7 +35,7 @@
     <string name="items">條目</string>
     <string name="text_trash">放進垃圾箱</string>
     <string name="text_archive">歸檔</string>
-    <string name="text_move_out">移除</string>
+    <string name="text_move_out">移出</string>
     <string name="text_tab_again_exit">再按一次退出</string>
     <string name="text_attachment">附件</string>
     <string name="working">正在執行&#8230;</string>
