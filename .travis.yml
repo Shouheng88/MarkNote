@@ -1,9 +1,18 @@
 language: android
+jdk:
+  - oraclejdk8
 android:
   components:
-    # The BuildTools version used by your project
+    - tools
+    - tools
     - build-tools-28.0.0
-    
-    # The SDK version used to compile your project
     - android-28
-    
+    - extra-google-m2repository
+    - extra-android-m2repository
+  licenses:
+    - android-sdk-preview-license-.+
+    - android-sdk-license-.+
+    - google-gdk-license-.+
+  script: 
+    - ./gradlew clean build
+  
