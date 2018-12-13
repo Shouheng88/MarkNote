@@ -13,4 +13,4 @@ android:
     - android-sdk-preview-license-.+
     - android-sdk-license-.+
     - google-gdk-license-.+
-script: ./client/gradlew clean build
+script: ./client/gradlew build
