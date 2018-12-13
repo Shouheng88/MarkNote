@@ -1,5 +1,4 @@
 <img id="app" src="resources/images/banner2.jpg"/>
-===========
 
 ![SLicense](https://img.shields.io/badge/License-GPLv3-red.svg)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/8c25b2d028434d62a39153ff879aa6a4)](https://www.codacy.com/app/Shouheng88/MarkNote?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Shouheng88/MarkNote&amp;utm_campaign=Badge_Grade)
@@ -37,46 +36,46 @@ Or you can download it from the CoolApk market: [酷安网：马克笔记--质�
 
 Online links for this project:
 
-1. [About Page](https://github.com/Shouheng88/MarkNote/blob/master/resources/%E5%85%B3%E4%BA%8E%E5%BA%94%E7%94%A8.md).
-2. [Translate Page](https://github.com/Shouheng88/MarkNote/blob/master/resources/%E5%8D%8F%E5%8A%A9%E7%BF%BB%E8%AF%91.md).
-3. [Update Plan](https://github.com/Shouheng88/MarkNote/blob/master/resources/%E6%9B%B4%E6%96%B0%E8%AE%A1%E5%88%92.md).
-4. [Change Logs](https://github.com/Shouheng88/MarkNote/blob/master/resources/%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97.md).
-5. [User Guide Page](https://github.com/Shouheng88/MarkNote/blob/master/resources/%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C.md).
+1. [ABOUT APP](https://github.com/Shouheng88/MarkNote/blob/master/resources/%E5%85%B3%E4%BA%8E%E5%BA%94%E7%94%A8.md).
+2. [TRANSLATE](https://github.com/Shouheng88/MarkNote/blob/master/resources/%E5%8D%8F%E5%8A%A9%E7%BF%BB%E8%AF%91.md).
+3. [UPDATE PLAN](https://github.com/Shouheng88/MarkNote/blob/master/resources/%E6%9B%B4%E6%96%B0%E8%AE%A1%E5%88%92.md).
+4. [CHANGE LOGS](https://github.com/Shouheng88/MarkNote/blob/master/resources/%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97.md).
+5. [USER GUIDE](https://github.com/Shouheng88/MarkNote/blob/master/resources/%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C.md).
 
 ## 3. Features
 
 Here I made a list of its functions:
 
 |No.|Functions|
-|:-:|:-:|
-|1|:Basic **CREATE, UPDATE, ARCHIVE, TRASH, DELETE** options|
-|2|:Basic **MARKDOWN GRAMMERS**|
-|3|:The beautiful **TIMELINE** to collect your actions in app (**LOCAL ONLY**)|
-|4|:Multi-media, including **FILES, VIDEOS, AUDIOS, PICTURES, PAINTING** etc|
-|5|:**DAY-NIGHT MODE**|
-|6|:Colorful **CHARTS** to show your statistics|
-|7|:**APP WIDGETS**|
-|8|:Manage notes by **CATEGORY**|
-|9|:Manage notes by **NOTEBOOK (TREE)**|
-|10|:**EXPORT NOTES TO PDF, TXT, MD, HTML and IMAGES**|
-|11|:Independent **LOCK** with **FINGER PRINT LOCK**|
-|12|:Backup to **ONEDRIVE**|
-|13|:Image **COMPRESS**|
-|14|:Backup to **EXTERNAL STORAGE**|
-|15|:**SHORTCUT** to edit note|
+|:-:|:-|
+|1|Basic **CREATE, UPDATE, ARCHIVE, TRASH, DELETE** options  |
+|2|Basic **MARKDOWN GRAMMERS**|
+|3|The beautiful **TIMELINE** to collect your actions in app (**LOCAL ONLY**)|
+|4|Multi-media, including **FILES, VIDEOS, AUDIOS, PICTURES, PAINTING** etc|
+|5|**DAY-NIGHT MODE**|
+|6|Colorful **CHARTS** to show your statistics|
+|7|**APP WIDGETS**|
+|8|Manage notes by **CATEGORY**|
+|9|Manage notes by **NOTEBOOK (TREE)**|
+|10|**EXPORT NOTES TO PDF, TXT, MD, HTML and IMAGES**|
+|11|Independent **LOCK** with **FINGER PRINT LOCK**|
+|12|Backup to **ONEDRIVE**|
+|13|Image **COMPRESS**|
+|14|Backup to **EXTERNAL STORAGE**|
+|15|**SHORTCUT** to edit note|
 
 ## 4. Participate
 
 As mentioned above, if you are interested in this project. Make a pull request or put forward an issue and follow the development state at [waffle.io](https://waffle.io/Shouheng88/NotePal).
 If you find some unpleasent bugs, please don't be heasitated to report to me by sending email to shouheng2015@gmail.com.
 
-OTHRE WAYS TO PARTICIPATE:
+**OTHRE WAYS TO PARTICIPATE**:
 
-1. Feedback at: [MikeCRM](http://shouheng.mikecrm.com/nwGEX3r) for English, [反馈链接](http://shouheng.mikecrm.com/IR50hog) for Chinese.
+1. Feedback at: [Feedback link](http://shouheng.mikecrm.com/nwGEX3r) for English, [反馈链接](http://shouheng.mikecrm.com/IR50hog) for Chinese.
 2. Feedback by sending me an email: shouheng2015@gmail.com;
 3. 加入 QQ 群：878285438.
 
-CONTRIBUTORS:
+**CONTRIBUTORS:**
 
 1. WngShhng-[Website](https://github.com/Shouheng88)
 2. [Uraka Lee](https://github.com/urakalee)
