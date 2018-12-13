@@ -1,6 +1,6 @@
 language: android
-jdk:
-  - oraclejdk8
+jdk: oraclejdk8
+sudo: false
 android:
   components:
     - tools
@@ -13,6 +13,9 @@ android:
     - android-sdk-preview-license-.+
     - android-sdk-license-.+
     - google-gdk-license-.+
-  script: 
-    - ./client/gradlew clean build
-  
+before_script:
+  - echo no | android create avd --force -n test -t android-22 --abi armeabi-v7a
+  - emulator -avd test -no-skin -no-audio -no-window &
+  - android-wait-for-emulator
+  - adb shell input keyevent 82 &
+script: ./client/gradlew clean build
