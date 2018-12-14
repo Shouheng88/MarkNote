@@ -27,12 +27,7 @@ Or you can download it from the CoolApk market: [酷安网：马克笔记--质�
 
 <a href="#app">Here</a> are screenshots displayed features and current development state of this application.
 
-<div style="display:flex;" >
-<img style="margin-left:10px;" src="resources/images/21.jpg" width="24%" >
-<img style="margin-left:10px;" src="resources/images/22.jpg" width="24%" >
-<img style="margin-left:10px;" src="resources/images/23.jpg" width="24%" >
-<img style="margin-left:10px;" src="resources/images/24.jpg" width="24%" >
-</div>
+![Introduction Image](https://cdn-images-1.medium.com/max/800/1*U1739CEK2YfrArj7fQTb0g.jpeg)
 
 Online links for this project:
 
