@@ -166,9 +166,6 @@
 # DataBinding
 -dontwarn android.databinding.**
 -keep class android.databinding.** { *; }
--keep class cn.glority.receipt.databinding.** {
-    <fields>;
-    <methods>;
-}
+# TODO 包下的 databinding 包的目录
 # MultiDex
 -keep class com.sensorsdata.analytics.android.** { *; }
