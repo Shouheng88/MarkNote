@@ -20,7 +20,7 @@ allprojects {
         mavenCentral()
         maven { url "https://jitpack.io" }
         maven { url "https://maven.google.com/" }
-        maven { url "https://shouheng.bintray.com/Android" }
+        maven { url "https://dl.bintray.com/easymark/Android" }
         maven { url 'https://dl.bintray.com/umsdk/release' }
     }
 }
