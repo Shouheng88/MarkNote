@@ -12,8 +12,6 @@ import me.shouheng.commons.BaseApplication;
  * 3.打开笔记的时候先从OneDrive上面检查备份信息；
  * 4.备份的文件的名称需要改；
  *
- * TODO 分享和捐赠集成
- *
  * Created by WngShhng with passion and love on 2017/2/26..
  * Contact me : shouheng2015@gmail.com.
  */

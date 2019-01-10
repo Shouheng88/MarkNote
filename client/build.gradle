@@ -3,6 +3,7 @@ buildscript {
         google()
         jcenter()
         maven { url 'https://maven.fabric.io/public' }
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/releases/' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'
@@ -10,6 +11,7 @@ buildscript {
         classpath 'io.fabric.tools:gradle:1.26.1'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
         classpath 'com.tencent.mm:AndResGuard-gradle-plugin:1.2.15'
+        classpath 'com.aliyun.ams:emas-services:1.0.1'
     }
 }
 
@@ -22,6 +24,7 @@ allprojects {
         maven { url "https://maven.google.com/" }
         maven { url "https://dl.bintray.com/easymark/Android" }
         maven { url 'https://dl.bintray.com/umsdk/release' }
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/releases/' }
     }
 }
 

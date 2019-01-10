@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 apply plugin: 'AndResGuard'
+apply plugin: 'com.aliyun.ams.emas-services'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -13,7 +14,14 @@ android {
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         // place holder
-        manifestPlaceholders = [UMENG_CHANNEL_VALUE: "umeng", UMENG_APPKEY: "${umengAppKey}", FABRIC_APPKEY: "${fabricAppKey}"]
+        manifestPlaceholders = [
+                UMENG_CHANNEL_VALUE: "umeng",
+                UMENG_APPKEY: "${umengAppKey}",
+                FABRIC_APPKEY: "${fabricAppKey}",
+                HOTFIX_APP_ID: "${hotfixAppId}",
+                HOTFIX_APP_SECRET: "${hotfixAppSecret}",
+                HOTFIX_RSA: "${hotfixRSA}"
+        ]
     }
     signingConfigs {
         release {
