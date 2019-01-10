@@ -117,4 +117,6 @@ dependencies {
     // easymark
     api 'me.shouheng.easymark:easymark:0.0.2'
     api 'me.shouheng.easymark:sil:0.0.1'
+    // hotfix
+    api 'com.aliyun.ams:alicloud-android-hotfix:3.2.3'
 }
