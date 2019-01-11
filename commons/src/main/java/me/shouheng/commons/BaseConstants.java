@@ -14,14 +14,4 @@ public interface BaseConstants {
     String MIME_TYPE_IMAGE_EXTENSION = ".jpeg";
     String MIME_TYPE_SKETCH_EXTENSION = ".png";
     String MIME_TYPE_CONTACT_EXTENSION = ".vcf";
-
-
-    String HOTFIX_APP_ID_PART1 = "";
-    String HOTFIX_APP_ID_PART2 = "";
-    String HOTFIX_APP_SECRET_PART1 = "";
-    String HOTFIX_APP_SECRET_PART2 = "";
-    String HOTFIX_APP_SECRET_PART3 = "";
-    String HOTFIX_RSA_PART1 = "";
-    String HOTFIX_RSA_PART2 = "";
-    String HOTFIX_RSA_PART3 = "";
 }
