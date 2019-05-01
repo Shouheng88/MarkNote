@@ -121,3 +121,6 @@
 -keep class com.ta.utdid2.device.**{*;}
 # 防止inline
 -dontoptimize
+
+# Cipher
+-keep class net.idik.lib.cipher.so.** {*;}
