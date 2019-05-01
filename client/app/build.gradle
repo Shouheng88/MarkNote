@@ -1,8 +1,6 @@
-apply plugin: 'cipher.so'
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 apply plugin: 'AndResGuard'
-apply plugin: 'com.aliyun.ams.emas-services'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -19,9 +17,6 @@ android {
                 UMENG_CHANNEL_VALUE: "umeng",
                 UMENG_APPKEY: "${umengAppKey}",
                 FABRIC_APPKEY: "${fabricAppKey}",
-                HOTFIX_APP_ID: "${hotfixAppId}",
-                HOTFIX_APP_SECRET: "${hotfixAppSecret}",
-                HOTFIX_RSA: "${hotfixRSA}"
         ]
     }
     signingConfigs {
@@ -122,14 +117,6 @@ android {
         sevenzip {
             artifact = 'com.tencent.mm:SevenZip:1.2.13'
         }
-    }
-    cipher.so {
-        keys {
-            hotfixAppId { value = "${hotfixAppId}" }
-            hotfixAppSecret { value = "${hotfixAppSecret}" }
-            hotfixRSA { value = "${hotfixRSA}" }
-        }
-        encryptSeed = 'HelloSecretKey' // 用于加密的密钥
     }
 }
 
