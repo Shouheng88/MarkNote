@@ -3,8 +3,6 @@
 ![SLicense](https://img.shields.io/badge/License-GPLv3-red.svg)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/8c25b2d028434d62a39153ff879aa6a4)](https://www.codacy.com/app/Shouheng88/MarkNote?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Shouheng88/MarkNote&amp;utm_campaign=Badge_Grade)
 [![Build Status](https://travis-ci.org/Shouheng88/MarkNote.svg?branch=master)](https://travis-ci.org/Shouheng88/MarkNote)
-[![Crowdin](https://d322cqt584bo4o.cloudfront.net/marknote/localized.svg)](https://crowdin.com/project/marknote)
-[![Waffle.io - Columns and their card count](https://badge.waffle.io/Shouheng88/MarkNote.svg?columns=all)](https://waffle.io/Shouheng88/MarkNote)
 
 # MarkNote the markdown note-taking application for Android
 
