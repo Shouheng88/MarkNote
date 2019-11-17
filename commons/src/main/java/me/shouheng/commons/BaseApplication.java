@@ -1,11 +1,11 @@
 package me.shouheng.commons;
 
 import android.app.Application;
+import android.content.Context;
 
-import com.crashlytics.android.Crashlytics;
 import com.squareup.leakcanary.LeakCanary;
 
-import io.fabric.sdk.android.Fabric;
+import me.shouheng.mvvm.MVVMs;
 
 /**
  * @author shouh
@@ -19,16 +19,17 @@ public abstract class BaseApplication extends Application {
         return instance;
     }
 
-    private boolean needRelaunch = false;
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MVVMs.attachBaseContext(base);
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
-
         instance = this;
-
+        MVVMs.onCreate(this);
         LeakCanary.install(this);
-
-        Fabric.with(this, new Crashlytics());
     }
 }

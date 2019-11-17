@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
+import com.github.chrisbanes.photoview.PhotoView;
 
 import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.event.UMEvent;
@@ -23,8 +24,6 @@ import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.GalleryActivity;
 import me.shouheng.notepal.manager.FileManager;
-import uk.co.senab.photoview.PhotoView;
-import uk.co.senab.photoview.PhotoViewAttacher;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
@@ -80,21 +79,10 @@ public class ImageFragment extends Fragment {
         } else {
             displayMedia(photoView);
         }
-        photoView.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
-            @Override
-            public void onPhotoTap(View view, float x, float y) {
-                Activity activity = getActivity();
-                if (activity instanceof GalleryActivity) {
-                    ((GalleryActivity) activity).toggleSystemUI();
-                }
-            }
-
-            @Override
-            public void onOutsidePhotoTap() {
-                Activity activity = getActivity();
-                if (activity instanceof GalleryActivity) {
-                    ((GalleryActivity) activity).toggleSystemUI();
-                }
+        photoView.setOnPhotoTapListener((view, x, y) -> {
+            Activity activity = getActivity();
+            if (activity instanceof GalleryActivity) {
+                ((GalleryActivity) activity).toggleSystemUI();
             }
         });
         photoView.setMaximumScale(5.0F);
