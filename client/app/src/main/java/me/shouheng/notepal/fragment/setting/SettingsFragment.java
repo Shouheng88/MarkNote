@@ -17,13 +17,14 @@ import me.shouheng.commons.helper.ActivityHelper;
 import me.shouheng.commons.helper.DialogHelper;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.PalmUtils;
-import me.shouheng.commons.utils.PersistData;
 import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.AboutActivity;
 import me.shouheng.notepal.activity.FabSortActivity;
 import me.shouheng.notepal.activity.SettingsActivity;
 import me.shouheng.notepal.dialog.ThemePickDialog;
+import me.shouheng.utils.app.ResUtils;
+import me.shouheng.utils.store.SPUtils;
 
 /**
  * Created by WngShhng (shouheng2015@gmail.com) on 2017/12/21.
@@ -58,7 +59,7 @@ public class SettingsFragment extends BPreferenceFragment {
         });
 
         findPreference(R.string.key_setting_nav_bar_result).setOnPreferenceChangeListener((preference, newValue) -> {
-            PersistData.putBoolean(R.string.key_setting_nav_bar_result, (Boolean) newValue);
+            SPUtils.getInstance().put(ResUtils.getString(R.string.key_setting_nav_bar_result), (Boolean) newValue);
             Activity activity = getActivity();
             if (activity instanceof ThemedActivity) {
                 ((ThemedActivity) activity).updateNavigationBar();

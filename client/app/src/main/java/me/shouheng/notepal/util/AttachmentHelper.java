@@ -27,9 +27,8 @@ import io.reactivex.schedulers.Schedulers;
 import me.shouheng.commons.image.GifSizeFilter;
 import me.shouheng.commons.image.Glide4Engine;
 import me.shouheng.commons.utils.IntentUtils;
-import me.shouheng.commons.utils.LogUtils;
+import me.shouheng.utils.stability.LogUtils;
 import me.shouheng.commons.utils.PalmUtils;
-import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.data.ModelFactory;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.data.entity.Model;
@@ -41,6 +40,7 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.GalleryActivity;
 import me.shouheng.notepal.activity.SketchActivity;
 import me.shouheng.notepal.manager.FileManager;
+import me.shouheng.utils.ui.ToastUtils;
 import top.zibin.luban.Luban;
 import top.zibin.luban.OnCompressListener;
 
@@ -165,7 +165,7 @@ public class AttachmentHelper {
     public static void takeAPhoto(Fragment fragment) {
         File file = FileManager.createNewAttachmentFile(fragment.getContext(), Constants.MIME_TYPE_IMAGE_EXTENSION);
         if (file == null) {
-            ToastUtils.makeToast(R.string.text_failed_to_save_file);
+            ToastUtils.showShort(R.string.text_failed_to_save_file);
             return;
         }
         String path = file.getPath();
@@ -184,7 +184,7 @@ public class AttachmentHelper {
     public static void createSketch(Fragment fragment) {
         File file = FileManager.createNewAttachmentFile(fragment.getContext(), Constants.MIME_TYPE_SKETCH_EXTENSION);
         if (file == null) {
-            ToastUtils.makeToast(R.string.text_failed_to_save_file);
+            ToastUtils.showShort(R.string.text_failed_to_save_file);
             return;
         }
         String path = file.getPath();
@@ -438,7 +438,7 @@ public class AttachmentHelper {
             List<Attachment> attachments,
             String galleryTitle) {
         if (attachment == null) {
-            ToastUtils.makeToast(R.string.text_file_not_exist);
+            ToastUtils.showShort(R.string.text_file_not_exist);
             return;
         }
         switch (attachment.getMineType()) {
@@ -462,7 +462,7 @@ public class AttachmentHelper {
         if (IntentUtils.isAvailable(context.getApplicationContext(), intent, null)) {
             context.startActivity(intent);
         } else {
-            ToastUtils.makeToast(R.string.text_failed_to_resolve_intent);
+            ToastUtils.showShort(R.string.text_failed_to_resolve_intent);
         }
     }
 
@@ -533,7 +533,7 @@ public class AttachmentHelper {
     private static Intent captureIntent(Context context) {
         File file = FileManager.createNewAttachmentFile(context, Constants.MIME_TYPE_IMAGE_EXTENSION);
         if (file == null){
-            ToastUtils.makeToast(R.string.text_failed_to_save_file);
+            ToastUtils.showShort(R.string.text_failed_to_save_file);
             return null;
         }
         String filePath = file.getPath();
@@ -563,7 +563,7 @@ public class AttachmentHelper {
     private static Intent sketchIntent(Context context) {
         File file = FileManager.createNewAttachmentFile(context, Constants.MIME_TYPE_SKETCH_EXTENSION);
         if (file == null) {
-            ToastUtils.makeToast(R.string.text_failed_to_save_file);
+            ToastUtils.showShort(R.string.text_failed_to_save_file);
             return null;
         }
         String filePath = file.getPath();

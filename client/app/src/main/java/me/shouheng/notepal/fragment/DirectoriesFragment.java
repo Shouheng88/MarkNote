@@ -17,7 +17,6 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.event.*;
 import me.shouheng.commons.utils.PalmUtils;
-import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.commons.widget.recycler.CustomItemAnimator;
 import me.shouheng.commons.widget.recycler.DividerItemDecoration;
 import me.shouheng.data.model.Directory;
@@ -26,6 +25,7 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.DirectoriesAdapter;
 import me.shouheng.notepal.databinding.FragmentDirectoriesBinding;
 import me.shouheng.notepal.vm.DirectoryViewModel;
+import me.shouheng.utils.ui.ToastUtils;
 
 /**
  * Created by shouh on 2018/3/30.*/
@@ -89,12 +89,12 @@ public class DirectoriesFragment extends BaseFragment<FragmentDirectoriesBinding
         viewModel.getDirectories(directory.getId()).observe(this, listResource -> {
             getBinding().sl.setVisibility(View.GONE);
             if (listResource == null) {
-                ToastUtils.makeToast(R.string.setting_backup_onedrive_failed_query_sync_cloud);
+                ToastUtils.showShort(R.string.setting_backup_onedrive_failed_query_sync_cloud);
                 return;
             }
             switch (listResource.status) {
                 case FAILED:
-                    ToastUtils.makeToast(listResource.message);
+                    ToastUtils.showShort(listResource.message);
                     break;
                 case SUCCESS:
                     assert listResource.data != null;
@@ -156,17 +156,17 @@ public class DirectoriesFragment extends BaseFragment<FragmentDirectoriesBinding
         viewModel.createBackupDir(directory, adapter.getData()).observe(this, directoryResource -> {
             pd.dismiss();
             if (directoryResource == null) {
-                ToastUtils.makeToast(R.string.setting_backup_onedrive_failed_query_sync_cloud);
+                ToastUtils.showShort(R.string.setting_backup_onedrive_failed_query_sync_cloud);
                 return;
             }
             switch (directoryResource.status) {
                 case FAILED:
-                    ToastUtils.makeToast(String.format(
+                    ToastUtils.showShort(String.format(
                             PalmUtils.getStringCompact(R.string.setting_backup_onedrive_error_when_try_to_backup),
                             directoryResource.message));
                     break;
                 case SUCCESS:
-                    ToastUtils.makeToast(R.string.setting_backup_onedrive_backup_dir_selected_message);
+                    ToastUtils.showShort(R.string.setting_backup_onedrive_backup_dir_selected_message);
                     if (getActivity() != null && getActivity() instanceof OnFragmentInteractionListener) {
                         ((OnFragmentInteractionListener) getActivity()).onDirectoryPicked(directory);
                     }

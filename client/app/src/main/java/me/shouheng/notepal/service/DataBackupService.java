@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
-import me.shouheng.commons.utils.LogUtils;
+import me.shouheng.utils.stability.LogUtils;
 import me.shouheng.data.DBConfig;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.notepal.R;

@@ -19,7 +19,6 @@ import me.shouheng.commons.activity.ContainerActivity;
 import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.event.RxMessage;
 import me.shouheng.commons.utils.ColorUtils;
-import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.commons.widget.recycler.CustomItemAnimator;
 import me.shouheng.commons.widget.recycler.DividerItemDecoration;
 import me.shouheng.commons.widget.recycler.EmptyView;
@@ -28,6 +27,7 @@ import me.shouheng.notepal.adapter.NotesAdapter;
 import me.shouheng.notepal.databinding.ActivitySearchBinding;
 import me.shouheng.notepal.fragment.NoteViewFragment;
 import me.shouheng.notepal.vm.SearchViewModel;
+import me.shouheng.utils.ui.ToastUtils;
 
 import static me.shouheng.commons.event.UMEvent.*;
 
@@ -96,7 +96,7 @@ public class SearchActivity extends CommonActivity<ActivitySearchBinding> implem
                     break;
                 case FAILED:
                     getBinding().ivEmpty.showEmptyIcon();
-                    ToastUtils.makeToast(R.string.text_failed);
+                    ToastUtils.showShort(R.string.text_failed);
                     break;
                 case LOADING:
                     getBinding().ivEmpty.showProgressBar();

@@ -33,7 +33,6 @@ import me.shouheng.commons.activity.PermissionActivity;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.PermissionUtils;
 import me.shouheng.commons.utils.PermissionUtils.Permission;
-import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.data.entity.QuickNote;
 import me.shouheng.data.model.enums.ModelType;
@@ -44,6 +43,7 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.DialogQuickNoteBinding;
 import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.notepal.util.AttachmentHelper;
+import me.shouheng.utils.ui.ToastUtils;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
@@ -134,7 +134,7 @@ public class QuickNoteDialog extends DialogFragment implements AttachmentHelper.
 
     @Override
     public void onAttachingFileErrorOccurred(Attachment attachment) {
-        ToastUtils.makeToast(R.string.text_failed_to_save_attachment);
+        ToastUtils.showShort(R.string.text_failed_to_save_attachment);
     }
 
     @Override
@@ -142,7 +142,7 @@ public class QuickNoteDialog extends DialogFragment implements AttachmentHelper.
         if (AttachmentHelper.checkAttachment(attachment)) {
             setupAttachment(attachment);
         } else {
-            ToastUtils.makeToast(R.string.text_failed_to_save_attachment);
+            ToastUtils.showShort(R.string.text_failed_to_save_attachment);
         }
     }
 
@@ -276,7 +276,7 @@ public class QuickNoteDialog extends DialogFragment implements AttachmentHelper.
                 notifyPlayingStateChanged(false);
             });
         } catch (IOException e) {
-            ToastUtils.makeToast(R.string.attachment_play_record_failed);
+            ToastUtils.showShort(R.string.attachment_play_record_failed);
         }
     }
 

@@ -40,8 +40,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-import me.shouheng.commons.utils.LogUtils;
-import me.shouheng.commons.utils.ToastUtils;
+import me.shouheng.utils.stability.LogUtils;
 import me.shouheng.data.DBConfig;
 import me.shouheng.data.ModelFactory;
 import me.shouheng.data.entity.Attachment;
@@ -49,6 +48,7 @@ import me.shouheng.notepal.BuildConfig;
 import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
+import me.shouheng.utils.ui.ToastUtils;
 
 import static java.lang.Long.parseLong;
 import static me.shouheng.notepal.Constants.SHARE_IMAGE_FILE_PATH;
@@ -493,7 +493,7 @@ public class FileManager {
 
     private static File createExternalStoragePrivateFile(Context mContext, Uri uri, String extension) {
         if (!isStorageWritable()) {
-            ToastUtils.makeToast(R.string.text_storage_unavailable);
+            ToastUtils.showShort(R.string.text_storage_unavailable);
             return null;
         }
         File file = createNewAttachmentFile(mContext, extension);
@@ -559,7 +559,7 @@ public class FileManager {
     public static boolean delete(Context mContext, String name) {
         boolean res = false;
         if (!isStorageWritable()) {
-            ToastUtils.makeToast(R.string.text_storage_unavailable);
+            ToastUtils.showShort(R.string.text_storage_unavailable);
             return false;
         }
         File file = new File(name);

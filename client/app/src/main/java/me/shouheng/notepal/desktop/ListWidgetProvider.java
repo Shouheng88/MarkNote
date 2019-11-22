@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.RemoteViews;
 
 import me.shouheng.commons.utils.ColorUtils;
-import me.shouheng.commons.utils.LogUtils;
+import me.shouheng.utils.stability.LogUtils;
 import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.MainActivity;

@@ -13,7 +13,7 @@ import android.widget.RemoteViewsService;
 import java.util.List;
 
 import me.shouheng.commons.utils.ColorUtils;
-import me.shouheng.commons.utils.LogUtils;
+import me.shouheng.utils.stability.LogUtils;
 import me.shouheng.commons.utils.TimeUtils;
 import me.shouheng.data.entity.Note;
 import me.shouheng.data.schema.NoteSchema;

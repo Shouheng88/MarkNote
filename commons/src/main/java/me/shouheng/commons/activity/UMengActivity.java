@@ -3,7 +3,7 @@ package me.shouheng.commons.activity;
 import com.umeng.analytics.MobclickAgent;
 
 import me.shouheng.commons.event.PageName;
-import me.shouheng.commons.utils.LogUtils;
+import me.shouheng.utils.stability.LogUtils;
 
 /**
  * @author shouh

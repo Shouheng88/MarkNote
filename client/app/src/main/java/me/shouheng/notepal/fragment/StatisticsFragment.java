@@ -14,11 +14,11 @@ import lecho.lib.hellocharts.model.PointValue;
 import lecho.lib.hellocharts.model.SubcolumnValue;
 import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.event.*;
-import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.data.model.Stats;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.FragmentStatisticsBinding;
 import me.shouheng.notepal.vm.StatisticViewModel;
+import me.shouheng.utils.ui.ToastUtils;
 
 /**
  * The statistics fragment used to show the user statistics.
@@ -63,7 +63,7 @@ public class StatisticsFragment extends BaseFragment<FragmentStatisticsBinding> 
                     outputStats(resources.data);
                     break;
                 case FAILED:
-                    ToastUtils.makeToast(R.string.text_failed);
+                    ToastUtils.showShort(R.string.text_failed);
                     break;
             }
         });

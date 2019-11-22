@@ -48,8 +48,6 @@ import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.commons.utils.PermissionUtils;
 import me.shouheng.commons.utils.PermissionUtils.Permission;
-import me.shouheng.commons.utils.StringUtils;
-import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.data.ModelFactory;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.data.entity.Category;
@@ -73,6 +71,7 @@ import me.shouheng.notepal.util.AppWidgetUtils;
 import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.vm.NoteViewModel;
 import me.shouheng.notepal.widget.MDEditorLayout;
+import me.shouheng.utils.ui.ToastUtils;
 
 import static android.app.Activity.RESULT_OK;
 import static me.shouheng.notepal.Constants.FAB_ACTION_CAPTURE;
@@ -148,8 +147,8 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding>
             switch (format) {
                 case TABLE:
                     TableInputDialog.getInstance((rowsStr, colsStr) -> {
-                        int rows = StringUtils.parseInteger(rowsStr, 3);
-                        int cols = StringUtils.parseInteger(colsStr, 3);
+                        int rows = PalmUtils.parseInteger(rowsStr, 3);
+                        int cols = PalmUtils.parseInteger(colsStr, 3);
                         eme.useFormat(format, rows, cols);
                     }).show(Objects.requireNonNull(getFragmentManager()), "TABLE EDITOR");
                     break;
@@ -325,7 +324,7 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding>
             /* Start note fragment without action and intent, then the note is necessary. */
             if (!arguments.containsKey(ARGS_KEY_NOTE)
                     || (note = (Note) arguments.getSerializable(ARGS_KEY_NOTE)) == null) {
-                ToastUtils.makeToast(R.string.text_note_not_found);
+                ToastUtils.showShort(R.string.text_note_not_found);
                 if (getActivity() != null) getActivity().finish();
                 return;
             }
@@ -353,7 +352,7 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding>
                     eme.setText(note.getContent());
                     break;
                 case FAILED:
-                    ToastUtils.makeToast(R.string.text_failed_to_read_note_file);
+                    ToastUtils.showShort(R.string.text_failed_to_read_note_file);
                     break;
             }
         });
@@ -375,7 +374,7 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding>
                     }
                     break;
                 case FAILED:
-                    ToastUtils.makeToast(R.string.text_failed_to_save_note);
+                    ToastUtils.showShort(R.string.text_failed_to_save_note);
                     break;
                 case LOADING:
                     break;
@@ -521,13 +520,13 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding>
             case R.id.action_copy_title: {
                 String title = etTitle.getText().toString();
                 NoteManager.copy(getActivity(), title);
-                ToastUtils.makeToast(R.string.note_copied_success);
+                ToastUtils.showShort(R.string.note_copied_success);
                 break;
             }
             case R.id.action_copy_content: {
                 String content = eme.getText().toString() + " ";
                 NoteManager.copy(getActivity(), content);
-                ToastUtils.makeToast(R.string.note_copied_success);
+                ToastUtils.showShort(R.string.note_copied_success);
                 break;
             }
             case R.id.action_setting_note: {
@@ -553,7 +552,7 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding>
 
     @Override
     public void onAttachingFileErrorOccurred(Attachment attachment) {
-        ToastUtils.makeToast(R.string.text_failed_to_save_attachment);
+        ToastUtils.showShort(R.string.text_failed_to_save_attachment);
     }
 
     @Override

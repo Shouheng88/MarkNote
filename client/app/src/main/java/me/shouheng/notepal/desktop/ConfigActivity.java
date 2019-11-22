@@ -15,7 +15,6 @@ import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.data.entity.Notebook;
 import me.shouheng.data.schema.NoteSchema;
 import me.shouheng.data.store.NotebookStore;
@@ -24,6 +23,7 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.ActivityWidgetConfigurationBinding;
 import me.shouheng.notepal.dialog.picker.NotebookPickerDialog;
 import me.shouheng.notepal.util.AppWidgetUtils;
+import me.shouheng.utils.ui.ToastUtils;
 
 public class ConfigActivity extends AppCompatActivity {
 
@@ -71,7 +71,7 @@ public class ConfigActivity extends AppCompatActivity {
             }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(notebook -> {
                 selectedNotebook = notebook;
                 updateWhenNotebookSelected();
-            }, throwable -> ToastUtils.makeToast(R.string.text_notebook_not_found));
+            }, throwable -> ToastUtils.showShort(R.string.text_notebook_not_found));
         }
     }
 

@@ -10,6 +10,7 @@ import android.support.annotation.IntegerRes;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.text.ClipboardManager;
+import android.text.TextUtils;
 
 import me.shouheng.commons.BaseApplication;
 
@@ -102,5 +103,15 @@ public class PalmUtils {
         ClipboardManager clipboardManager = (ClipboardManager) ctx.getSystemService(Context.CLIPBOARD_SERVICE);
         assert clipboardManager != null;
         clipboardManager.setText(content);
+    }
+
+    public static int parseInteger(String intString, int defaultValue) {
+        int number;
+        try {
+            number = TextUtils.isEmpty(intString) ? defaultValue : Integer.parseInt(intString);
+        } catch (NumberFormatException e) {
+            number = defaultValue;
+        }
+        return number;
     }
 }

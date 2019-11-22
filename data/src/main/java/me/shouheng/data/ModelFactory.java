@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import me.shouheng.commons.BaseApplication;
-import me.shouheng.commons.utils.LogUtils;
+import me.shouheng.utils.stability.LogUtils;
 import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.commons.utils.TimeUtils;
 import me.shouheng.commons.utils.UserUtil;

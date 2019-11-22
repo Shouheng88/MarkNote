@@ -16,7 +16,6 @@ import java.util.List;
 
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.PalmUtils;
-import me.shouheng.commons.utils.PersistData;
 import me.shouheng.commons.utils.TimeUtils;
 import me.shouheng.commons.widget.recycler.BubbleTextGetter;
 import me.shouheng.data.entity.Note;
@@ -24,6 +23,8 @@ import me.shouheng.data.entity.Notebook;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.manager.FileManager;
+import me.shouheng.utils.app.ResUtils;
+import me.shouheng.utils.store.SPUtils;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
@@ -42,7 +43,7 @@ public class NotesAdapter extends BaseMultiItemQuickAdapter<NotesAdapter.MultiIt
     public NotesAdapter(Context context, List<NotesAdapter.MultiItem> data) {
         super(data);
 
-        this.isExpanded = PersistData.getBoolean(R.string.key_note_expanded_note, true);
+        this.isExpanded = SPUtils.getInstance().getBoolean(ResUtils.getString(R.string.key_note_expanded_note), true);
         this.context = context;
         addItemType(MultiItem.ITEM_TYPE_NOTE, isExpanded ? R.layout.item_note_expanded : R.layout.item_note);
         addItemType(MultiItem.ITEM_TYPE_NOTEBOOK, R.layout.item_note);

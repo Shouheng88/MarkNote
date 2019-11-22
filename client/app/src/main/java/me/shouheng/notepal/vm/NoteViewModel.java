@@ -19,7 +19,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import me.shouheng.commons.model.data.Resource;
-import me.shouheng.commons.utils.PersistData;
 import me.shouheng.data.ModelFactory;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.data.entity.Category;
@@ -33,6 +32,8 @@ import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.notepal.manager.NoteManager;
+import me.shouheng.utils.app.ResUtils;
+import me.shouheng.utils.store.SPUtils;
 
 /**
  * The ViewModel for the note fragment.
@@ -143,7 +144,7 @@ public class NoteViewModel extends ViewModel {
             /* Get the note file and save the note content to it. */
             Attachment atFile = AttachmentsStore.getInstance().get(note.getContentCode());
             if (atFile == null) {
-                String extension = "." + PersistData.getString(R.string.key_note_file_extension, "md");
+                String extension = "." + SPUtils.getInstance().getString(ResUtils.getString(R.string.key_note_file_extension), "md");
                 File noteFile = FileManager.createNewAttachmentFile(PalmApp.getContext(), extension);
                 try {
                     FileUtils.writeStringToFile(noteFile, note.getContent(), Constants.NOTE_FILE_ENCODING);

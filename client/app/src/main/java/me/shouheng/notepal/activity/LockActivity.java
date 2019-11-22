@@ -19,18 +19,19 @@ import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.event.RxMessage;
 import me.shouheng.commons.theme.SystemUiVisibilityUtil;
 import me.shouheng.commons.utils.ColorUtils;
-import me.shouheng.commons.utils.LogUtils;
-import me.shouheng.commons.utils.Md5Utils;
+import me.shouheng.utils.app.ResUtils;
+import me.shouheng.utils.data.StringUtils;
+import me.shouheng.utils.stability.LogUtils;
 import me.shouheng.commons.utils.PalmUtils;
-import me.shouheng.commons.utils.PersistData;
-import me.shouheng.commons.utils.StringUtils;
-import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.commons.utils.ViewUtils;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.ActivityLockBinding;
+import me.shouheng.utils.data.EncryptUtils;
+import me.shouheng.utils.store.SPUtils;
+import me.shouheng.utils.ui.ToastUtils;
 
-import static me.shouheng.commons.event.UMEvent.*;
+import static me.shouheng.commons.event.UMEvent.PAGE_LOCK;
 
 /**
  * Lock Activity, used to set password, check password.
@@ -60,13 +61,13 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
         getBinding().pinLockView.setTextColor(ContextCompat.getColor(this, R.color.white));
         getBinding().pinLockView.setFingerButtonDrawable(ColorUtils.tintDrawable(
                 PalmUtils.getDrawableCompact(R.drawable.ic_fingerprint_black_24dp), Color.WHITE));
-        getBinding().pinLockView.setShowFingerButton(PersistData.getBoolean(
-                R.string.key_security_finger_print_enable, false));
+        getBinding().pinLockView.setShowFingerButton(SPUtils.getInstance().getBoolean(
+                ResUtils.getString(R.string.key_security_finger_print_enable), false));
         getBinding().pinLockView.setFingereButtonSize(ViewUtils.dp2Px(this, 16f));
         getBinding().indicatorDots.setIndicatorType(IndicatorDots.IndicatorType.FIXED);
 
         /* Get saved results. */
-        String savedPsd = PersistData.getString(R.string.key_security_psd, "");
+        String savedPsd = SPUtils.getInstance().getString(ResUtils.getString(R.string.key_security_psd), "");
 
         /* Handle intent. */
         Intent intent = getIntent();
@@ -78,7 +79,7 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
                 if (TextUtils.isEmpty(savedPsd)) {
                     passPasswordCheck();
                 } else {
-                    if (PersistData.getBoolean(R.string.key_security_finger_print_enable, false)) {
+                    if (SPUtils.getInstance().getBoolean(ResUtils.getString(R.string.key_security_finger_print_enable), false)) {
                         initFingerprintIdentify();
                     }
                 }
@@ -110,23 +111,23 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
 
         @Override
         public void onNotMatch(int availableTimes) {
-            ToastUtils.makeToast(StringUtils.formatString(R.string.security_finger_not_match, availableTimes));
+            ToastUtils.showShort(StringUtils.format(R.string.security_finger_not_match, availableTimes));
         }
 
         @Override
         public void onFailed(boolean isDeviceLocked) {
-            ToastUtils.makeToast(R.string.security_finger_failed);
+            ToastUtils.showShort(R.string.security_finger_failed);
         }
 
         @Override
         public void onStartFailedByDeviceLocked() {
-            ToastUtils.makeToast(R.string.security_finger_locked);
+            ToastUtils.showShort(R.string.security_finger_locked);
         }
     };
 
     private PinLockListener mPinLockListener = new PinLockListener() {
 
-        String savedPsd = PersistData.getString(R.string.key_security_psd, "");
+        String savedPsd = SPUtils.getInstance().getString(ResUtils.getString(R.string.key_security_psd), "");
 
         private String lastInputPassword;
 
@@ -147,12 +148,12 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
          * @param pin password string
          */
         private void onCompleteForRequirement(String pin) {
-            String md5 = Md5Utils.md5(pin);
+            String md5 = EncryptUtils.md5(pin);
             if (md5.equals(savedPsd)) {
                 passPasswordCheck();
             } else {
                 getBinding().pinLockView.resetPinLockView();
-                ToastUtils.makeToast(R.string.setting_lock_psd_changes_left);
+                ToastUtils.showShort(R.string.setting_lock_psd_changes_left);
                 if (errorTimes == 10) {
                     errorTimes = 0;
                     showQuestionDialog();
@@ -166,7 +167,7 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
          * @param pin the password string
          */
         private void onCompleteForSetting(String pin) {
-            String md5 = Md5Utils.md5(pin);
+            String md5 = EncryptUtils.md5(pin);
             if (TextUtils.isEmpty(lastInputPassword)) {
                 lastInputPassword = md5;
                 getBinding().profileName.setText(R.string.setting_lock_psd_hint);
@@ -178,7 +179,7 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
                     lastInputPassword = null;
                     getBinding().profileName.setText(R.string.setting_lock_new_psd);
                     getBinding().pinLockView.resetPinLockView();
-                    ToastUtils.makeToast(R.string.setting_lock_psd_set_differ);
+                    ToastUtils.showShort(R.string.setting_lock_psd_set_differ);
                 }
             }
         }
@@ -195,8 +196,8 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
     };
 
     private void showQuestionDialog() {
-        String question = PersistData.getString(R.string.key_security_psd_question, "");
-        String answer = PersistData.getString(R.string.key_security_psd_answer, "");
+        String question = SPUtils.getInstance().getString(ResUtils.getString(R.string.key_security_psd_question), "");
+        String answer = SPUtils.getInstance().getString(ResUtils.getString(R.string.key_security_psd_answer), "");
         if (TextUtils.isEmpty(question) && TextUtils.isEmpty(answer)) return;
 
         new MaterialDialog.Builder(this)
@@ -204,12 +205,12 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
                 .content(question)
                 .inputType(InputType.TYPE_TEXT_VARIATION_PASSWORD)
                 .input(null, null, (dialog, input) -> {
-                    String encryptAnswer = Md5Utils.md5(input.toString());
+                    String encryptAnswer = EncryptUtils.md5(input.toString());
                     if (answer.equals(encryptAnswer)) {
-                        PersistData.putBoolean(R.string.key_security_psd_required, false);
+                        SPUtils.getInstance().put(ResUtils.getString(R.string.key_security_psd_required), false);
                         showDisableDialog();
                     } else {
-                        ToastUtils.makeToast(R.string.setting_lock_security_question_wrong);
+                        ToastUtils.showShort(R.string.setting_lock_security_question_wrong);
                     }
                 })
                 .negativeText(R.string.text_cancel)
@@ -235,7 +236,7 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
     }
 
     private void passSetting(String md5) {
-        PersistData.putString(R.string.key_security_psd, md5);
+        SPUtils.getInstance().put(ResUtils.getString(R.string.key_security_psd), md5);
         postEvent(new RxMessage(RxMessage.CODE_PASSWORD_SET_SUCCEED, md5));
         finish();
     }

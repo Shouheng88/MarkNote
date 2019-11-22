@@ -21,10 +21,9 @@ import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.event.RxBus;
 import me.shouheng.commons.event.RxMessage;
 import me.shouheng.commons.helper.ActivityHelper;
-import me.shouheng.commons.utils.LogUtils;
+import me.shouheng.utils.app.ResUtils;
+import me.shouheng.utils.stability.LogUtils;
 import me.shouheng.commons.utils.PermissionUtils;
-import me.shouheng.commons.utils.PersistData;
-import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.data.ModelFactory;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.data.entity.Category;
@@ -38,6 +37,8 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.dialog.QuickNoteDialog;
 import me.shouheng.notepal.util.AppWidgetUtils;
 import me.shouheng.notepal.vm.QuickViewModel;
+import me.shouheng.utils.store.SPUtils;
+import me.shouheng.utils.ui.ToastUtils;
 
 import static me.shouheng.commons.event.UMEvent.*;
 
@@ -55,8 +56,8 @@ public class QuickActivity extends PermissionActivity {
     }
 
     private void checkPsdIfNecessary(Bundle savedInstanceState) {
-        boolean psdRequired = PersistData.getBoolean(R.string.key_security_psd_required, false);
-        String psd = PersistData.getString(R.string.key_security_psd, null);
+        boolean psdRequired = SPUtils.getInstance().getBoolean(ResUtils.getString(R.string.key_security_psd_required), false);
+        String psd = SPUtils.getInstance().getString(ResUtils.getString(R.string.key_security_psd), null);
         if (psdRequired && PalmApp.passwordNotChecked() && !TextUtils.isEmpty(psd)) {
             ActivityHelper.open(LockActivity.class)
                     .setAction(LockActivity.ACTION_REQUIRE_PASSWORD)
@@ -75,11 +76,11 @@ public class QuickActivity extends PermissionActivity {
             switch (resources.status) {
                 case SUCCESS:
                     RxBus.getRxBus().post(new RxMessage(RxMessage.CODE_NOTE_DATA_CHANGED, null));
-                    ToastUtils.makeToast(R.string.text_save_successfully);
+                    ToastUtils.showShort(R.string.text_save_successfully);
                     AppWidgetUtils.notifyAppWidgets(this);
                     break;
                 case FAILED:
-                    ToastUtils.makeToast(R.string.text_failed);
+                    ToastUtils.showShort(R.string.text_failed);
                     break;
             }
         });
@@ -149,7 +150,7 @@ public class QuickActivity extends PermissionActivity {
                         if (onGetAppWidgetCondition != null) {
                             onGetAppWidgetCondition.onGetCondition(new Pair<>(notebook, null));
                         }
-                    }, throwable -> ToastUtils.makeToast(R.string.text_notebook_not_found));
+                    }, throwable -> ToastUtils.showShort(R.string.text_notebook_not_found));
         } else {
             if (onGetAppWidgetCondition != null) {
                 onGetAppWidgetCondition.onGetCondition(new Pair<>(null, null));

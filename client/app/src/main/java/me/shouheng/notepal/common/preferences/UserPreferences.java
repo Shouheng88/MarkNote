@@ -7,10 +7,11 @@ import java.util.List;
 
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.PalmUtils;
-import me.shouheng.commons.utils.PersistData;
 import me.shouheng.data.model.enums.FabSortItem;
 import me.shouheng.data.model.enums.Operation;
 import me.shouheng.notepal.R;
+import me.shouheng.utils.app.ResUtils;
+import me.shouheng.utils.store.SPUtils;
 
 /**
  * Created by WngShhng (shouheng2015@gmail.com) on 2018/4/9.
@@ -41,7 +42,7 @@ public class UserPreferences {
     private UserPreferences() { }
 
     public List<FabSortItem> getFabSortResult() {
-        String fabStr = PersistData.getString(R.string.key_setting_custom_fab_result, null);
+        String fabStr = SPUtils.getInstance().getString(ResUtils.getString(R.string.key_setting_custom_fab_result), null);
         if (!TextUtils.isEmpty(fabStr)) {
             String[] fabs = fabStr.split(ITEM_SORT_SPLIT);
             List<FabSortItem> fabSortItems = new LinkedList<>();
@@ -64,11 +65,11 @@ public class UserPreferences {
                 fabStr.append(fabSortItems.get(i).name()).append(ITEM_SORT_SPLIT);
             }
         }
-        PersistData.putString(R.string.key_setting_custom_fab_result, fabStr.toString());
+        SPUtils.getInstance().put(ResUtils.getString(R.string.key_setting_custom_fab_result), fabStr.toString());
     }
 
     public int getTimeLineColor(Operation operation) {
-        return PersistData.getInt(
+        return SPUtils.getInstance().getInt(
                 PalmUtils.getStringCompact(R.string.key_operation_color_prefix) + operation.name(),
                 defaultTimeLineColor(operation));
     }
@@ -89,6 +90,6 @@ public class UserPreferences {
     }
 
     public String getNoteFileExtension() {
-        return "." + PersistData.getString(R.string.key_note_file_extension, "md");
+        return "." + SPUtils.getInstance().getString(ResUtils.getString(R.string.key_note_file_extension), "md");
     }
 }

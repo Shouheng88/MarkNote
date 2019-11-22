@@ -15,7 +15,7 @@ import io.reactivex.functions.Consumer;
 import me.shouheng.commons.event.RxBus;
 import me.shouheng.commons.event.RxMessage;
 import me.shouheng.commons.theme.ThemeUtils;
-import me.shouheng.commons.utils.LogUtils;
+import me.shouheng.utils.stability.LogUtils;
 
 /**
  * Created by WngShhng on 2018/5/18.*/

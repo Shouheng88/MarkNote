@@ -8,10 +8,11 @@ import android.support.annotation.ColorInt;
 
 import me.shouheng.commons.R;
 import me.shouheng.commons.theme.ThemeUtils;
-import me.shouheng.commons.utils.PersistData;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.commons.theme.ThemeStyle;
+import me.shouheng.utils.app.ResUtils;
+import me.shouheng.utils.store.SPUtils;
 
 /**
  * Created by wang shouheng on 2017/12/21.*/
@@ -72,7 +73,7 @@ public abstract class ThemedActivity extends UMengActivity {
      */
     public void updateNavigationBar() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (PersistData.getBoolean(R.string.key_setting_nav_bar_result, false)) {
+            if (SPUtils.getInstance().getBoolean(ResUtils.getString(R.string.key_setting_nav_bar_result), false)) {
                 getWindow().setNavigationBarColor(ColorUtils.primaryColor());
             } else {
                 getWindow().setNavigationBarColor(Color.BLACK);

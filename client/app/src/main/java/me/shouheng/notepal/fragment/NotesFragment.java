@@ -23,8 +23,6 @@ import me.shouheng.commons.event.RxMessage;
 import me.shouheng.commons.event.*;
 import me.shouheng.commons.fragment.CommonFragment;
 import me.shouheng.commons.helper.FragmentHelper;
-import me.shouheng.commons.utils.PersistData;
-import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.commons.widget.recycler.DividerItemDecoration;
 import me.shouheng.data.entity.Category;
 import me.shouheng.data.entity.Note;
@@ -38,6 +36,9 @@ import me.shouheng.notepal.dialog.NotebookEditDialog;
 import me.shouheng.notepal.dialog.picker.NotebookPickerDialog;
 import me.shouheng.notepal.util.AppWidgetUtils;
 import me.shouheng.notepal.vm.NotesViewModel;
+import me.shouheng.utils.app.ResUtils;
+import me.shouheng.utils.store.SPUtils;
+import me.shouheng.utils.ui.ToastUtils;
 
 /**
  * Notes list fragment, used to show the list of notes according to the params.
@@ -176,7 +177,7 @@ public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
                     getBinding().ivEmpty.showProgressBar();
                     break;
                 case FAILED:
-                    ToastUtils.makeToast(R.string.text_failed);
+                    ToastUtils.showShort(R.string.text_failed);
                     getBinding().ivEmpty.showEmptyIcon();
                     break;
             }
@@ -190,7 +191,7 @@ public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
                 case LOADING:
                     break;
                 case FAILED:
-                    ToastUtils.makeToast(R.string.text_failed_to_modify_data);
+                    ToastUtils.showShort(R.string.text_failed_to_modify_data);
                     break;
             }
         });
@@ -203,7 +204,7 @@ public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
                 case LOADING:
                     break;
                 case FAILED:
-                    ToastUtils.makeToast(R.string.text_failed_to_modify_data);
+                    ToastUtils.showShort(R.string.text_failed_to_modify_data);
                     break;
             }
         });
@@ -377,7 +378,7 @@ public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        boolean isExpanded = PersistData.getBoolean(R.string.key_note_expanded_note, true);
+        boolean isExpanded = SPUtils.getInstance().getBoolean(ResUtils.getString(R.string.key_note_expanded_note), true);
         if (isExpanded) {
             // disable list capture when the note list is expanded
             menu.findItem(R.id.action_capture).setVisible(false);

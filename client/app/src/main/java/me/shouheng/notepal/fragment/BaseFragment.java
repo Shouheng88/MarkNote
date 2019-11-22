@@ -17,10 +17,10 @@ import io.reactivex.schedulers.Schedulers;
 import me.shouheng.commons.activity.PermissionActivity;
 import me.shouheng.commons.fragment.CommonFragment;
 import me.shouheng.commons.utils.PermissionUtils;
-import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.notepal.util.ScreenShotHelper;
+import me.shouheng.utils.ui.ToastUtils;
 
 /**
  * Base fragment, used to handle the shared and common logic.
@@ -40,7 +40,7 @@ public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFrag
      */
     protected void createScreenCapture(final RecyclerView recyclerView) {
         if (recyclerView.getAdapter() == null || recyclerView.getAdapter().getItemCount() == 0) {
-            ToastUtils.makeToast(R.string.text_empty_list);
+            ToastUtils.showShort(R.string.text_empty_list);
             return;
         }
         if (getActivity() == null) return;
@@ -49,7 +49,7 @@ public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFrag
 
     protected void createScreenCapture(final RecyclerView recyclerView, final int itemHeight) {
         if (recyclerView.getAdapter() == null || recyclerView.getAdapter().getItemCount() == 0) {
-            ToastUtils.makeToast(R.string.text_empty_list);
+            ToastUtils.showShort(R.string.text_empty_list);
             return;
         }
         if (getActivity() == null) return;
@@ -86,11 +86,11 @@ public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFrag
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(file -> {
                     pd.dismiss();
-                    ToastUtils.makeToast(String.format(getString(R.string.text_file_saved_to), file.getPath()));
+                    ToastUtils.showShort(String.format(getString(R.string.text_file_saved_to), file.getPath()));
                     onGetScreenCaptureFile(file);
                 }, throwable -> {
                     pd.dismiss();
-                    ToastUtils.makeToast(R.string.text_failed_to_save_file);
+                    ToastUtils.showShort(R.string.text_failed_to_save_file);
                 });
     }
 

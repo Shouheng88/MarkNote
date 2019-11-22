@@ -7,8 +7,6 @@ import com.onedrive.sdk.core.ClientException;
 
 import java.io.File;
 
-import me.shouheng.commons.utils.NetworkUtils;
-import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.SettingsActivity;
@@ -18,6 +16,8 @@ import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.notepal.onedrive.DefaultCallback;
 import me.shouheng.notepal.onedrive.OneDriveManager;
 import me.shouheng.notepal.common.preferences.SyncPreferences;
+import me.shouheng.utils.device.NetworkUtils;
+import me.shouheng.utils.ui.ToastUtils;
 
 /**
  * Created by shouh on 2018/4/5.
@@ -43,7 +43,7 @@ public class SynchronizeUtils {
         // If forced to synchronize and the information is not set, go to the setting page.
         if (!SynchronizeUtils.checkOneDriveSettings()) {
             if (force) {
-                ToastUtils.makeToast(R.string.setting_backup_onedrive_login_drive_message);
+                ToastUtils.showShort(R.string.setting_backup_onedrive_login_drive_message);
                 SettingsActivity.open(SettingsBackup.class).launch(activity);
             }
             return;
@@ -54,13 +54,13 @@ public class SynchronizeUtils {
             OneDriveManager.getInstance().connectOneDrive(activity, new DefaultCallback<Void>(activity) {
                 @Override
                 public void success(Void aVoid) {
-                    ToastUtils.makeToast(R.string.text_syncing);
+                    ToastUtils.showShort(R.string.text_syncing);
                     OneDriveBackupService.start(activity);
                 }
 
                 @Override
                 public void failure(ClientException error) {
-                    ToastUtils.makeToast(error.getMessage());
+                    ToastUtils.showShort(error.getMessage());
                 }
             });
         }
@@ -84,8 +84,8 @@ public class SynchronizeUtils {
      */
     private static boolean shouldOneDriveSync() {
 
-        boolean isNetworkAvailable = NetworkUtils.isNetworkAvailable(PalmApp.getContext());
-        boolean isWifi = NetworkUtils.isWifi(PalmApp.getContext());
+        boolean isNetworkAvailable = NetworkUtils.isConnected();
+        boolean isWifi = NetworkUtils.isWifiAvailable();
         boolean isOnlyWifi = SyncPreferences.getInstance().isBackupOnlyInWifi();
 
         long lastSyncTime = SyncPreferences.getInstance().getOneDriveLastSyncTime();

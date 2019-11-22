@@ -17,7 +17,8 @@ import me.shouheng.commons.R;
 import me.shouheng.commons.activity.ThemedActivity;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.PalmUtils;
-import me.shouheng.commons.utils.PersistData;
+import me.shouheng.utils.app.ResUtils;
+import me.shouheng.utils.store.SPUtils;
 
 /**
  * @author shouh
@@ -34,11 +35,11 @@ public class ThemeUtils {
     }
 
     public ThemeStyle getThemeStyle() {
-        return ThemeStyle.getThemeStyleById(PersistData.getInt(R.string.key_setting_theme_result, ThemeStyle.LIGHT_BLUE_THEME.id));
+        return ThemeStyle.getThemeStyleById(SPUtils.getInstance().getInt(ResUtils.getString(R.string.key_setting_theme_result), ThemeStyle.LIGHT_BLUE_THEME.id));
     }
 
     public void setThemeStyle(ThemeStyle themeStyle) {
-        PersistData.putInt(R.string.key_setting_theme_result, themeStyle.id);
+        SPUtils.getInstance().put(ResUtils.getString(R.string.key_setting_theme_result), themeStyle.id);
     }
 
     public static void customStatusBar(ThemedActivity activity) {
