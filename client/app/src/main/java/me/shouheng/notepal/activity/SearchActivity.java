@@ -21,15 +21,15 @@ import me.shouheng.commons.event.RxMessage;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.widget.recycler.CustomItemAnimator;
 import me.shouheng.commons.widget.recycler.DividerItemDecoration;
-import me.shouheng.commons.widget.recycler.EmptyView;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.NotesAdapter;
 import me.shouheng.notepal.databinding.ActivitySearchBinding;
 import me.shouheng.notepal.fragment.NoteViewFragment;
 import me.shouheng.notepal.vm.SearchViewModel;
+import me.shouheng.uix.rv.EmptyView;
 import me.shouheng.utils.ui.ToastUtils;
 
-import static me.shouheng.commons.event.UMEvent.*;
+import static me.shouheng.commons.event.UMEvent.PAGE_SEARCH;
 
 @PageName(name = PAGE_SEARCH)
 public class SearchActivity extends CommonActivity<ActivitySearchBinding> implements SearchView.OnQueryTextListener {
@@ -63,7 +63,7 @@ public class SearchActivity extends CommonActivity<ActivitySearchBinding> implem
 
         /* Config list. */
         adapter = new NotesAdapter(this, new LinkedList<>());
-        EmptyView emptyView = getBinding().ivEmpty;
+        EmptyView emptyView = getBinding().ev;
         getBinding().recyclerview.setEmptyView(emptyView);
         getBinding().recyclerview.addItemDecoration(new DividerItemDecoration(
                 this, DividerItemDecoration.VERTICAL_LIST, isDarkTheme()));
@@ -92,14 +92,14 @@ public class SearchActivity extends CommonActivity<ActivitySearchBinding> implem
                     Observable.fromIterable(resources.data)
                             .forEach(note -> multiItems.add(new NotesAdapter.MultiItem(note)));
                     adapter.setNewData(multiItems);
-                    getBinding().ivEmpty.showEmptyIcon();
+                    getBinding().ev.showEmpty();
                     break;
                 case FAILED:
-                    getBinding().ivEmpty.showEmptyIcon();
+                    getBinding().ev.showEmpty();
                     ToastUtils.showShort(R.string.text_failed);
                     break;
                 case LOADING:
-                    getBinding().ivEmpty.showProgressBar();
+                    getBinding().ev.showLoading();
                     break;
             }
         });

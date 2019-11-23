@@ -54,7 +54,7 @@ public class TimeLineFragment extends CommonFragment<FragmentTimeLineBinding> {
                 startIndex, pageNumber, TimelineSchema.ADDED_TIME + " DESC ", Status.NORMAL, false);
         adapter = new TimeLinesAdapter(getContext(), timeLines);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        getBinding().rv.setEmptyView(getBinding().ivEmpty);
+        getBinding().rv.setEmptyView(getBinding().ev);
         getBinding().rv.setLayoutManager(layoutManager);
         getBinding().rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override

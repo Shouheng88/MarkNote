@@ -12,7 +12,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import java.util.List;
 
 import me.shouheng.commons.utils.ColorUtils;
-import me.shouheng.commons.widget.CircleImageView;
+import me.shouheng.uix.image.CircleImageView;
 import me.shouheng.data.entity.Category;
 import me.shouheng.notepal.R;
 import me.shouheng.utils.app.AppUtils;

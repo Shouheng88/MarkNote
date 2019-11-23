@@ -12,7 +12,7 @@ import java.util.List;
 
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.TimeUtils;
-import me.shouheng.commons.widget.CircleImageView;
+import me.shouheng.uix.image.CircleImageView;
 import me.shouheng.commons.widget.Timeline;
 import me.shouheng.data.entity.TimeLine;
 import me.shouheng.notepal.R;

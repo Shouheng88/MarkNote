@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
@@ -82,13 +83,13 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
             }
         });
         mAdapter.setOnItemClickListener(this);
-        getBinding().rvCategories.setEmptyView(getBinding().ivEmpty);
+        getBinding().rvCategories.setEmptyView(getBinding().ev);
         getBinding().rvCategories.setHasFixedSize(true);
         getBinding().rvCategories.addItemDecoration(new DividerItemDecoration(getContext(),
                 DividerItemDecoration.VERTICAL_LIST, isDarkTheme()));
         getBinding().rvCategories.setItemAnimator(new CustomItemAnimator());
         getBinding().rvCategories.setLayoutManager(new LinearLayoutManager(getContext()));
-        getBinding().ivEmpty.setSubTitle(viewModel.getEmptySubTitle());
+        ((TextView) getBinding().ev.findViewById(R.id.tv_empty_detail)).setText(viewModel.getEmptySubTitle());
         getBinding().rvCategories.setAdapter(mAdapter);
         if (scrollListener != null) {
             getBinding().rvCategories.addOnScrollListener(scrollListener);
@@ -119,14 +120,14 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
             switch (resources.status) {
                 case SUCCESS:
                     mAdapter.setNewData(resources.data);
-                    getBinding().ivEmpty.showEmptyIcon();
+                    getBinding().ev.showEmpty();
                     break;
                 case FAILED:
                     ToastUtils.showShort(R.string.text_failed);
-                    getBinding().ivEmpty.showEmptyIcon();
+                    getBinding().ev.showEmpty();
                     break;
                 case LOADING:
-                    getBinding().ivEmpty.showProgressBar();
+                    getBinding().ev.showLoading();
                     break;
             }
         });

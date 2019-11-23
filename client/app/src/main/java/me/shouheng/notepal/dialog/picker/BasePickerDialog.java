@@ -13,14 +13,14 @@ import java.util.LinkedList;
 import java.util.List;
 
 import me.shouheng.commons.utils.ColorUtils;
-import me.shouheng.notepal.R;
-import me.shouheng.notepal.adapter.ModelsPickerAdapter;
-import me.shouheng.data.entity.Model;
-import me.shouheng.data.utils.Selectable;
-import me.shouheng.commons.widget.recycler.EmptySupportRecyclerView;
-import me.shouheng.commons.widget.recycler.EmptyView;
 import me.shouheng.commons.widget.recycler.CustomItemAnimator;
 import me.shouheng.commons.widget.recycler.DividerItemDecoration;
+import me.shouheng.uix.rv.EmptyView;
+import me.shouheng.data.entity.Model;
+import me.shouheng.data.utils.Selectable;
+import me.shouheng.notepal.R;
+import me.shouheng.notepal.adapter.ModelsPickerAdapter;
+import me.shouheng.uix.rv.EmptySupportRecyclerView;
 
 /**
  * Created by wangshouheng on 2017/10/5.*/
@@ -43,7 +43,7 @@ public abstract class BasePickerDialog<T extends Model & Selectable> extends Dia
         dialogView = LayoutInflater.from(getContext()).inflate(
                 R.layout.dialog_models_picker_layout, null, false);
 
-        EmptyView emptyView = dialogView.findViewById(R.id.iv_empty);
+        EmptyView emptyView = dialogView.findViewById(R.id.ev);
 
         mRecyclerView = dialogView.findViewById(R.id.rv_models);
         mRecyclerView.setEmptyView(emptyView);

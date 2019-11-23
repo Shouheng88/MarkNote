@@ -16,9 +16,9 @@ import android.widget.ImageView;
 
 import me.shouheng.data.model.enums.Portrait;
 import me.shouheng.notepal.R;
+import me.shouheng.uix.image.CircleImageView;
+import me.shouheng.uix.rv.decor.SpaceItemDecoration;
 import me.shouheng.utils.ui.ViewUtils;
-import me.shouheng.commons.widget.CircleImageView;
-import me.shouheng.commons.widget.recycler.SpaceItemDecoration;
 
 /**
  * Created by wangshouheng on 2017/4/3.

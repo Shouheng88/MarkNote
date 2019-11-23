@@ -10,8 +10,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
 
-            <me.shouheng.commons.widget.recycler.EmptyView
-                android:id="@+id/iv_empty"
+            <me.shouheng.uix.rv.EmptyView
+                android:id="@+id/ev"
                 android:layout_centerInParent="true"
                 app:empty_image="@drawable/ic_bubble_chart_black_48dp"
                 app:tint_drawable="true"
@@ -21,7 +21,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <me.shouheng.commons.widget.recycler.EmptySupportRecyclerView
+            <me.shouheng.uix.rv.EmptySupportRecyclerView
                 android:id="@+id/rv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>

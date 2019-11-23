@@ -5,8 +5,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <me.shouheng.commons.widget.recycler.EmptyView
-            android:id="@+id/iv_empty"
+        <me.shouheng.uix.rv.EmptyView
+            android:id="@+id/ev"
             app:empty_image="@drawable/ic_book_large"
             app:tint_drawable="true"
             app:title="@string/notes_list_empty"
@@ -14,7 +14,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <me.shouheng.commons.widget.recycler.EmptySupportRecyclerView
+        <me.shouheng.uix.rv.EmptySupportRecyclerView
             android:id="@+id/rv_notes"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>

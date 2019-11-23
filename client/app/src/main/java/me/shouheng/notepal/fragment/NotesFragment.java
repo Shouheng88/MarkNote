@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import java.io.Serializable;
 import java.util.Collections;
@@ -20,7 +21,7 @@ import javax.annotation.Nullable;
 import me.shouheng.commons.activity.ContainerActivity;
 import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.event.RxMessage;
-import me.shouheng.commons.event.*;
+import me.shouheng.commons.event.UMEvent;
 import me.shouheng.commons.fragment.CommonFragment;
 import me.shouheng.commons.helper.FragmentHelper;
 import me.shouheng.commons.widget.recycler.DividerItemDecoration;
@@ -123,8 +124,8 @@ public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
                 DividerItemDecoration.VERTICAL_LIST, isDarkTheme()));
         getBinding().rvNotes.setLayoutManager(new LinearLayoutManager(getContext()));
         if (scrollListener != null) getBinding().rvNotes.addOnScrollListener(scrollListener);
-        getBinding().ivEmpty.setSubTitle(viewModel.getEmptySubTitle());
-        getBinding().rvNotes.setEmptyView(getBinding().ivEmpty);
+        ((TextView) getBinding().ev.findViewById(R.id.tv_empty_detail)).setText(viewModel.getEmptySubTitle());
+        getBinding().rvNotes.setEmptyView(getBinding().ev);
         getBinding().rvNotes.setAdapter(adapter);
 
         addSubscriptions();
@@ -171,14 +172,14 @@ public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
             switch (resources.status) {
                 case SUCCESS:
                     adapter.setNewData(resources.data);
-                    getBinding().ivEmpty.showEmptyIcon();
+                    getBinding().ev.showEmpty();
                     break;
                 case LOADING:
-                    getBinding().ivEmpty.showProgressBar();
+                    getBinding().ev.showLoading();
                     break;
                 case FAILED:
                     ToastUtils.showShort(R.string.text_failed);
-                    getBinding().ivEmpty.showEmptyIcon();
+                    getBinding().ev.showEmpty();
                     break;
             }
         });

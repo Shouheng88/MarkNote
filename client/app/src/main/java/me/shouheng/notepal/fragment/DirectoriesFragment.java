@@ -15,8 +15,7 @@ import android.view.View;
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import me.shouheng.commons.event.PageName;
-import me.shouheng.commons.event.*;
-import me.shouheng.commons.utils.PalmUtils;
+import me.shouheng.commons.event.UMEvent;
 import me.shouheng.commons.widget.recycler.CustomItemAnimator;
 import me.shouheng.commons.widget.recycler.DividerItemDecoration;
 import me.shouheng.data.model.Directory;
@@ -71,7 +70,7 @@ public class DirectoriesFragment extends BaseFragment<FragmentDirectoriesBinding
                 getContext(), DividerItemDecoration.VERTICAL_LIST, isDarkTheme()));
         getBinding().rvDirectories.setItemAnimator(new CustomItemAnimator());
         getBinding().rvDirectories.setLayoutManager(new LinearLayoutManager(getContext()));
-        getBinding().rvDirectories.setEmptyView(getBinding().ivEmpty);
+        getBinding().rvDirectories.setEmptyView(getBinding().ev);
         getBinding().rvDirectories.setAdapter(adapter);
 
         fetchDirectories();

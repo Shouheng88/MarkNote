@@ -1,17 +1,18 @@
 package me.shouheng.notepal.dialog.picker;
 
 import android.support.v7.app.AlertDialog;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import me.shouheng.commons.utils.ColorUtils;
-import me.shouheng.commons.utils.PalmUtils;
-import me.shouheng.commons.widget.recycler.EmptyView;
 import me.shouheng.data.entity.Category;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.ModelsPickerAdapter;
 import me.shouheng.notepal.adapter.picker.CategoryPickerStrategy;
+import me.shouheng.uix.rv.EmptyView;
 import me.shouheng.utils.app.ResUtils;
 
 /**
@@ -53,8 +54,8 @@ public class CategoryPickerDialog extends BasePickerDialog<Category> {
                 onAddClickListener.onAdd();
             }
         });
-        emptyView.setTitle(getString(R.string.category_picker_empty_message));
-        emptyView.setIcon(ColorUtils.tintDrawable(R.drawable.ic_view_module_white_24dp, getImageTintColor()));
+        ((TextView) emptyView.getView().findViewById(R.id.tv_empty_title)).setText(getString(R.string.category_picker_empty_message));
+        ((ImageView) emptyView.getView().findViewById(R.id.ev)).setImageDrawable(ColorUtils.tintDrawable(R.drawable.ic_view_module_white_24dp, getImageTintColor()));
     }
 
     private int getImageTintColor() {
