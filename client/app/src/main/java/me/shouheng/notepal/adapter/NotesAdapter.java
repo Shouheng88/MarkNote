@@ -15,8 +15,6 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
 import java.util.List;
 
 import me.shouheng.commons.utils.ColorUtils;
-import me.shouheng.commons.utils.PalmUtils;
-import me.shouheng.commons.utils.PersistData;
 import me.shouheng.commons.utils.TimeUtils;
 import me.shouheng.commons.widget.recycler.BubbleTextGetter;
 import me.shouheng.data.entity.Note;
@@ -24,6 +22,9 @@ import me.shouheng.data.entity.Notebook;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.manager.FileManager;
+import me.shouheng.utils.app.AppUtils;
+import me.shouheng.utils.app.ResUtils;
+import me.shouheng.utils.store.SPUtils;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
@@ -42,7 +43,7 @@ public class NotesAdapter extends BaseMultiItemQuickAdapter<NotesAdapter.MultiIt
     public NotesAdapter(Context context, List<NotesAdapter.MultiItem> data) {
         super(data);
 
-        this.isExpanded = PersistData.getBoolean(R.string.key_note_expanded_note, true);
+        this.isExpanded = SPUtils.getInstance().getBoolean(ResUtils.getString(R.string.key_note_expanded_note), true);
         this.context = context;
         addItemType(MultiItem.ITEM_TYPE_NOTE, isExpanded ? R.layout.item_note_expanded : R.layout.item_note);
         addItemType(MultiItem.ITEM_TYPE_NOTEBOOK, R.layout.item_note);
@@ -65,10 +66,12 @@ public class NotesAdapter extends BaseMultiItemQuickAdapter<NotesAdapter.MultiIt
             case MultiItem.ITEM_TYPE_NOTEBOOK:
                 convertNotebook(helper, item.notebook);
                 break;
+            default:
+                // noop
         }
         helper.addOnClickListener(R.id.iv_more);
         /* Animations */
-        if (PalmUtils.isLollipop()) {
+        if (AppUtils.isLollipop()) {
             setAnimation(helper.itemView, helper.getAdapterPosition());
         } else {
             if (helper.getAdapterPosition() > 10) {
@@ -94,7 +97,7 @@ public class NotesAdapter extends BaseMultiItemQuickAdapter<NotesAdapter.MultiIt
     }
 
     private void convertNoteExpanded(BaseViewHolder holder, Note note) {
-        holder.itemView.setBackgroundColor(PalmUtils.getColorCompact(isDarkTheme ?
+        holder.itemView.setBackgroundColor(ResUtils.getColor(isDarkTheme ?
                 R.color.dark_theme_background : R.color.light_theme_background));
         holder.setText(R.id.tv_note_title, note.getTitle());
         holder.setText(R.id.tv_content, note.getPreviewContent());
@@ -125,10 +128,12 @@ public class NotesAdapter extends BaseMultiItemQuickAdapter<NotesAdapter.MultiIt
     public String getTextToShowInBubble(int pos) {
         try {
             MultiItem multiItem = getItem(pos);
-            if (multiItem.itemType == MultiItem.ITEM_TYPE_NOTE) {
-                return String.valueOf(multiItem.note.getTitle().charAt(0));
-            } else if (multiItem.itemType == MultiItem.ITEM_TYPE_NOTEBOOK) {
-                return String.valueOf(multiItem.notebook.getTitle().charAt(0));
+            if (multiItem != null) {
+                if (multiItem.itemType == MultiItem.ITEM_TYPE_NOTE) {
+                    return String.valueOf(multiItem.note.getTitle().charAt(0));
+                } else if (multiItem.itemType == MultiItem.ITEM_TYPE_NOTEBOOK) {
+                    return String.valueOf(multiItem.notebook.getTitle().charAt(0));
+                }
             }
         } catch (Exception e) {
             return "";

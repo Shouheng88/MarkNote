@@ -13,7 +13,7 @@ import android.view.animation.OvershootInterpolator;
 import java.util.List;
 
 import me.shouheng.commons.R;
-import me.shouheng.commons.utils.PalmUtils;
+import me.shouheng.utils.app.AppUtils;
 
 /**
  * Created by WngShhng on 2017/4/1.
@@ -60,7 +60,7 @@ public class CustomItemAnimator extends DefaultItemAnimator {
     }
 
     private void runEnterAnimation(RecyclerView.ViewHolder holder) {
-        if (PalmUtils.isLollipop()) {
+        if (AppUtils.isLollipop()) {
             setAnimation(holder.itemView, holder.getAdapterPosition());
         } else {
             if (holder.getAdapterPosition() > 10) {

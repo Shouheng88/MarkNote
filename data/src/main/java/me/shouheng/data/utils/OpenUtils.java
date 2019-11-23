@@ -1,6 +1,6 @@
 package me.shouheng.data.utils;
 
-import me.shouheng.commons.utils.LogUtils;
+import me.shouheng.utils.stability.LogUtils;
 import me.shouheng.data.PalmDB;
 
 /**

@@ -9,7 +9,6 @@
     </data>
 
     <ScrollView
-        android:background="@{isDarkTheme ? @color/dark_theme_background : @color/light_theme_background}"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

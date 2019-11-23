@@ -1,6 +1,8 @@
 package me.shouheng.notepal.dialog.picker;
 
 import android.support.v7.app.AlertDialog;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -11,7 +13,8 @@ import me.shouheng.notepal.adapter.picker.NotebookPickerStrategy;
 import me.shouheng.data.entity.Notebook;
 import me.shouheng.data.store.NotebookStore;
 import me.shouheng.data.schema.NotebookSchema;
-import me.shouheng.commons.widget.recycler.EmptyView;
+import me.shouheng.uix.rv.EmptyView;
+import me.shouheng.utils.app.ResUtils;
 
 /**
  * Created by wangshouheng on 2017/10/5.*/
@@ -34,12 +37,12 @@ public class NotebookPickerDialog extends BasePickerDialog<Notebook> {
     protected void onCreateDialog(AlertDialog.Builder builder, EmptyView emptyView) {
         builder.setTitle(getString(R.string.notebook_picker_title));
         builder.setPositiveButton(R.string.text_cancel, null);
-        emptyView.setTitle(getString(R.string.notebook_picker_empty_message));
-        emptyView.setIcon(ColorUtils.tintDrawable(R.drawable.ic_book, getImageTintColor()));
+        ((TextView) emptyView.getView().findViewById(R.id.tv_empty_title)).setText(getString(R.string.notebook_picker_empty_message));
+        ((ImageView) emptyView.getView().findViewById(R.id.ev)).setImageDrawable(ColorUtils.tintDrawable(R.drawable.ic_book, getImageTintColor()));
     }
 
     private int getImageTintColor() {
-        return getContext().getResources().getColor(ColorUtils.isDarkTheme()
+        return ResUtils.getColor(ColorUtils.isDarkTheme()
                 ? R.color.dark_theme_empty_icon_tint_color : R.color.light_theme_empty_icon_tint_color);
     }
 }

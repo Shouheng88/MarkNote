@@ -12,7 +12,7 @@ import java.util.List;
 
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.TimeUtils;
-import me.shouheng.commons.widget.CircleImageView;
+import me.shouheng.uix.image.CircleImageView;
 import me.shouheng.commons.widget.Timeline;
 import me.shouheng.data.entity.TimeLine;
 import me.shouheng.notepal.R;
@@ -65,6 +65,7 @@ public class TimeLinesAdapter extends BaseQuickAdapter<TimeLine, BaseViewHolder>
             case MIND_SNAGGING: return R.drawable.ic_lightbulb_outline_black_24dp;
             case ATTACHMENT: return R.drawable.ic_attach_file_black;
             case CATEGORY:return R.drawable.ic_view_module_white_24dp;
+            default: // noop
         }
         return R.drawable.ic_insert_drive_file_grey_24dp;
     }

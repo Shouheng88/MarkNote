@@ -1,7 +1,6 @@
 package me.shouheng.notepal.fragment;
 
 import android.app.ProgressDialog;
-import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
@@ -14,27 +13,26 @@ import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
-import me.shouheng.commons.event.PageName;
-import me.shouheng.commons.event.*;
-import me.shouheng.commons.utils.PalmUtils;
-import me.shouheng.commons.utils.ToastUtils;
+import java.util.Objects;
+
 import me.shouheng.commons.widget.recycler.CustomItemAnimator;
 import me.shouheng.commons.widget.recycler.DividerItemDecoration;
 import me.shouheng.data.model.Directory;
+import me.shouheng.mvvm.base.anno.FragmentConfiguration;
 import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.DirectoriesAdapter;
 import me.shouheng.notepal.databinding.FragmentDirectoriesBinding;
 import me.shouheng.notepal.vm.DirectoryViewModel;
+import me.shouheng.utils.app.ResUtils;
+import me.shouheng.utils.ui.ToastUtils;
 
 /**
  * Created by shouh on 2018/3/30.*/
-@PageName(name = UMEvent.PAGE_DIRECTORIES)
-public class DirectoriesFragment extends BaseFragment<FragmentDirectoriesBinding> {
+@FragmentConfiguration(layoutResId = R.layout.fragment_directories)
+public class DirectoriesFragment extends BaseFragment<FragmentDirectoriesBinding, DirectoryViewModel> {
 
-    private final static String KEY_DIRECTORY = "key_item_id";
-
-    private DirectoryViewModel viewModel;
+    private static final String KEY_DIRECTORY = "key_item_id";
 
     private Directory directory;
 
@@ -49,28 +47,22 @@ public class DirectoriesFragment extends BaseFragment<FragmentDirectoriesBinding
     }
 
     @Override
-    protected int getLayoutResId() {
-        return R.layout.fragment_directories;
-    }
-
-    @Override
     protected void doCreateView(Bundle savedInstanceState) {
         assert getArguments() != null;
         directory = (Directory) getArguments().get(KEY_DIRECTORY);
-        viewModel = ViewModelProviders.of(this).get(DirectoryViewModel.class);
 
-        adapter = new DirectoriesAdapter(getContext());
-        adapter.setOnItemClickListener((adapter, view, position) -> {
-            if (getActivity() != null && getActivity() instanceof OnFragmentInteractionListener) {
-                ((OnFragmentInteractionListener) getActivity()).onDirectoryClicked((Directory) adapter.getItem(position));
+        adapter = new DirectoriesAdapter();
+        adapter.setOnItemClickListener((quickAdapter, view, position) -> {
+            if (getActivity() instanceof OnFragmentInteractionListener) {
+                ((OnFragmentInteractionListener) getActivity()).onDirectoryClicked((Directory) quickAdapter.getItem(position));
             }
         });
 
         getBinding().rvDirectories.addItemDecoration(new DividerItemDecoration(
-                getContext(), DividerItemDecoration.VERTICAL_LIST, isDarkTheme()));
+                Objects.requireNonNull(getContext()), DividerItemDecoration.VERTICAL_LIST, isDarkTheme()));
         getBinding().rvDirectories.setItemAnimator(new CustomItemAnimator());
         getBinding().rvDirectories.setLayoutManager(new LinearLayoutManager(getContext()));
-        getBinding().rvDirectories.setEmptyView(getBinding().ivEmpty);
+        getBinding().rvDirectories.setEmptyView(getBinding().ev);
         getBinding().rvDirectories.setAdapter(adapter);
 
         fetchDirectories();
@@ -86,15 +78,15 @@ public class DirectoriesFragment extends BaseFragment<FragmentDirectoriesBinding
 
     private void fetchDirectories() {
         getBinding().sl.setVisibility(View.VISIBLE);
-        viewModel.getDirectories(directory.getId()).observe(this, listResource -> {
+        getVM().getDirectories(directory.getId()).observe(this, listResource -> {
             getBinding().sl.setVisibility(View.GONE);
             if (listResource == null) {
-                ToastUtils.makeToast(R.string.setting_backup_onedrive_failed_query_sync_cloud);
+                ToastUtils.showShort(R.string.setting_backup_onedrive_failed_query_sync_cloud);
                 return;
             }
             switch (listResource.status) {
                 case FAILED:
-                    ToastUtils.makeToast(listResource.message);
+                    ToastUtils.showShort(listResource.errorMessage);
                     break;
                 case SUCCESS:
                     assert listResource.data != null;
@@ -106,12 +98,14 @@ public class DirectoriesFragment extends BaseFragment<FragmentDirectoriesBinding
                         }
                     }
                     break;
+                default:
+                    // noop
             }
         });
     }
 
     private void showSelectionTips() {
-        new MaterialDialog.Builder(getContext())
+        new MaterialDialog.Builder(Objects.requireNonNull(getContext()))
                 .title(R.string.text_tips)
                 .content(R.string.setting_backup_onedrive_available_directory_found)
                 .positiveText(R.string.text_get_it)
@@ -139,10 +133,8 @@ public class DirectoriesFragment extends BaseFragment<FragmentDirectoriesBinding
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_done:
-                createBackupFolder();
-                break;
+        if (item.getItemId() == R.id.action_done) {
+            createBackupFolder();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -153,24 +145,26 @@ public class DirectoriesFragment extends BaseFragment<FragmentDirectoriesBinding
         pd.setCancelable(false);
         pd.show();
 
-        viewModel.createBackupDir(directory, adapter.getData()).observe(this, directoryResource -> {
+        getVM().createBackupDir(directory, adapter.getData()).observe(this, directoryResource -> {
             pd.dismiss();
             if (directoryResource == null) {
-                ToastUtils.makeToast(R.string.setting_backup_onedrive_failed_query_sync_cloud);
+                ToastUtils.showShort(R.string.setting_backup_onedrive_failed_query_sync_cloud);
                 return;
             }
             switch (directoryResource.status) {
                 case FAILED:
-                    ToastUtils.makeToast(String.format(
-                            PalmUtils.getStringCompact(R.string.setting_backup_onedrive_error_when_try_to_backup),
-                            directoryResource.message));
+                    ToastUtils.showShort(String.format(
+                            ResUtils.getString(R.string.setting_backup_onedrive_error_when_try_to_backup),
+                            directoryResource.errorMessage));
                     break;
                 case SUCCESS:
-                    ToastUtils.makeToast(R.string.setting_backup_onedrive_backup_dir_selected_message);
-                    if (getActivity() != null && getActivity() instanceof OnFragmentInteractionListener) {
+                    ToastUtils.showShort(R.string.setting_backup_onedrive_backup_dir_selected_message);
+                    if (getActivity() instanceof OnFragmentInteractionListener) {
                         ((OnFragmentInteractionListener) getActivity()).onDirectoryPicked(directory);
                     }
                     break;
+                default:
+                    // noop
             }
         });
     }

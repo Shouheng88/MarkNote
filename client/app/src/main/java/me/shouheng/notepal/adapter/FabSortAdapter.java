@@ -1,6 +1,5 @@
 package me.shouheng.notepal.adapter;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -13,15 +12,15 @@ import android.widget.TextView;
 import java.util.List;
 
 import me.shouheng.commons.utils.ColorUtils;
-import me.shouheng.notepal.R;
 import me.shouheng.data.model.enums.FabSortItem;
-import me.shouheng.commons.widget.CircleImageView;
+import me.shouheng.notepal.R;
+import me.shouheng.uix.image.CircleImageView;
 
 
 /**
  * Created by wangshouheng on 2017/3/12.
  */
-public class FabSortAdapter extends RecyclerView.Adapter<FabSortAdapter.ViewHolder>{
+public class FabSortAdapter extends RecyclerView.Adapter<FabSortAdapter.FabViewHolder>{
 
     private List<FabSortItem> fabSortItems;
 
@@ -29,7 +28,7 @@ public class FabSortAdapter extends RecyclerView.Adapter<FabSortAdapter.ViewHold
 
     private boolean isDarkTheme;
 
-    public FabSortAdapter(Context context, List<FabSortItem> fabSortItems) {
+    public FabSortAdapter(List<FabSortItem> fabSortItems) {
         this.fabSortItems = fabSortItems;
         accentColor = ColorUtils.accentColor();
         isDarkTheme = ColorUtils.isDarkTheme();
@@ -37,14 +36,14 @@ public class FabSortAdapter extends RecyclerView.Adapter<FabSortAdapter.ViewHold
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public FabViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(
                 R.layout.item_fab_drag_sort, parent, false);
-        return new ViewHolder(itemView);
+        return new FabViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull FabViewHolder holder, int position) {
         FabSortItem fabSortItem = fabSortItems.get(position);
         holder.ivFabIcon.setImageDrawable(ColorUtils.tintDrawable(fabSortItem.iconRes, Color.WHITE));
         holder.tvFabName.setText(fabSortItem.nameRes);
@@ -80,17 +79,15 @@ public class FabSortAdapter extends RecyclerView.Adapter<FabSortAdapter.ViewHold
         fabSortItems.remove(position);
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
-        View itemView;
+    class FabViewHolder extends RecyclerView.ViewHolder{
         ImageView ivFabIcon;
         TextView tvFabName;
         CircleImageView civFabIconBG;
         ImageView ivHandler;
 
-        ViewHolder(View itemView) {
+        FabViewHolder(View itemView) {
             super(itemView);
 
-            this.itemView = itemView;
             this.ivFabIcon = itemView.findViewById(R.id.iv_fab_icon);
             this.tvFabName = itemView.findViewById(R.id.tv_fab_name);
             this.civFabIconBG = itemView.findViewById(R.id.civ_fab_icon_background);

@@ -14,8 +14,7 @@
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@{isDarkTheme ? @color/dark_theme_background : @color/light_theme_background}">
+        android:layout_height="match_parent">
 
         <me.shouheng.commons.widget.theme.SupportAppBarLayout
             android:id="@+id/header_layout"
@@ -27,8 +26,6 @@
                 android:id="@+id/collapsing_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@{isDarkTheme ? @android:color/black : @color/light_theme_foreground}"
-                app:contentScrim="@{isDarkTheme ? @android:color/black : @color/light_theme_foreground}"
                 app:expandedTitleTextAppearance="@style/AboutPage.Header.ToolbarTitleExpanded"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 

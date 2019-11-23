@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <declare-styleable name="CircleImageView">
-        <attr name="border_width" format="dimension" />
-        <attr name="border_color" format="color" />
-        <attr name="border_overlay" format="boolean" />
-    </declare-styleable>
-
     <declare-styleable name="Timeline">
         <attr name="atom_size" format="dimension" />
         <attr name="line_size" format="dimension" />
@@ -17,16 +11,6 @@
 
     <declare-styleable name="WatcherTextView">
         <attr name="max_length" format="integer"/>
-    </declare-styleable>
-
-    <declare-styleable name="EmptyView">
-        <attr name="title" format="string"/>
-        <attr name="title_size" format="dimension|reference"/>
-        <attr name="sub_title" format="string"/>
-        <attr name="sub_title_size" format="dimension|reference"/>
-        <attr name="empty_image" format="reference"/>
-        <attr name="tint_drawable" format="boolean" />
-        <attr name="default_state_loading" format="boolean"/>
     </declare-styleable>
 
     <declare-styleable name="SupportImageView">

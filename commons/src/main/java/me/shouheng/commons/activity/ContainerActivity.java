@@ -13,20 +13,17 @@ import me.shouheng.commons.R;
 import me.shouheng.commons.activity.interaction.BackEventResolver;
 import me.shouheng.commons.activity.interaction.FragmentKeyDown;
 import me.shouheng.commons.databinding.ActivityContainerBinding;
-import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.helper.FragmentHelper;
 import me.shouheng.commons.utils.ColorUtils;
-import me.shouheng.commons.utils.PalmUtils;
+import me.shouheng.mvvm.comn.EmptyViewModel;
+import me.shouheng.utils.app.ResUtils;
 
-import static me.shouheng.commons.event.UMEvent.*;
+public class ContainerActivity extends ThemedActivity<ActivityContainerBinding, EmptyViewModel> {
 
-@PageName(name = PAGE_CONTAINER)
-public class ContainerActivity extends CommonActivity<ActivityContainerBinding> {
-
-    public final static String ACTION_OPEN_FRAGMENT = "__action_open_fragment";
-    public final static String ACTION_OPEN_FRAGMENT_EXTRA_NEED_TOOLBAR = "__action_open_fragment_extra_need_toolbar";
-    public final static String ACTION_OPEN_FRAGMENT_EXTRA_CLASS = "__action_open_fragment_extra_class";
-    public final static String ACTION_OPEN_FRAGMENT_EXTRA_BUNDLE = "__action_open_fragment_extra_bundle";
+    public static final String ACTION_OPEN_FRAGMENT = "__action_open_fragment";
+    public static final String ACTION_OPEN_FRAGMENT_EXTRA_NEED_TOOLBAR = "__action_open_fragment_extra_need_toolbar";
+    public static final String ACTION_OPEN_FRAGMENT_EXTRA_CLASS = "__action_open_fragment_extra_class";
+    public static final String ACTION_OPEN_FRAGMENT_EXTRA_BUNDLE = "__action_open_fragment_extra_bundle";
 
     public static <T extends Fragment> FragmentHelper.Builder<T> open(Class<T> withClz) {
         return new FragmentHelper.Builder<>(withClz);
@@ -66,7 +63,7 @@ public class ContainerActivity extends CommonActivity<ActivityContainerBinding> 
             if (actionBar != null) {
                 actionBar.setDisplayHomeAsUpEnabled(true);
                 actionBar.setHomeAsUpIndicator(ColorUtils.tintDrawable(
-                        PalmUtils.getDrawableCompact(R.drawable.ic_arrow_back_black_24dp),
+                        ResUtils.getDrawable(R.drawable.ic_arrow_back_black_24dp),
                         getThemeStyle().isDarkTheme ? Color.WHITE : Color.BLACK));
             }
             getBinding().toolbar.setTitleTextColor(getThemeStyle().isDarkTheme ? Color.WHITE : Color.BLACK);

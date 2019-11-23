@@ -11,25 +11,24 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.Objects;
 
 import javax.annotation.Nullable;
 
 import me.shouheng.commons.activity.ContainerActivity;
-import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.event.RxMessage;
-import me.shouheng.commons.event.*;
-import me.shouheng.commons.fragment.CommonFragment;
+import me.shouheng.commons.fragment.CustomFragment;
 import me.shouheng.commons.helper.FragmentHelper;
-import me.shouheng.commons.utils.PersistData;
-import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.commons.widget.recycler.DividerItemDecoration;
 import me.shouheng.data.entity.Category;
 import me.shouheng.data.entity.Note;
 import me.shouheng.data.entity.Notebook;
 import me.shouheng.data.model.enums.Status;
+import me.shouheng.mvvm.base.anno.FragmentConfiguration;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.MainActivity;
 import me.shouheng.notepal.adapter.NotesAdapter;
@@ -38,6 +37,9 @@ import me.shouheng.notepal.dialog.NotebookEditDialog;
 import me.shouheng.notepal.dialog.picker.NotebookPickerDialog;
 import me.shouheng.notepal.util.AppWidgetUtils;
 import me.shouheng.notepal.vm.NotesViewModel;
+import me.shouheng.utils.app.ResUtils;
+import me.shouheng.utils.store.SPUtils;
+import me.shouheng.utils.ui.ToastUtils;
 
 /**
  * Notes list fragment, used to show the list of notes according to the params.
@@ -45,60 +47,53 @@ import me.shouheng.notepal.vm.NotesViewModel;
  * Created by WngShhng (shouheng2015@gmail.com) and
  * refactored by WngShhng (shouheng2015@gmail.com) on 2018/12/2.
  */
-@PageName(name = UMEvent.PAGE_NOTES)
-public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
+@FragmentConfiguration(layoutResId = R.layout.fragment_notes)
+public class NotesFragment extends CustomFragment<FragmentNotesBinding, NotesViewModel> {
 
     /**
      * Argument key for notebook, null if showing the top level notebook
      * or showing the category notes list.
      */
-    public final static String ARGS_KEY_NOTEBOOK = "__argument_key_notebook";
+    public static final String ARGS_KEY_NOTEBOOK = "__argument_key_notebook";
 
     /**
      * Argument key for category, null if showing the notebook.
      */
-    public final static String ARGS_KEY_CATEGORY = "__argument_key_category";
+    public static final String ARGS_KEY_CATEGORY = "__argument_key_category";
 
     /**
      * REQUIRED: Argument key for status, Might be one of {@link Status#ARCHIVED},
      * {@link Status#DELETED}, {@link Status#NORMAL} or {@link Status#TRASHED}
      */
-    public final static String ARGS_KEY_STATUS = "__argument_key_status";
+    public static final String ARGS_KEY_STATUS = "__argument_key_status";
 
     private RecyclerView.OnScrollListener scrollListener;
     private NotesAdapter adapter;
-    private NotesViewModel viewModel;
-
-    @Override
-    protected int getLayoutResId() {
-        return R.layout.fragment_notes;
-    }
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {
         /* Get the view model */
-        viewModel = getViewModel(NotesViewModel.class);
         handleArguments();
 
         customToolbar();
 
         /* Config the notes list view. */
         adapter = new NotesAdapter(getContext(), Collections.emptyList());
-        adapter.setOnItemClickListener((adapter, view, position) -> {
-            NotesAdapter.MultiItem item = (NotesAdapter.MultiItem) adapter.getData().get(position);
+        adapter.setOnItemClickListener((quickAdapter, view, position) -> {
+            NotesAdapter.MultiItem item = (NotesAdapter.MultiItem) quickAdapter.getData().get(position);
             if (item.itemType == NotesAdapter.MultiItem.ITEM_TYPE_NOTE) {
                 ContainerActivity.open(NoteViewFragment.class)
                         .put(NoteViewFragment.ARGS_KEY_NOTE, (Serializable) item.note)
                         .put(NoteViewFragment.ARGS_KEY_IS_PREVIEW, false)
                         .launch(getContext());
             } else if (item.itemType == NotesAdapter.MultiItem.ITEM_TYPE_NOTEBOOK) {
-                if (getActivity() != null && getActivity() instanceof OnNotesInteractListener) {
+                if (getActivity() instanceof OnNotesInteractListener) {
                     ((OnNotesInteractListener) getActivity()).onNotebookSelected(item.notebook);
                 }
             }
         });
-        adapter.setOnItemLongClickListener((adapter, view, position) -> {
-            NotesAdapter.MultiItem item = (NotesAdapter.MultiItem) adapter.getData().get(position);
+        adapter.setOnItemLongClickListener((quickAdapter, view, position) -> {
+            NotesAdapter.MultiItem item = (NotesAdapter.MultiItem) quickAdapter.getData().get(position);
             if (item.itemType == NotesAdapter.MultiItem.ITEM_TYPE_NOTE) {
                 popNoteMenu(view, item);
             } else if (item.itemType == NotesAdapter.MultiItem.ITEM_TYPE_NOTEBOOK) {
@@ -106,29 +101,27 @@ public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
             }
             return true;
         });
-        adapter.setOnItemChildClickListener((adapter, view, position) -> {
-            NotesAdapter.MultiItem item = (NotesAdapter.MultiItem) adapter.getData().get(position);
-            switch (view.getId()) {
-                case R.id.iv_more:
-                    if (item.itemType == NotesAdapter.MultiItem.ITEM_TYPE_NOTE) {
-                        popNoteMenu(view, item);
-                    } else if (item.itemType == NotesAdapter.MultiItem.ITEM_TYPE_NOTEBOOK) {
-                        popNotebookMenu(view, item, position);
-                    }
-                    break;
+        adapter.setOnItemChildClickListener((quickAdapter, view, position) -> {
+            NotesAdapter.MultiItem item = (NotesAdapter.MultiItem) quickAdapter.getData().get(position);
+            if (view.getId() == R.id.iv_more) {
+                if (item.itemType == NotesAdapter.MultiItem.ITEM_TYPE_NOTE) {
+                    popNoteMenu(view, item);
+                } else if (item.itemType == NotesAdapter.MultiItem.ITEM_TYPE_NOTEBOOK) {
+                    popNotebookMenu(view, item, position);
+                }
             }
         });
-        getBinding().rvNotes.addItemDecoration(new DividerItemDecoration(getContext(),
+        getBinding().rvNotes.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getContext()),
                 DividerItemDecoration.VERTICAL_LIST, isDarkTheme()));
         getBinding().rvNotes.setLayoutManager(new LinearLayoutManager(getContext()));
         if (scrollListener != null) getBinding().rvNotes.addOnScrollListener(scrollListener);
-        getBinding().ivEmpty.setSubTitle(viewModel.getEmptySubTitle());
-        getBinding().rvNotes.setEmptyView(getBinding().ivEmpty);
+        ((TextView) getBinding().ev.findViewById(R.id.tv_empty_detail)).setText(getVM().getEmptySubTitle());
+        getBinding().rvNotes.setEmptyView(getBinding().ev);
         getBinding().rvNotes.setAdapter(adapter);
 
         addSubscriptions();
 
-        viewModel.fetchMultiItems();
+        getVM().fetchMultiItems();
     }
 
     private void handleArguments() {
@@ -136,17 +129,17 @@ public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
         assert args != null;
         if (args.containsKey(ARGS_KEY_NOTEBOOK)) {
             Notebook notebook = (Notebook) args.get(ARGS_KEY_NOTEBOOK);
-            viewModel.setNotebook(notebook);
-            viewModel.setTopStack(false);
+            getVM().setNotebook(notebook);
+            getVM().setTopStack(false);
         }
         if (args.containsKey(ARGS_KEY_CATEGORY)) {
             Category category = (Category) args.get(ARGS_KEY_CATEGORY);
-            viewModel.setCategory(category);
-            viewModel.setTopStack(false);
+            getVM().setCategory(category);
+            getVM().setTopStack(false);
         }
         if (args.containsKey(ARGS_KEY_STATUS)) {
             Status status = (Status) getArguments().get(ARGS_KEY_STATUS);
-            viewModel.setStatus(status);
+            getVM().setStatus(status);
         } else {
             throw new IllegalArgumentException("The status is required!");
         }
@@ -157,31 +150,31 @@ public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
         if (activity == null) return;
         ActionBar ab = ((AppCompatActivity) activity).getSupportActionBar();
         if (ab != null) {
-            ab.setTitle(viewModel.getTitle());
+            ab.setTitle(getVM().getTitle());
             ab.setDisplayHomeAsUpEnabled(true);
-            ab.setSubtitle(viewModel.getSubTitle());
-            ab.setHomeAsUpIndicator(viewModel.getHomeAsUpIndicator());
+            ab.setSubtitle(getVM().getSubTitle());
+            ab.setHomeAsUpIndicator(getVM().getHomeAsUpIndicator());
         }
     }
 
     private void addSubscriptions() {
-        viewModel.getMutableLiveData().observe(this, resources -> {
+        getVM().getListObservable(NotesAdapter.MultiItem.class).observe(this, resources -> {
             assert resources != null;
             switch (resources.status) {
                 case SUCCESS:
                     adapter.setNewData(resources.data);
-                    getBinding().ivEmpty.showEmptyIcon();
+                    getBinding().ev.showEmpty();
                     break;
                 case LOADING:
-                    getBinding().ivEmpty.showProgressBar();
+                    getBinding().ev.showLoading();
                     break;
                 case FAILED:
-                    ToastUtils.makeToast(R.string.text_failed);
-                    getBinding().ivEmpty.showEmptyIcon();
+                    ToastUtils.showShort(R.string.text_failed);
+                    getBinding().ev.showEmpty();
                     break;
             }
         });
-        viewModel.getNoteUpdateLiveData().observe(this, resources -> {
+        getVM().getObservable(Note.class).observe(this, resources -> {
             assert resources != null;
             switch (resources.status) {
                 case SUCCESS:
@@ -190,11 +183,11 @@ public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
                 case LOADING:
                     break;
                 case FAILED:
-                    ToastUtils.makeToast(R.string.text_failed_to_modify_data);
+                    ToastUtils.showShort(R.string.text_failed_to_modify_data);
                     break;
             }
         });
-        viewModel.getNotebookUpdateLiveData().observe(this, resources -> {
+        getVM().getObservable(Notebook.class).observe(this, resources -> {
             assert resources != null;
             switch (resources.status) {
                 case SUCCESS:
@@ -203,49 +196,48 @@ public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
                 case LOADING:
                     break;
                 case FAILED:
-                    ToastUtils.makeToast(R.string.text_failed_to_modify_data);
+                    ToastUtils.showShort(R.string.text_failed_to_modify_data);
                     break;
             }
         });
-        addSubscription(RxMessage.class, RxMessage.CODE_NOTE_DATA_CHANGED, rxMessage -> {
-            loadNotesAndNotebooks();
-        });
+        addSubscription(RxMessage.class, RxMessage.CODE_NOTE_DATA_CHANGED, rxMessage -> loadNotesAndNotebooks());
     }
 
     private void popNoteMenu(View v, NotesAdapter.MultiItem multiItem) {
-        PopupMenu popupM = new PopupMenu(getContext(), v);
+        PopupMenu popupM = new PopupMenu(Objects.requireNonNull(getContext()), v);
         popupM.inflate(R.menu.pop_menu);
-        viewModel.configPopMenu(popupM);
+        getVM().configPopMenu(popupM);
         popupM.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()){
                 case R.id.action_trash:
-                    viewModel.updateNoteStatus(multiItem.note, Status.TRASHED);
+                    getVM().updateNoteStatus(multiItem.note, Status.TRASHED);
                     break;
                 case R.id.action_archive:
-                    viewModel.updateNoteStatus(multiItem.note, Status.ARCHIVED);
+                    getVM().updateNoteStatus(multiItem.note, Status.ARCHIVED);
                     break;
-                case R.id.action_move: {
+                case R.id.action_move:
                     Note note = multiItem.note;
                     NotebookPickerDialog.newInstance().setOnItemSelectedListener((dialog, toBook, position) -> {
                         if (toBook.getCode() == note.getParentCode()) return;
                         note.setParentCode(toBook.getCode());
                         note.setTreePath(toBook.getTreePath() + "|" + note.getCode());
-                        viewModel.updateNote(note);
+                        getVM().updateNote(note);
                         dialog.dismiss();
                     }).show(getChildFragmentManager(), "NOTEBOOK PICKER");
                     break;
-                }
                 case R.id.action_edit:
                     FragmentHelper.open(NoteFragment.class)
                             .put(NoteFragment.ARGS_KEY_NOTE, (Serializable) multiItem.note)
                             .launch(getContext());
                     break;
                 case R.id.action_move_out:
-                    viewModel.updateNoteStatus(multiItem.note, Status.NORMAL);
+                    getVM().updateNoteStatus(multiItem.note, Status.NORMAL);
                     break;
                 case R.id.action_delete:
-                    viewModel.updateNoteStatus(multiItem.note, Status.DELETED);
+                    getVM().updateNoteStatus(multiItem.note, Status.DELETED);
                     break;
+                default:
+                    // noop
             }
             return true;
         });
@@ -253,54 +245,57 @@ public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
     }
 
     private void popNotebookMenu(View v, NotesAdapter.MultiItem multiItem, int position) {
-        PopupMenu popupM = new PopupMenu(getContext(), v);
+        PopupMenu popupM = new PopupMenu(Objects.requireNonNull(getContext()), v);
         popupM.inflate(R.menu.pop_menu);
-        viewModel.configPopMenu(popupM);
+        getVM().configPopMenu(popupM);
         popupM.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()){
                 case R.id.action_trash:
-                    viewModel.updateNotebookStatus(multiItem.notebook, Status.TRASHED);
+                    getVM().updateNotebookStatus(multiItem.notebook, Status.TRASHED);
                     break;
                 case R.id.action_archive:
-                    viewModel.updateNotebookStatus(multiItem.notebook, Status.ARCHIVED);
+                    getVM().updateNotebookStatus(multiItem.notebook, Status.ARCHIVED);
                     break;
                 case R.id.action_move:
                     moveNotebook(multiItem.notebook);
                     break;
-                case R.id.action_edit: {
+                case R.id.action_edit:
                     Notebook notebook = multiItem.notebook;
                     NotebookEditDialog dialog = NotebookEditDialog.newInstance(notebook,
                             (categoryName, notebookColor) -> {
                                 notebook.setTitle(categoryName);
                                 notebook.setColor(notebookColor);
-                                viewModel.setNotebookUpdatePosition(position);
-                                viewModel.updateNotebook(notebook);
+                                getVM().setNotebookUpdatePosition(position);
+                                getVM().updateNotebook(notebook);
                             });
                     dialog.show(getChildFragmentManager(), "NOTEBOOK EDITOR");
                     break;
-                }
                 case R.id.action_move_out:
-                    viewModel.updateNotebookStatus(multiItem.notebook, Status.NORMAL);
+                    getVM().updateNotebookStatus(multiItem.notebook, Status.NORMAL);
                     break;
                 case R.id.action_delete:
-                    viewModel.updateNotebookStatus(multiItem.notebook, Status.DELETED);
+                    getVM().updateNotebookStatus(multiItem.notebook, Status.DELETED);
                     break;
+                default:
+                    // noop
             }
             return true;
         });
         popupM.show();
     }
 
+    /**
+     * Need to ignore:
+     * 1. The notebook to move to is the selected notebooks's parent;
+     * 2. The notebook to move to is the selected notebook;
+     * 3. The notebook to move to is the selected notebook's child.
+     */
     private void moveNotebook(final Notebook nb) {
         NotebookPickerDialog.newInstance().setOnItemSelectedListener((dialog, toBook, position) -> {
-            /* Need to ignore:
-             * 1. The notebook to move to is the selected notebooks's parent;
-             * 2. The notebook to move to is the selected notebook;
-             * 3. The notebook to move to is the selected notebook's child. */
             if (toBook.getCode() == nb.getParentCode()
                     || toBook.getCode() == nb.getCode()
                     || toBook.getTreePath().contains(nb.getTreePath())) return;
-            viewModel.moveNotebook(nb, toBook);
+            getVM().moveNotebook(nb, toBook);
             dialog.dismiss();
         }).show(getChildFragmentManager(), "NOTEBOOK PICKER");
     }
@@ -321,7 +316,7 @@ public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
      */
     @Nullable
     public Notebook getNotebook() {
-        return viewModel.getNotebook();
+        return getVM().getNotebook();
     }
 
     /**
@@ -331,7 +326,7 @@ public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
      */
     @Nullable
     public Category getCategory() {
-        return viewModel.getCategory();
+        return getVM().getCategory();
     }
 
     /**
@@ -342,14 +337,14 @@ public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
      * @see MainActivity#onBackPressed()
      */
     public boolean isTopStack() {
-        return viewModel.isTopStack();
+        return getVM().isTopStack();
     }
 
     /**
      * Load notes and notebooks
      */
     private void loadNotesAndNotebooks() {
-        viewModel.fetchMultiItems();
+        getVM().fetchMultiItems();
     }
 
     private void notifyDataChanged() {
@@ -364,8 +359,8 @@ public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
         super.onActivityCreated(savedInstanceState);
         setHasOptionsMenu(true);
         Activity activity = getActivity();
-        if (!viewModel.isTopStack() && activity instanceof OnNotesInteractListener) {
-            ((OnNotesInteractListener) activity).onActivityAttached(viewModel.isTopStack());
+        if (!getVM().isTopStack() && activity instanceof OnNotesInteractListener) {
+            ((OnNotesInteractListener) activity).onActivityAttached(getVM().isTopStack());
         }
     }
 
@@ -377,28 +372,22 @@ public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        boolean isExpanded = PersistData.getBoolean(R.string.key_note_expanded_note, true);
-        if (isExpanded) {
-            // disable list capture when the note list is expanded
-            menu.findItem(R.id.action_capture).setVisible(false);
-        } else {
-            menu.findItem(R.id.action_capture).setVisible(true);
-        }
+        boolean isExpanded = SPUtils.getInstance().getBoolean(ResUtils.getString(R.string.key_note_expanded_note), true);
+        menu.findItem(R.id.action_capture).setVisible(!isExpanded);
         super.onPrepareOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                if (viewModel.isTopStack()) {
-                    return super.onOptionsItemSelected(item);
-                } else {
-                    if (getActivity() != null) {
-                        getActivity().onBackPressed();
-                    }
-                    return true;
+        if (item.getItemId() == android.R.id.home) {
+            if (getVM().isTopStack()) {
+                return super.onOptionsItemSelected(item);
+            } else {
+                if (getActivity() != null) {
+                    getActivity().onBackPressed();
                 }
+                return true;
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -408,7 +397,7 @@ public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
         super.onResume();
         Activity activity = getActivity();
         if (activity instanceof OnNotesInteractListener) {
-            ((OnNotesInteractListener) getActivity()).onActivityAttached(viewModel.isTopStack());
+            ((OnNotesInteractListener) getActivity()).onActivityAttached(getVM().isTopStack());
         }
         customToolbar();
     }

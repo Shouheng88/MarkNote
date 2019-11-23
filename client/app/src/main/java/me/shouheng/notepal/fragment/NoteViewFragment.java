@@ -37,20 +37,12 @@ import java.util.Objects;
 
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
-import me.shouheng.commons.activity.CommonActivity;
 import me.shouheng.commons.activity.ContainerActivity;
 import me.shouheng.commons.activity.interaction.BackEventResolver;
-import me.shouheng.commons.event.PageName;
-import me.shouheng.commons.event.UMEvent;
 import me.shouheng.commons.fragment.WebviewFragment;
 import me.shouheng.commons.helper.FragmentHelper;
-import me.shouheng.commons.model.data.Resource;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.IntentUtils;
-import me.shouheng.commons.utils.LogUtils;
-import me.shouheng.commons.utils.PalmUtils;
-import me.shouheng.commons.utils.ToastUtils;
-import me.shouheng.commons.utils.ViewUtils;
 import me.shouheng.commons.widget.Chip;
 import me.shouheng.data.ModelFactory;
 import me.shouheng.data.entity.Attachment;
@@ -58,8 +50,10 @@ import me.shouheng.data.entity.Category;
 import me.shouheng.data.entity.Note;
 import me.shouheng.easymark.EasyMarkViewer;
 import me.shouheng.easymark.viewer.listener.LifecycleListener;
+import me.shouheng.mvvm.base.CommonActivity;
+import me.shouheng.mvvm.base.anno.FragmentConfiguration;
+import me.shouheng.mvvm.bean.Resources;
 import me.shouheng.notepal.Constants;
-import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.FragmentNoteViewBinding;
 import me.shouheng.notepal.dialog.OpenResolver;
@@ -68,6 +62,10 @@ import me.shouheng.notepal.manager.NoteManager;
 import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.util.ShortcutHelper;
 import me.shouheng.notepal.vm.NoteViewerViewModel;
+import me.shouheng.utils.app.ResUtils;
+import me.shouheng.utils.stability.LogUtils;
+import me.shouheng.utils.ui.ToastUtils;
+import me.shouheng.utils.ui.ViewUtils;
 
 import static me.shouheng.notepal.Constants.EXTENSION_3GP;
 import static me.shouheng.notepal.Constants.EXTENSION_MP4;
@@ -83,54 +81,46 @@ import static me.shouheng.notepal.Constants.URI_SCHEME_HTTPS;
  * Created by WngShhng (shouheng2015@gmail.com) on 2017/5/13.
  * Refactored by WngShhng (shouheng2015@gmail.com) on 2018/11/30
  */
-@PageName(name = UMEvent.PAGE_NOTE_VIEW)
-public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> implements BackEventResolver {
+@FragmentConfiguration(layoutResId = R.layout.fragment_note_view)
+public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding, NoteViewerViewModel> implements BackEventResolver {
 
     /**
      * The key for argument, used to send the note model to this fragment.
      */
-    public final static String ARGS_KEY_NOTE = "__args_key_note";
+    public static final String ARGS_KEY_NOTE = "__args_key_note";
 
     /**
      * The key for argument, used to set the behavior of this fragment. If true, the edit FAB
      * won't be displayed.
      */
-    public final static String ARGS_KEY_IS_PREVIEW = "__args_key_is_preview";
+    public static final String ARGS_KEY_IS_PREVIEW = "__args_key_is_preview";
 
     /**
      * The request code for editing this note.
      */
-    private final int REQUEST_FOR_EDIT = 0x01;
-
-    private NoteViewerViewModel viewModel;
-
-    @Override
-    protected int getLayoutResId() {
-        return R.layout.fragment_note_view;
-    }
+    private static final int REQUEST_FOR_EDIT = 0x01;
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {
-        viewModel = getViewModel(NoteViewerViewModel.class);
         if (savedInstanceState == null) {
             /* Get the arguments. */
             Bundle arguments = getArguments();
             if (arguments == null || !arguments.containsKey(ARGS_KEY_NOTE)) {
-                ToastUtils.makeToast(R.string.text_note_not_found);
+                ToastUtils.showShort(R.string.text_note_not_found);
                 return;
             }
             Note note = (Note) arguments.getSerializable(ARGS_KEY_NOTE);
             boolean isPreview = getArguments().getBoolean(ARGS_KEY_IS_PREVIEW);
-            viewModel.setNote(note);
-            viewModel.setPreview(isPreview);
+            getVM().setNote(note);
+            getVM().setPreview(isPreview);
         }
 
         prepareViews();
 
         addSubscriptions();
 
-        viewModel.readNoteContent();
-        viewModel.getNoteCategories();
+        getVM().readNoteContent();
+        getVM().getNoteCategories();
     }
 
     /**
@@ -147,13 +137,13 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
         if (getActivity() != null) {
             final ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
             if (ab != null) {
-                ab.setTitle(viewModel.getNote().getTitle());
+                ab.setTitle(getVM().getNote().getTitle());
                 ab.setDisplayHomeAsUpEnabled(true);
             }
         }
 
         /* Config WebView. */
-        getBinding().emv.getFastScrollDelegate().setThumbDrawable(PalmUtils.getDrawableCompact(
+        getBinding().emv.getFastScrollDelegate().setThumbDrawable(ResUtils.getDrawable(
                 isDarkTheme() ? R.drawable.fast_scroll_bar_dark : R.drawable.fast_scroll_bar_light));
         getBinding().emv.getFastScrollDelegate().setThumbSize(16, 40);
         getBinding().emv.getFastScrollDelegate().setThumbDynamicHeight(false);
@@ -162,7 +152,8 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
             LogUtils.d(url);
             LogUtils.d(Arrays.toString(urls));
             List<Attachment> attachments = new ArrayList<>();
-            Attachment clickedAttachment = null, attachment;
+            Attachment clickedAttachment = null;
+            Attachment attachment;
             int index = 0;
             long codeBase = System.currentTimeMillis();
             for (String u : urls) {
@@ -179,7 +170,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
             AttachmentHelper.resolveClickEvent(getContext(),
                     clickedAttachment,
                     attachments,
-                    viewModel.getNote().getTitle());
+                    getVM().getNote().getTitle());
         });
         getBinding().emv.setOnUrlClickListener(url -> {
             if (!TextUtils.isEmpty(url)) {
@@ -209,35 +200,39 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
         });
         getBinding().emv.setLifecycleListener(new LifecycleListener() {
             @Override
-            public void onLoadFinished(WebView webView, String str) { }
+            public void onLoadFinished(WebView webView, String str) {
+                // noop
+            }
 
             @Override
-            public void beforeProcessMarkdown(String content) { }
+            public void beforeProcessMarkdown(String content) {
+                // noop
+            }
 
             @Override
             public void afterProcessMarkdown(String document) {
-                viewModel.setHtml(document);
+                getVM().setHtml(document);
             }
         });
         getBinding().emv.setUseMathJax(true);
 
         /* Config FAB. */
-        getBinding().fab.setVisibility(viewModel.isPreview() ? View.GONE : View.VISIBLE);
+        getBinding().fab.setVisibility(getVM().isPreview() ? View.GONE : View.VISIBLE);
         getBinding().fab.setOnClickListener(v -> FragmentHelper.open(NoteFragment.class)
-                .put(NoteFragment.ARGS_KEY_NOTE, (Serializable) viewModel.getNote())
+                .put(NoteFragment.ARGS_KEY_NOTE, (Serializable) getVM().getNote())
                 .launch(this, REQUEST_FOR_EDIT));
 
         /* Config Drawer. */
         getBinding().drawer.setIsDarkTheme(isDarkTheme());
         getBinding().drawer.llCopy.setOnClickListener(v -> {
-            NoteManager.copy(getActivity(), viewModel.getNote().getContent());
-            ToastUtils.makeToast(R.string.note_copied_success);
+            NoteManager.copy(getActivity(), getVM().getNote().getContent());
+            ToastUtils.showShort(R.string.note_copied_success);
         });
         getBinding().drawer.llShortcut.setOnClickListener(v -> {
-            if (viewModel.getNote().getContentCode() == 0L || TextUtils.isEmpty(viewModel.getNote().getTitle())) {
-                ToastUtils.makeToast(R.string.note_shortcut_error_tips);
+            if (getVM().getNote().getContentCode() == 0L || TextUtils.isEmpty(getVM().getNote().getTitle())) {
+                ToastUtils.showShort(R.string.note_shortcut_error_tips);
             } else {
-                ShortcutHelper.createShortcut(getActivity().getApplicationContext(), viewModel.getNote());
+                ShortcutHelper.createShortcut(getActivity().getApplicationContext(), getVM().getNote());
             }
         });
         getBinding().drawer.llExport.setOnClickListener(v -> showExportDialog());
@@ -245,40 +240,39 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
     }
 
     private void addSubscriptions() {
-        viewModel.getNoteContentObservable().observe(this, resources -> {
+        getVM().getObservable(String.class).observe(this, resources -> {
             assert resources != null;
             switch (resources.status) {
                 case SUCCESS:
                     final ActionBar ab;
                     if (getActivity() != null
                             && (ab = ((AppCompatActivity) getActivity()).getSupportActionBar()) != null) {
-                        ab.setTitle(viewModel.getNote().getTitle());
+                        ab.setTitle(getVM().getNote().getTitle());
                     }
-                    getBinding().emv.processMarkdown(viewModel.getNote().getContent());
+                    getBinding().emv.processMarkdown(getVM().getNote().getContent());
                     String charsInfo = getString(R.string.text_chars)
-                            + " : " + viewModel.getNote().getContent().length();
+                            + " : " + getVM().getNote().getContent().length();
                     getBinding().drawer.tvChars.setText(charsInfo);
-                    getBinding().drawer.tvNoteInfo.setText(NoteManager.getTimeInfo(viewModel.getNote()));
+                    getBinding().drawer.tvNoteInfo.setText(NoteManager.getTimeInfo(getVM().getNote()));
                     break;
                 case LOADING:
                     break;
                 case FAILED:
-                    ToastUtils.makeToast(R.string.text_failed_to_read_note_file);
+                    ToastUtils.showShort(R.string.text_failed_to_read_note_file);
                     break;
             }
         });
-        viewModel.getCategoriesObservable().observe(this, new Observer<Resource<List<Category>>>() {
-            int margin = ViewUtils.dp2Px(PalmApp.getContext(), 2f);
+        getVM().getListObservable(Category.class).observe(this, new Observer<Resources<List<Category>>>() {
+            int margin = ViewUtils.dp2px(2f);
             ViewGroup.LayoutParams params = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             @Override
-            public void onChanged(@Nullable Resource<List<Category>> resources) {
+            public void onChanged(@Nullable Resources<List<Category>> resources) {
                 assert resources != null;
                 switch (resources.status) {
                     case SUCCESS:
-                        assert resources.data != null;
                         getBinding().drawer.fl.removeAllViews();
-                        Disposable disposable = Observable.fromIterable(resources.data).forEach(category -> {
+                        Disposable disposable = Observable.fromIterable(Objects.requireNonNull(resources.data)).forEach(category -> {
                             Chip chip = new Chip(getContext());
                             chip.setIcon(category.getPortrait().iconRes);
                             chip.setText(category.getName());
@@ -288,11 +282,12 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
                             chip.setLayoutParams(mp);
                             getBinding().drawer.fl.addView(chip);
                         });
-                        break;
-                    case LOADING:
+                        LogUtils.d(disposable);
                         break;
                     case FAILED:
-                        break;
+                        ToastUtils.showShort(resources.errorMessage);
+                    default:
+                        // noop
                 }
             }
         });
@@ -314,10 +309,8 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.action_info:
-                getBinding().drawerLayout.openDrawer(GravityCompat.START, true);
-                break;
+        if (item.getItemId() == R.id.action_info){
+            getBinding().drawerLayout.openDrawer(GravityCompat.START, true);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -329,7 +322,9 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
                 .setTitle(R.string.text_share)
                 .setListener(new BottomSheetListener() {
                     @Override
-                    public void onSheetShown(@NonNull BottomSheet bottomSheet, @Nullable Object o) {}
+                    public void onSheetShown(@NonNull BottomSheet bottomSheet, @Nullable Object o) {
+                        // noop
+                    }
 
                     @Override
                     public void onSheetItemSelected(@NonNull BottomSheet bottomSheet, MenuItem menuItem, @Nullable Object o) {
@@ -337,8 +332,8 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
                             case R.id.action_share_text:
                                 // Send Raw Text
                                 NoteManager.send(getContext(),
-                                        viewModel.getNote().getTitle(),
-                                        viewModel.getNote().getContent(),
+                                        getVM().getNote().getTitle(),
+                                        getVM().getNote().getContent(),
                                         new ArrayList<>());
                                 break;
                             case R.id.action_share_html:
@@ -350,11 +345,15 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
                                 createWebCapture(getBinding().emv,
                                         file -> NoteManager.sendFile(getContext(), file, Constants.MIME_TYPE_IMAGE));
                                 break;
+                            default:
+                                // noop
                         }
                     }
 
                     @Override
-                    public void onSheetDismissed(@NonNull BottomSheet bottomSheet, @Nullable Object o, int i) {}
+                    public void onSheetDismissed(@NonNull BottomSheet bottomSheet, @Nullable Object o, int i) {
+                        // noop
+                    }
                 })
                 .show();
     }
@@ -366,7 +365,9 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
                 .setTitle(R.string.text_export)
                 .setListener(new BottomSheetListener() {
                     @Override
-                    public void onSheetShown(@NonNull BottomSheet bottomSheet, @Nullable Object o) {}
+                    public void onSheetShown(@NonNull BottomSheet bottomSheet, @Nullable Object o) {
+                        // moop
+                    }
 
                     @Override
                     public void onSheetItemSelected(@NonNull BottomSheet bottomSheet, MenuItem menuItem, @Nullable Object o) {
@@ -378,22 +379,26 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
                             case R.id.capture:
                                 // Export Captured WebView
                                 createWebCapture(getBinding().emv,
-                                        file -> ToastUtils.makeToast(String.format(getString(R.string.text_file_saved_to),
+                                        file -> ToastUtils.showShort(String.format(getString(R.string.text_file_saved_to),
                                                 file.getPath())));
                                 break;
                             case R.id.print:
                                 // Export Printed WebView
-                                NoteManager.printPDF(getContext(), getBinding().emv, viewModel.getNote());
+                                NoteManager.printPDF(getContext(), getBinding().emv, getVM().getNote());
                                 break;
                             case R.id.export_text:
                                 // Export Raw Text
                                 outputContent(false);
                                 break;
+                            default:
+                                // noop
                         }
                     }
 
                     @Override
-                    public void onSheetDismissed(@NonNull BottomSheet bottomSheet, @Nullable Object o, int i) {}
+                    public void onSheetDismissed(@NonNull BottomSheet bottomSheet, @Nullable Object o, int i) {
+                        // noop
+                    }
                 })
                 .show();
     }
@@ -402,16 +407,16 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
         try {
             File exDir = FileManager.getHtmlExportDir();
             File outFile = new File(exDir, FileManager.getDefaultFileName(Constants.EXPORTED_HTML_EXTENSION));
-            FileUtils.writeStringToFile(outFile, viewModel.getHtml(), Constants.NOTE_FILE_ENCODING);
+            FileUtils.writeStringToFile(outFile, getVM().getHtml(), Constants.NOTE_FILE_ENCODING);
             if (isShare) {
                 // Share, do share option
                 NoteManager.sendFile(getContext(), outFile, Constants.MIME_TYPE_HTML);
             } else {
                 // Not share, just show a message
-                ToastUtils.makeToast(String.format(getString(R.string.text_file_saved_to), outFile.getPath()));
+                ToastUtils.showShort(String.format(getString(R.string.text_file_saved_to), outFile.getPath()));
             }
         } catch (IOException e) {
-            ToastUtils.makeToast(R.string.text_failed_to_save_file);
+            ToastUtils.showShort(R.string.text_failed_to_save_file);
         }
     }
 
@@ -419,16 +424,16 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
         try {
             File exDir = FileManager.getTextExportDir();
             File outFile = new File(exDir, FileManager.getDefaultFileName(Constants.EXPORTED_TEXT_EXTENSION));
-            FileUtils.writeStringToFile(outFile, viewModel.getNote().getContent(), "utf-8");
+            FileUtils.writeStringToFile(outFile, getVM().getNote().getContent(), "utf-8");
             if (isShare) {
                 // Share, do share option
                 NoteManager.sendFile(getContext(), outFile, Constants.MIME_TYPE_FILES);
             } else {
                 // Not share, just show a message
-                ToastUtils.makeToast(String.format(getString(R.string.text_file_saved_to), outFile.getPath()));
+                ToastUtils.showShort(String.format(getString(R.string.text_file_saved_to), outFile.getPath()));
             }
         } catch (IOException e) {
-            ToastUtils.makeToast(R.string.text_failed_to_save_file);
+            ToastUtils.showShort(R.string.text_failed_to_save_file);
         }
     }
 
@@ -487,6 +492,8 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
                 case R.id.action_last:
                     getBinding().emv.findNext(false);
                     break;
+                default:
+                    // noop
             }
             return true;
         }
@@ -500,13 +507,9 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case REQUEST_FOR_EDIT:
-                if (resultCode == Activity.RESULT_OK) {
-                    viewModel.readNoteContent();
-                    viewModel.getNoteCategories();
-                }
-                break;
+        if (requestCode == REQUEST_FOR_EDIT && resultCode == Activity.RESULT_OK) {
+            getVM().readNoteContent();
+            getVM().getNoteCategories();
         }
     }
 }

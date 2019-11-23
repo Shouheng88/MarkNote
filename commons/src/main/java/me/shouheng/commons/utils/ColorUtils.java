@@ -24,6 +24,9 @@ import java.lang.reflect.Method;
 import me.shouheng.commons.R;
 import me.shouheng.commons.theme.ThemeStyle;
 import me.shouheng.commons.theme.ThemeUtils;
+import me.shouheng.utils.app.AppUtils;
+import me.shouheng.utils.app.ResUtils;
+import me.shouheng.utils.stability.LogUtils;
 
 /**
  * @author shouh
@@ -56,14 +59,14 @@ public class ColorUtils {
         if (themeStyle == null) {
             themeStyle = ThemeUtils.getInstance().getThemeStyle();
         }
-        return PalmUtils.getColorCompact(themeStyle.primaryColor);
+        return ResUtils.getColor(themeStyle.primaryColor);
     }
 
     public static int accentColor() {
         if (themeStyle == null) {
             themeStyle = ThemeUtils.getInstance().getThemeStyle();
         }
-        return  PalmUtils.getColorCompact(themeStyle.accentColor);
+        return  ResUtils.getColor(themeStyle.accentColor);
     }
 
     /**
@@ -81,7 +84,7 @@ public class ColorUtils {
     }
 
     public static Drawable tintDrawable(@DrawableRes int drawableRes, @ColorInt int color) {
-        Drawable drawable = PalmUtils.getDrawableCompact(drawableRes);
+        Drawable drawable = ResUtils.getDrawable(drawableRes);
         final Drawable wrappedDrawable = DrawableCompat.wrap(drawable.mutate());
         DrawableCompat.setTintList(wrappedDrawable, ColorStateList.valueOf(color));
         return wrappedDrawable;
@@ -104,7 +107,7 @@ public class ColorUtils {
 
     public static void addRipple(View view) {
         Drawable drawable;
-        if (PalmUtils.isLollipop() && (drawable = PalmUtils.getDrawableCompact(R.drawable.ripple)) != null) {
+        if (AppUtils.isLollipop() && (drawable = ResUtils.getDrawable(R.drawable.ripple)) != null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 view.setForeground(drawable);
             } else {
@@ -135,7 +138,7 @@ public class ColorUtils {
                                                              @DrawableRes int iconRes,
                                                              long id,
                                                              boolean selectable) {
-        int colorTint = PalmUtils.getColorCompact(isDarkTheme() ? R.color.white54 : R.color.black54);
+        int colorTint = ResUtils.getColor(isDarkTheme() ? R.color.white54 : R.color.black54);
         return new PrimaryDrawerItem()
                 .withName(nameRes)
                 .withIcon(ColorUtils.tintDrawable(iconRes, colorTint))
@@ -150,7 +153,7 @@ public class ColorUtils {
     }
 
     public static BottomSheetMenu getThemedBottomSheetMenu(Context context, @MenuRes int menuRes) {
-        int tintColor = PalmUtils.getColorCompact(isDarkTheme() ?
+        int tintColor = ResUtils.getColor(isDarkTheme() ?
                 R.color.dark_theme_image_tint_color : R.color.light_theme_image_tint_color);
         BottomSheetMenu menu = new BottomSheetMenu(context);
         new MenuInflater(context).inflate(menuRes, menu);

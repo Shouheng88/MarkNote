@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -11,31 +12,26 @@ import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.util.List;
 
-import me.shouheng.commons.activity.CommonActivity;
-import me.shouheng.commons.event.PageName;
+import me.shouheng.commons.activity.ThemedActivity;
 import me.shouheng.commons.event.RxMessage;
 import me.shouheng.commons.utils.ColorUtils;
-import me.shouheng.commons.utils.ToastUtils;
-import me.shouheng.commons.widget.recycler.DragSortRecycler;
 import me.shouheng.data.model.enums.FabSortItem;
+import me.shouheng.mvvm.base.anno.ActivityConfiguration;
+import me.shouheng.mvvm.comn.EmptyViewModel;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.FabSortAdapter;
 import me.shouheng.notepal.common.preferences.UserPreferences;
 import me.shouheng.notepal.databinding.ActivityFabSortBinding;
+import me.shouheng.uix.rv.decor.DragSortRecycler;
+import me.shouheng.utils.ui.ToastUtils;
 
-import static me.shouheng.commons.event.UMEvent.*;
-
-@PageName(name = PAGE_FAB_SORT)
-public class FabSortActivity extends CommonActivity<ActivityFabSortBinding> {
+@ActivityConfiguration(layoutResId = R.layout.activity_fab_sort)
+public class FabSortActivity extends ThemedActivity<ActivityFabSortBinding, EmptyViewModel> {
 
     private FabSortAdapter mAdapter;
 
-    private boolean saved = true, everSaved = false;
-
-    @Override
-    protected int getLayoutResId() {
-        return R.layout.activity_fab_sort;
-    }
+    private boolean saved = true;
+    private boolean everSaved = false;
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {
@@ -59,7 +55,7 @@ public class FabSortActivity extends CommonActivity<ActivityFabSortBinding> {
     }
 
     private void configFabList() {
-        mAdapter = new FabSortAdapter(this, UserPreferences.getInstance().getFabSortResult());
+        mAdapter = new FabSortAdapter(UserPreferences.getInstance().getFabSortResult());
         getBinding().rvFabs.setAdapter(mAdapter);
 
         DragSortRecycler dragSortRecycler = new DragSortRecycler();
@@ -75,10 +71,11 @@ public class FabSortActivity extends CommonActivity<ActivityFabSortBinding> {
 
         getBinding().rvFabs.addItemDecoration(dragSortRecycler);
         getBinding().rvFabs.addOnItemTouchListener(dragSortRecycler);
-        getBinding().rvFabs.setLayoutManager(new LinearLayoutManager(this));
+        RecyclerView.LayoutManager lm = new LinearLayoutManager(this);
+        getBinding().rvFabs.setLayoutManager(lm);
         getBinding().rvFabs.addOnItemTouchListener(dragSortRecycler);
         getBinding().rvFabs.addOnScrollListener(dragSortRecycler.getScrollListener());
-        getBinding().rvFabs.getLayoutManager().scrollToPosition(0);
+        lm.scrollToPosition(0);
     }
 
     @Override
@@ -103,6 +100,8 @@ public class FabSortActivity extends CommonActivity<ActivityFabSortBinding> {
             case R.id.action_reset:
                 resetFabOrders();
                 break;
+            default:
+                // noop
         }
         return super.onOptionsItemSelected(item);
     }
@@ -121,7 +120,7 @@ public class FabSortActivity extends CommonActivity<ActivityFabSortBinding> {
         everSaved = true;
         List<FabSortItem> fabSortItems = mAdapter.getFabSortItems();
         UserPreferences.getInstance().setFabSortResult(fabSortItems);
-        ToastUtils.makeToast(R.string.text_succeed);
+        ToastUtils.showShort(R.string.text_succeed);
     }
 
     private void resetFabOrders() {

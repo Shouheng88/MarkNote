@@ -29,21 +29,21 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Objects;
 
-import me.shouheng.commons.activity.PermissionActivity;
 import me.shouheng.commons.utils.ColorUtils;
-import me.shouheng.commons.utils.PermissionUtils;
-import me.shouheng.commons.utils.PermissionUtils.Permission;
-import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.data.entity.QuickNote;
 import me.shouheng.data.model.enums.ModelType;
 import me.shouheng.data.store.AttachmentsStore;
+import me.shouheng.mvvm.base.CommonActivity;
 import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.DialogQuickNoteBinding;
 import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.notepal.util.AttachmentHelper;
+import me.shouheng.utils.permission.Permission;
+import me.shouheng.utils.permission.PermissionUtils;
+import me.shouheng.utils.ui.ToastUtils;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
@@ -52,7 +52,7 @@ import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOption
  */
 public class QuickNoteDialog extends DialogFragment implements AttachmentHelper.OnAttachingFileListener {
 
-    public final static String ARGS_KEY_QUICK_NOTE = "__args_key_quick_note";
+    public static final String ARGS_KEY_QUICK_NOTE = "__args_key_quick_note";
 
     private QuickNote quickNote;
     private Attachment attachment;
@@ -60,7 +60,9 @@ public class QuickNoteDialog extends DialogFragment implements AttachmentHelper.
     private MediaPlayer mPlayer;
     private DialogInteraction interaction;
     private DialogQuickNoteBinding binding;
-    private Button btnPos, btnNeg, btnNeu;
+    private Button btnPos;
+    private Button btnNeg;
+    private Button btnNeu;
 
     public static QuickNoteDialog newInstance(@NonNull QuickNote quickNote, DialogInteraction interaction) {
         Bundle args = new Bundle();
@@ -102,7 +104,7 @@ public class QuickNoteDialog extends DialogFragment implements AttachmentHelper.
             btnPos = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
                 if (interaction != null) {
-                    quickNote.setContent(binding.et.getText().toString());
+                    quickNote.setContent(Objects.requireNonNull(binding.et.getText()).toString());
                     interaction.onConfirm(getDialog(), quickNote, attachment);
                 }
             });
@@ -134,7 +136,7 @@ public class QuickNoteDialog extends DialogFragment implements AttachmentHelper.
 
     @Override
     public void onAttachingFileErrorOccurred(Attachment attachment) {
-        ToastUtils.makeToast(R.string.text_failed_to_save_attachment);
+        ToastUtils.showShort(R.string.text_failed_to_save_attachment);
     }
 
     @Override
@@ -142,16 +144,20 @@ public class QuickNoteDialog extends DialogFragment implements AttachmentHelper.
         if (AttachmentHelper.checkAttachment(attachment)) {
             setupAttachment(attachment);
         } else {
-            ToastUtils.makeToast(R.string.text_failed_to_save_attachment);
+            ToastUtils.showShort(R.string.text_failed_to_save_attachment);
         }
     }
 
     private class EtTextWatcher implements TextWatcher {
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            // noop
+        }
 
         @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {}
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            // noop
+        }
 
         @Override
         public void afterTextChanged(Editable s) {
@@ -175,41 +181,44 @@ public class QuickNoteDialog extends DialogFragment implements AttachmentHelper.
                 .setMenu(ColorUtils.getThemedBottomSheetMenu(getContext(), R.menu.attachment_picker))
                 .setListener(new BottomSheetListener() {
                     @Override
-                    public void onSheetShown(@NonNull BottomSheet bottomSheet, @Nullable Object o) {}
+                    public void onSheetShown(@NonNull BottomSheet bottomSheet, @Nullable Object o) {
+                        // noop
+                    }
 
                     @Override
                     public void onSheetItemSelected(@NonNull BottomSheet bottomSheet, MenuItem menuItem, @Nullable Object o) {
                         switch (menuItem.getItemId()) {
-                            case R.id.item_pick_from_album: {
+                            case R.id.item_pick_from_album:
                                 Activity activity = getActivity();
                                 if (activity != null) {
-                                    PermissionUtils.checkStoragePermission((PermissionActivity) activity,
+                                    PermissionUtils.checkStoragePermission((CommonActivity) activity,
                                             () -> AttachmentHelper.pickOneFromCustomAlbum(QuickNoteDialog.this));
                                 }
                                 break;
-                            }
-                            case R.id.item_pick_take_a_photo: {
-                                Activity activity = getActivity();
+                            case R.id.item_pick_take_a_photo:
+                                activity = getActivity();
                                 if (activity != null) {
-                                    PermissionUtils.checkPermissions((PermissionActivity) activity,
+                                    PermissionUtils.checkPermissions((CommonActivity) activity,
                                             () -> AttachmentHelper.takeAPhoto(QuickNoteDialog.this),
                                             Permission.STORAGE, Permission.CAMERA);
                                 }
                                 break;
-                            }
-                            case R.id.item_pick_create_sketch: {
-                                Activity activity = getActivity();
+                            case R.id.item_pick_create_sketch:
+                                activity = getActivity();
                                 if (activity != null) {
-                                    PermissionUtils.checkStoragePermission((PermissionActivity) activity,
+                                    PermissionUtils.checkStoragePermission((CommonActivity) activity,
                                             () -> AttachmentHelper.createSketch(QuickNoteDialog.this));
                                 }
                                 break;
-                            }
+                            default:
+                                // noop
                         }
                     }
 
                     @Override
-                    public void onSheetDismissed(@NonNull BottomSheet bottomSheet, @Nullable Object o, int i) {}
+                    public void onSheetDismissed(@NonNull BottomSheet bottomSheet, @Nullable Object o, int i) {
+                        // noop
+                    }
                 })
                 .show();
     }
@@ -267,7 +276,7 @@ public class QuickNoteDialog extends DialogFragment implements AttachmentHelper.
     private void startPlaying(Attachment attachment) {
         if (mPlayer == null) mPlayer = new MediaPlayer();
         try {
-            mPlayer.setDataSource(getContext(), attachment.getUri());
+            mPlayer.setDataSource(Objects.requireNonNull(getContext()), attachment.getUri());
             mPlayer.prepare();
             mPlayer.start();
             notifyPlayingStateChanged(true);
@@ -276,7 +285,7 @@ public class QuickNoteDialog extends DialogFragment implements AttachmentHelper.
                 notifyPlayingStateChanged(false);
             });
         } catch (IOException e) {
-            ToastUtils.makeToast(R.string.attachment_play_record_failed);
+            ToastUtils.showShort(R.string.attachment_play_record_failed);
         }
     }
 

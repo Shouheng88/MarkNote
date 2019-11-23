@@ -14,39 +14,32 @@ import java.util.LinkedList;
 import java.util.List;
 
 import io.reactivex.Observable;
-import me.shouheng.commons.activity.CommonActivity;
+import io.reactivex.disposables.Disposable;
 import me.shouheng.commons.activity.ContainerActivity;
-import me.shouheng.commons.event.PageName;
+import me.shouheng.commons.activity.ThemedActivity;
 import me.shouheng.commons.event.RxMessage;
 import me.shouheng.commons.utils.ColorUtils;
-import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.commons.widget.recycler.CustomItemAnimator;
 import me.shouheng.commons.widget.recycler.DividerItemDecoration;
-import me.shouheng.commons.widget.recycler.EmptyView;
+import me.shouheng.data.entity.Note;
+import me.shouheng.mvvm.base.anno.ActivityConfiguration;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.NotesAdapter;
 import me.shouheng.notepal.databinding.ActivitySearchBinding;
 import me.shouheng.notepal.fragment.NoteViewFragment;
 import me.shouheng.notepal.vm.SearchViewModel;
+import me.shouheng.uix.rv.EmptyView;
+import me.shouheng.utils.stability.LogUtils;
+import me.shouheng.utils.ui.ToastUtils;
 
-import static me.shouheng.commons.event.UMEvent.*;
-
-@PageName(name = PAGE_SEARCH)
-public class SearchActivity extends CommonActivity<ActivitySearchBinding> implements SearchView.OnQueryTextListener {
+@ActivityConfiguration(layoutResId = R.layout.activity_search)
+public class SearchActivity extends ThemedActivity<ActivitySearchBinding, SearchViewModel> implements SearchView.OnQueryTextListener {
 
     private NotesAdapter adapter;
-    private SearchViewModel viewModel;
     private SearchView mSearchView;
 
     @Override
-    protected int getLayoutResId() {
-        return R.layout.activity_search;
-    }
-
-    @Override
     protected void doCreateView(Bundle savedInstanceState) {
-        viewModel = getViewModel(SearchViewModel.class);
-
         /* Config toolbar. */
         setSupportActionBar(getBinding().toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -63,19 +56,19 @@ public class SearchActivity extends CommonActivity<ActivitySearchBinding> implem
 
         /* Config list. */
         adapter = new NotesAdapter(this, new LinkedList<>());
-        EmptyView emptyView = getBinding().ivEmpty;
+        EmptyView emptyView = getBinding().ev;
         getBinding().recyclerview.setEmptyView(emptyView);
         getBinding().recyclerview.addItemDecoration(new DividerItemDecoration(
                 this, DividerItemDecoration.VERTICAL_LIST, isDarkTheme()));
         getBinding().recyclerview.setItemAnimator(new CustomItemAnimator());
         getBinding().recyclerview.setLayoutManager(new LinearLayoutManager(this));
         getBinding().recyclerview.setAdapter(adapter);
-        adapter.setOnItemClickListener((adapter, view, position) -> {
-            NotesAdapter.MultiItem item = (NotesAdapter.MultiItem) adapter.getData().get(position);
+        adapter.setOnItemClickListener((quickAdapter, view, position) -> {
+            NotesAdapter.MultiItem item = (NotesAdapter.MultiItem) quickAdapter.getData().get(position);
             ContainerActivity.open(NoteViewFragment.class)
                     .put(NoteViewFragment.ARGS_KEY_NOTE, (Serializable) item.note)
                     .put(NoteViewFragment.ARGS_KEY_IS_PREVIEW, false)
-                    .launch(getContext());
+                    .launch(this);
         });
 
         /* Add subscription. */
@@ -83,28 +76,30 @@ public class SearchActivity extends CommonActivity<ActivitySearchBinding> implem
     }
 
     private void addSubscriptions() {
-        viewModel.getNotesLiveData().observe(this, resources -> {
+        getVM().getListObservable(Note.class).observe(this, resources -> {
             assert resources != null;
             switch (resources.status) {
                 case SUCCESS:
                     List<NotesAdapter.MultiItem> multiItems = new LinkedList<>();
                     assert resources.data != null;
-                    Observable.fromIterable(resources.data)
+                    Disposable d = Observable.fromIterable(resources.data)
                             .forEach(note -> multiItems.add(new NotesAdapter.MultiItem(note)));
+                    LogUtils.d(d);
                     adapter.setNewData(multiItems);
-                    getBinding().ivEmpty.showEmptyIcon();
+                    getBinding().ev.showEmpty();
                     break;
                 case FAILED:
-                    getBinding().ivEmpty.showEmptyIcon();
-                    ToastUtils.makeToast(R.string.text_failed);
+                    getBinding().ev.showEmpty();
+                    ToastUtils.showShort(R.string.text_failed);
                     break;
                 case LOADING:
-                    getBinding().ivEmpty.showProgressBar();
+                    getBinding().ev.showLoading();
                     break;
+                default: // noop
             }
         });
         addSubscription(RxMessage.class, RxMessage.CODE_NOTE_DATA_CHANGED,
-                rxMessage -> viewModel.fetchSearchResults());
+                rxMessage -> getVM().fetchSearchResults());
     }
 
     @Override
@@ -135,10 +130,8 @@ public class SearchActivity extends CommonActivity<ActivitySearchBinding> implem
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case android.R.id.home:
-                finish();
-                break;
+        if (item.getItemId() == android.R.id.home){
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -158,14 +151,14 @@ public class SearchActivity extends CommonActivity<ActivitySearchBinding> implem
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        if (newText.equals(viewModel.getQueryText())) {
+        if (newText.equals(getVM().getQueryText())) {
             return true;
         }
-        viewModel.setQueryText(newText);
+        getVM().setQueryText(newText);
         if (!TextUtils.isEmpty(newText)) {
-            viewModel.fetchSearchResults();
+            getVM().fetchSearchResults();
         } else {
-            viewModel.notifyEmptyResult();
+            getVM().notifyEmptyResult();
         }
         return true;
     }

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Pair;
 
@@ -16,15 +17,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
-import me.shouheng.commons.activity.PermissionActivity;
-import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.event.RxBus;
 import me.shouheng.commons.event.RxMessage;
 import me.shouheng.commons.helper.ActivityHelper;
-import me.shouheng.commons.utils.LogUtils;
-import me.shouheng.commons.utils.PermissionUtils;
-import me.shouheng.commons.utils.PersistData;
-import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.data.ModelFactory;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.data.entity.Category;
@@ -38,13 +33,34 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.dialog.QuickNoteDialog;
 import me.shouheng.notepal.util.AppWidgetUtils;
 import me.shouheng.notepal.vm.QuickViewModel;
+import me.shouheng.utils.app.ResUtils;
+import me.shouheng.utils.permission.PermissionResultHandler;
+import me.shouheng.utils.permission.PermissionResultResolver;
+import me.shouheng.utils.permission.PermissionUtils;
+import me.shouheng.utils.permission.callback.OnGetPermissionCallback;
+import me.shouheng.utils.permission.callback.PermissionResultCallbackImpl;
+import me.shouheng.utils.stability.LogUtils;
+import me.shouheng.utils.store.SPUtils;
+import me.shouheng.utils.ui.ToastUtils;
 
-import static me.shouheng.commons.event.UMEvent.*;
-
-@PageName(name = PAGE_QUICK)
-public class QuickActivity extends PermissionActivity {
+public class QuickActivity extends AppCompatActivity implements PermissionResultResolver {
 
     private QuickViewModel viewModel;
+
+    private OnGetPermissionCallback onGetPermissionCallback;
+
+    @Override
+    public void setOnGetPermissionCallback(OnGetPermissionCallback onGetPermissionCallback) {
+        this.onGetPermissionCallback = onGetPermissionCallback;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        PermissionResultHandler.handlePermissionsResult(this,
+                requestCode, permissions, grantResults,
+                new PermissionResultCallbackImpl(this, onGetPermissionCallback));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,11 +71,11 @@ public class QuickActivity extends PermissionActivity {
     }
 
     private void checkPsdIfNecessary(Bundle savedInstanceState) {
-        boolean psdRequired = PersistData.getBoolean(R.string.key_security_psd_required, false);
-        String psd = PersistData.getString(R.string.key_security_psd, null);
+        boolean psdRequired = SPUtils.getInstance().getBoolean(ResUtils.getString(R.string.key_security_psd_required), false);
+        String psd = SPUtils.getInstance().getString(ResUtils.getString(R.string.key_security_psd), null);
         if (psdRequired && PalmApp.passwordNotChecked() && !TextUtils.isEmpty(psd)) {
             ActivityHelper.open(LockActivity.class)
-                    .setAction(LockActivity.ACTION_REQUIRE_PASSWORD)
+                    .setAction(LockActivity.ACTION_REQUIRE_PSD)
                     .setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                     .launch(this);
         } else {
@@ -70,17 +86,18 @@ public class QuickActivity extends PermissionActivity {
     private void addSubscriptions() {
         addSubscription(RxMessage.class, RxMessage.CODE_PASSWORD_CHECK_PASSED, rxMessage -> handleIntent(null));
         addSubscription(RxMessage.class, RxMessage.CODE_PASSWORD_CHECK_FAILED, rxMessage -> finish());
-        viewModel.getSaveNoteLiveData().observe(this, resources -> {
+        viewModel.getObservable(Note.class).observe(this, resources -> {
             assert resources != null;
             switch (resources.status) {
                 case SUCCESS:
                     RxBus.getRxBus().post(new RxMessage(RxMessage.CODE_NOTE_DATA_CHANGED, null));
-                    ToastUtils.makeToast(R.string.text_save_successfully);
+                    ToastUtils.showShort(R.string.text_save_successfully);
                     AppWidgetUtils.notifyAppWidgets(this);
                     break;
                 case FAILED:
-                    ToastUtils.makeToast(R.string.text_failed);
+                    ToastUtils.showShort(R.string.text_failed);
                     break;
+                default: // noop
             }
         });
     }
@@ -101,6 +118,7 @@ public class QuickActivity extends PermissionActivity {
                 PermissionUtils.checkStoragePermission(this, () ->
                         handleAppWidget(intent, pair -> editQuickNote(pair, ModelFactory.getQuickNote())));
                 break;
+            default: // noop
         }
     }
 
@@ -149,7 +167,8 @@ public class QuickActivity extends PermissionActivity {
                         if (onGetAppWidgetCondition != null) {
                             onGetAppWidgetCondition.onGetCondition(new Pair<>(notebook, null));
                         }
-                    }, throwable -> ToastUtils.makeToast(R.string.text_notebook_not_found));
+                    }, throwable -> ToastUtils.showShort(R.string.text_notebook_not_found));
+            LogUtils.d(disposable);
         } else {
             if (onGetAppWidgetCondition != null) {
                 onGetAppWidgetCondition.onGetCondition(new Pair<>(null, null));

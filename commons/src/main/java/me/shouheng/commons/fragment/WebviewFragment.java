@@ -29,21 +29,19 @@ import com.just.agentweb.DefaultWebClient;
 import me.shouheng.commons.R;
 import me.shouheng.commons.activity.interaction.FragmentKeyDown;
 import me.shouheng.commons.databinding.FragmentWebviewBinding;
-import me.shouheng.commons.event.PageName;
-import me.shouheng.commons.event.*;
 import me.shouheng.commons.utils.IntentUtils;
 import me.shouheng.commons.utils.PalmUtils;
+import me.shouheng.mvvm.comn.EmptyViewModel;
 
 /**
  * @author shouh
  * @version $Id: WebviewFragment, v 0.1 2018/11/17 20:40 shouh Exp$
  */
-@PageName(name = UMEvent.PAGE_WEBVIEW)
-public class WebviewFragment extends CommonFragment<FragmentWebviewBinding> implements FragmentKeyDown {
+public class WebviewFragment extends CustomFragment<FragmentWebviewBinding, EmptyViewModel> implements FragmentKeyDown {
 
-    public final static String ARGUMENT_KEY_URL = "__extra_key_url";
-    public final static String ARGUMENT_KEY_TITLE = "__extra_key_title";
-    public final static String ARGUMENT_KEY_USE_PAGE_TITLE = "__extra_use_page_title";
+    public static final String ARGUMENT_KEY_URL = "__extra_key_url";
+    public static final String ARGUMENT_KEY_TITLE = "__extra_key_title";
+    public static final String ARGUMENT_KEY_USE_PAGE_TITLE = "__extra_use_page_title";
 
     private AgentWeb mAgentWeb;
     private boolean usePageTitle;

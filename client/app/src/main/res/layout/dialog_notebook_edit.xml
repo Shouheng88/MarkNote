@@ -51,7 +51,6 @@
                     android:maxLines="1"
                     android:singleLine="true"
                     android:maxLength="@integer/title_length"
-                    android:drawableEnd="@{isDarkTheme ? @drawable/ic_color_lens_white_24dp : @drawable/ic_color_lens_black_24dp}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 

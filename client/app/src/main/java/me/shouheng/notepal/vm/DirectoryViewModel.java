@@ -1,8 +1,9 @@
 package me.shouheng.notepal.vm;
 
+import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModel;
+import android.support.annotation.NonNull;
 
 import com.onedrive.sdk.concurrency.ICallback;
 import com.onedrive.sdk.core.ClientException;
@@ -11,25 +12,30 @@ import com.onedrive.sdk.extensions.Item;
 import java.util.LinkedList;
 import java.util.List;
 
-import me.shouheng.commons.utils.LogUtils;
-import me.shouheng.notepal.onedrive.PrepareBackupDirTask;
-import me.shouheng.notepal.onedrive.OneDriveManager;
 import me.shouheng.data.model.Directory;
-import me.shouheng.commons.model.data.Resource;
+import me.shouheng.mvvm.base.BaseViewModel;
+import me.shouheng.mvvm.bean.Resources;
 import me.shouheng.notepal.common.preferences.SyncPreferences;
+import me.shouheng.notepal.onedrive.OneDriveManager;
+import me.shouheng.notepal.onedrive.PrepareBackupDirTask;
+import me.shouheng.utils.stability.LogUtils;
 
 /**
  * Created by shouh on 2018/3/31.*/
-public class DirectoryViewModel extends ViewModel {
+public class DirectoryViewModel extends BaseViewModel {
 
-    public LiveData<Resource<List<Directory>>> getDirectories(String itemId) {
-        MutableLiveData<Resource<List<Directory>>> result = new MutableLiveData<>();
+    public DirectoryViewModel(@NonNull Application application) {
+        super(application);
+    }
+
+    public LiveData<Resources<List<Directory>>> getDirectories(String itemId) {
+        MutableLiveData<Resources<List<Directory>>> result = new MutableLiveData<>();
         OneDriveManager.getInstance().getItems(itemId, new ICallback<Item>() {
             @Override
             public void success(Item item) {
                 if (item.children == null || item.children.getCurrentPage().isEmpty()) {
                     // The folder is empty
-                    result.setValue(Resource.success(new LinkedList<>()));
+                    result.setValue(Resources.success(new LinkedList<>()));
                 } else {
                     // Return the children folder
                     List<Directory> list = new LinkedList<>();
@@ -38,13 +44,13 @@ public class DirectoryViewModel extends ViewModel {
                         if (childItem.folder == null) continue;
                         list.add(OneDriveManager.getDirectory(childItem));
                     }
-                    result.setValue(Resource.success(list));
+                    result.setValue(Resources.success(list));
                 }
             }
 
             @Override
             public void failure(ClientException ex) {
-                result.setValue(Resource.error(ex.getMessage(), null));
+                result.setValue(Resources.failed(ex.getMessage(), null));
             }
         });
         return result;
@@ -55,15 +61,14 @@ public class DirectoryViewModel extends ViewModel {
      * 
      * @param toDir the directory to create to
      * @return the result */
-    public LiveData<Resource<Directory>> createBackupDir(Directory toDir, List<Directory> children) {
-        MutableLiveData<Resource<Directory>> result = new MutableLiveData<>();
+    public LiveData<Resources<Directory>> createBackupDir(Directory toDir, List<Directory> children) {
+        MutableLiveData<Resources<Directory>> result = new MutableLiveData<>();
         new PrepareBackupDirTask(toDir, children, new PrepareBackupDirTask.OnGetResultListener() {
 
             SyncPreferences syncPreferences = SyncPreferences.getInstance();
 
             private void onGetResult(String itemId, long udf1) {
-                Resource<Directory> ret = Resource.success(new Directory(itemId));
-                ret.setUdf1(udf1);
+                Resources<Directory> ret = Resources.success(new Directory(itemId), udf1);
                 result.setValue(ret);
             }
 
@@ -94,7 +99,7 @@ public class DirectoryViewModel extends ViewModel {
 
             @Override
             public void onError(String msg) {
-                result.setValue(Resource.error(msg, null));
+                result.setValue(Resources.failed(msg, null));
             }
         }).execute();
         return result;

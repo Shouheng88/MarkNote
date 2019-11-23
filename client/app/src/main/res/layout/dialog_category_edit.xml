@@ -45,7 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp">
 
-                <me.shouheng.commons.widget.CircleImageView
+                <me.shouheng.uix.image.CircleImageView
                     android:id="@+id/civ_portrait_background"
                     android:layout_gravity="center"
                     android:layout_width="40dp"
@@ -81,7 +81,6 @@
 
                     <android.support.v7.widget.AppCompatEditText
                         android:id="@+id/et_category_name"
-                        android:drawableEnd="@{isDarkTheme ? @drawable/ic_color_lens_white_24dp : @drawable/ic_color_lens_black_24dp}"
                         android:padding="8dp"
                         android:hint="@string/category_name_hint"
                         android:maxLines="1"

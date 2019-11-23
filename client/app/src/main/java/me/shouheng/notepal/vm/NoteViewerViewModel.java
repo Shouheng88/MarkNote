@@ -1,7 +1,7 @@
 package me.shouheng.notepal.vm;
 
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModel;
+import android.app.Application;
+import android.support.annotation.NonNull;
 
 import org.apache.commons.io.FileUtils;
 
@@ -14,13 +14,14 @@ import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import me.shouheng.commons.model.data.Resource;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.data.entity.Category;
 import me.shouheng.data.entity.Note;
 import me.shouheng.data.store.AttachmentsStore;
 import me.shouheng.data.store.CategoryStore;
 import me.shouheng.data.store.NotesStore;
+import me.shouheng.mvvm.base.BaseViewModel;
+import me.shouheng.mvvm.bean.Resources;
 import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.common.exception.NoteFileReadException;
 
@@ -28,7 +29,7 @@ import me.shouheng.notepal.common.exception.NoteFileReadException;
  * @author WngShhng (shouheng2015@gmail.com)
  * @version $Id: NoteViewerViewModel, v 0.1 2018/12/1 0:49 shouh Exp$
  */
-public class NoteViewerViewModel extends ViewModel {
+public class NoteViewerViewModel extends BaseViewModel {
 
     private Note note;
 
@@ -36,22 +37,8 @@ public class NoteViewerViewModel extends ViewModel {
 
     private String html;
 
-    private MutableLiveData<Resource<String>> noteContentObservable;
-
-    private MutableLiveData<Resource<List<Category>>> categoriesObservable;
-
-    public MutableLiveData<Resource<String>> getNoteContentObservable() {
-        if (noteContentObservable == null) {
-            noteContentObservable = new MutableLiveData<>();
-        }
-        return noteContentObservable;
-    }
-
-    public MutableLiveData<Resource<List<Category>>> getCategoriesObservable() {
-        if (categoriesObservable == null) {
-            categoriesObservable = new MutableLiveData<>();
-        }
-        return categoriesObservable;
+    public NoteViewerViewModel(@NonNull Application application) {
+        super(application);
     }
 
     public Note getNote() {
@@ -107,15 +94,11 @@ public class NoteViewerViewModel extends ViewModel {
                     emitter.onError(e);
                 }
             }
-        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> {
-            if (noteContentObservable != null) {
-                noteContentObservable.setValue(Resource.success(s));
-            }
-        }, throwable -> {
-            if (noteContentObservable != null) {
-                noteContentObservable.setValue(Resource.error(throwable.getMessage(), null));
-            }
-        });
+        })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(s -> getObservable(String.class).setValue(Resources.success(s)),
+                        throwable -> getObservable(String.class).setValue(Resources.failed(throwable.getMessage(), null)));
     }
 
     /**
@@ -127,10 +110,9 @@ public class NoteViewerViewModel extends ViewModel {
         return Observable.create((ObservableOnSubscribe<List<Category>>) emitter -> {
             List<Category> categories = CategoryStore.getInstance().getCategories(note);
             emitter.onNext(categories);
-        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(categories -> {
-            if (categoriesObservable != null) {
-                categoriesObservable.setValue(Resource.success(categories));
-            }
-        });
+        })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(categories -> getListObservable(Category.class).setValue(Resources.success(categories)));
     }
 }

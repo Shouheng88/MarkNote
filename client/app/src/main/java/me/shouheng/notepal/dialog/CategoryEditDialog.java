@@ -11,13 +11,15 @@ import android.view.LayoutInflater;
 
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
 
+import java.util.Objects;
+
 import me.shouheng.commons.helper.DialogHelper;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.data.model.enums.Portrait;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.DialogCategoryEditBinding;
 import me.shouheng.data.entity.Category;
-import me.shouheng.commons.utils.ToastUtils;
+import me.shouheng.utils.ui.ToastUtils;
 
 /**
  * Created by WngShhng on 2017/4/2.
@@ -55,14 +57,14 @@ public class CategoryEditDialog extends DialogFragment implements ColorChooserDi
         binding.ivPortrait.setImageResource(category.getPortrait().iconRes);
         updateUIBySelectedColor(category.getColor());
 
-        return new AlertDialog.Builder(getContext())
+        return new AlertDialog.Builder(Objects.requireNonNull(getContext()))
                 .setView(binding.getRoot())
                 .setPositiveButton(R.string.text_confirm, (dialog, which) -> {
                     if (TextUtils.isEmpty(binding.etCategoryName.getText())){
-                        ToastUtils.makeToast(R.string.text_title_required);
+                        ToastUtils.showShort(R.string.text_title_required);
                         return;
                     }
-                    category.setName(binding.etCategoryName.getText().toString());
+                    category.setName(Objects.requireNonNull(binding.etCategoryName.getText()).toString());
                     if (onConfirmListener != null) {
                         onConfirmListener.onConfirmCategory(category);
                     }
@@ -84,11 +86,12 @@ public class CategoryEditDialog extends DialogFragment implements ColorChooserDi
     }
 
     private void showPortraitPickerDialog() {
-        String SHOW_PORTRAIT_DIALOG = "SHOW_PORTRAIT_DIALOG";
+        String showPortraitDialog = "SHOW_PORTRAIT_DIALOG";
+        assert getFragmentManager() != null;
         PortraitPickerDialog.newInstance(categoryColor, (portraitId, portraitRes) -> {
             category.setPortrait(Portrait.getPortraitById(portraitId));
             binding.ivPortrait.setImageResource(portraitRes);
-        }).show(getFragmentManager(), SHOW_PORTRAIT_DIALOG);
+        }).show(getFragmentManager(), showPortraitDialog);
     }
 
     private void showColorPickerDialog() {
@@ -114,7 +117,9 @@ public class CategoryEditDialog extends DialogFragment implements ColorChooserDi
     }
 
     @Override
-    public void onColorChooserDismissed(@NonNull ColorChooserDialog dialog) { }
+    public void onColorChooserDismissed(@NonNull ColorChooserDialog dialog) {
+        // noop
+    }
 
     public interface OnConfirmListener {
         void onConfirmCategory(Category category);

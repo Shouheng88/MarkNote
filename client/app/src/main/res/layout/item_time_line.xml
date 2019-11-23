@@ -58,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-            <me.shouheng.commons.widget.CircleImageView
+            <me.shouheng.uix.image.CircleImageView
                 android:id="@+id/civ"
                 android:layout_centerVertical="true"
                 android:layout_width="30dp"

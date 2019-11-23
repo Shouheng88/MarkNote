@@ -1,8 +1,8 @@
 package me.shouheng.notepal.vm;
 
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModel;
+import android.app.Application;
 import android.graphics.Color;
+import android.support.annotation.NonNull;
 
 import org.joda.time.DateTime;
 
@@ -27,43 +27,36 @@ import lecho.lib.hellocharts.model.LineChartData;
 import lecho.lib.hellocharts.model.PointValue;
 import lecho.lib.hellocharts.model.SubcolumnValue;
 import lecho.lib.hellocharts.model.ValueShape;
-import me.shouheng.commons.model.data.Resource;
-import me.shouheng.commons.utils.LogUtils;
-import me.shouheng.commons.utils.PalmUtils;
-import me.shouheng.commons.utils.ViewUtils;
 import me.shouheng.data.helper.StatisticsHelper;
 import me.shouheng.data.model.Stats;
+import me.shouheng.mvvm.base.BaseViewModel;
+import me.shouheng.mvvm.bean.Resources;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
+import me.shouheng.utils.app.ResUtils;
+import me.shouheng.utils.stability.LogUtils;
 
 /**
  * Created by Employee on 2018/3/15.*/
-public class StatisticViewModel extends ViewModel {
+public class StatisticViewModel extends BaseViewModel {
 
     /**
      * The days count of added model statistic.
      */
-    private final static int DAYS_OF_ADDED_MODEL = 7;
+    private static final int DAYS_OF_ADDED_MODEL = 7;
 
     /**
      * The default value of added model.
      */
-    private final static int DEFAULT_ADDED_VALUE = 0;
+    private static final int DEFAULT_ADDED_VALUE = 0;
 
     /**
      * The default total values.
      */
-    private final static int DEFAULT_TOTAL_VALUE = 0;
+    private static final int DEFAULT_TOTAL_VALUE = 0;
 
-    private int lineStrokeWidth = ViewUtils.dp2Px(PalmApp.getContext(), 1);
-
-    private MutableLiveData<Resource<Stats>> statsLiveData;
-
-    public MutableLiveData<Resource<Stats>> getStatsLiveData() {
-        if (statsLiveData == null) {
-            statsLiveData = new MutableLiveData<>();
-        }
-        return statsLiveData;
+    public StatisticViewModel(@NonNull Application application) {
+        super(application);
     }
 
     public LineChartData getDefaultNoteData(int lineColor) {
@@ -118,18 +111,18 @@ public class StatisticViewModel extends ViewModel {
 
     public ColumnChartData getDefaultModelsData() {
         ColumnChartData data = new ColumnChartData(Arrays.asList(
-                getColumn(DEFAULT_TOTAL_VALUE, PalmUtils.getColorCompact(R.color.md_lime_600)),
-                getColumn(DEFAULT_TOTAL_VALUE, PalmUtils.getColorCompact(R.color.md_light_blue_500)),
-                getColumn(DEFAULT_TOTAL_VALUE, PalmUtils.getColorCompact(R.color.md_green_600)),
-                getColumn(DEFAULT_TOTAL_VALUE, PalmUtils.getColorCompact(R.color.md_pink_500)),
-                getColumn(DEFAULT_TOTAL_VALUE, PalmUtils.getColorCompact(R.color.md_red_500))));
+                getColumn(DEFAULT_TOTAL_VALUE, ResUtils.getColor(R.color.md_lime_600)),
+                getColumn(DEFAULT_TOTAL_VALUE, ResUtils.getColor(R.color.md_light_blue_500)),
+                getColumn(DEFAULT_TOTAL_VALUE, ResUtils.getColor(R.color.md_green_600)),
+                getColumn(DEFAULT_TOTAL_VALUE, ResUtils.getColor(R.color.md_pink_500)),
+                getColumn(DEFAULT_TOTAL_VALUE, ResUtils.getColor(R.color.md_red_500))));
 
         Axis axisX = Axis.generateAxisFromCollection(Arrays.asList(0.0f, 1.0f, 2.0f, 3.0f, 4.0f),
-                Arrays.asList(PalmUtils.getStringCompact(R.string.model_name_note),
-                        PalmUtils.getStringCompact(R.string.model_name_notebook),
-                        PalmUtils.getStringCompact(R.string.model_name_category),
-                        PalmUtils.getStringCompact(R.string.model_name_attachment),
-                        PalmUtils.getStringCompact(R.string.model_name_location)));
+                Arrays.asList(ResUtils.getString(R.string.model_name_note),
+                        ResUtils.getString(R.string.model_name_notebook),
+                        ResUtils.getString(R.string.model_name_category),
+                        ResUtils.getString(R.string.model_name_attachment),
+                        ResUtils.getString(R.string.model_name_location)));
 
         data.setAxisXBottom(axisX);
         data.setAxisYLeft(null);
@@ -145,18 +138,18 @@ public class StatisticViewModel extends ViewModel {
 
     public ColumnChartData getDefaultAttachmentData() {
         ColumnChartData data = new ColumnChartData(Arrays.asList(
-                getColumn(DEFAULT_TOTAL_VALUE, PalmUtils.getColorCompact(R.color.md_lime_600)),
-                getColumn(DEFAULT_TOTAL_VALUE, PalmUtils.getColorCompact(R.color.md_light_blue_500)),
-                getColumn(DEFAULT_TOTAL_VALUE, PalmUtils.getColorCompact(R.color.md_pink_500)),
-                getColumn(DEFAULT_TOTAL_VALUE, PalmUtils.getColorCompact(R.color.md_green_600)),
-                getColumn(DEFAULT_TOTAL_VALUE, PalmUtils.getColorCompact(R.color.md_red_500))));
+                getColumn(DEFAULT_TOTAL_VALUE, ResUtils.getColor(R.color.md_lime_600)),
+                getColumn(DEFAULT_TOTAL_VALUE, ResUtils.getColor(R.color.md_light_blue_500)),
+                getColumn(DEFAULT_TOTAL_VALUE, ResUtils.getColor(R.color.md_pink_500)),
+                getColumn(DEFAULT_TOTAL_VALUE, ResUtils.getColor(R.color.md_green_600)),
+                getColumn(DEFAULT_TOTAL_VALUE, ResUtils.getColor(R.color.md_red_500))));
 
         Axis axisX = Axis.generateAxisFromCollection(Arrays.asList(0.0f, 1.0f, 2.0f, 3.0f, 4.0f),
-                Arrays.asList(PalmUtils.getStringCompact(R.string.attachment_type_files),
-                        PalmUtils.getStringCompact(R.string.attachment_type_images),
-                        PalmUtils.getStringCompact(R.string.attachment_type_sketches),
-                        PalmUtils.getStringCompact(R.string.attachment_type_videos),
-                        PalmUtils.getStringCompact(R.string.attachment_type_voice)));
+                Arrays.asList(ResUtils.getString(R.string.attachment_type_files),
+                        ResUtils.getString(R.string.attachment_type_images),
+                        ResUtils.getString(R.string.attachment_type_sketches),
+                        ResUtils.getString(R.string.attachment_type_videos),
+                        ResUtils.getString(R.string.attachment_type_voice)));
 
         data.setAxisXBottom(axisX);
         data.setAxisYLeft(null);
@@ -169,10 +162,9 @@ public class StatisticViewModel extends ViewModel {
                 .create((ObservableOnSubscribe<Stats>) emitter -> {
                     Stats stats = StatisticsHelper.getStats(PalmApp.getContext());
                     emitter.onNext(stats);
-                }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(stats -> {
-                    if (statsLiveData != null) {
-                        statsLiveData.setValue(Resource.success(stats));
-                    }
-                });
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(stats -> getObservable(Stats.class).setValue(Resources.success(stats)));
     }
 }

@@ -44,22 +44,13 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import me.shouheng.commons.BaseConstants;
-import me.shouheng.commons.activity.CommonActivity;
 import me.shouheng.commons.activity.ContainerActivity;
-import me.shouheng.commons.event.PageName;
+import me.shouheng.commons.activity.ThemedActivity;
 import me.shouheng.commons.event.RxMessage;
 import me.shouheng.commons.helper.ActivityHelper;
 import me.shouheng.commons.helper.FragmentHelper;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.IntentUtils;
-import me.shouheng.commons.utils.LogUtils;
-import me.shouheng.commons.utils.PalmUtils;
-import me.shouheng.commons.utils.PermissionUtils;
-import me.shouheng.commons.utils.PermissionUtils.Permission;
-import me.shouheng.commons.utils.PersistData;
-import me.shouheng.commons.utils.StringUtils;
-import me.shouheng.commons.utils.ToastUtils;
-import me.shouheng.commons.widget.recycler.CustomRecyclerScrollViewListener;
 import me.shouheng.data.ModelFactory;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.data.entity.Category;
@@ -70,6 +61,7 @@ import me.shouheng.data.model.enums.FabSortItem;
 import me.shouheng.data.model.enums.Status;
 import me.shouheng.data.store.NotebookStore;
 import me.shouheng.data.store.NotesStore;
+import me.shouheng.mvvm.base.anno.ActivityConfiguration;
 import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
@@ -92,6 +84,14 @@ import me.shouheng.notepal.fragment.setting.SettingsFragment;
 import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.notepal.util.SynchronizeUtils;
 import me.shouheng.notepal.vm.MainViewModel;
+import me.shouheng.uix.rv.listener.CustomRecyclerScrollViewListener;
+import me.shouheng.utils.app.ResUtils;
+import me.shouheng.utils.data.StringUtils;
+import me.shouheng.utils.permission.Permission;
+import me.shouheng.utils.permission.PermissionUtils;
+import me.shouheng.utils.stability.LogUtils;
+import me.shouheng.utils.store.SPUtils;
+import me.shouheng.utils.ui.ToastUtils;
 
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
 import static me.shouheng.commons.event.UMEvent.FAB_SORT_ITEM_CAPTURE;
@@ -122,7 +122,6 @@ import static me.shouheng.commons.event.UMEvent.MAIN_MENU_ITEM_STATISTIC;
 import static me.shouheng.commons.event.UMEvent.MAIN_MENU_ITEM_SUPPORT;
 import static me.shouheng.commons.event.UMEvent.MAIN_MENU_ITEM_TIMELINE;
 import static me.shouheng.commons.event.UMEvent.MAIN_MENU_ITEM_TRASHED;
-import static me.shouheng.commons.event.UMEvent.PAGE_MAIN;
 import static me.shouheng.notepal.Constants.FAB_ACTION_CAPTURE;
 import static me.shouheng.notepal.Constants.FAB_ACTION_CREATE_SKETCH;
 import static me.shouheng.notepal.Constants.FAB_ACTION_PICK_IMAGE;
@@ -134,38 +133,30 @@ import static me.shouheng.notepal.Constants.SHORTCUT_ACTION_SEARCH_NOTE;
 import static me.shouheng.notepal.Constants.SHORTCUT_ACTION_VIEW_NOTE;
 import static me.shouheng.notepal.Constants.SHORTCUT_EXTRA_NOTE_CODE;
 
-@PageName(name = PAGE_MAIN)
-public class MainActivity extends CommonActivity<ActivityMainBinding>
+@ActivityConfiguration(layoutResId = R.layout.activity_main)
+public class MainActivity extends ThemedActivity<ActivityMainBinding, MainViewModel>
         implements NotesFragment.OnNotesInteractListener, CategoriesFragment.CategoriesInteraction {
 
     private FloatingActionButton[] fabs;
     private long onBackPressed;
     private Drawer drawer;
     private RecyclerView.OnScrollListener onScrollListener;
-    private MainViewModel viewModel;
-
-    @Override
-    protected int getLayoutResId() {
-        return R.layout.activity_main;
-    }
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {
-        viewModel = getViewModel(MainViewModel.class);
-
         checkPsdIfNecessary(savedInstanceState);
 
         addSubscriptions();
     }
 
     private void checkPsdIfNecessary(Bundle savedInstanceState) {
-        boolean psdRequired = PersistData.getBoolean(R.string.key_security_psd_required, false);
-        String psd = PersistData.getString(R.string.key_security_psd, null);
+        boolean psdRequired = SPUtils.getInstance().getBoolean(ResUtils.getString(R.string.key_security_psd_required), false);
+        String psd = SPUtils.getInstance().getString(ResUtils.getString(R.string.key_security_psd), null);
         if (psdRequired && PalmApp.passwordNotChecked() && !TextUtils.isEmpty(psd)) {
             ActivityHelper.open(LockActivity.class)
-                    .setAction(LockActivity.ACTION_REQUIRE_PASSWORD)
+                    .setAction(LockActivity.ACTION_REQUIRE_PSD)
                     .setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-                    .launch(getContext());
+                    .launch(this);
         } else {
             everything(savedInstanceState);
         }
@@ -175,33 +166,35 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
         addSubscription(RxMessage.class, RxMessage.CODE_SORT_FLOAT_BUTTONS, rxMessage -> configFabSortItems());
         addSubscription(RxMessage.class, RxMessage.CODE_PASSWORD_CHECK_PASSED, rxMessage -> everything(null));
         addSubscription(RxMessage.class, RxMessage.CODE_PASSWORD_CHECK_FAILED, rxMessage -> finish());
-        viewModel.getUpdateNotebookLiveData().observe(this, resources -> {
+        getVM().getObservable(Notebook.class).observe(this, resources -> {
             assert resources != null;
             switch (resources.status) {
                 case SUCCESS:
                     postEvent(new RxMessage(RxMessage.CODE_NOTE_DATA_CHANGED, null));
-                    ToastUtils.makeToast(R.string.text_save_successfully);
+                    ToastUtils.showShort(R.string.text_save_successfully);
                     break;
                 case LOADING:
                     break;
                 case FAILED:
-                    ToastUtils.makeToast(R.string.text_failed);
+                    ToastUtils.showShort(R.string.text_failed);
                     break;
+                default: // noop
             }
         });
-        viewModel.getSaveNoteLiveData().observe(this, resources -> {
+        getVM().getObservable(Note.class).observe(this, resources -> {
             assert resources != null;
             switch (resources.status) {
                 case SUCCESS:
                     postEvent(new RxMessage(RxMessage.CODE_NOTE_DATA_CHANGED, null));
-                    ToastUtils.makeToast(R.string.text_save_successfully);
+                    ToastUtils.showShort(R.string.text_save_successfully);
                     break;
                 case FAILED:
-                    ToastUtils.makeToast(R.string.text_failed);
+                    ToastUtils.showShort(R.string.text_failed);
                     break;
+                default: // noop
             }
         });
-        viewModel.getSaveCategoryLiveData().observe(this, resources -> {
+        getVM().getObservable(Category.class).observe(this, resources -> {
             assert resources != null;
             switch (resources.status) {
                 case SUCCESS:
@@ -211,11 +204,12 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                     } else {
                         postEvent(new RxMessage(RxMessage.CODE_CATEGORY_DATA_CHANGED, null));
                     }
-                    ToastUtils.makeToast(R.string.text_save_successfully);
+                    ToastUtils.showShort(R.string.text_save_successfully);
                     break;
                 case FAILED:
-                    ToastUtils.makeToast(R.string.text_failed);
+                    ToastUtils.showShort(R.string.text_failed);
                     break;
+                default: // noop
             }
         });
     }
@@ -274,7 +268,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
 
         LayoutHeaderBinding binding = DataBindingUtil.inflate(LayoutInflater.from(this),
                 R.layout.layout_header, null, false);
-        Glide.with(getContext()).load(isDarkTheme() ? Constants.IMAGE_HEADER_DARK : Constants.IMAGE_HEADER_LIGHT).into(binding.iv);
+        Glide.with(this).load(isDarkTheme() ? Constants.IMAGE_HEADER_DARK : Constants.IMAGE_HEADER_LIGHT).into(binding.iv);
 
         drawer = new DrawerBuilder().withActivity(this)
                 .withHasStableIds(true)
@@ -299,13 +293,13 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                         case 2:
                             ActivityHelper.open(ListActivity.class)
                                     .put(ListActivity.ARGS_KEY_LIST_TYPE, Status.ARCHIVED)
-                                    .launch(getContext());
+                                    .launch(this);
                             MobclickAgent.onEvent(this, MAIN_MENU_ITEM_ARCHIVED);
                             break;
                         case 3:
                             ActivityHelper.open(ListActivity.class)
                                     .put(ListActivity.ARGS_KEY_LIST_TYPE, Status.TRASHED)
-                                    .launch(getContext());
+                                    .launch(this);
                             MobclickAgent.onEvent(this, MAIN_MENU_ITEM_TRASHED);
                             break;
                         case 4:
@@ -324,35 +318,34 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                             ContainerActivity.open(TimeLineFragment.class).launch(this);
                             MobclickAgent.onEvent(this, MAIN_MENU_ITEM_TIMELINE);
                             break;
-                        case 8: {
+                        case 8:
                             // Share
                             MobclickAgent.onEvent(this, MAIN_MENU_ITEM_SHARE_APP);
-                            PermissionUtils.checkStoragePermission(this, () ->
-                                    Observable
-                                            .create((ObservableOnSubscribe<Uri>) emitter -> {
-                                                Bitmap share = FileManager.getImageFromAssetsFile(getContext(), SHARE_IMAGE_ASSETS_NAME_1);
-                                                Uri uri = FileManager.getShareImageUri(share, SHARE_IMAGE_NAME_1);
-                                                if (uri != null) {
-                                                    emitter.onNext(uri);
-                                                } else {
-                                                    emitter.onError(new NullPointerException());
-                                                }
-                                            })
-                                            .subscribeOn(Schedulers.io())
-                                            .observeOn(AndroidSchedulers.mainThread())
-                                            .subscribe(uri -> {
-                                                boolean isEn = "en".equalsIgnoreCase(PalmUtils.getStringCompact(R.string.language_code));
-                                                String download = isEn ? Constants.GOOGLE_PLAY_WEB_PAGE : Constants.COOL_APK_DOWNLOAD_PAGE;
-                                                Intent shareIntent = new Intent();
-                                                shareIntent.setAction(Intent.ACTION_SEND);
-                                                shareIntent.setType(BaseConstants.MIME_TYPE_IMAGE);
-                                                if (uri != null) shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
-                                                shareIntent.putExtra(Intent.EXTRA_SUBJECT, PalmUtils.getStringCompact(R.string.share_title));
-                                                shareIntent.putExtra(Intent.EXTRA_TEXT, StringUtils.formatString(R.string.share_content, download));
-                                                startActivity(Intent.createChooser(shareIntent, PalmUtils.getStringCompact(R.string.text_send_to)));
-                                            }, throwable -> ToastUtils.makeToast(throwable.getMessage())));
+                            PermissionUtils.checkStoragePermission(MainActivity.this, () -> Observable
+                                    .create((ObservableOnSubscribe<Uri>) emitter -> {
+                                        Bitmap share = FileManager.getImageFromAssetsFile(this, SHARE_IMAGE_ASSETS_NAME_1);
+                                        Uri uri = FileManager.getShareImageUri(share, SHARE_IMAGE_NAME_1);
+                                        if (uri != null) {
+                                            emitter.onNext(uri);
+                                        } else {
+                                            emitter.onError(new NullPointerException());
+                                        }
+                                    })
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(uri -> {
+                                        boolean isEn = "en".equalsIgnoreCase(ResUtils.getString(R.string.language_code));
+                                        String download = isEn ? Constants.GOOGLE_PLAY_WEB_PAGE : Constants.COOL_APK_DOWNLOAD_PAGE;
+                                        Intent shareIntent = new Intent();
+                                        shareIntent.setAction(Intent.ACTION_SEND);
+                                        shareIntent.setType(BaseConstants.MIME_TYPE_IMAGE);
+                                        if (uri != null) shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+                                        shareIntent.putExtra(Intent.EXTRA_SUBJECT, ResUtils.getString(R.string.share_title));
+                                        shareIntent.putExtra(Intent.EXTRA_TEXT, StringUtils.format(R.string.share_content, download));
+                                        startActivity(Intent.createChooser(shareIntent, ResUtils.getString(R.string.text_send_to)));
+                                    }, throwable -> ToastUtils.showShort(throwable.getMessage())));
                             break;
-                        }
+                        default: // noop
                     }
                     return true;
                 })
@@ -379,14 +372,14 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                 MobclickAgent.onEvent(this, INTENT_SHORTCUT_ACTION_SEARCH_NOTE);
                 ActivityHelper.open(SearchActivity.class)
                         .setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-                        .launch(getContext());
+                        .launch(this);
                 break;
             case SHORTCUT_ACTION_CAPTURE:
                 MobclickAgent.onEvent(this, INTENT_SHORTCUT_ACTION_CAPTURE);
                 PermissionUtils.checkPermissions(this, () ->
                         ContainerActivity.open(NoteFragment.class)
                                 .put(NoteFragment.ARGS_KEY_ACTION, SHORTCUT_ACTION_CAPTURE)
-                                .launch(getContext()), Permission.CAMERA, Permission.STORAGE);
+                                .launch(this), Permission.CAMERA, Permission.STORAGE);
                 break;
             case SHORTCUT_ACTION_CREATE_NOTE:
                 MobclickAgent.onEvent(this, INTENT_SHORTCUT_ACTION_CREATE_NOTE);
@@ -398,11 +391,11 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
             case SHORTCUT_ACTION_VIEW_NOTE:
                 MobclickAgent.onEvent(this, INTENT_SHORTCUT_ACTION_VIEW_NOTE);
                 if (!intent.hasExtra(SHORTCUT_EXTRA_NOTE_CODE)) {
-                    ToastUtils.makeToast(R.string.text_note_not_found);
+                    ToastUtils.showShort(R.string.text_note_not_found);
                     return;
                 }
                 long code = intent.getLongExtra(SHORTCUT_EXTRA_NOTE_CODE, 0L);
-                Observable
+                Disposable disposable = Observable
                         .create((ObservableOnSubscribe<Note>) emitter -> {
                             Note note = NotesStore.getInstance().get(code);
                             if (note != null) {
@@ -417,8 +410,9 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                                         ContainerActivity.open(NoteFragment.class)
                                                 .put(NoteFragment.ARGS_KEY_NOTE, (Serializable) note)
                                                 .put(NoteFragment.ARGS_KEY_ACTION, action)
-                                                .launch(getContext())),
-                                throwable -> ToastUtils.makeToast(R.string.text_note_not_found));
+                                                .launch(this)),
+                                throwable -> ToastUtils.showShort(R.string.text_note_not_found));
+                LogUtils.d(disposable);
                 break;
 
             /* Actions registered in Manifest, check at first and then send to the note fragment. */
@@ -431,7 +425,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                         ContainerActivity.open(NoteFragment.class)
                                 .put(NoteFragment.ARGS_KEY_ACTION, action)
                                 .put(NoteFragment.ARGS_KEY_INTENT, intent)
-                                .launch(getContext());
+                                .launch(this);
                     }
                 });
                 break;
@@ -444,7 +438,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                         Uri uri = intent.getData();
                         String path = FileManager.getPath(this, uri);
                         LayoutActionViewBottomDialogBinding binding = DataBindingUtil.inflate(
-                                LayoutInflater.from(getContext()), R.layout.layout_action_view_bottom_dialog, null, false);
+                                LayoutInflater.from(this), R.layout.layout_action_view_bottom_dialog, null, false);
                         binding.tvPath.setText(path);
                         BottomSheet bottomSheet = new BottomSheet.Builder(this)
                                 .setStyle(isDarkTheme() ? R.style.BottomSheet_Dark : R.style.BottomSheet)
@@ -455,10 +449,10 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                                 ContainerActivity.open(NoteFragment.class)
                                         .put(NoteFragment.ARGS_KEY_ACTION, action)
                                         .put(NoteFragment.ARGS_KEY_INTENT, intent)
-                                        .launch(getContext());
+                                        .launch(this);
                                 bottomSheet.dismiss();
                             } else {
-                                ToastUtils.makeToast(R.string.note_action_view_file_type_not_support);
+                                ToastUtils.showShort(R.string.note_action_view_file_type_not_support);
                             }
                         });
                         new Handler().postDelayed(bottomSheet::show, 500);
@@ -467,18 +461,17 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                 break;
 
             /* Actions from AppWidget. */
-            case Constants.APP_WIDGET_ACTION_CREATE_NOTE: {
+            case Constants.APP_WIDGET_ACTION_CREATE_NOTE:
                 MobclickAgent.onEvent(this, INTENT_APP_WIDGET_ACTION_CREATE_NOTE);
                 PermissionUtils.checkStoragePermission(this, () ->
                         handleAppWidget(intent, pair -> {
                             Note note = ModelFactory.getNote(pair.first, pair.second);
                             ContainerActivity.open(NoteFragment.class)
                                     .put(NoteFragment.ARGS_KEY_NOTE, (Serializable) note)
-                                    .launch(getContext());
+                                    .launch(this);
                         }));
                 break;
-            }
-            case Constants.APP_WIDGET_ACTION_LIST_ITEM_CLICLED: {
+            case Constants.APP_WIDGET_ACTION_LIST_ITEM_CLICLED:
                 MobclickAgent.onEvent(this, INTENT_APP_WIDGET_ACTION_LIST_ITEM_CLICKED);
                 Note note;
                 if (intent.hasExtra(Constants.APP_WIDGET_EXTRA_NOTE)
@@ -489,7 +482,6 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                             .launch(this);
                 }
                 break;
-            }
             case Constants.APP_WIDGET_ACTION_LAUNCH_APP:
                 MobclickAgent.onEvent(this, INTENT_APP_WIDGET_ACTION_LAUNCH_APP);
                 /* DO NOTHING JUST LAUNCH THE APP. */
@@ -498,22 +490,22 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                 MobclickAgent.onEvent(this, INTENT_APP_WIDGET_ACTION_CAPTURE);
                 PermissionUtils.checkPermissions(this, () ->
                         handleAppWidget(intent, pair -> {
-                            Note note = ModelFactory.getNote(pair.first, pair.second);
+                            Note noteLocal = ModelFactory.getNote(pair.first, pair.second);
                             ContainerActivity.open(NoteFragment.class)
                                     .put(NoteFragment.ARGS_KEY_ACTION, action)
-                                    .put(NoteFragment.ARGS_KEY_NOTE, (Serializable) note)
-                                    .launch(getContext());
+                                    .put(NoteFragment.ARGS_KEY_NOTE, (Serializable) noteLocal)
+                                    .launch(this);
                         }), Permission.STORAGE, Permission.CAMERA);
                 break;
             case Constants.APP_WIDGET_ACTION_CREATE_SKETCH:
                 MobclickAgent.onEvent(this, INTENT_APP_WIDGET_ACTION_CREATE_SKETCH);
                 PermissionUtils.checkStoragePermission(this, () ->
                         handleAppWidget(intent, pair -> {
-                            Note note = ModelFactory.getNote(pair.first, pair.second);
+                            Note noteLocal = ModelFactory.getNote(pair.first, pair.second);
                             ContainerActivity.open(NoteFragment.class)
                                     .put(NoteFragment.ARGS_KEY_ACTION, action)
-                                    .put(NoteFragment.ARGS_KEY_NOTE, (Serializable) note)
-                                    .launch(getContext());
+                                    .put(NoteFragment.ARGS_KEY_NOTE, (Serializable) noteLocal)
+                                    .launch(this);
                         }));
                 break;
 
@@ -522,6 +514,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                 MobclickAgent.onEvent(this, INTENT_ACTION_RESTART_APP);
                 recreate();
                 break;
+            default: // noop
         }
     }
 
@@ -530,7 +523,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
         int widgetId = intent.getIntExtra(Constants.APP_WIDGET_EXTRA_WIDGET_ID, 0);
         SharedPreferences sharedPreferences = getApplication().getSharedPreferences(
                 Constants.APP_WIDGET_PREFERENCES_NAME, Context.MODE_MULTI_PROCESS);
-        String key = Constants.APP_WIDGET_PREFERENCE_KEY_NOTEBOOK_CODE_PREFIX + String.valueOf(widgetId);
+        String key = Constants.APP_WIDGET_PREFERENCE_KEY_NOTEBOOK_CODE_PREFIX + widgetId;
         long notebookCode = sharedPreferences.getLong(key, 0);
         if (notebookCode != 0) {
             Disposable disposable = Observable
@@ -544,7 +537,8 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                         if (onGetAppWidgetCondition != null) {
                             onGetAppWidgetCondition.onGetCondition(new Pair<>(notebook, null));
                         }
-                    }, throwable -> ToastUtils.makeToast(R.string.text_notebook_not_found));
+                    }, throwable -> ToastUtils.showShort(R.string.text_notebook_not_found));
+            LogUtils.d(disposable);
         } else {
             if (onGetAppWidgetCondition != null) {
                 onGetAppWidgetCondition.onGetCondition(new Pair<>(null, null));
@@ -627,9 +621,9 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                 PermissionUtils.checkStoragePermission(this, () ->
                         ContainerActivity.open(NoteFragment.class)
                                 .put(NoteFragment.ARGS_KEY_NOTE, (Serializable) getNewNote())
-                                .launch(getContext()));
+                                .launch(this));
                 break;
-            case NOTEBOOK: {
+            case NOTEBOOK:
                 MobclickAgent.onEvent(this, FAB_SORT_ITEM_NOTEBOOK);
                 Notebook notebook = ModelFactory.getNotebook();
                 NotebookEditDialog.newInstance(notebook, (notebookName, notebookColor) -> {
@@ -643,14 +637,13 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                         notebook.setParentCode(parent.getCode());
                         notebook.setTreePath(parent.getTreePath() + "|" + notebook.getCode());
                     }
-                    viewModel.saveNotebook(notebook);
+                    getVM().saveNotebook(notebook);
                 }).show(getSupportFragmentManager(), "NOTEBOOK EDITOR");
                 break;
-            }
             case CATEGORY:
                 MobclickAgent.onEvent(this, FAB_SORT_ITEM_CATEGORY);
                 CategoryEditDialog.newInstance(ModelFactory.getCategory(),
-                        category -> viewModel.saveCategory(category)
+                        category -> getVM().saveCategory(category)
                 ).show(getSupportFragmentManager(), "CATEGORY EDITOR");
                 break;
             case QUICK_NOTE:
@@ -708,7 +701,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
 
             @Override
             public void onConfirm(Dialog dialog, QuickNote quickNote, Attachment attachment) {
-                viewModel.saveQuickNote(getNewNote(), quickNote, attachment);
+                getVM().saveQuickNote(getNewNote(), quickNote, attachment);
                 dialog.dismiss();
             }
         }).show(getSupportFragmentManager(), "QUICK NOTE");
@@ -747,21 +740,22 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home: {
+            case android.R.id.home:
                 Fragment fragment = getCurrentFragment();
                 if (!fragment.onOptionsItemSelected(item)) {
                     drawer.openDrawer();
                 }
                 return true;
-            }
             case R.id.action_search:
                 ActivityHelper.open(SearchActivity.class)
                         .setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-                        .launch(getContext());
+                        .launch(this);
                 break;
             case R.id.action_sync:
                 SynchronizeUtils.syncOneDrive(this, true);
                 break;
+            default:
+                // noop
         }
         return super.onOptionsItemSelected(item);
     }
@@ -799,7 +793,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
             super.onBackPressed();
             return;
         } else {
-            ToastUtils.makeToast(R.string.text_tab_again_exit);
+            ToastUtils.showShort(R.string.text_tab_again_exit);
         }
         onBackPressed = System.currentTimeMillis();
     }

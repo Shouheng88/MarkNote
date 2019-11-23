@@ -6,7 +6,7 @@ import java.io.File;
 import java.util.Date;
 import java.util.concurrent.CountDownLatch;
 
-import me.shouheng.commons.utils.LogUtils;
+import me.shouheng.utils.stability.LogUtils;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.data.store.AttachmentsStore;
 

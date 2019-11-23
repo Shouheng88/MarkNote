@@ -15,6 +15,8 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.Objects;
+
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.notepal.R;
 
@@ -27,7 +29,8 @@ public class SimpleEditDialog extends DialogFragment {
 
     private OnAcceptListener onAcceptListener;
 
-    private String content = "", previousContent = "";
+    private String content = "";
+    private String previousContent = "";
 
     private EditText etContent;
     private TextView tv;
@@ -72,18 +75,18 @@ public class SimpleEditDialog extends DialogFragment {
 
         etContent.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // noop
+            }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // noop
+            }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (previousContent.equals(s.toString())){
-                    SimpleEditDialog.this.setCancelable(true);
-                } else {
-                    SimpleEditDialog.this.setCancelable(false);
-                }
+                SimpleEditDialog.this.setCancelable(previousContent.equals(s.toString()));
                 if (maxLength != null) {
                     String sb = s.length() + "/" + maxLength;
                     tv.setText(sb);
@@ -97,7 +100,7 @@ public class SimpleEditDialog extends DialogFragment {
             etContent.setFilters(new InputFilter[] { new InputFilter.LengthFilter(maxLength)});
         }
 
-        return new AlertDialog.Builder(getContext())
+        return new AlertDialog.Builder(Objects.requireNonNull(getContext()))
                 .setTitle(R.string.text_edit)
                 .setView(dlgRootView)
                 .setPositiveButton(R.string.text_confirm, (dialog, which) -> {
