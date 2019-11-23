@@ -318,7 +318,7 @@ public class NoteFragment extends CustomFragment<FragmentNoteBinding, NoteViewMo
     }
 
     private void addSubscriptions() {
-        getVM().getNoteObservable().observe(this, resources -> {
+        getVM().getObservable(Note.class).observe(this, resources -> {
             assert resources != null;
             switch (resources.status) {
                 case SUCCESS:
@@ -326,12 +326,12 @@ public class NoteFragment extends CustomFragment<FragmentNoteBinding, NoteViewMo
                     getVM().fetchNoteContent();
                     break;
                 case FAILED:
-                    ToastUtils.showShort(resources.message);
+                    ToastUtils.showShort(resources.errorMessage);
                 default:
                     // noop
             }
         });
-        getVM().getNoteContentObservable().observe(this, resources -> {
+        getVM().getObservable(String.class).observe(this, resources -> {
             assert resources != null;
             switch (resources.status) {
                 case SUCCESS:
@@ -346,7 +346,7 @@ public class NoteFragment extends CustomFragment<FragmentNoteBinding, NoteViewMo
                     // noop
             }
         });
-        getVM().getSaveOrUpdateObservable().observe(this, resources -> {
+        getVM().getObservable(Boolean.class).observe(this, resources -> {
             assert resources != null;
             switch (resources.status) {
                 case SUCCESS:
@@ -368,6 +368,8 @@ public class NoteFragment extends CustomFragment<FragmentNoteBinding, NoteViewMo
                     break;
                 case LOADING:
                     break;
+                default:
+                    // noop
             }
         });
     }

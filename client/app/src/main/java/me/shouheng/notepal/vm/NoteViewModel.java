@@ -1,8 +1,6 @@
 package me.shouheng.notepal.vm;
 
 import android.app.Application;
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
@@ -18,7 +16,6 @@ import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import me.shouheng.commons.model.data.Resource;
 import me.shouheng.data.ModelFactory;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.data.entity.Category;
@@ -28,6 +25,7 @@ import me.shouheng.data.store.AttachmentsStore;
 import me.shouheng.data.store.CategoryStore;
 import me.shouheng.data.store.NotesStore;
 import me.shouheng.mvvm.base.BaseViewModel;
+import me.shouheng.mvvm.bean.Resources;
 import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
@@ -48,42 +46,13 @@ public class NoteViewModel extends BaseViewModel {
 
     private List<Category> categories;
 
-    private MutableLiveData<Resource<Note>> noteObservable;
-
-    private MutableLiveData<Resource<String>> noteContentObservable;
-
-    private MutableLiveData<Resource<Boolean>> saveOrUpdateObservable;
-
     public NoteViewModel(@NonNull Application application) {
         super(application);
     }
 
-    public LiveData<Resource<Note>> getNoteObservable() {
-        if (noteObservable == null) {
-            noteObservable = new MutableLiveData<>();
-        }
-        return noteObservable;
-    }
-
-    public LiveData<Resource<String>> getNoteContentObservable() {
-        if (noteContentObservable == null) {
-            noteContentObservable = new MutableLiveData<>();
-        }
-        return noteContentObservable;
-    }
-
-    public LiveData<Resource<Boolean>> getSaveOrUpdateObservable() {
-        if (saveOrUpdateObservable == null) {
-            saveOrUpdateObservable = new MutableLiveData<>();
-        }
-        return saveOrUpdateObservable;
-    }
-
     public void notifyNoteChanged(@NonNull Note note) {
         this.note = note;
-        if (noteObservable != null) {
-            noteObservable.setValue(Resource.success(note));
-        }
+        getObservable(Note.class).setValue(Resources.success(note));
     }
 
     /**
@@ -110,15 +79,9 @@ public class NoteViewModel extends BaseViewModel {
             }
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(s -> {
-                    if (noteContentObservable != null) {
-                        note.setContent(s);
-                        noteContentObservable.setValue(Resource.success(s));
-                    }
-                }, throwable -> {
-                    if (noteContentObservable != null) {
-                        noteContentObservable.setValue(Resource.error(throwable.getMessage(), null));
-                    }
-                });
+                    note.setContent(s);
+                    getObservable(String.class).setValue(Resources.success(s));
+                }, throwable -> getObservable(String.class).setValue(Resources.failed(throwable.getMessage(), null)));
     }
 
     /**
@@ -184,15 +147,8 @@ public class NoteViewModel extends BaseViewModel {
 
             emitter.onNext(true);
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(bool -> {
-                    if (saveOrUpdateObservable != null) {
-                        saveOrUpdateObservable.setValue(Resource.success(bool));
-                    }
-                }, throwable -> {
-                    if (saveOrUpdateObservable != null) {
-                        saveOrUpdateObservable.setValue(Resource.error(throwable.getMessage(), false));
-                    }
-                });
+                .subscribe(bool -> getObservable(Boolean.class).setValue(Resources.success(bool)),
+                        throwable -> getObservable(Boolean.class).setValue(Resources.failed(throwable.getMessage(), "")));
     }
 
     public Note getNote() {

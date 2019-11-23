@@ -21,6 +21,7 @@ import me.shouheng.commons.event.RxMessage;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.widget.recycler.CustomItemAnimator;
 import me.shouheng.commons.widget.recycler.DividerItemDecoration;
+import me.shouheng.data.entity.Note;
 import me.shouheng.mvvm.base.anno.ActivityConfiguration;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.NotesAdapter;
@@ -75,7 +76,7 @@ public class SearchActivity extends ThemedActivity<ActivitySearchBinding, Search
     }
 
     private void addSubscriptions() {
-        getVM().getNotesLiveData().observe(this, resources -> {
+        getVM().getListObservable(Note.class).observe(this, resources -> {
             assert resources != null;
             switch (resources.status) {
                 case SUCCESS:

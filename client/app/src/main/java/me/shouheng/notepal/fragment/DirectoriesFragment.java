@@ -86,7 +86,7 @@ public class DirectoriesFragment extends BaseFragment<FragmentDirectoriesBinding
             }
             switch (listResource.status) {
                 case FAILED:
-                    ToastUtils.showShort(listResource.message);
+                    ToastUtils.showShort(listResource.errorMessage);
                     break;
                 case SUCCESS:
                     assert listResource.data != null;
@@ -155,7 +155,7 @@ public class DirectoriesFragment extends BaseFragment<FragmentDirectoriesBinding
                 case FAILED:
                     ToastUtils.showShort(String.format(
                             ResUtils.getString(R.string.setting_backup_onedrive_error_when_try_to_backup),
-                            directoryResource.message));
+                            directoryResource.errorMessage));
                     break;
                 case SUCCESS:
                     ToastUtils.showShort(R.string.setting_backup_onedrive_backup_dir_selected_message);

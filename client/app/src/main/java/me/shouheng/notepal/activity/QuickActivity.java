@@ -86,7 +86,7 @@ public class QuickActivity extends AppCompatActivity implements PermissionResult
     private void addSubscriptions() {
         addSubscription(RxMessage.class, RxMessage.CODE_PASSWORD_CHECK_PASSED, rxMessage -> handleIntent(null));
         addSubscription(RxMessage.class, RxMessage.CODE_PASSWORD_CHECK_FAILED, rxMessage -> finish());
-        viewModel.getSaveNoteLiveData().observe(this, resources -> {
+        viewModel.getObservable(Note.class).observe(this, resources -> {
             assert resources != null;
             switch (resources.status) {
                 case SUCCESS:

@@ -166,7 +166,7 @@ public class MainActivity extends ThemedActivity<ActivityMainBinding, MainViewMo
         addSubscription(RxMessage.class, RxMessage.CODE_SORT_FLOAT_BUTTONS, rxMessage -> configFabSortItems());
         addSubscription(RxMessage.class, RxMessage.CODE_PASSWORD_CHECK_PASSED, rxMessage -> everything(null));
         addSubscription(RxMessage.class, RxMessage.CODE_PASSWORD_CHECK_FAILED, rxMessage -> finish());
-        getVM().getUpdateNotebookLiveData().observe(this, resources -> {
+        getVM().getObservable(Notebook.class).observe(this, resources -> {
             assert resources != null;
             switch (resources.status) {
                 case SUCCESS:
@@ -181,7 +181,7 @@ public class MainActivity extends ThemedActivity<ActivityMainBinding, MainViewMo
                 default: // noop
             }
         });
-        getVM().getSaveNoteLiveData().observe(this, resources -> {
+        getVM().getObservable(Note.class).observe(this, resources -> {
             assert resources != null;
             switch (resources.status) {
                 case SUCCESS:
@@ -194,7 +194,7 @@ public class MainActivity extends ThemedActivity<ActivityMainBinding, MainViewMo
                 default: // noop
             }
         });
-        getVM().getSaveCategoryLiveData().observe(this, resources -> {
+        getVM().getObservable(Category.class).observe(this, resources -> {
             assert resources != null;
             switch (resources.status) {
                 case SUCCESS:

@@ -1,7 +1,6 @@
 package me.shouheng.notepal.vm;
 
 import android.app.Application;
-import android.arch.lifecycle.MutableLiveData;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 
@@ -28,15 +27,14 @@ import lecho.lib.hellocharts.model.LineChartData;
 import lecho.lib.hellocharts.model.PointValue;
 import lecho.lib.hellocharts.model.SubcolumnValue;
 import lecho.lib.hellocharts.model.ValueShape;
-import me.shouheng.commons.model.data.Resource;
 import me.shouheng.data.helper.StatisticsHelper;
 import me.shouheng.data.model.Stats;
 import me.shouheng.mvvm.base.BaseViewModel;
+import me.shouheng.mvvm.bean.Resources;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.utils.app.ResUtils;
 import me.shouheng.utils.stability.LogUtils;
-import me.shouheng.utils.ui.ViewUtils;
 
 /**
  * Created by Employee on 2018/3/15.*/
@@ -57,19 +55,8 @@ public class StatisticViewModel extends BaseViewModel {
      */
     private static final int DEFAULT_TOTAL_VALUE = 0;
 
-    private int lineStrokeWidth = ViewUtils.dp2px(1);
-
-    private MutableLiveData<Resource<Stats>> statsLiveData;
-
     public StatisticViewModel(@NonNull Application application) {
         super(application);
-    }
-
-    public MutableLiveData<Resource<Stats>> getStatsLiveData() {
-        if (statsLiveData == null) {
-            statsLiveData = new MutableLiveData<>();
-        }
-        return statsLiveData;
     }
 
     public LineChartData getDefaultNoteData(int lineColor) {
@@ -175,10 +162,9 @@ public class StatisticViewModel extends BaseViewModel {
                 .create((ObservableOnSubscribe<Stats>) emitter -> {
                     Stats stats = StatisticsHelper.getStats(PalmApp.getContext());
                     emitter.onNext(stats);
-                }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(stats -> {
-                    if (statsLiveData != null) {
-                        statsLiveData.setValue(Resource.success(stats));
-                    }
-                });
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(stats -> getObservable(Stats.class).setValue(Resources.success(stats)));
     }
 }

@@ -1,7 +1,6 @@
 package me.shouheng.notepal.vm;
 
 import android.app.Application;
-import android.arch.lifecycle.MutableLiveData;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
@@ -15,7 +14,6 @@ import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import me.shouheng.commons.model.data.Resource;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.data.entity.Category;
 import me.shouheng.data.entity.Note;
@@ -27,6 +25,7 @@ import me.shouheng.data.model.enums.Status;
 import me.shouheng.data.store.NotebookStore;
 import me.shouheng.data.store.NotesStore;
 import me.shouheng.mvvm.base.BaseViewModel;
+import me.shouheng.mvvm.bean.Resources;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.MainActivity;
 import me.shouheng.notepal.adapter.NotesAdapter;
@@ -66,44 +65,15 @@ public class NotesViewModel extends BaseViewModel {
      */
     private int notebookUpdatePosition;
 
-    private MutableLiveData<Resource<List<NotesAdapter.MultiItem>>> mutableLiveData;
-
-    private MutableLiveData<Resource<Note>> noteUpdateLiveData;
-
-    private MutableLiveData<Resource<Notebook>> notebookUpdateLiveData;
-
     public NotesViewModel(@NonNull Application application) {
         super(application);
-    }
-
-    public MutableLiveData<Resource<List<NotesAdapter.MultiItem>>> getMutableLiveData() {
-        if (mutableLiveData == null) {
-            mutableLiveData = new MutableLiveData<>();
-        }
-        return mutableLiveData;
-    }
-
-    public MutableLiveData<Resource<Note>> getNoteUpdateLiveData() {
-        if (noteUpdateLiveData == null) {
-            noteUpdateLiveData = new MutableLiveData<>();
-        }
-        return noteUpdateLiveData;
-    }
-
-    public MutableLiveData<Resource<Notebook>> getNotebookUpdateLiveData() {
-        if (notebookUpdateLiveData == null) {
-            notebookUpdateLiveData = new MutableLiveData<>();
-        }
-        return notebookUpdateLiveData;
     }
 
     /**
      * Fetch the multi items.
      */
     public Disposable fetchMultiItems() {
-        if (mutableLiveData != null) {
-            mutableLiveData.setValue(Resource.loading(null));
-        }
+        getListObservable(NotesAdapter.MultiItem.class).setValue(Resources.loading(null));
         return Observable.create((ObservableOnSubscribe<List<NotesAdapter.MultiItem>>) emitter -> {
             List<NotesAdapter.MultiItem> multiItems = new LinkedList<>();
             List list;
@@ -128,11 +98,9 @@ public class NotesViewModel extends BaseViewModel {
                 }
             }
             emitter.onNext(multiItems);
-        }).observeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(multiItems -> {
-            if (mutableLiveData != null) {
-                mutableLiveData.setValue(Resource.success(multiItems));
-            }
-        });
+        }).observeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(multiItems -> getListObservable(NotesAdapter.MultiItem.class).setValue(Resources.success(multiItems)));
     }
 
     /**
@@ -146,11 +114,9 @@ public class NotesViewModel extends BaseViewModel {
                 .create((ObservableOnSubscribe<Note>) emitter -> {
                     NotesStore.getInstance().update(note, statusTo);
                     emitter.onNext(note);
-                }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(note1 -> {
-                    if (noteUpdateLiveData != null) {
-                        noteUpdateLiveData.setValue(Resource.success(note1));
-                    }
-                });
+                }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(note1 -> getObservable(Note.class).setValue(Resources.success(note1)));
     }
 
     /**
@@ -164,11 +130,9 @@ public class NotesViewModel extends BaseViewModel {
                 .create((ObservableOnSubscribe<Note>) emitter -> {
                     NotesStore.getInstance().update(note);
                     emitter.onNext(note);
-                }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(note1 -> {
-                    if (noteUpdateLiveData != null) {
-                        noteUpdateLiveData.setValue(Resource.success(note1));
-                    }
-                });
+                }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(note1 -> getObservable(Note.class).setValue(Resources.success(note1)));
     }
 
     /**
@@ -183,11 +147,10 @@ public class NotesViewModel extends BaseViewModel {
                 .create((ObservableOnSubscribe<Notebook>) emitter -> {
                     NotebookStore.getInstance().update(notebook, status, statusTo);
                     emitter.onNext(notebook);
-                }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(notebook1 -> {
-                    if (notebookUpdateLiveData != null) {
-                        notebookUpdateLiveData.setValue(Resource.success(notebook1));
-                    }
-                });
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(notebook1 -> getObservable(Notebook.class).setValue(Resources.success(notebook1)));
     }
 
     /**
@@ -201,11 +164,9 @@ public class NotesViewModel extends BaseViewModel {
                 .create((ObservableOnSubscribe<Notebook>) emitter -> {
                     NotebookStore.getInstance().update(notebook);
                     emitter.onNext(notebook);
-                }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(notebook1 -> {
-                    if (notebookUpdateLiveData != null) {
-                        notebookUpdateLiveData.setValue(Resource.success(notebook1));
-                    }
-                });
+                }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(notebook1 -> getObservable(Notebook.class).setValue(Resources.success(notebook1)));
     }
 
     public Disposable moveNotebook(Notebook notebook, Notebook notebookTo) {
@@ -213,11 +174,10 @@ public class NotesViewModel extends BaseViewModel {
                 .create((ObservableOnSubscribe<Notebook>) emitter -> {
                     NotebookStore.getInstance().move(notebook, notebookTo);
                     emitter.onNext(notebook);
-                }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(notebook1 -> {
-                    if (notebookUpdateLiveData != null) {
-                        notebookUpdateLiveData.setValue(Resource.success(notebook1));
-                    }
-                });
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(notebook1 -> getObservable(Notebook.class).setValue(Resources.success(notebook1)));
     }
 
     public int getNotebookUpdatePosition() {
@@ -286,7 +246,7 @@ public class NotesViewModel extends BaseViewModel {
      */
     public Drawable getHomeAsUpIndicator() {
         return ColorUtils.tintDrawable(isTopStack ?
-                R.drawable.ic_menu_white : R.drawable.ic_arrow_back_white_24dp,
+                        R.drawable.ic_menu_white : R.drawable.ic_arrow_back_white_24dp,
                 ColorUtils.isDarkTheme() ? Color.WHITE : Color.BLACK);
     }
 

@@ -158,7 +158,7 @@ public class NotesFragment extends CustomFragment<FragmentNotesBinding, NotesVie
     }
 
     private void addSubscriptions() {
-        getVM().getMutableLiveData().observe(this, resources -> {
+        getVM().getListObservable(NotesAdapter.MultiItem.class).observe(this, resources -> {
             assert resources != null;
             switch (resources.status) {
                 case SUCCESS:
@@ -174,7 +174,7 @@ public class NotesFragment extends CustomFragment<FragmentNotesBinding, NotesVie
                     break;
             }
         });
-        getVM().getNoteUpdateLiveData().observe(this, resources -> {
+        getVM().getObservable(Note.class).observe(this, resources -> {
             assert resources != null;
             switch (resources.status) {
                 case SUCCESS:
@@ -187,7 +187,7 @@ public class NotesFragment extends CustomFragment<FragmentNotesBinding, NotesVie
                     break;
             }
         });
-        getVM().getNotebookUpdateLiveData().observe(this, resources -> {
+        getVM().getObservable(Notebook.class).observe(this, resources -> {
             assert resources != null;
             switch (resources.status) {
                 case SUCCESS:

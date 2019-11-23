@@ -104,7 +104,7 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding, 
     }
 
     private void addSubscriptions() {
-        getVM().getCategoriesLiveData().observe(this, resources -> {
+        getVM().getListObservable(Category.class).observe(this, resources -> {
             assert resources != null;
             switch (resources.status) {
                 case SUCCESS:
@@ -120,7 +120,7 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding, 
                     break;
             }
         });
-        getVM().getCategoryUpdateObserver().observe(this, resource -> {
+        getVM().getObservable(Category.class).observe(this, resource -> {
             assert resource != null;
             switch (resource.status) {
                 case SUCCESS:

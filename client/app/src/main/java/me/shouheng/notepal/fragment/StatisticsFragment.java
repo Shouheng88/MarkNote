@@ -44,7 +44,7 @@ public class StatisticsFragment extends BaseFragment<FragmentStatisticsBinding, 
     }
 
     private void addSubscription() {
-        getVM().getStatsLiveData().observe(this, resources -> {
+        getVM().getObservable(Stats.class).observe(this, resources -> {
             assert resources != null;
             switch (resources.status) {
                 case SUCCESS:

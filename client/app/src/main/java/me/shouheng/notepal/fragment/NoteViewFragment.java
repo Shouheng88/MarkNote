@@ -41,7 +41,6 @@ import me.shouheng.commons.activity.ContainerActivity;
 import me.shouheng.commons.activity.interaction.BackEventResolver;
 import me.shouheng.commons.fragment.WebviewFragment;
 import me.shouheng.commons.helper.FragmentHelper;
-import me.shouheng.commons.model.data.Resource;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.IntentUtils;
 import me.shouheng.commons.widget.Chip;
@@ -53,6 +52,7 @@ import me.shouheng.easymark.EasyMarkViewer;
 import me.shouheng.easymark.viewer.listener.LifecycleListener;
 import me.shouheng.mvvm.base.CommonActivity;
 import me.shouheng.mvvm.base.anno.FragmentConfiguration;
+import me.shouheng.mvvm.bean.Resources;
 import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.FragmentNoteViewBinding;
@@ -240,7 +240,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding, Note
     }
 
     private void addSubscriptions() {
-        getVM().getNoteContentObservable().observe(this, resources -> {
+        getVM().getObservable(String.class).observe(this, resources -> {
             assert resources != null;
             switch (resources.status) {
                 case SUCCESS:
@@ -262,12 +262,13 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding, Note
                     break;
             }
         });
-        getVM().getCategoriesObservable().observe(this, new Observer<Resource<List<Category>>>() {
+        getVM().getListObservable(Category.class).observe(this, new Observer<Resources<List<Category>>>() {
             int margin = ViewUtils.dp2px(2f);
             ViewGroup.LayoutParams params = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             @Override
-            public void onChanged(@Nullable Resource<List<Category>> resources) {
+            public void onChanged(@Nullable Resources<List<Category>> resources) {
+                assert resources != null;
                 switch (resources.status) {
                     case SUCCESS:
                         getBinding().drawer.fl.removeAllViews();
@@ -283,6 +284,8 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding, Note
                         });
                         LogUtils.d(disposable);
                         break;
+                    case FAILED:
+                        ToastUtils.showShort(resources.errorMessage);
                     default:
                         // noop
                 }

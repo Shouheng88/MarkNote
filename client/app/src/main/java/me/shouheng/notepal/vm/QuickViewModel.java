@@ -1,7 +1,6 @@
 package me.shouheng.notepal.vm;
 
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModel;
+import android.app.Application;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -15,7 +14,6 @@ import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import me.shouheng.commons.model.data.Resource;
 import me.shouheng.data.ModelFactory;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.data.entity.Note;
@@ -23,24 +21,21 @@ import me.shouheng.data.entity.QuickNote;
 import me.shouheng.data.model.enums.ModelType;
 import me.shouheng.data.store.AttachmentsStore;
 import me.shouheng.data.store.NotesStore;
+import me.shouheng.mvvm.base.BaseViewModel;
+import me.shouheng.mvvm.bean.Resources;
 import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.PalmApp;
+import me.shouheng.notepal.common.preferences.UserPreferences;
 import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.notepal.manager.NoteManager;
-import me.shouheng.notepal.common.preferences.UserPreferences;
 
 /**
  * Created by WngShhng (shouheng2015@gmail.com) on 2018/12/3.
  */
-public class QuickViewModel extends ViewModel {
+public class QuickViewModel extends BaseViewModel {
 
-    private MutableLiveData<Resource<Note>> saveNoteLiveData;
-
-    public MutableLiveData<Resource<Note>> getSaveNoteLiveData() {
-        if (saveNoteLiveData == null) {
-            saveNoteLiveData = new MutableLiveData<>();
-        }
-        return saveNoteLiveData;
+    public QuickViewModel(@NonNull Application application) {
+        super(application);
     }
 
     public Disposable saveQuickNote(@NonNull Note note, QuickNote quickNote, @Nullable Attachment attachment) {
@@ -89,10 +84,6 @@ public class QuickViewModel extends ViewModel {
                 })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(note1 -> {
-                    if (saveNoteLiveData != null) {
-                        saveNoteLiveData.setValue(Resource.success(note1));
-                    }
-                });
+                .subscribe(note1 -> getObservable(Note.class).setValue(Resources.success(note1)));
     }
 }
