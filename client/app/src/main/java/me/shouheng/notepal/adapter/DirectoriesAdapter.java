@@ -1,6 +1,5 @@
 package me.shouheng.notepal.adapter;
 
-import android.content.Context;
 import android.graphics.drawable.Drawable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -9,7 +8,6 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import java.util.LinkedList;
 
 import me.shouheng.commons.utils.ColorUtils;
-import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.data.model.Directory;
 import me.shouheng.notepal.R;
 import me.shouheng.utils.app.ResUtils;
@@ -24,7 +22,7 @@ public class DirectoriesAdapter extends BaseQuickAdapter<Directory, BaseViewHold
 
     private Drawable dirIcon;
 
-    public DirectoriesAdapter(Context context) {
+    public DirectoriesAdapter() {
         super(R.layout.item_directory, new LinkedList<>());
         primaryColor = ColorUtils.primaryColor();
         isDarkTheme = ColorUtils.isDarkTheme();

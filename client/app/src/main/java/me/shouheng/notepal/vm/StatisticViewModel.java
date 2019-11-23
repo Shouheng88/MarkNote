@@ -45,17 +45,17 @@ public class StatisticViewModel extends BaseViewModel {
     /**
      * The days count of added model statistic.
      */
-    private final static int DAYS_OF_ADDED_MODEL = 7;
+    private static final int DAYS_OF_ADDED_MODEL = 7;
 
     /**
      * The default value of added model.
      */
-    private final static int DEFAULT_ADDED_VALUE = 0;
+    private static final int DEFAULT_ADDED_VALUE = 0;
 
     /**
      * The default total values.
      */
-    private final static int DEFAULT_TOTAL_VALUE = 0;
+    private static final int DEFAULT_TOTAL_VALUE = 0;
 
     private int lineStrokeWidth = ViewUtils.dp2px(1);
 

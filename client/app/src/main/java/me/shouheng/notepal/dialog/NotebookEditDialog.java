@@ -24,7 +24,7 @@ import me.shouheng.utils.ui.ToastUtils;
  */
 public class NotebookEditDialog extends DialogFragment implements ColorChooserDialog.ColorCallback {
 
-    public final static String ARG_KEY_NOTEBOOK = "__arg_key_notebook";
+    public static final String ARG_KEY_NOTEBOOK = "__arg_key_notebook";
 
     @ColorInt
     private int notebookColor;

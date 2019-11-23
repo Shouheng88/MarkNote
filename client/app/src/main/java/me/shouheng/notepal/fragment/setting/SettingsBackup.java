@@ -292,12 +292,8 @@ public class SettingsBackup extends BPreferenceFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK) {
-            switch (requestCode) {
-                case REQUEST_PICK_FOLDER:
-                    refreshOneDriveMessage();
-                    break;
-            }
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_PICK_FOLDER) {
+            refreshOneDriveMessage();
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

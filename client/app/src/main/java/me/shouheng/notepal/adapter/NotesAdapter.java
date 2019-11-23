@@ -66,6 +66,8 @@ public class NotesAdapter extends BaseMultiItemQuickAdapter<NotesAdapter.MultiIt
             case MultiItem.ITEM_TYPE_NOTEBOOK:
                 convertNotebook(helper, item.notebook);
                 break;
+            default:
+                // noop
         }
         helper.addOnClickListener(R.id.iv_more);
         /* Animations */
@@ -126,10 +128,12 @@ public class NotesAdapter extends BaseMultiItemQuickAdapter<NotesAdapter.MultiIt
     public String getTextToShowInBubble(int pos) {
         try {
             MultiItem multiItem = getItem(pos);
-            if (multiItem.itemType == MultiItem.ITEM_TYPE_NOTE) {
-                return String.valueOf(multiItem.note.getTitle().charAt(0));
-            } else if (multiItem.itemType == MultiItem.ITEM_TYPE_NOTEBOOK) {
-                return String.valueOf(multiItem.notebook.getTitle().charAt(0));
+            if (multiItem != null) {
+                if (multiItem.itemType == MultiItem.ITEM_TYPE_NOTE) {
+                    return String.valueOf(multiItem.note.getTitle().charAt(0));
+                } else if (multiItem.itemType == MultiItem.ITEM_TYPE_NOTEBOOK) {
+                    return String.valueOf(multiItem.notebook.getTitle().charAt(0));
+                }
             }
         } catch (Exception e) {
             return "";

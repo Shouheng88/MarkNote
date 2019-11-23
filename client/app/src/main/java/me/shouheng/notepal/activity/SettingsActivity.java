@@ -21,14 +21,15 @@ import me.shouheng.mvvm.base.anno.ActivityConfiguration;
 import me.shouheng.mvvm.comn.EmptyViewModel;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.ActivitySettingsBinding;
+import me.shouheng.utils.stability.LogUtils;
 
 @ActivityConfiguration(layoutResId = R.layout.activity_settings)
 public class SettingsActivity extends ThemedActivity<ActivitySettingsBinding, EmptyViewModel> {
 
-    public final static String ACTION_OPEN_FRAGMENT = "__action_open_fragment";
-    public final static String ACTION_OPEN_FRAGMENT_EXTRA_NEED_TOOLBAR = "__action_open_fragment_extra_need_toolbar";
-    public final static String ACTION_OPEN_FRAGMENT_EXTRA_CLASS = "__action_open_fragment_extra_class";
-    public final static String ACTION_OPEN_FRAGMENT_EXTRA_BUNDLE = "__action_open_fragment_extra_bundle";
+    public static final String ACTION_OPEN_FRAGMENT = "__action_open_fragment";
+    public static final String ACTION_OPEN_FRAGMENT_EXTRA_NEED_TOOLBAR = "__action_open_fragment_extra_need_toolbar";
+    public static final String ACTION_OPEN_FRAGMENT_EXTRA_CLASS = "__action_open_fragment_extra_class";
+    public static final String ACTION_OPEN_FRAGMENT_EXTRA_BUNDLE = "__action_open_fragment_extra_bundle";
 
     public static <T extends Fragment> Builder<T> open(Class<T> withClz) {
         return new Builder<>(withClz);
@@ -47,14 +48,15 @@ public class SettingsActivity extends ThemedActivity<ActivitySettingsBinding, Em
                 fragment.setArguments(bundle);
                 FragmentHelper.replace(this, fragment, R.id.fragment_container, false);
             } catch (InstantiationException e) {
-                e.printStackTrace();
+                LogUtils.e(e);
             } catch (IllegalAccessException e) {
-                e.printStackTrace();
+                LogUtils.e(e);
             }
         }
     }
 
     private void setupToolbar(Bundle savedInstanceState) {
+        LogUtils.d(savedInstanceState);
         Intent intent = getIntent();
         if (!intent.hasExtra(ACTION_OPEN_FRAGMENT_EXTRA_NEED_TOOLBAR)
                 || intent.getBooleanExtra(ACTION_OPEN_FRAGMENT_EXTRA_NEED_TOOLBAR, true)) {
@@ -76,10 +78,8 @@ public class SettingsActivity extends ThemedActivity<ActivitySettingsBinding, Em
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                break;
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -148,9 +148,9 @@ public class SettingsActivity extends ThemedActivity<ActivitySettingsBinding, Em
                 fragment.setArguments(bundle);
                 return fragment;
             } catch (InstantiationException e) {
-                e.printStackTrace();
+                LogUtils.e(e);
             } catch (IllegalAccessException e) {
-                e.printStackTrace();
+                LogUtils.e(e);
             }
             return null;
         }

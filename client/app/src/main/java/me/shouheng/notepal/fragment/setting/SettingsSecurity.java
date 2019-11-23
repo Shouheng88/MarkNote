@@ -43,7 +43,7 @@ public class SettingsSecurity extends BPreferenceFragment {
             String psd = SPUtils.getInstance().getString(ResUtils.getString(R.string.key_security_psd), null);
             if (TextUtils.isEmpty(psd) && ((SwitchPreference) preference).isChecked() ) {
                 ActivityHelper.open(LockActivity.class)
-                        .setAction(LockActivity.ACTION_SET_PASSWORD)
+                        .setAction(LockActivity.ACTION_SET_PSD)
                         .launch(getActivity());
             } else if (((SwitchPreference) preference).isChecked()){
                 /* the password is not empty and the password is required, but the security question is not set */
@@ -53,7 +53,7 @@ public class SettingsSecurity extends BPreferenceFragment {
         });
         findPreference(R.string.key_security_psd).setOnPreferenceClickListener(preference -> {
             ActivityHelper.open(LockActivity.class)
-                    .setAction(LockActivity.ACTION_SET_PASSWORD)
+                    .setAction(LockActivity.ACTION_SET_PSD)
                     .launch(getActivity());
             return true;
         });

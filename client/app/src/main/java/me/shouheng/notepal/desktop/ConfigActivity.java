@@ -23,6 +23,7 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.ActivityWidgetConfigurationBinding;
 import me.shouheng.notepal.dialog.picker.NotebookPickerDialog;
 import me.shouheng.notepal.util.AppWidgetUtils;
+import me.shouheng.utils.stability.LogUtils;
 import me.shouheng.utils.ui.ToastUtils;
 
 public class ConfigActivity extends AppCompatActivity {
@@ -61,7 +62,7 @@ public class ConfigActivity extends AppCompatActivity {
 
         sharedPreferences = getApplication().getSharedPreferences(
                 Constants.APP_WIDGET_PREFERENCES_NAME, Context.MODE_MULTI_PROCESS);
-        String key = Constants.APP_WIDGET_PREFERENCE_KEY_NOTEBOOK_CODE_PREFIX + String.valueOf(mAppWidgetId);
+        String key = Constants.APP_WIDGET_PREFERENCE_KEY_NOTEBOOK_CODE_PREFIX + mAppWidgetId;
         long notebookCode = sharedPreferences.getLong(key, 0);
 
         if (notebookCode != 0) {
@@ -72,6 +73,7 @@ public class ConfigActivity extends AppCompatActivity {
                 selectedNotebook = notebook;
                 updateWhenNotebookSelected();
             }, throwable -> ToastUtils.showShort(R.string.text_notebook_not_found));
+            LogUtils.d(disposable);
         }
     }
 
@@ -80,10 +82,10 @@ public class ConfigActivity extends AppCompatActivity {
         String sqlCondition = null;
         if (selectedNotebook != null) {
             sqlCondition = NoteSchema.TREE_PATH + " LIKE '" + selectedNotebook.getTreePath() + "'||'%'";
-            String key = Constants.APP_WIDGET_PREFERENCE_KEY_NOTEBOOK_CODE_PREFIX + String.valueOf(mAppWidgetId);
+            String key = Constants.APP_WIDGET_PREFERENCE_KEY_NOTEBOOK_CODE_PREFIX + mAppWidgetId;
             editor.putLong(key, selectedNotebook.getCode());
         }
-        editor.putString(Constants.APP_WIDGET_PREFERENCE_KEY_SQL_PREFIX + String.valueOf(mAppWidgetId), sqlCondition).apply();
+        editor.putString(Constants.APP_WIDGET_PREFERENCE_KEY_SQL_PREFIX + mAppWidgetId, sqlCondition).apply();
         AppWidgetUtils.notifyAppWidgets(getApplicationContext());
         finishWithOK();
     }

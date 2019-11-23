@@ -9,8 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -18,6 +16,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.Collections;
+import java.util.Objects;
 
 import me.shouheng.commons.event.RxMessage;
 import me.shouheng.commons.utils.ColorUtils;
@@ -46,7 +45,7 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding, 
      * The argument key for this fragment. The status of current categories list.
      * Or null of showing the normal categories.
      */
-    public final static String ARGS_KEY_STATUS = "__args_key_status";
+    public static final String ARGS_KEY_STATUS = "__args_key_status";
 
     private RecyclerView.OnScrollListener scrollListener;
     private CategoriesAdapter mAdapter;
@@ -65,19 +64,17 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding, 
         /* Config the categories list. */
         mAdapter = new CategoriesAdapter(getContext(), Collections.emptyList());
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
-            switch (view.getId()) {
-                case R.id.iv_more:
-                    Category category = mAdapter.getItem(position);
-                    if (category != null) {
-                        popMenu(view, category);
-                    }
-                    break;
+            if (view.getId() == R.id.iv_more) {
+                Category category = mAdapter.getItem(position);
+                if (category != null) {
+                    popMenu(view, category);
+                }
             }
         });
         mAdapter.setOnItemClickListener(this);
         getBinding().rvCategories.setEmptyView(getBinding().ev);
         getBinding().rvCategories.setHasFixedSize(true);
-        getBinding().rvCategories.addItemDecoration(new DividerItemDecoration(getContext(),
+        getBinding().rvCategories.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getContext()),
                 DividerItemDecoration.VERTICAL_LIST, isDarkTheme()));
         getBinding().rvCategories.setItemAnimator(new CustomItemAnimator());
         getBinding().rvCategories.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -152,7 +149,7 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding, 
     }
 
     private void popMenu(View v, Category param) {
-        PopupMenu popupM = new PopupMenu(getContext(), v);
+        PopupMenu popupM = new PopupMenu(Objects.requireNonNull(getContext()), v);
         popupM.inflate(R.menu.category_pop_menu);
         popupM.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()){
@@ -164,6 +161,8 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding, 
                 case R.id.action_delete:
                     getVM().updateCategory(param, Status.DELETED);
                     break;
+                default:
+                    // noop
             }
             return true;
         });
@@ -177,17 +176,9 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding, 
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        // inflater.inflate(R.menu.capture, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.action_capture:
-                createScreenCapture(getBinding().rvCategories, ViewUtils.dp2px(60));
-                break;
+        if (item.getItemId() == R.id.action_capture) {
+            createScreenCapture(getBinding().rvCategories, ViewUtils.dp2px(60));
         }
         return super.onOptionsItemSelected(item);
     }

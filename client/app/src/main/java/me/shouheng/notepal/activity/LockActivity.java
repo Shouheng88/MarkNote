@@ -39,8 +39,8 @@ import me.shouheng.utils.ui.ViewUtils;
 @ActivityConfiguration(layoutResId = R.layout.activity_lock)
 public class LockActivity extends ThemedActivity<ActivityLockBinding, EmptyViewModel> {
 
-    public final static String ACTION_SET_PASSWORD = "__action_set_password";
-    public final static String ACTION_REQUIRE_PASSWORD = "__action_require_password";
+    public static final String ACTION_SET_PSD = "__action_set_password";
+    public static final String ACTION_REQUIRE_PSD = "__action_require_password";
 
     private FingerprintIdentify mFingerprintIdentify;
     private static final int MAX_AVAILABLE_TIMES = 5;
@@ -67,7 +67,7 @@ public class LockActivity extends ThemedActivity<ActivityLockBinding, EmptyViewM
         String action = intent.getAction();
         assert action != null;
         switch (action) {
-            case ACTION_REQUIRE_PASSWORD:
+            case ACTION_REQUIRE_PSD:
                 /* Request password check. */
                 if (TextUtils.isEmpty(savedPsd)) {
                     passPasswordCheck();
@@ -77,7 +77,7 @@ public class LockActivity extends ThemedActivity<ActivityLockBinding, EmptyViewM
                     }
                 }
                 break;
-            case ACTION_SET_PASSWORD:
+            case ACTION_SET_PSD:
                 /* If the action is to set password that means the user has ever passed the password check. */
                 getBinding().profileName.setText(R.string.setting_lock_new_psd);
                 break;
@@ -128,9 +128,9 @@ public class LockActivity extends ThemedActivity<ActivityLockBinding, EmptyViewM
 
         @Override
         public void onComplete(String pin) {
-            if (ACTION_REQUIRE_PASSWORD.equals(getIntent().getAction())) {
+            if (ACTION_REQUIRE_PSD.equals(getIntent().getAction())) {
                 onCompleteForRequirement(pin);
-            } else if (ACTION_SET_PASSWORD.equals(getIntent().getAction())) {
+            } else if (ACTION_SET_PSD.equals(getIntent().getAction())) {
                 onCompleteForSetting(pin);
             }
         }
@@ -179,12 +179,12 @@ public class LockActivity extends ThemedActivity<ActivityLockBinding, EmptyViewM
 
         @Override
         public void onEmpty() {
-
+            // noop
         }
 
         @Override
         public void onPinChange(int pinLength, String intermediatePin) {
-
+            // noop
         }
     };
 
@@ -261,9 +261,9 @@ public class LockActivity extends ThemedActivity<ActivityLockBinding, EmptyViewM
 
     @Override
     public void onBackPressed() {
-        if (ACTION_REQUIRE_PASSWORD.equals(getIntent().getAction())) {
+        if (ACTION_REQUIRE_PSD.equals(getIntent().getAction())) {
             postEvent(new RxMessage(RxMessage.CODE_PASSWORD_CHECK_FAILED, null));
-        } else if (ACTION_SET_PASSWORD.equals(getIntent().getAction())) {
+        } else if (ACTION_SET_PSD.equals(getIntent().getAction())) {
             postEvent(new RxMessage(RxMessage.CODE_PASSWORD_SET_FAILED, null));
         }
         super.onBackPressed();

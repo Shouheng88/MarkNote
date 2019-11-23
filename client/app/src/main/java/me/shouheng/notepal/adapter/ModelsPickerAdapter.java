@@ -49,8 +49,4 @@ public class ModelsPickerAdapter<T extends Model & Selectable> extends BaseQuick
         }
         return selectedColor;
     }
-
-    public void setModelsPickerStrategy(@NonNull ModelsPickerStrategy<T> modelsPickerStrategy) {
-        this.modelsPickerStrategy = modelsPickerStrategy;
-    }
 }

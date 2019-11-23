@@ -70,7 +70,7 @@ public class ThemePickDialog extends DialogFragment {
         binding.ivLightBlue.setVisibility(themeStyle == ThemeStyle.LIGHT_BLUE_THEME ? View.VISIBLE : View.GONE);
         binding.ivLightRed.setVisibility(themeStyle == ThemeStyle.LIGHT_RED_THEME ? View.VISIBLE : View.GONE);
         binding.ivDarkBlue.setVisibility(themeStyle == ThemeStyle.DARK_THEME ? View.VISIBLE : View.GONE);
-        Glide.with(getActivity())
+        Glide.with(Objects.requireNonNull(getActivity()))
                 .load(themeStyle.isDarkTheme ? Constants.IMAGE_HEADER_DARK : Constants.IMAGE_HEADER_LIGHT)
                 .into(binding.ivBg);
     }

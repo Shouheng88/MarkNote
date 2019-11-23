@@ -13,6 +13,8 @@ import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
+import java.util.Objects;
+
 import me.shouheng.commons.widget.recycler.CustomItemAnimator;
 import me.shouheng.commons.widget.recycler.DividerItemDecoration;
 import me.shouheng.data.model.Directory;
@@ -30,7 +32,7 @@ import me.shouheng.utils.ui.ToastUtils;
 @FragmentConfiguration(layoutResId = R.layout.fragment_directories)
 public class DirectoriesFragment extends BaseFragment<FragmentDirectoriesBinding, DirectoryViewModel> {
 
-    private final static String KEY_DIRECTORY = "key_item_id";
+    private static final String KEY_DIRECTORY = "key_item_id";
 
     private Directory directory;
 
@@ -49,15 +51,15 @@ public class DirectoriesFragment extends BaseFragment<FragmentDirectoriesBinding
         assert getArguments() != null;
         directory = (Directory) getArguments().get(KEY_DIRECTORY);
 
-        adapter = new DirectoriesAdapter(getContext());
-        adapter.setOnItemClickListener((adapter, view, position) -> {
-            if (getActivity() != null && getActivity() instanceof OnFragmentInteractionListener) {
-                ((OnFragmentInteractionListener) getActivity()).onDirectoryClicked((Directory) adapter.getItem(position));
+        adapter = new DirectoriesAdapter();
+        adapter.setOnItemClickListener((quickAdapter, view, position) -> {
+            if (getActivity() instanceof OnFragmentInteractionListener) {
+                ((OnFragmentInteractionListener) getActivity()).onDirectoryClicked((Directory) quickAdapter.getItem(position));
             }
         });
 
         getBinding().rvDirectories.addItemDecoration(new DividerItemDecoration(
-                getContext(), DividerItemDecoration.VERTICAL_LIST, isDarkTheme()));
+                Objects.requireNonNull(getContext()), DividerItemDecoration.VERTICAL_LIST, isDarkTheme()));
         getBinding().rvDirectories.setItemAnimator(new CustomItemAnimator());
         getBinding().rvDirectories.setLayoutManager(new LinearLayoutManager(getContext()));
         getBinding().rvDirectories.setEmptyView(getBinding().ev);
@@ -96,12 +98,14 @@ public class DirectoriesFragment extends BaseFragment<FragmentDirectoriesBinding
                         }
                     }
                     break;
+                default:
+                    // noop
             }
         });
     }
 
     private void showSelectionTips() {
-        new MaterialDialog.Builder(getContext())
+        new MaterialDialog.Builder(Objects.requireNonNull(getContext()))
                 .title(R.string.text_tips)
                 .content(R.string.setting_backup_onedrive_available_directory_found)
                 .positiveText(R.string.text_get_it)
@@ -129,10 +133,8 @@ public class DirectoriesFragment extends BaseFragment<FragmentDirectoriesBinding
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_done:
-                createBackupFolder();
-                break;
+        if (item.getItemId() == R.id.action_done) {
+            createBackupFolder();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -157,10 +159,12 @@ public class DirectoriesFragment extends BaseFragment<FragmentDirectoriesBinding
                     break;
                 case SUCCESS:
                     ToastUtils.showShort(R.string.setting_backup_onedrive_backup_dir_selected_message);
-                    if (getActivity() != null && getActivity() instanceof OnFragmentInteractionListener) {
+                    if (getActivity() instanceof OnFragmentInteractionListener) {
                         ((OnFragmentInteractionListener) getActivity()).onDirectoryPicked(directory);
                     }
                     break;
+                default:
+                    // noop
             }
         });
     }

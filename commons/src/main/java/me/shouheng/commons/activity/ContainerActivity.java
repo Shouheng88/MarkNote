@@ -20,10 +20,10 @@ import me.shouheng.utils.app.ResUtils;
 
 public class ContainerActivity extends ThemedActivity<ActivityContainerBinding, EmptyViewModel> {
 
-    public final static String ACTION_OPEN_FRAGMENT = "__action_open_fragment";
-    public final static String ACTION_OPEN_FRAGMENT_EXTRA_NEED_TOOLBAR = "__action_open_fragment_extra_need_toolbar";
-    public final static String ACTION_OPEN_FRAGMENT_EXTRA_CLASS = "__action_open_fragment_extra_class";
-    public final static String ACTION_OPEN_FRAGMENT_EXTRA_BUNDLE = "__action_open_fragment_extra_bundle";
+    public static final String ACTION_OPEN_FRAGMENT = "__action_open_fragment";
+    public static final String ACTION_OPEN_FRAGMENT_EXTRA_NEED_TOOLBAR = "__action_open_fragment_extra_need_toolbar";
+    public static final String ACTION_OPEN_FRAGMENT_EXTRA_CLASS = "__action_open_fragment_extra_class";
+    public static final String ACTION_OPEN_FRAGMENT_EXTRA_BUNDLE = "__action_open_fragment_extra_bundle";
 
     public static <T extends Fragment> FragmentHelper.Builder<T> open(Class<T> withClz) {
         return new FragmentHelper.Builder<>(withClz);

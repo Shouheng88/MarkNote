@@ -14,6 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
 import me.shouheng.commons.activity.ContainerActivity;
 import me.shouheng.commons.activity.ThemedActivity;
 import me.shouheng.commons.event.RxMessage;
@@ -27,6 +28,7 @@ import me.shouheng.notepal.databinding.ActivitySearchBinding;
 import me.shouheng.notepal.fragment.NoteViewFragment;
 import me.shouheng.notepal.vm.SearchViewModel;
 import me.shouheng.uix.rv.EmptyView;
+import me.shouheng.utils.stability.LogUtils;
 import me.shouheng.utils.ui.ToastUtils;
 
 @ActivityConfiguration(layoutResId = R.layout.activity_search)
@@ -60,8 +62,8 @@ public class SearchActivity extends ThemedActivity<ActivitySearchBinding, Search
         getBinding().recyclerview.setItemAnimator(new CustomItemAnimator());
         getBinding().recyclerview.setLayoutManager(new LinearLayoutManager(this));
         getBinding().recyclerview.setAdapter(adapter);
-        adapter.setOnItemClickListener((adapter, view, position) -> {
-            NotesAdapter.MultiItem item = (NotesAdapter.MultiItem) adapter.getData().get(position);
+        adapter.setOnItemClickListener((quickAdapter, view, position) -> {
+            NotesAdapter.MultiItem item = (NotesAdapter.MultiItem) quickAdapter.getData().get(position);
             ContainerActivity.open(NoteViewFragment.class)
                     .put(NoteViewFragment.ARGS_KEY_NOTE, (Serializable) item.note)
                     .put(NoteViewFragment.ARGS_KEY_IS_PREVIEW, false)
@@ -79,8 +81,9 @@ public class SearchActivity extends ThemedActivity<ActivitySearchBinding, Search
                 case SUCCESS:
                     List<NotesAdapter.MultiItem> multiItems = new LinkedList<>();
                     assert resources.data != null;
-                    Observable.fromIterable(resources.data)
+                    Disposable d = Observable.fromIterable(resources.data)
                             .forEach(note -> multiItems.add(new NotesAdapter.MultiItem(note)));
+                    LogUtils.d(d);
                     adapter.setNewData(multiItems);
                     getBinding().ev.showEmpty();
                     break;
@@ -91,6 +94,7 @@ public class SearchActivity extends ThemedActivity<ActivitySearchBinding, Search
                 case LOADING:
                     getBinding().ev.showLoading();
                     break;
+                default: // noop
             }
         });
         addSubscription(RxMessage.class, RxMessage.CODE_NOTE_DATA_CHANGED,
@@ -125,10 +129,8 @@ public class SearchActivity extends ThemedActivity<ActivitySearchBinding, Search
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case android.R.id.home:
-                finish();
-                break;
+        if (item.getItemId() == android.R.id.home){
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }

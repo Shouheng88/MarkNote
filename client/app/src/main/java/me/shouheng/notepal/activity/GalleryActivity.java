@@ -39,9 +39,9 @@ import ooo.oxo.library.widget.PullBackLayout;
 
 public class GalleryActivity extends AppCompatActivity implements PullBackLayout.Callback {
 
-    public final static String EXTRA_GALLERY_IMAGES = "__extra_gallery_images";
-    public final static String EXTRA_GALLERY_TITLE = "__extra_gallery_title";
-    public final static String EXTRA_GALLERY_CLICKED_IMAGE = "__extra_gallery_clicked_image";
+    public static final String EXTRA_GALLERY_IMAGES = "__extra_gallery_images";
+    public static final String EXTRA_GALLERY_TITLE = "__extra_gallery_title";
+    public static final String EXTRA_GALLERY_CLICKED_IMAGE = "__extra_gallery_clicked_image";
 
     private ColorDrawable mBackground;
     private HackyViewPager mViewPager;
@@ -116,7 +116,9 @@ public class GalleryActivity extends AppCompatActivity implements PullBackLayout
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { }
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                // noop
+            }
 
             @Override
             public void onPageSelected(int position) {
@@ -125,7 +127,9 @@ public class GalleryActivity extends AppCompatActivity implements PullBackLayout
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) { }
+            public void onPageScrollStateChanged(int state) {
+                // noop
+            }
         });
 
         Display aa = ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay();
@@ -181,7 +185,6 @@ public class GalleryActivity extends AppCompatActivity implements PullBackLayout
         super.onLowMemory();
         Glide.get(getApplicationContext()).clearMemory();
         Glide.get(getApplicationContext()).trimMemory(TRIM_MEMORY_COMPLETE);
-        System.gc();
     }
 
     @Override
@@ -202,18 +205,17 @@ public class GalleryActivity extends AppCompatActivity implements PullBackLayout
             case android.R.id.home:
                 finish();
                 break;
-            case R.id.action_share: {
+            case R.id.action_share:
                 Attachment attachment = attachments.get(mViewPager.getCurrentItem());
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType(FileManager.getMimeType(this, attachment.getUri()));
                 intent.putExtra(Intent.EXTRA_STREAM, attachment.getUri());
                 startActivity(intent);
                 break;
-            }
-            case R.id.action_open: {
+            case R.id.action_open:
                 try {
-                    Attachment attachment = attachments.get(mViewPager.getCurrentItem());
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    attachment = attachments.get(mViewPager.getCurrentItem());
+                    intent = new Intent(Intent.ACTION_VIEW);
                     intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     intent.setDataAndType(attachment.getUri(), FileManager.getMimeType(this, attachment.getUri()));
                     startActivity(intent);
@@ -221,9 +223,10 @@ public class GalleryActivity extends AppCompatActivity implements PullBackLayout
                     ToastUtils.showShort(R.string.text_failed_to_resolve_intent);
                 }
                 break;
-            }
             case R.id.action_info:
                 break;
+            default:
+                // noop
         }
         return super.onOptionsItemSelected(item);
     }
@@ -251,16 +254,13 @@ public class GalleryActivity extends AppCompatActivity implements PullBackLayout
     }
 
     @Override
-    public void onPullCancel() {}
+    public void onPullCancel() {
+        // noop
+    }
 
     @Override
     public void onPullComplete() {
         supportFinishAfterTransition();
-    }
-
-    @Override
-    public void supportFinishAfterTransition() {
-        super.supportFinishAfterTransition();
     }
 
     @Override

@@ -154,7 +154,7 @@ public class MainActivity extends ThemedActivity<ActivityMainBinding, MainViewMo
         String psd = SPUtils.getInstance().getString(ResUtils.getString(R.string.key_security_psd), null);
         if (psdRequired && PalmApp.passwordNotChecked() && !TextUtils.isEmpty(psd)) {
             ActivityHelper.open(LockActivity.class)
-                    .setAction(LockActivity.ACTION_REQUIRE_PASSWORD)
+                    .setAction(LockActivity.ACTION_REQUIRE_PSD)
                     .setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                     .launch(this);
         } else {
@@ -178,6 +178,7 @@ public class MainActivity extends ThemedActivity<ActivityMainBinding, MainViewMo
                 case FAILED:
                     ToastUtils.showShort(R.string.text_failed);
                     break;
+                default: // noop
             }
         });
         getVM().getSaveNoteLiveData().observe(this, resources -> {
@@ -190,6 +191,7 @@ public class MainActivity extends ThemedActivity<ActivityMainBinding, MainViewMo
                 case FAILED:
                     ToastUtils.showShort(R.string.text_failed);
                     break;
+                default: // noop
             }
         });
         getVM().getSaveCategoryLiveData().observe(this, resources -> {
@@ -207,6 +209,7 @@ public class MainActivity extends ThemedActivity<ActivityMainBinding, MainViewMo
                 case FAILED:
                     ToastUtils.showShort(R.string.text_failed);
                     break;
+                default: // noop
             }
         });
     }
@@ -315,7 +318,7 @@ public class MainActivity extends ThemedActivity<ActivityMainBinding, MainViewMo
                             ContainerActivity.open(TimeLineFragment.class).launch(this);
                             MobclickAgent.onEvent(this, MAIN_MENU_ITEM_TIMELINE);
                             break;
-                        case 8: {
+                        case 8:
                             // Share
                             MobclickAgent.onEvent(this, MAIN_MENU_ITEM_SHARE_APP);
                             PermissionUtils.checkStoragePermission(MainActivity.this, () -> Observable
@@ -342,7 +345,7 @@ public class MainActivity extends ThemedActivity<ActivityMainBinding, MainViewMo
                                         startActivity(Intent.createChooser(shareIntent, ResUtils.getString(R.string.text_send_to)));
                                     }, throwable -> ToastUtils.showShort(throwable.getMessage())));
                             break;
-                        }
+                        default: // noop
                     }
                     return true;
                 })
@@ -392,7 +395,7 @@ public class MainActivity extends ThemedActivity<ActivityMainBinding, MainViewMo
                     return;
                 }
                 long code = intent.getLongExtra(SHORTCUT_EXTRA_NOTE_CODE, 0L);
-                Observable
+                Disposable disposable = Observable
                         .create((ObservableOnSubscribe<Note>) emitter -> {
                             Note note = NotesStore.getInstance().get(code);
                             if (note != null) {
@@ -409,6 +412,7 @@ public class MainActivity extends ThemedActivity<ActivityMainBinding, MainViewMo
                                                 .put(NoteFragment.ARGS_KEY_ACTION, action)
                                                 .launch(this)),
                                 throwable -> ToastUtils.showShort(R.string.text_note_not_found));
+                LogUtils.d(disposable);
                 break;
 
             /* Actions registered in Manifest, check at first and then send to the note fragment. */
@@ -457,7 +461,7 @@ public class MainActivity extends ThemedActivity<ActivityMainBinding, MainViewMo
                 break;
 
             /* Actions from AppWidget. */
-            case Constants.APP_WIDGET_ACTION_CREATE_NOTE: {
+            case Constants.APP_WIDGET_ACTION_CREATE_NOTE:
                 MobclickAgent.onEvent(this, INTENT_APP_WIDGET_ACTION_CREATE_NOTE);
                 PermissionUtils.checkStoragePermission(this, () ->
                         handleAppWidget(intent, pair -> {
@@ -467,8 +471,7 @@ public class MainActivity extends ThemedActivity<ActivityMainBinding, MainViewMo
                                     .launch(this);
                         }));
                 break;
-            }
-            case Constants.APP_WIDGET_ACTION_LIST_ITEM_CLICLED: {
+            case Constants.APP_WIDGET_ACTION_LIST_ITEM_CLICLED:
                 MobclickAgent.onEvent(this, INTENT_APP_WIDGET_ACTION_LIST_ITEM_CLICKED);
                 Note note;
                 if (intent.hasExtra(Constants.APP_WIDGET_EXTRA_NOTE)
@@ -479,7 +482,6 @@ public class MainActivity extends ThemedActivity<ActivityMainBinding, MainViewMo
                             .launch(this);
                 }
                 break;
-            }
             case Constants.APP_WIDGET_ACTION_LAUNCH_APP:
                 MobclickAgent.onEvent(this, INTENT_APP_WIDGET_ACTION_LAUNCH_APP);
                 /* DO NOTHING JUST LAUNCH THE APP. */
@@ -488,10 +490,10 @@ public class MainActivity extends ThemedActivity<ActivityMainBinding, MainViewMo
                 MobclickAgent.onEvent(this, INTENT_APP_WIDGET_ACTION_CAPTURE);
                 PermissionUtils.checkPermissions(this, () ->
                         handleAppWidget(intent, pair -> {
-                            Note note = ModelFactory.getNote(pair.first, pair.second);
+                            Note noteLocal = ModelFactory.getNote(pair.first, pair.second);
                             ContainerActivity.open(NoteFragment.class)
                                     .put(NoteFragment.ARGS_KEY_ACTION, action)
-                                    .put(NoteFragment.ARGS_KEY_NOTE, (Serializable) note)
+                                    .put(NoteFragment.ARGS_KEY_NOTE, (Serializable) noteLocal)
                                     .launch(this);
                         }), Permission.STORAGE, Permission.CAMERA);
                 break;
@@ -499,10 +501,10 @@ public class MainActivity extends ThemedActivity<ActivityMainBinding, MainViewMo
                 MobclickAgent.onEvent(this, INTENT_APP_WIDGET_ACTION_CREATE_SKETCH);
                 PermissionUtils.checkStoragePermission(this, () ->
                         handleAppWidget(intent, pair -> {
-                            Note note = ModelFactory.getNote(pair.first, pair.second);
+                            Note noteLocal = ModelFactory.getNote(pair.first, pair.second);
                             ContainerActivity.open(NoteFragment.class)
                                     .put(NoteFragment.ARGS_KEY_ACTION, action)
-                                    .put(NoteFragment.ARGS_KEY_NOTE, (Serializable) note)
+                                    .put(NoteFragment.ARGS_KEY_NOTE, (Serializable) noteLocal)
                                     .launch(this);
                         }));
                 break;
@@ -512,6 +514,7 @@ public class MainActivity extends ThemedActivity<ActivityMainBinding, MainViewMo
                 MobclickAgent.onEvent(this, INTENT_ACTION_RESTART_APP);
                 recreate();
                 break;
+            default: // noop
         }
     }
 
@@ -520,7 +523,7 @@ public class MainActivity extends ThemedActivity<ActivityMainBinding, MainViewMo
         int widgetId = intent.getIntExtra(Constants.APP_WIDGET_EXTRA_WIDGET_ID, 0);
         SharedPreferences sharedPreferences = getApplication().getSharedPreferences(
                 Constants.APP_WIDGET_PREFERENCES_NAME, Context.MODE_MULTI_PROCESS);
-        String key = Constants.APP_WIDGET_PREFERENCE_KEY_NOTEBOOK_CODE_PREFIX + String.valueOf(widgetId);
+        String key = Constants.APP_WIDGET_PREFERENCE_KEY_NOTEBOOK_CODE_PREFIX + widgetId;
         long notebookCode = sharedPreferences.getLong(key, 0);
         if (notebookCode != 0) {
             Disposable disposable = Observable
@@ -535,6 +538,7 @@ public class MainActivity extends ThemedActivity<ActivityMainBinding, MainViewMo
                             onGetAppWidgetCondition.onGetCondition(new Pair<>(notebook, null));
                         }
                     }, throwable -> ToastUtils.showShort(R.string.text_notebook_not_found));
+            LogUtils.d(disposable);
         } else {
             if (onGetAppWidgetCondition != null) {
                 onGetAppWidgetCondition.onGetCondition(new Pair<>(null, null));
@@ -619,7 +623,7 @@ public class MainActivity extends ThemedActivity<ActivityMainBinding, MainViewMo
                                 .put(NoteFragment.ARGS_KEY_NOTE, (Serializable) getNewNote())
                                 .launch(this));
                 break;
-            case NOTEBOOK: {
+            case NOTEBOOK:
                 MobclickAgent.onEvent(this, FAB_SORT_ITEM_NOTEBOOK);
                 Notebook notebook = ModelFactory.getNotebook();
                 NotebookEditDialog.newInstance(notebook, (notebookName, notebookColor) -> {
@@ -636,7 +640,6 @@ public class MainActivity extends ThemedActivity<ActivityMainBinding, MainViewMo
                     getVM().saveNotebook(notebook);
                 }).show(getSupportFragmentManager(), "NOTEBOOK EDITOR");
                 break;
-            }
             case CATEGORY:
                 MobclickAgent.onEvent(this, FAB_SORT_ITEM_CATEGORY);
                 CategoryEditDialog.newInstance(ModelFactory.getCategory(),
@@ -737,13 +740,12 @@ public class MainActivity extends ThemedActivity<ActivityMainBinding, MainViewMo
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home: {
+            case android.R.id.home:
                 Fragment fragment = getCurrentFragment();
                 if (!fragment.onOptionsItemSelected(item)) {
                     drawer.openDrawer();
                 }
                 return true;
-            }
             case R.id.action_search:
                 ActivityHelper.open(SearchActivity.class)
                         .setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
@@ -752,6 +754,8 @@ public class MainActivity extends ThemedActivity<ActivityMainBinding, MainViewMo
             case R.id.action_sync:
                 SynchronizeUtils.syncOneDrive(this, true);
                 break;
+            default:
+                // noop
         }
         return super.onOptionsItemSelected(item);
     }

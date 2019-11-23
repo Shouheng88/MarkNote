@@ -10,10 +10,10 @@ import android.view.View;
 import android.widget.RemoteViews;
 
 import me.shouheng.commons.utils.ColorUtils;
-import me.shouheng.utils.stability.LogUtils;
 import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.MainActivity;
+import me.shouheng.utils.stability.LogUtils;
 
 public class ListWidgetProvider extends BaseWidgetProvider {
 
@@ -60,6 +60,7 @@ public class ListWidgetProvider extends BaseWidgetProvider {
     }
 
     private PendingIntent listClickPendingIntent(Context context, int widgetId) {
+        LogUtils.d(widgetId);
         Intent clickIntent = new Intent(context, MainActivity.class);
         clickIntent.setAction(Constants.APP_WIDGET_ACTION_LIST_ITEM_CLICLED);
 
@@ -67,6 +68,7 @@ public class ListWidgetProvider extends BaseWidgetProvider {
     }
 
     private void configToolbar(Context context, RemoteViews views, SparseArray<PendingIntent> pendingIntentsMap) {
+        LogUtils.d(context);
         views.setOnClickPendingIntent(R.id.iv_launch_app, pendingIntentsMap.get(R.id.iv_launch_app));
         views.setOnClickPendingIntent(R.id.iv_add_note, pendingIntentsMap.get(R.id.iv_add_note));
         views.setOnClickPendingIntent(R.id.iv_add_mind, pendingIntentsMap.get(R.id.iv_add_mind));

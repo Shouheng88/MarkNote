@@ -46,7 +46,7 @@ import static me.shouheng.notepal.Constants.EMAIL_DEVELOPER;
 @ActivityConfiguration(layoutResId = R.layout.activity_about)
 public class AboutActivity extends ThemedActivity<ActivityAboutBinding, EmptyViewModel> {
 
-    public final static String APP_ABOUT_ARG_OPEN_SOURCE_ONLY = "__extra_app_about_open_source_only";
+    public static final String APP_ABOUT_ARG_OPEN_SOURCE_ONLY = "__extra_app_about_open_source_only";
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {
@@ -54,8 +54,8 @@ public class AboutActivity extends ThemedActivity<ActivityAboutBinding, EmptyVie
         ThemeStyle themeStyle = ThemeUtils.getInstance().getThemeStyle();
         getBinding().setIsDarkTheme(themeStyle.isDarkTheme);
         getBinding().setVersionName(BuildConfig.VERSION_NAME);
-        ThemeUtils.setStatusBarColor(this, themeStyle.isDarkTheme ? Color.BLACK :
-                AppUtils.isMarshmallow() ? Color.WHITE : ResUtils.getColor(R.color.light_theme_background_dark));
+        int marshmallowColor = AppUtils.isMarshmallow() ? Color.WHITE : ResUtils.getColor(R.color.light_theme_background_dark);
+        ThemeUtils.setStatusBarColor(this, themeStyle.isDarkTheme ? Color.BLACK : marshmallowColor);
 
         /* Handle intent. */
         boolean openSourceOnly = false;
@@ -129,18 +129,20 @@ public class AboutActivity extends ThemedActivity<ActivityAboutBinding, EmptyVie
             AboutEntity aboutEntity = aboutAdapter.getItem(position);
             assert aboutEntity != null;
             switch (aboutEntity.type) {
-                case AboutEntity.typeUser:
+                case AboutEntity.TYPE_USER:
                     ContainerActivity.open(WebviewFragment.class)
                             .put(WebviewFragment.ARGUMENT_KEY_URL, aboutEntity.user.website)
                             .put(WebviewFragment.ARGUMENT_KEY_USE_PAGE_TITLE, true)
                             .launch(this);
                     break;
-                case AboutEntity.typeLicense:
+                case AboutEntity.TYPE_LICENSE:
                     ContainerActivity.open(WebviewFragment.class)
                             .put(WebviewFragment.ARGUMENT_KEY_URL, aboutEntity.license.url)
                             .put(WebviewFragment.ARGUMENT_KEY_USE_PAGE_TITLE, true)
                             .launch(this);
                     break;
+                default:
+                    // noop
             }
         });
         getBinding().list.setAdapter(aboutAdapter);
@@ -161,6 +163,8 @@ public class AboutActivity extends ThemedActivity<ActivityAboutBinding, EmptyVie
             case R.id.action_rate:
                 IntentUtils.openInMarket(this, BuildConfig.APPLICATION_ID);
                 break;
+            default:
+                // noop
         }
         return super.onOptionsItemSelected(item);
     }
@@ -177,10 +181,10 @@ public class AboutActivity extends ThemedActivity<ActivityAboutBinding, EmptyVie
 
         AboutAdapter(Context context, List<AboutEntity> data) {
             super(data);
-            addItemType(AboutEntity.typeText, R.layout.item_about_text);
-            addItemType(AboutEntity.typeSection, R.layout.item_about_section);
-            addItemType(AboutEntity.typeLicense, R.layout.item_about_license);
-            addItemType(AboutEntity.typeUser, R.layout.item_about_user);
+            addItemType(AboutEntity.TYPE_TEXT, R.layout.item_about_text);
+            addItemType(AboutEntity.TYPE_SECTION, R.layout.item_about_section);
+            addItemType(AboutEntity.TYPE_LICENSE, R.layout.item_about_license);
+            addItemType(AboutEntity.TYPE_USER, R.layout.item_about_user);
             this.context = context;
             themeStyle = ThemeUtils.getInstance().getThemeStyle();
         }
@@ -188,18 +192,20 @@ public class AboutActivity extends ThemedActivity<ActivityAboutBinding, EmptyVie
         @Override
         protected void convert(BaseViewHolder helper, AboutEntity item) {
             switch (item.type) {
-                case AboutEntity.typeSection:
+                case AboutEntity.TYPE_SECTION:
                     convertSection(helper, item);
                     break;
-                case AboutEntity.typeText:
+                case AboutEntity.TYPE_TEXT:
                     convertContent(helper, item);
                     break;
-                case AboutEntity.typeLicense:
+                case AboutEntity.TYPE_LICENSE:
                     convertLicense(helper, item);
                     break;
-                case AboutEntity.typeUser:
+                case AboutEntity.TYPE_USER:
                     convertUser(helper, item);
                     break;
+                default:
+                    // noop
             }
         }
 
@@ -234,10 +240,10 @@ public class AboutActivity extends ThemedActivity<ActivityAboutBinding, EmptyVie
     }
 
     public static class AboutEntity implements MultiItemEntity {
-        public final static int typeLicense = 0;
-        public final static int typeUser = 1;
-        public final static int typeSection = 2;
-        public final static int typeText = 3;
+        static final int TYPE_LICENSE = 0;
+        static final int TYPE_USER = 1;
+        static final int TYPE_SECTION = 2;
+        static final int TYPE_TEXT = 3;
 
         public final int type;
 
@@ -247,13 +253,13 @@ public class AboutActivity extends ThemedActivity<ActivityAboutBinding, EmptyVie
         public User user;
 
         static AboutEntity getSectionTitle(CharSequence sectionTitle) {
-            AboutEntity aboutEntity = new AboutEntity(typeSection);
+            AboutEntity aboutEntity = new AboutEntity(TYPE_SECTION);
             aboutEntity.sectionTitle = sectionTitle;
             return aboutEntity;
         }
 
         static AboutEntity getNormalText(CharSequence text) {
-            AboutEntity aboutEntity = new AboutEntity(typeText);
+            AboutEntity aboutEntity = new AboutEntity(TYPE_TEXT);
             aboutEntity.text = text;
             return aboutEntity;
         }
@@ -263,7 +269,7 @@ public class AboutActivity extends ThemedActivity<ActivityAboutBinding, EmptyVie
                                       @NonNull String type,
                                       @NonNull String url) {
             License license = new License(name, author, type, url);
-            AboutEntity aboutEntity = new AboutEntity(typeLicense);
+            AboutEntity aboutEntity = new AboutEntity(TYPE_LICENSE);
             aboutEntity.license = license;
             return aboutEntity;
         }
@@ -272,7 +278,7 @@ public class AboutActivity extends ThemedActivity<ActivityAboutBinding, EmptyVie
                                    @NonNull String avatarUrl,
                                    @NonNull String description,
                                    @NonNull String website) {
-            AboutEntity aboutEntity = new AboutEntity(typeUser);
+            AboutEntity aboutEntity = new AboutEntity(TYPE_USER);
             aboutEntity.user = new User(name, avatarUrl, description, website);
             return aboutEntity;
         }

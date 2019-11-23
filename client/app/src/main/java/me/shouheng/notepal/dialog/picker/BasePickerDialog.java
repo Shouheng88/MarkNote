@@ -11,6 +11,7 @@ import android.view.View;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.widget.recycler.CustomItemAnimator;
@@ -48,7 +49,7 @@ public abstract class BasePickerDialog<T extends Model & Selectable> extends Dia
         mRecyclerView = dialogView.findViewById(R.id.rv_models);
         mRecyclerView.setEmptyView(emptyView);
         mRecyclerView.setItemAnimator(new CustomItemAnimator());
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getContext()),
                 DividerItemDecoration.VERTICAL_LIST, ColorUtils.isDarkTheme()));
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 

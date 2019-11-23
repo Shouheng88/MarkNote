@@ -75,7 +75,7 @@ public class QuickActivity extends AppCompatActivity implements PermissionResult
         String psd = SPUtils.getInstance().getString(ResUtils.getString(R.string.key_security_psd), null);
         if (psdRequired && PalmApp.passwordNotChecked() && !TextUtils.isEmpty(psd)) {
             ActivityHelper.open(LockActivity.class)
-                    .setAction(LockActivity.ACTION_REQUIRE_PASSWORD)
+                    .setAction(LockActivity.ACTION_REQUIRE_PSD)
                     .setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                     .launch(this);
         } else {
@@ -97,6 +97,7 @@ public class QuickActivity extends AppCompatActivity implements PermissionResult
                 case FAILED:
                     ToastUtils.showShort(R.string.text_failed);
                     break;
+                default: // noop
             }
         });
     }
@@ -117,6 +118,7 @@ public class QuickActivity extends AppCompatActivity implements PermissionResult
                 PermissionUtils.checkStoragePermission(this, () ->
                         handleAppWidget(intent, pair -> editQuickNote(pair, ModelFactory.getQuickNote())));
                 break;
+            default: // noop
         }
     }
 
@@ -166,6 +168,7 @@ public class QuickActivity extends AppCompatActivity implements PermissionResult
                             onGetAppWidgetCondition.onGetCondition(new Pair<>(notebook, null));
                         }
                     }, throwable -> ToastUtils.showShort(R.string.text_notebook_not_found));
+            LogUtils.d(disposable);
         } else {
             if (onGetAppWidgetCondition != null) {
                 onGetAppWidgetCondition.onGetCondition(new Pair<>(null, null));

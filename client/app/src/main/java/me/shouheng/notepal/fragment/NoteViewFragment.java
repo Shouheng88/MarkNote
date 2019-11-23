@@ -87,18 +87,18 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding, Note
     /**
      * The key for argument, used to send the note model to this fragment.
      */
-    public final static String ARGS_KEY_NOTE = "__args_key_note";
+    public static final String ARGS_KEY_NOTE = "__args_key_note";
 
     /**
      * The key for argument, used to set the behavior of this fragment. If true, the edit FAB
      * won't be displayed.
      */
-    public final static String ARGS_KEY_IS_PREVIEW = "__args_key_is_preview";
+    public static final String ARGS_KEY_IS_PREVIEW = "__args_key_is_preview";
 
     /**
      * The request code for editing this note.
      */
-    private final int REQUEST_FOR_EDIT = 0x01;
+    private static final int REQUEST_FOR_EDIT = 0x01;
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {
@@ -152,7 +152,8 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding, Note
             LogUtils.d(url);
             LogUtils.d(Arrays.toString(urls));
             List<Attachment> attachments = new ArrayList<>();
-            Attachment clickedAttachment = null, attachment;
+            Attachment clickedAttachment = null;
+            Attachment attachment;
             int index = 0;
             long codeBase = System.currentTimeMillis();
             for (String u : urls) {
@@ -199,10 +200,14 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding, Note
         });
         getBinding().emv.setLifecycleListener(new LifecycleListener() {
             @Override
-            public void onLoadFinished(WebView webView, String str) { }
+            public void onLoadFinished(WebView webView, String str) {
+                // noop
+            }
 
             @Override
-            public void beforeProcessMarkdown(String content) { }
+            public void beforeProcessMarkdown(String content) {
+                // noop
+            }
 
             @Override
             public void afterProcessMarkdown(String document) {
@@ -263,12 +268,10 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding, Note
                     LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             @Override
             public void onChanged(@Nullable Resource<List<Category>> resources) {
-                assert resources != null;
                 switch (resources.status) {
                     case SUCCESS:
-                        assert resources.data != null;
                         getBinding().drawer.fl.removeAllViews();
-                        Disposable disposable = Observable.fromIterable(resources.data).forEach(category -> {
+                        Disposable disposable = Observable.fromIterable(Objects.requireNonNull(resources.data)).forEach(category -> {
                             Chip chip = new Chip(getContext());
                             chip.setIcon(category.getPortrait().iconRes);
                             chip.setText(category.getName());
@@ -278,11 +281,10 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding, Note
                             chip.setLayoutParams(mp);
                             getBinding().drawer.fl.addView(chip);
                         });
+                        LogUtils.d(disposable);
                         break;
-                    case LOADING:
-                        break;
-                    case FAILED:
-                        break;
+                    default:
+                        // noop
                 }
             }
         });
@@ -304,10 +306,8 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding, Note
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.action_info:
-                getBinding().drawerLayout.openDrawer(GravityCompat.START, true);
-                break;
+        if (item.getItemId() == R.id.action_info){
+            getBinding().drawerLayout.openDrawer(GravityCompat.START, true);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -319,7 +319,9 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding, Note
                 .setTitle(R.string.text_share)
                 .setListener(new BottomSheetListener() {
                     @Override
-                    public void onSheetShown(@NonNull BottomSheet bottomSheet, @Nullable Object o) {}
+                    public void onSheetShown(@NonNull BottomSheet bottomSheet, @Nullable Object o) {
+                        // noop
+                    }
 
                     @Override
                     public void onSheetItemSelected(@NonNull BottomSheet bottomSheet, MenuItem menuItem, @Nullable Object o) {
@@ -340,11 +342,15 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding, Note
                                 createWebCapture(getBinding().emv,
                                         file -> NoteManager.sendFile(getContext(), file, Constants.MIME_TYPE_IMAGE));
                                 break;
+                            default:
+                                // noop
                         }
                     }
 
                     @Override
-                    public void onSheetDismissed(@NonNull BottomSheet bottomSheet, @Nullable Object o, int i) {}
+                    public void onSheetDismissed(@NonNull BottomSheet bottomSheet, @Nullable Object o, int i) {
+                        // noop
+                    }
                 })
                 .show();
     }
@@ -356,7 +362,9 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding, Note
                 .setTitle(R.string.text_export)
                 .setListener(new BottomSheetListener() {
                     @Override
-                    public void onSheetShown(@NonNull BottomSheet bottomSheet, @Nullable Object o) {}
+                    public void onSheetShown(@NonNull BottomSheet bottomSheet, @Nullable Object o) {
+                        // moop
+                    }
 
                     @Override
                     public void onSheetItemSelected(@NonNull BottomSheet bottomSheet, MenuItem menuItem, @Nullable Object o) {
@@ -379,11 +387,15 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding, Note
                                 // Export Raw Text
                                 outputContent(false);
                                 break;
+                            default:
+                                // noop
                         }
                     }
 
                     @Override
-                    public void onSheetDismissed(@NonNull BottomSheet bottomSheet, @Nullable Object o, int i) {}
+                    public void onSheetDismissed(@NonNull BottomSheet bottomSheet, @Nullable Object o, int i) {
+                        // noop
+                    }
                 })
                 .show();
     }
@@ -477,6 +489,8 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding, Note
                 case R.id.action_last:
                     getBinding().emv.findNext(false);
                     break;
+                default:
+                    // noop
             }
             return true;
         }
@@ -490,13 +504,9 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding, Note
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case REQUEST_FOR_EDIT:
-                if (resultCode == Activity.RESULT_OK) {
-                    getVM().readNoteContent();
-                    getVM().getNoteCategories();
-                }
-                break;
+        if (requestCode == REQUEST_FOR_EDIT && resultCode == Activity.RESULT_OK) {
+            getVM().readNoteContent();
+            getVM().getNoteCategories();
         }
     }
 }

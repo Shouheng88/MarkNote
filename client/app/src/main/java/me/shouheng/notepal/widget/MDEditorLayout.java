@@ -123,7 +123,7 @@ public class MDEditorLayout extends BaseSoftInputLayout {
         }
     }
 
-    public final static class Adapter extends RecyclerView.Adapter<Adapter.Holder> {
+    public static final class Adapter extends RecyclerView.Adapter<Adapter.Holder> {
 
         private Context context;
 

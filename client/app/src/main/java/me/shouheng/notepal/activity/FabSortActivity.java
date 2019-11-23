@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -54,7 +55,7 @@ public class FabSortActivity extends ThemedActivity<ActivityFabSortBinding, Empt
     }
 
     private void configFabList() {
-        mAdapter = new FabSortAdapter(this, UserPreferences.getInstance().getFabSortResult());
+        mAdapter = new FabSortAdapter(UserPreferences.getInstance().getFabSortResult());
         getBinding().rvFabs.setAdapter(mAdapter);
 
         DragSortRecycler dragSortRecycler = new DragSortRecycler();
@@ -70,10 +71,11 @@ public class FabSortActivity extends ThemedActivity<ActivityFabSortBinding, Empt
 
         getBinding().rvFabs.addItemDecoration(dragSortRecycler);
         getBinding().rvFabs.addOnItemTouchListener(dragSortRecycler);
-        getBinding().rvFabs.setLayoutManager(new LinearLayoutManager(this));
+        RecyclerView.LayoutManager lm = new LinearLayoutManager(this);
+        getBinding().rvFabs.setLayoutManager(lm);
         getBinding().rvFabs.addOnItemTouchListener(dragSortRecycler);
         getBinding().rvFabs.addOnScrollListener(dragSortRecycler.getScrollListener());
-        getBinding().rvFabs.getLayoutManager().scrollToPosition(0);
+        lm.scrollToPosition(0);
     }
 
     @Override
@@ -98,6 +100,8 @@ public class FabSortActivity extends ThemedActivity<ActivityFabSortBinding, Empt
             case R.id.action_reset:
                 resetFabOrders();
                 break;
+            default:
+                // noop
         }
         return super.onOptionsItemSelected(item);
     }

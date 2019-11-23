@@ -40,6 +40,7 @@ public class NotesListWidgetService extends RemoteViewsService {
 
         ListRemoteViewsFactory(RemoteViewsService remoteViewsService, Application app, Intent intent) {
             this.app = (PalmApp) app;
+            LogUtils.d(remoteViewsService);
             appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
             sharedPreferences = app.getSharedPreferences(Constants.APP_WIDGET_PREFERENCES_NAME, Context.MODE_MULTI_PROCESS);
             sharedPreferences.registerOnSharedPreferenceChangeListener(this);
@@ -52,7 +53,7 @@ public class NotesListWidgetService extends RemoteViewsService {
         }
 
         private void loadFromDatabase() {
-            String sqlKey = Constants.APP_WIDGET_PREFERENCE_KEY_SQL_PREFIX + String.valueOf(appWidgetId);
+            String sqlKey = Constants.APP_WIDGET_PREFERENCE_KEY_SQL_PREFIX + appWidgetId;
             String condition = sharedPreferences.getString(sqlKey, "");
             notes = NotesStore.getInstance().get(condition, NoteSchema.LAST_MODIFIED_TIME + " DESC ");
         }
@@ -64,8 +65,8 @@ public class NotesListWidgetService extends RemoteViewsService {
 
         @Override
         public void onDestroy() {
-            String sqlKey = Constants.APP_WIDGET_PREFERENCE_KEY_SQL_PREFIX + String.valueOf(appWidgetId);
-            String nbkey = Constants.APP_WIDGET_PREFERENCE_KEY_NOTEBOOK_CODE_PREFIX + String.valueOf(appWidgetId);
+            String sqlKey = Constants.APP_WIDGET_PREFERENCE_KEY_SQL_PREFIX + appWidgetId;
+            String nbkey = Constants.APP_WIDGET_PREFERENCE_KEY_NOTEBOOK_CODE_PREFIX + appWidgetId;
             sharedPreferences.edit().remove(sqlKey).apply();
             sharedPreferences.edit().remove(nbkey).apply();
             sharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
@@ -90,7 +91,6 @@ public class NotesListWidgetService extends RemoteViewsService {
             row.setTextViewText(R.id.tv_added_time, note.getPreviewContent());
             row.setTextViewText(R.id.tv_sub_title, TimeUtils.getLongDateTime(app.getApplicationContext(), note.getAddedTime()));
             row.setTextColor(R.id.tv_sub_title, ColorUtils.accentColor());
-//        row.setInt(R.id.root, "setBackgroundColor", app.getResources().getColor(R.color.white_translucent));
             row.setViewVisibility(R.id.iv_icon, View.GONE);
 
             Bundle extras = new Bundle();
@@ -123,6 +123,8 @@ public class NotesListWidgetService extends RemoteViewsService {
         }
 
         @Override
-        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {}
+        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+            // noop
+        }
     }
 }

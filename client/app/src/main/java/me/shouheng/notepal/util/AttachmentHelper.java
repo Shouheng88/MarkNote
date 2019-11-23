@@ -58,37 +58,37 @@ public class AttachmentHelper {
     /**
      * The common request code to take a photo.
      */
-    private final static int REQUEST_CODE_TAKE_A_PHOTO = 0x1001;
+    private static final int REQUEST_CODE_TAKE_A_PHOTO = 0x1001;
 
     /**
      * The common request code to select images.
      */
-    private final static int REQUEST_CODE_SELECT_IMAGES = 0x1002;
+    private static final int REQUEST_CODE_SELECT_IMAGES = 0x1002;
 
     /**
      * The common request code to take a video.
      */
-    private final static int REQUEST_CODE_TAKE_A_VIDEO = 0x1003;
+    private static final int REQUEST_CODE_TAKE_A_VIDEO = 0x1003;
 
     /**
      * The common request code to pick files.
      */
-    private final static int REQUEST_CODE_PICK_FILES = 0x1004;
+    private static final int REQUEST_CODE_PICK_FILES = 0x1004;
 
     /**
      * The common request code to create a sketch.
      */
-    private final static int REQUEST_CODE_CREATE_SKETCH = 0x1005;
+    private static final int REQUEST_CODE_CREATE_SKETCH = 0x1005;
 
     /**
      * The common request code to select images from the custom album.
      */
-    private final static int REQUEST_CODE_SELECT_IMAGES_CUSTOM = 0x1006;
+    private static final int REQUEST_CODE_SELECT_IMAGES_CUSTOM = 0x1006;
 
     /**
      * Won't compress the image when hit the size (KB).
      */
-    private final static int COMPRESS_IGNORE_SIZE_KB = 100; // KB
+    private static final int COMPRESS_IGNORE_SIZE_KB = 100; // KB
 
     /**
      * The photo file path
@@ -593,8 +593,8 @@ public class AttachmentHelper {
      */
     private static class DefaultCompressListener implements OnCompressListener {
 
-        private final static int ATTACHING_TYPE_FRAGMENT = 0;
-        private final static int ATTACHING_TYPE_ACTIVITY = 1;
+        private static final int ATTACHING_TYPE_FRAGMENT = 0;
+        private static final int ATTACHING_TYPE_ACTIVITY = 1;
 
         private Fragment fragment;
         private Attachment attachment;

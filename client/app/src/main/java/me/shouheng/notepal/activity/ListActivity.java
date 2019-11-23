@@ -39,7 +39,7 @@ public class ListActivity extends ThemedActivity<ActivityBaseListBinding, EmptyV
      * The argument for list type, should be one of
      * {@link Status#ARCHIVED} and {@link Status#TRASHED}
      */
-    public final static String ARGS_KEY_LIST_TYPE = "__args_key_list_type";
+    public static final String ARGS_KEY_LIST_TYPE = "__args_key_list_type";
 
     private Drawer drawer;
 
@@ -100,25 +100,24 @@ public class ListActivity extends ThemedActivity<ActivityBaseListBinding, EmptyV
                 .withOnDrawerItemClickListener((view, position, drawerItem) -> {
                     if (drawerItem == null) return false;
                     switch ((int) drawerItem.getIdentifier()) {
-                        case 0: {
-                            NotesFragment fragment = FragmentHelper.open(NotesFragment.class)
+                        case 0:
+                            NotesFragment notesFragment = FragmentHelper.open(NotesFragment.class)
                                     .put(NotesFragment.ARGS_KEY_STATUS, status)
                                     .get();
                             drawer.closeDrawer();
-                            FragmentHelper.replace(this, fragment , R.id.fragment_container, false);
+                            FragmentHelper.replace(this, notesFragment , R.id.fragment_container, false);
                             break;
-                        }
-                        case 1: {
-                            CategoriesFragment fragment = FragmentHelper.open(CategoriesFragment.class)
+                        case 1:
+                            CategoriesFragment categoriesFragment = FragmentHelper.open(CategoriesFragment.class)
                                     .put(CategoriesFragment.ARGS_KEY_STATUS, status)
                                     .get();
                             drawer.closeDrawer();
-                            FragmentHelper.replace(this, fragment, R.id.fragment_container, false);
+                            FragmentHelper.replace(this, categoriesFragment, R.id.fragment_container, false);
                             break;
-                        }
                         case 2:
                             super.onBackPressed();
                             break;
+                        default: // noop
                     }
                     return true;
                 })
@@ -166,13 +165,10 @@ public class ListActivity extends ThemedActivity<ActivityBaseListBinding, EmptyV
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home: {
-                Fragment fragment = getCurrentFragment();
-                if (!fragment.onOptionsItemSelected(item)) {
-                    drawer.openDrawer();
-                }
-                return true;
+        if (item.getItemId() == android.R.id.home) {
+            Fragment fragment = getCurrentFragment();
+            if (!fragment.onOptionsItemSelected(item)) {
+                drawer.openDrawer();
             }
         }
         return super.onOptionsItemSelected(item);

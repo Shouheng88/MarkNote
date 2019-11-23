@@ -6,7 +6,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import me.shouheng.commons.utils.ColorUtils;
-import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.data.model.enums.FabSortItem;
 import me.shouheng.data.model.enums.Operation;
 import me.shouheng.notepal.R;
@@ -85,6 +84,7 @@ public class UserPreferences {
             case UPDATE: return ResUtils.getColor(R.color.md_light_green_700);
             case INCOMPLETE: return ResUtils.getColor(R.color.md_blue_500);
             case RECOVER: return ResUtils.getColor(R.color.md_light_blue_600);
+            default: // noop
         }
         return ColorUtils.accentColor();
     }

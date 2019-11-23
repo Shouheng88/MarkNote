@@ -17,10 +17,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import me.shouheng.utils.app.AppUtils;
-import me.shouheng.utils.app.ResUtils;
-import me.shouheng.utils.stability.LogUtils;
-import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.commons.utils.TimeUtils;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.data.entity.Category;
@@ -28,6 +24,9 @@ import me.shouheng.data.entity.Model;
 import me.shouheng.data.entity.Note;
 import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.R;
+import me.shouheng.utils.app.AppUtils;
+import me.shouheng.utils.app.ResUtils;
+import me.shouheng.utils.stability.LogUtils;
 
 /**
  * The manger for note witch provided many useful methods to handle the note.
@@ -39,7 +38,7 @@ public class NoteManager {
     /**
      * The split char used to connect the category code.
      */
-    private final static String CATEGORY_SPLIT = ",";
+    private static final String CATEGORY_SPLIT = ",";
 
     /**
      * The note title regex expression pattern, use the {@link Constants#REGEX_NOTE_TITLE}.

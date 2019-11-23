@@ -21,6 +21,7 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.notepal.util.ScreenShotHelper;
 import me.shouheng.utils.permission.PermissionUtils;
+import me.shouheng.utils.stability.LogUtils;
 import me.shouheng.utils.ui.ToastUtils;
 
 /**
@@ -100,7 +101,9 @@ public abstract class BaseFragment<V extends ViewDataBinding, U extends BaseView
      *
      * @param file the captured image file.
      */
-    protected void onGetScreenCaptureFile(File file) { }
+    protected void onGetScreenCaptureFile(File file) {
+        LogUtils.d(file);
+    }
 
     /**
      * Capture the WebView.

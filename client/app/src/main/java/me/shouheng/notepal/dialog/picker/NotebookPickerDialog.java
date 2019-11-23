@@ -14,6 +14,7 @@ import me.shouheng.data.entity.Notebook;
 import me.shouheng.data.store.NotebookStore;
 import me.shouheng.data.schema.NotebookSchema;
 import me.shouheng.uix.rv.EmptyView;
+import me.shouheng.utils.app.ResUtils;
 
 /**
  * Created by wangshouheng on 2017/10/5.*/
@@ -41,7 +42,7 @@ public class NotebookPickerDialog extends BasePickerDialog<Notebook> {
     }
 
     private int getImageTintColor() {
-        return getContext().getResources().getColor(ColorUtils.isDarkTheme()
+        return ResUtils.getColor(ColorUtils.isDarkTheme()
                 ? R.color.dark_theme_empty_icon_tint_color : R.color.light_theme_empty_icon_tint_color);
     }
 }

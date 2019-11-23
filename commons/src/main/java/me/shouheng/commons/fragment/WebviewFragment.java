@@ -39,9 +39,9 @@ import me.shouheng.mvvm.comn.EmptyViewModel;
  */
 public class WebviewFragment extends CustomFragment<FragmentWebviewBinding, EmptyViewModel> implements FragmentKeyDown {
 
-    public final static String ARGUMENT_KEY_URL = "__extra_key_url";
-    public final static String ARGUMENT_KEY_TITLE = "__extra_key_title";
-    public final static String ARGUMENT_KEY_USE_PAGE_TITLE = "__extra_use_page_title";
+    public static final String ARGUMENT_KEY_URL = "__extra_key_url";
+    public static final String ARGUMENT_KEY_TITLE = "__extra_key_title";
+    public static final String ARGUMENT_KEY_USE_PAGE_TITLE = "__extra_use_page_title";
 
     private AgentWeb mAgentWeb;
     private boolean usePageTitle;

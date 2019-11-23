@@ -11,8 +11,8 @@ import me.shouheng.utils.app.ResUtils;
  * Created by changxing on 2017/9/20.
  */
 public class Config implements Serializable {
-    public final static int PAY_CHANNEL_WECHAT = 0;
-    public final static int PAY_CHANNEL_ALIPAY = 1;
+    public static final int PAY_CHANNEL_WECHAT = 0;
+    public static final int PAY_CHANNEL_ALIPAY = 1;
 
     private String wechatTip;
     private String aliTip;

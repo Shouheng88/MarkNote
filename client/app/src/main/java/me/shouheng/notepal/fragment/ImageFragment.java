@@ -15,6 +15,8 @@ import android.widget.RelativeLayout;
 import com.bumptech.glide.Glide;
 import com.github.chrisbanes.photoview.PhotoView;
 
+import java.util.Objects;
+
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.R;
@@ -31,9 +33,9 @@ import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOption
  */
 public class ImageFragment extends Fragment {
 
-    public final static String ARG_ATTACHMENT = "__args_key_attachment";
+    public static final String ARG_ATTACHMENT = "__args_key_attachment";
 
-    private final static String STATE_SAVE_KEY_ATTACHMENT = "__state_save_key_attachment";
+    private static final String STATE_SAVE_KEY_ATTACHMENT = "__state_save_key_attachment";
 
     private Attachment attachment;
 
@@ -69,9 +71,9 @@ public class ImageFragment extends Fragment {
             return layout;
         }
 
-        PhotoView photoView = new PhotoView(getContext());
+        PhotoView photoView = new PhotoView(Objects.requireNonNull(getContext()));
         if (attachment != null && "gif".endsWith(attachment.getUri().getPath())) {
-            Glide.with(getActivity()).load(attachment.getUri().getPath()).into(photoView);
+            Glide.with(Objects.requireNonNull(getActivity())).load(attachment.getUri().getPath()).into(photoView);
         } else {
             displayMedia(photoView);
         }
@@ -87,7 +89,7 @@ public class ImageFragment extends Fragment {
     }
 
     private void displayMedia(PhotoView photoView) {
-        Glide.with(getContext())
+        Glide.with(Objects.requireNonNull(getContext()))
                 .load(FileManager.getThumbnailUri(getContext(), attachment.getUri()))
                 .thumbnail(0.5f)
                 .transition(withCrossFade())
@@ -108,7 +110,7 @@ public class ImageFragment extends Fragment {
      * @param imageView view to show
      */
     private void displayMedia(ImageView imageView){
-        Glide.with(getContext())
+        Glide.with(Objects.requireNonNull(getContext()))
                 .load(FileManager.getThumbnailUri(getContext(), attachment.getUri()))
                 .transition(withCrossFade())
                 .into(imageView);

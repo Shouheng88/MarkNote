@@ -54,6 +54,8 @@ public class StatisticsFragment extends BaseFragment<FragmentStatisticsBinding, 
                 case FAILED:
                     ToastUtils.showShort(R.string.text_failed);
                     break;
+                default:
+                    // noop
             }
         });
     }
