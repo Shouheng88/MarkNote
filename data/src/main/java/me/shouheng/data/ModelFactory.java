@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import me.shouheng.commons.BaseApplication;
+import me.shouheng.utils.app.ResUtils;
 import me.shouheng.utils.stability.LogUtils;
 import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.commons.utils.TimeUtils;
@@ -119,7 +120,7 @@ public class ModelFactory {
     public static Notebook getNotebook() {
         Notebook notebook = getModel(Notebook.class);
         assert notebook != null;
-        notebook.setColor(PalmUtils.getColorCompact(R.color.default_notebook_color));
+        notebook.setColor(ResUtils.getColor(R.color.default_notebook_color));
         return notebook;
     }
 
@@ -169,7 +170,7 @@ public class ModelFactory {
         category.setPortrait(Portrait.FOLDER);
         category.setCategoryOrder(0);
         // use the primary color as the category color
-        category.setColor(PalmUtils.getColorCompact(R.color.default_category_color));
+        category.setColor(ResUtils.getColor(R.color.default_category_color));
         return category;
     }
 
@@ -196,7 +197,7 @@ public class ModelFactory {
             modelName = location.getCountry() + "|" + location.getCity() + "|" + location.getDistrict();
         } else if (model instanceof Weather) {
             Weather weather = ((Weather) model);
-            modelName = PalmUtils.getStringCompact(weather.getType().nameRes) + "|" + weather.getTemperature();
+            modelName = ResUtils.getString(weather.getType().nameRes) + "|" + weather.getTemperature();
         } else if (model instanceof Category) {
             Category category = (Category) model;
             modelName = category.getName();

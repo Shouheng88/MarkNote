@@ -18,7 +18,6 @@ import com.onedrive.sdk.extensions.Item;
 import me.shouheng.commons.activity.CommonActivity;
 import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.helper.FragmentHelper;
-import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.data.model.Directory;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.common.preferences.SyncPreferences;
@@ -27,9 +26,10 @@ import me.shouheng.notepal.dialog.SimpleEditDialog;
 import me.shouheng.notepal.fragment.DirectoriesFragment;
 import me.shouheng.notepal.onedrive.ClearBackupStateTask;
 import me.shouheng.notepal.onedrive.OneDriveManager;
+import me.shouheng.utils.app.ResUtils;
 import me.shouheng.utils.ui.ToastUtils;
 
-import static me.shouheng.commons.event.UMEvent.*;
+import static me.shouheng.commons.event.UMEvent.PAGE_DIRECTORY;
 
 @PageName(name = PAGE_DIRECTORY)
 public class DirectoryActivity extends CommonActivity<ActivityDirectoryBinding> implements
@@ -110,7 +110,7 @@ public class DirectoryActivity extends CommonActivity<ActivityDirectoryBinding> 
                 public void failure(ClientException ex) {
                     pd.dismiss();
                     ToastUtils.showShort(String.format(
-                            PalmUtils.getStringCompact(R.string.setting_backup_onedrive_error_when_try_to_backup), ex.getMessage()));
+                            ResUtils.getString(R.string.setting_backup_onedrive_error_when_try_to_backup), ex.getMessage()));
                 }
             });
         }).setMaxLength(100).show(getSupportFragmentManager(), "EDIT FOLDER NAME");

@@ -12,6 +12,7 @@ import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.data.model.Directory;
 import me.shouheng.notepal.R;
+import me.shouheng.utils.app.ResUtils;
 
 /**
  * Created by shouh on 2018/3/30.
@@ -38,7 +39,7 @@ public class DirectoriesAdapter extends BaseQuickAdapter<Directory, BaseViewHold
 
     private Drawable getDirIcon() {
         if (dirIcon == null) {
-            dirIcon = ColorUtils.tintDrawable(PalmUtils.getDrawableCompact(R.drawable.ic_folder_black_24dp), primaryColor);
+            dirIcon = ColorUtils.tintDrawable(ResUtils.getDrawable(R.drawable.ic_folder_black_24dp), primaryColor);
         }
         return dirIcon;
     }

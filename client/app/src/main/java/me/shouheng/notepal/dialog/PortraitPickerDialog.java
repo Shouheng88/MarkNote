@@ -16,7 +16,7 @@ import android.widget.ImageView;
 
 import me.shouheng.data.model.enums.Portrait;
 import me.shouheng.notepal.R;
-import me.shouheng.commons.utils.ViewUtils;
+import me.shouheng.utils.ui.ViewUtils;
 import me.shouheng.commons.widget.CircleImageView;
 import me.shouheng.commons.widget.recycler.SpaceItemDecoration;
 
@@ -59,7 +59,7 @@ public class PortraitPickerDialog extends DialogFragment {
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 5));
         PortraitAdapter adapter = new PortraitAdapter();
         recyclerView.setAdapter(adapter);
-        int padding = ViewUtils.dp2Px(getContext(), 2);
+        int padding = ViewUtils.dp2px(2);
         recyclerView.addItemDecoration(new SpaceItemDecoration(padding, padding, padding, padding));
 
         return new AlertDialog.Builder(getContext())

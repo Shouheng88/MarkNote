@@ -70,21 +70,21 @@ public class UserPreferences {
 
     public int getTimeLineColor(Operation operation) {
         return SPUtils.getInstance().getInt(
-                PalmUtils.getStringCompact(R.string.key_operation_color_prefix) + operation.name(),
+                ResUtils.getString(R.string.key_operation_color_prefix) + operation.name(),
                 defaultTimeLineColor(operation));
     }
 
     private int defaultTimeLineColor(Operation operation) {
         switch (operation) {
-            case DELETE: return PalmUtils.getColorCompact(R.color.md_red_500);
-            case TRASH: return PalmUtils.getColorCompact(R.color.md_deep_orange_500);
-            case ARCHIVE: return PalmUtils.getColorCompact(R.color.md_pink_500);
-            case COMPLETE: return PalmUtils.getColorCompact(R.color.md_purple_500);
-            case SYNCED: return PalmUtils.getColorCompact(R.color.md_light_green_900);
-            case ADD: return PalmUtils.getColorCompact(R.color.md_green_500);
-            case UPDATE: return PalmUtils.getColorCompact(R.color.md_light_green_700);
-            case INCOMPLETE: return PalmUtils.getColorCompact(R.color.md_blue_500);
-            case RECOVER: return PalmUtils.getColorCompact(R.color.md_light_blue_600);
+            case DELETE: return ResUtils.getColor(R.color.md_red_500);
+            case TRASH: return ResUtils.getColor(R.color.md_deep_orange_500);
+            case ARCHIVE: return ResUtils.getColor(R.color.md_pink_500);
+            case COMPLETE: return ResUtils.getColor(R.color.md_purple_500);
+            case SYNCED: return ResUtils.getColor(R.color.md_light_green_900);
+            case ADD: return ResUtils.getColor(R.color.md_green_500);
+            case UPDATE: return ResUtils.getColor(R.color.md_light_green_700);
+            case INCOMPLETE: return ResUtils.getColor(R.color.md_blue_500);
+            case RECOVER: return ResUtils.getColor(R.color.md_light_blue_600);
         }
         return ColorUtils.accentColor();
     }

@@ -42,12 +42,10 @@ import me.shouheng.commons.activity.PermissionActivity;
 import me.shouheng.commons.activity.interaction.BackEventResolver;
 import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.event.RxMessage;
-import me.shouheng.commons.event.*;
+import me.shouheng.commons.event.UMEvent;
 import me.shouheng.commons.fragment.CommonFragment;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.PalmUtils;
-import me.shouheng.commons.utils.PermissionUtils;
-import me.shouheng.commons.utils.PermissionUtils.Permission;
 import me.shouheng.data.ModelFactory;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.data.entity.Category;
@@ -71,6 +69,9 @@ import me.shouheng.notepal.util.AppWidgetUtils;
 import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.vm.NoteViewModel;
 import me.shouheng.notepal.widget.MDEditorLayout;
+import me.shouheng.utils.app.ResUtils;
+import me.shouheng.utils.permission.Permission;
+import me.shouheng.utils.permission.PermissionUtils;
 import me.shouheng.utils.ui.ToastUtils;
 
 import static android.app.Activity.RESULT_OK;
@@ -163,7 +164,7 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding>
         eme.addTextChangedListener(inputWatcher);
         mel.getFastScrollView().getFastScrollDelegate().setThumbSize(16, 40);
         mel.getFastScrollView().getFastScrollDelegate().setThumbDynamicHeight(false);
-        mel.getFastScrollView().getFastScrollDelegate().setThumbDrawable(PalmUtils.getDrawableCompact(isDarkTheme() ?
+        mel.getFastScrollView().getFastScrollDelegate().setThumbDrawable(ResUtils.getDrawable(isDarkTheme() ?
                 R.drawable.fast_scroll_bar_dark : R.drawable.fast_scroll_bar_light));
         mel.setOnCustomFormatClickListener(formatId -> {
             switch (formatId) {
@@ -184,7 +185,7 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding>
         public void afterTextChanged(Editable editable) {
             String title = etTitle.getText().toString();
             String content = eme.getText().toString();
-            String count = PalmUtils.getStringCompact(R.string.text_chars) + ":" + (title.length() + content.length());
+            String count = ResUtils.getString(R.string.text_chars) + ":" + (title.length() + content.length());
             getBinding().tvCount.setText(count);
         }
     };

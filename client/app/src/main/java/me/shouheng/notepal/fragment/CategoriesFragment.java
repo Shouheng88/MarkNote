@@ -20,20 +20,19 @@ import java.util.Collections;
 
 import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.event.RxMessage;
-import me.shouheng.commons.event.*;
+import me.shouheng.commons.event.UMEvent;
 import me.shouheng.commons.utils.ColorUtils;
-import me.shouheng.commons.utils.ViewUtils;
 import me.shouheng.commons.widget.recycler.CustomItemAnimator;
 import me.shouheng.commons.widget.recycler.DividerItemDecoration;
 import me.shouheng.data.entity.Category;
 import me.shouheng.data.model.enums.Status;
-import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.CategoriesAdapter;
 import me.shouheng.notepal.databinding.FragmentCategoriesBinding;
 import me.shouheng.notepal.dialog.CategoryEditDialog;
 import me.shouheng.notepal.vm.CategoriesViewModel;
 import me.shouheng.utils.ui.ToastUtils;
+import me.shouheng.utils.ui.ViewUtils;
 
 /**
  * Fragment used to display the categories.
@@ -194,7 +193,7 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_capture:
-                createScreenCapture(getBinding().rvCategories, ViewUtils.dp2Px(PalmApp.getContext(), 60));
+                createScreenCapture(getBinding().rvCategories, ViewUtils.dp2px(60));
                 break;
         }
         return super.onOptionsItemSelected(item);

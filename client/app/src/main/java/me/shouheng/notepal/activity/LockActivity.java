@@ -19,17 +19,16 @@ import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.event.RxMessage;
 import me.shouheng.commons.theme.SystemUiVisibilityUtil;
 import me.shouheng.commons.utils.ColorUtils;
-import me.shouheng.utils.app.ResUtils;
-import me.shouheng.utils.data.StringUtils;
-import me.shouheng.utils.stability.LogUtils;
-import me.shouheng.commons.utils.PalmUtils;
-import me.shouheng.commons.utils.ViewUtils;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.ActivityLockBinding;
+import me.shouheng.utils.app.ResUtils;
 import me.shouheng.utils.data.EncryptUtils;
+import me.shouheng.utils.data.StringUtils;
+import me.shouheng.utils.stability.LogUtils;
 import me.shouheng.utils.store.SPUtils;
 import me.shouheng.utils.ui.ToastUtils;
+import me.shouheng.utils.ui.ViewUtils;
 
 import static me.shouheng.commons.event.UMEvent.PAGE_LOCK;
 
@@ -60,10 +59,10 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
         getBinding().pinLockView.setPinLength(4);
         getBinding().pinLockView.setTextColor(ContextCompat.getColor(this, R.color.white));
         getBinding().pinLockView.setFingerButtonDrawable(ColorUtils.tintDrawable(
-                PalmUtils.getDrawableCompact(R.drawable.ic_fingerprint_black_24dp), Color.WHITE));
+                ResUtils.getDrawable(R.drawable.ic_fingerprint_black_24dp), Color.WHITE));
         getBinding().pinLockView.setShowFingerButton(SPUtils.getInstance().getBoolean(
                 ResUtils.getString(R.string.key_security_finger_print_enable), false));
-        getBinding().pinLockView.setFingereButtonSize(ViewUtils.dp2Px(this, 16f));
+        getBinding().pinLockView.setFingereButtonSize(ViewUtils.dp2px(16f));
         getBinding().indicatorDots.setIndicatorType(IndicatorDots.IndicatorType.FIXED);
 
         /* Get saved results. */

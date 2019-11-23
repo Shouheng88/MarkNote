@@ -19,11 +19,11 @@ import me.shouheng.commons.fragment.WebviewFragment;
 import me.shouheng.commons.minipay.Config;
 import me.shouheng.commons.minipay.MiniPayUtils;
 import me.shouheng.commons.utils.IntentUtils;
-import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.notepal.BuildConfig;
 import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.FragmentSupportBinding;
+import me.shouheng.utils.app.ResUtils;
 
 import static me.shouheng.commons.event.UMEvent.SUPPORT_DONATE_ALIPAY;
 import static me.shouheng.commons.event.UMEvent.SUPPORT_DONATE_WECHAT;
@@ -47,12 +47,12 @@ public class SupportFragment extends CommonFragment<FragmentSupportBinding> {
             if (ab != null) ab.setTitle(R.string.drawer_menu_donate);
         }
 
-        getBinding().tv1.setText(Html.fromHtml(PalmUtils.getStringCompact(R.string.dialog_notice_content_part1)));
-        getBinding().tv2.setText(Html.fromHtml(PalmUtils.getStringCompact(R.string.dialog_notice_content_part2)));
-        getBinding().tv3.setText(Html.fromHtml(PalmUtils.getStringCompact(R.string.dialog_notice_content_part3)));
-        getBinding().tv4.setText(Html.fromHtml(PalmUtils.getStringCompact(R.string.dialog_notice_content_part4)));
-        getBinding().tv5.setText(Html.fromHtml(PalmUtils.getStringCompact(R.string.dialog_notice_content_part5)));
-        getBinding().tv6.setText(Html.fromHtml(PalmUtils.getStringCompact(R.string.dialog_notice_content_part6)));
+        getBinding().tv1.setText(Html.fromHtml(ResUtils.getString(R.string.dialog_notice_content_part1)));
+        getBinding().tv2.setText(Html.fromHtml(ResUtils.getString(R.string.dialog_notice_content_part2)));
+        getBinding().tv3.setText(Html.fromHtml(ResUtils.getString(R.string.dialog_notice_content_part3)));
+        getBinding().tv4.setText(Html.fromHtml(ResUtils.getString(R.string.dialog_notice_content_part4)));
+        getBinding().tv5.setText(Html.fromHtml(ResUtils.getString(R.string.dialog_notice_content_part5)));
+        getBinding().tv6.setText(Html.fromHtml(ResUtils.getString(R.string.dialog_notice_content_part6)));
 
         getBinding().sivGooglePlay.setOnClickListener(v -> IntentUtils.openInMarket(getContext(), BuildConfig.APPLICATION_ID));
         getBinding().sivGithub.setOnClickListener(v ->

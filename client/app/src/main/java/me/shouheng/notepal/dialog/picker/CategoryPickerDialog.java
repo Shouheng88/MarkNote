@@ -12,6 +12,7 @@ import me.shouheng.data.entity.Category;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.ModelsPickerAdapter;
 import me.shouheng.notepal.adapter.picker.CategoryPickerStrategy;
+import me.shouheng.utils.app.ResUtils;
 
 /**
  * Created by shouh on 2018/3/20.*/
@@ -57,7 +58,7 @@ public class CategoryPickerDialog extends BasePickerDialog<Category> {
     }
 
     private int getImageTintColor() {
-        return PalmUtils.getColorCompact(ColorUtils.isDarkTheme()
+        return ResUtils.getColor(ColorUtils.isDarkTheme()
                 ? R.color.dark_theme_empty_icon_tint_color : R.color.light_theme_empty_icon_tint_color);
     }
 

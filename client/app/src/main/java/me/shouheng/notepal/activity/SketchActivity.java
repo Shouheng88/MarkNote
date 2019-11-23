@@ -28,7 +28,7 @@ import java.io.FileOutputStream;
 import me.shouheng.commons.activity.CommonActivity;
 import me.shouheng.commons.event.PageName;
 import me.shouheng.utils.stability.LogUtils;
-import me.shouheng.commons.utils.ViewUtils;
+import me.shouheng.utils.ui.ViewUtils;
 import me.shouheng.commons.widget.sketch.OnDrawChangedListener;
 import me.shouheng.commons.widget.sketch.SketchView;
 import me.shouheng.notepal.R;

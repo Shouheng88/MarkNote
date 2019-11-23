@@ -27,18 +27,18 @@ import java.util.ArrayList;
 import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.theme.SystemUiVisibilityUtil;
 import me.shouheng.commons.theme.ThemeUtils;
-import me.shouheng.utils.stability.LogUtils;
-import me.shouheng.commons.utils.ViewUtils;
+import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.commons.widget.DepthPageTransformer;
 import me.shouheng.commons.widget.HackyViewPager;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.AttachmentPagerAdapter;
 import me.shouheng.notepal.manager.FileManager;
+import me.shouheng.utils.stability.LogUtils;
 import me.shouheng.utils.ui.ToastUtils;
 import ooo.oxo.library.widget.PullBackLayout;
 
-import static me.shouheng.commons.event.UMEvent.*;
+import static me.shouheng.commons.event.UMEvent.PAGE_GALLERY;
 
 @PageName(name = PAGE_GALLERY)
 public class GalleryActivity extends AppCompatActivity implements PullBackLayout.Callback {
@@ -140,7 +140,7 @@ public class GalleryActivity extends AppCompatActivity implements PullBackLayout
         }
 
         mBackground = new ColorDrawable(Color.BLACK);
-        ViewUtils.getRootView(this).setBackgroundDrawable(mBackground);
+        PalmUtils.getRootView(this).setBackgroundDrawable(mBackground);
     }
 
     public void toggleSystemUI() {
@@ -162,7 +162,7 @@ public class GalleryActivity extends AppCompatActivity implements PullBackLayout
     }
 
     private void setupSystemUI() {
-        toolbar.animate().translationY(ViewUtils.getStatusBarHeight(getResources())).setInterpolator(
+        toolbar.animate().translationY(PalmUtils.getStatusBarHeight(getResources())).setInterpolator(
                 new DecelerateInterpolator()).setDuration(0).start();
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -171,7 +171,7 @@ public class GalleryActivity extends AppCompatActivity implements PullBackLayout
 
     private void showSystemUI() {
         runOnUiThread(() -> {
-            toolbar.animate().translationY(ViewUtils.getStatusBarHeight(getResources())).setInterpolator(
+            toolbar.animate().translationY(PalmUtils.getStatusBarHeight(getResources())).setInterpolator(
                     new DecelerateInterpolator()).setDuration(240).start();
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                     | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION

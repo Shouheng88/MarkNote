@@ -21,9 +21,6 @@ import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.event.RxBus;
 import me.shouheng.commons.event.RxMessage;
 import me.shouheng.commons.helper.ActivityHelper;
-import me.shouheng.utils.app.ResUtils;
-import me.shouheng.utils.stability.LogUtils;
-import me.shouheng.commons.utils.PermissionUtils;
 import me.shouheng.data.ModelFactory;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.data.entity.Category;
@@ -37,10 +34,13 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.dialog.QuickNoteDialog;
 import me.shouheng.notepal.util.AppWidgetUtils;
 import me.shouheng.notepal.vm.QuickViewModel;
+import me.shouheng.utils.app.ResUtils;
+import me.shouheng.utils.permission.PermissionUtils;
+import me.shouheng.utils.stability.LogUtils;
 import me.shouheng.utils.store.SPUtils;
 import me.shouheng.utils.ui.ToastUtils;
 
-import static me.shouheng.commons.event.UMEvent.*;
+import static me.shouheng.commons.event.UMEvent.PAGE_QUICK;
 
 @PageName(name = PAGE_QUICK)
 public class QuickActivity extends PermissionActivity {

@@ -17,6 +17,7 @@ import me.shouheng.data.model.enums.Status;
 import me.shouheng.data.schema.CategorySchema;
 import me.shouheng.data.store.CategoryStore;
 import me.shouheng.notepal.R;
+import me.shouheng.utils.app.ResUtils;
 
 /**
  * @author WngShhng (shouheng2015@gmail.com)
@@ -59,7 +60,7 @@ public class CategoriesViewModel extends ViewModel {
      */
     public String getEmptySubTitle() {
         if (status == null) return null;
-        return PalmUtils.getStringCompact(
+        return ResUtils.getString(
                 status == Status.NORMAL ? R.string.category_list_empty_subtitle :
                         status == Status.TRASHED ? R.string.category_list_empty_for_trashed :
                                 status == Status.ARCHIVED ? R.string.category_list_empty_for_archived :

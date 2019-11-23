@@ -12,10 +12,10 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import java.util.List;
 
 import me.shouheng.commons.utils.ColorUtils;
-import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.commons.widget.CircleImageView;
 import me.shouheng.data.entity.Category;
 import me.shouheng.notepal.R;
+import me.shouheng.utils.app.AppUtils;
 
 /**
  * Created by WngShhng (shouheng2015@gmail.com) on 2018/2/14.
@@ -45,7 +45,7 @@ public class CategoriesAdapter extends BaseQuickAdapter<Category, BaseViewHolder
         helper.addOnClickListener(R.id.iv_more);
         helper.setImageResource(R.id.iv_folder_portrait, category.getPortrait().iconRes);
         /* Animations */
-        if (PalmUtils.isLollipop()) {
+        if (AppUtils.isLollipop()) {
             setAnimation(helper.itemView, helper.getAdapterPosition());
         } else {
             if (helper.getAdapterPosition() > 10) {

@@ -13,6 +13,7 @@ import me.shouheng.commons.event.RxBus;
 import me.shouheng.commons.event.RxMessage;
 import me.shouheng.commons.theme.ThemeStyle;
 import me.shouheng.commons.theme.ThemeUtils;
+import me.shouheng.utils.app.ResUtils;
 import me.shouheng.utils.stability.LogUtils;
 import me.shouheng.commons.utils.PalmUtils;
 
@@ -49,7 +50,7 @@ public abstract class BPreferenceFragment extends PreferenceFragment {
     }
 
     public Preference findPreference(@StringRes int keyRes) {
-        return super.findPreference(PalmUtils.getStringCompact(keyRes));
+        return super.findPreference(ResUtils.getString(keyRes));
     }
 
     public ThemeStyle getThemeStyle() {

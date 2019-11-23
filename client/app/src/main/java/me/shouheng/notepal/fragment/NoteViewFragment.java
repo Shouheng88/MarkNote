@@ -47,9 +47,6 @@ import me.shouheng.commons.helper.FragmentHelper;
 import me.shouheng.commons.model.data.Resource;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.IntentUtils;
-import me.shouheng.utils.stability.LogUtils;
-import me.shouheng.commons.utils.PalmUtils;
-import me.shouheng.commons.utils.ViewUtils;
 import me.shouheng.commons.widget.Chip;
 import me.shouheng.data.ModelFactory;
 import me.shouheng.data.entity.Attachment;
@@ -58,7 +55,6 @@ import me.shouheng.data.entity.Note;
 import me.shouheng.easymark.EasyMarkViewer;
 import me.shouheng.easymark.viewer.listener.LifecycleListener;
 import me.shouheng.notepal.Constants;
-import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.FragmentNoteViewBinding;
 import me.shouheng.notepal.dialog.OpenResolver;
@@ -67,7 +63,10 @@ import me.shouheng.notepal.manager.NoteManager;
 import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.util.ShortcutHelper;
 import me.shouheng.notepal.vm.NoteViewerViewModel;
+import me.shouheng.utils.app.ResUtils;
+import me.shouheng.utils.stability.LogUtils;
 import me.shouheng.utils.ui.ToastUtils;
+import me.shouheng.utils.ui.ViewUtils;
 
 import static me.shouheng.notepal.Constants.EXTENSION_3GP;
 import static me.shouheng.notepal.Constants.EXTENSION_MP4;
@@ -153,7 +152,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
         }
 
         /* Config WebView. */
-        getBinding().emv.getFastScrollDelegate().setThumbDrawable(PalmUtils.getDrawableCompact(
+        getBinding().emv.getFastScrollDelegate().setThumbDrawable(ResUtils.getDrawable(
                 isDarkTheme() ? R.drawable.fast_scroll_bar_dark : R.drawable.fast_scroll_bar_light));
         getBinding().emv.getFastScrollDelegate().setThumbSize(16, 40);
         getBinding().emv.getFastScrollDelegate().setThumbDynamicHeight(false);
@@ -268,7 +267,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
             }
         });
         viewModel.getCategoriesObservable().observe(this, new Observer<Resource<List<Category>>>() {
-            int margin = ViewUtils.dp2Px(PalmApp.getContext(), 2f);
+            int margin = ViewUtils.dp2px(2f);
             ViewGroup.LayoutParams params = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             @Override

@@ -5,7 +5,7 @@ import android.support.annotation.DrawableRes;
 import java.io.Serializable;
 
 import me.shouheng.commons.R;
-import me.shouheng.commons.utils.PalmUtils;
+import me.shouheng.utils.app.ResUtils;
 
 /**
  * Created by changxing on 2017/9/20.
@@ -59,8 +59,8 @@ public class Config implements Serializable {
     }
 
     public static class Builder {
-        private String wechatTip = PalmUtils.getStringCompact(R.string.donate_wechat_tips);
-        private String aliTip = PalmUtils.getStringCompact(R.string.donate_alipay_tips);
+        private String wechatTip = ResUtils.getString(R.string.donate_wechat_tips);
+        private String aliTip = ResUtils.getString(R.string.donate_alipay_tips);
         @DrawableRes
         private int wechatQaImage;
         @DrawableRes

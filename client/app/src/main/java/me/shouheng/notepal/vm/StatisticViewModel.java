@@ -28,13 +28,13 @@ import lecho.lib.hellocharts.model.PointValue;
 import lecho.lib.hellocharts.model.SubcolumnValue;
 import lecho.lib.hellocharts.model.ValueShape;
 import me.shouheng.commons.model.data.Resource;
-import me.shouheng.utils.stability.LogUtils;
-import me.shouheng.commons.utils.PalmUtils;
-import me.shouheng.commons.utils.ViewUtils;
 import me.shouheng.data.helper.StatisticsHelper;
 import me.shouheng.data.model.Stats;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
+import me.shouheng.utils.app.ResUtils;
+import me.shouheng.utils.stability.LogUtils;
+import me.shouheng.utils.ui.ViewUtils;
 
 /**
  * Created by Employee on 2018/3/15.*/
@@ -55,7 +55,7 @@ public class StatisticViewModel extends ViewModel {
      */
     private final static int DEFAULT_TOTAL_VALUE = 0;
 
-    private int lineStrokeWidth = ViewUtils.dp2Px(PalmApp.getContext(), 1);
+    private int lineStrokeWidth = ViewUtils.dp2px(1);
 
     private MutableLiveData<Resource<Stats>> statsLiveData;
 
@@ -118,18 +118,18 @@ public class StatisticViewModel extends ViewModel {
 
     public ColumnChartData getDefaultModelsData() {
         ColumnChartData data = new ColumnChartData(Arrays.asList(
-                getColumn(DEFAULT_TOTAL_VALUE, PalmUtils.getColorCompact(R.color.md_lime_600)),
-                getColumn(DEFAULT_TOTAL_VALUE, PalmUtils.getColorCompact(R.color.md_light_blue_500)),
-                getColumn(DEFAULT_TOTAL_VALUE, PalmUtils.getColorCompact(R.color.md_green_600)),
-                getColumn(DEFAULT_TOTAL_VALUE, PalmUtils.getColorCompact(R.color.md_pink_500)),
-                getColumn(DEFAULT_TOTAL_VALUE, PalmUtils.getColorCompact(R.color.md_red_500))));
+                getColumn(DEFAULT_TOTAL_VALUE, ResUtils.getColor(R.color.md_lime_600)),
+                getColumn(DEFAULT_TOTAL_VALUE, ResUtils.getColor(R.color.md_light_blue_500)),
+                getColumn(DEFAULT_TOTAL_VALUE, ResUtils.getColor(R.color.md_green_600)),
+                getColumn(DEFAULT_TOTAL_VALUE, ResUtils.getColor(R.color.md_pink_500)),
+                getColumn(DEFAULT_TOTAL_VALUE, ResUtils.getColor(R.color.md_red_500))));
 
         Axis axisX = Axis.generateAxisFromCollection(Arrays.asList(0.0f, 1.0f, 2.0f, 3.0f, 4.0f),
-                Arrays.asList(PalmUtils.getStringCompact(R.string.model_name_note),
-                        PalmUtils.getStringCompact(R.string.model_name_notebook),
-                        PalmUtils.getStringCompact(R.string.model_name_category),
-                        PalmUtils.getStringCompact(R.string.model_name_attachment),
-                        PalmUtils.getStringCompact(R.string.model_name_location)));
+                Arrays.asList(ResUtils.getString(R.string.model_name_note),
+                        ResUtils.getString(R.string.model_name_notebook),
+                        ResUtils.getString(R.string.model_name_category),
+                        ResUtils.getString(R.string.model_name_attachment),
+                        ResUtils.getString(R.string.model_name_location)));
 
         data.setAxisXBottom(axisX);
         data.setAxisYLeft(null);
@@ -145,18 +145,18 @@ public class StatisticViewModel extends ViewModel {
 
     public ColumnChartData getDefaultAttachmentData() {
         ColumnChartData data = new ColumnChartData(Arrays.asList(
-                getColumn(DEFAULT_TOTAL_VALUE, PalmUtils.getColorCompact(R.color.md_lime_600)),
-                getColumn(DEFAULT_TOTAL_VALUE, PalmUtils.getColorCompact(R.color.md_light_blue_500)),
-                getColumn(DEFAULT_TOTAL_VALUE, PalmUtils.getColorCompact(R.color.md_pink_500)),
-                getColumn(DEFAULT_TOTAL_VALUE, PalmUtils.getColorCompact(R.color.md_green_600)),
-                getColumn(DEFAULT_TOTAL_VALUE, PalmUtils.getColorCompact(R.color.md_red_500))));
+                getColumn(DEFAULT_TOTAL_VALUE, ResUtils.getColor(R.color.md_lime_600)),
+                getColumn(DEFAULT_TOTAL_VALUE, ResUtils.getColor(R.color.md_light_blue_500)),
+                getColumn(DEFAULT_TOTAL_VALUE, ResUtils.getColor(R.color.md_pink_500)),
+                getColumn(DEFAULT_TOTAL_VALUE, ResUtils.getColor(R.color.md_green_600)),
+                getColumn(DEFAULT_TOTAL_VALUE, ResUtils.getColor(R.color.md_red_500))));
 
         Axis axisX = Axis.generateAxisFromCollection(Arrays.asList(0.0f, 1.0f, 2.0f, 3.0f, 4.0f),
-                Arrays.asList(PalmUtils.getStringCompact(R.string.attachment_type_files),
-                        PalmUtils.getStringCompact(R.string.attachment_type_images),
-                        PalmUtils.getStringCompact(R.string.attachment_type_sketches),
-                        PalmUtils.getStringCompact(R.string.attachment_type_videos),
-                        PalmUtils.getStringCompact(R.string.attachment_type_voice)));
+                Arrays.asList(ResUtils.getString(R.string.attachment_type_files),
+                        ResUtils.getString(R.string.attachment_type_images),
+                        ResUtils.getString(R.string.attachment_type_sketches),
+                        ResUtils.getString(R.string.attachment_type_videos),
+                        ResUtils.getString(R.string.attachment_type_voice)));
 
         data.setAxisXBottom(axisX);
         data.setAxisYLeft(null);

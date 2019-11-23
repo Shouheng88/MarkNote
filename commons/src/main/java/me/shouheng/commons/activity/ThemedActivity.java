@@ -7,10 +7,9 @@ import android.os.Bundle;
 import android.support.annotation.ColorInt;
 
 import me.shouheng.commons.R;
+import me.shouheng.commons.theme.ThemeStyle;
 import me.shouheng.commons.theme.ThemeUtils;
 import me.shouheng.commons.utils.ColorUtils;
-import me.shouheng.commons.utils.PalmUtils;
-import me.shouheng.commons.theme.ThemeStyle;
 import me.shouheng.utils.app.ResUtils;
 import me.shouheng.utils.store.SPUtils;
 
@@ -83,11 +82,11 @@ public abstract class ThemedActivity extends UMengActivity {
 
     @ColorInt
     protected int primaryColor(){
-        return PalmUtils.getColorCompact(themeStyle.primaryColor);
+        return ResUtils.getColor(themeStyle.primaryColor);
     }
 
     @ColorInt
     protected int accentColor(){
-        return PalmUtils.getColorCompact(themeStyle.accentColor);
+        return ResUtils.getColor(themeStyle.accentColor);
     }
 }

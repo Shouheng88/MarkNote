@@ -50,7 +50,7 @@ public class SettingsFragment extends BPreferenceFragment {
             }
             return true;
         });
-        theme.setIcon(PalmUtils.getDrawableCompact(getThemeStyle().isDarkTheme ?
+        theme.setIcon(ResUtils.getDrawable(getThemeStyle().isDarkTheme ?
                 R.drawable.ic_color_lens_white_24dp : R.drawable.ic_color_lens_black_24dp));
 
         findPreference(R.string.key_setting_custom_fab).setOnPreferenceClickListener(preference -> {
@@ -88,16 +88,16 @@ public class SettingsFragment extends BPreferenceFragment {
 
         findPreference(R.string.key_setting_guide).setOnPreferenceClickListener(preference -> {
             ContainerActivity.open(WebviewFragment.class)
-                    .put(WebviewFragment.ARGUMENT_KEY_TITLE, PalmUtils.getStringCompact(R.string.setting_category_help_user_guide))
+                    .put(WebviewFragment.ARGUMENT_KEY_TITLE, ResUtils.getString(R.string.setting_category_help_user_guide))
                     .put(WebviewFragment.ARGUMENT_KEY_URL, Constants.PAGE_GUIDE)
                     .launch(getActivity());
             return true;
         });
 
         findPreference(R.string.key_setting_feedback).setOnPreferenceClickListener(preference -> {
-            boolean isEn = "en".equals(PalmUtils.getStringCompact(R.string.language_code));
+            boolean isEn = "en".equals(ResUtils.getString(R.string.language_code));
             ContainerActivity.open(WebviewFragment.class)
-                    .put(WebviewFragment.ARGUMENT_KEY_TITLE, PalmUtils.getStringCompact(R.string.setting_category_help_feedback))
+                    .put(WebviewFragment.ARGUMENT_KEY_TITLE, ResUtils.getString(R.string.setting_category_help_feedback))
                     .put(WebviewFragment.ARGUMENT_KEY_URL, isEn ? Constants.PAGE_FEEDBACK_ENGLISH : Constants.PAGE_FEEDBACK_CHINESE)
                     .launch(getActivity());
             return true;
@@ -105,7 +105,7 @@ public class SettingsFragment extends BPreferenceFragment {
 
         findPreference(R.string.key_setting_translate).setOnPreferenceClickListener(preference -> {
             ContainerActivity.open(WebviewFragment.class)
-                    .put(WebviewFragment.ARGUMENT_KEY_TITLE, PalmUtils.getStringCompact(R.string.setting_category_help_translate))
+                    .put(WebviewFragment.ARGUMENT_KEY_TITLE, ResUtils.getString(R.string.setting_category_help_translate))
                     .put(WebviewFragment.ARGUMENT_KEY_URL, Constants.PAGE_TRANSLATE)
                     .launch(getActivity());
             return true;
@@ -121,7 +121,7 @@ public class SettingsFragment extends BPreferenceFragment {
 
         findPreference(R.string.key_setting_privacy).setOnPreferenceClickListener(preference -> {
             ContainerActivity.open(WebviewFragment.class)
-                    .put(WebviewFragment.ARGUMENT_KEY_TITLE, PalmUtils.getStringCompact(R.string.setting_category_others_about_privacy))
+                    .put(WebviewFragment.ARGUMENT_KEY_TITLE, ResUtils.getString(R.string.setting_category_others_about_privacy))
                     .put(WebviewFragment.ARGUMENT_KEY_URL, Constants.PAGE_PRIVACY)
                     .launch(getActivity());
             return true;

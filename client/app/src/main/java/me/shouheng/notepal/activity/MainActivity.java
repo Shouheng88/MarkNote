@@ -52,12 +52,6 @@ import me.shouheng.commons.helper.ActivityHelper;
 import me.shouheng.commons.helper.FragmentHelper;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.IntentUtils;
-import me.shouheng.utils.app.ResUtils;
-import me.shouheng.utils.data.StringUtils;
-import me.shouheng.utils.stability.LogUtils;
-import me.shouheng.commons.utils.PalmUtils;
-import me.shouheng.commons.utils.PermissionUtils;
-import me.shouheng.commons.utils.PermissionUtils.Permission;
 import me.shouheng.commons.widget.recycler.CustomRecyclerScrollViewListener;
 import me.shouheng.data.ModelFactory;
 import me.shouheng.data.entity.Attachment;
@@ -91,6 +85,11 @@ import me.shouheng.notepal.fragment.setting.SettingsFragment;
 import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.notepal.util.SynchronizeUtils;
 import me.shouheng.notepal.vm.MainViewModel;
+import me.shouheng.utils.app.ResUtils;
+import me.shouheng.utils.data.StringUtils;
+import me.shouheng.utils.permission.Permission;
+import me.shouheng.utils.permission.PermissionUtils;
+import me.shouheng.utils.stability.LogUtils;
 import me.shouheng.utils.store.SPUtils;
 import me.shouheng.utils.ui.ToastUtils;
 
@@ -328,30 +327,29 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                         case 8: {
                             // Share
                             MobclickAgent.onEvent(this, MAIN_MENU_ITEM_SHARE_APP);
-                            PermissionUtils.checkStoragePermission(this, () ->
-                                    Observable
-                                            .create((ObservableOnSubscribe<Uri>) emitter -> {
-                                                Bitmap share = FileManager.getImageFromAssetsFile(getContext(), SHARE_IMAGE_ASSETS_NAME_1);
-                                                Uri uri = FileManager.getShareImageUri(share, SHARE_IMAGE_NAME_1);
-                                                if (uri != null) {
-                                                    emitter.onNext(uri);
-                                                } else {
-                                                    emitter.onError(new NullPointerException());
-                                                }
-                                            })
-                                            .subscribeOn(Schedulers.io())
-                                            .observeOn(AndroidSchedulers.mainThread())
-                                            .subscribe(uri -> {
-                                                boolean isEn = "en".equalsIgnoreCase(PalmUtils.getStringCompact(R.string.language_code));
-                                                String download = isEn ? Constants.GOOGLE_PLAY_WEB_PAGE : Constants.COOL_APK_DOWNLOAD_PAGE;
-                                                Intent shareIntent = new Intent();
-                                                shareIntent.setAction(Intent.ACTION_SEND);
-                                                shareIntent.setType(BaseConstants.MIME_TYPE_IMAGE);
-                                                if (uri != null) shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
-                                                shareIntent.putExtra(Intent.EXTRA_SUBJECT, PalmUtils.getStringCompact(R.string.share_title));
-                                                shareIntent.putExtra(Intent.EXTRA_TEXT, StringUtils.format(R.string.share_content, download));
-                                                startActivity(Intent.createChooser(shareIntent, PalmUtils.getStringCompact(R.string.text_send_to)));
-                                            }, throwable -> ToastUtils.showShort(throwable.getMessage())));
+                            PermissionUtils.checkStoragePermission(MainActivity.this, () -> Observable
+                                    .create((ObservableOnSubscribe<Uri>) emitter -> {
+                                        Bitmap share = FileManager.getImageFromAssetsFile(getContext(), SHARE_IMAGE_ASSETS_NAME_1);
+                                        Uri uri = FileManager.getShareImageUri(share, SHARE_IMAGE_NAME_1);
+                                        if (uri != null) {
+                                            emitter.onNext(uri);
+                                        } else {
+                                            emitter.onError(new NullPointerException());
+                                        }
+                                    })
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(uri -> {
+                                        boolean isEn = "en".equalsIgnoreCase(ResUtils.getString(R.string.language_code));
+                                        String download = isEn ? Constants.GOOGLE_PLAY_WEB_PAGE : Constants.COOL_APK_DOWNLOAD_PAGE;
+                                        Intent shareIntent = new Intent();
+                                        shareIntent.setAction(Intent.ACTION_SEND);
+                                        shareIntent.setType(BaseConstants.MIME_TYPE_IMAGE);
+                                        if (uri != null) shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+                                        shareIntent.putExtra(Intent.EXTRA_SUBJECT, ResUtils.getString(R.string.share_title));
+                                        shareIntent.putExtra(Intent.EXTRA_TEXT, StringUtils.format(R.string.share_content, download));
+                                        startActivity(Intent.createChooser(shareIntent, ResUtils.getString(R.string.text_send_to)));
+                                    }, throwable -> ToastUtils.showShort(throwable.getMessage())));
                             break;
                         }
                     }

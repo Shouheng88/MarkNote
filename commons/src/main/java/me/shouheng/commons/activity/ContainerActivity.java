@@ -17,6 +17,7 @@ import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.helper.FragmentHelper;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.PalmUtils;
+import me.shouheng.utils.app.ResUtils;
 
 import static me.shouheng.commons.event.UMEvent.*;
 
@@ -66,7 +67,7 @@ public class ContainerActivity extends CommonActivity<ActivityContainerBinding> 
             if (actionBar != null) {
                 actionBar.setDisplayHomeAsUpEnabled(true);
                 actionBar.setHomeAsUpIndicator(ColorUtils.tintDrawable(
-                        PalmUtils.getDrawableCompact(R.drawable.ic_arrow_back_black_24dp),
+                        ResUtils.getDrawable(R.drawable.ic_arrow_back_black_24dp),
                         getThemeStyle().isDarkTheme ? Color.WHITE : Color.BLACK));
             }
             getBinding().toolbar.setTitleTextColor(getThemeStyle().isDarkTheme ? Color.WHITE : Color.BLACK);

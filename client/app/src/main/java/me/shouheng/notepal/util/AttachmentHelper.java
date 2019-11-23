@@ -27,6 +27,7 @@ import io.reactivex.schedulers.Schedulers;
 import me.shouheng.commons.image.GifSizeFilter;
 import me.shouheng.commons.image.Glide4Engine;
 import me.shouheng.commons.utils.IntentUtils;
+import me.shouheng.utils.app.AppUtils;
 import me.shouheng.utils.stability.LogUtils;
 import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.data.ModelFactory;
@@ -497,7 +498,7 @@ public class AttachmentHelper {
 
     public static void pickFiles(Activity activity) {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        if (PalmUtils.isJellyBeanMR2()) {
+        if (AppUtils.isJellyBeanMR2()) {
             intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         }
         intent.addCategory(Intent.CATEGORY_OPENABLE);
@@ -508,7 +509,7 @@ public class AttachmentHelper {
 
     public static void pickFiles(Fragment fragment) {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        if (PalmUtils.isJellyBeanMR2()) {
+        if (AppUtils.isJellyBeanMR2()) {
             intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         }
         intent.addCategory(Intent.CATEGORY_OPENABLE);

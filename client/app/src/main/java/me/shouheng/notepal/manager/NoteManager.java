@@ -17,6 +17,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import me.shouheng.utils.app.AppUtils;
+import me.shouheng.utils.app.ResUtils;
 import me.shouheng.utils.stability.LogUtils;
 import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.commons.utils.TimeUtils;
@@ -58,9 +60,9 @@ public class NoteManager {
      * @return the time information string
      */
     public static <T extends Model> String getTimeInfo(T model) {
-        return PalmUtils.getStringCompact(R.string.text_created)
+        return ResUtils.getString(R.string.text_created)
                 + " : " + TimeUtils.getPrettyTime(model.getAddedTime()) + "\n"
-                + PalmUtils.getStringCompact(R.string.text_updated)
+                + ResUtils.getString(R.string.text_updated)
                 + " : " + TimeUtils.getPrettyTime(model.getLastModifiedTime());
     }
 
@@ -107,7 +109,7 @@ public class NoteManager {
         shareIntent.putExtra(Intent.EXTRA_SUBJECT, title);
         shareIntent.putExtra(Intent.EXTRA_TEXT, content);
 
-        context.startActivity(Intent.createChooser(shareIntent, PalmUtils.getStringCompact(R.string.text_send_to)));
+        context.startActivity(Intent.createChooser(shareIntent, ResUtils.getString(R.string.text_send_to)));
     }
 
     /**
@@ -122,7 +124,7 @@ public class NoteManager {
         shareIntent.setAction(Intent.ACTION_SEND);
         shareIntent.setType(mimeType);
         shareIntent.putExtra(Intent.EXTRA_STREAM, FileManager.getUriFromFile(context, file));
-        context.startActivity(Intent.createChooser(shareIntent, PalmUtils.getStringCompact(R.string.text_send_to)));
+        context.startActivity(Intent.createChooser(shareIntent, ResUtils.getString(R.string.text_send_to)));
     }
 
     /**
@@ -133,7 +135,7 @@ public class NoteManager {
      * @return the title string
      */
     public static String getTitle(String inputTitle, String noteContent) {
-        int titleLength = PalmUtils.getIntegerCompact(R.integer.note_title_max_length);
+        int titleLength = ResUtils.getInteger(R.integer.note_title_max_length);
         if (!TextUtils.isEmpty(inputTitle)) {
             if (inputTitle.length() >= titleLength) {
                 return inputTitle.substring(0, titleLength);
@@ -143,7 +145,7 @@ public class NoteManager {
 
         // Use default note title
         if (TextUtils.isEmpty(noteContent)) {
-            return PalmUtils.getStringCompact(R.string.text_default_note_name);
+            return ResUtils.getString(R.string.text_default_note_name);
         }
 
         // Get title from note content
@@ -171,7 +173,7 @@ public class NoteManager {
             }
         }
 
-        return PalmUtils.getStringCompact(R.string.text_default_note_name);
+        return ResUtils.getString(R.string.text_default_note_name);
     }
 
     /**
@@ -185,7 +187,7 @@ public class NoteManager {
             return "";
         }
 
-        int maxLength = PalmUtils.getIntegerCompact(R.integer.note_content_preview_max_length);
+        int maxLength = ResUtils.getInteger(R.integer.note_content_preview_max_length);
         if (noteContent.length() > maxLength) {
             return noteContent.substring(0, maxLength).trim().replace('\n', ' ');
         }
@@ -227,10 +229,10 @@ public class NoteManager {
      * @param note the note
      */
     public static void printPDF(Context context, WebView webView, Note note) {
-        if (PalmUtils.isKitKat()) {
+        if (AppUtils.isKitKat()) {
             PrintManager printManager = (PrintManager) context.getSystemService(Context.PRINT_SERVICE);
             if (printManager != null) {
-                if (PalmUtils.isLollipop()) {
+                if (AppUtils.isLollipop()) {
                     printManager.print("PRINT-NOTE", webView.createPrintDocumentAdapter(note.getTitle()), null);
                     return;
                 }

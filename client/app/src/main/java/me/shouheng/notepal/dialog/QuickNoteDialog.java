@@ -31,8 +31,6 @@ import java.util.Objects;
 
 import me.shouheng.commons.activity.PermissionActivity;
 import me.shouheng.commons.utils.ColorUtils;
-import me.shouheng.commons.utils.PermissionUtils;
-import me.shouheng.commons.utils.PermissionUtils.Permission;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.data.entity.QuickNote;
 import me.shouheng.data.model.enums.ModelType;
@@ -43,6 +41,8 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.DialogQuickNoteBinding;
 import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.notepal.util.AttachmentHelper;
+import me.shouheng.utils.permission.Permission;
+import me.shouheng.utils.permission.PermissionUtils;
 import me.shouheng.utils.ui.ToastUtils;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;

@@ -22,19 +22,19 @@ import java.util.Arrays;
 
 import me.shouheng.commons.activity.CommonActivity;
 import me.shouheng.commons.event.PageName;
-import me.shouheng.commons.event.*;
+import me.shouheng.commons.event.UMEvent;
 import me.shouheng.commons.fragment.BPreferenceFragment;
-import me.shouheng.utils.stability.LogUtils;
-import me.shouheng.commons.utils.PalmUtils;
-import me.shouheng.commons.utils.PermissionUtils;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.DirectoryActivity;
-import me.shouheng.notepal.service.DataBackupService;
+import me.shouheng.notepal.common.enums.SyncTimeInterval;
+import me.shouheng.notepal.common.preferences.SyncPreferences;
 import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.notepal.onedrive.DefaultCallback;
 import me.shouheng.notepal.onedrive.OneDriveManager;
-import me.shouheng.notepal.common.enums.SyncTimeInterval;
-import me.shouheng.notepal.common.preferences.SyncPreferences;
+import me.shouheng.notepal.service.DataBackupService;
+import me.shouheng.utils.app.ResUtils;
+import me.shouheng.utils.permission.PermissionUtils;
+import me.shouheng.utils.stability.LogUtils;
 import me.shouheng.utils.ui.ToastUtils;
 
 /**
@@ -277,7 +277,7 @@ public class SettingsBackup extends BPreferenceFragment {
         String[] items = new String[timeIntervals.length];
         int length = timeIntervals.length;
         for (int i=0; i<length; i++) {
-            items[i] = PalmUtils.getStringCompact(timeIntervals[i].resName);
+            items[i] = ResUtils.getString(timeIntervals[i].resName);
         }
 
         new MaterialDialog.Builder(getActivity())

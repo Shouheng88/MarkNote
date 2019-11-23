@@ -17,13 +17,12 @@ import com.github.chrisbanes.photoview.PhotoView;
 
 import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.event.UMEvent;
-import me.shouheng.commons.utils.ViewUtils;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.notepal.Constants;
-import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.GalleryActivity;
 import me.shouheng.notepal.manager.FileManager;
+import me.shouheng.utils.ui.ViewUtils;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
@@ -64,7 +63,7 @@ public class ImageFragment extends Fragment {
             layout.addView(imageView);
             ImageView videoTip = new ImageView(getContext());
             videoTip.setImageResource(R.drawable.ic_play_circle_outline_white_24dp);
-            int dp50 = ViewUtils.dp2Px(PalmApp.getContext(), 50);
+            int dp50 = ViewUtils.dp2px(50);
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(dp50, dp50);
             params.addRule(RelativeLayout.CENTER_IN_PARENT);
             videoTip.setLayoutParams(params);

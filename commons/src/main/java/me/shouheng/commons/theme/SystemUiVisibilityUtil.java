@@ -5,7 +5,7 @@ import android.app.Activity;
 import android.os.Build;
 import android.view.View;
 
-import me.shouheng.commons.utils.PalmUtils;
+import me.shouheng.utils.app.AppUtils;
 
 @TargetApi(Build.VERSION_CODES.KITKAT)
 public class SystemUiVisibilityUtil {
@@ -27,7 +27,7 @@ public class SystemUiVisibilityUtil {
             | View.SYSTEM_UI_FLAG_IMMERSIVE;
 
     public static int getSystemVisibility() {
-        if (PalmUtils.isLollipop()) {
+        if (AppUtils.isLollipop()) {
             return FLAG_VISIBILITY_19;
         } else {
             return FLAG_VISIBILITY_17;

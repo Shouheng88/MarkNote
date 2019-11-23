@@ -29,13 +29,14 @@ import me.shouheng.commons.theme.ThemeStyle;
 import me.shouheng.commons.theme.ThemeUtils;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.IntentUtils;
-import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.notepal.BuildConfig;
 import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.ActivityAboutBinding;
+import me.shouheng.utils.app.AppUtils;
+import me.shouheng.utils.app.ResUtils;
 
-import static me.shouheng.commons.event.UMEvent.*;
+import static me.shouheng.commons.event.UMEvent.PAGE_ABOUT;
 import static me.shouheng.notepal.Constants.EMAIL_DEVELOPER;
 
 /**
@@ -59,7 +60,7 @@ public class AboutActivity extends CommonActivity<ActivityAboutBinding> {
         getBinding().setIsDarkTheme(themeStyle.isDarkTheme);
         getBinding().setVersionName(BuildConfig.VERSION_NAME);
         ThemeUtils.setStatusBarColor(this, themeStyle.isDarkTheme ? Color.BLACK :
-                PalmUtils.isMarshmallow() ? Color.WHITE : PalmUtils.getColorCompact(R.color.light_theme_background_dark));
+                AppUtils.isMarshmallow() ? Color.WHITE : ResUtils.getColor(R.color.light_theme_background_dark));
 
         /* Handle intent. */
         boolean openSourceOnly = false;
@@ -75,7 +76,7 @@ public class AboutActivity extends CommonActivity<ActivityAboutBinding> {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowHomeEnabled(true);
             actionBar.setHomeAsUpIndicator(ColorUtils.tintDrawable(
-                    PalmUtils.getDrawableCompact(me.shouheng.commons.R.drawable.ic_arrow_back_black_24dp),
+                    ResUtils.getDrawable(me.shouheng.commons.R.drawable.ic_arrow_back_black_24dp),
                     getThemeStyle().isDarkTheme ? Color.WHITE : Color.BLACK));
         }
         getBinding().toolbar.setTitleTextColor(isDarkTheme() ? Color.WHITE : Color.BLACK);
@@ -83,13 +84,13 @@ public class AboutActivity extends CommonActivity<ActivityAboutBinding> {
         /* About entities. */
         List<AboutEntity> aboutEntities = new LinkedList<>();
         if (!openSourceOnly) {
-            aboutEntities.add(AboutEntity.getSectionTitle(PalmUtils.getStringCompact(R.string.about_section_description)));
-            aboutEntities.add(AboutEntity.getNormalText(Html.fromHtml(PalmUtils.getStringCompact(R.string.about_section_description_details))));
-            aboutEntities.add(AboutEntity.getSectionTitle(PalmUtils.getStringCompact(R.string.about_section_developer)));
+            aboutEntities.add(AboutEntity.getSectionTitle(ResUtils.getString(R.string.about_section_description)));
+            aboutEntities.add(AboutEntity.getNormalText(Html.fromHtml(ResUtils.getString(R.string.about_section_description_details))));
+            aboutEntities.add(AboutEntity.getSectionTitle(ResUtils.getString(R.string.about_section_developer)));
             aboutEntities.add(AboutEntity.getUser("WngShhng (" + EMAIL_DEVELOPER + ")", Constants.IMAGE_AVATAR_DEVELOPER,
-                    PalmUtils.getStringCompact(R.string.about_section_developer_desc), Constants.PAGE_GITHUB_DEVELOPER));
-            aboutEntities.add(AboutEntity.getSectionTitle(PalmUtils.getStringCompact(R.string.about_section_open_links)));
-            String html = String.format(PalmUtils.getStringCompact(R.string.about_section_open_links_details),
+                    ResUtils.getString(R.string.about_section_developer_desc), Constants.PAGE_GITHUB_DEVELOPER));
+            aboutEntities.add(AboutEntity.getSectionTitle(ResUtils.getString(R.string.about_section_open_links)));
+            String html = String.format(ResUtils.getString(R.string.about_section_open_links_details),
                     Constants.PAGE_GITHUB_REPOSITORY, Constants.PAGE_CHANGE_LOGS, Constants.PAGE_UPDATE_PLAN, Constants.PAGE_ABOUT);
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
                 aboutEntities.add(AboutEntity.getNormalText(Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY)));
@@ -97,7 +98,7 @@ public class AboutActivity extends CommonActivity<ActivityAboutBinding> {
                 aboutEntities.add(AboutEntity.getNormalText(Html.fromHtml(html)));
             }
         }
-        aboutEntities.add(AboutEntity.getSectionTitle(PalmUtils.getStringCompact(R.string.about_section_open_sources)));
+        aboutEntities.add(AboutEntity.getSectionTitle(ResUtils.getString(R.string.about_section_open_sources)));
         aboutEntities.add(AboutEntity.getLicense("EasyMark", "WngShhng",
                 AboutEntity.License.APACHE_2, "https://github.com/Shouheng88/EasyMark"));
         aboutEntities.add(AboutEntity.getLicense("PhotoView", "Chris Banes",

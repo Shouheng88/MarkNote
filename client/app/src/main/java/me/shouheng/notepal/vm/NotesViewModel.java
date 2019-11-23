@@ -29,6 +29,7 @@ import me.shouheng.data.store.NotesStore;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.MainActivity;
 import me.shouheng.notepal.adapter.NotesAdapter;
+import me.shouheng.utils.app.ResUtils;
 
 /**
  * @author WngShhng (shouheng2015@gmail.com)
@@ -290,7 +291,7 @@ public class NotesViewModel extends ViewModel {
      * @return the sub title
      */
     public String getEmptySubTitle() {
-        return PalmUtils.getStringCompact(
+        return ResUtils.getString(
                 status == Status.NORMAL ? R.string.notes_list_empty_sub_normal :
                         status == Status.TRASHED ? R.string.notes_list_empty_sub_trashed :
                                 status == Status.ARCHIVED ? R.string.notes_list_empty_sub_archived :

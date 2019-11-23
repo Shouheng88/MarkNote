@@ -16,10 +16,10 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import me.shouheng.commons.activity.PermissionActivity;
 import me.shouheng.commons.fragment.CommonFragment;
-import me.shouheng.commons.utils.PermissionUtils;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.notepal.util.ScreenShotHelper;
+import me.shouheng.utils.permission.PermissionUtils;
 import me.shouheng.utils.ui.ToastUtils;
 
 /**

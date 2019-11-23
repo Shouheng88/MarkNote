@@ -15,7 +15,6 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
 import java.util.List;
 
 import me.shouheng.commons.utils.ColorUtils;
-import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.commons.utils.TimeUtils;
 import me.shouheng.commons.widget.recycler.BubbleTextGetter;
 import me.shouheng.data.entity.Note;
@@ -23,6 +22,7 @@ import me.shouheng.data.entity.Notebook;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.manager.FileManager;
+import me.shouheng.utils.app.AppUtils;
 import me.shouheng.utils.app.ResUtils;
 import me.shouheng.utils.store.SPUtils;
 
@@ -69,7 +69,7 @@ public class NotesAdapter extends BaseMultiItemQuickAdapter<NotesAdapter.MultiIt
         }
         helper.addOnClickListener(R.id.iv_more);
         /* Animations */
-        if (PalmUtils.isLollipop()) {
+        if (AppUtils.isLollipop()) {
             setAnimation(helper.itemView, helper.getAdapterPosition());
         } else {
             if (helper.getAdapterPosition() > 10) {
@@ -95,7 +95,7 @@ public class NotesAdapter extends BaseMultiItemQuickAdapter<NotesAdapter.MultiIt
     }
 
     private void convertNoteExpanded(BaseViewHolder holder, Note note) {
-        holder.itemView.setBackgroundColor(PalmUtils.getColorCompact(isDarkTheme ?
+        holder.itemView.setBackgroundColor(ResUtils.getColor(isDarkTheme ?
                 R.color.dark_theme_background : R.color.light_theme_background));
         holder.setText(R.id.tv_note_title, note.getTitle());
         holder.setText(R.id.tv_content, note.getPreviewContent());

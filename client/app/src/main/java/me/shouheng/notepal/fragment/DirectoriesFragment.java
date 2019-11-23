@@ -25,6 +25,7 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.DirectoriesAdapter;
 import me.shouheng.notepal.databinding.FragmentDirectoriesBinding;
 import me.shouheng.notepal.vm.DirectoryViewModel;
+import me.shouheng.utils.app.ResUtils;
 import me.shouheng.utils.ui.ToastUtils;
 
 /**
@@ -162,7 +163,7 @@ public class DirectoriesFragment extends BaseFragment<FragmentDirectoriesBinding
             switch (directoryResource.status) {
                 case FAILED:
                     ToastUtils.showShort(String.format(
-                            PalmUtils.getStringCompact(R.string.setting_backup_onedrive_error_when_try_to_backup),
+                            ResUtils.getString(R.string.setting_backup_onedrive_error_when_try_to_backup),
                             directoryResource.message));
                     break;
                 case SUCCESS:
