@@ -37,11 +37,8 @@ import java.util.Objects;
 
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
-import me.shouheng.commons.activity.CommonActivity;
 import me.shouheng.commons.activity.ContainerActivity;
 import me.shouheng.commons.activity.interaction.BackEventResolver;
-import me.shouheng.commons.event.PageName;
-import me.shouheng.commons.event.UMEvent;
 import me.shouheng.commons.fragment.WebviewFragment;
 import me.shouheng.commons.helper.FragmentHelper;
 import me.shouheng.commons.model.data.Resource;
@@ -54,6 +51,7 @@ import me.shouheng.data.entity.Category;
 import me.shouheng.data.entity.Note;
 import me.shouheng.easymark.EasyMarkViewer;
 import me.shouheng.easymark.viewer.listener.LifecycleListener;
+import me.shouheng.mvvm.base.CommonActivity;
 import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.FragmentNoteViewBinding;
@@ -82,7 +80,6 @@ import static me.shouheng.notepal.Constants.URI_SCHEME_HTTPS;
  * Created by WngShhng (shouheng2015@gmail.com) on 2017/5/13.
  * Refactored by WngShhng (shouheng2015@gmail.com) on 2018/11/30
  */
-@PageName(name = UMEvent.PAGE_NOTE_VIEW)
 public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> implements BackEventResolver {
 
     /**

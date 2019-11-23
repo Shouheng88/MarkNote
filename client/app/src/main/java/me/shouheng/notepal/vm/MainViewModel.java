@@ -1,7 +1,7 @@
 package me.shouheng.notepal.vm;
 
+import android.app.Application;
 import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModel;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -27,22 +27,27 @@ import me.shouheng.data.store.AttachmentsStore;
 import me.shouheng.data.store.CategoryStore;
 import me.shouheng.data.store.NotebookStore;
 import me.shouheng.data.store.NotesStore;
+import me.shouheng.mvvm.base.BaseViewModel;
 import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.PalmApp;
+import me.shouheng.notepal.common.preferences.UserPreferences;
 import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.notepal.manager.NoteManager;
-import me.shouheng.notepal.common.preferences.UserPreferences;
 
 /**
  * Created by WngShhng on 2018/11/29.
  */
-public class MainViewModel extends ViewModel {
+public class MainViewModel extends BaseViewModel {
 
     private MutableLiveData<Resource<Notebook>> updateNotebookLiveData;
 
     private MutableLiveData<Resource<Note>> saveNoteLiveData;
 
     private MutableLiveData<Resource<Category>> saveCategoryLiveData;
+
+    public MainViewModel(@NonNull Application application) {
+        super(application);
+    }
 
     public MutableLiveData<Resource<Note>> getSaveNoteLiveData() {
         if (saveNoteLiveData == null) {

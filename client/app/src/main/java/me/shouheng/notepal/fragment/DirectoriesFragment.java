@@ -14,8 +14,6 @@ import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
-import me.shouheng.commons.event.PageName;
-import me.shouheng.commons.event.UMEvent;
 import me.shouheng.commons.widget.recycler.CustomItemAnimator;
 import me.shouheng.commons.widget.recycler.DividerItemDecoration;
 import me.shouheng.data.model.Directory;
@@ -29,7 +27,6 @@ import me.shouheng.utils.ui.ToastUtils;
 
 /**
  * Created by shouh on 2018/3/30.*/
-@PageName(name = UMEvent.PAGE_DIRECTORIES)
 public class DirectoriesFragment extends BaseFragment<FragmentDirectoriesBinding> {
 
     private final static String KEY_DIRECTORY = "key_item_id";

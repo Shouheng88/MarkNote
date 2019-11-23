@@ -15,10 +15,11 @@ import com.onedrive.sdk.core.ClientException;
 import com.onedrive.sdk.extensions.Folder;
 import com.onedrive.sdk.extensions.Item;
 
-import me.shouheng.commons.activity.CommonActivity;
-import me.shouheng.commons.event.PageName;
+import me.shouheng.commons.activity.ThemedActivity;
 import me.shouheng.commons.helper.FragmentHelper;
 import me.shouheng.data.model.Directory;
+import me.shouheng.mvvm.base.anno.ActivityConfiguration;
+import me.shouheng.mvvm.comn.EmptyViewModel;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.common.preferences.SyncPreferences;
 import me.shouheng.notepal.databinding.ActivityDirectoryBinding;
@@ -29,10 +30,8 @@ import me.shouheng.notepal.onedrive.OneDriveManager;
 import me.shouheng.utils.app.ResUtils;
 import me.shouheng.utils.ui.ToastUtils;
 
-import static me.shouheng.commons.event.UMEvent.PAGE_DIRECTORY;
-
-@PageName(name = PAGE_DIRECTORY)
-public class DirectoryActivity extends CommonActivity<ActivityDirectoryBinding> implements
+@ActivityConfiguration(layoutResId = R.layout.activity_directory)
+public class DirectoryActivity extends ThemedActivity<ActivityDirectoryBinding, EmptyViewModel> implements
         DirectoriesFragment.OnFragmentInteractionListener {
 
     private String oldOneDriveBackupItemId;
@@ -45,11 +44,6 @@ public class DirectoryActivity extends CommonActivity<ActivityDirectoryBinding> 
     public static void startExplore(android.app.Fragment fragment, int req) {
         Intent intent = new Intent(fragment.getActivity(), DirectoryActivity.class);
         fragment.startActivityForResult(intent, req);
-    }
-
-    @Override
-    protected int getLayoutResId() {
-        return R.layout.activity_directory;
     }
 
     @Override

@@ -14,17 +14,16 @@ import android.view.View;
 
 import java.io.Serializable;
 
-import me.shouheng.commons.activity.CommonActivity;
-import me.shouheng.commons.event.PageName;
+import me.shouheng.commons.activity.ThemedActivity;
 import me.shouheng.commons.helper.FragmentHelper;
 import me.shouheng.commons.utils.ColorUtils;
+import me.shouheng.mvvm.base.anno.ActivityConfiguration;
+import me.shouheng.mvvm.comn.EmptyViewModel;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.ActivitySettingsBinding;
 
-import static me.shouheng.commons.event.UMEvent.*;
-
-@PageName(name = PAGE_SETTINGS)
-public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> {
+@ActivityConfiguration(layoutResId = R.layout.activity_settings)
+public class SettingsActivity extends ThemedActivity<ActivitySettingsBinding, EmptyViewModel> {
 
     public final static String ACTION_OPEN_FRAGMENT = "__action_open_fragment";
     public final static String ACTION_OPEN_FRAGMENT_EXTRA_NEED_TOOLBAR = "__action_open_fragment_extra_need_toolbar";
@@ -33,11 +32,6 @@ public class SettingsActivity extends CommonActivity<ActivitySettingsBinding> {
 
     public static <T extends Fragment> Builder<T> open(Class<T> withClz) {
         return new Builder<>(withClz);
-    }
-
-    @Override
-    protected int getLayoutResId() {
-        return R.layout.activity_settings;
     }
 
     @Override

@@ -25,17 +25,16 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
-import me.shouheng.commons.activity.CommonActivity;
-import me.shouheng.commons.event.PageName;
-import me.shouheng.utils.stability.LogUtils;
-import me.shouheng.utils.ui.ViewUtils;
+import me.shouheng.commons.activity.ThemedActivity;
 import me.shouheng.commons.widget.sketch.OnDrawChangedListener;
 import me.shouheng.commons.widget.sketch.SketchView;
+import me.shouheng.mvvm.base.anno.ActivityConfiguration;
+import me.shouheng.mvvm.comn.EmptyViewModel;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.ActivitySketchBinding;
+import me.shouheng.utils.stability.LogUtils;
 import me.shouheng.utils.ui.ToastUtils;
-
-import static me.shouheng.commons.event.UMEvent.*;
+import me.shouheng.utils.ui.ViewUtils;
 
 /**
  * The activity used to sketch
@@ -43,8 +42,8 @@ import static me.shouheng.commons.event.UMEvent.*;
  * refactored at 2018-11-28, 23:12,
  * by WngShhng (shouheng2015@gmail.com)
  */
-@PageName(name = PAGE_SKETCH)
-public class SketchActivity extends CommonActivity<ActivitySketchBinding>
+@ActivityConfiguration(layoutResId = R.layout.activity_sketch)
+public class SketchActivity extends ThemedActivity<ActivitySketchBinding, EmptyViewModel>
         implements OnDrawChangedListener, View.OnClickListener {
 
     /**
@@ -71,11 +70,6 @@ public class SketchActivity extends CommonActivity<ActivitySketchBinding>
     private boolean isContentChanged, onceSaved;
 
     private String outputFilePath;
-
-    @Override
-    protected int getLayoutResId() {
-        return R.layout.activity_sketch;
-    }
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {

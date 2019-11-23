@@ -29,12 +29,12 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Objects;
 
-import me.shouheng.commons.activity.PermissionActivity;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.data.entity.QuickNote;
 import me.shouheng.data.model.enums.ModelType;
 import me.shouheng.data.store.AttachmentsStore;
+import me.shouheng.mvvm.base.CommonActivity;
 import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
@@ -183,7 +183,7 @@ public class QuickNoteDialog extends DialogFragment implements AttachmentHelper.
                             case R.id.item_pick_from_album: {
                                 Activity activity = getActivity();
                                 if (activity != null) {
-                                    PermissionUtils.checkStoragePermission((PermissionActivity) activity,
+                                    PermissionUtils.checkStoragePermission((CommonActivity) activity,
                                             () -> AttachmentHelper.pickOneFromCustomAlbum(QuickNoteDialog.this));
                                 }
                                 break;
@@ -191,7 +191,7 @@ public class QuickNoteDialog extends DialogFragment implements AttachmentHelper.
                             case R.id.item_pick_take_a_photo: {
                                 Activity activity = getActivity();
                                 if (activity != null) {
-                                    PermissionUtils.checkPermissions((PermissionActivity) activity,
+                                    PermissionUtils.checkPermissions((CommonActivity) activity,
                                             () -> AttachmentHelper.takeAPhoto(QuickNoteDialog.this),
                                             Permission.STORAGE, Permission.CAMERA);
                                 }
@@ -200,7 +200,7 @@ public class QuickNoteDialog extends DialogFragment implements AttachmentHelper.
                             case R.id.item_pick_create_sketch: {
                                 Activity activity = getActivity();
                                 if (activity != null) {
-                                    PermissionUtils.checkStoragePermission((PermissionActivity) activity,
+                                    PermissionUtils.checkStoragePermission((CommonActivity) activity,
                                             () -> AttachmentHelper.createSketch(QuickNoteDialog.this));
                                 }
                                 break;

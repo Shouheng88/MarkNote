@@ -11,11 +11,12 @@ import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.util.List;
 
-import me.shouheng.commons.activity.CommonActivity;
-import me.shouheng.commons.event.PageName;
+import me.shouheng.commons.activity.ThemedActivity;
 import me.shouheng.commons.event.RxMessage;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.data.model.enums.FabSortItem;
+import me.shouheng.mvvm.base.anno.ActivityConfiguration;
+import me.shouheng.mvvm.comn.EmptyViewModel;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.FabSortAdapter;
 import me.shouheng.notepal.common.preferences.UserPreferences;
@@ -23,19 +24,13 @@ import me.shouheng.notepal.databinding.ActivityFabSortBinding;
 import me.shouheng.uix.rv.decor.DragSortRecycler;
 import me.shouheng.utils.ui.ToastUtils;
 
-import static me.shouheng.commons.event.UMEvent.PAGE_FAB_SORT;
-
-@PageName(name = PAGE_FAB_SORT)
-public class FabSortActivity extends CommonActivity<ActivityFabSortBinding> {
+@ActivityConfiguration(layoutResId = R.layout.activity_fab_sort)
+public class FabSortActivity extends ThemedActivity<ActivityFabSortBinding, EmptyViewModel> {
 
     private FabSortAdapter mAdapter;
 
-    private boolean saved = true, everSaved = false;
-
-    @Override
-    protected int getLayoutResId() {
-        return R.layout.activity_fab_sort;
-    }
+    private boolean saved = true;
+    private boolean everSaved = false;
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {

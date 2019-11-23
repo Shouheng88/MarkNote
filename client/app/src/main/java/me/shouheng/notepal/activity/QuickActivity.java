@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Pair;
 
@@ -16,8 +17,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
-import me.shouheng.commons.activity.PermissionActivity;
-import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.event.RxBus;
 import me.shouheng.commons.event.RxMessage;
 import me.shouheng.commons.helper.ActivityHelper;
@@ -35,17 +34,33 @@ import me.shouheng.notepal.dialog.QuickNoteDialog;
 import me.shouheng.notepal.util.AppWidgetUtils;
 import me.shouheng.notepal.vm.QuickViewModel;
 import me.shouheng.utils.app.ResUtils;
+import me.shouheng.utils.permission.PermissionResultHandler;
+import me.shouheng.utils.permission.PermissionResultResolver;
 import me.shouheng.utils.permission.PermissionUtils;
+import me.shouheng.utils.permission.callback.OnGetPermissionCallback;
+import me.shouheng.utils.permission.callback.PermissionResultCallbackImpl;
 import me.shouheng.utils.stability.LogUtils;
 import me.shouheng.utils.store.SPUtils;
 import me.shouheng.utils.ui.ToastUtils;
 
-import static me.shouheng.commons.event.UMEvent.PAGE_QUICK;
-
-@PageName(name = PAGE_QUICK)
-public class QuickActivity extends PermissionActivity {
+public class QuickActivity extends AppCompatActivity implements PermissionResultResolver {
 
     private QuickViewModel viewModel;
+
+    private OnGetPermissionCallback onGetPermissionCallback;
+
+    @Override
+    public void setOnGetPermissionCallback(OnGetPermissionCallback onGetPermissionCallback) {
+        this.onGetPermissionCallback = onGetPermissionCallback;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        PermissionResultHandler.handlePermissionsResult(this,
+                requestCode, permissions, grantResults,
+                new PermissionResultCallbackImpl(this, onGetPermissionCallback));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

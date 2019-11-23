@@ -12,8 +12,6 @@ import lecho.lib.hellocharts.model.Column;
 import lecho.lib.hellocharts.model.Line;
 import lecho.lib.hellocharts.model.PointValue;
 import lecho.lib.hellocharts.model.SubcolumnValue;
-import me.shouheng.commons.event.PageName;
-import me.shouheng.commons.event.*;
 import me.shouheng.data.model.Stats;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.FragmentStatisticsBinding;
@@ -25,7 +23,6 @@ import me.shouheng.utils.ui.ToastUtils;
  *
  * Created by WngShhng (shouheng2015@gmail.com) on 2018/1/19.
  */
-@PageName(name = UMEvent.PAGE_STATISTICS)
 public class StatisticsFragment extends BaseFragment<FragmentStatisticsBinding> {
 
     private StatisticViewModel viewModel;

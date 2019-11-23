@@ -13,9 +13,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 
-import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.event.RxMessage;
-import me.shouheng.commons.event.UMEvent;
 import me.shouheng.commons.fragment.BPreferenceFragment;
 import me.shouheng.commons.helper.ActivityHelper;
 import me.shouheng.commons.utils.ColorUtils;
@@ -30,7 +28,6 @@ import me.shouheng.utils.ui.ToastUtils;
 /**
  * Created by WngShhng on 2018/1/12.
  */
-@PageName(name = UMEvent.PAGE_SETTING_SECURITY)
 public class SettingsSecurity extends BPreferenceFragment {
 
     @Override

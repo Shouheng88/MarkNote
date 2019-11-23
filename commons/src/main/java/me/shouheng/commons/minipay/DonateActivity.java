@@ -7,13 +7,14 @@ import android.text.TextUtils;
 import android.view.animation.AccelerateDecelerateInterpolator;
 
 import me.shouheng.commons.R;
-import me.shouheng.commons.activity.CommonActivity;
+import me.shouheng.commons.activity.ThemedActivity;
 import me.shouheng.commons.databinding.ActivityDonateBinding;
+import me.shouheng.mvvm.comn.EmptyViewModel;
 
 /**
  * Created by WngShhng on 2017/9/8.
  */
-public class DonateActivity extends CommonActivity<ActivityDonateBinding> {
+public class DonateActivity extends ThemedActivity<ActivityDonateBinding, EmptyViewModel> {
     private Config config;
     private boolean isAliPay = false;
 

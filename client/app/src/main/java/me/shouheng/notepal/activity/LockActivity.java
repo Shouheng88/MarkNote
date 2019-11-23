@@ -14,11 +14,12 @@ import com.facebook.stetho.common.LogUtil;
 import com.wei.android.lib.fingerprintidentify.FingerprintIdentify;
 import com.wei.android.lib.fingerprintidentify.base.BaseFingerprint;
 
-import me.shouheng.commons.activity.CommonActivity;
-import me.shouheng.commons.event.PageName;
+import me.shouheng.commons.activity.ThemedActivity;
 import me.shouheng.commons.event.RxMessage;
 import me.shouheng.commons.theme.SystemUiVisibilityUtil;
 import me.shouheng.commons.utils.ColorUtils;
+import me.shouheng.mvvm.base.anno.ActivityConfiguration;
+import me.shouheng.mvvm.comn.EmptyViewModel;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.ActivityLockBinding;
@@ -30,26 +31,19 @@ import me.shouheng.utils.store.SPUtils;
 import me.shouheng.utils.ui.ToastUtils;
 import me.shouheng.utils.ui.ViewUtils;
 
-import static me.shouheng.commons.event.UMEvent.PAGE_LOCK;
-
 /**
  * Lock Activity, used to set password, check password.
  *
  * Created by WngShhng.
  */
-@PageName(name = PAGE_LOCK)
-public class LockActivity extends CommonActivity<ActivityLockBinding> {
+@ActivityConfiguration(layoutResId = R.layout.activity_lock)
+public class LockActivity extends ThemedActivity<ActivityLockBinding, EmptyViewModel> {
 
     public final static String ACTION_SET_PASSWORD = "__action_set_password";
     public final static String ACTION_REQUIRE_PASSWORD = "__action_require_password";
 
     private FingerprintIdentify mFingerprintIdentify;
     private static final int MAX_AVAILABLE_TIMES = 5;
-
-    @Override
-    protected int getLayoutResId() {
-        return R.layout.activity_lock;
-    }
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {

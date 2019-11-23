@@ -44,9 +44,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import me.shouheng.commons.BaseConstants;
-import me.shouheng.commons.activity.CommonActivity;
 import me.shouheng.commons.activity.ContainerActivity;
-import me.shouheng.commons.event.PageName;
+import me.shouheng.commons.activity.ThemedActivity;
 import me.shouheng.commons.event.RxMessage;
 import me.shouheng.commons.helper.ActivityHelper;
 import me.shouheng.commons.helper.FragmentHelper;
@@ -62,6 +61,7 @@ import me.shouheng.data.model.enums.FabSortItem;
 import me.shouheng.data.model.enums.Status;
 import me.shouheng.data.store.NotebookStore;
 import me.shouheng.data.store.NotesStore;
+import me.shouheng.mvvm.base.anno.ActivityConfiguration;
 import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
@@ -122,7 +122,6 @@ import static me.shouheng.commons.event.UMEvent.MAIN_MENU_ITEM_STATISTIC;
 import static me.shouheng.commons.event.UMEvent.MAIN_MENU_ITEM_SUPPORT;
 import static me.shouheng.commons.event.UMEvent.MAIN_MENU_ITEM_TIMELINE;
 import static me.shouheng.commons.event.UMEvent.MAIN_MENU_ITEM_TRASHED;
-import static me.shouheng.commons.event.UMEvent.PAGE_MAIN;
 import static me.shouheng.notepal.Constants.FAB_ACTION_CAPTURE;
 import static me.shouheng.notepal.Constants.FAB_ACTION_CREATE_SKETCH;
 import static me.shouheng.notepal.Constants.FAB_ACTION_PICK_IMAGE;
@@ -134,25 +133,17 @@ import static me.shouheng.notepal.Constants.SHORTCUT_ACTION_SEARCH_NOTE;
 import static me.shouheng.notepal.Constants.SHORTCUT_ACTION_VIEW_NOTE;
 import static me.shouheng.notepal.Constants.SHORTCUT_EXTRA_NOTE_CODE;
 
-@PageName(name = PAGE_MAIN)
-public class MainActivity extends CommonActivity<ActivityMainBinding>
+@ActivityConfiguration(layoutResId = R.layout.activity_main)
+public class MainActivity extends ThemedActivity<ActivityMainBinding, MainViewModel>
         implements NotesFragment.OnNotesInteractListener, CategoriesFragment.CategoriesInteraction {
 
     private FloatingActionButton[] fabs;
     private long onBackPressed;
     private Drawer drawer;
     private RecyclerView.OnScrollListener onScrollListener;
-    private MainViewModel viewModel;
-
-    @Override
-    protected int getLayoutResId() {
-        return R.layout.activity_main;
-    }
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {
-        viewModel = getViewModel(MainViewModel.class);
-
         checkPsdIfNecessary(savedInstanceState);
 
         addSubscriptions();
@@ -165,7 +156,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
             ActivityHelper.open(LockActivity.class)
                     .setAction(LockActivity.ACTION_REQUIRE_PASSWORD)
                     .setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-                    .launch(getContext());
+                    .launch(this);
         } else {
             everything(savedInstanceState);
         }
@@ -175,7 +166,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
         addSubscription(RxMessage.class, RxMessage.CODE_SORT_FLOAT_BUTTONS, rxMessage -> configFabSortItems());
         addSubscription(RxMessage.class, RxMessage.CODE_PASSWORD_CHECK_PASSED, rxMessage -> everything(null));
         addSubscription(RxMessage.class, RxMessage.CODE_PASSWORD_CHECK_FAILED, rxMessage -> finish());
-        viewModel.getUpdateNotebookLiveData().observe(this, resources -> {
+        getVM().getUpdateNotebookLiveData().observe(this, resources -> {
             assert resources != null;
             switch (resources.status) {
                 case SUCCESS:
@@ -189,7 +180,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                     break;
             }
         });
-        viewModel.getSaveNoteLiveData().observe(this, resources -> {
+        getVM().getSaveNoteLiveData().observe(this, resources -> {
             assert resources != null;
             switch (resources.status) {
                 case SUCCESS:
@@ -201,7 +192,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                     break;
             }
         });
-        viewModel.getSaveCategoryLiveData().observe(this, resources -> {
+        getVM().getSaveCategoryLiveData().observe(this, resources -> {
             assert resources != null;
             switch (resources.status) {
                 case SUCCESS:
@@ -274,7 +265,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
 
         LayoutHeaderBinding binding = DataBindingUtil.inflate(LayoutInflater.from(this),
                 R.layout.layout_header, null, false);
-        Glide.with(getContext()).load(isDarkTheme() ? Constants.IMAGE_HEADER_DARK : Constants.IMAGE_HEADER_LIGHT).into(binding.iv);
+        Glide.with(this).load(isDarkTheme() ? Constants.IMAGE_HEADER_DARK : Constants.IMAGE_HEADER_LIGHT).into(binding.iv);
 
         drawer = new DrawerBuilder().withActivity(this)
                 .withHasStableIds(true)
@@ -299,13 +290,13 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                         case 2:
                             ActivityHelper.open(ListActivity.class)
                                     .put(ListActivity.ARGS_KEY_LIST_TYPE, Status.ARCHIVED)
-                                    .launch(getContext());
+                                    .launch(this);
                             MobclickAgent.onEvent(this, MAIN_MENU_ITEM_ARCHIVED);
                             break;
                         case 3:
                             ActivityHelper.open(ListActivity.class)
                                     .put(ListActivity.ARGS_KEY_LIST_TYPE, Status.TRASHED)
-                                    .launch(getContext());
+                                    .launch(this);
                             MobclickAgent.onEvent(this, MAIN_MENU_ITEM_TRASHED);
                             break;
                         case 4:
@@ -329,7 +320,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                             MobclickAgent.onEvent(this, MAIN_MENU_ITEM_SHARE_APP);
                             PermissionUtils.checkStoragePermission(MainActivity.this, () -> Observable
                                     .create((ObservableOnSubscribe<Uri>) emitter -> {
-                                        Bitmap share = FileManager.getImageFromAssetsFile(getContext(), SHARE_IMAGE_ASSETS_NAME_1);
+                                        Bitmap share = FileManager.getImageFromAssetsFile(this, SHARE_IMAGE_ASSETS_NAME_1);
                                         Uri uri = FileManager.getShareImageUri(share, SHARE_IMAGE_NAME_1);
                                         if (uri != null) {
                                             emitter.onNext(uri);
@@ -378,14 +369,14 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                 MobclickAgent.onEvent(this, INTENT_SHORTCUT_ACTION_SEARCH_NOTE);
                 ActivityHelper.open(SearchActivity.class)
                         .setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-                        .launch(getContext());
+                        .launch(this);
                 break;
             case SHORTCUT_ACTION_CAPTURE:
                 MobclickAgent.onEvent(this, INTENT_SHORTCUT_ACTION_CAPTURE);
                 PermissionUtils.checkPermissions(this, () ->
                         ContainerActivity.open(NoteFragment.class)
                                 .put(NoteFragment.ARGS_KEY_ACTION, SHORTCUT_ACTION_CAPTURE)
-                                .launch(getContext()), Permission.CAMERA, Permission.STORAGE);
+                                .launch(this), Permission.CAMERA, Permission.STORAGE);
                 break;
             case SHORTCUT_ACTION_CREATE_NOTE:
                 MobclickAgent.onEvent(this, INTENT_SHORTCUT_ACTION_CREATE_NOTE);
@@ -416,7 +407,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                                         ContainerActivity.open(NoteFragment.class)
                                                 .put(NoteFragment.ARGS_KEY_NOTE, (Serializable) note)
                                                 .put(NoteFragment.ARGS_KEY_ACTION, action)
-                                                .launch(getContext())),
+                                                .launch(this)),
                                 throwable -> ToastUtils.showShort(R.string.text_note_not_found));
                 break;
 
@@ -430,7 +421,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                         ContainerActivity.open(NoteFragment.class)
                                 .put(NoteFragment.ARGS_KEY_ACTION, action)
                                 .put(NoteFragment.ARGS_KEY_INTENT, intent)
-                                .launch(getContext());
+                                .launch(this);
                     }
                 });
                 break;
@@ -443,7 +434,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                         Uri uri = intent.getData();
                         String path = FileManager.getPath(this, uri);
                         LayoutActionViewBottomDialogBinding binding = DataBindingUtil.inflate(
-                                LayoutInflater.from(getContext()), R.layout.layout_action_view_bottom_dialog, null, false);
+                                LayoutInflater.from(this), R.layout.layout_action_view_bottom_dialog, null, false);
                         binding.tvPath.setText(path);
                         BottomSheet bottomSheet = new BottomSheet.Builder(this)
                                 .setStyle(isDarkTheme() ? R.style.BottomSheet_Dark : R.style.BottomSheet)
@@ -454,7 +445,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                                 ContainerActivity.open(NoteFragment.class)
                                         .put(NoteFragment.ARGS_KEY_ACTION, action)
                                         .put(NoteFragment.ARGS_KEY_INTENT, intent)
-                                        .launch(getContext());
+                                        .launch(this);
                                 bottomSheet.dismiss();
                             } else {
                                 ToastUtils.showShort(R.string.note_action_view_file_type_not_support);
@@ -473,7 +464,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                             Note note = ModelFactory.getNote(pair.first, pair.second);
                             ContainerActivity.open(NoteFragment.class)
                                     .put(NoteFragment.ARGS_KEY_NOTE, (Serializable) note)
-                                    .launch(getContext());
+                                    .launch(this);
                         }));
                 break;
             }
@@ -501,7 +492,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                             ContainerActivity.open(NoteFragment.class)
                                     .put(NoteFragment.ARGS_KEY_ACTION, action)
                                     .put(NoteFragment.ARGS_KEY_NOTE, (Serializable) note)
-                                    .launch(getContext());
+                                    .launch(this);
                         }), Permission.STORAGE, Permission.CAMERA);
                 break;
             case Constants.APP_WIDGET_ACTION_CREATE_SKETCH:
@@ -512,7 +503,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                             ContainerActivity.open(NoteFragment.class)
                                     .put(NoteFragment.ARGS_KEY_ACTION, action)
                                     .put(NoteFragment.ARGS_KEY_NOTE, (Serializable) note)
-                                    .launch(getContext());
+                                    .launch(this);
                         }));
                 break;
 
@@ -626,7 +617,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                 PermissionUtils.checkStoragePermission(this, () ->
                         ContainerActivity.open(NoteFragment.class)
                                 .put(NoteFragment.ARGS_KEY_NOTE, (Serializable) getNewNote())
-                                .launch(getContext()));
+                                .launch(this));
                 break;
             case NOTEBOOK: {
                 MobclickAgent.onEvent(this, FAB_SORT_ITEM_NOTEBOOK);
@@ -642,14 +633,14 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                         notebook.setParentCode(parent.getCode());
                         notebook.setTreePath(parent.getTreePath() + "|" + notebook.getCode());
                     }
-                    viewModel.saveNotebook(notebook);
+                    getVM().saveNotebook(notebook);
                 }).show(getSupportFragmentManager(), "NOTEBOOK EDITOR");
                 break;
             }
             case CATEGORY:
                 MobclickAgent.onEvent(this, FAB_SORT_ITEM_CATEGORY);
                 CategoryEditDialog.newInstance(ModelFactory.getCategory(),
-                        category -> viewModel.saveCategory(category)
+                        category -> getVM().saveCategory(category)
                 ).show(getSupportFragmentManager(), "CATEGORY EDITOR");
                 break;
             case QUICK_NOTE:
@@ -707,7 +698,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
 
             @Override
             public void onConfirm(Dialog dialog, QuickNote quickNote, Attachment attachment) {
-                viewModel.saveQuickNote(getNewNote(), quickNote, attachment);
+                getVM().saveQuickNote(getNewNote(), quickNote, attachment);
                 dialog.dismiss();
             }
         }).show(getSupportFragmentManager(), "QUICK NOTE");
@@ -756,7 +747,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
             case R.id.action_search:
                 ActivityHelper.open(SearchActivity.class)
                         .setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-                        .launch(getContext());
+                        .launch(this);
                 break;
             case R.id.action_sync:
                 SynchronizeUtils.syncOneDrive(this, true);

@@ -9,14 +9,11 @@ import android.support.v7.app.AppCompatActivity;
 
 import me.shouheng.commons.activity.ContainerActivity;
 import me.shouheng.commons.activity.ThemedActivity;
-import me.shouheng.commons.event.PageName;
-import me.shouheng.commons.event.*;
 import me.shouheng.commons.fragment.BPreferenceFragment;
 import me.shouheng.commons.fragment.WebviewFragment;
 import me.shouheng.commons.helper.ActivityHelper;
 import me.shouheng.commons.helper.DialogHelper;
 import me.shouheng.commons.utils.ColorUtils;
-import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.AboutActivity;
@@ -29,7 +26,6 @@ import me.shouheng.utils.store.SPUtils;
 /**
  * Created by WngShhng (shouheng2015@gmail.com) on 2017/12/21.
  */
-@PageName(name = UMEvent.PAGE_SETTING)
 public class SettingsFragment extends BPreferenceFragment {
 
     @Override

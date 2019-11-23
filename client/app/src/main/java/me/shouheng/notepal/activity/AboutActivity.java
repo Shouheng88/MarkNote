@@ -21,14 +21,15 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
 import java.util.LinkedList;
 import java.util.List;
 
-import me.shouheng.commons.activity.CommonActivity;
 import me.shouheng.commons.activity.ContainerActivity;
-import me.shouheng.commons.event.PageName;
+import me.shouheng.commons.activity.ThemedActivity;
 import me.shouheng.commons.fragment.WebviewFragment;
 import me.shouheng.commons.theme.ThemeStyle;
 import me.shouheng.commons.theme.ThemeUtils;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.IntentUtils;
+import me.shouheng.mvvm.base.anno.ActivityConfiguration;
+import me.shouheng.mvvm.comn.EmptyViewModel;
 import me.shouheng.notepal.BuildConfig;
 import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.R;
@@ -36,22 +37,16 @@ import me.shouheng.notepal.databinding.ActivityAboutBinding;
 import me.shouheng.utils.app.AppUtils;
 import me.shouheng.utils.app.ResUtils;
 
-import static me.shouheng.commons.event.UMEvent.PAGE_ABOUT;
 import static me.shouheng.notepal.Constants.EMAIL_DEVELOPER;
 
 /**
  * @author shouh
  * @version $Id: AboutActivity, v 0.1 2018/9/24 18:16 shouh Exp$
  */
-@PageName(name = PAGE_ABOUT)
-public class AboutActivity extends CommonActivity<ActivityAboutBinding> {
+@ActivityConfiguration(layoutResId = R.layout.activity_about)
+public class AboutActivity extends ThemedActivity<ActivityAboutBinding, EmptyViewModel> {
 
     public final static String APP_ABOUT_ARG_OPEN_SOURCE_ONLY = "__extra_app_about_open_source_only";
-
-    @Override
-    protected int getLayoutResId() {
-        return R.layout.activity_about;
-    }
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {
@@ -129,7 +124,7 @@ public class AboutActivity extends CommonActivity<ActivityAboutBinding> {
                 AboutEntity.License.APACHE_2, "https://github.com/aritraroy/PinLockView"));
 
         /* Config adapter event. */
-        AboutAdapter aboutAdapter = new AboutAdapter(getContext(), aboutEntities);
+        AboutAdapter aboutAdapter = new AboutAdapter(this, aboutEntities);
         aboutAdapter.setOnItemClickListener((adapter, view, position) -> {
             AboutEntity aboutEntity = aboutAdapter.getItem(position);
             assert aboutEntity != null;
@@ -164,7 +159,7 @@ public class AboutActivity extends CommonActivity<ActivityAboutBinding> {
                 finish();
                 break;
             case R.id.action_rate:
-                IntentUtils.openInMarket(getContext(), BuildConfig.APPLICATION_ID);
+                IntentUtils.openInMarket(this, BuildConfig.APPLICATION_ID);
                 break;
         }
         return super.onOptionsItemSelected(item);

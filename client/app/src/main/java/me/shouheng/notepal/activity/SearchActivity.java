@@ -14,13 +14,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 import io.reactivex.Observable;
-import me.shouheng.commons.activity.CommonActivity;
 import me.shouheng.commons.activity.ContainerActivity;
-import me.shouheng.commons.event.PageName;
+import me.shouheng.commons.activity.ThemedActivity;
 import me.shouheng.commons.event.RxMessage;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.widget.recycler.CustomItemAnimator;
 import me.shouheng.commons.widget.recycler.DividerItemDecoration;
+import me.shouheng.mvvm.base.anno.ActivityConfiguration;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.NotesAdapter;
 import me.shouheng.notepal.databinding.ActivitySearchBinding;
@@ -29,24 +29,14 @@ import me.shouheng.notepal.vm.SearchViewModel;
 import me.shouheng.uix.rv.EmptyView;
 import me.shouheng.utils.ui.ToastUtils;
 
-import static me.shouheng.commons.event.UMEvent.PAGE_SEARCH;
-
-@PageName(name = PAGE_SEARCH)
-public class SearchActivity extends CommonActivity<ActivitySearchBinding> implements SearchView.OnQueryTextListener {
+@ActivityConfiguration(layoutResId = R.layout.activity_search)
+public class SearchActivity extends ThemedActivity<ActivitySearchBinding, SearchViewModel> implements SearchView.OnQueryTextListener {
 
     private NotesAdapter adapter;
-    private SearchViewModel viewModel;
     private SearchView mSearchView;
 
     @Override
-    protected int getLayoutResId() {
-        return R.layout.activity_search;
-    }
-
-    @Override
     protected void doCreateView(Bundle savedInstanceState) {
-        viewModel = getViewModel(SearchViewModel.class);
-
         /* Config toolbar. */
         setSupportActionBar(getBinding().toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -75,7 +65,7 @@ public class SearchActivity extends CommonActivity<ActivitySearchBinding> implem
             ContainerActivity.open(NoteViewFragment.class)
                     .put(NoteViewFragment.ARGS_KEY_NOTE, (Serializable) item.note)
                     .put(NoteViewFragment.ARGS_KEY_IS_PREVIEW, false)
-                    .launch(getContext());
+                    .launch(this);
         });
 
         /* Add subscription. */
@@ -83,7 +73,7 @@ public class SearchActivity extends CommonActivity<ActivitySearchBinding> implem
     }
 
     private void addSubscriptions() {
-        viewModel.getNotesLiveData().observe(this, resources -> {
+        getVM().getNotesLiveData().observe(this, resources -> {
             assert resources != null;
             switch (resources.status) {
                 case SUCCESS:
@@ -104,7 +94,7 @@ public class SearchActivity extends CommonActivity<ActivitySearchBinding> implem
             }
         });
         addSubscription(RxMessage.class, RxMessage.CODE_NOTE_DATA_CHANGED,
-                rxMessage -> viewModel.fetchSearchResults());
+                rxMessage -> getVM().fetchSearchResults());
     }
 
     @Override
@@ -158,14 +148,14 @@ public class SearchActivity extends CommonActivity<ActivitySearchBinding> implem
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        if (newText.equals(viewModel.getQueryText())) {
+        if (newText.equals(getVM().getQueryText())) {
             return true;
         }
-        viewModel.setQueryText(newText);
+        getVM().setQueryText(newText);
         if (!TextUtils.isEmpty(newText)) {
-            viewModel.fetchSearchResults();
+            getVM().fetchSearchResults();
         } else {
-            viewModel.notifyEmptyResult();
+            getVM().notifyEmptyResult();
         }
         return true;
     }

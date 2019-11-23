@@ -13,16 +13,12 @@ import me.shouheng.commons.R;
 import me.shouheng.commons.activity.interaction.BackEventResolver;
 import me.shouheng.commons.activity.interaction.FragmentKeyDown;
 import me.shouheng.commons.databinding.ActivityContainerBinding;
-import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.helper.FragmentHelper;
 import me.shouheng.commons.utils.ColorUtils;
-import me.shouheng.commons.utils.PalmUtils;
+import me.shouheng.mvvm.comn.EmptyViewModel;
 import me.shouheng.utils.app.ResUtils;
 
-import static me.shouheng.commons.event.UMEvent.*;
-
-@PageName(name = PAGE_CONTAINER)
-public class ContainerActivity extends CommonActivity<ActivityContainerBinding> {
+public class ContainerActivity extends ThemedActivity<ActivityContainerBinding, EmptyViewModel> {
 
     public final static String ACTION_OPEN_FRAGMENT = "__action_open_fragment";
     public final static String ACTION_OPEN_FRAGMENT_EXTRA_NEED_TOOLBAR = "__action_open_fragment_extra_need_toolbar";

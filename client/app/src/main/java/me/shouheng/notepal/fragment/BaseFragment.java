@@ -14,8 +14,8 @@ import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import me.shouheng.commons.activity.PermissionActivity;
 import me.shouheng.commons.fragment.CommonFragment;
+import me.shouheng.mvvm.base.CommonActivity;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.notepal.util.ScreenShotHelper;
@@ -44,7 +44,7 @@ public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFrag
             return;
         }
         if (getActivity() == null) return;
-        PermissionUtils.checkStoragePermission((PermissionActivity) getActivity(), () -> doCapture(recyclerView, 0));
+        PermissionUtils.checkStoragePermission((CommonActivity) getActivity(), () -> doCapture(recyclerView, 0));
     }
 
     protected void createScreenCapture(final RecyclerView recyclerView, final int itemHeight) {
@@ -53,7 +53,7 @@ public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFrag
             return;
         }
         if (getActivity() == null) return;
-        PermissionUtils.checkStoragePermission((PermissionActivity) getActivity(), () -> doCapture(recyclerView, itemHeight));
+        PermissionUtils.checkStoragePermission((CommonActivity) getActivity(), () -> doCapture(recyclerView, itemHeight));
     }
 
     /**
@@ -109,7 +109,7 @@ public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFrag
      */
     protected void createWebCapture(WebView webView, FileManager.OnSavedToGalleryListener listener) {
         assert getActivity() != null;
-        PermissionUtils.checkStoragePermission((PermissionActivity) getActivity(), () -> {
+        PermissionUtils.checkStoragePermission((CommonActivity) getActivity(), () -> {
             final ProgressDialog pd = new ProgressDialog(getContext());
             pd.setTitle(R.string.text_capturing);
             pd.setCancelable(false);

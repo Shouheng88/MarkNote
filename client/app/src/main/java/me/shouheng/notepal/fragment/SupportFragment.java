@@ -12,8 +12,6 @@ import com.umeng.analytics.MobclickAgent;
 import java.util.Objects;
 
 import me.shouheng.commons.activity.ContainerActivity;
-import me.shouheng.commons.event.PageName;
-import me.shouheng.commons.event.UMEvent;
 import me.shouheng.commons.fragment.CommonFragment;
 import me.shouheng.commons.fragment.WebviewFragment;
 import me.shouheng.commons.minipay.Config;
@@ -32,7 +30,6 @@ import static me.shouheng.commons.event.UMEvent.SUPPORT_DONATE_WECHAT;
  * @author WngShhng (shouheng2015@gmail.com)
  * @version $Id: SupportFragment, v 0.1 2018/12/6 11:37 shouh Exp$
  */
-@PageName(name = UMEvent.PAGE_SUPPORT)
 public class SupportFragment extends CommonFragment<FragmentSupportBinding> {
 
     @Override

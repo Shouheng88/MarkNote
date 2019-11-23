@@ -15,8 +15,6 @@ import android.widget.RelativeLayout;
 import com.bumptech.glide.Glide;
 import com.github.chrisbanes.photoview.PhotoView;
 
-import me.shouheng.commons.event.PageName;
-import me.shouheng.commons.event.UMEvent;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.R;
@@ -31,7 +29,6 @@ import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOption
  *
  * Created by WngShhng (shouheng2015@gmail.com) on 2017/4/9.
  */
-@PageName(name = UMEvent.PAGE_IMAGE)
 public class ImageFragment extends Fragment {
 
     public final static String ARG_ATTACHMENT = "__args_key_attachment";

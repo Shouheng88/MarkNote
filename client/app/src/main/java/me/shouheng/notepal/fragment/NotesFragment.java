@@ -19,9 +19,7 @@ import java.util.Collections;
 import javax.annotation.Nullable;
 
 import me.shouheng.commons.activity.ContainerActivity;
-import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.event.RxMessage;
-import me.shouheng.commons.event.UMEvent;
 import me.shouheng.commons.fragment.CommonFragment;
 import me.shouheng.commons.helper.FragmentHelper;
 import me.shouheng.commons.widget.recycler.DividerItemDecoration;
@@ -47,7 +45,6 @@ import me.shouheng.utils.ui.ToastUtils;
  * Created by WngShhng (shouheng2015@gmail.com) and
  * refactored by WngShhng (shouheng2015@gmail.com) on 2018/12/2.
  */
-@PageName(name = UMEvent.PAGE_NOTES)
 public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
 
     /**

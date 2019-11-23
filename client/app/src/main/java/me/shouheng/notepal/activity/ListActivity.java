@@ -13,27 +13,26 @@ import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 
-import me.shouheng.commons.activity.CommonActivity;
-import me.shouheng.commons.event.PageName;
+import me.shouheng.commons.activity.ThemedActivity;
 import me.shouheng.commons.helper.FragmentHelper;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.data.entity.Category;
 import me.shouheng.data.entity.Notebook;
 import me.shouheng.data.model.enums.Status;
+import me.shouheng.mvvm.base.anno.ActivityConfiguration;
+import me.shouheng.mvvm.comn.EmptyViewModel;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.ActivityBaseListBinding;
 import me.shouheng.notepal.fragment.CategoriesFragment;
 import me.shouheng.notepal.fragment.NotesFragment;
-
-import static me.shouheng.commons.event.UMEvent.*;
 
 /**
  * List activity. used to mange the categories and notebooks list of for archived and trashed notes.
  *
  * Created by WngShhng (shouheng2015@gmail.com) on 2017/10/10.
  */
-@PageName(name = PAGE_LIST)
-public class ListActivity extends CommonActivity<ActivityBaseListBinding>
+@ActivityConfiguration(layoutResId = R.layout.activity_base_list)
+public class ListActivity extends ThemedActivity<ActivityBaseListBinding, EmptyViewModel>
         implements NotesFragment.OnNotesInteractListener, CategoriesFragment.CategoriesInteraction {
 
     /**
@@ -48,11 +47,6 @@ public class ListActivity extends CommonActivity<ActivityBaseListBinding>
      * The status for current notes list.
      */
     private Status status;
-
-    @Override
-    protected int getLayoutResId() {
-        return R.layout.activity_base_list;
-    }
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {

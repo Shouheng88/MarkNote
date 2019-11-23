@@ -1,7 +1,8 @@
 package me.shouheng.notepal.vm;
 
+import android.app.Application;
 import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModel;
+import android.support.annotation.NonNull;
 
 import java.util.Collections;
 import java.util.List;
@@ -17,14 +18,19 @@ import me.shouheng.data.model.enums.Status;
 import me.shouheng.data.schema.BaseSchema;
 import me.shouheng.data.schema.NoteSchema;
 import me.shouheng.data.store.NotesStore;
+import me.shouheng.mvvm.base.BaseViewModel;
 
 /**
  * Created by shouh on 2018/3/18.*/
-public class SearchViewModel extends ViewModel {
+public class SearchViewModel extends BaseViewModel {
 
     private String queryText;
 
     private MutableLiveData<Resource<List<Note>>> notesLiveData;
+
+    public SearchViewModel(@NonNull Application application) {
+        super(application);
+    }
 
     public MutableLiveData<Resource<List<Note>>> getNotesLiveData() {
         if (notesLiveData == null) {

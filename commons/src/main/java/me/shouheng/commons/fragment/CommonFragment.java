@@ -19,7 +19,6 @@ import com.umeng.analytics.MobclickAgent;
 
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
-import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.event.RxBus;
 import me.shouheng.commons.event.RxMessage;
 import me.shouheng.commons.theme.ThemeStyle;
@@ -35,13 +34,6 @@ public abstract class CommonFragment<T extends ViewDataBinding> extends Fragment
     private View rootView;
     private ThemeStyle themeStyle;
     private String pageName;
-
-    {
-        Class<?> clazz = getClass();
-        if (clazz.isAnnotationPresent(PageName.class)) {
-            pageName = clazz.getAnnotation(PageName.class).name();
-        }
-    }
 
     protected abstract int getLayoutResId();
 
