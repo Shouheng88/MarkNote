@@ -10,7 +10,9 @@ import android.view.View;
 
 import java.util.List;
 
-import me.shouheng.commons.fragment.CommonFragment;
+import me.shouheng.commons.fragment.CustomFragment;
+import me.shouheng.mvvm.base.anno.FragmentConfiguration;
+import me.shouheng.mvvm.comn.EmptyViewModel;
 import me.shouheng.utils.stability.LogUtils;
 import me.shouheng.data.entity.TimeLine;
 import me.shouheng.data.model.enums.Status;
@@ -24,18 +26,16 @@ import me.shouheng.utils.ui.ToastUtils;
 /**
  * Created by WngShhng (shouheng2015@gmail.com) on 2017/8/19.
  * */
-public class TimeLineFragment extends CommonFragment<FragmentTimeLineBinding> {
+@FragmentConfiguration(layoutResId = R.layout.fragment_time_line)
+public class TimeLineFragment extends CustomFragment<FragmentTimeLineBinding, EmptyViewModel> {
 
     private TimeLinesAdapter adapter;
 
     private boolean isLoadingMore = false;
 
-    private int modelsCount, pageNumber = 20, startIndex = 0;
-
-    @Override
-    protected int getLayoutResId() {
-        return R.layout.fragment_time_line;
-    }
+    private int modelsCount;
+    private int pageNumber = 20;
+    private int startIndex = 0;
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {

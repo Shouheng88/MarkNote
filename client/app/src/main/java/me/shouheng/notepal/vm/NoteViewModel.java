@@ -1,8 +1,8 @@
 package me.shouheng.notepal.vm;
 
+import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModel;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
@@ -27,6 +27,7 @@ import me.shouheng.data.model.enums.ModelType;
 import me.shouheng.data.store.AttachmentsStore;
 import me.shouheng.data.store.CategoryStore;
 import me.shouheng.data.store.NotesStore;
+import me.shouheng.mvvm.base.BaseViewModel;
 import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
@@ -41,7 +42,7 @@ import me.shouheng.utils.store.SPUtils;
  * @author WngShhng (shouheng2015@gmail.com)
  * @version $Id: NoteViewModel, v 0.1 2018/12/1 0:49 shouh Exp$
  */
-public class NoteViewModel extends ViewModel {
+public class NoteViewModel extends BaseViewModel {
 
     private Note note;
 
@@ -52,6 +53,10 @@ public class NoteViewModel extends ViewModel {
     private MutableLiveData<Resource<String>> noteContentObservable;
 
     private MutableLiveData<Resource<Boolean>> saveOrUpdateObservable;
+
+    public NoteViewModel(@NonNull Application application) {
+        super(application);
+    }
 
     public LiveData<Resource<Note>> getNoteObservable() {
         if (noteObservable == null) {

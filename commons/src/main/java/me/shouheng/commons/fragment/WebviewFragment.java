@@ -31,12 +31,13 @@ import me.shouheng.commons.activity.interaction.FragmentKeyDown;
 import me.shouheng.commons.databinding.FragmentWebviewBinding;
 import me.shouheng.commons.utils.IntentUtils;
 import me.shouheng.commons.utils.PalmUtils;
+import me.shouheng.mvvm.comn.EmptyViewModel;
 
 /**
  * @author shouh
  * @version $Id: WebviewFragment, v 0.1 2018/11/17 20:40 shouh Exp$
  */
-public class WebviewFragment extends CommonFragment<FragmentWebviewBinding> implements FragmentKeyDown {
+public class WebviewFragment extends CustomFragment<FragmentWebviewBinding, EmptyViewModel> implements FragmentKeyDown {
 
     public final static String ARGUMENT_KEY_URL = "__extra_key_url";
     public final static String ARGUMENT_KEY_TITLE = "__extra_key_title";

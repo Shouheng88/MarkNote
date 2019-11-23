@@ -25,6 +25,7 @@ import me.shouheng.commons.widget.recycler.CustomItemAnimator;
 import me.shouheng.commons.widget.recycler.DividerItemDecoration;
 import me.shouheng.data.entity.Category;
 import me.shouheng.data.model.enums.Status;
+import me.shouheng.mvvm.base.anno.FragmentConfiguration;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.CategoriesAdapter;
 import me.shouheng.notepal.databinding.FragmentCategoriesBinding;
@@ -38,7 +39,8 @@ import me.shouheng.utils.ui.ViewUtils;
  *
  * Created by WngShhng (shouheng2015@gmail.com) on 2017/3/29.
  */
-public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> implements BaseQuickAdapter.OnItemClickListener {
+@FragmentConfiguration(layoutResId = R.layout.fragment_categories)
+public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding, CategoriesViewModel > implements BaseQuickAdapter.OnItemClickListener {
 
     /**
      * The argument key for this fragment. The status of current categories list.
@@ -48,20 +50,13 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
 
     private RecyclerView.OnScrollListener scrollListener;
     private CategoriesAdapter mAdapter;
-    private CategoriesViewModel viewModel;
-
-    @Override
-    protected int getLayoutResId() {
-        return R.layout.fragment_categories;
-    }
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {
-        viewModel = getViewModel(CategoriesViewModel.class);
         if (savedInstanceState == null) {
             if (getArguments() != null && getArguments().containsKey(ARGS_KEY_STATUS)) {
                 Status status = (Status) getArguments().get(ARGS_KEY_STATUS);
-                viewModel.setStatus(status);
+                getVM().setStatus(status);
             }
         }
 
@@ -86,7 +81,7 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
                 DividerItemDecoration.VERTICAL_LIST, isDarkTheme()));
         getBinding().rvCategories.setItemAnimator(new CustomItemAnimator());
         getBinding().rvCategories.setLayoutManager(new LinearLayoutManager(getContext()));
-        ((TextView) getBinding().ev.findViewById(R.id.tv_empty_detail)).setText(viewModel.getEmptySubTitle());
+        ((TextView) getBinding().ev.findViewById(R.id.tv_empty_detail)).setText(getVM().getEmptySubTitle());
         getBinding().rvCategories.setAdapter(mAdapter);
         if (scrollListener != null) {
             getBinding().rvCategories.addOnScrollListener(scrollListener);
@@ -94,7 +89,7 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
 
         addSubscriptions();
 
-        viewModel.fetchCategories();
+        getVM().fetchCategories();
     }
 
     private void configToolbar() {
@@ -112,7 +107,7 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
     }
 
     private void addSubscriptions() {
-        viewModel.getCategoriesLiveData().observe(this, resources -> {
+        getVM().getCategoriesLiveData().observe(this, resources -> {
             assert resources != null;
             switch (resources.status) {
                 case SUCCESS:
@@ -128,11 +123,11 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
                     break;
             }
         });
-        viewModel.getCategoryUpdateObserver().observe(this, resource -> {
+        getVM().getCategoryUpdateObserver().observe(this, resource -> {
             assert resource != null;
             switch (resource.status) {
                 case SUCCESS:
-                    viewModel.fetchCategories();
+                    getVM().fetchCategories();
                     break;
                 case LOADING:
                     break;
@@ -142,9 +137,9 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
             }
         });
         addSubscription(RxMessage.class, RxMessage.CODE_CATEGORY_DATA_CHANGED,
-                rxMessage -> viewModel.fetchCategories());
+                rxMessage -> getVM().fetchCategories());
         addSubscription(RxMessage.class, RxMessage.CODE_NOTE_DATA_CHANGED,
-                rxMessage -> viewModel.fetchCategories());
+                rxMessage -> getVM().fetchCategories());
     }
 
     public void addCategory(Category category) {
@@ -163,11 +158,11 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
             switch (item.getItemId()){
                 case R.id.action_edit:
                     CategoryEditDialog.newInstance(param,
-                            category -> viewModel.updateCategory(category)
+                            category -> getVM().updateCategory(category)
                     ).show(getChildFragmentManager(), "CATEGORY_EDIT_DIALOG");
                     break;
                 case R.id.action_delete:
-                    viewModel.updateCategory(param, Status.DELETED);
+                    getVM().updateCategory(param, Status.DELETED);
                     break;
             }
             return true;

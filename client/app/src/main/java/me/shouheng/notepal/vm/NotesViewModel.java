@@ -1,9 +1,10 @@
 package me.shouheng.notepal.vm;
 
+import android.app.Application;
 import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModel;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.PopupMenu;
 
 import java.util.LinkedList;
@@ -16,7 +17,6 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import me.shouheng.commons.model.data.Resource;
 import me.shouheng.commons.utils.ColorUtils;
-import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.data.entity.Category;
 import me.shouheng.data.entity.Note;
 import me.shouheng.data.entity.Notebook;
@@ -26,6 +26,7 @@ import me.shouheng.data.helper.TrashHelper;
 import me.shouheng.data.model.enums.Status;
 import me.shouheng.data.store.NotebookStore;
 import me.shouheng.data.store.NotesStore;
+import me.shouheng.mvvm.base.BaseViewModel;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.MainActivity;
 import me.shouheng.notepal.adapter.NotesAdapter;
@@ -35,7 +36,7 @@ import me.shouheng.utils.app.ResUtils;
  * @author WngShhng (shouheng2015@gmail.com)
  * @version $Id: NotesViewModel, v 0.1 2018/12/2 16:03 shouh Exp$
  */
-public class NotesViewModel extends ViewModel {
+public class NotesViewModel extends BaseViewModel {
 
     /**
      * The notes status
@@ -70,6 +71,10 @@ public class NotesViewModel extends ViewModel {
     private MutableLiveData<Resource<Note>> noteUpdateLiveData;
 
     private MutableLiveData<Resource<Notebook>> notebookUpdateLiveData;
+
+    public NotesViewModel(@NonNull Application application) {
+        super(application);
+    }
 
     public MutableLiveData<Resource<List<NotesAdapter.MultiItem>>> getMutableLiveData() {
         if (mutableLiveData == null) {

@@ -14,7 +14,8 @@ import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import me.shouheng.commons.fragment.CommonFragment;
+import me.shouheng.commons.fragment.CustomFragment;
+import me.shouheng.mvvm.base.BaseViewModel;
 import me.shouheng.mvvm.base.CommonActivity;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.manager.FileManager;
@@ -28,7 +29,7 @@ import me.shouheng.utils.ui.ToastUtils;
  * Created by WngShhng (shouheng2015@gmail.com) on 2017/12/29.
  * Refactored by WngShhng (shouheng2015@gmail.com) on 2017/12/01.
  */
-public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFragment<V> {
+public abstract class BaseFragment<V extends ViewDataBinding, U extends BaseViewModel> extends CustomFragment<V, U> {
 
     /**
      * Screen capture method, used to capture the screen for RecyclerView.

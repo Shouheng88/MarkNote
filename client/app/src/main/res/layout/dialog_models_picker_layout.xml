@@ -13,7 +13,7 @@
 
         <me.shouheng.uix.rv.EmptyView
             android:id="@+id/ev"
-            app:default_state_loading="false"
+            app:empty_state="empty"
             android:layout_gravity="center"
             android:layout_centerInParent="true"
             android:layout_width="wrap_content"

@@ -8,8 +8,7 @@
         <me.shouheng.uix.rv.EmptyView
             android:id="@+id/ev"
             app:empty_image="@drawable/ic_book_large"
-            app:tint_drawable="true"
-            app:title="@string/notes_list_empty"
+            app:empty_title="@string/notes_list_empty"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

@@ -1,6 +1,5 @@
 package me.shouheng.notepal.fragment;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +12,7 @@ import lecho.lib.hellocharts.model.Line;
 import lecho.lib.hellocharts.model.PointValue;
 import lecho.lib.hellocharts.model.SubcolumnValue;
 import me.shouheng.data.model.Stats;
+import me.shouheng.mvvm.base.anno.FragmentConfiguration;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.FragmentStatisticsBinding;
 import me.shouheng.notepal.vm.StatisticViewModel;
@@ -23,36 +23,28 @@ import me.shouheng.utils.ui.ToastUtils;
  *
  * Created by WngShhng (shouheng2015@gmail.com) on 2018/1/19.
  */
-public class StatisticsFragment extends BaseFragment<FragmentStatisticsBinding> {
-
-    private StatisticViewModel viewModel;
-
-    @Override
-    protected int getLayoutResId() {
-        return R.layout.fragment_statistics;
-    }
+@FragmentConfiguration(layoutResId = R.layout.fragment_statistics)
+public class StatisticsFragment extends BaseFragment<FragmentStatisticsBinding, StatisticViewModel> {
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {
-        viewModel = ViewModelProviders.of(this).get(StatisticViewModel.class);
-
         if (getActivity() != null) {
             ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
             if (ab != null) ab.setTitle(R.string.drawer_menu_statistics);
         }
 
         getBinding().lcvNote.setValueSelectionEnabled(false);
-        getBinding().lcvNote.setLineChartData(viewModel.getDefaultNoteData(accentColor()));
-        getBinding().ccvModels.setColumnChartData(viewModel.getDefaultModelsData());
-        getBinding().ccvAttachment.setColumnChartData(viewModel.getDefaultAttachmentData());
+        getBinding().lcvNote.setLineChartData(getVM().getDefaultNoteData(accentColor()));
+        getBinding().ccvModels.setColumnChartData(getVM().getDefaultModelsData());
+        getBinding().ccvAttachment.setColumnChartData(getVM().getDefaultAttachmentData());
 
         addSubscription();
 
-        viewModel.getStats();
+        getVM().getStats();
     }
 
     private void addSubscription() {
-        viewModel.getStatsLiveData().observe(this, resources -> {
+        getVM().getStatsLiveData().observe(this, resources -> {
             assert resources != null;
             switch (resources.status) {
                 case SUCCESS:

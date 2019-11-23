@@ -52,6 +52,7 @@ import me.shouheng.data.entity.Note;
 import me.shouheng.easymark.EasyMarkViewer;
 import me.shouheng.easymark.viewer.listener.LifecycleListener;
 import me.shouheng.mvvm.base.CommonActivity;
+import me.shouheng.mvvm.base.anno.FragmentConfiguration;
 import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.FragmentNoteViewBinding;
@@ -80,7 +81,8 @@ import static me.shouheng.notepal.Constants.URI_SCHEME_HTTPS;
  * Created by WngShhng (shouheng2015@gmail.com) on 2017/5/13.
  * Refactored by WngShhng (shouheng2015@gmail.com) on 2018/11/30
  */
-public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> implements BackEventResolver {
+@FragmentConfiguration(layoutResId = R.layout.fragment_note_view)
+public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding, NoteViewerViewModel> implements BackEventResolver {
 
     /**
      * The key for argument, used to send the note model to this fragment.
@@ -98,16 +100,8 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
      */
     private final int REQUEST_FOR_EDIT = 0x01;
 
-    private NoteViewerViewModel viewModel;
-
-    @Override
-    protected int getLayoutResId() {
-        return R.layout.fragment_note_view;
-    }
-
     @Override
     protected void doCreateView(Bundle savedInstanceState) {
-        viewModel = getViewModel(NoteViewerViewModel.class);
         if (savedInstanceState == null) {
             /* Get the arguments. */
             Bundle arguments = getArguments();
@@ -117,16 +111,16 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
             }
             Note note = (Note) arguments.getSerializable(ARGS_KEY_NOTE);
             boolean isPreview = getArguments().getBoolean(ARGS_KEY_IS_PREVIEW);
-            viewModel.setNote(note);
-            viewModel.setPreview(isPreview);
+            getVM().setNote(note);
+            getVM().setPreview(isPreview);
         }
 
         prepareViews();
 
         addSubscriptions();
 
-        viewModel.readNoteContent();
-        viewModel.getNoteCategories();
+        getVM().readNoteContent();
+        getVM().getNoteCategories();
     }
 
     /**
@@ -143,7 +137,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
         if (getActivity() != null) {
             final ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
             if (ab != null) {
-                ab.setTitle(viewModel.getNote().getTitle());
+                ab.setTitle(getVM().getNote().getTitle());
                 ab.setDisplayHomeAsUpEnabled(true);
             }
         }
@@ -175,7 +169,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
             AttachmentHelper.resolveClickEvent(getContext(),
                     clickedAttachment,
                     attachments,
-                    viewModel.getNote().getTitle());
+                    getVM().getNote().getTitle());
         });
         getBinding().emv.setOnUrlClickListener(url -> {
             if (!TextUtils.isEmpty(url)) {
@@ -212,28 +206,28 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
 
             @Override
             public void afterProcessMarkdown(String document) {
-                viewModel.setHtml(document);
+                getVM().setHtml(document);
             }
         });
         getBinding().emv.setUseMathJax(true);
 
         /* Config FAB. */
-        getBinding().fab.setVisibility(viewModel.isPreview() ? View.GONE : View.VISIBLE);
+        getBinding().fab.setVisibility(getVM().isPreview() ? View.GONE : View.VISIBLE);
         getBinding().fab.setOnClickListener(v -> FragmentHelper.open(NoteFragment.class)
-                .put(NoteFragment.ARGS_KEY_NOTE, (Serializable) viewModel.getNote())
+                .put(NoteFragment.ARGS_KEY_NOTE, (Serializable) getVM().getNote())
                 .launch(this, REQUEST_FOR_EDIT));
 
         /* Config Drawer. */
         getBinding().drawer.setIsDarkTheme(isDarkTheme());
         getBinding().drawer.llCopy.setOnClickListener(v -> {
-            NoteManager.copy(getActivity(), viewModel.getNote().getContent());
+            NoteManager.copy(getActivity(), getVM().getNote().getContent());
             ToastUtils.showShort(R.string.note_copied_success);
         });
         getBinding().drawer.llShortcut.setOnClickListener(v -> {
-            if (viewModel.getNote().getContentCode() == 0L || TextUtils.isEmpty(viewModel.getNote().getTitle())) {
+            if (getVM().getNote().getContentCode() == 0L || TextUtils.isEmpty(getVM().getNote().getTitle())) {
                 ToastUtils.showShort(R.string.note_shortcut_error_tips);
             } else {
-                ShortcutHelper.createShortcut(getActivity().getApplicationContext(), viewModel.getNote());
+                ShortcutHelper.createShortcut(getActivity().getApplicationContext(), getVM().getNote());
             }
         });
         getBinding().drawer.llExport.setOnClickListener(v -> showExportDialog());
@@ -241,20 +235,20 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
     }
 
     private void addSubscriptions() {
-        viewModel.getNoteContentObservable().observe(this, resources -> {
+        getVM().getNoteContentObservable().observe(this, resources -> {
             assert resources != null;
             switch (resources.status) {
                 case SUCCESS:
                     final ActionBar ab;
                     if (getActivity() != null
                             && (ab = ((AppCompatActivity) getActivity()).getSupportActionBar()) != null) {
-                        ab.setTitle(viewModel.getNote().getTitle());
+                        ab.setTitle(getVM().getNote().getTitle());
                     }
-                    getBinding().emv.processMarkdown(viewModel.getNote().getContent());
+                    getBinding().emv.processMarkdown(getVM().getNote().getContent());
                     String charsInfo = getString(R.string.text_chars)
-                            + " : " + viewModel.getNote().getContent().length();
+                            + " : " + getVM().getNote().getContent().length();
                     getBinding().drawer.tvChars.setText(charsInfo);
-                    getBinding().drawer.tvNoteInfo.setText(NoteManager.getTimeInfo(viewModel.getNote()));
+                    getBinding().drawer.tvNoteInfo.setText(NoteManager.getTimeInfo(getVM().getNote()));
                     break;
                 case LOADING:
                     break;
@@ -263,7 +257,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
                     break;
             }
         });
-        viewModel.getCategoriesObservable().observe(this, new Observer<Resource<List<Category>>>() {
+        getVM().getCategoriesObservable().observe(this, new Observer<Resource<List<Category>>>() {
             int margin = ViewUtils.dp2px(2f);
             ViewGroup.LayoutParams params = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -333,8 +327,8 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
                             case R.id.action_share_text:
                                 // Send Raw Text
                                 NoteManager.send(getContext(),
-                                        viewModel.getNote().getTitle(),
-                                        viewModel.getNote().getContent(),
+                                        getVM().getNote().getTitle(),
+                                        getVM().getNote().getContent(),
                                         new ArrayList<>());
                                 break;
                             case R.id.action_share_html:
@@ -379,7 +373,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
                                 break;
                             case R.id.print:
                                 // Export Printed WebView
-                                NoteManager.printPDF(getContext(), getBinding().emv, viewModel.getNote());
+                                NoteManager.printPDF(getContext(), getBinding().emv, getVM().getNote());
                                 break;
                             case R.id.export_text:
                                 // Export Raw Text
@@ -398,7 +392,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
         try {
             File exDir = FileManager.getHtmlExportDir();
             File outFile = new File(exDir, FileManager.getDefaultFileName(Constants.EXPORTED_HTML_EXTENSION));
-            FileUtils.writeStringToFile(outFile, viewModel.getHtml(), Constants.NOTE_FILE_ENCODING);
+            FileUtils.writeStringToFile(outFile, getVM().getHtml(), Constants.NOTE_FILE_ENCODING);
             if (isShare) {
                 // Share, do share option
                 NoteManager.sendFile(getContext(), outFile, Constants.MIME_TYPE_HTML);
@@ -415,7 +409,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
         try {
             File exDir = FileManager.getTextExportDir();
             File outFile = new File(exDir, FileManager.getDefaultFileName(Constants.EXPORTED_TEXT_EXTENSION));
-            FileUtils.writeStringToFile(outFile, viewModel.getNote().getContent(), "utf-8");
+            FileUtils.writeStringToFile(outFile, getVM().getNote().getContent(), "utf-8");
             if (isShare) {
                 // Share, do share option
                 NoteManager.sendFile(getContext(), outFile, Constants.MIME_TYPE_FILES);
@@ -499,8 +493,8 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
         switch (requestCode) {
             case REQUEST_FOR_EDIT:
                 if (resultCode == Activity.RESULT_OK) {
-                    viewModel.readNoteContent();
-                    viewModel.getNoteCategories();
+                    getVM().readNoteContent();
+                    getVM().getNoteCategories();
                 }
                 break;
         }

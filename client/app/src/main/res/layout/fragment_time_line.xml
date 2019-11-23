@@ -14,10 +14,9 @@
                 android:id="@+id/ev"
                 android:layout_centerInParent="true"
                 app:empty_image="@drawable/ic_bubble_chart_black_48dp"
-                app:tint_drawable="true"
-                app:title="@string/timeline_list_empty_title"
-                app:sub_title="@string/timeline_list_empty_subtitle"
-                app:default_state_loading="false"
+                app:empty_title="@string/timeline_list_empty_title"
+                app:empty_detail="@string/timeline_list_empty_subtitle"
+                app:empty_state="empty"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 

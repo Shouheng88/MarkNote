@@ -1,7 +1,8 @@
 package me.shouheng.notepal.vm;
 
+import android.app.Application;
 import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModel;
+import android.support.annotation.NonNull;
 
 import org.apache.commons.io.FileUtils;
 
@@ -21,6 +22,7 @@ import me.shouheng.data.entity.Note;
 import me.shouheng.data.store.AttachmentsStore;
 import me.shouheng.data.store.CategoryStore;
 import me.shouheng.data.store.NotesStore;
+import me.shouheng.mvvm.base.BaseViewModel;
 import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.common.exception.NoteFileReadException;
 
@@ -28,7 +30,7 @@ import me.shouheng.notepal.common.exception.NoteFileReadException;
  * @author WngShhng (shouheng2015@gmail.com)
  * @version $Id: NoteViewerViewModel, v 0.1 2018/12/1 0:49 shouh Exp$
  */
-public class NoteViewerViewModel extends ViewModel {
+public class NoteViewerViewModel extends BaseViewModel {
 
     private Note note;
 
@@ -39,6 +41,10 @@ public class NoteViewerViewModel extends ViewModel {
     private MutableLiveData<Resource<String>> noteContentObservable;
 
     private MutableLiveData<Resource<List<Category>>> categoriesObservable;
+
+    public NoteViewerViewModel(@NonNull Application application) {
+        super(application);
+    }
 
     public MutableLiveData<Resource<String>> getNoteContentObservable() {
         if (noteContentObservable == null) {

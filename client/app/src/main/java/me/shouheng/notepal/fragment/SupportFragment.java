@@ -12,11 +12,13 @@ import com.umeng.analytics.MobclickAgent;
 import java.util.Objects;
 
 import me.shouheng.commons.activity.ContainerActivity;
-import me.shouheng.commons.fragment.CommonFragment;
+import me.shouheng.commons.fragment.CustomFragment;
 import me.shouheng.commons.fragment.WebviewFragment;
 import me.shouheng.commons.minipay.Config;
 import me.shouheng.commons.minipay.MiniPayUtils;
 import me.shouheng.commons.utils.IntentUtils;
+import me.shouheng.mvvm.base.anno.FragmentConfiguration;
+import me.shouheng.mvvm.comn.EmptyViewModel;
 import me.shouheng.notepal.BuildConfig;
 import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.R;
@@ -30,12 +32,8 @@ import static me.shouheng.commons.event.UMEvent.SUPPORT_DONATE_WECHAT;
  * @author WngShhng (shouheng2015@gmail.com)
  * @version $Id: SupportFragment, v 0.1 2018/12/6 11:37 shouh Exp$
  */
-public class SupportFragment extends CommonFragment<FragmentSupportBinding> {
-
-    @Override
-    protected int getLayoutResId() {
-        return R.layout.fragment_support;
-    }
+@FragmentConfiguration(layoutResId = R.layout.fragment_support)
+public class SupportFragment extends CustomFragment<FragmentSupportBinding, EmptyViewModel> {
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {

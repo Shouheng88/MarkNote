@@ -31,9 +31,8 @@
             <me.shouheng.uix.rv.EmptyView
                 android:id="@+id/ev"
                 app:empty_image="@drawable/ic_search_black_48dp"
-                app:title="@string/note_search_no_result"
-                app:sub_title="@string/note_search_sub_title"
-                app:tint_drawable="true"
+                app:empty_title="@string/note_search_no_result"
+                app:empty_detail="@string/note_search_sub_title"
                 android:layout_centerInParent="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />

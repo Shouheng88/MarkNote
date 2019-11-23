@@ -1,7 +1,8 @@
 package me.shouheng.notepal.vm;
 
+import android.app.Application;
 import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModel;
+import android.support.annotation.NonNull;
 
 import java.util.List;
 
@@ -11,11 +12,11 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import me.shouheng.commons.model.data.Resource;
-import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.data.entity.Category;
 import me.shouheng.data.model.enums.Status;
 import me.shouheng.data.schema.CategorySchema;
 import me.shouheng.data.store.CategoryStore;
+import me.shouheng.mvvm.base.BaseViewModel;
 import me.shouheng.notepal.R;
 import me.shouheng.utils.app.ResUtils;
 
@@ -23,13 +24,17 @@ import me.shouheng.utils.app.ResUtils;
  * @author WngShhng (shouheng2015@gmail.com)
  * @version $Id: CategoriesViewModel, v 0.1 2018/12/2 20:13 shouh Exp$
  */
-public class CategoriesViewModel extends ViewModel {
+public class CategoriesViewModel extends BaseViewModel {
 
     private Status status;
 
     private MutableLiveData<Resource<List<Category>>> categoriesLiveData;
 
     private MutableLiveData<Resource<Category>> categoryUpdateObserver;
+
+    public CategoriesViewModel(@NonNull Application application) {
+        super(application);
+    }
 
     public MutableLiveData<Resource<List<Category>>> getCategoriesLiveData() {
         if (categoriesLiveData == null) {

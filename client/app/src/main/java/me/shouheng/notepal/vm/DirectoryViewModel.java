@@ -1,8 +1,9 @@
 package me.shouheng.notepal.vm;
 
+import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModel;
+import android.support.annotation.NonNull;
 
 import com.onedrive.sdk.concurrency.ICallback;
 import com.onedrive.sdk.core.ClientException;
@@ -11,16 +12,21 @@ import com.onedrive.sdk.extensions.Item;
 import java.util.LinkedList;
 import java.util.List;
 
-import me.shouheng.utils.stability.LogUtils;
-import me.shouheng.notepal.onedrive.PrepareBackupDirTask;
-import me.shouheng.notepal.onedrive.OneDriveManager;
-import me.shouheng.data.model.Directory;
 import me.shouheng.commons.model.data.Resource;
+import me.shouheng.data.model.Directory;
+import me.shouheng.mvvm.base.BaseViewModel;
 import me.shouheng.notepal.common.preferences.SyncPreferences;
+import me.shouheng.notepal.onedrive.OneDriveManager;
+import me.shouheng.notepal.onedrive.PrepareBackupDirTask;
+import me.shouheng.utils.stability.LogUtils;
 
 /**
  * Created by shouh on 2018/3/31.*/
-public class DirectoryViewModel extends ViewModel {
+public class DirectoryViewModel extends BaseViewModel {
+
+    public DirectoryViewModel(@NonNull Application application) {
+        super(application);
+    }
 
     public LiveData<Resource<List<Directory>>> getDirectories(String itemId) {
         MutableLiveData<Resource<List<Directory>>> result = new MutableLiveData<>();

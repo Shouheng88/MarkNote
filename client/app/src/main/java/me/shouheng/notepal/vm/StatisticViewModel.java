@@ -1,8 +1,9 @@
 package me.shouheng.notepal.vm;
 
+import android.app.Application;
 import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModel;
 import android.graphics.Color;
+import android.support.annotation.NonNull;
 
 import org.joda.time.DateTime;
 
@@ -30,6 +31,7 @@ import lecho.lib.hellocharts.model.ValueShape;
 import me.shouheng.commons.model.data.Resource;
 import me.shouheng.data.helper.StatisticsHelper;
 import me.shouheng.data.model.Stats;
+import me.shouheng.mvvm.base.BaseViewModel;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.utils.app.ResUtils;
@@ -38,7 +40,7 @@ import me.shouheng.utils.ui.ViewUtils;
 
 /**
  * Created by Employee on 2018/3/15.*/
-public class StatisticViewModel extends ViewModel {
+public class StatisticViewModel extends BaseViewModel {
 
     /**
      * The days count of added model statistic.
@@ -58,6 +60,10 @@ public class StatisticViewModel extends ViewModel {
     private int lineStrokeWidth = ViewUtils.dp2px(1);
 
     private MutableLiveData<Resource<Stats>> statsLiveData;
+
+    public StatisticViewModel(@NonNull Application application) {
+        super(application);
+    }
 
     public MutableLiveData<Resource<Stats>> getStatsLiveData() {
         if (statsLiveData == null) {
