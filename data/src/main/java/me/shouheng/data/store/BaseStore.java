@@ -10,7 +10,7 @@ import java.lang.reflect.ParameterizedType;
 import java.util.LinkedList;
 import java.util.List;
 
-import me.shouheng.utils.stability.LogUtils;
+import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.commons.utils.UserUtil;
 import me.shouheng.data.PalmDB;
 import me.shouheng.data.utils.annotation.Table;

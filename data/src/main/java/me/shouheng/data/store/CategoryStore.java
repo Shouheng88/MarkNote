@@ -10,7 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import me.shouheng.commons.BaseApplication;
-import me.shouheng.utils.stability.LogUtils;
+import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.data.entity.Category;
 import me.shouheng.data.entity.Note;
 import me.shouheng.data.model.enums.Portrait;

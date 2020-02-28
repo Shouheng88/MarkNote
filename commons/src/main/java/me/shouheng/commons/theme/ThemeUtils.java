@@ -16,9 +16,8 @@ import android.view.WindowManager;
 import me.shouheng.commons.R;
 import me.shouheng.commons.activity.ThemedActivity;
 import me.shouheng.commons.utils.ColorUtils;
-import me.shouheng.utils.app.AppUtils;
-import me.shouheng.utils.app.ResUtils;
-import me.shouheng.utils.store.SPUtils;
+import me.shouheng.commons.utils.PalmUtils;
+import me.shouheng.commons.utils.PersistData;
 
 /**
  * @author shouh
@@ -35,26 +34,26 @@ public class ThemeUtils {
     }
 
     public ThemeStyle getThemeStyle() {
-        return ThemeStyle.getThemeStyleById(SPUtils.getInstance().getInt(ResUtils.getString(R.string.key_setting_theme_result), ThemeStyle.LIGHT_BLUE_THEME.id));
+        return ThemeStyle.getThemeStyleById(PersistData.getInt(R.string.key_setting_theme_result, ThemeStyle.LIGHT_BLUE_THEME.id));
     }
 
     public void setThemeStyle(ThemeStyle themeStyle) {
-        SPUtils.getInstance().put(ResUtils.getString(R.string.key_setting_theme_result), themeStyle.id);
+        PersistData.putInt(R.string.key_setting_theme_result, themeStyle.id);
     }
 
     public static void customStatusBar(ThemedActivity activity) {
         // >=23: 6.0 and above
-        if (AppUtils.isMarshmallow()) {
+        if (PalmUtils.isMarshmallow()) {
             setStatusBarLightMode(activity.getWindow(), !activity.getThemeStyle().isDarkTheme);
-        } else if (AppUtils.isLollipop() && !activity.getThemeStyle().isDarkTheme) {
+        } else if (PalmUtils.isLollipop() && !activity.getThemeStyle().isDarkTheme) {
             // 21-23: 5.0-6.0, need to change the status bar color only for the light theme
-            setStatusBarColor(activity, ResUtils.getColor(R.color.status_bar_for_lollipop));
+            setStatusBarColor(activity, PalmUtils.getColorCompact(R.color.status_bar_for_lollipop));
         }
     }
 
     @TargetApi(Build.VERSION_CODES.M)
     private static void setStatusBarLightMode(@NonNull Window window, boolean isLightMode) {
-        if (!AppUtils.isMarshmallow()) return;
+        if (!PalmUtils.isMarshmallow()) return;
         View decorView = window.getDecorView();
         int vis = decorView.getSystemUiVisibility();
         if (isLightMode) {
@@ -68,7 +67,7 @@ public class ThemeUtils {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public static void setStatusBarColor(Activity activity, @ColorInt int color) {
-        if (!AppUtils.isLollipop()) return;
+        if (!PalmUtils.isLollipop()) return;
         activity.getWindow().setStatusBarColor(color);
     }
 

@@ -27,7 +27,7 @@ public class StoreHelper {
     /**
      * sql fragment used to create entity db
      */
-    private static final String CREATE_MODEL_FIELDS_SQL = "("
+    private final static String CREATE_MODEL_FIELDS_SQL = "("
             + BaseSchema.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + BaseSchema.CODE + " INTEGER NOT NULL, "
             + BaseSchema.USER_ID + " TEXT NOT NULL, "
