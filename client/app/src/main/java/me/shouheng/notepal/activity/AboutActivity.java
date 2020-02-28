@@ -21,32 +21,36 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
 import java.util.LinkedList;
 import java.util.List;
 
+import me.shouheng.commons.activity.CommonActivity;
 import me.shouheng.commons.activity.ContainerActivity;
-import me.shouheng.commons.activity.ThemedActivity;
+import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.fragment.WebviewFragment;
 import me.shouheng.commons.theme.ThemeStyle;
 import me.shouheng.commons.theme.ThemeUtils;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.IntentUtils;
-import me.shouheng.mvvm.base.anno.ActivityConfiguration;
-import me.shouheng.mvvm.comn.EmptyViewModel;
+import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.notepal.BuildConfig;
 import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.ActivityAboutBinding;
-import me.shouheng.utils.app.AppUtils;
-import me.shouheng.utils.app.ResUtils;
 
+import static me.shouheng.commons.event.UMEvent.*;
 import static me.shouheng.notepal.Constants.EMAIL_DEVELOPER;
 
 /**
  * @author shouh
  * @version $Id: AboutActivity, v 0.1 2018/9/24 18:16 shouh Exp$
  */
-@ActivityConfiguration(layoutResId = R.layout.activity_about)
-public class AboutActivity extends ThemedActivity<ActivityAboutBinding, EmptyViewModel> {
+@PageName(name = PAGE_ABOUT)
+public class AboutActivity extends CommonActivity<ActivityAboutBinding> {
 
-    public static final String APP_ABOUT_ARG_OPEN_SOURCE_ONLY = "__extra_app_about_open_source_only";
+    public final static String APP_ABOUT_ARG_OPEN_SOURCE_ONLY = "__extra_app_about_open_source_only";
+
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.activity_about;
+    }
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {
@@ -54,8 +58,8 @@ public class AboutActivity extends ThemedActivity<ActivityAboutBinding, EmptyVie
         ThemeStyle themeStyle = ThemeUtils.getInstance().getThemeStyle();
         getBinding().setIsDarkTheme(themeStyle.isDarkTheme);
         getBinding().setVersionName(BuildConfig.VERSION_NAME);
-        int marshmallowColor = AppUtils.isMarshmallow() ? Color.WHITE : ResUtils.getColor(R.color.light_theme_background_dark);
-        ThemeUtils.setStatusBarColor(this, themeStyle.isDarkTheme ? Color.BLACK : marshmallowColor);
+        ThemeUtils.setStatusBarColor(this, themeStyle.isDarkTheme ? Color.BLACK :
+                PalmUtils.isMarshmallow() ? Color.WHITE : PalmUtils.getColorCompact(R.color.light_theme_background_dark));
 
         /* Handle intent. */
         boolean openSourceOnly = false;
@@ -71,7 +75,7 @@ public class AboutActivity extends ThemedActivity<ActivityAboutBinding, EmptyVie
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowHomeEnabled(true);
             actionBar.setHomeAsUpIndicator(ColorUtils.tintDrawable(
-                    ResUtils.getDrawable(me.shouheng.commons.R.drawable.ic_arrow_back_black_24dp),
+                    PalmUtils.getDrawableCompact(me.shouheng.commons.R.drawable.ic_arrow_back_black_24dp),
                     getThemeStyle().isDarkTheme ? Color.WHITE : Color.BLACK));
         }
         getBinding().toolbar.setTitleTextColor(isDarkTheme() ? Color.WHITE : Color.BLACK);
@@ -79,13 +83,13 @@ public class AboutActivity extends ThemedActivity<ActivityAboutBinding, EmptyVie
         /* About entities. */
         List<AboutEntity> aboutEntities = new LinkedList<>();
         if (!openSourceOnly) {
-            aboutEntities.add(AboutEntity.getSectionTitle(ResUtils.getString(R.string.about_section_description)));
-            aboutEntities.add(AboutEntity.getNormalText(Html.fromHtml(ResUtils.getString(R.string.about_section_description_details))));
-            aboutEntities.add(AboutEntity.getSectionTitle(ResUtils.getString(R.string.about_section_developer)));
+            aboutEntities.add(AboutEntity.getSectionTitle(PalmUtils.getStringCompact(R.string.about_section_description)));
+            aboutEntities.add(AboutEntity.getNormalText(Html.fromHtml(PalmUtils.getStringCompact(R.string.about_section_description_details))));
+            aboutEntities.add(AboutEntity.getSectionTitle(PalmUtils.getStringCompact(R.string.about_section_developer)));
             aboutEntities.add(AboutEntity.getUser("WngShhng (" + EMAIL_DEVELOPER + ")", Constants.IMAGE_AVATAR_DEVELOPER,
-                    ResUtils.getString(R.string.about_section_developer_desc), Constants.PAGE_GITHUB_DEVELOPER));
-            aboutEntities.add(AboutEntity.getSectionTitle(ResUtils.getString(R.string.about_section_open_links)));
-            String html = String.format(ResUtils.getString(R.string.about_section_open_links_details),
+                    PalmUtils.getStringCompact(R.string.about_section_developer_desc), Constants.PAGE_GITHUB_DEVELOPER));
+            aboutEntities.add(AboutEntity.getSectionTitle(PalmUtils.getStringCompact(R.string.about_section_open_links)));
+            String html = String.format(PalmUtils.getStringCompact(R.string.about_section_open_links_details),
                     Constants.PAGE_GITHUB_REPOSITORY, Constants.PAGE_CHANGE_LOGS, Constants.PAGE_UPDATE_PLAN, Constants.PAGE_ABOUT);
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
                 aboutEntities.add(AboutEntity.getNormalText(Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY)));
@@ -93,7 +97,7 @@ public class AboutActivity extends ThemedActivity<ActivityAboutBinding, EmptyVie
                 aboutEntities.add(AboutEntity.getNormalText(Html.fromHtml(html)));
             }
         }
-        aboutEntities.add(AboutEntity.getSectionTitle(ResUtils.getString(R.string.about_section_open_sources)));
+        aboutEntities.add(AboutEntity.getSectionTitle(PalmUtils.getStringCompact(R.string.about_section_open_sources)));
         aboutEntities.add(AboutEntity.getLicense("EasyMark", "WngShhng",
                 AboutEntity.License.APACHE_2, "https://github.com/Shouheng88/EasyMark"));
         aboutEntities.add(AboutEntity.getLicense("PhotoView", "Chris Banes",
@@ -124,25 +128,23 @@ public class AboutActivity extends ThemedActivity<ActivityAboutBinding, EmptyVie
                 AboutEntity.License.APACHE_2, "https://github.com/aritraroy/PinLockView"));
 
         /* Config adapter event. */
-        AboutAdapter aboutAdapter = new AboutAdapter(this, aboutEntities);
+        AboutAdapter aboutAdapter = new AboutAdapter(getContext(), aboutEntities);
         aboutAdapter.setOnItemClickListener((adapter, view, position) -> {
             AboutEntity aboutEntity = aboutAdapter.getItem(position);
             assert aboutEntity != null;
             switch (aboutEntity.type) {
-                case AboutEntity.TYPE_USER:
+                case AboutEntity.typeUser:
                     ContainerActivity.open(WebviewFragment.class)
                             .put(WebviewFragment.ARGUMENT_KEY_URL, aboutEntity.user.website)
                             .put(WebviewFragment.ARGUMENT_KEY_USE_PAGE_TITLE, true)
                             .launch(this);
                     break;
-                case AboutEntity.TYPE_LICENSE:
+                case AboutEntity.typeLicense:
                     ContainerActivity.open(WebviewFragment.class)
                             .put(WebviewFragment.ARGUMENT_KEY_URL, aboutEntity.license.url)
                             .put(WebviewFragment.ARGUMENT_KEY_USE_PAGE_TITLE, true)
                             .launch(this);
                     break;
-                default:
-                    // noop
             }
         });
         getBinding().list.setAdapter(aboutAdapter);
@@ -161,10 +163,8 @@ public class AboutActivity extends ThemedActivity<ActivityAboutBinding, EmptyVie
                 finish();
                 break;
             case R.id.action_rate:
-                IntentUtils.openInMarket(this, BuildConfig.APPLICATION_ID);
+                IntentUtils.openInMarket(getContext(), BuildConfig.APPLICATION_ID);
                 break;
-            default:
-                // noop
         }
         return super.onOptionsItemSelected(item);
     }
@@ -181,10 +181,10 @@ public class AboutActivity extends ThemedActivity<ActivityAboutBinding, EmptyVie
 
         AboutAdapter(Context context, List<AboutEntity> data) {
             super(data);
-            addItemType(AboutEntity.TYPE_TEXT, R.layout.item_about_text);
-            addItemType(AboutEntity.TYPE_SECTION, R.layout.item_about_section);
-            addItemType(AboutEntity.TYPE_LICENSE, R.layout.item_about_license);
-            addItemType(AboutEntity.TYPE_USER, R.layout.item_about_user);
+            addItemType(AboutEntity.typeText, R.layout.item_about_text);
+            addItemType(AboutEntity.typeSection, R.layout.item_about_section);
+            addItemType(AboutEntity.typeLicense, R.layout.item_about_license);
+            addItemType(AboutEntity.typeUser, R.layout.item_about_user);
             this.context = context;
             themeStyle = ThemeUtils.getInstance().getThemeStyle();
         }
@@ -192,20 +192,18 @@ public class AboutActivity extends ThemedActivity<ActivityAboutBinding, EmptyVie
         @Override
         protected void convert(BaseViewHolder helper, AboutEntity item) {
             switch (item.type) {
-                case AboutEntity.TYPE_SECTION:
+                case AboutEntity.typeSection:
                     convertSection(helper, item);
                     break;
-                case AboutEntity.TYPE_TEXT:
+                case AboutEntity.typeText:
                     convertContent(helper, item);
                     break;
-                case AboutEntity.TYPE_LICENSE:
+                case AboutEntity.typeLicense:
                     convertLicense(helper, item);
                     break;
-                case AboutEntity.TYPE_USER:
+                case AboutEntity.typeUser:
                     convertUser(helper, item);
                     break;
-                default:
-                    // noop
             }
         }
 
@@ -240,10 +238,10 @@ public class AboutActivity extends ThemedActivity<ActivityAboutBinding, EmptyVie
     }
 
     public static class AboutEntity implements MultiItemEntity {
-        static final int TYPE_LICENSE = 0;
-        static final int TYPE_USER = 1;
-        static final int TYPE_SECTION = 2;
-        static final int TYPE_TEXT = 3;
+        public final static int typeLicense = 0;
+        public final static int typeUser = 1;
+        public final static int typeSection = 2;
+        public final static int typeText = 3;
 
         public final int type;
 
@@ -253,13 +251,13 @@ public class AboutActivity extends ThemedActivity<ActivityAboutBinding, EmptyVie
         public User user;
 
         static AboutEntity getSectionTitle(CharSequence sectionTitle) {
-            AboutEntity aboutEntity = new AboutEntity(TYPE_SECTION);
+            AboutEntity aboutEntity = new AboutEntity(typeSection);
             aboutEntity.sectionTitle = sectionTitle;
             return aboutEntity;
         }
 
         static AboutEntity getNormalText(CharSequence text) {
-            AboutEntity aboutEntity = new AboutEntity(TYPE_TEXT);
+            AboutEntity aboutEntity = new AboutEntity(typeText);
             aboutEntity.text = text;
             return aboutEntity;
         }
@@ -269,7 +267,7 @@ public class AboutActivity extends ThemedActivity<ActivityAboutBinding, EmptyVie
                                       @NonNull String type,
                                       @NonNull String url) {
             License license = new License(name, author, type, url);
-            AboutEntity aboutEntity = new AboutEntity(TYPE_LICENSE);
+            AboutEntity aboutEntity = new AboutEntity(typeLicense);
             aboutEntity.license = license;
             return aboutEntity;
         }
@@ -278,7 +276,7 @@ public class AboutActivity extends ThemedActivity<ActivityAboutBinding, EmptyVie
                                    @NonNull String avatarUrl,
                                    @NonNull String description,
                                    @NonNull String website) {
-            AboutEntity aboutEntity = new AboutEntity(TYPE_USER);
+            AboutEntity aboutEntity = new AboutEntity(typeUser);
             aboutEntity.user = new User(name, avatarUrl, description, website);
             return aboutEntity;
         }

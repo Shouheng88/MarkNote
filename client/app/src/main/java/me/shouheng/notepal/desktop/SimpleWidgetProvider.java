@@ -8,7 +8,6 @@ import android.widget.RemoteViews;
 
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.notepal.R;
-import me.shouheng.utils.stability.LogUtils;
 
 public class SimpleWidgetProvider extends BaseWidgetProvider {
 
@@ -37,7 +36,6 @@ public class SimpleWidgetProvider extends BaseWidgetProvider {
     }
 
     private void configToolbar(Context context, RemoteViews views, SparseArray<PendingIntent> pendingIntentsMap) {
-        LogUtils.d(context);
         views.setOnClickPendingIntent(R.id.iv_launch_app, pendingIntentsMap.get(R.id.iv_launch_app));
         views.setOnClickPendingIntent(R.id.iv_add_note, pendingIntentsMap.get(R.id.iv_add_note));
         views.setOnClickPendingIntent(R.id.iv_add_mind, pendingIntentsMap.get(R.id.iv_add_mind));

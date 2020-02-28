@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <me.shouheng.uix.image.CircleImageView
+        <me.shouheng.commons.widget.CircleImageView
             android:id="@+id/civ_fab_icon_background"
             android:layout_width="35dp"
             android:layout_height="35dp" />

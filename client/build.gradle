@@ -3,14 +3,14 @@ buildscript {
         google()
         jcenter()
         maven { url 'https://jitpack.io' }
-//        maven { url 'https://maven.fabric.io/public' }
+        maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${project.kotlinVersion}"
-//        classpath 'io.fabric.tools:gradle:1.26.1'
+        classpath 'io.fabric.tools:gradle:1.26.1'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
-        classpath 'com.tencent.mm:AndResGuard-gradle-plugin:1.2.17'
+        classpath 'com.tencent.mm:AndResGuard-gradle-plugin:1.2.15'
     }
 }
 
@@ -19,10 +19,10 @@ allprojects {
         google()
         jcenter()
         mavenCentral()
-        maven { url 'https://dl.bintray.com/umsdk/release' }
         maven { url "https://jitpack.io" }
         maven { url "https://maven.google.com/" }
         maven { url "https://dl.bintray.com/easymark/Android" }
+        maven { url 'https://dl.bintray.com/umsdk/release' }
     }
 }
 

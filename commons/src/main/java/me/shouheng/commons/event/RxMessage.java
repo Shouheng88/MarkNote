@@ -9,36 +9,36 @@ public class RxMessage {
     /**
      * Float action buttons order has changed.
      */
-    public static final int CODE_SORT_FLOAT_BUTTONS = 0;
+    public final static int CODE_SORT_FLOAT_BUTTONS = 0;
 
-    public static final int CODE_NOTE_LIST_STYLE_CHANGED = 2;
+    public final static int CODE_NOTE_LIST_STYLE_CHANGED = 2;
 
     /**
      * NOTE AND NOTEBOOK data has changed.
      */
-    public static final int CODE_NOTE_DATA_CHANGED = 3;
+    public final static int CODE_NOTE_DATA_CHANGED = 3;
 
     /**
      * Category data change event.
      */
-    public static final int CODE_CATEGORY_DATA_CHANGED = 4;
+    public final static int CODE_CATEGORY_DATA_CHANGED = 4;
 
     /**
      * Code identify that the password check has been passed.
      */
-    public static final int CODE_PASSWORD_CHECK_PASSED = 5;
+    public final static int CODE_PASSWORD_CHECK_PASSED = 5;
 
     /**
      * Code identify that the password check has been failed.
      */
-    public static final int CODE_PASSWORD_CHECK_FAILED = 6;
+    public final static int CODE_PASSWORD_CHECK_FAILED = 6;
 
     /**
      * The new password has benn set.
      */
-    public static final int CODE_PASSWORD_SET_SUCCEED = 7;
+    public final static int CODE_PASSWORD_SET_SUCCEED = 7;
 
-    public static final int CODE_PASSWORD_SET_FAILED = 8;
+    public final static int CODE_PASSWORD_SET_FAILED = 8;
 
     public final int code;
 

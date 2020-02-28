@@ -8,8 +8,6 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import java.util.Objects;
-
 import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.R;
 
@@ -43,7 +41,7 @@ public class OpenResolver extends DialogFragment {
         root.findViewById(R.id.tv_other).setOnClickListener(view ->
                 resolveClicked(Constants.MIME_TYPE_OTHERS));
 
-        return new AlertDialog.Builder(Objects.requireNonNull(getContext()))
+        return new AlertDialog.Builder(getContext())
                 .setTitle(R.string.attachment_open_as)
                 .setView(root)
                 .create();

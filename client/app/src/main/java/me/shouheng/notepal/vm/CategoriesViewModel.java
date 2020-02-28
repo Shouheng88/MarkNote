@@ -1,7 +1,7 @@
 package me.shouheng.notepal.vm;
 
-import android.app.Application;
-import android.support.annotation.NonNull;
+import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.ViewModel;
 
 import java.util.List;
 
@@ -10,25 +10,38 @@ import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import me.shouheng.commons.model.data.Resource;
+import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.data.entity.Category;
 import me.shouheng.data.model.enums.Status;
 import me.shouheng.data.schema.CategorySchema;
 import me.shouheng.data.store.CategoryStore;
-import me.shouheng.mvvm.base.BaseViewModel;
-import me.shouheng.mvvm.bean.Resources;
 import me.shouheng.notepal.R;
-import me.shouheng.utils.app.ResUtils;
 
 /**
  * @author WngShhng (shouheng2015@gmail.com)
  * @version $Id: CategoriesViewModel, v 0.1 2018/12/2 20:13 shouh Exp$
  */
-public class CategoriesViewModel extends BaseViewModel {
+public class CategoriesViewModel extends ViewModel {
 
     private Status status;
 
-    public CategoriesViewModel(@NonNull Application application) {
-        super(application);
+    private MutableLiveData<Resource<List<Category>>> categoriesLiveData;
+
+    private MutableLiveData<Resource<Category>> categoryUpdateObserver;
+
+    public MutableLiveData<Resource<List<Category>>> getCategoriesLiveData() {
+        if (categoriesLiveData == null) {
+            categoriesLiveData = new MutableLiveData<>();
+        }
+        return categoriesLiveData;
+    }
+
+    public MutableLiveData<Resource<Category>> getCategoryUpdateObserver() {
+        if (categoryUpdateObserver == null) {
+            categoryUpdateObserver = new MutableLiveData<>();
+        }
+        return categoryUpdateObserver;
     }
 
     public Status getStatus() {
@@ -46,25 +59,20 @@ public class CategoriesViewModel extends BaseViewModel {
      */
     public String getEmptySubTitle() {
         if (status == null) return null;
-        int res;
-        switch (status) {
-            case TRASHED:
-                res = R.string.category_list_empty_for_trashed;
-                break;
-            case ARCHIVED:
-                res = R.string.category_list_empty_for_archived;
-                break;
-            default:
-                res = R.string.category_list_empty_subtitle;
-        }
-        return ResUtils.getString(res);
+        return PalmUtils.getStringCompact(
+                status == Status.NORMAL ? R.string.category_list_empty_subtitle :
+                        status == Status.TRASHED ? R.string.category_list_empty_for_trashed :
+                                status == Status.ARCHIVED ? R.string.category_list_empty_for_archived :
+                                        R.string.category_list_empty_subtitle);
     }
 
     /**
      * Fetch the categories
      */
     public Disposable fetchCategories() {
-        getListObservable(Category.class).setValue(Resources.loading(null));
+        if (categoriesLiveData != null) {
+            categoriesLiveData.setValue(Resource.loading(null));
+        }
         return Observable.create((ObservableOnSubscribe<List<Category>>) emitter -> {
             List<Category> categories;
             if (status == Status.ARCHIVED) {
@@ -75,8 +83,11 @@ public class CategoriesViewModel extends BaseViewModel {
                 categories = CategoryStore.getInstance().get(null, CategorySchema.CATEGORY_ORDER);
             }
             emitter.onNext(categories);
-        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(categories ->
-                getListObservable(Category.class).setValue(Resources.success(categories)));
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(categories -> {
+            if (categoriesLiveData != null) {
+                categoriesLiveData.setValue(Resource.success(categories));
+            }
+        });
     }
 
     /**
@@ -89,9 +100,11 @@ public class CategoriesViewModel extends BaseViewModel {
         return Observable.create((ObservableOnSubscribe<Category>) emitter -> {
             CategoryStore.getInstance().update(category);
             emitter.onNext(category);
-        }).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(category1 -> getObservable(Category.class).setValue(Resources.success(category1)));
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(category1 -> {
+            if (categoryUpdateObserver != null) {
+                categoryUpdateObserver.setValue(Resource.success(category1));
+            }
+        });
     }
 
     /**
@@ -105,8 +118,10 @@ public class CategoriesViewModel extends BaseViewModel {
         return Observable.create((ObservableOnSubscribe<Category>) emitter -> {
             CategoryStore.getInstance().update(category, toStatus);
             emitter.onNext(category);
-        }).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(category1 -> getObservable(Category.class).setValue(Resources.success(category1)));
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(category1 -> {
+            if (categoryUpdateObserver != null) {
+                categoryUpdateObserver.setValue(Resource.success(category1));
+            }
+        });
     }
 }

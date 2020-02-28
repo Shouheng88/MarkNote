@@ -10,17 +10,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
 
-            <me.shouheng.uix.rv.EmptyView
-                android:id="@+id/ev"
+            <me.shouheng.commons.widget.recycler.EmptyView
+                android:id="@+id/iv_empty"
                 android:layout_centerInParent="true"
                 app:empty_image="@drawable/ic_bubble_chart_black_48dp"
-                app:empty_title="@string/timeline_list_empty_title"
-                app:empty_detail="@string/timeline_list_empty_subtitle"
-                app:empty_state="empty"
+                app:tint_drawable="true"
+                app:title="@string/timeline_list_empty_title"
+                app:sub_title="@string/timeline_list_empty_subtitle"
+                app:default_state_loading="false"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <me.shouheng.uix.rv.EmptySupportRecyclerView
+            <me.shouheng.commons.widget.recycler.EmptySupportRecyclerView
                 android:id="@+id/rv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>

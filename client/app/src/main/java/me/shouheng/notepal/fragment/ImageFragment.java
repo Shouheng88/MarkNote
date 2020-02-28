@@ -13,16 +13,18 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
-import com.github.chrisbanes.photoview.PhotoView;
 
-import java.util.Objects;
-
+import me.shouheng.commons.event.PageName;
+import me.shouheng.commons.event.UMEvent;
+import me.shouheng.commons.utils.ViewUtils;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.notepal.Constants;
+import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.GalleryActivity;
 import me.shouheng.notepal.manager.FileManager;
-import me.shouheng.utils.ui.ViewUtils;
+import uk.co.senab.photoview.PhotoView;
+import uk.co.senab.photoview.PhotoViewAttacher;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
@@ -31,11 +33,12 @@ import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOption
  *
  * Created by WngShhng (shouheng2015@gmail.com) on 2017/4/9.
  */
+@PageName(name = UMEvent.PAGE_IMAGE)
 public class ImageFragment extends Fragment {
 
-    public static final String ARG_ATTACHMENT = "__args_key_attachment";
+    public final static String ARG_ATTACHMENT = "__args_key_attachment";
 
-    private static final String STATE_SAVE_KEY_ATTACHMENT = "__state_save_key_attachment";
+    private final static String STATE_SAVE_KEY_ATTACHMENT = "__state_save_key_attachment";
 
     private Attachment attachment;
 
@@ -62,7 +65,7 @@ public class ImageFragment extends Fragment {
             layout.addView(imageView);
             ImageView videoTip = new ImageView(getContext());
             videoTip.setImageResource(R.drawable.ic_play_circle_outline_white_24dp);
-            int dp50 = ViewUtils.dp2px(50);
+            int dp50 = ViewUtils.dp2Px(PalmApp.getContext(), 50);
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(dp50, dp50);
             params.addRule(RelativeLayout.CENTER_IN_PARENT);
             videoTip.setLayoutParams(params);
@@ -71,16 +74,27 @@ public class ImageFragment extends Fragment {
             return layout;
         }
 
-        PhotoView photoView = new PhotoView(Objects.requireNonNull(getContext()));
+        PhotoView photoView = new PhotoView(getContext());
         if (attachment != null && "gif".endsWith(attachment.getUri().getPath())) {
-            Glide.with(Objects.requireNonNull(getActivity())).load(attachment.getUri().getPath()).into(photoView);
+            Glide.with(getActivity()).load(attachment.getUri().getPath()).into(photoView);
         } else {
             displayMedia(photoView);
         }
-        photoView.setOnPhotoTapListener((view, x, y) -> {
-            Activity activity = getActivity();
-            if (activity instanceof GalleryActivity) {
-                ((GalleryActivity) activity).toggleSystemUI();
+        photoView.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
+            @Override
+            public void onPhotoTap(View view, float x, float y) {
+                Activity activity = getActivity();
+                if (activity instanceof GalleryActivity) {
+                    ((GalleryActivity) activity).toggleSystemUI();
+                }
+            }
+
+            @Override
+            public void onOutsidePhotoTap() {
+                Activity activity = getActivity();
+                if (activity instanceof GalleryActivity) {
+                    ((GalleryActivity) activity).toggleSystemUI();
+                }
             }
         });
         photoView.setMaximumScale(5.0F);
@@ -89,7 +103,7 @@ public class ImageFragment extends Fragment {
     }
 
     private void displayMedia(PhotoView photoView) {
-        Glide.with(Objects.requireNonNull(getContext()))
+        Glide.with(getContext())
                 .load(FileManager.getThumbnailUri(getContext(), attachment.getUri()))
                 .thumbnail(0.5f)
                 .transition(withCrossFade())
@@ -110,7 +124,7 @@ public class ImageFragment extends Fragment {
      * @param imageView view to show
      */
     private void displayMedia(ImageView imageView){
-        Glide.with(Objects.requireNonNull(getContext()))
+        Glide.with(getContext())
                 .load(FileManager.getThumbnailUri(getContext(), attachment.getUri()))
                 .transition(withCrossFade())
                 .into(imageView);

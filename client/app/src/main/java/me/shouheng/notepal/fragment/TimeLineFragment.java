@@ -10,10 +10,11 @@ import android.view.View;
 
 import java.util.List;
 
-import me.shouheng.commons.fragment.CustomFragment;
-import me.shouheng.mvvm.base.anno.FragmentConfiguration;
-import me.shouheng.mvvm.comn.EmptyViewModel;
-import me.shouheng.utils.stability.LogUtils;
+import me.shouheng.commons.event.PageName;
+import me.shouheng.commons.event.*;
+import me.shouheng.commons.fragment.CommonFragment;
+import me.shouheng.commons.utils.LogUtils;
+import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.data.entity.TimeLine;
 import me.shouheng.data.model.enums.Status;
 import me.shouheng.data.schema.TimelineSchema;
@@ -21,21 +22,23 @@ import me.shouheng.data.store.TimelineStore;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.TimeLinesAdapter;
 import me.shouheng.notepal.databinding.FragmentTimeLineBinding;
-import me.shouheng.utils.ui.ToastUtils;
 
 /**
  * Created by WngShhng (shouheng2015@gmail.com) on 2017/8/19.
  * */
-@FragmentConfiguration(layoutResId = R.layout.fragment_time_line)
-public class TimeLineFragment extends CustomFragment<FragmentTimeLineBinding, EmptyViewModel> {
+@PageName(name = UMEvent.PAGE_TIMELINE)
+public class TimeLineFragment extends CommonFragment<FragmentTimeLineBinding> {
 
     private TimeLinesAdapter adapter;
 
     private boolean isLoadingMore = false;
 
-    private int modelsCount;
-    private int pageNumber = 20;
-    private int startIndex = 0;
+    private int modelsCount, pageNumber = 20, startIndex = 0;
+
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.fragment_time_line;
+    }
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {
@@ -51,7 +54,7 @@ public class TimeLineFragment extends CustomFragment<FragmentTimeLineBinding, Em
                 startIndex, pageNumber, TimelineSchema.ADDED_TIME + " DESC ", Status.NORMAL, false);
         adapter = new TimeLinesAdapter(getContext(), timeLines);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        getBinding().rv.setEmptyView(getBinding().ev);
+        getBinding().rv.setEmptyView(getBinding().ivEmpty);
         getBinding().rv.setLayoutManager(layoutManager);
         getBinding().rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -75,7 +78,7 @@ public class TimeLineFragment extends CustomFragment<FragmentTimeLineBinding, Em
         startIndex += pageNumber;
         if (startIndex > modelsCount) {
             startIndex -= pageNumber;
-            ToastUtils.showShort(R.string.timeline_no_more_data);
+            ToastUtils.makeToast(R.string.timeline_no_more_data);
         } else {
             List<TimeLine> list = TimelineStore.getInstance().getPage(startIndex,
                     pageNumber,

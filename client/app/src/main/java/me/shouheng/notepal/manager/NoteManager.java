@@ -17,6 +17,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import me.shouheng.commons.utils.LogUtils;
+import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.commons.utils.TimeUtils;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.data.entity.Category;
@@ -24,9 +26,6 @@ import me.shouheng.data.entity.Model;
 import me.shouheng.data.entity.Note;
 import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.R;
-import me.shouheng.utils.app.AppUtils;
-import me.shouheng.utils.app.ResUtils;
-import me.shouheng.utils.stability.LogUtils;
 
 /**
  * The manger for note witch provided many useful methods to handle the note.
@@ -38,7 +37,7 @@ public class NoteManager {
     /**
      * The split char used to connect the category code.
      */
-    private static final String CATEGORY_SPLIT = ",";
+    private final static String CATEGORY_SPLIT = ",";
 
     /**
      * The note title regex expression pattern, use the {@link Constants#REGEX_NOTE_TITLE}.
@@ -59,9 +58,9 @@ public class NoteManager {
      * @return the time information string
      */
     public static <T extends Model> String getTimeInfo(T model) {
-        return ResUtils.getString(R.string.text_created)
+        return PalmUtils.getStringCompact(R.string.text_created)
                 + " : " + TimeUtils.getPrettyTime(model.getAddedTime()) + "\n"
-                + ResUtils.getString(R.string.text_updated)
+                + PalmUtils.getStringCompact(R.string.text_updated)
                 + " : " + TimeUtils.getPrettyTime(model.getLastModifiedTime());
     }
 
@@ -108,7 +107,7 @@ public class NoteManager {
         shareIntent.putExtra(Intent.EXTRA_SUBJECT, title);
         shareIntent.putExtra(Intent.EXTRA_TEXT, content);
 
-        context.startActivity(Intent.createChooser(shareIntent, ResUtils.getString(R.string.text_send_to)));
+        context.startActivity(Intent.createChooser(shareIntent, PalmUtils.getStringCompact(R.string.text_send_to)));
     }
 
     /**
@@ -123,7 +122,7 @@ public class NoteManager {
         shareIntent.setAction(Intent.ACTION_SEND);
         shareIntent.setType(mimeType);
         shareIntent.putExtra(Intent.EXTRA_STREAM, FileManager.getUriFromFile(context, file));
-        context.startActivity(Intent.createChooser(shareIntent, ResUtils.getString(R.string.text_send_to)));
+        context.startActivity(Intent.createChooser(shareIntent, PalmUtils.getStringCompact(R.string.text_send_to)));
     }
 
     /**
@@ -134,7 +133,7 @@ public class NoteManager {
      * @return the title string
      */
     public static String getTitle(String inputTitle, String noteContent) {
-        int titleLength = ResUtils.getInteger(R.integer.note_title_max_length);
+        int titleLength = PalmUtils.getIntegerCompact(R.integer.note_title_max_length);
         if (!TextUtils.isEmpty(inputTitle)) {
             if (inputTitle.length() >= titleLength) {
                 return inputTitle.substring(0, titleLength);
@@ -144,7 +143,7 @@ public class NoteManager {
 
         // Use default note title
         if (TextUtils.isEmpty(noteContent)) {
-            return ResUtils.getString(R.string.text_default_note_name);
+            return PalmUtils.getStringCompact(R.string.text_default_note_name);
         }
 
         // Get title from note content
@@ -172,7 +171,7 @@ public class NoteManager {
             }
         }
 
-        return ResUtils.getString(R.string.text_default_note_name);
+        return PalmUtils.getStringCompact(R.string.text_default_note_name);
     }
 
     /**
@@ -186,7 +185,7 @@ public class NoteManager {
             return "";
         }
 
-        int maxLength = ResUtils.getInteger(R.integer.note_content_preview_max_length);
+        int maxLength = PalmUtils.getIntegerCompact(R.integer.note_content_preview_max_length);
         if (noteContent.length() > maxLength) {
             return noteContent.substring(0, maxLength).trim().replace('\n', ' ');
         }
@@ -228,10 +227,10 @@ public class NoteManager {
      * @param note the note
      */
     public static void printPDF(Context context, WebView webView, Note note) {
-        if (AppUtils.isKitKat()) {
+        if (PalmUtils.isKitKat()) {
             PrintManager printManager = (PrintManager) context.getSystemService(Context.PRINT_SERVICE);
             if (printManager != null) {
-                if (AppUtils.isLollipop()) {
+                if (PalmUtils.isLollipop()) {
                     printManager.print("PRINT-NOTE", webView.createPrintDocumentAdapter(note.getTitle()), null);
                     return;
                 }

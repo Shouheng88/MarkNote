@@ -7,7 +7,6 @@ import com.facebook.stetho.Stetho;
 import com.umeng.commonsdk.UMConfigure;
 
 import me.shouheng.commons.BaseApplication;
-import me.shouheng.mvvm.MVVMs;
 
 /**
  * 重点：
@@ -41,14 +40,13 @@ public class PalmApp extends BaseApplication {
             UMConfigure.setLogEnabled(true);
         }
 
-        MVVMs.onCreate(this);
         UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, "");
     }
 
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
-        MVVMs.attachBaseContext(base);
+
         MultiDex.install(this);
     }
 

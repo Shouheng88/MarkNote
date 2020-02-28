@@ -1,6 +1,7 @@
 package me.shouheng.notepal.fragment;
 
 import android.app.Activity;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -37,11 +38,18 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import me.shouheng.commons.activity.ContainerActivity;
+import me.shouheng.commons.activity.PermissionActivity;
 import me.shouheng.commons.activity.interaction.BackEventResolver;
+import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.event.RxMessage;
-import me.shouheng.commons.fragment.CustomFragment;
+import me.shouheng.commons.event.*;
+import me.shouheng.commons.fragment.CommonFragment;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.PalmUtils;
+import me.shouheng.commons.utils.PermissionUtils;
+import me.shouheng.commons.utils.PermissionUtils.Permission;
+import me.shouheng.commons.utils.StringUtils;
+import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.data.ModelFactory;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.data.entity.Category;
@@ -50,8 +58,6 @@ import me.shouheng.data.store.CategoryStore;
 import me.shouheng.easymark.EasyMarkEditor;
 import me.shouheng.easymark.editor.Format;
 import me.shouheng.easymark.tools.Utils;
-import me.shouheng.mvvm.base.CommonActivity;
-import me.shouheng.mvvm.base.anno.FragmentConfiguration;
 import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.SettingsActivity;
@@ -67,14 +73,8 @@ import me.shouheng.notepal.util.AppWidgetUtils;
 import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.vm.NoteViewModel;
 import me.shouheng.notepal.widget.MDEditorLayout;
-import me.shouheng.utils.app.ResUtils;
-import me.shouheng.utils.permission.Permission;
-import me.shouheng.utils.permission.PermissionUtils;
-import me.shouheng.utils.stability.LogUtils;
-import me.shouheng.utils.ui.ToastUtils;
 
 import static android.app.Activity.RESULT_OK;
-import static me.shouheng.easymark.editor.Format.TABLE;
 import static me.shouheng.notepal.Constants.FAB_ACTION_CAPTURE;
 import static me.shouheng.notepal.Constants.FAB_ACTION_CREATE_SKETCH;
 import static me.shouheng.notepal.Constants.FAB_ACTION_PICK_IMAGE;
@@ -88,34 +88,42 @@ import static me.shouheng.notepal.Constants.SHORTCUT_ACTION_VIEW_NOTE;
  * Created by WngShhng (shouehng2015@gmail.com) on 2017/5/12.
  * Refactored by WngShhng (shouheng2015@gmail.com) on 2017/12/2.
  */
-@FragmentConfiguration(layoutResId = R.layout.fragment_note)
-public class NoteFragment extends CustomFragment<FragmentNoteBinding, NoteViewModel>
+@PageName(name = UMEvent.PAGE_NOTE)
+public class NoteFragment extends CommonFragment<FragmentNoteBinding>
         implements BackEventResolver, AttachmentHelper.OnAttachingFileListener {
 
     /**
      * The key for action, used to send a command to this fragment.
      * The MainActivity will directly put the action argument to this fragment if received itself.
      */
-    public static final String ARGS_KEY_ACTION = "__args_key_action";
+    public final static String ARGS_KEY_ACTION = "__args_key_action";
 
     /**
      * The intent the MainActivity received. This fragment will get the extras from this value,
      * and handle the intent later.
      */
-    public static final String ARGS_KEY_INTENT = "__args_key_intent";
+    public final static String ARGS_KEY_INTENT = "__args_key_intent";
 
     /**
      * The most important argument, the note model, used to get the information of note.
      */
-    public static final String ARGS_KEY_NOTE = "__args_key_note";
+    public final static String ARGS_KEY_NOTE = "__args_key_note";
 
-    private static final String TAB_REPLACEMENT = "    ";
+    private final static String TAB_REPLACEMENT = "    ";
 
+    private NoteViewModel viewModel;
     private EditText etTitle;
     private EasyMarkEditor eme;
 
     @Override
+    protected int getLayoutResId() {
+        return R.layout.fragment_note;
+    }
+
+    @Override
     protected void doCreateView(Bundle savedInstanceState) {
+        viewModel = ViewModelProviders.of(this).get(NoteViewModel.class);
+
         /* Add subscriptions AT FIRST! */
         addSubscriptions();
 
@@ -137,14 +145,16 @@ public class NoteFragment extends CustomFragment<FragmentNoteBinding, NoteViewMo
         MDEditorLayout mel = getBinding().mel;
         mel.setOverHeight(Utils.dp2px(getContext(), 50));
         mel.setOnFormatClickListener(format -> {
-            if (format == TABLE) {
-                TableInputDialog.getInstance((rowsStr, colsStr) -> {
-                    int rows = PalmUtils.parseInteger(rowsStr, 3);
-                    int cols = PalmUtils.parseInteger(colsStr, 3);
-                    eme.useFormat(format, rows, cols);
-                }).show(Objects.requireNonNull(getFragmentManager()), "TABLE EDITOR");
-            } else {
-                eme.useFormat(format);
+            switch (format) {
+                case TABLE:
+                    TableInputDialog.getInstance((rowsStr, colsStr) -> {
+                        int rows = StringUtils.parseInteger(rowsStr, 3);
+                        int cols = StringUtils.parseInteger(colsStr, 3);
+                        eme.useFormat(format, rows, cols);
+                    }).show(Objects.requireNonNull(getFragmentManager()), "TABLE EDITOR");
+                    break;
+                default:
+                    eme.useFormat(format);
             }
         });
         eme = mel.getEditText();
@@ -154,29 +164,28 @@ public class NoteFragment extends CustomFragment<FragmentNoteBinding, NoteViewMo
         eme.addTextChangedListener(inputWatcher);
         mel.getFastScrollView().getFastScrollDelegate().setThumbSize(16, 40);
         mel.getFastScrollView().getFastScrollDelegate().setThumbDynamicHeight(false);
-        mel.getFastScrollView().getFastScrollDelegate().setThumbDrawable(ResUtils.getDrawable(isDarkTheme() ?
+        mel.getFastScrollView().getFastScrollDelegate().setThumbDrawable(PalmUtils.getDrawableCompact(isDarkTheme() ?
                 R.drawable.fast_scroll_bar_dark : R.drawable.fast_scroll_bar_light));
         mel.setOnCustomFormatClickListener(formatId -> {
-            eme.useFormat(formatId);
+            switch (formatId) {
+                default:
+                    eme.useFormat(formatId);
+            }
         });
     }
 
     private TextWatcher inputWatcher = new TextWatcher() {
         @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            // noop
-        }
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
         @Override
-        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            // noop
-        }
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
         @Override
         public void afterTextChanged(Editable editable) {
             String title = etTitle.getText().toString();
-            String content = Objects.requireNonNull(eme.getText()).toString();
-            String count = ResUtils.getString(R.string.text_chars) + ":" + (title.length() + content.length());
+            String content = eme.getText().toString();
+            String count = PalmUtils.getStringCompact(R.string.text_chars) + ":" + (title.length() + content.length());
             getBinding().tvCount.setText(count);
         }
     };
@@ -191,28 +200,31 @@ public class NoteFragment extends CustomFragment<FragmentNoteBinding, NoteViewMo
                 && (action = arguments.getString(ARGS_KEY_ACTION)) != null) {
             switch (action) {
                 /* Handle the shortcut actions. */
-                case SHORTCUT_ACTION_CREATE_NOTE:
+                case SHORTCUT_ACTION_CREATE_NOTE: {
                     // Create a note of default notebook and no category.
                     Note note = ModelFactory.getNote();
-                    getVM().notifyNoteChanged(note);
+                    viewModel.notifyNoteChanged(note);
                     break;
-                case SHORTCUT_ACTION_VIEW_NOTE:
-                    note = (Note) arguments.getSerializable(ARGS_KEY_NOTE);
+                }
+                case SHORTCUT_ACTION_VIEW_NOTE: {
+                    Note note = (Note) arguments.getSerializable(ARGS_KEY_NOTE);
                     assert note != null;
-                    getVM().notifyNoteChanged(note);
+                    viewModel.notifyNoteChanged(note);
                     break;
-                case SHORTCUT_ACTION_CAPTURE:
-                    note = ModelFactory.getNote();
-                    getVM().notifyNoteChanged(note);
+                }
+                case SHORTCUT_ACTION_CAPTURE: {
+                    Note note = ModelFactory.getNote();
+                    viewModel.notifyNoteChanged(note);
                     /* Need to delay few minutes, otherwise the fragment can't get the result. */
                     new Handler().postDelayed(() -> AttachmentHelper.takeAPhoto(NoteFragment.this), 800);
                     break;
+                }
 
                 /* Handle the third part actions. */
                 case Intent.ACTION_SEND:
-                case Intent.ACTION_SEND_MULTIPLE:
+                case Intent.ACTION_SEND_MULTIPLE: {
                     /* Handle the note title and content. */
-                    note = ModelFactory.getNote();
+                    Note note = ModelFactory.getNote();
                     Intent intent = arguments.getParcelable(ARGS_KEY_INTENT);
                     assert intent != null;
                     String title = intent.getStringExtra(Intent.EXTRA_SUBJECT);
@@ -222,7 +234,7 @@ public class NoteFragment extends CustomFragment<FragmentNoteBinding, NoteViewMo
                         content = content.replace("\t", TAB_REPLACEMENT);
                     }
                     note.setContent(content);
-                    getVM().notifyNoteChanged(note);
+                    viewModel.notifyNoteChanged(note);
                     /* Handle the attachments. */
                     List<Uri> uris = new LinkedList<>();
                     Uri uri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
@@ -237,12 +249,13 @@ public class NoteFragment extends CustomFragment<FragmentNoteBinding, NoteViewMo
                         AttachmentHelper.handleAttachments(this, uris, note);
                     }
                     break;
+                }
                 case Intent.ACTION_VIEW:
-                case Intent.ACTION_EDIT:
-                    note = ModelFactory.getNote();
-                    intent = arguments.getParcelable(ARGS_KEY_INTENT);
+                case Intent.ACTION_EDIT: {
+                    Note note = ModelFactory.getNote();
+                    Intent intent = arguments.getParcelable(ARGS_KEY_INTENT);
                     assert intent != null;
-                    uri = intent.getData();
+                    Uri uri = intent.getData();
                     String path = FileManager.getPath(getContext(), uri);
                     Disposable disposable = Observable
                             .create((ObservableOnSubscribe<String>) emitter -> {
@@ -252,8 +265,8 @@ public class NoteFragment extends CustomFragment<FragmentNoteBinding, NoteViewMo
                                         return;
                                     }
                                     File file = new File(path);
-                                    String contentLocal = FileUtils.readFileToString(file, Constants.NOTE_FILE_ENCODING);
-                                    emitter.onNext(contentLocal);
+                                    String content = FileUtils.readFileToString(file, Constants.NOTE_FILE_ENCODING);
+                                    emitter.onNext(content);
                                 } catch (IOException ex) {
                                     emitter.onError(ex);
                                 }
@@ -262,45 +275,49 @@ public class NoteFragment extends CustomFragment<FragmentNoteBinding, NoteViewMo
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(s -> {
                                 note.setContent(s);
-                                getVM().notifyNoteChanged(note);
-                            }, throwable -> getVM().notifyNoteChanged(note));
-                    LogUtils.d(disposable);
+                                viewModel.notifyNoteChanged(note);
+                            }, throwable -> viewModel.notifyNoteChanged(note));
                     break;
+                }
 
                 /* FAB actions */
-                case FAB_ACTION_CAPTURE:
-                    note = (Note) arguments.getSerializable(ARGS_KEY_NOTE);
+                case FAB_ACTION_CAPTURE: {
+                    Note note = (Note) arguments.getSerializable(ARGS_KEY_NOTE);
                     assert note != null;
-                    getVM().notifyNoteChanged(note);
+                    viewModel.notifyNoteChanged(note);
                     new Handler().postDelayed(() -> AttachmentHelper.takeAPhoto(NoteFragment.this), 800);
                     break;
-                case FAB_ACTION_PICK_IMAGE:
-                    note = (Note) arguments.getSerializable(ARGS_KEY_NOTE);
+                }
+                case FAB_ACTION_PICK_IMAGE: {
+                    Note note = (Note) arguments.getSerializable(ARGS_KEY_NOTE);
                     assert note != null;
-                    getVM().notifyNoteChanged(note);
+                    viewModel.notifyNoteChanged(note);
                     AttachmentHelper.pickFromCustomAlbum(NoteFragment.this);
                     break;
-                case FAB_ACTION_CREATE_SKETCH:
-                    note = (Note) arguments.getSerializable(ARGS_KEY_NOTE);
+                }
+                case FAB_ACTION_CREATE_SKETCH: {
+                    Note note = (Note) arguments.getSerializable(ARGS_KEY_NOTE);
                     assert note != null;
-                    getVM().notifyNoteChanged(note);
+                    viewModel.notifyNoteChanged(note);
                     AttachmentHelper.createSketch(NoteFragment.this);
                     break;
+                }
 
                 /* Handle the AppWidget actions. */
-                case Constants.APP_WIDGET_ACTION_CAPTURE:
-                    note = (Note) arguments.getSerializable(ARGS_KEY_NOTE);
-                    getVM().notifyNoteChanged(Objects.requireNonNull(note));
+                case Constants.APP_WIDGET_ACTION_CAPTURE: {
+                    Note note = (Note) arguments.getSerializable(ARGS_KEY_NOTE);
+                    assert note != null;
+                    viewModel.notifyNoteChanged(note);
                     new Handler().postDelayed(() -> AttachmentHelper.takeAPhoto(NoteFragment.this), 800);
                     break;
-                case Constants.APP_WIDGET_ACTION_CREATE_SKETCH:
-                    note = (Note) arguments.getSerializable(ARGS_KEY_NOTE);
-                    getVM().notifyNoteChanged(Objects.requireNonNull(note));
+                }
+                case Constants.APP_WIDGET_ACTION_CREATE_SKETCH: {
+                    Note note = (Note) arguments.getSerializable(ARGS_KEY_NOTE);
+                    assert note != null;
+                    viewModel.notifyNoteChanged(note);
                     AttachmentHelper.createSketch(NoteFragment.this);
                     break;
-
-                default:
-                    // noop
+                }
             }
         } else {
             Note note;
@@ -308,45 +325,39 @@ public class NoteFragment extends CustomFragment<FragmentNoteBinding, NoteViewMo
             /* Start note fragment without action and intent, then the note is necessary. */
             if (!arguments.containsKey(ARGS_KEY_NOTE)
                     || (note = (Note) arguments.getSerializable(ARGS_KEY_NOTE)) == null) {
-                ToastUtils.showShort(R.string.text_note_not_found);
+                ToastUtils.makeToast(R.string.text_note_not_found);
                 if (getActivity() != null) getActivity().finish();
                 return;
             }
 
-            getVM().notifyNoteChanged(note);
+            viewModel.notifyNoteChanged(note);
         }
     }
 
     private void addSubscriptions() {
-        getVM().getObservable(Note.class).observe(this, resources -> {
+        viewModel.getNoteObservable().observe(this, resources -> {
             assert resources != null;
             switch (resources.status) {
                 case SUCCESS:
                     assert resources.data != null;
-                    getVM().fetchNoteContent();
+                    viewModel.fetchNoteContent();
                     break;
-                case FAILED:
-                    ToastUtils.showShort(resources.errorMessage);
-                default:
-                    // noop
             }
         });
-        getVM().getObservable(String.class).observe(this, resources -> {
+        viewModel.getNoteContentObservable().observe(this, resources -> {
             assert resources != null;
             switch (resources.status) {
                 case SUCCESS:
-                    Note note = getVM().getNote();
+                    Note note = viewModel.getNote();
                     etTitle.setText(note.getTitle());
                     eme.setText(note.getContent());
                     break;
                 case FAILED:
-                    ToastUtils.showShort(R.string.text_failed_to_read_note_file);
+                    ToastUtils.makeToast(R.string.text_failed_to_read_note_file);
                     break;
-                default:
-                    // noop
             }
         });
-        getVM().getObservable(Boolean.class).observe(this, resources -> {
+        viewModel.getSaveOrUpdateObservable().observe(this, resources -> {
             assert resources != null;
             switch (resources.status) {
                 case SUCCESS:
@@ -364,12 +375,10 @@ public class NoteFragment extends CustomFragment<FragmentNoteBinding, NoteViewMo
                     }
                     break;
                 case FAILED:
-                    ToastUtils.showShort(R.string.text_failed_to_save_note);
+                    ToastUtils.makeToast(R.string.text_failed_to_save_note);
                     break;
                 case LOADING:
                     break;
-                default:
-                    // noop
             }
         });
     }
@@ -381,44 +390,41 @@ public class NoteFragment extends CustomFragment<FragmentNoteBinding, NoteViewMo
                 .setMenu(ColorUtils.getThemedBottomSheetMenu(getContext(), R.menu.attachment_picker))
                 .setListener(new BottomSheetListener() {
                     @Override
-                    public void onSheetShown(@NonNull BottomSheet bottomSheet, @Nullable Object o) {
-                        // noop
-                    }
+                    public void onSheetShown(@NonNull BottomSheet bottomSheet, @Nullable Object o) {}
 
                     @Override
                     public void onSheetItemSelected(@NonNull BottomSheet bottomSheet, MenuItem menuItem, @Nullable Object o) {
                         switch (menuItem.getItemId()) {
-                            case R.id.item_pick_from_album:
+                            case R.id.item_pick_from_album: {
                                 Activity activity = getActivity();
                                 if (activity != null) {
-                                    PermissionUtils.checkStoragePermission((CommonActivity) activity,
+                                    PermissionUtils.checkStoragePermission((PermissionActivity) activity,
                                             () -> AttachmentHelper.pickFromCustomAlbum(NoteFragment.this));
                                 }
                                 break;
-                            case R.id.item_pick_take_a_photo:
-                                activity = getActivity();
+                            }
+                            case R.id.item_pick_take_a_photo: {
+                                Activity activity = getActivity();
                                 if (activity != null) {
-                                    PermissionUtils.checkPermissions((CommonActivity) activity,
+                                    PermissionUtils.checkPermissions((PermissionActivity) activity,
                                             () -> AttachmentHelper.takeAPhoto(NoteFragment.this),
                                             Permission.STORAGE, Permission.CAMERA);
                                 }
                                 break;
-                            case R.id.item_pick_create_sketch:
-                                activity = getActivity();
+                            }
+                            case R.id.item_pick_create_sketch: {
+                                Activity activity = getActivity();
                                 if (activity != null) {
-                                    PermissionUtils.checkStoragePermission((CommonActivity) activity,
+                                    PermissionUtils.checkStoragePermission((PermissionActivity) activity,
                                             () -> AttachmentHelper.createSketch(NoteFragment.this));
                                 }
                                 break;
-                            default:
-                                // noop
+                            }
                         }
                     }
 
                     @Override
-                    public void onSheetDismissed(@NonNull BottomSheet bottomSheet, @Nullable Object o, int i) {
-                        // noop
-                    }
+                    public void onSheetDismissed(@NonNull BottomSheet bottomSheet, @Nullable Object o, int i) {}
                 })
                 .show();
     }
@@ -432,7 +438,7 @@ public class NoteFragment extends CustomFragment<FragmentNoteBinding, NoteViewMo
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(categories -> {
-                    for (Category s : getVM().getCategories()) {
+                    for (Category s : viewModel.getCategories()) {
                         for (Category a : categories) {
                             if (s.getCode() == a.getCode()) {
                                 a.setSelected(true);
@@ -441,13 +447,12 @@ public class NoteFragment extends CustomFragment<FragmentNoteBinding, NoteViewMo
                     }
                     CategoryPickerDialog dialog = CategoryPickerDialog.newInstance(categories);
                     dialog.setOnConfirmClickListener(selections -> {
-                        getVM().setCategories(selections);
-                        getVM().getNote().setTags(NoteManager.getCategoriesField(selections));
+                        viewModel.setCategories(selections);
+                        viewModel.getNote().setTags(NoteManager.getCategoriesField(selections));
                     });
-                    dialog.setOnAddClickListener(this::showCategoryEditor);
+                    dialog.setOnAddClickListener(() -> showCategoryEditor());
                     dialog.show(getChildFragmentManager(), "CATEGORY_PICKER");
                 });
-        LogUtils.d(disposable);
     }
 
     private void showCategoryEditor() {
@@ -460,7 +465,6 @@ public class NoteFragment extends CustomFragment<FragmentNoteBinding, NoteViewMo
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(category1 -> showCategoriesPicker());
-            LogUtils.d(disposable);
         }).show(getChildFragmentManager(), "CATEGORY PICKER");
     }
 
@@ -478,16 +482,17 @@ public class NoteFragment extends CustomFragment<FragmentNoteBinding, NoteViewMo
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_preview:
+            case R.id.action_preview: {
                 String title = etTitle.getText().toString();
-                String content = Objects.requireNonNull(eme.getText()).toString() + " ";
-                getVM().getNote().setTitle(title);
-                getVM().getNote().setContent(content);
+                String content = eme.getText().toString() + " ";
+                viewModel.getNote().setTitle(title);
+                viewModel.getNote().setContent(content);
                 ContainerActivity.open(NoteViewFragment.class)
-                        .put(NoteViewFragment.ARGS_KEY_NOTE, (Serializable) getVM().getNote())
+                        .put(NoteViewFragment.ARGS_KEY_NOTE, (Serializable) viewModel.getNote())
                         .put(NoteViewFragment.ARGS_KEY_IS_PREVIEW, true)
                         .launch(getActivity());
                 break;
+            }
             case R.id.action_undo:
                 eme.undo();
                 break;
@@ -499,34 +504,36 @@ public class NoteFragment extends CustomFragment<FragmentNoteBinding, NoteViewMo
                 break;
             case R.id.action_notebook:
                 NotebookPickerDialog.newInstance().setOnItemSelectedListener((dialog, value, position) -> {
-                    getVM().getNote().setParentCode(value.getCode());
-                    getVM().getNote().setTreePath(value.getTreePath() + "|" + value.getCode());
+                    viewModel.getNote().setParentCode(value.getCode());
+                    viewModel.getNote().setTreePath(value.getTreePath() + "|" + value.getCode());
                     dialog.dismiss();
                 }).show(Objects.requireNonNull(getFragmentManager()), "NOTEBOOK_PICKER");
                 break;
             case R.id.action_category:
                 showCategoriesPicker();
                 break;
-            case R.id.action_send:
-                title = etTitle.getText().toString();
-                content = Objects.requireNonNull(eme.getText()).toString() + " ";
+            case R.id.action_send: {
+                String title = etTitle.getText().toString();
+                String content = eme.getText().toString() + " ";
                 NoteManager.send(getContext(), title, content, new ArrayList<>());
                 break;
-            case R.id.action_copy_title:
-                title = etTitle.getText().toString();
-                NoteManager.copy(Objects.requireNonNull(getActivity()), title);
-                ToastUtils.showShort(R.string.note_copied_success);
+            }
+            case R.id.action_copy_title: {
+                String title = etTitle.getText().toString();
+                NoteManager.copy(getActivity(), title);
+                ToastUtils.makeToast(R.string.note_copied_success);
                 break;
-            case R.id.action_copy_content:
-                content = Objects.requireNonNull(eme.getText()).toString() + " ";
-                NoteManager.copy(Objects.requireNonNull(getActivity()), content);
-                ToastUtils.showShort(R.string.note_copied_success);
+            }
+            case R.id.action_copy_content: {
+                String content = eme.getText().toString() + " ";
+                NoteManager.copy(getActivity(), content);
+                ToastUtils.makeToast(R.string.note_copied_success);
                 break;
-            case R.id.action_setting_note:
+            }
+            case R.id.action_setting_note: {
                 SettingsActivity.open(SettingsNote.class).launch(getContext());
                 break;
-            default:
-                // noop
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -534,24 +541,24 @@ public class NoteFragment extends CustomFragment<FragmentNoteBinding, NoteViewMo
     @Override
     public void resolve() {
         String title = etTitle.getText().toString();
-        String content = Objects.requireNonNull(eme.getText()).toString();
-        getVM().saveOrUpdateNote(title, content);
+        String content = eme.getText().toString();
+        viewModel.saveOrUpdateNote(title, content);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        AttachmentHelper.onActivityResult(this, requestCode, resultCode, data, getVM().getNote());
+        AttachmentHelper.onActivityResult(this, requestCode, resultCode, data, viewModel.getNote());
     }
 
     @Override
     public void onAttachingFileErrorOccurred(Attachment attachment) {
-        ToastUtils.showShort(R.string.text_failed_to_save_attachment);
+        ToastUtils.makeToast(R.string.text_failed_to_save_attachment);
     }
 
     @Override
     public void onAttachingFileFinished(Attachment attachment) {
-        String title = FileManager.getNameFromUri(Objects.requireNonNull(getContext()), attachment.getUri());
+        String title = FileManager.getNameFromUri(getContext(), attachment.getUri());
         if (TextUtils.isEmpty(title)) title = getString(R.string.text_attachment);
         if (Constants.MIME_TYPE_IMAGE.equalsIgnoreCase(attachment.getMineType())
                 || Constants.MIME_TYPE_SKETCH.equalsIgnoreCase(attachment.getMineType())) {

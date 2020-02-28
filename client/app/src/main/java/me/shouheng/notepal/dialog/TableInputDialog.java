@@ -9,8 +9,6 @@ import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 
-import java.util.Objects;
-
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.DialogInputTableLayoutBinding;
@@ -50,15 +48,15 @@ public class TableInputDialog extends DialogFragment {
 
         binding.tvMdCancel.setOnClickListener(v -> dismiss());
 
-        return new AlertDialog.Builder(Objects.requireNonNull(getContext()))
+        return new AlertDialog.Builder(getContext())
                 .setTitle(R.string.note_table_insert)
                 .setView(binding.getRoot())
                 .create();
     }
 
     private void onConfirm() {
-        String rowNumberStr = Objects.requireNonNull(binding.etMdRowsNumber.getText()).toString().trim();
-        String columnNumberStr = Objects.requireNonNull(binding.etMdColsNumber.getText()).toString().trim();
+        String rowNumberStr = binding.etMdRowsNumber.getText().toString().trim();
+        String columnNumberStr = binding.etMdColsNumber.getText().toString().trim();
 
         if (TextUtils.isEmpty(rowNumberStr)) binding.rowNumberHint.setError(getString(R.string.note_table_rows_required));
         if (TextUtils.isEmpty(columnNumberStr)) binding.columnNumberHint.setError(getString(R.string.note_table_cols_required));

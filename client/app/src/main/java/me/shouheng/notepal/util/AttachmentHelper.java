@@ -24,8 +24,12 @@ import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import me.shouheng.commons.image.GifSizeFilter;
+import me.shouheng.commons.image.Glide4Engine;
 import me.shouheng.commons.utils.IntentUtils;
+import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.commons.utils.PalmUtils;
+import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.data.ModelFactory;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.data.entity.Model;
@@ -37,11 +41,6 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.GalleryActivity;
 import me.shouheng.notepal.activity.SketchActivity;
 import me.shouheng.notepal.manager.FileManager;
-import me.shouheng.uix.image.GifSizeFilter;
-import me.shouheng.uix.image.Glide4Engine;
-import me.shouheng.utils.app.AppUtils;
-import me.shouheng.utils.stability.LogUtils;
-import me.shouheng.utils.ui.ToastUtils;
 import top.zibin.luban.Luban;
 import top.zibin.luban.OnCompressListener;
 
@@ -58,37 +57,37 @@ public class AttachmentHelper {
     /**
      * The common request code to take a photo.
      */
-    private static final int REQUEST_CODE_TAKE_A_PHOTO = 0x1001;
+    private final static int REQUEST_CODE_TAKE_A_PHOTO = 0x1001;
 
     /**
      * The common request code to select images.
      */
-    private static final int REQUEST_CODE_SELECT_IMAGES = 0x1002;
+    private final static int REQUEST_CODE_SELECT_IMAGES = 0x1002;
 
     /**
      * The common request code to take a video.
      */
-    private static final int REQUEST_CODE_TAKE_A_VIDEO = 0x1003;
+    private final static int REQUEST_CODE_TAKE_A_VIDEO = 0x1003;
 
     /**
      * The common request code to pick files.
      */
-    private static final int REQUEST_CODE_PICK_FILES = 0x1004;
+    private final static int REQUEST_CODE_PICK_FILES = 0x1004;
 
     /**
      * The common request code to create a sketch.
      */
-    private static final int REQUEST_CODE_CREATE_SKETCH = 0x1005;
+    private final static int REQUEST_CODE_CREATE_SKETCH = 0x1005;
 
     /**
      * The common request code to select images from the custom album.
      */
-    private static final int REQUEST_CODE_SELECT_IMAGES_CUSTOM = 0x1006;
+    private final static int REQUEST_CODE_SELECT_IMAGES_CUSTOM = 0x1006;
 
     /**
      * Won't compress the image when hit the size (KB).
      */
-    private static final int COMPRESS_IGNORE_SIZE_KB = 100; // KB
+    private final static int COMPRESS_IGNORE_SIZE_KB = 100; // KB
 
     /**
      * The photo file path
@@ -166,7 +165,7 @@ public class AttachmentHelper {
     public static void takeAPhoto(Fragment fragment) {
         File file = FileManager.createNewAttachmentFile(fragment.getContext(), Constants.MIME_TYPE_IMAGE_EXTENSION);
         if (file == null) {
-            ToastUtils.showShort(R.string.text_failed_to_save_file);
+            ToastUtils.makeToast(R.string.text_failed_to_save_file);
             return;
         }
         String path = file.getPath();
@@ -185,7 +184,7 @@ public class AttachmentHelper {
     public static void createSketch(Fragment fragment) {
         File file = FileManager.createNewAttachmentFile(fragment.getContext(), Constants.MIME_TYPE_SKETCH_EXTENSION);
         if (file == null) {
-            ToastUtils.showShort(R.string.text_failed_to_save_file);
+            ToastUtils.makeToast(R.string.text_failed_to_save_file);
             return;
         }
         String path = file.getPath();
@@ -439,7 +438,7 @@ public class AttachmentHelper {
             List<Attachment> attachments,
             String galleryTitle) {
         if (attachment == null) {
-            ToastUtils.showShort(R.string.text_file_not_exist);
+            ToastUtils.makeToast(R.string.text_file_not_exist);
             return;
         }
         switch (attachment.getMineType()) {
@@ -463,7 +462,7 @@ public class AttachmentHelper {
         if (IntentUtils.isAvailable(context.getApplicationContext(), intent, null)) {
             context.startActivity(intent);
         } else {
-            ToastUtils.showShort(R.string.text_failed_to_resolve_intent);
+            ToastUtils.makeToast(R.string.text_failed_to_resolve_intent);
         }
     }
 
@@ -498,7 +497,7 @@ public class AttachmentHelper {
 
     public static void pickFiles(Activity activity) {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        if (AppUtils.isJellyBeanMR2()) {
+        if (PalmUtils.isJellyBeanMR2()) {
             intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         }
         intent.addCategory(Intent.CATEGORY_OPENABLE);
@@ -509,7 +508,7 @@ public class AttachmentHelper {
 
     public static void pickFiles(Fragment fragment) {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        if (AppUtils.isJellyBeanMR2()) {
+        if (PalmUtils.isJellyBeanMR2()) {
             intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         }
         intent.addCategory(Intent.CATEGORY_OPENABLE);
@@ -534,7 +533,7 @@ public class AttachmentHelper {
     private static Intent captureIntent(Context context) {
         File file = FileManager.createNewAttachmentFile(context, Constants.MIME_TYPE_IMAGE_EXTENSION);
         if (file == null){
-            ToastUtils.showShort(R.string.text_failed_to_save_file);
+            ToastUtils.makeToast(R.string.text_failed_to_save_file);
             return null;
         }
         String filePath = file.getPath();
@@ -564,7 +563,7 @@ public class AttachmentHelper {
     private static Intent sketchIntent(Context context) {
         File file = FileManager.createNewAttachmentFile(context, Constants.MIME_TYPE_SKETCH_EXTENSION);
         if (file == null) {
-            ToastUtils.showShort(R.string.text_failed_to_save_file);
+            ToastUtils.makeToast(R.string.text_failed_to_save_file);
             return null;
         }
         String filePath = file.getPath();
@@ -593,8 +592,8 @@ public class AttachmentHelper {
      */
     private static class DefaultCompressListener implements OnCompressListener {
 
-        private static final int ATTACHING_TYPE_FRAGMENT = 0;
-        private static final int ATTACHING_TYPE_ACTIVITY = 1;
+        private final static int ATTACHING_TYPE_FRAGMENT = 0;
+        private final static int ATTACHING_TYPE_ACTIVITY = 1;
 
         private Fragment fragment;
         private Attachment attachment;

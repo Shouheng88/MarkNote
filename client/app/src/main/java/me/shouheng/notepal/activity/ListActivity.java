@@ -13,33 +13,34 @@ import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 
-import me.shouheng.commons.activity.ThemedActivity;
+import me.shouheng.commons.activity.CommonActivity;
+import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.helper.FragmentHelper;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.data.entity.Category;
 import me.shouheng.data.entity.Notebook;
 import me.shouheng.data.model.enums.Status;
-import me.shouheng.mvvm.base.anno.ActivityConfiguration;
-import me.shouheng.mvvm.comn.EmptyViewModel;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.ActivityBaseListBinding;
 import me.shouheng.notepal.fragment.CategoriesFragment;
 import me.shouheng.notepal.fragment.NotesFragment;
+
+import static me.shouheng.commons.event.UMEvent.*;
 
 /**
  * List activity. used to mange the categories and notebooks list of for archived and trashed notes.
  *
  * Created by WngShhng (shouheng2015@gmail.com) on 2017/10/10.
  */
-@ActivityConfiguration(layoutResId = R.layout.activity_base_list)
-public class ListActivity extends ThemedActivity<ActivityBaseListBinding, EmptyViewModel>
+@PageName(name = PAGE_LIST)
+public class ListActivity extends CommonActivity<ActivityBaseListBinding>
         implements NotesFragment.OnNotesInteractListener, CategoriesFragment.CategoriesInteraction {
 
     /**
      * The argument for list type, should be one of
      * {@link Status#ARCHIVED} and {@link Status#TRASHED}
      */
-    public static final String ARGS_KEY_LIST_TYPE = "__args_key_list_type";
+    public final static String ARGS_KEY_LIST_TYPE = "__args_key_list_type";
 
     private Drawer drawer;
 
@@ -47,6 +48,11 @@ public class ListActivity extends ThemedActivity<ActivityBaseListBinding, EmptyV
      * The status for current notes list.
      */
     private Status status;
+
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.activity_base_list;
+    }
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {
@@ -100,24 +106,25 @@ public class ListActivity extends ThemedActivity<ActivityBaseListBinding, EmptyV
                 .withOnDrawerItemClickListener((view, position, drawerItem) -> {
                     if (drawerItem == null) return false;
                     switch ((int) drawerItem.getIdentifier()) {
-                        case 0:
-                            NotesFragment notesFragment = FragmentHelper.open(NotesFragment.class)
+                        case 0: {
+                            NotesFragment fragment = FragmentHelper.open(NotesFragment.class)
                                     .put(NotesFragment.ARGS_KEY_STATUS, status)
                                     .get();
                             drawer.closeDrawer();
-                            FragmentHelper.replace(this, notesFragment , R.id.fragment_container, false);
+                            FragmentHelper.replace(this, fragment , R.id.fragment_container, false);
                             break;
-                        case 1:
-                            CategoriesFragment categoriesFragment = FragmentHelper.open(CategoriesFragment.class)
+                        }
+                        case 1: {
+                            CategoriesFragment fragment = FragmentHelper.open(CategoriesFragment.class)
                                     .put(CategoriesFragment.ARGS_KEY_STATUS, status)
                                     .get();
                             drawer.closeDrawer();
-                            FragmentHelper.replace(this, categoriesFragment, R.id.fragment_container, false);
+                            FragmentHelper.replace(this, fragment, R.id.fragment_container, false);
                             break;
+                        }
                         case 2:
                             super.onBackPressed();
                             break;
-                        default: // noop
                     }
                     return true;
                 })
@@ -165,10 +172,13 @@ public class ListActivity extends ThemedActivity<ActivityBaseListBinding, EmptyV
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            Fragment fragment = getCurrentFragment();
-            if (!fragment.onOptionsItemSelected(item)) {
-                drawer.openDrawer();
+        switch (item.getItemId()) {
+            case android.R.id.home: {
+                Fragment fragment = getCurrentFragment();
+                if (!fragment.onOptionsItemSelected(item)) {
+                    drawer.openDrawer();
+                }
+                return true;
             }
         }
         return super.onOptionsItemSelected(item);

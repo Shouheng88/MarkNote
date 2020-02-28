@@ -25,16 +25,17 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
-import me.shouheng.commons.activity.ThemedActivity;
+import me.shouheng.commons.activity.CommonActivity;
+import me.shouheng.commons.event.PageName;
+import me.shouheng.commons.utils.LogUtils;
+import me.shouheng.commons.utils.ToastUtils;
+import me.shouheng.commons.utils.ViewUtils;
 import me.shouheng.commons.widget.sketch.OnDrawChangedListener;
 import me.shouheng.commons.widget.sketch.SketchView;
-import me.shouheng.mvvm.base.anno.ActivityConfiguration;
-import me.shouheng.mvvm.comn.EmptyViewModel;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.ActivitySketchBinding;
-import me.shouheng.utils.stability.LogUtils;
-import me.shouheng.utils.ui.ToastUtils;
-import me.shouheng.utils.ui.ViewUtils;
+
+import static me.shouheng.commons.event.UMEvent.*;
 
 /**
  * The activity used to sketch
@@ -42,39 +43,39 @@ import me.shouheng.utils.ui.ViewUtils;
  * refactored at 2018-11-28, 23:12,
  * by WngShhng (shouheng2015@gmail.com)
  */
-@ActivityConfiguration(layoutResId = R.layout.activity_sketch)
-public class SketchActivity extends ThemedActivity<ActivitySketchBinding, EmptyViewModel>
+@PageName(name = PAGE_SKETCH)
+public class SketchActivity extends CommonActivity<ActivitySketchBinding>
         implements OnDrawChangedListener, View.OnClickListener {
 
     /**
      * Use the key to put the {@link Uri} of a bitmap to the intent, and the draw action
      * will then be based on the bitmap.
      */
-    public static final String EXTRA_KEY_BASE_BITMAP = "__extra_key_based_bitmap";
+    public final static String EXTRA_KEY_BASE_BITMAP = "__extra_key_based_bitmap";
 
     /**
      * The key used to put the output file path.
      */
-    public static final String EXTRA_KEY_OUTPUT_FILE_PATH = "__extra_key_output_file_path";
+    public final static String EXTRA_KEY_OUTPUT_FILE_PATH = "__extra_key_output_file_path";
 
-    private View popupLayout;
-    private View popupEraserLayout;
-    private ImageView strokeImageView;
-    private ImageView eraserImageView;
+    private View popupLayout, popupEraserLayout;
+    private ImageView strokeImageView, eraserImageView;
     private ColorPicker mColorPicker;
     private MaterialMenuDrawable materialMenu;
-    private Dialog eraserDialog;
-    private Dialog brushDialog;
+    private Dialog eraserDialog, brushDialog;
 
     private int seekBarStrokeProgress;
     private int seekBarEraserProgress;
-    private int oldColor;
-    private int size;
+    private int oldColor, size;
 
-    private boolean isContentChanged;
-    private boolean onceSaved;
+    private boolean isContentChanged, onceSaved;
 
     private String outputFilePath;
+
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.activity_sketch;
+    }
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {
@@ -203,14 +204,10 @@ public class SketchActivity extends ThemedActivity<ActivitySketchBinding, EmptyV
                 : popupLayout.findViewById(R.id.stroke_seekbar));
         mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                // noop
-            }
+            public void onStopTrackingTouch(SeekBar seekBar) {}
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-                // noop
-            }
+            public void onStartTrackingTouch(SeekBar seekBar) {}
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -223,7 +220,7 @@ public class SketchActivity extends ThemedActivity<ActivitySketchBinding, EmptyV
 
     @Override
     public void onDrawChanged() {
-        if (!getBinding().sketchView.getPaths().isEmpty()) {
+        if (getBinding().sketchView.getPaths().size() > 0) {
             ViewUtils.setAlpha(getBinding().ivUndo, 1f);
             if (!isContentChanged) {
                 setContentChanged();
@@ -276,8 +273,6 @@ public class SketchActivity extends ThemedActivity<ActivitySketchBinding, EmptyV
                         .onPositive((materialDialog, dialogAction) -> clearAll())
                         .show();
                 break;
-            default:
-                // noop
         }
     }
 
@@ -306,7 +301,7 @@ public class SketchActivity extends ThemedActivity<ActivitySketchBinding, EmptyV
                 bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
                 out.close();
                 if (!bitmapFile.exists()) {
-                    ToastUtils.showShort(R.string.text_file_not_exist);
+                    ToastUtils.makeToast(R.string.text_file_not_exist);
                 }
             } catch (Exception e) {
                 LogUtils.e("Error writing sketch image data", e);
@@ -317,27 +312,29 @@ public class SketchActivity extends ThemedActivity<ActivitySketchBinding, EmptyV
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            if (getBinding().sketchView.getPaths().isEmpty()) {
-                finish();
-            } else {
-                if (isContentChanged) {
-                    doSaveBitmap();
-                    return true;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                if (getBinding().sketchView.getPaths().size() == 0) {
+                    finish();
                 } else {
-                    if (onceSaved) {
-                        setResult(RESULT_OK);
-                        finish();
+                    if (isContentChanged) {
+                        doSaveBitmap();
+                        return true;
+                    } else {
+                        if (onceSaved) {
+                            setResult(RESULT_OK);
+                            finish();
+                        }
                     }
                 }
-            }
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onBackPressed() {
-        if (getBinding().sketchView.getPaths().isEmpty()) {
+        if (getBinding().sketchView.getPaths().size() == 0) {
             super.onBackPressed();
         }
         if (isContentChanged) {

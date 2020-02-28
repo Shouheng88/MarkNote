@@ -12,18 +12,18 @@ import com.umeng.analytics.MobclickAgent;
 import java.util.Objects;
 
 import me.shouheng.commons.activity.ContainerActivity;
-import me.shouheng.commons.fragment.CustomFragment;
+import me.shouheng.commons.event.PageName;
+import me.shouheng.commons.event.UMEvent;
+import me.shouheng.commons.fragment.CommonFragment;
 import me.shouheng.commons.fragment.WebviewFragment;
 import me.shouheng.commons.minipay.Config;
 import me.shouheng.commons.minipay.MiniPayUtils;
 import me.shouheng.commons.utils.IntentUtils;
-import me.shouheng.mvvm.base.anno.FragmentConfiguration;
-import me.shouheng.mvvm.comn.EmptyViewModel;
+import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.notepal.BuildConfig;
 import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.FragmentSupportBinding;
-import me.shouheng.utils.app.ResUtils;
 
 import static me.shouheng.commons.event.UMEvent.SUPPORT_DONATE_ALIPAY;
 import static me.shouheng.commons.event.UMEvent.SUPPORT_DONATE_WECHAT;
@@ -32,8 +32,13 @@ import static me.shouheng.commons.event.UMEvent.SUPPORT_DONATE_WECHAT;
  * @author WngShhng (shouheng2015@gmail.com)
  * @version $Id: SupportFragment, v 0.1 2018/12/6 11:37 shouh Exp$
  */
-@FragmentConfiguration(layoutResId = R.layout.fragment_support)
-public class SupportFragment extends CustomFragment<FragmentSupportBinding, EmptyViewModel> {
+@PageName(name = UMEvent.PAGE_SUPPORT)
+public class SupportFragment extends CommonFragment<FragmentSupportBinding> {
+
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.fragment_support;
+    }
 
     @Override
     protected void doCreateView(Bundle savedInstanceState) {
@@ -42,12 +47,12 @@ public class SupportFragment extends CustomFragment<FragmentSupportBinding, Empt
             if (ab != null) ab.setTitle(R.string.drawer_menu_donate);
         }
 
-        getBinding().tv1.setText(Html.fromHtml(ResUtils.getString(R.string.dialog_notice_content_part1)));
-        getBinding().tv2.setText(Html.fromHtml(ResUtils.getString(R.string.dialog_notice_content_part2)));
-        getBinding().tv3.setText(Html.fromHtml(ResUtils.getString(R.string.dialog_notice_content_part3)));
-        getBinding().tv4.setText(Html.fromHtml(ResUtils.getString(R.string.dialog_notice_content_part4)));
-        getBinding().tv5.setText(Html.fromHtml(ResUtils.getString(R.string.dialog_notice_content_part5)));
-        getBinding().tv6.setText(Html.fromHtml(ResUtils.getString(R.string.dialog_notice_content_part6)));
+        getBinding().tv1.setText(Html.fromHtml(PalmUtils.getStringCompact(R.string.dialog_notice_content_part1)));
+        getBinding().tv2.setText(Html.fromHtml(PalmUtils.getStringCompact(R.string.dialog_notice_content_part2)));
+        getBinding().tv3.setText(Html.fromHtml(PalmUtils.getStringCompact(R.string.dialog_notice_content_part3)));
+        getBinding().tv4.setText(Html.fromHtml(PalmUtils.getStringCompact(R.string.dialog_notice_content_part4)));
+        getBinding().tv5.setText(Html.fromHtml(PalmUtils.getStringCompact(R.string.dialog_notice_content_part5)));
+        getBinding().tv6.setText(Html.fromHtml(PalmUtils.getStringCompact(R.string.dialog_notice_content_part6)));
 
         getBinding().sivGooglePlay.setOnClickListener(v -> IntentUtils.openInMarket(getContext(), BuildConfig.APPLICATION_ID));
         getBinding().sivGithub.setOnClickListener(v ->

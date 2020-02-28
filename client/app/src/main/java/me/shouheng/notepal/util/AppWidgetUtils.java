@@ -6,7 +6,7 @@ import android.content.Context;
 
 import java.util.Arrays;
 
-import me.shouheng.utils.stability.LogUtils;
+import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.desktop.ListWidgetProvider;
 

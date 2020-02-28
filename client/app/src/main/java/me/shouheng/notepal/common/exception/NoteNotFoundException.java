@@ -5,7 +5,7 @@ package me.shouheng.notepal.common.exception;
  */
 public class NoteNotFoundException extends Exception {
 
-    private final long code;
+    private long code;
 
     public NoteNotFoundException(long code) {
         this.code = code;

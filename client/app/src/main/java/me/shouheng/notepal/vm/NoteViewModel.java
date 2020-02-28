@@ -1,6 +1,8 @@
 package me.shouheng.notepal.vm;
 
-import android.app.Application;
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.ViewModel;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
@@ -16,6 +18,8 @@ import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import me.shouheng.commons.model.data.Resource;
+import me.shouheng.commons.utils.PersistData;
 import me.shouheng.data.ModelFactory;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.data.entity.Category;
@@ -24,15 +28,11 @@ import me.shouheng.data.model.enums.ModelType;
 import me.shouheng.data.store.AttachmentsStore;
 import me.shouheng.data.store.CategoryStore;
 import me.shouheng.data.store.NotesStore;
-import me.shouheng.mvvm.base.BaseViewModel;
-import me.shouheng.mvvm.bean.Resources;
 import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.notepal.manager.NoteManager;
-import me.shouheng.utils.app.ResUtils;
-import me.shouheng.utils.store.SPUtils;
 
 /**
  * The ViewModel for the note fragment.
@@ -40,19 +40,44 @@ import me.shouheng.utils.store.SPUtils;
  * @author WngShhng (shouheng2015@gmail.com)
  * @version $Id: NoteViewModel, v 0.1 2018/12/1 0:49 shouh Exp$
  */
-public class NoteViewModel extends BaseViewModel {
+public class NoteViewModel extends ViewModel {
 
     private Note note;
 
     private List<Category> categories;
 
-    public NoteViewModel(@NonNull Application application) {
-        super(application);
+    private MutableLiveData<Resource<Note>> noteObservable;
+
+    private MutableLiveData<Resource<String>> noteContentObservable;
+
+    private MutableLiveData<Resource<Boolean>> saveOrUpdateObservable;
+
+    public LiveData<Resource<Note>> getNoteObservable() {
+        if (noteObservable == null) {
+            noteObservable = new MutableLiveData<>();
+        }
+        return noteObservable;
+    }
+
+    public LiveData<Resource<String>> getNoteContentObservable() {
+        if (noteContentObservable == null) {
+            noteContentObservable = new MutableLiveData<>();
+        }
+        return noteContentObservable;
+    }
+
+    public LiveData<Resource<Boolean>> getSaveOrUpdateObservable() {
+        if (saveOrUpdateObservable == null) {
+            saveOrUpdateObservable = new MutableLiveData<>();
+        }
+        return saveOrUpdateObservable;
     }
 
     public void notifyNoteChanged(@NonNull Note note) {
         this.note = note;
-        getObservable(Note.class).setValue(Resources.success(note));
+        if (noteObservable != null) {
+            noteObservable.setValue(Resource.success(note));
+        }
     }
 
     /**
@@ -79,9 +104,15 @@ public class NoteViewModel extends BaseViewModel {
             }
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(s -> {
-                    note.setContent(s);
-                    getObservable(String.class).setValue(Resources.success(s));
-                }, throwable -> getObservable(String.class).setValue(Resources.failed(throwable.getMessage(), null)));
+                    if (noteContentObservable != null) {
+                        note.setContent(s);
+                        noteContentObservable.setValue(Resource.success(s));
+                    }
+                }, throwable -> {
+                    if (noteContentObservable != null) {
+                        noteContentObservable.setValue(Resource.error(throwable.getMessage(), null));
+                    }
+                });
     }
 
     /**
@@ -112,7 +143,7 @@ public class NoteViewModel extends BaseViewModel {
             /* Get the note file and save the note content to it. */
             Attachment atFile = AttachmentsStore.getInstance().get(note.getContentCode());
             if (atFile == null) {
-                String extension = "." + SPUtils.getInstance().getString(ResUtils.getString(R.string.key_note_file_extension), "md");
+                String extension = "." + PersistData.getString(R.string.key_note_file_extension, "md");
                 File noteFile = FileManager.createNewAttachmentFile(PalmApp.getContext(), extension);
                 try {
                     FileUtils.writeStringToFile(noteFile, note.getContent(), Constants.NOTE_FILE_ENCODING);
@@ -147,8 +178,15 @@ public class NoteViewModel extends BaseViewModel {
 
             emitter.onNext(true);
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(bool -> getObservable(Boolean.class).setValue(Resources.success(bool)),
-                        throwable -> getObservable(Boolean.class).setValue(Resources.failed(throwable.getMessage(), "")));
+                .subscribe(bool -> {
+                    if (saveOrUpdateObservable != null) {
+                        saveOrUpdateObservable.setValue(Resource.success(bool));
+                    }
+                }, throwable -> {
+                    if (saveOrUpdateObservable != null) {
+                        saveOrUpdateObservable.setValue(Resource.error(throwable.getMessage(), false));
+                    }
+                });
     }
 
     public Note getNote() {

@@ -7,16 +7,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <me.shouheng.uix.rv.EmptyView
-            android:id="@+id/ev"
+        <me.shouheng.commons.widget.recycler.EmptyView
+            android:id="@+id/iv_empty"
             app:empty_image="@drawable/ic_folder_black_24dp"
-            app:empty_title="@string/setting_backup_onedrive_no_more_folders"
-            app:empty_state="empty"
+            app:title="@string/setting_backup_onedrive_no_more_folders"
+            app:tint_drawable="true"
+            app:default_state_loading="false"
             android:layout_centerInParent="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <me.shouheng.uix.rv.EmptySupportRecyclerView
+        <me.shouheng.commons.widget.recycler.EmptySupportRecyclerView
             android:id="@+id/rv_directories"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>

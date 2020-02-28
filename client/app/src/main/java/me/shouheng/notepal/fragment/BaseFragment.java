@@ -14,15 +14,13 @@ import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import me.shouheng.commons.fragment.CustomFragment;
-import me.shouheng.mvvm.base.BaseViewModel;
-import me.shouheng.mvvm.base.CommonActivity;
+import me.shouheng.commons.activity.PermissionActivity;
+import me.shouheng.commons.fragment.CommonFragment;
+import me.shouheng.commons.utils.PermissionUtils;
+import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.notepal.util.ScreenShotHelper;
-import me.shouheng.utils.permission.PermissionUtils;
-import me.shouheng.utils.stability.LogUtils;
-import me.shouheng.utils.ui.ToastUtils;
 
 /**
  * Base fragment, used to handle the shared and common logic.
@@ -30,7 +28,7 @@ import me.shouheng.utils.ui.ToastUtils;
  * Created by WngShhng (shouheng2015@gmail.com) on 2017/12/29.
  * Refactored by WngShhng (shouheng2015@gmail.com) on 2017/12/01.
  */
-public abstract class BaseFragment<V extends ViewDataBinding, U extends BaseViewModel> extends CustomFragment<V, U> {
+public abstract class BaseFragment<V extends ViewDataBinding> extends CommonFragment<V> {
 
     /**
      * Screen capture method, used to capture the screen for RecyclerView.
@@ -42,20 +40,20 @@ public abstract class BaseFragment<V extends ViewDataBinding, U extends BaseView
      */
     protected void createScreenCapture(final RecyclerView recyclerView) {
         if (recyclerView.getAdapter() == null || recyclerView.getAdapter().getItemCount() == 0) {
-            ToastUtils.showShort(R.string.text_empty_list);
+            ToastUtils.makeToast(R.string.text_empty_list);
             return;
         }
         if (getActivity() == null) return;
-        PermissionUtils.checkStoragePermission((CommonActivity) getActivity(), () -> doCapture(recyclerView, 0));
+        PermissionUtils.checkStoragePermission((PermissionActivity) getActivity(), () -> doCapture(recyclerView, 0));
     }
 
     protected void createScreenCapture(final RecyclerView recyclerView, final int itemHeight) {
         if (recyclerView.getAdapter() == null || recyclerView.getAdapter().getItemCount() == 0) {
-            ToastUtils.showShort(R.string.text_empty_list);
+            ToastUtils.makeToast(R.string.text_empty_list);
             return;
         }
         if (getActivity() == null) return;
-        PermissionUtils.checkStoragePermission((CommonActivity) getActivity(), () -> doCapture(recyclerView, itemHeight));
+        PermissionUtils.checkStoragePermission((PermissionActivity) getActivity(), () -> doCapture(recyclerView, itemHeight));
     }
 
     /**
@@ -88,11 +86,11 @@ public abstract class BaseFragment<V extends ViewDataBinding, U extends BaseView
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(file -> {
                     pd.dismiss();
-                    ToastUtils.showShort(String.format(getString(R.string.text_file_saved_to), file.getPath()));
+                    ToastUtils.makeToast(String.format(getString(R.string.text_file_saved_to), file.getPath()));
                     onGetScreenCaptureFile(file);
                 }, throwable -> {
                     pd.dismiss();
-                    ToastUtils.showShort(R.string.text_failed_to_save_file);
+                    ToastUtils.makeToast(R.string.text_failed_to_save_file);
                 });
     }
 
@@ -101,9 +99,7 @@ public abstract class BaseFragment<V extends ViewDataBinding, U extends BaseView
      *
      * @param file the captured image file.
      */
-    protected void onGetScreenCaptureFile(File file) {
-        LogUtils.d(file);
-    }
+    protected void onGetScreenCaptureFile(File file) { }
 
     /**
      * Capture the WebView.
@@ -113,7 +109,7 @@ public abstract class BaseFragment<V extends ViewDataBinding, U extends BaseView
      */
     protected void createWebCapture(WebView webView, FileManager.OnSavedToGalleryListener listener) {
         assert getActivity() != null;
-        PermissionUtils.checkStoragePermission((CommonActivity) getActivity(), () -> {
+        PermissionUtils.checkStoragePermission((PermissionActivity) getActivity(), () -> {
             final ProgressDialog pd = new ProgressDialog(getContext());
             pd.setTitle(R.string.text_capturing);
             pd.setCancelable(false);

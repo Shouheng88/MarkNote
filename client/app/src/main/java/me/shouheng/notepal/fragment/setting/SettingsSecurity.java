@@ -13,21 +13,23 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 
+import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.event.RxMessage;
+import me.shouheng.commons.event.*;
 import me.shouheng.commons.fragment.BPreferenceFragment;
 import me.shouheng.commons.helper.ActivityHelper;
 import me.shouheng.commons.utils.ColorUtils;
+import me.shouheng.commons.utils.Md5Utils;
+import me.shouheng.commons.utils.PersistData;
+import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.LockActivity;
 import me.shouheng.notepal.databinding.DialogSecurityQuestionLayoutBinding;
-import me.shouheng.utils.app.ResUtils;
-import me.shouheng.utils.data.EncryptUtils;
-import me.shouheng.utils.store.SPUtils;
-import me.shouheng.utils.ui.ToastUtils;
 
 /**
  * Created by WngShhng on 2018/1/12.
  */
+@PageName(name = UMEvent.PAGE_SETTING_SECURITY)
 public class SettingsSecurity extends BPreferenceFragment {
 
     @Override
@@ -40,10 +42,10 @@ public class SettingsSecurity extends BPreferenceFragment {
         addPreferencesFromResource(R.xml.preferences_data_security);
 
         findPreference(R.string.key_security_psd_required).setOnPreferenceClickListener(preference -> {
-            String psd = SPUtils.getInstance().getString(ResUtils.getString(R.string.key_security_psd), null);
+            String psd = PersistData.getString(R.string.key_security_psd, null);
             if (TextUtils.isEmpty(psd) && ((SwitchPreference) preference).isChecked() ) {
                 ActivityHelper.open(LockActivity.class)
-                        .setAction(LockActivity.ACTION_SET_PSD)
+                        .setAction(LockActivity.ACTION_SET_PASSWORD)
                         .launch(getActivity());
             } else if (((SwitchPreference) preference).isChecked()){
                 /* the password is not empty and the password is required, but the security question is not set */
@@ -53,7 +55,7 @@ public class SettingsSecurity extends BPreferenceFragment {
         });
         findPreference(R.string.key_security_psd).setOnPreferenceClickListener(preference -> {
             ActivityHelper.open(LockActivity.class)
-                    .setAction(LockActivity.ACTION_SET_PSD)
+                    .setAction(LockActivity.ACTION_SET_PASSWORD)
                     .launch(getActivity());
             return true;
         });
@@ -70,9 +72,9 @@ public class SettingsSecurity extends BPreferenceFragment {
 
         addSubscription(RxMessage.class, RxMessage.CODE_PASSWORD_SET_SUCCEED, rxMessage -> showAlertIfNecessary());
         addSubscription(RxMessage.class, RxMessage.CODE_PASSWORD_SET_FAILED, rxMessage -> {
-            String password = SPUtils.getInstance().getString(ResUtils.getString(R.string.key_security_psd), "");
+            String password = PersistData.getString(R.string.key_security_psd, "");
             if (TextUtils.isEmpty(password)) {
-                SPUtils.getInstance().put(ResUtils.getString(R.string.key_security_psd_required), false);
+                PersistData.putBoolean(R.string.key_security_psd_required, false);
                 ((SwitchPreference) findPreference(R.string.key_security_psd_required)).setChecked(false);
             }
         });
@@ -87,7 +89,7 @@ public class SettingsSecurity extends BPreferenceFragment {
         binding.wtvConfirmAnswer.bindEditText(binding.etConfirmAnswer);
 
         /* Set default question from the preferences */
-        String savedQuestion = SPUtils.getInstance().getString(ResUtils.getString(R.string.key_security_psd_question), "");
+        String savedQuestion = PersistData.getString(R.string.key_security_psd_question, "");
         binding.etQuestion.setText(savedQuestion);
 
         binding.etConfirmAnswer.addTextChangedListener(new TextWatcher() {
@@ -122,20 +124,20 @@ public class SettingsSecurity extends BPreferenceFragment {
                 String cfmAnswer = binding.etConfirmAnswer.getText().toString();
                 boolean passed = checkSecurityQuestion(question, answer, cfmAnswer);
                 if (passed) {
-                    SPUtils.getInstance().put(ResUtils.getString(R.string.key_security_psd_question), question);
-                    SPUtils.getInstance().put(ResUtils.getString(R.string.key_security_psd_answer), EncryptUtils.md5(answer));
-                    ToastUtils.showShort(R.string.text_save_successfully);
+                    PersistData.putString(R.string.key_security_psd_question, question);
+                    PersistData.putString(R.string.key_security_psd_answer, Md5Utils.md5(answer));
+                    ToastUtils.makeToast(R.string.text_save_successfully);
                     dialog.dismiss();
                 }
             });
             alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener(v -> {
-                String question = SPUtils.getInstance().getString(ResUtils.getString(R.string.key_security_psd_question), "");
-                boolean psdRequired = SPUtils.getInstance().getBoolean(ResUtils.getString(R.string.key_security_psd_required), false);
+                String question = PersistData.getString(R.string.key_security_psd_question, "");
+                boolean psdRequired = PersistData.getBoolean(R.string.key_security_psd_required, false);
                 boolean requireInput = TextUtils.isEmpty(question) && psdRequired;
                 if (!requireInput) {
                     dialog.dismiss();
                 } else {
-                    ToastUtils.showShort(R.string.setting_security_question_required);
+                    ToastUtils.makeToast(R.string.setting_security_question_required);
                 }
             });
         });
@@ -145,27 +147,27 @@ public class SettingsSecurity extends BPreferenceFragment {
 
     private boolean checkSecurityQuestion(String question, String answer, String confirmAnswer) {
         if (TextUtils.isEmpty(question)) {
-            ToastUtils.showShort(R.string.setting_security_question_required);
+            ToastUtils.makeToast(R.string.setting_security_question_required);
             return false;
         }
         if (TextUtils.isEmpty(answer)) {
-            ToastUtils.showShort(R.string.setting_security_question_answer_required);
+            ToastUtils.makeToast(R.string.setting_security_question_answer_required);
             return false;
         }
         if (TextUtils.isEmpty(confirmAnswer)) {
-            ToastUtils.showShort(R.string.setting_security_question_confirm_answer_required);
+            ToastUtils.makeToast(R.string.setting_security_question_confirm_answer_required);
             return false;
         }
         if (!answer.equals(confirmAnswer)) {
-            ToastUtils.showShort(R.string.setting_security_question_answer_differ);
+            ToastUtils.makeToast(R.string.setting_security_question_answer_differ);
             return false;
         }
         return true;
     }
 
     private void showAlertIfNecessary() {
-        boolean psdRequired = SPUtils.getInstance().getBoolean(ResUtils.getString(R.string.key_security_psd_required), false);
-        String question = SPUtils.getInstance().getString(ResUtils.getString(R.string.key_security_psd_question), "");
+        boolean psdRequired = PersistData.getBoolean(R.string.key_security_psd_required, false);
+        String question = PersistData.getString(R.string.key_security_psd_question, "");
         if (!TextUtils.isEmpty(question) || !psdRequired) return;
         showQuestionEditor();
     }

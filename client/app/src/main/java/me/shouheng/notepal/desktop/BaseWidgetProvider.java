@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.util.SparseArray;
 import android.widget.RemoteViews;
 
-import me.shouheng.utils.stability.LogUtils;
+import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.MainActivity;
 import me.shouheng.notepal.activity.QuickActivity;

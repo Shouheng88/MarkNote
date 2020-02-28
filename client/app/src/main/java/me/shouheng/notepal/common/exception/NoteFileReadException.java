@@ -8,7 +8,7 @@ import me.shouheng.data.entity.Note;
  */
 public class NoteFileReadException extends Exception {
 
-    private final Note note;
+    private Note note;
 
     public NoteFileReadException(Note note) {
         this.note = note;

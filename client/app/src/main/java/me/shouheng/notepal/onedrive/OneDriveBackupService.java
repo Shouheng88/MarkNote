@@ -10,8 +10,8 @@ import com.onedrive.sdk.extensions.Item;
 
 import java.io.File;
 
-import me.shouheng.utils.device.NetworkUtils;
-import me.shouheng.utils.stability.LogUtils;
+import me.shouheng.commons.utils.LogUtils;
+import me.shouheng.commons.utils.NetworkUtils;
 import me.shouheng.data.DBConfig;
 import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.notepal.util.SynchronizeUtils;
@@ -37,8 +37,8 @@ public class OneDriveBackupService extends IntentService {
     protected void onHandleIntent(@Nullable Intent intent) {
         syncPreferences = SyncPreferences.getInstance();
 
-        boolean isNetworkAvailable = NetworkUtils.isConnected();
-        boolean isWifi = NetworkUtils.isWifiAvailable();
+        boolean isNetworkAvailable = NetworkUtils.isNetworkAvailable(getApplicationContext());
+        boolean isWifi = NetworkUtils.isWifi(getApplicationContext());
         boolean isOnlyWifi = syncPreferences.isBackupOnlyInWifi();
 
         if (isNetworkAvailable && (!isOnlyWifi || isWifi)) {

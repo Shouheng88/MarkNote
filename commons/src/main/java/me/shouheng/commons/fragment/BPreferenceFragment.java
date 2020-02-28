@@ -8,12 +8,13 @@ import com.umeng.analytics.MobclickAgent;
 
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
+import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.event.RxBus;
 import me.shouheng.commons.event.RxMessage;
 import me.shouheng.commons.theme.ThemeStyle;
 import me.shouheng.commons.theme.ThemeUtils;
-import me.shouheng.utils.app.ResUtils;
-import me.shouheng.utils.stability.LogUtils;
+import me.shouheng.commons.utils.LogUtils;
+import me.shouheng.commons.utils.PalmUtils;
 
 /**
  * @author shouh
@@ -22,6 +23,13 @@ import me.shouheng.utils.stability.LogUtils;
 public abstract class BPreferenceFragment extends PreferenceFragment {
 
     private String pageName;
+
+    {
+        Class<?> clazz = getClass();
+        if (clazz.isAnnotationPresent(PageName.class)) {
+            pageName = clazz.getAnnotation(PageName.class).name();
+        }
+    }
 
     @Override
     public void onResume() {
@@ -41,7 +49,7 @@ public abstract class BPreferenceFragment extends PreferenceFragment {
     }
 
     public Preference findPreference(@StringRes int keyRes) {
-        return super.findPreference(ResUtils.getString(keyRes));
+        return super.findPreference(PalmUtils.getStringCompact(keyRes));
     }
 
     public ThemeStyle getThemeStyle() {

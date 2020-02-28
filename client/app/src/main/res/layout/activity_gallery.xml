@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <me.shouheng.uix.pager.HackyViewPager
+            <me.shouheng.commons.widget.HackyViewPager
                 android:id="@+id/view_pager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>

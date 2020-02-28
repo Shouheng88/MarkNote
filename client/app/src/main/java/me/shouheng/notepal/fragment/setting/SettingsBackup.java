@@ -20,24 +20,27 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import me.shouheng.commons.activity.CommonActivity;
+import me.shouheng.commons.event.PageName;
+import me.shouheng.commons.event.*;
 import me.shouheng.commons.fragment.BPreferenceFragment;
-import me.shouheng.mvvm.base.CommonActivity;
+import me.shouheng.commons.utils.LogUtils;
+import me.shouheng.commons.utils.PalmUtils;
+import me.shouheng.commons.utils.PermissionUtils;
+import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.DirectoryActivity;
-import me.shouheng.notepal.common.enums.SyncTimeInterval;
-import me.shouheng.notepal.common.preferences.SyncPreferences;
+import me.shouheng.notepal.service.DataBackupService;
 import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.notepal.onedrive.DefaultCallback;
 import me.shouheng.notepal.onedrive.OneDriveManager;
-import me.shouheng.notepal.service.DataBackupService;
-import me.shouheng.utils.app.ResUtils;
-import me.shouheng.utils.permission.PermissionUtils;
-import me.shouheng.utils.stability.LogUtils;
-import me.shouheng.utils.ui.ToastUtils;
+import me.shouheng.notepal.common.enums.SyncTimeInterval;
+import me.shouheng.notepal.common.preferences.SyncPreferences;
 
 /**
  * Created by WngShhng on 2018/1/5.
  */
+@PageName(name = UMEvent.PAGE_SETTING_BACKUP)
 public class SettingsBackup extends BPreferenceFragment {
 
     private final int REQUEST_PICK_FOLDER = 0x000F;
@@ -177,7 +180,7 @@ public class SettingsBackup extends BPreferenceFragment {
     private void showExternalBackupImport() {
         final String[] backups = getExternalBackups();
         if (backups.length == 0) {
-            ToastUtils.showShort(R.string.setting_backup_external_empty);
+            ToastUtils.makeToast(R.string.setting_backup_external_empty);
             return;
         }
 
@@ -186,7 +189,7 @@ public class SettingsBackup extends BPreferenceFragment {
                 .items(backups)
                 .itemsCallbackSingleChoice(-1, (dialog, itemView, which, text) -> {
                     if (TextUtils.isEmpty(text)) {
-                        ToastUtils.showShort(R.string.text_failed);
+                        ToastUtils.makeToast(R.string.text_failed);
                         return true;
                     }
                     showExternalBackupImportConfirm(text.toString());
@@ -229,7 +232,7 @@ public class SettingsBackup extends BPreferenceFragment {
     private void showExternalBackupDelete() {
         final String[] backups = getExternalBackups();
         if (backups.length == 0) {
-            ToastUtils.showShort(R.string.setting_backup_external_empty);
+            ToastUtils.makeToast(R.string.setting_backup_external_empty);
             return;
         }
 
@@ -247,7 +250,7 @@ public class SettingsBackup extends BPreferenceFragment {
                 .setPositiveButton(R.string.text_confirm, (dialog, which) -> {
                     LogUtils.d(selected);
                     if (selected.isEmpty()) {
-                        ToastUtils.showShort(R.string.text_failed);
+                        ToastUtils.makeToast(R.string.text_failed);
                     } else {
                         showExternalBackupDeleteConfirm(selected);
                     }
@@ -274,7 +277,7 @@ public class SettingsBackup extends BPreferenceFragment {
         String[] items = new String[timeIntervals.length];
         int length = timeIntervals.length;
         for (int i=0; i<length; i++) {
-            items[i] = ResUtils.getString(timeIntervals[i].resName);
+            items[i] = PalmUtils.getStringCompact(timeIntervals[i].resName);
         }
 
         new MaterialDialog.Builder(getActivity())
@@ -292,8 +295,12 @@ public class SettingsBackup extends BPreferenceFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_PICK_FOLDER) {
-            refreshOneDriveMessage();
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_PICK_FOLDER:
+                    refreshOneDriveMessage();
+                    break;
+            }
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

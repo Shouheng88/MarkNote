@@ -12,7 +12,7 @@
         android:layout_width="60dp"
         android:layout_height="60dp">
 
-        <me.shouheng.uix.image.CircleImageView
+        <me.shouheng.commons.widget.CircleImageView
             android:id="@+id/iv_folder_background"
             android:layout_margin="10dp"
             android:layout_width="40dp"
@@ -27,7 +27,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp" />
 
-        <me.shouheng.uix.image.CircleImageView
+        <me.shouheng.commons.widget.CircleImageView
             android:visibility="gone"
             android:id="@+id/iv_check_background"
             android:layout_alignParentBottom="true"

@@ -78,8 +78,9 @@ If you find some unpleasent bugs, please don't be heasitated to report to me by 
 I'm WngShhng (Shouheng Wang) and I'm an Android and Java developer. You can follow me at:
 
 1. Twitter: https://twitter.com/shouheng_wang
-2. Github: https://github.com/Shouheng88
-3. 掘金：https://juejin.im/user/585555e11b69e6006c907a2a
+2. 微博：https://weibo.com/5401152113/profile?rightmod=1&wvr=6&mod=personinfo
+3. Github: https://github.com/Shouheng88
+4. 掘金：https://juejin.im/user/585555e11b69e6006c907a2a
 
 ## License
 

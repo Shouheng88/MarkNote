@@ -15,11 +15,12 @@ import com.onedrive.sdk.core.ClientException;
 import com.onedrive.sdk.extensions.Folder;
 import com.onedrive.sdk.extensions.Item;
 
-import me.shouheng.commons.activity.ThemedActivity;
+import me.shouheng.commons.activity.CommonActivity;
+import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.helper.FragmentHelper;
+import me.shouheng.commons.utils.PalmUtils;
+import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.data.model.Directory;
-import me.shouheng.mvvm.base.anno.ActivityConfiguration;
-import me.shouheng.mvvm.comn.EmptyViewModel;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.common.preferences.SyncPreferences;
 import me.shouheng.notepal.databinding.ActivityDirectoryBinding;
@@ -27,11 +28,11 @@ import me.shouheng.notepal.dialog.SimpleEditDialog;
 import me.shouheng.notepal.fragment.DirectoriesFragment;
 import me.shouheng.notepal.onedrive.ClearBackupStateTask;
 import me.shouheng.notepal.onedrive.OneDriveManager;
-import me.shouheng.utils.app.ResUtils;
-import me.shouheng.utils.ui.ToastUtils;
 
-@ActivityConfiguration(layoutResId = R.layout.activity_directory)
-public class DirectoryActivity extends ThemedActivity<ActivityDirectoryBinding, EmptyViewModel> implements
+import static me.shouheng.commons.event.UMEvent.*;
+
+@PageName(name = PAGE_DIRECTORY)
+public class DirectoryActivity extends CommonActivity<ActivityDirectoryBinding> implements
         DirectoriesFragment.OnFragmentInteractionListener {
 
     private String oldOneDriveBackupItemId;
@@ -44,6 +45,11 @@ public class DirectoryActivity extends ThemedActivity<ActivityDirectoryBinding, 
     public static void startExplore(android.app.Fragment fragment, int req) {
         Intent intent = new Intent(fragment.getActivity(), DirectoryActivity.class);
         fragment.startActivityForResult(intent, req);
+    }
+
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.activity_directory;
     }
 
     @Override
@@ -82,7 +88,7 @@ public class DirectoryActivity extends ThemedActivity<ActivityDirectoryBinding, 
     private void createFolder() {
         new SimpleEditDialog("", content -> {
             if (TextUtils.isEmpty(content)) {
-                ToastUtils.showShort(R.string.text_title_required);
+                ToastUtils.makeToast(R.string.text_title_required);
                 return;
             }
             final ProgressDialog pd = new ProgressDialog(this);
@@ -103,8 +109,8 @@ public class DirectoryActivity extends ThemedActivity<ActivityDirectoryBinding, 
                 @Override
                 public void failure(ClientException ex) {
                     pd.dismiss();
-                    ToastUtils.showShort(String.format(
-                            ResUtils.getString(R.string.setting_backup_onedrive_error_when_try_to_backup), ex.getMessage()));
+                    ToastUtils.makeToast(String.format(
+                            PalmUtils.getStringCompact(R.string.setting_backup_onedrive_error_when_try_to_backup), ex.getMessage()));
                 }
             });
         }).setMaxLength(100).show(getSupportFragmentManager(), "EDIT FOLDER NAME");
@@ -112,8 +118,10 @@ public class DirectoryActivity extends ThemedActivity<ActivityDirectoryBinding, 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
