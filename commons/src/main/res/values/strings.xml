@@ -405,6 +405,18 @@
 2. CHANGE LOGS: <a href=\"%s\">check the release notes about Mark Note</a>;<br/><br/>
 3. UPDATE PLANS: <a href=\"%s\">features we are about to add in the next versions</a>;<br/><br/>
 4. ABOUT PAGE: <a href=\"%s\">the story behind</a>.]]></string>
+    <string name="about_section_sources">My libraries</string>
+    <string name="about_section_sources_detail"><![CDATA[
+    While developing this application, we tried to make our own libraries to help more developers to make their own libraries.
+    Now we made them open source and published them on <b>Github</b>.<br/><br/>
+    We hope our work can help them realise their dreams of making an application themselves</b>. I would be very appreciated if you could give a <b>Star</b> or contribute to our projects.<br/><br/>
+    Those are links below: <br/><br/>
+    1. <b>MVVMs</b>: <a href="https://github.com/Shouheng88/Android-MVVMs">Android Jetpack MVVM + Databinding architecture, easy to use, better design, annotation driver. Corporated with utils library AndroidUtils and ui library AndroidUix for fast development.</a><br/><br/>
+    2. <b>Android-Utils</b>: <a href="https://github.com/Shouheng88/Android-utils">Android utils library for device info, resources, log, encode, decode, permission, time, files, paths, io etc.</a><br/><br/>
+    3. <b>Android-UIx</b>: <a href="https://github.com/Shouheng88/Android-uix">Android ui widgets and ui components, easy to use, better design. </a><br/><br/>
+    4. <b>Compressor</b>: <a href="https://github.com/Shouheng88/Compressor">Mordern and advanced: an easy to use and well designed image compress library for Android, based on Android native image library. </a><br/><br/>
+    5. <b>EasyMark</b>: <a href="https://github.com/Shouheng88/EasyMark">The markdown parser, editor and viewer for Android which is rather easy to integrate.</a><br/><br/>
+    Others are under developing.. ]]></string>
 
     <!--donate -->
     <string name="donate_wechat_title">Donate·WeChat</string>
@@ -418,6 +430,8 @@
     <string name="donate_qa_code">QR Code</string>
     <string name="donate_by_alipay">Donate by AliPay</string>
     <string name="donate_by_wechat">Donate by WeChat</string>
+    <string name="donate_thanks">It\'s your kindness donation made our project better and better. Thank all of you!</string>
+    <string name="donate_error">Failed to open AliPay</string>
 
     <!-- share -->
     <string name="share_title">Share App</string>

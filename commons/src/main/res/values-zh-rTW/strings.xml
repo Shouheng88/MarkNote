@@ -395,6 +395,17 @@
     2.更新日誌：<a href=\"%s\">查看馬克筆記的更新日誌</a>；<br/><br/>
     3.更新計畫：<a href=\"%s\">及時瞭解我們在接下來的版本中將要開發的功能</a>；<br/><br/>
     4.關於頁面：<a href=\"%s\">瞭解更多的關於該軟件的內容</a>。]]></string>
+    <string name="about_section_sources">自研庫</string>
+    <string name="about_section_sources_detail"><![CDATA[
+    在開發該軟件的過程中，我們嘗試對代碼進行封裝，從而積累和沈澱出來一些框架，我們已經將其開源到了 <b>Github</b> 上面。<br/><br/>
+    我們希望自己的庫能夠<b>幫助更多的開發者實現快速開發自己的應用的夢想</b>。希望看到的您能夠爲我們的開源項目貢獻幾行代碼，即便是一個小小的 <b>Star</b> 也將是對我們工作的重要支持。<br/><br/>
+    下面是我們的庫的鏈接地址：<br/><br/>
+    1. <b>MVVMs</b>：<a href="https://github.com/Shouheng88/Android-MVVMs">一個開源的 MVVM+Databinding 整合框架，優雅設計，基于注解設計進行抽象和封裝，配合工具類庫 AndroidUtils 以及 AndroidUix 一起實現快捷開發的框架。</a><br/><br/>
+    2. <b>Android-Utils</b>：<a href="https://github.com/Shouheng88/Android-utils">Android 常用的 Android 工具庫合集，設備信息，運行時權限，資源獲取，日志輸出，編碼和加解密，時間日期，字符串處理，文件讀寫，文件路徑獲取等。</a><br/><br/>
+    3. <b>Android-UIx</b>：<a href="https://github.com/Shouheng88/Android-uix">Android UI 控件，Android UI 組件化，Android 通用頁面解決方案，快捷開發。</a><br/><br/>
+    4. <b>Compressor</b>：<a href="https://github.com/Shouheng88/Compressor">一款現代、高效的 Android 圖片壓縮框架，優雅設計，整合了多種圖片壓縮策略。</a><br/><br/>
+    5. <b>EasyMark</b>：<a href="https://github.com/Shouheng88/EasyMark">Markdown 解析、預覽和編輯庫，用來幫助用戶快速開發基于 Markdown 預發的筆記應用。</a><br/><br/>
+    其他的庫正在整理中…… ]]></string>
 
     <!--donate -->
     <string name="donate_wechat_title">捐贈·微信</string>
@@ -408,6 +419,8 @@
     <string name="donate_qa_code">捐贈二維碼</string>
     <string name="donate_by_alipay">通過支付寶捐贈</string>
     <string name="donate_by_wechat">通過微信支付捐贈</string>
+    <string name="donate_thanks">這個項目因爲您的支持而能夠不斷更新、完善，非常感謝您的支持</string>
+    <string name="donate_error">打開支付寶失敗</string>
 
     <!-- share -->
     <string name="share_title">應用分享</string>

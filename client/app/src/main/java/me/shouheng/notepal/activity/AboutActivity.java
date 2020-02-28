@@ -85,6 +85,8 @@ public class AboutActivity extends CommonActivity<ActivityAboutBinding> {
         if (!openSourceOnly) {
             aboutEntities.add(AboutEntity.getSectionTitle(PalmUtils.getStringCompact(R.string.about_section_description)));
             aboutEntities.add(AboutEntity.getNormalText(Html.fromHtml(PalmUtils.getStringCompact(R.string.about_section_description_details))));
+            aboutEntities.add(AboutEntity.getSectionTitle(PalmUtils.getStringCompact(R.string.about_section_sources)));
+            aboutEntities.add(AboutEntity.getNormalText(Html.fromHtml(PalmUtils.getStringCompact(R.string.about_section_sources_detail))));
             aboutEntities.add(AboutEntity.getSectionTitle(PalmUtils.getStringCompact(R.string.about_section_developer)));
             aboutEntities.add(AboutEntity.getUser("WngShhng (" + EMAIL_DEVELOPER + ")", Constants.IMAGE_AVATAR_DEVELOPER,
                     PalmUtils.getStringCompact(R.string.about_section_developer_desc), Constants.PAGE_GITHUB_DEVELOPER));
@@ -98,6 +100,14 @@ public class AboutActivity extends CommonActivity<ActivityAboutBinding> {
             }
         }
         aboutEntities.add(AboutEntity.getSectionTitle(PalmUtils.getStringCompact(R.string.about_section_open_sources)));
+        aboutEntities.add(AboutEntity.getLicense("Android-MVVMs", "WngShhng",
+                AboutEntity.License.APACHE_2, "https://github.com/Shouheng88/Android-MVVMs"));
+        aboutEntities.add(AboutEntity.getLicense("Android-Utils", "WngShhng",
+                AboutEntity.License.APACHE_2, "https://github.com/Shouheng88/Android-utils"));
+        aboutEntities.add(AboutEntity.getLicense("Android-UIx", "WngShhng",
+                AboutEntity.License.APACHE_2, "https://github.com/Shouheng88/Android-uix"));
+        aboutEntities.add(AboutEntity.getLicense("Compressor", "WngShhng",
+                AboutEntity.License.APACHE_2, "https://github.com/Shouheng88/Compressor"));
         aboutEntities.add(AboutEntity.getLicense("EasyMark", "WngShhng",
                 AboutEntity.License.APACHE_2, "https://github.com/Shouheng88/EasyMark"));
         aboutEntities.add(AboutEntity.getLicense("PhotoView", "Chris Banes",
