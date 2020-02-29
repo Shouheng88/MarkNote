@@ -23,7 +23,7 @@ import me.shouheng.commons.utils.Md5Utils;
 import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.commons.utils.PersistData;
 import me.shouheng.commons.utils.StringUtils;
-import me.shouheng.commons.utils.ToastUtils;
+import me.shouheng.utils.ui.ToastUtils;
 import me.shouheng.commons.utils.ViewUtils;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
@@ -110,17 +110,17 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
 
         @Override
         public void onNotMatch(int availableTimes) {
-            ToastUtils.makeToast(StringUtils.formatString(R.string.security_finger_not_match, availableTimes));
+            ToastUtils.showShort(StringUtils.formatString(R.string.security_finger_not_match, availableTimes));
         }
 
         @Override
         public void onFailed(boolean isDeviceLocked) {
-            ToastUtils.makeToast(R.string.security_finger_failed);
+            ToastUtils.showShort(R.string.security_finger_failed);
         }
 
         @Override
         public void onStartFailedByDeviceLocked() {
-            ToastUtils.makeToast(R.string.security_finger_locked);
+            ToastUtils.showShort(R.string.security_finger_locked);
         }
     };
 
@@ -152,7 +152,7 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
                 passPasswordCheck();
             } else {
                 getBinding().pinLockView.resetPinLockView();
-                ToastUtils.makeToast(R.string.setting_lock_psd_changes_left);
+                ToastUtils.showShort(R.string.setting_lock_psd_changes_left);
                 if (errorTimes == 10) {
                     errorTimes = 0;
                     showQuestionDialog();
@@ -178,7 +178,7 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
                     lastInputPassword = null;
                     getBinding().profileName.setText(R.string.setting_lock_new_psd);
                     getBinding().pinLockView.resetPinLockView();
-                    ToastUtils.makeToast(R.string.setting_lock_psd_set_differ);
+                    ToastUtils.showShort(R.string.setting_lock_psd_set_differ);
                 }
             }
         }
@@ -209,7 +209,7 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
                         PersistData.putBoolean(R.string.key_security_psd_required, false);
                         showDisableDialog();
                     } else {
-                        ToastUtils.makeToast(R.string.setting_lock_security_question_wrong);
+                        ToastUtils.showShort(R.string.setting_lock_security_question_wrong);
                     }
                 })
                 .negativeText(R.string.text_cancel)

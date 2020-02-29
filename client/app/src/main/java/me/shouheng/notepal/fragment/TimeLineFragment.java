@@ -13,7 +13,7 @@ import java.util.List;
 import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.event.UMEvent;
 import me.shouheng.commons.fragment.CommonFragment;
-import me.shouheng.commons.utils.ToastUtils;
+import me.shouheng.utils.ui.ToastUtils;
 import me.shouheng.data.entity.TimeLine;
 import me.shouheng.data.model.enums.Status;
 import me.shouheng.data.schema.TimelineSchema;
@@ -78,7 +78,7 @@ public class TimeLineFragment extends CommonFragment<FragmentTimeLineBinding> {
         startIndex += pageNumber;
         if (startIndex > modelsCount) {
             startIndex -= pageNumber;
-            ToastUtils.makeToast(R.string.timeline_no_more_data);
+            ToastUtils.showShort(R.string.timeline_no_more_data);
         } else {
             List<TimeLine> list = TimelineStore.getInstance().getPage(startIndex,
                     pageNumber,

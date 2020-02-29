@@ -26,7 +26,7 @@ import me.shouheng.commons.event.UMEvent;
 import me.shouheng.commons.fragment.BPreferenceFragment;
 import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.commons.utils.PermissionUtils;
-import me.shouheng.commons.utils.ToastUtils;
+import me.shouheng.utils.ui.ToastUtils;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.DirectoryActivity;
 import me.shouheng.notepal.common.enums.SyncTimeInterval;
@@ -180,7 +180,7 @@ public class SettingsBackup extends BPreferenceFragment {
     private void showExternalBackupImport() {
         final String[] backups = getExternalBackups();
         if (backups.length == 0) {
-            ToastUtils.makeToast(R.string.setting_backup_external_empty);
+            ToastUtils.showShort(R.string.setting_backup_external_empty);
             return;
         }
 
@@ -189,7 +189,7 @@ public class SettingsBackup extends BPreferenceFragment {
                 .items(backups)
                 .itemsCallbackSingleChoice(-1, (dialog, itemView, which, text) -> {
                     if (TextUtils.isEmpty(text)) {
-                        ToastUtils.makeToast(R.string.text_failed);
+                        ToastUtils.showShort(R.string.text_failed);
                         return true;
                     }
                     showExternalBackupImportConfirm(text.toString());
@@ -232,7 +232,7 @@ public class SettingsBackup extends BPreferenceFragment {
     private void showExternalBackupDelete() {
         final String[] backups = getExternalBackups();
         if (backups.length == 0) {
-            ToastUtils.makeToast(R.string.setting_backup_external_empty);
+            ToastUtils.showShort(R.string.setting_backup_external_empty);
             return;
         }
 
@@ -250,7 +250,7 @@ public class SettingsBackup extends BPreferenceFragment {
                 .setPositiveButton(R.string.text_confirm, (dialog, which) -> {
                     L.d(selected);
                     if (selected.isEmpty()) {
-                        ToastUtils.makeToast(R.string.text_failed);
+                        ToastUtils.showShort(R.string.text_failed);
                     } else {
                         showExternalBackupDeleteConfirm(selected);
                     }

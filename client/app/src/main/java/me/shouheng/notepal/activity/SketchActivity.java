@@ -27,7 +27,7 @@ import java.io.FileOutputStream;
 
 import me.shouheng.commons.activity.CommonActivity;
 import me.shouheng.commons.event.PageName;
-import me.shouheng.commons.utils.ToastUtils;
+import me.shouheng.utils.ui.ToastUtils;
 import me.shouheng.commons.utils.ViewUtils;
 import me.shouheng.commons.widget.sketch.OnDrawChangedListener;
 import me.shouheng.commons.widget.sketch.SketchView;
@@ -301,7 +301,7 @@ public class SketchActivity extends CommonActivity<ActivitySketchBinding>
                 bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
                 out.close();
                 if (!bitmapFile.exists()) {
-                    ToastUtils.makeToast(R.string.text_file_not_exist);
+                    ToastUtils.showShort(R.string.text_file_not_exist);
                 }
             } catch (Exception e) {
                 L.e("Error writing sketch image data", e);

@@ -22,7 +22,7 @@ import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.event.RxMessage;
 import me.shouheng.commons.event.*;
 import me.shouheng.commons.utils.ColorUtils;
-import me.shouheng.commons.utils.ToastUtils;
+import me.shouheng.utils.ui.ToastUtils;
 import me.shouheng.commons.utils.ViewUtils;
 import me.shouheng.commons.widget.recycler.CustomItemAnimator;
 import me.shouheng.commons.widget.recycler.DividerItemDecoration;
@@ -123,7 +123,7 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
                     getBinding().ivEmpty.showEmptyIcon();
                     break;
                 case FAILED:
-                    ToastUtils.makeToast(R.string.text_failed);
+                    ToastUtils.showShort(R.string.text_failed);
                     getBinding().ivEmpty.showEmptyIcon();
                     break;
                 case LOADING:
@@ -140,7 +140,7 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
                 case LOADING:
                     break;
                 case FAILED:
-                    ToastUtils.makeToast(R.string.text_failed);
+                    ToastUtils.showShort(R.string.text_failed);
                     break;
             }
         });

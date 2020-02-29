@@ -21,7 +21,7 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 
 import me.shouheng.commons.R;
-import me.shouheng.commons.utils.ToastUtils;
+import me.shouheng.utils.ui.ToastUtils;
 
 import static android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
 
@@ -55,7 +55,7 @@ public class WeZhi {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                ToastUtils.makeToast(R.string.donate_wechat_loading);
+                ToastUtils.showShort(R.string.donate_wechat_loading);
             }
 
             @Override

@@ -26,7 +26,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import me.shouheng.notepal.R;
 import me.shouheng.data.model.Directory;
 import me.shouheng.notepal.manager.FileManager;
-import me.shouheng.commons.utils.ToastUtils;
+import me.shouheng.utils.ui.ToastUtils;
 
 /**
  * Created by shouh on 2018/3/29.
@@ -128,12 +128,12 @@ public class OneDriveManager {
         mClient.get().getAuthenticator().logout(new ICallback<Void>() {
             @Override
             public void success(final Void result) {
-                ToastUtils.makeToast(R.string.text_succeed);
+                ToastUtils.showShort(R.string.text_succeed);
             }
 
             @Override
             public void failure(final ClientException ex) {
-                ToastUtils.makeToast("Logout error " + ex);
+                ToastUtils.showShort("Logout error " + ex);
             }
         });
     }

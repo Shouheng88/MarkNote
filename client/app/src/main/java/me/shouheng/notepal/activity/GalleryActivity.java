@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.theme.SystemUiVisibilityUtil;
 import me.shouheng.commons.theme.ThemeUtils;
-import me.shouheng.commons.utils.ToastUtils;
+import me.shouheng.utils.ui.ToastUtils;
 import me.shouheng.commons.utils.ViewUtils;
 import me.shouheng.commons.widget.DepthPageTransformer;
 import me.shouheng.commons.widget.HackyViewPager;
@@ -222,7 +222,7 @@ public class GalleryActivity extends AppCompatActivity implements PullBackLayout
                     intent.setDataAndType(attachment.getUri(), FileManager.getMimeType(this, attachment.getUri()));
                     startActivity(intent);
                 } catch (ActivityNotFoundException e) {
-                    ToastUtils.makeToast(R.string.text_failed_to_resolve_intent);
+                    ToastUtils.showShort(R.string.text_failed_to_resolve_intent);
                 }
                 break;
             }

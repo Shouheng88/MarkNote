@@ -23,7 +23,7 @@ import me.shouheng.commons.event.RxMessage;
 import me.shouheng.commons.helper.ActivityHelper;
 import me.shouheng.commons.utils.PermissionUtils;
 import me.shouheng.commons.utils.PersistData;
-import me.shouheng.commons.utils.ToastUtils;
+import me.shouheng.utils.ui.ToastUtils;
 import me.shouheng.data.ModelFactory;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.data.entity.Category;
@@ -75,11 +75,11 @@ public class QuickActivity extends PermissionActivity {
             switch (resources.status) {
                 case SUCCESS:
                     RxBus.getRxBus().post(new RxMessage(RxMessage.CODE_NOTE_DATA_CHANGED, null));
-                    ToastUtils.makeToast(R.string.text_save_successfully);
+                    ToastUtils.showShort(R.string.text_save_successfully);
                     AppWidgetUtils.notifyAppWidgets(this);
                     break;
                 case FAILED:
-                    ToastUtils.makeToast(R.string.text_failed);
+                    ToastUtils.showShort(R.string.text_failed);
                     break;
             }
         });
@@ -149,7 +149,7 @@ public class QuickActivity extends PermissionActivity {
                         if (onGetAppWidgetCondition != null) {
                             onGetAppWidgetCondition.onGetCondition(new Pair<>(notebook, null));
                         }
-                    }, throwable -> ToastUtils.makeToast(R.string.text_notebook_not_found));
+                    }, throwable -> ToastUtils.showShort(R.string.text_notebook_not_found));
         } else {
             if (onGetAppWidgetCondition != null) {
                 onGetAppWidgetCondition.onGetCondition(new Pair<>(null, null));

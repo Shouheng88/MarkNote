@@ -57,7 +57,7 @@ import me.shouheng.commons.utils.PermissionUtils;
 import me.shouheng.commons.utils.PermissionUtils.Permission;
 import me.shouheng.commons.utils.PersistData;
 import me.shouheng.commons.utils.StringUtils;
-import me.shouheng.commons.utils.ToastUtils;
+import me.shouheng.utils.ui.ToastUtils;
 import me.shouheng.commons.widget.recycler.CustomRecyclerScrollViewListener;
 import me.shouheng.data.ModelFactory;
 import me.shouheng.data.entity.Attachment;
@@ -180,12 +180,12 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
             switch (resources.status) {
                 case SUCCESS:
                     postEvent(new RxMessage(RxMessage.CODE_NOTE_DATA_CHANGED, null));
-                    ToastUtils.makeToast(R.string.text_save_successfully);
+                    ToastUtils.showShort(R.string.text_save_successfully);
                     break;
                 case LOADING:
                     break;
                 case FAILED:
-                    ToastUtils.makeToast(R.string.text_failed);
+                    ToastUtils.showShort(R.string.text_failed);
                     break;
             }
         });
@@ -194,10 +194,10 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
             switch (resources.status) {
                 case SUCCESS:
                     postEvent(new RxMessage(RxMessage.CODE_NOTE_DATA_CHANGED, null));
-                    ToastUtils.makeToast(R.string.text_save_successfully);
+                    ToastUtils.showShort(R.string.text_save_successfully);
                     break;
                 case FAILED:
-                    ToastUtils.makeToast(R.string.text_failed);
+                    ToastUtils.showShort(R.string.text_failed);
                     break;
             }
         });
@@ -211,10 +211,10 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                     } else {
                         postEvent(new RxMessage(RxMessage.CODE_CATEGORY_DATA_CHANGED, null));
                     }
-                    ToastUtils.makeToast(R.string.text_save_successfully);
+                    ToastUtils.showShort(R.string.text_save_successfully);
                     break;
                 case FAILED:
-                    ToastUtils.makeToast(R.string.text_failed);
+                    ToastUtils.showShort(R.string.text_failed);
                     break;
             }
         });
@@ -350,7 +350,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                                                 shareIntent.putExtra(Intent.EXTRA_SUBJECT, PalmUtils.getStringCompact(R.string.share_title));
                                                 shareIntent.putExtra(Intent.EXTRA_TEXT, StringUtils.formatString(R.string.share_content, download));
                                                 startActivity(Intent.createChooser(shareIntent, PalmUtils.getStringCompact(R.string.text_send_to)));
-                                            }, throwable -> ToastUtils.makeToast(throwable.getMessage())));
+                                            }, throwable -> ToastUtils.showShort(throwable.getMessage())));
                             break;
                         }
                     }
@@ -398,7 +398,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
             case SHORTCUT_ACTION_VIEW_NOTE:
                 MobclickAgent.onEvent(this, INTENT_SHORTCUT_ACTION_VIEW_NOTE);
                 if (!intent.hasExtra(SHORTCUT_EXTRA_NOTE_CODE)) {
-                    ToastUtils.makeToast(R.string.text_note_not_found);
+                    ToastUtils.showShort(R.string.text_note_not_found);
                     return;
                 }
                 long code = intent.getLongExtra(SHORTCUT_EXTRA_NOTE_CODE, 0L);
@@ -418,7 +418,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                                                 .put(NoteFragment.ARGS_KEY_NOTE, (Serializable) note)
                                                 .put(NoteFragment.ARGS_KEY_ACTION, action)
                                                 .launch(getContext())),
-                                throwable -> ToastUtils.makeToast(R.string.text_note_not_found));
+                                throwable -> ToastUtils.showShort(R.string.text_note_not_found));
                 break;
 
             /* Actions registered in Manifest, check at first and then send to the note fragment. */
@@ -458,7 +458,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                                         .launch(getContext());
                                 bottomSheet.dismiss();
                             } else {
-                                ToastUtils.makeToast(R.string.note_action_view_file_type_not_support);
+                                ToastUtils.showShort(R.string.note_action_view_file_type_not_support);
                             }
                         });
                         new Handler().postDelayed(bottomSheet::show, 500);
@@ -544,7 +544,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                         if (onGetAppWidgetCondition != null) {
                             onGetAppWidgetCondition.onGetCondition(new Pair<>(notebook, null));
                         }
-                    }, throwable -> ToastUtils.makeToast(R.string.text_notebook_not_found));
+                    }, throwable -> ToastUtils.showShort(R.string.text_notebook_not_found));
         } else {
             if (onGetAppWidgetCondition != null) {
                 onGetAppWidgetCondition.onGetCondition(new Pair<>(null, null));
@@ -799,7 +799,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
             super.onBackPressed();
             return;
         } else {
-            ToastUtils.makeToast(R.string.text_tab_again_exit);
+            ToastUtils.showShort(R.string.text_tab_again_exit);
         }
         onBackPressed = System.currentTimeMillis();
     }

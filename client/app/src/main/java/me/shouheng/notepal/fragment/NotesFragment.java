@@ -24,7 +24,7 @@ import me.shouheng.commons.event.*;
 import me.shouheng.commons.fragment.CommonFragment;
 import me.shouheng.commons.helper.FragmentHelper;
 import me.shouheng.commons.utils.PersistData;
-import me.shouheng.commons.utils.ToastUtils;
+import me.shouheng.utils.ui.ToastUtils;
 import me.shouheng.commons.widget.recycler.DividerItemDecoration;
 import me.shouheng.data.entity.Category;
 import me.shouheng.data.entity.Note;
@@ -176,7 +176,7 @@ public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
                     getBinding().ivEmpty.showProgressBar();
                     break;
                 case FAILED:
-                    ToastUtils.makeToast(R.string.text_failed);
+                    ToastUtils.showShort(R.string.text_failed);
                     getBinding().ivEmpty.showEmptyIcon();
                     break;
             }
@@ -190,7 +190,7 @@ public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
                 case LOADING:
                     break;
                 case FAILED:
-                    ToastUtils.makeToast(R.string.text_failed_to_modify_data);
+                    ToastUtils.showShort(R.string.text_failed_to_modify_data);
                     break;
             }
         });
@@ -203,7 +203,7 @@ public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
                 case LOADING:
                     break;
                 case FAILED:
-                    ToastUtils.makeToast(R.string.text_failed_to_modify_data);
+                    ToastUtils.showShort(R.string.text_failed_to_modify_data);
                     break;
             }
         });
