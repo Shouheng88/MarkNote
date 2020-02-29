@@ -8,7 +8,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import me.shouheng.commons.BaseConstants;
-import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.commons.utils.TimeUtils;
 import me.shouheng.data.DBConfig;
 import me.shouheng.data.entity.Attachment;
@@ -24,6 +23,7 @@ import me.shouheng.data.store.LocationsStore;
 import me.shouheng.data.store.NotebookStore;
 import me.shouheng.data.store.NotesStore;
 import me.shouheng.data.store.TimelineStore;
+import me.shouheng.utils.stability.L;
 
 /**
  * Created by wang shouheng on 2018/1/19.
@@ -82,7 +82,7 @@ public class StatisticsHelper {
 
         stats.setNotesStats(getAddedStatistics(ModelType.NOTE, DBConfig.DAYS_OF_ADDED_MODEL));
 
-        LogUtils.d(stats);
+        L.d(stats);
         return stats;
     }
 

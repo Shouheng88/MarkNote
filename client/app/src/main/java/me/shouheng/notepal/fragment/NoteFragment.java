@@ -42,14 +42,15 @@ import me.shouheng.commons.activity.PermissionActivity;
 import me.shouheng.commons.activity.interaction.BackEventResolver;
 import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.event.RxMessage;
-import me.shouheng.commons.event.*;
+import me.shouheng.commons.event.UMEvent;
 import me.shouheng.commons.fragment.CommonFragment;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.commons.utils.PermissionUtils;
 import me.shouheng.commons.utils.PermissionUtils.Permission;
+import me.shouheng.commons.utils.PersistData;
 import me.shouheng.commons.utils.StringUtils;
-import me.shouheng.commons.utils.ToastUtils;
+import me.shouheng.commons.widget.dialog.ColorPicker;
 import me.shouheng.data.ModelFactory;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.data.entity.Category;
@@ -73,6 +74,8 @@ import me.shouheng.notepal.util.AppWidgetUtils;
 import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.vm.NoteViewModel;
 import me.shouheng.notepal.widget.MDEditorLayout;
+import me.shouheng.utils.stability.L;
+import me.shouheng.utils.ui.ToastUtils;
 
 import static android.app.Activity.RESULT_OK;
 import static me.shouheng.notepal.Constants.FAB_ACTION_CAPTURE;
@@ -96,24 +99,25 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding>
      * The key for action, used to send a command to this fragment.
      * The MainActivity will directly put the action argument to this fragment if received itself.
      */
-    public final static String ARGS_KEY_ACTION = "__args_key_action";
+    public static final String ARGS_KEY_ACTION = "__args_key_action";
 
     /**
      * The intent the MainActivity received. This fragment will get the extras from this value,
      * and handle the intent later.
      */
-    public final static String ARGS_KEY_INTENT = "__args_key_intent";
+    public static final String ARGS_KEY_INTENT = "__args_key_intent";
 
     /**
      * The most important argument, the note model, used to get the information of note.
      */
-    public final static String ARGS_KEY_NOTE = "__args_key_note";
+    public static final String ARGS_KEY_NOTE = "__args_key_note";
 
-    private final static String TAB_REPLACEMENT = "    ";
+    private static final String TAB_REPLACEMENT = "    ";
 
     private NoteViewModel viewModel;
     private EditText etTitle;
     private EasyMarkEditor eme;
+    private ColorPicker mColorPicker;
 
     @Override
     protected int getLayoutResId() {
@@ -140,6 +144,17 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding>
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle("");
         }
+
+        int bgColor = PersistData.getInt("bg_color", 0);
+        if (bgColor != 0) {
+            getBinding().ivBg.setBackgroundColor(bgColor);
+        }
+        mColorPicker = new ColorPicker(getContext(), ColorPicker.PickerType.COLOR_NO_ALL);
+        mColorPicker.setPickedListener(v -> {
+            L.d("PICKED COLOR: " + mColorPicker.getPickedColor());
+            getBinding().ivBg.setBackgroundColor(mColorPicker.getPickedColor());
+            PersistData.putInt("bg_color", mColorPicker.getPickedColor());
+        });
 
         /* Config the edit layout */
         MDEditorLayout mel = getBinding().mel;
@@ -325,7 +340,7 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding>
             /* Start note fragment without action and intent, then the note is necessary. */
             if (!arguments.containsKey(ARGS_KEY_NOTE)
                     || (note = (Note) arguments.getSerializable(ARGS_KEY_NOTE)) == null) {
-                ToastUtils.makeToast(R.string.text_note_not_found);
+                ToastUtils.showShort(R.string.text_note_not_found);
                 if (getActivity() != null) getActivity().finish();
                 return;
             }
@@ -353,7 +368,7 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding>
                     eme.setText(note.getContent());
                     break;
                 case FAILED:
-                    ToastUtils.makeToast(R.string.text_failed_to_read_note_file);
+                    ToastUtils.showShort(R.string.text_failed_to_read_note_file);
                     break;
             }
         });
@@ -375,7 +390,7 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding>
                     }
                     break;
                 case FAILED:
-                    ToastUtils.makeToast(R.string.text_failed_to_save_note);
+                    ToastUtils.showShort(R.string.text_failed_to_save_note);
                     break;
                 case LOADING:
                     break;
@@ -521,19 +536,22 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding>
             case R.id.action_copy_title: {
                 String title = etTitle.getText().toString();
                 NoteManager.copy(getActivity(), title);
-                ToastUtils.makeToast(R.string.note_copied_success);
+                ToastUtils.showShort(R.string.note_copied_success);
                 break;
             }
             case R.id.action_copy_content: {
                 String content = eme.getText().toString() + " ";
                 NoteManager.copy(getActivity(), content);
-                ToastUtils.makeToast(R.string.note_copied_success);
+                ToastUtils.showShort(R.string.note_copied_success);
                 break;
             }
             case R.id.action_setting_note: {
                 SettingsActivity.open(SettingsNote.class).launch(getContext());
                 break;
             }
+            case R.id.action_setting_bg:
+                mColorPicker.show(getBinding().getRoot());
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -553,7 +571,7 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding>
 
     @Override
     public void onAttachingFileErrorOccurred(Attachment attachment) {
-        ToastUtils.makeToast(R.string.text_failed_to_save_attachment);
+        ToastUtils.showShort(R.string.text_failed_to_save_attachment);
     }
 
     @Override

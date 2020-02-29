@@ -47,9 +47,8 @@ import me.shouheng.commons.helper.FragmentHelper;
 import me.shouheng.commons.model.data.Resource;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.IntentUtils;
-import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.commons.utils.PalmUtils;
-import me.shouheng.commons.utils.ToastUtils;
+import me.shouheng.utils.ui.ToastUtils;
 import me.shouheng.commons.utils.ViewUtils;
 import me.shouheng.commons.widget.Chip;
 import me.shouheng.data.ModelFactory;
@@ -68,6 +67,7 @@ import me.shouheng.notepal.manager.NoteManager;
 import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.util.ShortcutHelper;
 import me.shouheng.notepal.vm.NoteViewerViewModel;
+import me.shouheng.utils.stability.L;
 
 import static me.shouheng.notepal.Constants.EXTENSION_3GP;
 import static me.shouheng.notepal.Constants.EXTENSION_MP4;
@@ -89,13 +89,13 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
     /**
      * The key for argument, used to send the note model to this fragment.
      */
-    public final static String ARGS_KEY_NOTE = "__args_key_note";
+    public static final String ARGS_KEY_NOTE = "__args_key_note";
 
     /**
      * The key for argument, used to set the behavior of this fragment. If true, the edit FAB
      * won't be displayed.
      */
-    public final static String ARGS_KEY_IS_PREVIEW = "__args_key_is_preview";
+    public static final String ARGS_KEY_IS_PREVIEW = "__args_key_is_preview";
 
     /**
      * The request code for editing this note.
@@ -116,7 +116,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
             /* Get the arguments. */
             Bundle arguments = getArguments();
             if (arguments == null || !arguments.containsKey(ARGS_KEY_NOTE)) {
-                ToastUtils.makeToast(R.string.text_note_not_found);
+                ToastUtils.showShort(R.string.text_note_not_found);
                 return;
             }
             Note note = (Note) arguments.getSerializable(ARGS_KEY_NOTE);
@@ -159,8 +159,8 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
         getBinding().emv.getFastScrollDelegate().setThumbDynamicHeight(false);
         getBinding().emv.useStyleCss(isDarkTheme() ? EasyMarkViewer.DARK_STYLE_CSS : EasyMarkViewer.LIGHT_STYLE_CSS);
         getBinding().emv.setOnImageClickListener((url, urls) -> {
-            LogUtils.d(url);
-            LogUtils.d(Arrays.toString(urls));
+            L.d(url);
+            L.d(Arrays.toString(urls));
             List<Attachment> attachments = new ArrayList<>();
             Attachment clickedAttachment = null, attachment;
             int index = 0;
@@ -231,11 +231,11 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
         getBinding().drawer.setIsDarkTheme(isDarkTheme());
         getBinding().drawer.llCopy.setOnClickListener(v -> {
             NoteManager.copy(getActivity(), viewModel.getNote().getContent());
-            ToastUtils.makeToast(R.string.note_copied_success);
+            ToastUtils.showShort(R.string.note_copied_success);
         });
         getBinding().drawer.llShortcut.setOnClickListener(v -> {
             if (viewModel.getNote().getContentCode() == 0L || TextUtils.isEmpty(viewModel.getNote().getTitle())) {
-                ToastUtils.makeToast(R.string.note_shortcut_error_tips);
+                ToastUtils.showShort(R.string.note_shortcut_error_tips);
             } else {
                 ShortcutHelper.createShortcut(getActivity().getApplicationContext(), viewModel.getNote());
             }
@@ -263,7 +263,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
                 case LOADING:
                     break;
                 case FAILED:
-                    ToastUtils.makeToast(R.string.text_failed_to_read_note_file);
+                    ToastUtils.showShort(R.string.text_failed_to_read_note_file);
                     break;
             }
         });
@@ -378,7 +378,7 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
                             case R.id.capture:
                                 // Export Captured WebView
                                 createWebCapture(getBinding().emv,
-                                        file -> ToastUtils.makeToast(String.format(getString(R.string.text_file_saved_to),
+                                        file -> ToastUtils.showShort(String.format(getString(R.string.text_file_saved_to),
                                                 file.getPath())));
                                 break;
                             case R.id.print:
@@ -408,10 +408,10 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
                 NoteManager.sendFile(getContext(), outFile, Constants.MIME_TYPE_HTML);
             } else {
                 // Not share, just show a message
-                ToastUtils.makeToast(String.format(getString(R.string.text_file_saved_to), outFile.getPath()));
+                ToastUtils.showShort(String.format(getString(R.string.text_file_saved_to), outFile.getPath()));
             }
         } catch (IOException e) {
-            ToastUtils.makeToast(R.string.text_failed_to_save_file);
+            ToastUtils.showShort(R.string.text_failed_to_save_file);
         }
     }
 
@@ -425,10 +425,10 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
                 NoteManager.sendFile(getContext(), outFile, Constants.MIME_TYPE_FILES);
             } else {
                 // Not share, just show a message
-                ToastUtils.makeToast(String.format(getString(R.string.text_file_saved_to), outFile.getPath()));
+                ToastUtils.showShort(String.format(getString(R.string.text_file_saved_to), outFile.getPath()));
             }
         } catch (IOException e) {
-            ToastUtils.makeToast(R.string.text_failed_to_save_file);
+            ToastUtils.showShort(R.string.text_failed_to_save_file);
         }
     }
 

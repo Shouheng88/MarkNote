@@ -45,7 +45,7 @@ import static me.shouheng.notepal.Constants.EMAIL_DEVELOPER;
 @PageName(name = PAGE_ABOUT)
 public class AboutActivity extends CommonActivity<ActivityAboutBinding> {
 
-    public final static String APP_ABOUT_ARG_OPEN_SOURCE_ONLY = "__extra_app_about_open_source_only";
+    public static final String APP_ABOUT_ARG_OPEN_SOURCE_ONLY = "__extra_app_about_open_source_only";
 
     @Override
     protected int getLayoutResId() {
@@ -248,10 +248,10 @@ public class AboutActivity extends CommonActivity<ActivityAboutBinding> {
     }
 
     public static class AboutEntity implements MultiItemEntity {
-        public final static int typeLicense = 0;
-        public final static int typeUser = 1;
-        public final static int typeSection = 2;
-        public final static int typeText = 3;
+        public static final int typeLicense = 0;
+        public static final int typeUser = 1;
+        public static final int typeSection = 2;
+        public static final int typeText = 3;
 
         public final int type;
 

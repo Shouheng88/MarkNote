@@ -17,9 +17,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.manager.FileManager;
+import me.shouheng.utils.stability.L;
 
 /**
  * Created by WngShhng on 2017/11/17.
@@ -43,7 +43,7 @@ public class ScreenShotHelper {
         try {
             out = new FileOutputStream(picPath);
         } catch (FileNotFoundException e) {
-            LogUtils.e("getRecyclerViewBitmap: ", e);
+            L.e("getRecyclerViewBitmap: ", e);
         }
         try {
             if (out != null) {
@@ -108,7 +108,7 @@ public class ScreenShotHelper {
         try {
             out = new FileOutputStream(picPath);
         } catch (FileNotFoundException e) {
-            LogUtils.e("getRecyclerViewBitmap: ", e);
+            L.e("getRecyclerViewBitmap: ", e);
         }
         try {
             if (out != null) {
@@ -251,7 +251,7 @@ public class ScreenShotHelper {
             FileManager.saveImageToGallery(PalmApp.getContext(), bitmap, true, listener);
             bitmap.recycle();
         } catch (Exception e) {
-            LogUtils.e(e.getMessage());
+            L.e(e.getMessage());
         }
     }
     // endregion

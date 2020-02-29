@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.List;
 
 import me.shouheng.commons.BaseApplication;
-import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.commons.utils.TimeUtils;
 import me.shouheng.commons.utils.UserUtil;
@@ -16,10 +15,10 @@ import me.shouheng.data.entity.Alarm;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.data.entity.Category;
 import me.shouheng.data.entity.Location;
-import me.shouheng.data.entity.QuickNote;
 import me.shouheng.data.entity.Model;
 import me.shouheng.data.entity.Note;
 import me.shouheng.data.entity.Notebook;
+import me.shouheng.data.entity.QuickNote;
 import me.shouheng.data.entity.TimeLine;
 import me.shouheng.data.entity.Weather;
 import me.shouheng.data.model.DaysOfMonth;
@@ -31,6 +30,7 @@ import me.shouheng.data.model.enums.Operation;
 import me.shouheng.data.model.enums.Portrait;
 import me.shouheng.data.model.enums.Status;
 import me.shouheng.data.model.enums.WeatherType;
+import me.shouheng.utils.stability.L;
 
 import static me.shouheng.data.DBConfig.CATEGORY_SPLIT;
 import static me.shouheng.data.DBConfig.TIMELINE_CONTENT_LENGTH;
@@ -215,7 +215,7 @@ public class ModelFactory {
             sb.append(categories.get(i).getCode());
             if (i != len - 1) sb.append(CATEGORY_SPLIT);
         }
-        LogUtils.d(sb.toString());
+        L.d(sb.toString());
         return sb.toString();
     }
 }

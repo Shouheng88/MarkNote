@@ -27,15 +27,15 @@ import java.io.FileOutputStream;
 
 import me.shouheng.commons.activity.CommonActivity;
 import me.shouheng.commons.event.PageName;
-import me.shouheng.commons.utils.LogUtils;
-import me.shouheng.commons.utils.ToastUtils;
+import me.shouheng.utils.ui.ToastUtils;
 import me.shouheng.commons.utils.ViewUtils;
 import me.shouheng.commons.widget.sketch.OnDrawChangedListener;
 import me.shouheng.commons.widget.sketch.SketchView;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.ActivitySketchBinding;
+import me.shouheng.utils.stability.L;
 
-import static me.shouheng.commons.event.UMEvent.*;
+import static me.shouheng.commons.event.UMEvent.PAGE_SKETCH;
 
 /**
  * The activity used to sketch
@@ -51,12 +51,12 @@ public class SketchActivity extends CommonActivity<ActivitySketchBinding>
      * Use the key to put the {@link Uri} of a bitmap to the intent, and the draw action
      * will then be based on the bitmap.
      */
-    public final static String EXTRA_KEY_BASE_BITMAP = "__extra_key_based_bitmap";
+    public static final String EXTRA_KEY_BASE_BITMAP = "__extra_key_based_bitmap";
 
     /**
      * The key used to put the output file path.
      */
-    public final static String EXTRA_KEY_OUTPUT_FILE_PATH = "__extra_key_output_file_path";
+    public static final String EXTRA_KEY_OUTPUT_FILE_PATH = "__extra_key_output_file_path";
 
     private View popupLayout, popupEraserLayout;
     private ImageView strokeImageView, eraserImageView;
@@ -94,7 +94,7 @@ public class SketchActivity extends CommonActivity<ActivitySketchBinding>
                 bmp = BitmapFactory.decodeStream(getContentResolver().openInputStream(baseUri));
                 getBinding().sketchView.setBackgroundBitmap(this, bmp);
             } catch (FileNotFoundException e) {
-                LogUtils.e("Error replacing sketch bitmap background.", e);
+                L.e("Error replacing sketch bitmap background.", e);
             }
         }
         if (!intent.hasExtra(EXTRA_KEY_OUTPUT_FILE_PATH)) {
@@ -301,10 +301,10 @@ public class SketchActivity extends CommonActivity<ActivitySketchBinding>
                 bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
                 out.close();
                 if (!bitmapFile.exists()) {
-                    ToastUtils.makeToast(R.string.text_file_not_exist);
+                    ToastUtils.showShort(R.string.text_file_not_exist);
                 }
             } catch (Exception e) {
-                LogUtils.e("Error writing sketch image data", e);
+                L.e("Error writing sketch image data", e);
                 finish();
             }
         }

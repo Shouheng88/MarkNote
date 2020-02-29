@@ -19,7 +19,7 @@ import me.shouheng.commons.activity.CommonActivity;
 import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.helper.FragmentHelper;
 import me.shouheng.commons.utils.PalmUtils;
-import me.shouheng.commons.utils.ToastUtils;
+import me.shouheng.utils.ui.ToastUtils;
 import me.shouheng.data.model.Directory;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.common.preferences.SyncPreferences;
@@ -88,7 +88,7 @@ public class DirectoryActivity extends CommonActivity<ActivityDirectoryBinding> 
     private void createFolder() {
         new SimpleEditDialog("", content -> {
             if (TextUtils.isEmpty(content)) {
-                ToastUtils.makeToast(R.string.text_title_required);
+                ToastUtils.showShort(R.string.text_title_required);
                 return;
             }
             final ProgressDialog pd = new ProgressDialog(this);
@@ -109,7 +109,7 @@ public class DirectoryActivity extends CommonActivity<ActivityDirectoryBinding> 
                 @Override
                 public void failure(ClientException ex) {
                     pd.dismiss();
-                    ToastUtils.makeToast(String.format(
+                    ToastUtils.showShort(String.format(
                             PalmUtils.getStringCompact(R.string.setting_backup_onedrive_error_when_try_to_backup), ex.getMessage()));
                 }
             });

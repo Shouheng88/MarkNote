@@ -24,6 +24,7 @@ import java.lang.reflect.Method;
 import me.shouheng.commons.R;
 import me.shouheng.commons.theme.ThemeStyle;
 import me.shouheng.commons.theme.ThemeUtils;
+import me.shouheng.utils.stability.L;
 
 /**
  * @author shouh
@@ -112,11 +113,11 @@ public class ColorUtils {
                     Method method = View.class.getMethod("setForeground", Drawable.class);
                     method.invoke(view, drawable);
                 } catch (NoSuchMethodException e) {
-                    LogUtils.e("NoSuchMethodException" + e);
+                    L.e("NoSuchMethodException" + e);
                 } catch (IllegalAccessException e) {
-                    LogUtils.e("IllegalAccessException" + e);
+                    L.e("IllegalAccessException" + e);
                 } catch (InvocationTargetException e) {
-                    LogUtils.e("InvocationTargetException" + e);
+                    L.e("InvocationTargetException" + e);
                 }
             }
         }

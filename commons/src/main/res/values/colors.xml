@@ -92,4 +92,59 @@
 
     <color name="status_bar_for_lollipop">#E0E0E0</color>
 
+    <array name="thing">
+        <item>@color/blue_grey_500</item>
+        <item>@color/my_cyan</item>
+        <item>@color/blue_grey_deep_blue</item>
+        <item>@color/blue_grey_deep_grey</item>
+        <item>@color/brown</item>
+        <item>@color/blue_deep</item>
+        <item>@color/pine_green</item>
+        <item>@color/my_purple</item>
+        <item>@color/elegant_orange</item>
+        <item>@color/Aein_red</item>
+    </array>
+
+
+    <color name="my_cyan">#00B1C6</color>
+    <color name="pine_green">#21A675</color>
+    <color name="blue_grey_500">#607D8B</color>
+    <color name="blue_grey_deep_grey">#364656</color>
+    <color name="blue_grey_deep_blue">#366686</color>
+    <color name="blue_deep">#166096</color>
+    <color name="brown">#96766B</color>
+    <color name="my_purple">#665696</color>
+    <color name="elegant_orange">#D28656</color> <!-- Don't forget #D96D37 -->
+    <color name="Aein_red">#AE6060</color>
+
+    <string-array name="thing_colors_names">
+        <item>@string/blue_grey_500</item>
+        <item>@string/my_cyan</item>
+        <item>@string/blue_grey_deep_blue</item>
+        <item>@string/blue_grey_deep_grey</item>
+        <item>@string/brown</item>
+        <item>@string/blue_deep</item>
+        <item>@string/pine_green</item>
+        <item>@string/my_purple</item>
+        <item>@string/elegant_orange</item>
+        <item>@string/Aein_red</item>
+    </string-array>
+
+    <color name="white_86p">#DBFFFFFF</color>
+    <color name="white_76p">#C4FFFFFF</color>
+    <color name="white_66p">#A8FFFFFF</color>
+    <color name="white_54p">#89FFFFFF</color>
+    <color name="white_50p">#80FFFFFF</color>
+
+    <color name="black_87p">#DE000000</color>
+    <color name="black_86p">#DB000000</color>
+    <color name="black_76p">#C4000000</color>
+    <color name="black_69p">#B0000000</color>
+    <color name="black_66p">#A8000000</color>
+    <color name="black_54">#6D6D6D</color>
+    <color name="black_54p">#8A000000</color>
+    <color name="black_50p">#80000000</color>
+    <color name="black_26p">#42000000</color>
+    <color name="black_14p">#24000000</color>
+    <color name="black_10p">#1A000000</color>
 </resources>

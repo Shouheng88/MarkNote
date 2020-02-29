@@ -5,9 +5,9 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.notepal.common.preferences.SyncPreferences;
+import me.shouheng.utils.stability.L;
 
 /**
  * todo 1. Find out why two files are not synchronized to OneDrive; 2. Test new strategy.
@@ -77,14 +77,14 @@ public class BatchUploadPool {
         executor.submit(new FileUploadWatcher(downLatch, new FileUploadWatcher.OnWatchListener() {
             @Override
             public void onFinish() {
-                LogUtils.d("All uploaded!");
+                L.d("All uploaded!");
                 SyncPreferences.getInstance().setOneDriveLastSyncTime(System.currentTimeMillis());
                 shutDown();
             }
 
             @Override
             public void onFail(String msg) {
-                LogUtils.e("Error in watcher : " + msg);
+                L.e("Error in watcher : " + msg);
             }
         }));
         // Start upload for the first time
@@ -92,19 +92,19 @@ public class BatchUploadPool {
     }
 
     private void batchUpload(CountDownLatch countDownLatch) {
-        LogUtils.d("Batch upload started!");
+        L.d("Batch upload started!");
         for (Attachment attachment : attachmentToUpload) {
-            LogUtils.d(attachment.getCode() + " to upload.");
+            L.d(attachment.getCode() + " to upload.");
             executor.submit(new FileUploadRunnable(attachment, itemId, countDownLatch, new FileUploadRunnable.OnUploadListener() {
                 @Override
                 public void onSuccess() {
-                    LogUtils.d(attachment.getCode() + " uploaded.");
-                    LogUtils.d(++filesUploaded + " files are synchronized.");
+                    L.d(attachment.getCode() + " uploaded.");
+                    L.d(++filesUploaded + " files are synchronized.");
                 }
 
                 @Override
                 public void onFail(String msg) {
-                    LogUtils.e("Error when synchronize file : " + msg);
+                    L.e("Error when synchronize file : " + msg);
                 }
             }));
         }

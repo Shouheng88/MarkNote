@@ -21,7 +21,7 @@ import me.shouheng.commons.helper.ActivityHelper;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.Md5Utils;
 import me.shouheng.commons.utils.PersistData;
-import me.shouheng.commons.utils.ToastUtils;
+import me.shouheng.utils.ui.ToastUtils;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.LockActivity;
 import me.shouheng.notepal.databinding.DialogSecurityQuestionLayoutBinding;
@@ -126,7 +126,7 @@ public class SettingsSecurity extends BPreferenceFragment {
                 if (passed) {
                     PersistData.putString(R.string.key_security_psd_question, question);
                     PersistData.putString(R.string.key_security_psd_answer, Md5Utils.md5(answer));
-                    ToastUtils.makeToast(R.string.text_save_successfully);
+                    ToastUtils.showShort(R.string.text_save_successfully);
                     dialog.dismiss();
                 }
             });
@@ -137,7 +137,7 @@ public class SettingsSecurity extends BPreferenceFragment {
                 if (!requireInput) {
                     dialog.dismiss();
                 } else {
-                    ToastUtils.makeToast(R.string.setting_security_question_required);
+                    ToastUtils.showShort(R.string.setting_security_question_required);
                 }
             });
         });
@@ -147,19 +147,19 @@ public class SettingsSecurity extends BPreferenceFragment {
 
     private boolean checkSecurityQuestion(String question, String answer, String confirmAnswer) {
         if (TextUtils.isEmpty(question)) {
-            ToastUtils.makeToast(R.string.setting_security_question_required);
+            ToastUtils.showShort(R.string.setting_security_question_required);
             return false;
         }
         if (TextUtils.isEmpty(answer)) {
-            ToastUtils.makeToast(R.string.setting_security_question_answer_required);
+            ToastUtils.showShort(R.string.setting_security_question_answer_required);
             return false;
         }
         if (TextUtils.isEmpty(confirmAnswer)) {
-            ToastUtils.makeToast(R.string.setting_security_question_confirm_answer_required);
+            ToastUtils.showShort(R.string.setting_security_question_confirm_answer_required);
             return false;
         }
         if (!answer.equals(confirmAnswer)) {
-            ToastUtils.makeToast(R.string.setting_security_question_answer_differ);
+            ToastUtils.showShort(R.string.setting_security_question_answer_differ);
             return false;
         }
         return true;

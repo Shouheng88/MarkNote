@@ -6,9 +6,9 @@ import java.io.File;
 import java.util.Date;
 import java.util.concurrent.CountDownLatch;
 
-import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.data.store.AttachmentsStore;
+import me.shouheng.utils.stability.L;
 
 /**
  * Created by shouh on 2018/4/2.*/
@@ -28,7 +28,7 @@ public class FileUploadRunnable implements Runnable {
     @Override
     public void run() {
         try {
-            LogUtils.d(Thread.currentThread() + " ran ");
+            L.d(Thread.currentThread() + " ran ");
             OneDriveManager.getInstance().upload(toItemId,
                     new File(attachment.getPath()),
                     OneDriveConstants.CONFLICT_BEHAVIOR_REPLACE,
@@ -55,7 +55,7 @@ public class FileUploadRunnable implements Runnable {
     }
 
     private void onFinish() {
-        LogUtils.d(Thread.currentThread() + " finished ");
+        L.d(Thread.currentThread() + " finished ");
         this.downLatch.countDown();
         if (onUploadListener != null) {
             onUploadListener.onSuccess();
@@ -63,7 +63,7 @@ public class FileUploadRunnable implements Runnable {
     }
 
     private void onFailed(String msg) {
-        LogUtils.d(Thread.currentThread() + " failed ");
+        L.d(Thread.currentThread() + " failed ");
         this.downLatch.countDown();
         if (onUploadListener != null) {
             onUploadListener.onFail(msg);

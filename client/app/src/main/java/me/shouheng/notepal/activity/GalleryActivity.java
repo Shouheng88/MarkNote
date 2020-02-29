@@ -27,8 +27,7 @@ import java.util.ArrayList;
 import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.theme.SystemUiVisibilityUtil;
 import me.shouheng.commons.theme.ThemeUtils;
-import me.shouheng.commons.utils.LogUtils;
-import me.shouheng.commons.utils.ToastUtils;
+import me.shouheng.utils.ui.ToastUtils;
 import me.shouheng.commons.utils.ViewUtils;
 import me.shouheng.commons.widget.DepthPageTransformer;
 import me.shouheng.commons.widget.HackyViewPager;
@@ -36,16 +35,17 @@ import me.shouheng.data.entity.Attachment;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.AttachmentPagerAdapter;
 import me.shouheng.notepal.manager.FileManager;
+import me.shouheng.utils.stability.L;
 import ooo.oxo.library.widget.PullBackLayout;
 
-import static me.shouheng.commons.event.UMEvent.*;
+import static me.shouheng.commons.event.UMEvent.PAGE_GALLERY;
 
 @PageName(name = PAGE_GALLERY)
 public class GalleryActivity extends AppCompatActivity implements PullBackLayout.Callback {
 
-    public final static String EXTRA_GALLERY_IMAGES = "__extra_gallery_images";
-    public final static String EXTRA_GALLERY_TITLE = "__extra_gallery_title";
-    public final static String EXTRA_GALLERY_CLICKED_IMAGE = "__extra_gallery_clicked_image";
+    public static final String EXTRA_GALLERY_IMAGES = "__extra_gallery_images";
+    public static final String EXTRA_GALLERY_TITLE = "__extra_gallery_title";
+    public static final String EXTRA_GALLERY_CLICKED_IMAGE = "__extra_gallery_clicked_image";
 
     private ColorDrawable mBackground;
     private HackyViewPager mViewPager;
@@ -81,8 +81,8 @@ public class GalleryActivity extends AppCompatActivity implements PullBackLayout
             title = savedInstanceState.getString(EXTRA_GALLERY_TITLE);
             clickedImage = savedInstanceState.getInt(EXTRA_GALLERY_CLICKED_IMAGE, 0);
         }
-        LogUtils.d(attachments);
-        LogUtils.d(clickedImage);
+        L.d(attachments);
+        L.d(clickedImage);
     }
 
     private void configToolbar() {
@@ -222,7 +222,7 @@ public class GalleryActivity extends AppCompatActivity implements PullBackLayout
                     intent.setDataAndType(attachment.getUri(), FileManager.getMimeType(this, attachment.getUri()));
                     startActivity(intent);
                 } catch (ActivityNotFoundException e) {
-                    ToastUtils.makeToast(R.string.text_failed_to_resolve_intent);
+                    ToastUtils.showShort(R.string.text_failed_to_resolve_intent);
                 }
                 break;
             }

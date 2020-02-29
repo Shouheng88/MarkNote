@@ -24,7 +24,7 @@ import me.shouheng.commons.event.*;
 import me.shouheng.commons.fragment.CommonFragment;
 import me.shouheng.commons.helper.FragmentHelper;
 import me.shouheng.commons.utils.PersistData;
-import me.shouheng.commons.utils.ToastUtils;
+import me.shouheng.utils.ui.ToastUtils;
 import me.shouheng.commons.widget.recycler.DividerItemDecoration;
 import me.shouheng.data.entity.Category;
 import me.shouheng.data.entity.Note;
@@ -52,18 +52,18 @@ public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
      * Argument key for notebook, null if showing the top level notebook
      * or showing the category notes list.
      */
-    public final static String ARGS_KEY_NOTEBOOK = "__argument_key_notebook";
+    public static final String ARGS_KEY_NOTEBOOK = "__argument_key_notebook";
 
     /**
      * Argument key for category, null if showing the notebook.
      */
-    public final static String ARGS_KEY_CATEGORY = "__argument_key_category";
+    public static final String ARGS_KEY_CATEGORY = "__argument_key_category";
 
     /**
      * REQUIRED: Argument key for status, Might be one of {@link Status#ARCHIVED},
      * {@link Status#DELETED}, {@link Status#NORMAL} or {@link Status#TRASHED}
      */
-    public final static String ARGS_KEY_STATUS = "__argument_key_status";
+    public static final String ARGS_KEY_STATUS = "__argument_key_status";
 
     private RecyclerView.OnScrollListener scrollListener;
     private NotesAdapter adapter;
@@ -176,7 +176,7 @@ public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
                     getBinding().ivEmpty.showProgressBar();
                     break;
                 case FAILED:
-                    ToastUtils.makeToast(R.string.text_failed);
+                    ToastUtils.showShort(R.string.text_failed);
                     getBinding().ivEmpty.showEmptyIcon();
                     break;
             }
@@ -190,7 +190,7 @@ public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
                 case LOADING:
                     break;
                 case FAILED:
-                    ToastUtils.makeToast(R.string.text_failed_to_modify_data);
+                    ToastUtils.showShort(R.string.text_failed_to_modify_data);
                     break;
             }
         });
@@ -203,7 +203,7 @@ public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
                 case LOADING:
                     break;
                 case FAILED:
-                    ToastUtils.makeToast(R.string.text_failed_to_modify_data);
+                    ToastUtils.showShort(R.string.text_failed_to_modify_data);
                     break;
             }
         });

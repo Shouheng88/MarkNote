@@ -13,7 +13,6 @@ import android.widget.RemoteViewsService;
 import java.util.List;
 
 import me.shouheng.commons.utils.ColorUtils;
-import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.commons.utils.TimeUtils;
 import me.shouheng.data.entity.Note;
 import me.shouheng.data.schema.NoteSchema;
@@ -21,6 +20,7 @@ import me.shouheng.data.store.NotesStore;
 import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
+import me.shouheng.utils.stability.L;
 
 public class NotesListWidgetService extends RemoteViewsService {
 
@@ -47,7 +47,7 @@ public class NotesListWidgetService extends RemoteViewsService {
 
         @Override
         public void onCreate() {
-            LogUtils.d("Created widget " + appWidgetId);
+            L.d("Created widget " + appWidgetId);
             loadFromDatabase();
         }
 

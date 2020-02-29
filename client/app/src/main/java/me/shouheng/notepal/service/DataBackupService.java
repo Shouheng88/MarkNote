@@ -15,29 +15,29 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
-import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.data.DBConfig;
 import me.shouheng.data.entity.Attachment;
+import me.shouheng.data.store.AttachmentsStore;
+import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.MainActivity;
-import me.shouheng.notepal.Constants;
-import me.shouheng.data.store.AttachmentsStore;
 import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.notepal.util.NotificationsHelper;
+import me.shouheng.utils.stability.L;
 
 /**
  * Created by WngShhng on 2018/1/5.
  */
 public class DataBackupService extends IntentService {
 
-    public final static String INTENT_BACKUP_NAME = "backup_name";
-    public final static String ACTION_DATA_EXPORT = "action_data_export";
-    public final static String INTENT_BACKUP_INCLUDE_SETTINGS = "backup_include_settings";
+    public static final String INTENT_BACKUP_NAME = "backup_name";
+    public static final String ACTION_DATA_EXPORT = "action_data_export";
+    public static final String INTENT_BACKUP_INCLUDE_SETTINGS = "backup_include_settings";
 
-    public final static String ACTION_DATA_IMPORT = "action_data_import";
-    public final static String ACTION_DATA_IMPORT_SPRINGPAD = "action_data_import_springpad";
+    public static final String ACTION_DATA_IMPORT = "action_data_import";
+    public static final String ACTION_DATA_IMPORT_SPRINGPAD = "action_data_import_springpad";
 
-    public final static String ACTION_DATA_DELETE = "action_data_delete";
+    public static final String ACTION_DATA_DELETE = "action_data_delete";
 
     private NotificationsHelper mNotificationsHelper;
 
@@ -171,7 +171,7 @@ public class DataBackupService extends IntentService {
                 FileUtils.copyFileToDirectory(file, attachmentsDir, true);
                 mNotificationsHelper.setMessage(getString(R.string.text_attachment) + " " + imported++ + "/" + size).show();
             } catch (IOException e) {
-                LogUtils.e("Error importing the attachment " + file.getName());
+                L.e("Error importing the attachment " + file.getName());
             }
         }
     }

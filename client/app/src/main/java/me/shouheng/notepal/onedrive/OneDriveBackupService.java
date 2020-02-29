@@ -10,12 +10,12 @@ import com.onedrive.sdk.extensions.Item;
 
 import java.io.File;
 
-import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.commons.utils.NetworkUtils;
 import me.shouheng.data.DBConfig;
+import me.shouheng.notepal.common.preferences.SyncPreferences;
 import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.notepal.util.SynchronizeUtils;
-import me.shouheng.notepal.common.preferences.SyncPreferences;
+import me.shouheng.utils.stability.L;
 
 /**
  * Created by shouh on 2018/3/30.
@@ -67,7 +67,7 @@ public class OneDriveBackupService extends IntentService {
                 batchUploadPool.begin();
             }
         } else {
-            LogUtils.e("Error! No files backup item id.");
+            L.e("Error! No files backup item id.");
         }
     }
 
@@ -83,7 +83,7 @@ public class OneDriveBackupService extends IntentService {
 
             @Override
             public void failure(Exception e) {
-                LogUtils.e(e);
+                L.e(e);
             }
         }).execute(database);
     }
@@ -101,7 +101,7 @@ public class OneDriveBackupService extends IntentService {
 
             @Override
             public void failure(Exception e) {
-                LogUtils.e(e);
+                L.e(e);
             }
         }).execute(preferences);
     }

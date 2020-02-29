@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.just.agentweb.LogUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import io.reactivex.disposables.Disposable;
@@ -25,7 +26,7 @@ import me.shouheng.commons.event.RxMessage;
 import me.shouheng.commons.theme.ThemeStyle;
 import me.shouheng.commons.theme.ThemeUtils;
 import me.shouheng.commons.utils.ColorUtils;
-import me.shouheng.commons.utils.LogUtils;
+import me.shouheng.utils.stability.L;
 
 /**
  * Created by wang shouheng on 2017/12/23. */
@@ -120,7 +121,7 @@ public abstract class CommonFragment<T extends ViewDataBinding> extends Fragment
     }
 
     protected <M> void addSubscription(Class<M> eventType, Consumer<M> action) {
-        Disposable disposable = RxBus.getRxBus().doSubscribe(eventType, action, LogUtils::d);
+        Disposable disposable = RxBus.getRxBus().doSubscribe(eventType, action, L::d);
         RxBus.getRxBus().addSubscription(this, disposable);
     }
 
@@ -130,7 +131,7 @@ public abstract class CommonFragment<T extends ViewDataBinding> extends Fragment
     }
 
     protected <M extends RxMessage> void addSubscription(Class<M> eventType, int code, Consumer<M> action) {
-        Disposable disposable = RxBus.getRxBus().doSubscribe(eventType, code, action, LogUtils::d);
+        Disposable disposable = RxBus.getRxBus().doSubscribe(eventType, code, action, L::d);
         RxBus.getRxBus().addSubscription(this, disposable);
     }
 

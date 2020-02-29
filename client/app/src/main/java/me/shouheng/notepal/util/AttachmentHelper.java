@@ -27,9 +27,8 @@ import io.reactivex.schedulers.Schedulers;
 import me.shouheng.commons.image.GifSizeFilter;
 import me.shouheng.commons.image.Glide4Engine;
 import me.shouheng.commons.utils.IntentUtils;
-import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.commons.utils.PalmUtils;
-import me.shouheng.commons.utils.ToastUtils;
+import me.shouheng.utils.ui.ToastUtils;
 import me.shouheng.data.ModelFactory;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.data.entity.Model;
@@ -41,6 +40,7 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.GalleryActivity;
 import me.shouheng.notepal.activity.SketchActivity;
 import me.shouheng.notepal.manager.FileManager;
+import me.shouheng.utils.stability.L;
 import top.zibin.luban.Luban;
 import top.zibin.luban.OnCompressListener;
 
@@ -57,37 +57,37 @@ public class AttachmentHelper {
     /**
      * The common request code to take a photo.
      */
-    private final static int REQUEST_CODE_TAKE_A_PHOTO = 0x1001;
+    private static final int REQUEST_CODE_TAKE_A_PHOTO = 0x1001;
 
     /**
      * The common request code to select images.
      */
-    private final static int REQUEST_CODE_SELECT_IMAGES = 0x1002;
+    private static final int REQUEST_CODE_SELECT_IMAGES = 0x1002;
 
     /**
      * The common request code to take a video.
      */
-    private final static int REQUEST_CODE_TAKE_A_VIDEO = 0x1003;
+    private static final int REQUEST_CODE_TAKE_A_VIDEO = 0x1003;
 
     /**
      * The common request code to pick files.
      */
-    private final static int REQUEST_CODE_PICK_FILES = 0x1004;
+    private static final int REQUEST_CODE_PICK_FILES = 0x1004;
 
     /**
      * The common request code to create a sketch.
      */
-    private final static int REQUEST_CODE_CREATE_SKETCH = 0x1005;
+    private static final int REQUEST_CODE_CREATE_SKETCH = 0x1005;
 
     /**
      * The common request code to select images from the custom album.
      */
-    private final static int REQUEST_CODE_SELECT_IMAGES_CUSTOM = 0x1006;
+    private static final int REQUEST_CODE_SELECT_IMAGES_CUSTOM = 0x1006;
 
     /**
      * Won't compress the image when hit the size (KB).
      */
-    private final static int COMPRESS_IGNORE_SIZE_KB = 100; // KB
+    private static final int COMPRESS_IGNORE_SIZE_KB = 100; // KB
 
     /**
      * The photo file path
@@ -165,7 +165,7 @@ public class AttachmentHelper {
     public static void takeAPhoto(Fragment fragment) {
         File file = FileManager.createNewAttachmentFile(fragment.getContext(), Constants.MIME_TYPE_IMAGE_EXTENSION);
         if (file == null) {
-            ToastUtils.makeToast(R.string.text_failed_to_save_file);
+            ToastUtils.showShort(R.string.text_failed_to_save_file);
             return;
         }
         String path = file.getPath();
@@ -184,7 +184,7 @@ public class AttachmentHelper {
     public static void createSketch(Fragment fragment) {
         File file = FileManager.createNewAttachmentFile(fragment.getContext(), Constants.MIME_TYPE_SKETCH_EXTENSION);
         if (file == null) {
-            ToastUtils.makeToast(R.string.text_failed_to_save_file);
+            ToastUtils.showShort(R.string.text_failed_to_save_file);
             return;
         }
         String path = file.getPath();
@@ -438,7 +438,7 @@ public class AttachmentHelper {
             List<Attachment> attachments,
             String galleryTitle) {
         if (attachment == null) {
-            ToastUtils.makeToast(R.string.text_file_not_exist);
+            ToastUtils.showShort(R.string.text_file_not_exist);
             return;
         }
         switch (attachment.getMineType()) {
@@ -462,7 +462,7 @@ public class AttachmentHelper {
         if (IntentUtils.isAvailable(context.getApplicationContext(), intent, null)) {
             context.startActivity(intent);
         } else {
-            ToastUtils.makeToast(R.string.text_failed_to_resolve_intent);
+            ToastUtils.showShort(R.string.text_failed_to_resolve_intent);
         }
     }
 
@@ -470,8 +470,8 @@ public class AttachmentHelper {
                                       Attachment attachment,
                                       List<Attachment> attachments,
                                       String galleryTitle) {
-        LogUtils.d(attachment);
-        LogUtils.d(Arrays.toString(attachments.toArray(new Attachment[0])));
+        L.d(attachment);
+        L.d(Arrays.toString(attachments.toArray(new Attachment[0])));
         int clickedPosition = 0;
         ArrayList<Attachment> images = new ArrayList<>();
         for (Attachment a : attachments) {
@@ -485,7 +485,7 @@ public class AttachmentHelper {
                 }
             }
         }
-        LogUtils.d(clickedPosition);
+        L.d(clickedPosition);
         Intent intent = new Intent(context, GalleryActivity.class);
         intent.putExtra(GalleryActivity.EXTRA_GALLERY_TITLE, galleryTitle);
         intent.putParcelableArrayListExtra(GalleryActivity.EXTRA_GALLERY_IMAGES, images);
@@ -533,7 +533,7 @@ public class AttachmentHelper {
     private static Intent captureIntent(Context context) {
         File file = FileManager.createNewAttachmentFile(context, Constants.MIME_TYPE_IMAGE_EXTENSION);
         if (file == null){
-            ToastUtils.makeToast(R.string.text_failed_to_save_file);
+            ToastUtils.showShort(R.string.text_failed_to_save_file);
             return null;
         }
         String filePath = file.getPath();
@@ -563,7 +563,7 @@ public class AttachmentHelper {
     private static Intent sketchIntent(Context context) {
         File file = FileManager.createNewAttachmentFile(context, Constants.MIME_TYPE_SKETCH_EXTENSION);
         if (file == null) {
-            ToastUtils.makeToast(R.string.text_failed_to_save_file);
+            ToastUtils.showShort(R.string.text_failed_to_save_file);
             return null;
         }
         String filePath = file.getPath();
@@ -592,8 +592,8 @@ public class AttachmentHelper {
      */
     private static class DefaultCompressListener implements OnCompressListener {
 
-        private final static int ATTACHING_TYPE_FRAGMENT = 0;
-        private final static int ATTACHING_TYPE_ACTIVITY = 1;
+        private static final int ATTACHING_TYPE_FRAGMENT = 0;
+        private static final int ATTACHING_TYPE_ACTIVITY = 1;
 
         private Fragment fragment;
         private Attachment attachment;

@@ -10,11 +10,11 @@ import android.os.Bundle;
 import android.util.SparseArray;
 import android.widget.RemoteViews;
 
-import me.shouheng.commons.utils.LogUtils;
+import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.MainActivity;
 import me.shouheng.notepal.activity.QuickActivity;
-import me.shouheng.notepal.Constants;
+import me.shouheng.utils.stability.L;
 
 /**
  * Base widget provider. Used to provide the pending intent for the child app widgets.
@@ -29,7 +29,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider {
         ComponentName thisWidget = new ComponentName(context, getClass());
         int[] allWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
         for (int appWidgetId : allWidgetIds) {
-            LogUtils.d("WidgetProvider onUpdate() widget " + appWidgetId);
+            L.d("WidgetProvider onUpdate() widget " + appWidgetId);
             setLayout(context, appWidgetManager, appWidgetId);
         }
         super.onUpdate(context, appWidgetManager, appWidgetIds);
@@ -38,7 +38,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider {
     @Override
     public void onAppWidgetOptionsChanged(
             Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions) {
-        LogUtils.d("Widget size changed");
+        L.d("Widget size changed");
         setLayout(context, appWidgetManager, appWidgetId);
     }
 

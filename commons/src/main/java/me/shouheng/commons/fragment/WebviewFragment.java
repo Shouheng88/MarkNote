@@ -41,9 +41,9 @@ import me.shouheng.commons.utils.PalmUtils;
 @PageName(name = UMEvent.PAGE_WEBVIEW)
 public class WebviewFragment extends CommonFragment<FragmentWebviewBinding> implements FragmentKeyDown {
 
-    public final static String ARGUMENT_KEY_URL = "__extra_key_url";
-    public final static String ARGUMENT_KEY_TITLE = "__extra_key_title";
-    public final static String ARGUMENT_KEY_USE_PAGE_TITLE = "__extra_use_page_title";
+    public static final String ARGUMENT_KEY_URL = "__extra_key_url";
+    public static final String ARGUMENT_KEY_TITLE = "__extra_key_title";
+    public static final String ARGUMENT_KEY_USE_PAGE_TITLE = "__extra_use_page_title";
 
     private AgentWeb mAgentWeb;
     private boolean usePageTitle;

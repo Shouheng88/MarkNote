@@ -28,13 +28,13 @@ import lecho.lib.hellocharts.model.PointValue;
 import lecho.lib.hellocharts.model.SubcolumnValue;
 import lecho.lib.hellocharts.model.ValueShape;
 import me.shouheng.commons.model.data.Resource;
-import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.commons.utils.ViewUtils;
 import me.shouheng.data.helper.StatisticsHelper;
 import me.shouheng.data.model.Stats;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
+import me.shouheng.utils.stability.L;
 
 /**
  * Created by Employee on 2018/3/15.*/
@@ -43,17 +43,17 @@ public class StatisticViewModel extends ViewModel {
     /**
      * The days count of added model statistic.
      */
-    private final static int DAYS_OF_ADDED_MODEL = 7;
+    private static final int DAYS_OF_ADDED_MODEL = 7;
 
     /**
      * The default value of added model.
      */
-    private final static int DEFAULT_ADDED_VALUE = 0;
+    private static final int DEFAULT_ADDED_VALUE = 0;
 
     /**
      * The default total values.
      */
-    private final static int DEFAULT_TOTAL_VALUE = 0;
+    private static final int DEFAULT_TOTAL_VALUE = 0;
 
     private int lineStrokeWidth = ViewUtils.dp2Px(PalmApp.getContext(), 1);
 
@@ -80,7 +80,7 @@ public class StatisticViewModel extends ViewModel {
         for (int j = 0; j < length; ++j) {
             values.add(new PointValue(j, lineStatistics.get(j)));
         }
-        LogUtils.d("getLineChartData: " + lineStatistics);
+        L.d("getLineChartData: " + lineStatistics);
 
         Line line = new Line(values);
         line.setColor(color);

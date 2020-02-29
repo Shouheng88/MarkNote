@@ -40,7 +40,7 @@ public class ListActivity extends CommonActivity<ActivityBaseListBinding>
      * The argument for list type, should be one of
      * {@link Status#ARCHIVED} and {@link Status#TRASHED}
      */
-    public final static String ARGS_KEY_LIST_TYPE = "__args_key_list_type";
+    public static final String ARGS_KEY_LIST_TYPE = "__args_key_list_type";
 
     private Drawer drawer;
 

@@ -17,7 +17,7 @@ import me.shouheng.data.model.enums.Portrait;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.DialogCategoryEditBinding;
 import me.shouheng.data.entity.Category;
-import me.shouheng.commons.utils.ToastUtils;
+import me.shouheng.utils.ui.ToastUtils;
 
 /**
  * Created by WngShhng on 2017/4/2.
@@ -59,7 +59,7 @@ public class CategoryEditDialog extends DialogFragment implements ColorChooserDi
                 .setView(binding.getRoot())
                 .setPositiveButton(R.string.text_confirm, (dialog, which) -> {
                     if (TextUtils.isEmpty(binding.etCategoryName.getText())){
-                        ToastUtils.makeToast(R.string.text_title_required);
+                        ToastUtils.showShort(R.string.text_title_required);
                         return;
                     }
                     category.setName(binding.etCategoryName.getText().toString());

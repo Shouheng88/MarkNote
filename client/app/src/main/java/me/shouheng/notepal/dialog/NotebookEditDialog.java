@@ -17,14 +17,14 @@ import me.shouheng.commons.theme.ThemeUtils;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.DialogNotebookEditBinding;
 import me.shouheng.data.entity.Notebook;
-import me.shouheng.commons.utils.ToastUtils;
+import me.shouheng.utils.ui.ToastUtils;
 
 /**
  * Created by wangshouheng on 2017/7/23.
  */
 public class NotebookEditDialog extends DialogFragment implements ColorChooserDialog.ColorCallback {
 
-    public final static String ARG_KEY_NOTEBOOK = "__arg_key_notebook";
+    public static final String ARG_KEY_NOTEBOOK = "__arg_key_notebook";
 
     @ColorInt
     private int notebookColor;
@@ -66,7 +66,7 @@ public class NotebookEditDialog extends DialogFragment implements ColorChooserDi
                 .setView(binding.getRoot())
                 .setPositiveButton(R.string.text_confirm, (dialog, which) -> {
                     if (TextUtils.isEmpty(binding.etNotebookName.getText())){
-                        ToastUtils.makeToast(R.string.text_title_required);
+                        ToastUtils.showShort(R.string.text_title_required);
                         return;
                     }
                     notebookName = binding.etNotebookName.getText().toString();

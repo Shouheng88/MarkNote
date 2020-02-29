@@ -14,6 +14,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import me.shouheng.utils.stability.L;
+
 /**
  * @author shouh
  * @version $Id: StringUtils, v 0.1 2018/6/6 22:14 shouh Exp$
@@ -143,13 +145,13 @@ public class StringUtils {
             in = new ObjectInputStream(new ByteArrayInputStream(bytes));
             return in.readObject();
         } catch (Exception e) {
-            LogUtils.e(e);
+            L.e(e);
         } finally {
             if (in != null) {
                 try {
                     in.close();
                 } catch (IOException e) {
-                    LogUtils.e(e);
+                    L.e(e);
                 }
             }
         }

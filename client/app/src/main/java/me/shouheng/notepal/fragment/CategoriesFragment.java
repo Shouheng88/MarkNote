@@ -22,7 +22,7 @@ import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.event.RxMessage;
 import me.shouheng.commons.event.*;
 import me.shouheng.commons.utils.ColorUtils;
-import me.shouheng.commons.utils.ToastUtils;
+import me.shouheng.utils.ui.ToastUtils;
 import me.shouheng.commons.utils.ViewUtils;
 import me.shouheng.commons.widget.recycler.CustomItemAnimator;
 import me.shouheng.commons.widget.recycler.DividerItemDecoration;
@@ -47,7 +47,7 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
      * The argument key for this fragment. The status of current categories list.
      * Or null of showing the normal categories.
      */
-    public final static String ARGS_KEY_STATUS = "__args_key_status";
+    public static final String ARGS_KEY_STATUS = "__args_key_status";
 
     private RecyclerView.OnScrollListener scrollListener;
     private CategoriesAdapter mAdapter;
@@ -123,7 +123,7 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
                     getBinding().ivEmpty.showEmptyIcon();
                     break;
                 case FAILED:
-                    ToastUtils.makeToast(R.string.text_failed);
+                    ToastUtils.showShort(R.string.text_failed);
                     getBinding().ivEmpty.showEmptyIcon();
                     break;
                 case LOADING:
@@ -140,7 +140,7 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
                 case LOADING:
                     break;
                 case FAILED:
-                    ToastUtils.makeToast(R.string.text_failed);
+                    ToastUtils.showShort(R.string.text_failed);
                     break;
             }
         });
