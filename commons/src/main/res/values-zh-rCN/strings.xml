@@ -56,6 +56,7 @@
     <string name="text_save_successfully">保存成功</string>
     <string name="offline_your_device_is_offline">设备无网络</string>
     <string name="offline_check_wifi_state_hint">检查你的 Wi-Fi 或者移动数据连接\n并再次尝试</string>
+    <string name="text_crash_tips">Sorry, crashed!</string>
 
     <!-- app commons -->
     <string name="text_add_shortcut">添加快捷方式</string>

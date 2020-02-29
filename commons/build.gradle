@@ -118,4 +118,11 @@ dependencies {
     api 'me.shouheng.easymark:easymark:0.0.2'
     api 'me.shouheng.easymark:sil:0.0.1'
     api 'me.shouheng.utils:utils-core:1.3.6'
+    api ('me.shouheng.ui:uix-core:1.2.4') {
+        exclude group: 'me.shouheng.ui', module: 'matisse'
+    }
+//    api ('me.shouheng.mvvm:mvvm-core:1.3.0') {
+//        exclude group: 'me.shouheng.utils'
+//    }
+    api 'me.shouheng.compressor:compressor:1.3.1'
 }

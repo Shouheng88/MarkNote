@@ -4,10 +4,22 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 
 import com.facebook.stetho.Stetho;
+import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
 
+import java.io.File;
+
 import me.shouheng.commons.BaseApplication;
+import me.shouheng.notepal.activity.MainActivity;
+import me.shouheng.uix.UIX;
+import me.shouheng.uix.page.CrashActivity;
 import me.shouheng.utils.UtilsApp;
+import me.shouheng.utils.app.ResUtils;
+import me.shouheng.utils.permission.Permission;
+import me.shouheng.utils.permission.PermissionUtils;
+import me.shouheng.utils.stability.CrashHelper;
+import me.shouheng.utils.stability.L;
+import me.shouheng.utils.store.PathUtils;
 
 /**
  * 重点：
@@ -42,7 +54,25 @@ public class PalmApp extends BaseApplication {
         }
 
         UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, "");
+        MobclickAgent.openActivityDurationTrack(false);
+//        MVVMs.onCreate(this);
+        UIX.INSTANCE.init(this);
         UtilsApp.init(this);
+        if (BuildConfig.DEBUG) {
+            UMConfigure.setLogEnabled(true);
+        }
+        L.getConfig().setLogSwitch(BuildConfig.DEBUG);
+        // 配置崩溃工具，文件存储在：data/data/package_name/files/crash 下面
+        if (PermissionUtils.hasPermissions(Permission.STORAGE)) {
+            CrashHelper.init(this,
+                    new File(PathUtils.getExternalAppFilesPath(), "crash"),
+                    (crashInfo, e) -> new CrashActivity.Companion.Builder(getApplicationContext())
+                            .setRestartActivity(MainActivity.class)
+                            .setCrashInfo(crashInfo)
+                            .setCrashImage(R.drawable.uix_crash_error_image)
+                            .setTips(ResUtils.getString(R.string.text_crash_tips))
+                            .launch());
+        }
     }
 
     @Override

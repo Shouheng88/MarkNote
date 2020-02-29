@@ -56,6 +56,7 @@
     <string name="text_save_successfully">Saved successfully</string>
     <string name="offline_your_device_is_offline">Your device is offline</string>
     <string name="offline_check_wifi_state_hint">Check your Wi-Fi or mobile data\n connection and try again</string>
+    <string name="text_crash_tips">Sorry, crashed!</string>
 
     <!-- app commons -->
     <string name="text_add_shortcut">Add shortcut</string>
