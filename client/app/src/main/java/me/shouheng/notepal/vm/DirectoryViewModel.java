@@ -11,12 +11,12 @@ import com.onedrive.sdk.extensions.Item;
 import java.util.LinkedList;
 import java.util.List;
 
-import me.shouheng.commons.utils.LogUtils;
-import me.shouheng.notepal.onedrive.PrepareBackupDirTask;
-import me.shouheng.notepal.onedrive.OneDriveManager;
-import me.shouheng.data.model.Directory;
 import me.shouheng.commons.model.data.Resource;
+import me.shouheng.data.model.Directory;
 import me.shouheng.notepal.common.preferences.SyncPreferences;
+import me.shouheng.notepal.onedrive.OneDriveManager;
+import me.shouheng.notepal.onedrive.PrepareBackupDirTask;
+import me.shouheng.utils.stability.L;
 
 /**
  * Created by shouh on 2018/3/31.*/
@@ -33,7 +33,7 @@ public class DirectoryViewModel extends ViewModel {
                 } else {
                     // Return the children folder
                     List<Directory> list = new LinkedList<>();
-                    LogUtils.d(item.children);
+                    L.d(item.children);
                     for (final Item childItem : item.children.getCurrentPage()) {
                         if (childItem.folder == null) continue;
                         list.add(OneDriveManager.getDirectory(childItem));

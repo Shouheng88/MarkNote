@@ -10,17 +10,17 @@ import java.lang.reflect.ParameterizedType;
 import java.util.LinkedList;
 import java.util.List;
 
-import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.commons.utils.UserUtil;
 import me.shouheng.data.PalmDB;
-import me.shouheng.data.utils.annotation.Table;
+import me.shouheng.data.entity.Model;
 import me.shouheng.data.helper.StoreHelper;
 import me.shouheng.data.helper.TimelineHelper;
-import me.shouheng.data.entity.Model;
 import me.shouheng.data.model.enums.Operation;
 import me.shouheng.data.model.enums.Status;
 import me.shouheng.data.schema.BaseSchema;
 import me.shouheng.data.utils.OpenUtils;
+import me.shouheng.data.utils.annotation.Table;
+import me.shouheng.utils.stability.L;
 
 /**
  * Created by wangshouheng on 2017/8/18. */
@@ -37,7 +37,7 @@ public abstract class BaseStore<T extends Model> {
     @SuppressWarnings("unchecked")
     public BaseStore(Context context) {
         this.mPalmDatabase = PalmDB.getInstance(context);
-        LogUtils.d(mPalmDatabase); // the instance should be singleton
+        L.d(mPalmDatabase); // the instance should be singleton
         userId = UserUtil.getInstance(context).getUserIdKept();
         entityClass = (Class) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
         if (!entityClass.isAnnotationPresent(Table.class))
@@ -72,7 +72,7 @@ public abstract class BaseStore<T extends Model> {
         try {
             cursor.close();
         } catch (Exception e){
-            LogUtils.d("Couldn't close cursor correctly");
+            L.d("Couldn't close cursor correctly");
         }
     }
 
@@ -330,20 +330,20 @@ public abstract class BaseStore<T extends Model> {
                 model = getModel(cursor);
             } while (cursor.moveToNext());
         } else if (cursor != null && cursor.isClosed()) {
-            LogUtils.e("cursor is closed : " + cursor);
+            L.e("cursor is closed : " + cursor);
         }
         return model;
     }
 
     protected synchronized List<T> getList(Cursor cursor){
-        LogUtils.d("Current Object: " + this + ", " + Thread.currentThread());
+        L.d("Current Object: " + this + ", " + Thread.currentThread());
         List<T> models = new LinkedList<>();
         if (cursor != null && !cursor.isClosed() && cursor.moveToFirst()){ // exception here
             do {
                 models.add(getModel(cursor));
             } while (cursor.moveToNext());
         } else if (cursor != null && cursor.isClosed()) {
-            LogUtils.e("cursor is closed : " + cursor);
+            L.e("cursor is closed : " + cursor);
         }
         return models;
     }

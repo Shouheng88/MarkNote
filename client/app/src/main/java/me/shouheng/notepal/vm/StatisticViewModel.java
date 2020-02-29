@@ -28,13 +28,13 @@ import lecho.lib.hellocharts.model.PointValue;
 import lecho.lib.hellocharts.model.SubcolumnValue;
 import lecho.lib.hellocharts.model.ValueShape;
 import me.shouheng.commons.model.data.Resource;
-import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.commons.utils.ViewUtils;
 import me.shouheng.data.helper.StatisticsHelper;
 import me.shouheng.data.model.Stats;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
+import me.shouheng.utils.stability.L;
 
 /**
  * Created by Employee on 2018/3/15.*/
@@ -80,7 +80,7 @@ public class StatisticViewModel extends ViewModel {
         for (int j = 0; j < length; ++j) {
             values.add(new PointValue(j, lineStatistics.get(j)));
         }
-        LogUtils.d("getLineChartData: " + lineStatistics);
+        L.d("getLineChartData: " + lineStatistics);
 
         Line line = new Line(values);
         line.setColor(color);

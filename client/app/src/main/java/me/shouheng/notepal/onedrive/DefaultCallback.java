@@ -6,8 +6,8 @@ import android.content.Context;
 import com.onedrive.sdk.concurrency.ICallback;
 import com.onedrive.sdk.core.ClientException;
 
-import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.notepal.R;
+import me.shouheng.utils.stability.L;
 
 /**
  * A default callback that logs errors
@@ -40,7 +40,7 @@ public class DefaultCallback<T> implements ICallback<T> {
     @Override
     public void failure(final ClientException error) {
         if (error != null) {
-            LogUtils.e(getClass().getSimpleName(), error.getMessage());
+            L.e(getClass().getSimpleName(), error.getMessage());
             new AlertDialog
                 .Builder(mContext)
                 .setTitle(R.string.text_error)

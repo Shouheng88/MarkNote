@@ -17,7 +17,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.commons.utils.TimeUtils;
 import me.shouheng.data.entity.Attachment;
@@ -26,6 +25,7 @@ import me.shouheng.data.entity.Model;
 import me.shouheng.data.entity.Note;
 import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.R;
+import me.shouheng.utils.stability.L;
 
 /**
  * The manger for note witch provided many useful methods to handle the note.
@@ -253,7 +253,7 @@ public class NoteManager {
             sb.append(categories.get(i).getCode());
             if (i != len - 1) sb.append(CATEGORY_SPLIT);
         }
-        LogUtils.d(sb.toString());
+        L.d(sb.toString());
         return sb.toString();
     }
 }

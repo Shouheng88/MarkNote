@@ -19,7 +19,6 @@ import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.event.RxMessage;
 import me.shouheng.commons.theme.SystemUiVisibilityUtil;
 import me.shouheng.commons.utils.ColorUtils;
-import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.commons.utils.Md5Utils;
 import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.commons.utils.PersistData;
@@ -29,8 +28,9 @@ import me.shouheng.commons.utils.ViewUtils;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.ActivityLockBinding;
+import me.shouheng.utils.stability.L;
 
-import static me.shouheng.commons.event.UMEvent.*;
+import static me.shouheng.commons.event.UMEvent.PAGE_LOCK;
 
 /**
  * Lock Activity, used to set password, check password.
@@ -93,9 +93,9 @@ public class LockActivity extends CommonActivity<ActivityLockBinding> {
     }
 
     private void initFingerprintIdentify() {
-        mFingerprintIdentify = new FingerprintIdentify(getApplicationContext(), LogUtils::e);
+        mFingerprintIdentify = new FingerprintIdentify(getApplicationContext(), L::e);
         if (!mFingerprintIdentify.isFingerprintEnable()) {
-            LogUtils.e("Fingerprint Identify Not Enable!");
+            L.e("Fingerprint Identify Not Enable!");
             getBinding().pinLockView.setShowFingerButton(false);
         }
         LogUtil.d("initFingerprintIdentify: " + this);

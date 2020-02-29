@@ -11,9 +11,8 @@ import android.view.View;
 import java.util.List;
 
 import me.shouheng.commons.event.PageName;
-import me.shouheng.commons.event.*;
+import me.shouheng.commons.event.UMEvent;
 import me.shouheng.commons.fragment.CommonFragment;
-import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.data.entity.TimeLine;
 import me.shouheng.data.model.enums.Status;
@@ -22,6 +21,7 @@ import me.shouheng.data.store.TimelineStore;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.TimeLinesAdapter;
 import me.shouheng.notepal.databinding.FragmentTimeLineBinding;
+import me.shouheng.utils.stability.L;
 
 /**
  * Created by WngShhng (shouheng2015@gmail.com) on 2017/8/19.
@@ -73,7 +73,7 @@ public class TimeLineFragment extends CommonFragment<FragmentTimeLineBinding> {
     }
 
     private void loadMoreData() {
-        LogUtils.d("startIndex:" + startIndex);
+        L.d("startIndex:" + startIndex);
         isLoadingMore = true;
         startIndex += pageNumber;
         if (startIndex > modelsCount) {

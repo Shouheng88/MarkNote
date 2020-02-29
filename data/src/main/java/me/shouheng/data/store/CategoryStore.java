@@ -10,7 +10,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import me.shouheng.commons.BaseApplication;
-import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.data.entity.Category;
 import me.shouheng.data.entity.Note;
 import me.shouheng.data.model.enums.Portrait;
@@ -18,6 +17,7 @@ import me.shouheng.data.model.enums.Status;
 import me.shouheng.data.schema.BaseSchema;
 import me.shouheng.data.schema.CategorySchema;
 import me.shouheng.data.schema.NoteSchema;
+import me.shouheng.utils.stability.L;
 
 import static me.shouheng.data.DBConfig.CATEGORY_SPLIT;
 
@@ -124,7 +124,7 @@ public class CategoryStore extends BaseStore<Category> {
             if (i != len - 1) sb.append(",");
         }
         sb.append(" ) ");
-        LogUtils.d(sb.toString());
+        L.d(sb.toString());
 
         SQLiteDatabase database = getWritableDatabase();
 

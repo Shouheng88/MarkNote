@@ -6,7 +6,7 @@ import com.onedrive.sdk.extensions.Item;
 
 import java.io.File;
 
-import me.shouheng.commons.utils.LogUtils;
+import me.shouheng.utils.stability.L;
 
 /**
  * Created by shouh on 2018/3/31.*/
@@ -28,7 +28,7 @@ public class FileUploadTask extends AsyncTask<File, Integer, String> {
 
     @Override
     protected String doInBackground(File... files) {
-        LogUtils.d(files.length);
+        L.d(files.length);
         for (File file : files) {
             OneDriveManager.getInstance().upload(itemId, file, conflictBehavior, uploadProgressCallback);
         }

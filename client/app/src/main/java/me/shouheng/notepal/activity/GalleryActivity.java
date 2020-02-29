@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.theme.SystemUiVisibilityUtil;
 import me.shouheng.commons.theme.ThemeUtils;
-import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.commons.utils.ViewUtils;
 import me.shouheng.commons.widget.DepthPageTransformer;
@@ -36,9 +35,10 @@ import me.shouheng.data.entity.Attachment;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.adapter.AttachmentPagerAdapter;
 import me.shouheng.notepal.manager.FileManager;
+import me.shouheng.utils.stability.L;
 import ooo.oxo.library.widget.PullBackLayout;
 
-import static me.shouheng.commons.event.UMEvent.*;
+import static me.shouheng.commons.event.UMEvent.PAGE_GALLERY;
 
 @PageName(name = PAGE_GALLERY)
 public class GalleryActivity extends AppCompatActivity implements PullBackLayout.Callback {
@@ -81,8 +81,8 @@ public class GalleryActivity extends AppCompatActivity implements PullBackLayout
             title = savedInstanceState.getString(EXTRA_GALLERY_TITLE);
             clickedImage = savedInstanceState.getInt(EXTRA_GALLERY_CLICKED_IMAGE, 0);
         }
-        LogUtils.d(attachments);
-        LogUtils.d(clickedImage);
+        L.d(attachments);
+        L.d(clickedImage);
     }
 
     private void configToolbar() {

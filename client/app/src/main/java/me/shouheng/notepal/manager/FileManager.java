@@ -40,7 +40,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.data.DBConfig;
 import me.shouheng.data.ModelFactory;
@@ -49,6 +48,7 @@ import me.shouheng.notepal.BuildConfig;
 import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.PalmApp;
 import me.shouheng.notepal.R;
+import me.shouheng.utils.stability.L;
 
 import static java.lang.Long.parseLong;
 import static me.shouheng.notepal.Constants.SHARE_IMAGE_FILE_PATH;
@@ -105,7 +105,7 @@ public class FileManager {
                         fileName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
                     }
                 } catch (Exception e) {
-                    LogUtils.e("Error managing diskk cache", e);
+                    L.e("Error managing diskk cache", e);
                 }
             } else {
                 fileName = uri.getLastPathSegment();
@@ -197,7 +197,7 @@ public class FileManager {
                 return cursor.getString(column_index);
             }
         } catch (Exception e) {
-            LogUtils.e("Error retrieving uri path", e);
+            L.e("Error retrieving uri path", e);
         } finally {
             if (cursor != null) {
                 cursor.close();
@@ -219,7 +219,7 @@ public class FileManager {
             }
             // Can't understand why on some devices this fails
         } catch (NoSuchMethodError e) {
-            LogUtils.e("Mysterious error", e);
+            L.e("Mysterious error", e);
         }
         return getSize(directory, blockSize);
     }
@@ -378,7 +378,7 @@ public class FileManager {
             String mimeType = getMimeType(mContext, uri);
             if (!TextUtils.isEmpty(mimeType)) {
                 String subtype = mimeType.split("/")[1];
-                LogUtils.d(mimeType);
+                L.d(mimeType);
                 return "." + subtype;
             } else {
                 return "";
@@ -395,7 +395,7 @@ public class FileManager {
         if (!TextUtils.isEmpty(mimeType)) {
             String type = mimeType.split("/")[0];
             String subtype = mimeType.split("/")[1];
-            LogUtils.d(mimeType);
+            L.d(mimeType);
             switch (type) {
                 case "image":
                 case "video":
@@ -472,7 +472,7 @@ public class FileManager {
             try {
                 moveFile(new File(uri.getPath()), file);
             } catch (IOException e) {
-                LogUtils.e("Can't move file " + uri.getPath());
+                L.e("Can't move file " + uri.getPath());
             }
         } else {
             file = FileManager.createExternalStoragePrivateFile(mContext, uri, extension);
@@ -514,11 +514,11 @@ public class FileManager {
                     os = new FileOutputStream(file);
                     copyFile(is, os);
                 } catch (FileNotFoundException e2) {
-                    LogUtils.e("Error writing " + file, e2);
+                    L.e("Error writing " + file, e2);
                     file = null;
                 }
             } catch (FileNotFoundException e2) {
-                LogUtils.e("Error writing " + file, e2);
+                L.e("Error writing " + file, e2);
                 file = null;
             }
         }
@@ -579,7 +579,7 @@ public class FileManager {
         try {
             return copyFile(new FileInputStream(source), new FileOutputStream(destination));
         } catch (FileNotFoundException e) {
-            LogUtils.e("Error copying file", e);
+            L.e("Error copying file", e);
             return false;
         }
     }
@@ -596,7 +596,7 @@ public class FileManager {
             os.close();
             res = true;
         } catch (IOException e) {
-            LogUtils.e("Error copying file", e);
+            L.e("Error copying file", e);
         }
         return res;
     }
@@ -662,7 +662,7 @@ public class FileManager {
      * @return 是否成功执行保存操作
      */
     public static boolean saveImageToGallery(Context context, Bitmap bmp, boolean isPng, OnSavedToGalleryListener onSavedToGalleryListener) {
-        LogUtils.d("saveImageToGallery: " + bmp);
+        L.d("saveImageToGallery: " + bmp);
         if (bmp == null) return false;
         File appDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), context.getString(R.string.app_name));
         if (!appDir.exists()) {
@@ -683,18 +683,18 @@ public class FileManager {
             fos.flush();
             fos.close();
         } catch (FileNotFoundException e) {
-            LogUtils.d("saveImageToGallery: FileNotFoundException");
+            L.d("saveImageToGallery: FileNotFoundException");
             e.printStackTrace();
             return false;
         } catch (IOException e) {
-            LogUtils.d("saveImageToGallery: IOException");
+            L.d("saveImageToGallery: IOException");
             e.printStackTrace();
             return false;
         }
         try {
             MediaStore.Images.Media.insertImage(context.getContentResolver(), file.getAbsolutePath(), fileName, null);
         } catch (FileNotFoundException e) {
-            LogUtils.d("saveImageToGallery: FileNotFoundException MediaStore");
+            L.d("saveImageToGallery: FileNotFoundException MediaStore");
             e.printStackTrace();
             return false;
         }

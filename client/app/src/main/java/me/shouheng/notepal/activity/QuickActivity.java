@@ -21,7 +21,6 @@ import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.event.RxBus;
 import me.shouheng.commons.event.RxMessage;
 import me.shouheng.commons.helper.ActivityHelper;
-import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.commons.utils.PermissionUtils;
 import me.shouheng.commons.utils.PersistData;
 import me.shouheng.commons.utils.ToastUtils;
@@ -38,8 +37,9 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.dialog.QuickNoteDialog;
 import me.shouheng.notepal.util.AppWidgetUtils;
 import me.shouheng.notepal.vm.QuickViewModel;
+import me.shouheng.utils.stability.L;
 
-import static me.shouheng.commons.event.UMEvent.*;
+import static me.shouheng.commons.event.UMEvent.PAGE_QUICK;
 
 @PageName(name = PAGE_QUICK)
 public class QuickActivity extends PermissionActivity {
@@ -158,7 +158,7 @@ public class QuickActivity extends PermissionActivity {
     }
 
     private  <M extends RxMessage> void addSubscription(Class<M> eventType, int code, Consumer<M> action) {
-        Disposable disposable = RxBus.getRxBus().doSubscribe(eventType, code, action, LogUtils::d);
+        Disposable disposable = RxBus.getRxBus().doSubscribe(eventType, code, action, L::d);
         RxBus.getRxBus().addSubscription(this, disposable);
     }
 

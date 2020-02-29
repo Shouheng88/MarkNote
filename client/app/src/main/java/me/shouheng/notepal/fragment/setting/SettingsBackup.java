@@ -22,20 +22,20 @@ import java.util.Arrays;
 
 import me.shouheng.commons.activity.CommonActivity;
 import me.shouheng.commons.event.PageName;
-import me.shouheng.commons.event.*;
+import me.shouheng.commons.event.UMEvent;
 import me.shouheng.commons.fragment.BPreferenceFragment;
-import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.commons.utils.PermissionUtils;
 import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.DirectoryActivity;
-import me.shouheng.notepal.service.DataBackupService;
+import me.shouheng.notepal.common.enums.SyncTimeInterval;
+import me.shouheng.notepal.common.preferences.SyncPreferences;
 import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.notepal.onedrive.DefaultCallback;
 import me.shouheng.notepal.onedrive.OneDriveManager;
-import me.shouheng.notepal.common.enums.SyncTimeInterval;
-import me.shouheng.notepal.common.preferences.SyncPreferences;
+import me.shouheng.notepal.service.DataBackupService;
+import me.shouheng.utils.stability.L;
 
 /**
  * Created by WngShhng on 2018/1/5.
@@ -248,7 +248,7 @@ public class SettingsBackup extends BPreferenceFragment {
                 })
                 .setNegativeButton(R.string.text_cancel, null)
                 .setPositiveButton(R.string.text_confirm, (dialog, which) -> {
-                    LogUtils.d(selected);
+                    L.d(selected);
                     if (selected.isEmpty()) {
                         ToastUtils.makeToast(R.string.text_failed);
                     } else {

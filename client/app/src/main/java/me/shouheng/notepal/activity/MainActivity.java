@@ -52,7 +52,6 @@ import me.shouheng.commons.helper.ActivityHelper;
 import me.shouheng.commons.helper.FragmentHelper;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.IntentUtils;
-import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.commons.utils.PermissionUtils;
 import me.shouheng.commons.utils.PermissionUtils.Permission;
@@ -92,6 +91,7 @@ import me.shouheng.notepal.fragment.setting.SettingsFragment;
 import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.notepal.util.SynchronizeUtils;
 import me.shouheng.notepal.vm.MainViewModel;
+import me.shouheng.utils.stability.L;
 
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
 import static me.shouheng.commons.event.UMEvent.FAB_SORT_ITEM_CAPTURE;
@@ -597,9 +597,9 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
 
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                LogUtils.d("onScrollStateChanged: ");
+                L.d("onScrollStateChanged: ");
                 if (newState == SCROLL_STATE_IDLE) {
-                    LogUtils.d("onScrollStateChanged: SCROLL_STATE_IDLE");
+                    L.d("onScrollStateChanged: SCROLL_STATE_IDLE");
                 }
             }
         };
@@ -613,7 +613,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                 fabs[i].setLabelText(getString(fabSortItems.get(i).nameRes));
             }
         } catch (Exception e) {
-            LogUtils.d("configFabSortItems, error occurred : " + e);
+            L.d("configFabSortItems, error occurred : " + e);
             UserPreferences.getInstance().setFabSortResult(UserPreferences.defaultFabOrders);
         }
     }

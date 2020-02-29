@@ -47,7 +47,6 @@ import me.shouheng.commons.helper.FragmentHelper;
 import me.shouheng.commons.model.data.Resource;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.IntentUtils;
-import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.commons.utils.ViewUtils;
@@ -68,6 +67,7 @@ import me.shouheng.notepal.manager.NoteManager;
 import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.util.ShortcutHelper;
 import me.shouheng.notepal.vm.NoteViewerViewModel;
+import me.shouheng.utils.stability.L;
 
 import static me.shouheng.notepal.Constants.EXTENSION_3GP;
 import static me.shouheng.notepal.Constants.EXTENSION_MP4;
@@ -159,8 +159,8 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
         getBinding().emv.getFastScrollDelegate().setThumbDynamicHeight(false);
         getBinding().emv.useStyleCss(isDarkTheme() ? EasyMarkViewer.DARK_STYLE_CSS : EasyMarkViewer.LIGHT_STYLE_CSS);
         getBinding().emv.setOnImageClickListener((url, urls) -> {
-            LogUtils.d(url);
-            LogUtils.d(Arrays.toString(urls));
+            L.d(url);
+            L.d(Arrays.toString(urls));
             List<Attachment> attachments = new ArrayList<>();
             Attachment clickedAttachment = null, attachment;
             int index = 0;

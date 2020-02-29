@@ -15,7 +15,7 @@ import io.reactivex.functions.Consumer;
 import me.shouheng.commons.event.RxBus;
 import me.shouheng.commons.event.RxMessage;
 import me.shouheng.commons.theme.ThemeUtils;
-import me.shouheng.commons.utils.LogUtils;
+import me.shouheng.utils.stability.L;
 
 /**
  * Created by WngShhng on 2018/5/18.*/
@@ -71,12 +71,12 @@ public abstract class CommonActivity<T extends ViewDataBinding> extends ThemedAc
     }
 
     protected <M extends RxMessage> void addSubscription(Class<M> eventType, int code, Consumer<M> action) {
-        Disposable disposable = RxBus.getRxBus().doSubscribe(eventType, code, action, LogUtils::d);
+        Disposable disposable = RxBus.getRxBus().doSubscribe(eventType, code, action, L::d);
         RxBus.getRxBus().addSubscription(this, disposable);
     }
 
     protected <M> void addSubscription(Class<M> eventType, Consumer<M> action) {
-        Disposable disposable = RxBus.getRxBus().doSubscribe(eventType, action, LogUtils::d);
+        Disposable disposable = RxBus.getRxBus().doSubscribe(eventType, action, L::d);
         RxBus.getRxBus().addSubscription(this, disposable);
     }
 

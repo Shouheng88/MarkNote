@@ -7,6 +7,7 @@ import com.facebook.stetho.Stetho;
 import com.umeng.commonsdk.UMConfigure;
 
 import me.shouheng.commons.BaseApplication;
+import me.shouheng.utils.UtilsApp;
 
 /**
  * 重点：
@@ -41,6 +42,7 @@ public class PalmApp extends BaseApplication {
         }
 
         UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, "");
+        UtilsApp.init(this);
     }
 
     @Override

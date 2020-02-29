@@ -15,15 +15,15 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
-import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.data.DBConfig;
 import me.shouheng.data.entity.Attachment;
+import me.shouheng.data.store.AttachmentsStore;
+import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.MainActivity;
-import me.shouheng.notepal.Constants;
-import me.shouheng.data.store.AttachmentsStore;
 import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.notepal.util.NotificationsHelper;
+import me.shouheng.utils.stability.L;
 
 /**
  * Created by WngShhng on 2018/1/5.
@@ -171,7 +171,7 @@ public class DataBackupService extends IntentService {
                 FileUtils.copyFileToDirectory(file, attachmentsDir, true);
                 mNotificationsHelper.setMessage(getString(R.string.text_attachment) + " " + imported++ + "/" + size).show();
             } catch (IOException e) {
-                LogUtils.e("Error importing the attachment " + file.getName());
+                L.e("Error importing the attachment " + file.getName());
             }
         }
     }

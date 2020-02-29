@@ -27,7 +27,6 @@ import io.reactivex.schedulers.Schedulers;
 import me.shouheng.commons.image.GifSizeFilter;
 import me.shouheng.commons.image.Glide4Engine;
 import me.shouheng.commons.utils.IntentUtils;
-import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.data.ModelFactory;
@@ -41,6 +40,7 @@ import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.GalleryActivity;
 import me.shouheng.notepal.activity.SketchActivity;
 import me.shouheng.notepal.manager.FileManager;
+import me.shouheng.utils.stability.L;
 import top.zibin.luban.Luban;
 import top.zibin.luban.OnCompressListener;
 
@@ -470,8 +470,8 @@ public class AttachmentHelper {
                                       Attachment attachment,
                                       List<Attachment> attachments,
                                       String galleryTitle) {
-        LogUtils.d(attachment);
-        LogUtils.d(Arrays.toString(attachments.toArray(new Attachment[0])));
+        L.d(attachment);
+        L.d(Arrays.toString(attachments.toArray(new Attachment[0])));
         int clickedPosition = 0;
         ArrayList<Attachment> images = new ArrayList<>();
         for (Attachment a : attachments) {
@@ -485,7 +485,7 @@ public class AttachmentHelper {
                 }
             }
         }
-        LogUtils.d(clickedPosition);
+        L.d(clickedPosition);
         Intent intent = new Intent(context, GalleryActivity.class);
         intent.putExtra(GalleryActivity.EXTRA_GALLERY_TITLE, galleryTitle);
         intent.putParcelableArrayListExtra(GalleryActivity.EXTRA_GALLERY_IMAGES, images);

@@ -10,16 +10,16 @@ import android.view.View;
 import android.widget.RemoteViews;
 
 import me.shouheng.commons.utils.ColorUtils;
-import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.activity.MainActivity;
+import me.shouheng.utils.stability.L;
 
 public class ListWidgetProvider extends BaseWidgetProvider {
 
     @Override
     protected RemoteViews getRemoteViews(Context context, int widgetId, boolean isSmall, boolean isSingleLine, SparseArray<PendingIntent> map) {
-        LogUtils.d(isSingleLine + " " + isSmall);
+        L.d(isSingleLine + " " + isSmall);
 
         if (isSmall) {
             return configSmall(context, map);

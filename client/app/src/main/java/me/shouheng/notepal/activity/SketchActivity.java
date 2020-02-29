@@ -27,15 +27,15 @@ import java.io.FileOutputStream;
 
 import me.shouheng.commons.activity.CommonActivity;
 import me.shouheng.commons.event.PageName;
-import me.shouheng.commons.utils.LogUtils;
 import me.shouheng.commons.utils.ToastUtils;
 import me.shouheng.commons.utils.ViewUtils;
 import me.shouheng.commons.widget.sketch.OnDrawChangedListener;
 import me.shouheng.commons.widget.sketch.SketchView;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.ActivitySketchBinding;
+import me.shouheng.utils.stability.L;
 
-import static me.shouheng.commons.event.UMEvent.*;
+import static me.shouheng.commons.event.UMEvent.PAGE_SKETCH;
 
 /**
  * The activity used to sketch
@@ -94,7 +94,7 @@ public class SketchActivity extends CommonActivity<ActivitySketchBinding>
                 bmp = BitmapFactory.decodeStream(getContentResolver().openInputStream(baseUri));
                 getBinding().sketchView.setBackgroundBitmap(this, bmp);
             } catch (FileNotFoundException e) {
-                LogUtils.e("Error replacing sketch bitmap background.", e);
+                L.e("Error replacing sketch bitmap background.", e);
             }
         }
         if (!intent.hasExtra(EXTRA_KEY_OUTPUT_FILE_PATH)) {
@@ -304,7 +304,7 @@ public class SketchActivity extends CommonActivity<ActivitySketchBinding>
                     ToastUtils.makeToast(R.string.text_file_not_exist);
                 }
             } catch (Exception e) {
-                LogUtils.e("Error writing sketch image data", e);
+                L.e("Error writing sketch image data", e);
                 finish();
             }
         }
