@@ -768,7 +768,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
         switch (item.getItemId()) {
             case android.R.id.home: {
                 Fragment fragment = getCurrentFragment();
-                if (!fragment.onOptionsItemSelected(item)) {
+                if (fragment != null && !fragment.onOptionsItemSelected(item)) {
                     drawer.openDrawer();
                 }
                 return true;
