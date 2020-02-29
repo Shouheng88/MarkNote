@@ -470,7 +470,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                                 .setView(binding.getRoot()).create();
                         binding.btnCancel.setOnClickListener(v -> bottomSheet.dismiss());
                         binding.btnCreate.setOnClickListener(v -> {
-                            if (Constants.MIME_TYPE_OF_PLAIN_TEXT.equals(intent.getType())) {
+                            if (!TextUtils.isEmpty(path) && (path.endsWith(".txt") || path.endsWith(".md"))) {
                                 ContainerActivity.open(NoteFragment.class)
                                         .put(NoteFragment.ARGS_KEY_ACTION, action)
                                         .put(NoteFragment.ARGS_KEY_INTENT, intent)
