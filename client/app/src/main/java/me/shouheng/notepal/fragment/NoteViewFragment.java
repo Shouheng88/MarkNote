@@ -89,13 +89,13 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
     /**
      * The key for argument, used to send the note model to this fragment.
      */
-    public final static String ARGS_KEY_NOTE = "__args_key_note";
+    public static final String ARGS_KEY_NOTE = "__args_key_note";
 
     /**
      * The key for argument, used to set the behavior of this fragment. If true, the edit FAB
      * won't be displayed.
      */
-    public final static String ARGS_KEY_IS_PREVIEW = "__args_key_is_preview";
+    public static final String ARGS_KEY_IS_PREVIEW = "__args_key_is_preview";
 
     /**
      * The request code for editing this note.

@@ -37,7 +37,7 @@ public class NoteManager {
     /**
      * The split char used to connect the category code.
      */
-    private final static String CATEGORY_SPLIT = ",";
+    private static final String CATEGORY_SPLIT = ",";
 
     /**
      * The note title regex expression pattern, use the {@link Constants#REGEX_NOTE_TITLE}.

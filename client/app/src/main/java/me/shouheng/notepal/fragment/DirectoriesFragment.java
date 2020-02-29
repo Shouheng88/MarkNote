@@ -32,7 +32,7 @@ import me.shouheng.notepal.vm.DirectoryViewModel;
 @PageName(name = UMEvent.PAGE_DIRECTORIES)
 public class DirectoriesFragment extends BaseFragment<FragmentDirectoriesBinding> {
 
-    private final static String KEY_DIRECTORY = "key_item_id";
+    private static final String KEY_DIRECTORY = "key_item_id";
 
     private DirectoryViewModel viewModel;
 

@@ -51,12 +51,12 @@ public class SketchActivity extends CommonActivity<ActivitySketchBinding>
      * Use the key to put the {@link Uri} of a bitmap to the intent, and the draw action
      * will then be based on the bitmap.
      */
-    public final static String EXTRA_KEY_BASE_BITMAP = "__extra_key_based_bitmap";
+    public static final String EXTRA_KEY_BASE_BITMAP = "__extra_key_based_bitmap";
 
     /**
      * The key used to put the output file path.
      */
-    public final static String EXTRA_KEY_OUTPUT_FILE_PATH = "__extra_key_output_file_path";
+    public static final String EXTRA_KEY_OUTPUT_FILE_PATH = "__extra_key_output_file_path";
 
     private View popupLayout, popupEraserLayout;
     private ImageView strokeImageView, eraserImageView;

@@ -96,20 +96,20 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding>
      * The key for action, used to send a command to this fragment.
      * The MainActivity will directly put the action argument to this fragment if received itself.
      */
-    public final static String ARGS_KEY_ACTION = "__args_key_action";
+    public static final String ARGS_KEY_ACTION = "__args_key_action";
 
     /**
      * The intent the MainActivity received. This fragment will get the extras from this value,
      * and handle the intent later.
      */
-    public final static String ARGS_KEY_INTENT = "__args_key_intent";
+    public static final String ARGS_KEY_INTENT = "__args_key_intent";
 
     /**
      * The most important argument, the note model, used to get the information of note.
      */
-    public final static String ARGS_KEY_NOTE = "__args_key_note";
+    public static final String ARGS_KEY_NOTE = "__args_key_note";
 
-    private final static String TAB_REPLACEMENT = "    ";
+    private static final String TAB_REPLACEMENT = "    ";
 
     private NoteViewModel viewModel;
     private EditText etTitle;

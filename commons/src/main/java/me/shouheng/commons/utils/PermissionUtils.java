@@ -20,21 +20,21 @@ import me.shouheng.commons.activity.PermissionActivity;
  */
 public class PermissionUtils {
 
-    private final static int REQUEST_PERMISSIONS = 0xFF00;
+    private static final int REQUEST_PERMISSIONS = 0xFF00;
 
     /**
      * The permission groups with int value.
      */
     public static class Permission {
-        public final static int STORAGE = 0xFF01;
-        public final static int PHONE_STATE = 0xFF02;
-        public final static int LOCATION = 0xFF03;
-        public final static int MICROPHONE = 0xFF04;
-        public final static int SMS = 0xFF05;
-        public final static int SENSORS = 0xFF06;
-        public final static int CONTACTS = 0xFF07;
-        public final static int CAMERA = 0xFF08;
-        public final static int CALENDAR = 0xFF09;
+        public static final int STORAGE = 0xFF01;
+        public static final int PHONE_STATE = 0xFF02;
+        public static final int LOCATION = 0xFF03;
+        public static final int MICROPHONE = 0xFF04;
+        public static final int SMS = 0xFF05;
+        public static final int SENSORS = 0xFF06;
+        public static final int CONTACTS = 0xFF07;
+        public static final int CAMERA = 0xFF08;
+        public static final int CALENDAR = 0xFF09;
     }
 
     /**

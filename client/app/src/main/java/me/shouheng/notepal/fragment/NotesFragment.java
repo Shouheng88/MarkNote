@@ -52,18 +52,18 @@ public class NotesFragment extends CommonFragment<FragmentNotesBinding> {
      * Argument key for notebook, null if showing the top level notebook
      * or showing the category notes list.
      */
-    public final static String ARGS_KEY_NOTEBOOK = "__argument_key_notebook";
+    public static final String ARGS_KEY_NOTEBOOK = "__argument_key_notebook";
 
     /**
      * Argument key for category, null if showing the notebook.
      */
-    public final static String ARGS_KEY_CATEGORY = "__argument_key_category";
+    public static final String ARGS_KEY_CATEGORY = "__argument_key_category";
 
     /**
      * REQUIRED: Argument key for status, Might be one of {@link Status#ARCHIVED},
      * {@link Status#DELETED}, {@link Status#NORMAL} or {@link Status#TRASHED}
      */
-    public final static String ARGS_KEY_STATUS = "__argument_key_status";
+    public static final String ARGS_KEY_STATUS = "__argument_key_status";
 
     private RecyclerView.OnScrollListener scrollListener;
     private NotesAdapter adapter;

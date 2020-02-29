@@ -61,7 +61,7 @@ public class FileManager {
 
     private static final String EXTERNAL_STORAGE_FOLDER = "NotePal";
     private static final String EXTERNAL_STORAGE_BACKUP_DIR = "Backup";
-    private final static String DATE_FORMAT_SORTABLE = "yyyyMMdd_HHmmss_SSS";
+    private static final String DATE_FORMAT_SORTABLE = "yyyyMMdd_HHmmss_SSS";
     private static final String ANSI_INVALID_CHARACTERS = "\\/:*?\"<>|";
 
     private static boolean isStorageWritable() {

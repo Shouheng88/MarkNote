@@ -52,7 +52,7 @@ import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOption
  */
 public class QuickNoteDialog extends DialogFragment implements AttachmentHelper.OnAttachingFileListener {
 
-    public final static String ARGS_KEY_QUICK_NOTE = "__args_key_quick_note";
+    public static final String ARGS_KEY_QUICK_NOTE = "__args_key_quick_note";
 
     private QuickNote quickNote;
     private Attachment attachment;

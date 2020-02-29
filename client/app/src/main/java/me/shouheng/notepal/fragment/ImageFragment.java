@@ -36,9 +36,9 @@ import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOption
 @PageName(name = UMEvent.PAGE_IMAGE)
 public class ImageFragment extends Fragment {
 
-    public final static String ARG_ATTACHMENT = "__args_key_attachment";
+    public static final String ARG_ATTACHMENT = "__args_key_attachment";
 
-    private final static String STATE_SAVE_KEY_ATTACHMENT = "__state_save_key_attachment";
+    private static final String STATE_SAVE_KEY_ATTACHMENT = "__state_save_key_attachment";
 
     private Attachment attachment;
 

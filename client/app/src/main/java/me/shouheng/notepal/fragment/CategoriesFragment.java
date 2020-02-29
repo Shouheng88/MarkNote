@@ -47,7 +47,7 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding> 
      * The argument key for this fragment. The status of current categories list.
      * Or null of showing the normal categories.
      */
-    public final static String ARGS_KEY_STATUS = "__args_key_status";
+    public static final String ARGS_KEY_STATUS = "__args_key_status";
 
     private RecyclerView.OnScrollListener scrollListener;
     private CategoriesAdapter mAdapter;

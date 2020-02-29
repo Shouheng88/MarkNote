@@ -40,8 +40,8 @@ import static me.shouheng.commons.event.UMEvent.PAGE_LOCK;
 @PageName(name = PAGE_LOCK)
 public class LockActivity extends CommonActivity<ActivityLockBinding> {
 
-    public final static String ACTION_SET_PASSWORD = "__action_set_password";
-    public final static String ACTION_REQUIRE_PASSWORD = "__action_require_password";
+    public static final String ACTION_SET_PASSWORD = "__action_set_password";
+    public static final String ACTION_REQUIRE_PASSWORD = "__action_require_password";
 
     private FingerprintIdentify mFingerprintIdentify;
     private static final int MAX_AVAILABLE_TIMES = 5;

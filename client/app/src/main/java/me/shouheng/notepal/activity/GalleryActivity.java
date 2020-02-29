@@ -43,9 +43,9 @@ import static me.shouheng.commons.event.UMEvent.PAGE_GALLERY;
 @PageName(name = PAGE_GALLERY)
 public class GalleryActivity extends AppCompatActivity implements PullBackLayout.Callback {
 
-    public final static String EXTRA_GALLERY_IMAGES = "__extra_gallery_images";
-    public final static String EXTRA_GALLERY_TITLE = "__extra_gallery_title";
-    public final static String EXTRA_GALLERY_CLICKED_IMAGE = "__extra_gallery_clicked_image";
+    public static final String EXTRA_GALLERY_IMAGES = "__extra_gallery_images";
+    public static final String EXTRA_GALLERY_TITLE = "__extra_gallery_title";
+    public static final String EXTRA_GALLERY_CLICKED_IMAGE = "__extra_gallery_clicked_image";
 
     private ColorDrawable mBackground;
     private HackyViewPager mViewPager;
