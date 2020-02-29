@@ -9,7 +9,8 @@
 
     <application>
 
-        <activity android:name=".activity.ContainerActivity"/>
+        <activity android:name=".activity.ContainerActivity"
+            android:screenOrientation="portrait"/>
 
         <activity android:name="me.shouheng.commons.minipay.DonateActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
