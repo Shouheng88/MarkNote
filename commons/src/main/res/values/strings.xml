@@ -347,7 +347,7 @@
     <string name="setting_backup_delete_sub">Delete the backup on external storage</string>
     <string name="setting_backup_onedrive">OneDrive</string>
     <string name="setting_backup_onedrive_sign">Connect OneDrive</string>
-    <string name="setting_backup_onedrive_sign_sub">Sign in to synchronize files to OneDrive</string>
+    <string name="setting_backup_onedrive_sign_sub">Sign in to synchronize files to OneDrive. Caution: due to OneDrive synchronization rate is relatively slow, it\'s hard for the program to guarantee the efficiency of data synchronization.</string>
     <string name="setting_backup_onedrive_sign_out">Sign out OneDrive</string>
     <string name="setting_backup_onedrive_sign_out_sub">Sign out OneDrive to stop synchronize</string>
     <string name="setting_backup_settings">Synchronization settings</string>

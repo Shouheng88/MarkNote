@@ -341,7 +341,7 @@
     <string name="setting_backup_delete_sub">删除備份在外部存儲空間的數據</string>
     <string name="setting_backup_onedrive">OneDrive</string>
     <string name="setting_backup_onedrive_sign">連接 OneDrive</string>
-    <string name="setting_backup_onedrive_sign_sub">登入 OneDrive 以同步</string>
+    <string name="setting_backup_onedrive_sign_sub">登錄 OneDrive 以同步數據。注意：因爲 OneDrive 同步的速率比較慢，程序難以保證數據同步的效率。</string>
     <string name="setting_backup_onedrive_sign_out">退出 OneDrive</string>
     <string name="setting_backup_onedrive_sign_out_sub">退出 OneDrive 並停止資料同步</string>
     <string name="setting_backup_settings">同步設定</string>
