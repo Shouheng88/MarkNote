@@ -58,6 +58,22 @@
     <string name="offline_check_wifi_state_hint">Check your Wi-Fi or mobile data\n connection and try again</string>
     <string name="text_crash_tips">Sorry, crashed!</string>
 
+    <string name="blue_grey_500">blue grey</string>
+    <string name="my_cyan">cyan</string>
+    <string name="blue_grey_deep_blue">deep grey blue</string>
+    <string name="blue_grey_deep_grey">deep blue grey</string>
+    <string name="brown">brown</string>
+    <string name="blue_deep">deep blue</string>
+    <string name="pine_green">pine green</string>
+    <string name="my_purple">grey purple</string>
+    <string name="elegant_orange">elegant orange</string>
+    <string name="Aein_red">Aein red</string>
+
+    <string name="cd_picked">Picked,</string>
+    <string name="cd_unpicked">Unpicked,</string>
+
+    <string name="all_color">ALL COLOR</string>
+
     <!-- app commons -->
     <string name="text_add_shortcut">Add shortcut</string>
     <string name="text_note_not_found">Note not found.</string>
@@ -234,6 +250,7 @@
     <string name="note_action_view_message">Found that you opened an external file, please select an action:</string>
     <string name="note_action_view_create_note">Create mew note</string>
     <string name="note_action_view_file_type_not_support">This file type is not supported.</string>
+    <string name="note_note_edit_bg">Editor Background</string>
 
     <!-- attachment -->
     <string name="attachment_type_files">File</string>

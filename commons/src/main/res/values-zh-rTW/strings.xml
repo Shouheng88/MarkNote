@@ -58,6 +58,20 @@
     <string name="offline_check_wifi_state_hint">檢查你的Wi-Fi或者移動數據連接\n並再次嘗試</string>
     <string name="text_crash_tips">Sorry, crashed!</string>
 
+    <string name="blue_grey_500">藍灰色</string>
+    <string name="my_cyan">淺青色</string>
+    <string name="blue_grey_deep_blue">深灰藍</string>
+    <string name="blue_grey_deep_grey">深灰色</string>
+    <string name="brown">棕色</string>
+    <string name="blue_deep">深藍色</string>
+    <string name="pine_green">鬆綠色</string>
+    <string name="my_purple">紫色</string>
+    <string name="elegant_orange">淡雅橙</string>
+    <string name="Aein_red">女神紅</string>
+
+    <string name="cd_picked">已選中，</string>
+    <string name="cd_unpicked">未選中，</string>
+
     <!-- app commons -->
     <string name="text_add_shortcut">添加快捷方式</string>
     <string name="text_note_not_found">沒有找到這個筆記</string>
@@ -224,6 +238,7 @@
     <string name="note_action_view_message">發現你打開了一個外部檔案，請選擇一種打開管道：</string>
     <string name="note_action_view_create_note">創建新筆記</string>
     <string name="note_action_view_file_type_not_support">不支持該檔案類型</string>
+    <string name="note_note_edit_bg">編輯器背景</string>
 
     <!-- attachment -->
     <string name="attachment_type_files">檔案</string>

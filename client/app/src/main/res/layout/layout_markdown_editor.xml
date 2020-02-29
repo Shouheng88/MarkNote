@@ -7,7 +7,6 @@
 
     <me.shouheng.easymark.scroller.FastScrollScrollView
         android:id="@+id/fssv"
-        tools:background="#60123b"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -97,6 +96,12 @@
                         style="@style/MDButton"
                         android:id="@+id/iv_dedent"
                         android:src="@drawable/ic_format_indent_decrease_white_24dp" />
+
+                    <android.support.v7.widget.AppCompatImageView
+                        style="@style/MDButton"
+                        android:id="@+id/iv_style"
+                        android:visibility="gone"
+                        android:src="@drawable/ic_color_lens_white_24dp" />
 
                 </LinearLayout>
 

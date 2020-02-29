@@ -53,4 +53,8 @@
         android:title="@string/note_settings"
         app:showAsAction="never"/>
 
+    <item android:id="@+id/action_setting_bg"
+        android:title="@string/note_note_edit_bg"
+        app:showAsAction="never"/>
+
 </menu>

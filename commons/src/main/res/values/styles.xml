@@ -225,4 +225,9 @@
         <item name="android:windowIsTranslucent">false</item>
     </style>
 
+    <style name="ColorPickerAnimation">
+        <item name="android:windowEnterAnimation">@anim/color_picker_show</item>
+        <item name="android:windowExitAnimation">@anim/color_picker_hide</item>
+    </style>
+
 </resources>

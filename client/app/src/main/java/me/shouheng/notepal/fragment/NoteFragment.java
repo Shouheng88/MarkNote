@@ -42,14 +42,15 @@ import me.shouheng.commons.activity.PermissionActivity;
 import me.shouheng.commons.activity.interaction.BackEventResolver;
 import me.shouheng.commons.event.PageName;
 import me.shouheng.commons.event.RxMessage;
-import me.shouheng.commons.event.*;
+import me.shouheng.commons.event.UMEvent;
 import me.shouheng.commons.fragment.CommonFragment;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.PalmUtils;
 import me.shouheng.commons.utils.PermissionUtils;
 import me.shouheng.commons.utils.PermissionUtils.Permission;
+import me.shouheng.commons.utils.PersistData;
 import me.shouheng.commons.utils.StringUtils;
-import me.shouheng.utils.ui.ToastUtils;
+import me.shouheng.commons.widget.dialog.ColorPicker;
 import me.shouheng.data.ModelFactory;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.data.entity.Category;
@@ -73,6 +74,8 @@ import me.shouheng.notepal.util.AppWidgetUtils;
 import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.vm.NoteViewModel;
 import me.shouheng.notepal.widget.MDEditorLayout;
+import me.shouheng.utils.stability.L;
+import me.shouheng.utils.ui.ToastUtils;
 
 import static android.app.Activity.RESULT_OK;
 import static me.shouheng.notepal.Constants.FAB_ACTION_CAPTURE;
@@ -114,6 +117,7 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding>
     private NoteViewModel viewModel;
     private EditText etTitle;
     private EasyMarkEditor eme;
+    private ColorPicker mColorPicker;
 
     @Override
     protected int getLayoutResId() {
@@ -140,6 +144,17 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding>
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle("");
         }
+
+        int bgColor = PersistData.getInt("bg_color", 0);
+        if (bgColor != 0) {
+            getBinding().ivBg.setBackgroundColor(bgColor);
+        }
+        mColorPicker = new ColorPicker(getContext(), ColorPicker.PickerType.COLOR_NO_ALL);
+        mColorPicker.setPickedListener(v -> {
+            L.d("PICKED COLOR: " + mColorPicker.getPickedColor());
+            getBinding().ivBg.setBackgroundColor(mColorPicker.getPickedColor());
+            PersistData.putInt("bg_color", mColorPicker.getPickedColor());
+        });
 
         /* Config the edit layout */
         MDEditorLayout mel = getBinding().mel;
@@ -534,6 +549,9 @@ public class NoteFragment extends CommonFragment<FragmentNoteBinding>
                 SettingsActivity.open(SettingsNote.class).launch(getContext());
                 break;
             }
+            case R.id.action_setting_bg:
+                mColorPicker.show(getBinding().getRoot());
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

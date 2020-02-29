@@ -19,6 +19,7 @@
         <android.support.v7.widget.AppCompatTextView
             android:padding="20dp"
             android:text="@string/drawer_menu_notice_details"
+            android:fontFamily="@font/font"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
