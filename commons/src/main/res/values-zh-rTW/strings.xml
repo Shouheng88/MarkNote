@@ -113,6 +113,15 @@
     <string name="drawer_menu_share">分享App</string>
     <string name="drawer_menu_donate">支持開發</string>
     <string name="drawer_header_sub_title">記錄美好生活</string>
+    <string name="drawer_menu_notice">通知</string>
+    <string name="drawer_menu_notice_details">
+        用戶你好，感謝您一直使用該軟件。\n\n因爲該軟件早期設計的時候在對本地文件的管理上存在不足，
+        筆記當中到圖片文件同步到服務器之後無法不做變動顯示到文章當中。我們本來計劃在後續到版本修複這個問題，但是，
+        但是修複這個問題的成本並不比重做一個低，因此，
+        因此我們考慮重新做一個同類的軟件，並且重新設計應用的交互，並完善和豐富 Markdown 預覽和解析的功能。
+        我們希望您繼續關注開發者和該軟件的動態。當新的應用開發完畢的時候，我們會第一時間通知您！\n\n以上。\n\n
+        祝您工作和學習愉快，身體健康！</string>
+
     <!-- shortcuts -->
     <string name="shortcut_add_long_name">創建筆記</string>
     <string name="shortcut_add_short_name">創建</string>

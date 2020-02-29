@@ -113,6 +113,14 @@
     <string name="drawer_menu_share">分享 App</string>
     <string name="drawer_menu_donate">支持开发</string>
     <string name="drawer_header_sub_title">记录美好生活</string>
+    <string name="drawer_menu_notice">通知</string>
+    <string name="drawer_menu_notice_details">
+        用户你好，感谢您一直使用该软件。\n\n因为该软件早期设计的时候在对本地文件的管理上存在不足，
+        笔记当中到图片文件同步到服务器之后无法不做变动显示到文章当中。我们本来计划在后续到版本修复这个问题，但是，
+        但是修复这个问题的成本并不比重做一个低，因此，
+        因此我们考虑重新做一个同类的软件，并且重新设计应用的交互，并完善和丰富 Markdown 预览和解析的功能。
+        我们希望您继续关注开发者和该软件的动态。当新的应用开发完毕的时候，我们会第一时间通知您！\n\n以上。\n\n
+        祝您工作和学习愉快，身体健康！</string>
 
     <!-- shortcuts -->
     <string name="shortcut_add_long_name">创建笔记</string>

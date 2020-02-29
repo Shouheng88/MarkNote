@@ -14,6 +14,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Pair;
@@ -271,6 +272,16 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                 R.string.drawer_menu_time_line, R.drawable.ic_timeline_black_24dp, 7, false);
         PrimaryDrawerItem itemShare = ColorUtils.getColoredDrawerMenuItem(
                 R.string.drawer_menu_share, R.drawable.ic_share_white, 8, false);
+        PrimaryDrawerItem itemNotice = new PrimaryDrawerItem()
+                .withName(R.string.drawer_menu_notice)
+                .withIcon(R.drawable.ic_local_post_office_black_24dp)
+                .withIdentifier(9)
+                .withTextColorRes(R.color.yellow_dark)
+                .withSelectable(false)
+                .withSelectedColorRes(R.color.yellow_dark)
+                .withIconTintingEnabled(false)
+                .withSelectedTextColor(ColorUtils.accentColor())
+                .withSelectedIconColor(ColorUtils.accentColor());
 
         LayoutHeaderBinding binding = DataBindingUtil.inflate(LayoutInflater.from(this),
                 R.layout.layout_header, null, false);
@@ -279,7 +290,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
         drawer = new DrawerBuilder().withActivity(this)
                 .withHasStableIds(true)
                 .addDrawerItems(itemNotes, itemTags, itemTimeLine, divider, itemStatistic, itemArchive,
-                        itemTrash, divider, itemSetting, itemShare, itemDonate)
+                        itemTrash, divider, itemSetting, itemShare, itemDonate, itemNotice)
                 .withMultiSelect(false)
                 .withSelectedItem(0)
                 .withSliderBackgroundColorRes(isDarkTheme() ? R.color.dark_theme_background : R.color.light_theme_background)
@@ -353,6 +364,14 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                                             }, throwable -> ToastUtils.showShort(throwable.getMessage())));
                             break;
                         }
+                        case 9:
+                            AlertDialog alertDialog = new AlertDialog.Builder(this)
+                                    .setPositiveButton(R.string.text_get_it, null)
+                                    .setView(R.layout.dialog_announcement)
+                                    .setCancelable(false)
+                                    .create();
+                            alertDialog.show();
+                            break;
                     }
                     return true;
                 })
