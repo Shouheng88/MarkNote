@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -48,14 +49,13 @@ import me.shouheng.commons.model.data.Resource;
 import me.shouheng.commons.utils.ColorUtils;
 import me.shouheng.commons.utils.IntentUtils;
 import me.shouheng.commons.utils.PalmUtils;
-import me.shouheng.utils.ui.ToastUtils;
+import me.shouheng.commons.utils.PersistData;
 import me.shouheng.commons.utils.ViewUtils;
 import me.shouheng.commons.widget.Chip;
 import me.shouheng.data.ModelFactory;
 import me.shouheng.data.entity.Attachment;
 import me.shouheng.data.entity.Category;
 import me.shouheng.data.entity.Note;
-import me.shouheng.easymark.EasyMarkViewer;
 import me.shouheng.easymark.viewer.listener.LifecycleListener;
 import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.PalmApp;
@@ -68,6 +68,7 @@ import me.shouheng.notepal.util.AttachmentHelper;
 import me.shouheng.notepal.util.ShortcutHelper;
 import me.shouheng.notepal.vm.NoteViewerViewModel;
 import me.shouheng.utils.stability.L;
+import me.shouheng.utils.ui.ToastUtils;
 
 import static me.shouheng.notepal.Constants.EXTENSION_3GP;
 import static me.shouheng.notepal.Constants.EXTENSION_MP4;
@@ -153,11 +154,12 @@ public class NoteViewFragment extends BaseFragment<FragmentNoteViewBinding> impl
         }
 
         /* Config WebView. */
+        int bgColor = PersistData.getInt("bg_color", Color.parseColor("#607D8B"));
+        getBinding().emv.setBackgroundColor(bgColor);
         getBinding().emv.getFastScrollDelegate().setThumbDrawable(PalmUtils.getDrawableCompact(
                 isDarkTheme() ? R.drawable.fast_scroll_bar_dark : R.drawable.fast_scroll_bar_light));
         getBinding().emv.getFastScrollDelegate().setThumbSize(16, 40);
         getBinding().emv.getFastScrollDelegate().setThumbDynamicHeight(false);
-        getBinding().emv.useStyleCss(isDarkTheme() ? EasyMarkViewer.DARK_STYLE_CSS : EasyMarkViewer.LIGHT_STYLE_CSS);
         getBinding().emv.setOnImageClickListener((url, urls) -> {
             L.d(url);
             L.d(Arrays.toString(urls));
