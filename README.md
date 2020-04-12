@@ -1,10 +1,27 @@
 <img id="app" src="resources/images/banner2.jpg"/>
 
-![SLicense](https://img.shields.io/badge/License-GPLv3-red.svg)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/8c25b2d028434d62a39153ff879aa6a4)](https://www.codacy.com/app/Shouheng88/MarkNote?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Shouheng88/MarkNote&amp;utm_campaign=Badge_Grade)
-[![Build Status](https://travis-ci.org/Shouheng88/MarkNote.svg?branch=master)](https://travis-ci.org/Shouheng88/MarkNote)
+<h1 align="center">MarkNote: the markdown note-taking application for Android</h1>
 
-# MarkNote the markdown note-taking application for Android
+<p align="center">
+  <a>
+    <img src="https://img.shields.io/badge/License-GPLv3-red.svg" alt="License" />
+  </a>
+  <a href="https://www.codacy.com/app/Shouheng88/MarkNote?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Shouheng88/MarkNote&amp;utm_campaign=Badge_Grade">
+    <img src="https://api.codacy.com/project/badge/Grade/8c25b2d028434d62a39153ff879aa6a4" alt="Code Grade"/>
+  </a>
+  <a href="https://travis-ci.org/Shouheng88/MarkNote">
+    <img src="https://travis-ci.org/Shouheng88/MarkNote.svg?branch=master" alt="Build"/>
+  </a>
+    <a href="https://developer.android.com/about/versions/android-4.4.html">
+    <img src="https://img.shields.io/badge/API-19%2B-blue.svg?style=flat-square" alt="Min Sdk Version" />
+  </a>
+   <a href="https://github.com/Shouheng88">
+    <img src="https://img.shields.io/badge/Author-CodeBrick-orange.svg?style=flat-square" alt="Author" />
+  </a>
+  <a target="_blank" href="https://shang.qq.com/wpa/qunwpa?idkey=2711a5fa2e3ecfbaae34bd2cf2c98a5b25dd7d5cc56a3928abee84ae7a984253">
+    <img src="https://img.shields.io/badge/QQ%E7%BE%A4-1018235573-orange.svg?style=flat-square" alt="QQ Group" />
+  </a>
+</p>
 
 > MarkNote is a fast, material and multifunctional markdown note-taking application for Android. It has many cool features which can fit most of the requirements of the user. Now it is open sourced on Github for communication and studying. Surely, we hope that you can join the development of MarkNote to make it more useful.
 
@@ -56,6 +73,7 @@ Here I made a list of its functions:
 |13|Image **COMPRESS**|
 |14|Backup to **EXTERNAL STORAGE**|
 |15|**SHORTCUT** to edit note|
+|16|**HIGHLIGHT**|
 
 ## 4. Participate
 
@@ -73,29 +91,43 @@ If you find some unpleasent bugs, please don't be heasitated to report to me by 
 1. WngShhng-[Website](https://github.com/Shouheng88)
 2. [Uraka Lee](https://github.com/urakalee)
 
-## 5. About me
+## 5. Author
 
-I'm WngShhng (Shouheng Wang) and I'm an Android and Java developer. You can follow me at:
+![Banner](https://github.com/CostCost/Resources/blob/master/github/banner.jpg?raw=true)
+![Offical](https://github.com/CostCost/Resources/blob/master/github/offical.png?raw=true)
+
+I'm an Android and Java developer. You can follow me at:
 
 1. Twitter: https://twitter.com/shouheng_wang
 2. 微博：https://weibo.com/5401152113/profile?rightmod=1&wvr=6&mod=personinfo
 3. Github: https://github.com/Shouheng88
 4. 掘金：https://juejin.im/user/585555e11b69e6006c907a2a
 
+I am recently working on an Android architechture project. You can view my projects of:
+
+- [Android-MVVMs](https://github.com/Shouheng88/Android-MVVMs): Android quick development architecture based on Google Jetpack.
+- [Android-uix](https://github.com/Shouheng88/Android-uix): Ui widgets, pages components for Android.
+- [Android-utils](https://github.com/Shouheng88/Android-utils): Android utils library.
+- [Matisse](https://github.com/Shouheng88/Matisse): Matisse for universal image picjker on Android platform.
+- [Compressor](https://github.com/Shouheng88/Compressor): An easy to use image compress library.
+
+## 6. Dontae
+
+Aim at providing a quick development strategy for Android develpers, we hope our project can help them improve their efficency, save their time. If you want to support our work, you can donate by channels provided below:
+
+<div style="display:flex;" id="target">
+<img src="https://github.com/CostCost/Resources/blob/master/github/ali.jpg?raw=true" width="25%" />
+<img src="https://github.com/CostCost/Resources/blob/master/github/mm.png?raw=true" style="margin-left:10px;" width="25%"/>
+</div>
+
 ## License
 
+```
+Copyright 2016-2020 CodeBrick
 
-    Copyright 2016-2018 WngShhng
-    
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-    
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-    
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.
+```
