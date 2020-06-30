@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="me.shouheng.notepal">
+    package="me.shouheng.notepal"
+    android:installLocation="auto">
 
     <!-- umeng and business -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
