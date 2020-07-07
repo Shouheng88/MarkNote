@@ -110,7 +110,7 @@ I am recently working on an Android architechture project. You can view my proje
 - [Matisse](https://github.com/Shouheng88/Matisse): Matisse for universal image picjker on Android platform.
 - [Compressor](https://github.com/Shouheng88/Compressor): An easy to use image compress library.
 
-## 6. Dontae
+## 6. Donate
 
 Aim at providing a quick development strategy for Android develpers, we hope our project can help them improve their efficency, save their time. If you want to support our work, you can donate by channels provided below:
 
