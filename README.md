@@ -93,8 +93,7 @@ If you find some unpleasent bugs, please don't be heasitated to report to me by 
 
 ## 5. Author
 
-![Banner](https://github.com/CostCost/Resources/blob/master/github/banner.jpg?raw=true)
-![Offical](https://github.com/CostCost/Resources/blob/master/github/offical.png?raw=true)
+![Banner](https://github.com/CostCost/Resources/blob/master/github/xbanner.jpg?raw=true)
 
 I'm an Android and Java developer. You can follow me at:
 
