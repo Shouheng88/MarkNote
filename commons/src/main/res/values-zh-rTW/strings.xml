@@ -128,14 +128,16 @@
     <string name="drawer_menu_share">分享App</string>
     <string name="drawer_menu_donate">支持開發</string>
     <string name="drawer_header_sub_title">記錄美好生活</string>
-    <string name="drawer_menu_notice">通知</string>
+    <string name="drawer_menu_notice">新應用：言葉！</string>
     <string name="drawer_menu_notice_details">
-        用戶你好，感謝您一直使用該軟件。\n\n因爲該軟件早期設計的時候在對本地文件的管理上存在不足，
-        筆記當中到圖片文件同步到服務器之後無法不做變動顯示到文章當中。我們本來計劃在後續到版本修複這個問題，但是，
-        但是修複這個問題的成本並不比重做一個低，因此，
-        因此我們考慮重新做一個同類的軟件，並且重新設計應用的交互，並完善和豐富 Markdown 預覽和解析的功能。
-        我們希望您繼續關注開發者和該軟件的動態。當新的應用開發完畢的時候，我們會第一時間通知您！\n\n以上。\n\n
+        用戶你好，感謝您一直使用該軟件。 \n\n因為該軟件早期設計的時候在對本地文件的管理上存在不足，
+        我最近開發了一款新的 Markdown 筆記軟件——言葉。該軟件比馬克筆記功能更加豐富和強大。 \n\n
+        言葉為跨平台寫作而設計，基於文件系統開發，因而你可以和其他平台的筆記軟件進行同步。 \n
+        言葉開發了更多精美的主題和 UI，支持 5+ 種應用主題、日間和夜間主題、24+ 種編輯器主題、28+ 代碼主題，沉浸式體驗，像素級設計。 \n
+        言葉支持全局搜索，多種圖片濾鏡效果，與 Hexo 等其他三方的平台協作等等。\n\n
+        強烈建議您嘗試新的軟件！\n
         祝您工作和學習愉快，身體健康！</string>
+    <string name="drawer_menu_notice_try">去試試</string>
 
     <!-- shortcuts -->
     <string name="shortcut_add_long_name">創建筆記</string>

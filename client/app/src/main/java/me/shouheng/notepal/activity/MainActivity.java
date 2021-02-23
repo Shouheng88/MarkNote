@@ -58,7 +58,6 @@ import me.shouheng.commons.utils.PermissionUtils;
 import me.shouheng.commons.utils.PermissionUtils.Permission;
 import me.shouheng.commons.utils.PersistData;
 import me.shouheng.commons.utils.StringUtils;
-import me.shouheng.utils.ui.ToastUtils;
 import me.shouheng.commons.widget.recycler.CustomRecyclerScrollViewListener;
 import me.shouheng.data.ModelFactory;
 import me.shouheng.data.entity.Attachment;
@@ -92,7 +91,9 @@ import me.shouheng.notepal.fragment.setting.SettingsFragment;
 import me.shouheng.notepal.manager.FileManager;
 import me.shouheng.notepal.util.SynchronizeUtils;
 import me.shouheng.notepal.vm.MainViewModel;
+import me.shouheng.utils.app.AppUtils;
 import me.shouheng.utils.stability.L;
+import me.shouheng.utils.ui.ToastUtils;
 
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
 import static me.shouheng.commons.event.UMEvent.FAB_SORT_ITEM_CAPTURE;
@@ -274,7 +275,7 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                 R.string.drawer_menu_share, R.drawable.ic_share_white, 8, false);
         PrimaryDrawerItem itemNotice = new PrimaryDrawerItem()
                 .withName(R.string.drawer_menu_notice)
-                .withIcon(R.drawable.ic_local_post_office_black_24dp)
+                .withIcon(R.drawable.ic_baseline_card_giftcard_24)
                 .withIdentifier(9)
                 .withTextColorRes(R.color.yellow_dark)
                 .withSelectable(false)
@@ -366,7 +367,20 @@ public class MainActivity extends CommonActivity<ActivityMainBinding>
                         }
                         case 9:
                             AlertDialog alertDialog = new AlertDialog.Builder(this)
-                                    .setPositiveButton(R.string.text_get_it, null)
+                                    .setNegativeButton(R.string.text_get_it, null)
+                                    .setPositiveButton(R.string.drawer_menu_notice_try, (dialog, which) -> {
+                                        String channel = AppUtils.getMetaData("UMENG_CHANNEL");
+                                        String link = "https://play.google.com/store/apps/details?id=me.shouheng.leafnote";
+                                        if (TextUtils.equals(channel, "google")) {
+                                            link = "https://play.google.com/store/apps/details?id=me.shouheng.leafnote";
+                                        } else if (TextUtils.equals(channel, "coolapk")) {
+                                            link = "http://www.coolapk.com/apk/280001";
+                                        } else if (TextUtils.equals(channel, "huawei")) {
+                                            link = "https://appgallery.huawei.com/#/app/C103452595";
+                                        }
+                                        IntentUtils.openWebPage(getContext(), link);
+                                        dialog.dismiss();
+                                    })
                                     .setView(R.layout.dialog_announcement)
                                     .setCancelable(false)
                                     .create();

@@ -130,16 +130,16 @@
     <string name="drawer_menu_share">分享 App</string>
     <string name="drawer_menu_donate">支持开发</string>
     <string name="drawer_header_sub_title">记录美好生活</string>
-    <string name="drawer_menu_notice">通知</string>
+    <string name="drawer_menu_notice">新应用：言叶！</string>
     <string name="drawer_menu_notice_details">
         用户你好，感谢您一直使用该软件。\n\n因为该软件早期设计的时候在对本地文件的管理上存在不足，
-        笔记当中到图片文件同步到服务器之后无法不做变动显示到文章当中。我们本来计划在后续到版本修复这个问题，但是，
-        但是修复这个问题的成本并不比重做一个低。另一个，实际在开发这个应用的过程中，我花费了很多的时间和精力在
-        笔记的多层级处理、归档、删除这些逻辑上面，在数据库中模拟这些操作很费力气。但是，我们发现这并不是用户需要的主要功能。
-        因此我们考虑重新做一个同类的软件，并且重新设计应用的交互，并完善和丰富 Markdown 预览和解析的功能，多层级会保留，
-        归档的逻辑移除，其他特性将会比当前软件更加丰富。\n\n
-        我们希望您继续关注开发者和该软件的动态。当新的应用开发完毕的时候，我们会第一时间通知您！\n\n以上。\n\n
+        我最近开发了一款新的 Markdown 笔记软件——言叶。该软件比马克笔记功能更加丰富和强大。\n\n
+        - 言叶为跨平台写作而设计，基于文件系统开发，因而你可以和其他平台的笔记软件进行同步。\n
+        - 言叶开发了更多精美的主题和 UI，支持 5+ 种应用主题、日间和夜间主题、24+ 种编辑器主题、28+ 代码主题，沉浸式体验，像素级设计。\n
+        - 言叶支持全局搜索，多种图片滤镜效果，与 Hexo 等其他三方的平台协作等等。\n\n
+        强烈建议您尝试新的软件！\n
         祝您工作和学习愉快，身体健康！</string>
+    <string name="drawer_menu_notice_try">去试试</string>
 
     <!-- shortcuts -->
     <string name="shortcut_add_long_name">创建笔记</string>

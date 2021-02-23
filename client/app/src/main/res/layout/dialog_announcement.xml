@@ -7,17 +7,16 @@
         android:layout_height="match_parent">
 
         <android.support.v7.widget.AppCompatImageView
-            android:paddingTop="30dp"
-            android:paddingBottom="30dp"
+            android:padding="10dp"
             android:textSize="16sp"
             android:src="@drawable/ic_local_post_office_black_24dp"
             android:background="#7B1FA2"
             android:tint="@android:color/white"
             android:layout_width="match_parent"
-            android:layout_height="100dp" />
+            android:layout_height="50dp" />
 
         <android.support.v7.widget.AppCompatTextView
-            android:padding="20dp"
+            android:padding="10dp"
             android:text="@string/drawer_menu_notice_details"
             android:fontFamily="@font/font"
             android:layout_width="match_parent"

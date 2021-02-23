@@ -129,19 +129,20 @@
     <string name="drawer_menu_time_line">TimeLine</string>
     <string name="drawer_menu_setting">Settings</string>
     <string name="drawer_menu_share">Share</string>
-    <string name="drawer_menu_notice">Announcement</string>
+    <string name="drawer_menu_notice">Advanced: LeafNote</string>
     <string name="drawer_menu_notice_details">
         Dear user, thanks for you have been using the software.\n\n
-        Because of the shortcomings of the previous design of this software,
-        management of the local files has some weakness. The notes synchronized to PC cannot not display in the article as we desired.
-        We had planned to fix this problem in the subsequent version.
-        But fix this problem cost more than developing a new software.
-        Therefore, we are considering to make a another software with better features and functions,
-        and improve and enrich the functions of Markdown preview and parsing problems in current one.\n\n
-        We hope that you will continue to pay attention to the developers and the dynamics of the software.
-        When the new application is developed, we will inform you as soon as possible!\n\n
+        Due to the shortcomings of the previous design of this software,
+        I developed a new software LeafNote which has more advanced functions. LeafNote solved many weakness of MarkNote.\n\n
+        - It\'s designed based on file system of phone and designed for cross platform.\n
+        - LeafNote has a more beautiful ui design with many beautiful themes, preview, tags etc.\n
+        - LeafNote can cooperate with many other platforms like Hexo for blog and third part API for OCR.\n
+        - LeafNote allow global search on all notes by keyword. \n
+        - Many other functions &#8230;\n
+        I strongly suggest you try LeafNote!\n\n
         Regards!\n\n
         Wish you happy and good health!</string>
+    <string name="drawer_menu_notice_try">try</string>
     <string name="drawer_menu_donate">Support Development</string>
     <string name="drawer_header_sub_title">Attentively records the good life</string>
 
