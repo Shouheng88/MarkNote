@@ -433,6 +433,13 @@
     4. <b>Compressor</b>：<a href="https://github.com/Shouheng88/Compressor">一款現代、高效的 Android 圖片壓縮框架，優雅設計，整合了多種圖片壓縮策略。</a><br/><br/>
     5. <b>EasyMark</b>：<a href="https://github.com/Shouheng88/EasyMark">Markdown 解析、預覽和編輯庫，用來幫助用戶快速開發基于 Markdown 預發的筆記應用。</a><br/><br/>
     其他的庫正在整理中…… ]]></string>
+    <string name="about_other_apps">作者的作品</string>
+    <string name="about_other_mobile_box">移動工具箱</string>
+    <string name="about_other_mobile_box_desc"><![CDATA[「移動工具箱」一個<b>豐富、強大</b>的工具合集應用。它可以幫助你提升生活和工作效率。]]></string>
+    <string name="about_other_leaf_note">言葉</string>
+    <string name="about_other_leaf_note_desc"><![CDATA[言葉是一個豐富、強大的筆記應用，<b>連接手機、電腦和其他終端，為跨平臺而設計</b>]]></string>
+    <string name="about_other_whatsnext">今天干啥</string>
+    <string name="about_other_whatsnext_desc"><![CDATA[一個個人項目和時間管理應用，結合任務管理和番茄鐘]]></string>
 
     <!--donate -->
     <string name="donate_wechat_title">捐贈·微信</string>

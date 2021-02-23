@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.text.Html;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,6 +35,7 @@ import me.shouheng.notepal.BuildConfig;
 import me.shouheng.notepal.Constants;
 import me.shouheng.notepal.R;
 import me.shouheng.notepal.databinding.ActivityAboutBinding;
+import me.shouheng.utils.app.AppUtils;
 
 import static me.shouheng.commons.event.UMEvent.*;
 import static me.shouheng.notepal.Constants.EMAIL_DEVELOPER;
@@ -98,6 +100,46 @@ public class AboutActivity extends CommonActivity<ActivityAboutBinding> {
             } else {
                 aboutEntities.add(AboutEntity.getNormalText(Html.fromHtml(html)));
             }
+            // App links
+            String channel = AppUtils.getMetaData("UMENG_CHANNEL");
+            aboutEntities.add(AboutEntity.getSectionTitle(PalmUtils.getStringCompact(R.string.about_other_apps)));
+            // leaf note
+            String leafNoteLink = "https://play.google.com/store/apps/details?id=me.shouheng.leafnote";
+            if (TextUtils.equals(channel, "google")) {
+                leafNoteLink = "https://play.google.com/store/apps/details?id=me.shouheng.leafnote";
+            } else if (TextUtils.equals(channel, "coolapk")) {
+                leafNoteLink = "http://www.coolapk.com/apk/280001";
+            } else if (TextUtils.equals(channel, "huawei")) {
+                leafNoteLink = "https://appgallery.huawei.com/#/app/C103452595";
+            }
+            aboutEntities.add(AboutEntity.getUser(PalmUtils.getStringCompact(R.string.about_other_leaf_note),
+                    "https://meiyan.tech/rest/file/get/note_logo.png",
+                    PalmUtils.fromHtml(PalmUtils.getStringCompact(R.string.about_other_leaf_note_desc)),
+                    leafNoteLink));
+            // mobile box
+            String mobileBoxLink = "https://play.google.com/store/apps/details?id=me.shouheng.mobilebox";
+            if (TextUtils.equals(channel,  "google")) {
+                mobileBoxLink = "https://play.google.com/store/apps/details?id=me.shouheng.mobilebox";
+            } else if (TextUtils.equals(channel, "huawei")) {
+                mobileBoxLink = "https://appgallery.huawei.com/#/app/C102887067";
+            }
+            aboutEntities.add(AboutEntity.getUser(PalmUtils.getStringCompact(R.string.about_other_mobile_box),
+                    "https://meiyan.tech/rest/file/get/box.png",
+                    PalmUtils.fromHtml(PalmUtils.getStringCompact(R.string.about_other_mobile_box_desc)),
+                    mobileBoxLink));
+            // whats next
+            String whatsNextLink = "https://www.coolapk.com/apk/281574";
+            if (TextUtils.equals(channel, "google")) {
+                whatsNextLink = "https://play.google.com/store/apps/details?id=me.shouheng.whatsnext";
+            } else if (TextUtils.equals(channel, "huawei")) {
+                whatsNextLink = "https://appgallery.huawei.com/#/app/C103733873";
+            } else if (TextUtils.equals(channel, "coolapk")) {
+                whatsNextLink = "https://www.coolapk.com/apk/281574";
+            }
+            aboutEntities.add(AboutEntity.getUser(PalmUtils.getStringCompact(R.string.about_other_whatsnext),
+                    "https://meiyan.tech/rest/file/get/whatsnext.png",
+                    PalmUtils.fromHtml(PalmUtils.getStringCompact(R.string.about_other_whatsnext_desc)),
+                    whatsNextLink));
         }
         aboutEntities.add(AboutEntity.getSectionTitle(PalmUtils.getStringCompact(R.string.about_section_open_sources)));
         aboutEntities.add(AboutEntity.getLicense("Android-MVVMs", "WngShhng",
@@ -284,7 +326,7 @@ public class AboutActivity extends CommonActivity<ActivityAboutBinding> {
 
         static AboutEntity getUser(@NonNull String name,
                                    @NonNull String avatarUrl,
-                                   @NonNull String description,
+                                   @NonNull CharSequence description,
                                    @NonNull String website) {
             AboutEntity aboutEntity = new AboutEntity(typeUser);
             aboutEntity.user = new User(name, avatarUrl, description, website);
@@ -320,12 +362,12 @@ public class AboutActivity extends CommonActivity<ActivityAboutBinding> {
         }
 
         public static class User {
-            public final String name;
+            public final CharSequence name;
             public final String avatarUrl;
-            public final String description;
+            public final CharSequence description;
             public final String website;
 
-            User(@NonNull String name, @NonNull String avatarUrl, @NonNull String description, @NonNull String website) {
+            User(@NonNull CharSequence name, @NonNull String avatarUrl, @NonNull CharSequence description, @NonNull String website) {
                 this.name = name;
                 this.avatarUrl = avatarUrl;
                 this.description = description;

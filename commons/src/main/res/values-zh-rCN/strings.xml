@@ -439,6 +439,13 @@
     4. <b>Compressor</b>：<a href="https://github.com/Shouheng88/Compressor">一款现代、高效的 Android 图片压缩框架，优雅设计，整合了多种图片压缩策略。</a><br/><br/>
     5. <b>EasyMark</b>：<a href="https://github.com/Shouheng88/EasyMark">Markdown 解析、预览和编辑库，用来帮助用户快速开发基于 Markdown 预发的笔记应用。</a><br/><br/>
     其他的库正在整理中…… ]]></string>
+    <string name="about_other_apps">作者的作品</string>
+    <string name="about_other_mobile_box">移动工具箱</string>
+    <string name="about_other_mobile_box_desc"><![CDATA[「移动工具箱」一个<b>丰富、强大</b>的工具合集应用。它可以帮助你提升生活和工作效率。]]></string>
+    <string name="about_other_leaf_note">言叶</string>
+    <string name="about_other_leaf_note_desc"><![CDATA[言叶是一个丰富、强大的笔记应用，<b>连接手机、电脑和其他终端，为跨平台而设计</b>]]></string>
+    <string name="about_other_whatsnext">今天干啥</string>
+    <string name="about_other_whatsnext_desc"><![CDATA[一个个人项目和时间管理应用，结合任务管理和番茄钟]]></string>
 
     <!--donate -->
     <string name="donate_wechat_title">捐赠·微信</string>

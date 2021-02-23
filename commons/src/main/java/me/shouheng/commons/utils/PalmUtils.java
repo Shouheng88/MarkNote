@@ -10,6 +10,8 @@ import android.support.annotation.IntegerRes;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.text.ClipboardManager;
+import android.text.Html;
+import android.text.Spanned;
 
 import me.shouheng.commons.BaseApplication;
 
@@ -96,6 +98,14 @@ public class PalmUtils {
 
     public static String getPackageName() {
         return BaseApplication.getContext().getApplicationContext().getPackageName();
+    }
+
+    public static Spanned fromHtml(String html) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY);
+        } else {
+            return Html.fromHtml(html);
+        }
     }
 
     public static void copy(Activity ctx, String content) {

@@ -449,6 +449,13 @@
     4. <b>Compressor</b>: <a href="https://github.com/Shouheng88/Compressor">Mordern and advanced: an easy to use and well designed image compress library for Android, based on Android native image library. </a><br/><br/>
     5. <b>EasyMark</b>: <a href="https://github.com/Shouheng88/EasyMark">The markdown parser, editor and viewer for Android which is rather easy to integrate.</a><br/><br/>
     Others are under developing.. ]]></string>
+    <string name="about_other_apps">Others</string>
+    <string name="about_other_mobile_box">Mobile Box</string>
+    <string name="about_other_leaf_note">Leaf Note</string>
+    <string name="about_other_mobile_box_desc"><![CDATA[A tools combination to help you improve your work and life efficiency.]]></string>
+    <string name="about_other_leaf_note_desc"><![CDATA[An advanced markdown note-taking application designed for cross platform.]]></string>
+    <string name="about_other_whatsnext">WhatsNext</string>
+    <string name="about_other_whatsnext_desc"><![CDATA[A personal time and project manager witch I developed to manage my daily life and work.]]></string>
 
     <!--donate -->
     <string name="donate_wechat_title">Donate·WeChat</string>
