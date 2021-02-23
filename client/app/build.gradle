@@ -78,12 +78,6 @@ android {
         prod {
             dimension "default"
         }
-        google {
-            dimension "default"
-        }
-        coolapk {
-            dimension "default"
-        }
     }
     productFlavors.all {
         flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]

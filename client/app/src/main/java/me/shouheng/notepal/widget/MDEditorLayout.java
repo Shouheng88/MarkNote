@@ -15,8 +15,6 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -237,12 +235,12 @@ public class MDEditorLayout extends BaseSoftInputLayout {
 
         @Override
         public void handle(int formatId,
-                           @org.jetbrains.annotations.Nullable String source,
+                           @Nullable String source,
                            int selectionStart,
                            int selectionEnd,
-                           @org.jetbrains.annotations.Nullable String selection,
-                           @org.jetbrains.annotations.Nullable EditText editor,
-                           @NotNull Object... params) {
+                           @Nullable String selection,
+                           @Nullable EditText editor,
+                           @NonNull Object... params) {
             switch (formatId) {
                 case FORMAT_ID_LEFT: {
                     assert editor != null;

@@ -59,7 +59,7 @@ dependencies {
     // multidex
     api 'com.android.support:multidex:1.0.3'
     // kotlin
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     // arch
     api "android.arch.lifecycle:runtime:$archVersion"
     api "android.arch.lifecycle:extensions:$archVersion"
