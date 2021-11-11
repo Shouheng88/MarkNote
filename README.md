@@ -106,34 +106,6 @@ If you find some unpleasent bugs, please don't be heasitated to report to me by 
 1. WngShhng-[Website](https://github.com/Shouheng88)
 2. [Uraka Lee](https://github.com/urakalee)
 
-## 5. Author
-
-![Banner](https://github.com/CostCost/Resources/blob/master/github/xbanner.jpg?raw=true)
-
-I'm an Android and Java developer. You can follow me at:
-
-1. Twitter: https://twitter.com/shouheng_wang
-2. 微博：https://weibo.com/5401152113/profile?rightmod=1&wvr=6&mod=personinfo
-3. Github: https://github.com/Shouheng88
-4. 掘金：https://juejin.im/user/585555e11b69e6006c907a2a
-
-I am recently working on an Android architechture project. You can view my projects of:
-
-- [Android-MVVMs](https://github.com/Shouheng88/Android-MVVMs): Android quick development architecture based on Google Jetpack.
-- [Android-uix](https://github.com/Shouheng88/Android-uix): Ui widgets, pages components for Android.
-- [Android-utils](https://github.com/Shouheng88/Android-utils): Android utils library.
-- [Matisse](https://github.com/Shouheng88/Matisse): Matisse for universal image picjker on Android platform.
-- [Compressor](https://github.com/Shouheng88/Compressor): An easy to use image compress library.
-
-## 6. Donate
-
-Aim at providing a quick development strategy for Android develpers, we hope our project can help them improve their efficency, save their time. If you want to support our work, you can donate by channels provided below:
-
-<div style="display:flex;" id="target">
-<img src="https://github.com/CostCost/Resources/blob/master/github/ali.jpg?raw=true" width="25%" />
-<img src="https://github.com/CostCost/Resources/blob/master/github/mm.png?raw=true" style="margin-left:10px;" width="25%"/>
-</div>
-
 ## License
 
 ```
